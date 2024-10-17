@@ -20,12 +20,13 @@ include_directories(
 
 set(character_SRCS
 	src/character/advisor_category.cpp
-	src/character/advisor_type.cpp
-	src/character/advisor_type_container.cpp
 	src/character/character.cpp
+	src/character/character_attribute.cpp
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_role.cpp
+	src/character/character_type.cpp
+	src/character/character_type_container.cpp
 	src/character/dynasty.cpp
 	src/character/trait.cpp
 	src/character/trait_type.cpp
@@ -339,13 +340,14 @@ set(metternich_SRCS
 
 set(character_HDRS
 	src/character/advisor_category.h
-	src/character/advisor_type.h
-	src/character/advisor_type_container.h
 	src/character/character.h
+	src/character/character_attribute.h
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
 	src/character/character_role.h
+	src/character/character_type.h
+	src/character/character_type_container.h
 	src/character/dynasty.h
 	src/character/trait.h
 	src/character/trait_type.h
@@ -541,7 +543,6 @@ set(script_condition_HDRS
 	src/script/condition/adjacent_terrain_condition.h
 	src/script/condition/advisor_condition.h
 	src/script/condition/advisor_category_condition.h
-	src/script/condition/advisor_type_condition.h
 	src/script/condition/age_condition.h
 	src/script/condition/anarchy_condition.h
 	src/script/condition/and_condition.h
@@ -559,6 +560,8 @@ set(script_condition_HDRS
 	src/script/condition/can_have_trait_condition.h
 	src/script/condition/capital_condition.h
 	src/script/condition/cavalry_condition.h
+	src/script/condition/character_role_condition.h
+	src/script/condition/character_type_condition.h
 	src/script/condition/coastal_condition.h
 	src/script/condition/commodity_condition.h
 	src/script/condition/condition.h
@@ -609,6 +612,7 @@ set(script_condition_HDRS
 	src/script/condition/population_scaled_commodity_condition.h
 	src/script/condition/population_type_condition.h
 	src/script/condition/population_unit_count_condition.h
+	src/script/condition/primary_attribute_condition.h
 	src/script/condition/produces_commodity_condition.h
 	src/script/condition/promotion_condition.h
 	src/script/condition/province_condition.h
@@ -702,7 +706,6 @@ source_group(script\\effect FILES ${script_effect_HDRS})
 set(script_modifier_effect_HDRS
 	src/script/modifier_effect/advisor_cost_modifier_effect.h
 	src/script/modifier_effect/ai_building_desire_modifier_effect.h
-	src/script/modifier_effect/air_discipline_modifier_effect.h
 	src/script/modifier_effect/artillery_cost_modifier_effect.h
 	src/script/modifier_effect/building_capacity_modifier_effect.h
 	src/script/modifier_effect/building_cost_efficiency_modifier_effect.h
@@ -717,6 +720,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/commodity_bonus_per_building_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_per_improved_resource_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_per_improvement_modifier_effect.h
+	src/script/modifier_effect/commodity_bonus_per_settlement_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_per_population_modifier_effect.h
 	src/script/modifier_effect/commodity_output_modifier_effect.h
 	src/script/modifier_effect/commodity_throughput_modifier_effect.h
@@ -734,18 +738,14 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/industrial_output_modifier_effect.h
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
 	src/script/modifier_effect/inflation_change_modifier_effect.h
-	src/script/modifier_effect/land_damage_modifier_effect.h
-	src/script/modifier_effect/land_discipline_modifier_effect.h
-	src/script/modifier_effect/land_morale_recovery_modifier_effect.h
-	src/script/modifier_effect/land_recovery_modifier_effect.h
 	src/script/modifier_effect/law_cost_modifier_effect.h
 	src/script/modifier_effect/leader_cost_modifier_effect.h
 	src/script/modifier_effect/merchant_ship_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_category_stat_modifier_effect.h
+	src/script/modifier_effect/military_unit_domain_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_type_stat_modifier_effect.h
 	src/script/modifier_effect/modifier_effect.h
-	src/script/modifier_effect/naval_discipline_modifier_effect.h
 	src/script/modifier_effect/output_modifier_effect.h
 	src/script/modifier_effect/population_type_bonus_modifier_effect.h
 	src/script/modifier_effect/population_type_militancy_modifier_effect.h
