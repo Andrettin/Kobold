@@ -16,7 +16,6 @@ class culture;
 class icon;
 class improvement;
 class phenotype;
-class population_type;
 class religion;
 class site;
 class tile;
@@ -41,7 +40,6 @@ public:
 	static constexpr int prospection_turns = 1;
 
 	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
-	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
 	explicit civilian_unit(const kobold::character *character, const country *owner);
 
 	void do_turn();
@@ -67,11 +65,6 @@ public:
 	const country *get_owner() const
 	{
 		return this->owner;
-	}
-
-	const kobold::population_type *get_population_type() const
-	{
-		return this->population_type;
 	}
 
 	const kobold::culture *get_culture() const
@@ -180,7 +173,6 @@ signals:
 private:
 	const civilian_unit_type *type = nullptr;
 	const country *owner = nullptr;
-	const kobold::population_type *population_type = nullptr;
 	const kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;

@@ -25,7 +25,6 @@ class culture;
 class era;
 class government_group;
 class government_type;
-class population_class;
 class province;
 class religion;
 class site;

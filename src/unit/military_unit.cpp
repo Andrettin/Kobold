@@ -83,14 +83,6 @@ military_unit::military_unit(const military_unit_type *type, const kobold::count
 	this->check_free_promotions();
 }
 
-military_unit::military_unit(const military_unit_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement)
-	: military_unit(type, country, culture, religion, phenotype, home_settlement)
-{
-	this->population_type = population_type;
-
-	assert_throw(this->get_population_type() != nullptr);
-}
-
 military_unit::military_unit(const military_unit_type *type, const kobold::character *character)
 	: military_unit(type, character->get_game_data()->get_country(), character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
 {
@@ -668,13 +660,10 @@ void military_unit::disband(const bool dead)
 		this->get_country()->get_game_data()->remove_military_unit(this);
 
 		if (!dead) {
-			assert_throw(this->get_population_type() != nullptr);
 			assert_throw(this->get_culture() != nullptr);
 			assert_throw(this->get_religion() != nullptr);
 			assert_throw(this->get_phenotype() != nullptr);
 			assert_throw(this->get_home_settlement() != nullptr);
-
-			this->get_home_settlement()->get_game_data()->create_population_unit(this->get_population_type(), this->get_culture(), this->get_religion(), this->get_phenotype());
 		}
 	}
 }

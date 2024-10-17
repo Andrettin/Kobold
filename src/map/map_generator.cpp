@@ -72,20 +72,6 @@ void map_generator::generate()
 	for (const auto &[province, country] : this->province_owners) {
 		province_game_data *province_game_data = province->get_game_data();
 		province_game_data->set_owner(country);
-
-		//add population
-		for (const site *settlement : province_game_data->get_settlement_sites()) {
-			const int population_unit_count = settlement->get_game_data()->is_capital() ? 4 : 1;
-			const population_class *population_class = country->get_game_data()->get_default_population_class();
-
-			const culture *culture = country->get_culture();
-			const religion *religion = country->get_default_religion();
-			const population_type *population_type = culture->get_population_class_type(population_class);
-
-			for (int i = 0; i < population_unit_count; ++i) {
-				settlement->get_game_data()->create_population_unit(population_type, culture, religion, culture->get_default_phenotype());
-			}
-		}
 	}
 }
 

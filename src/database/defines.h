@@ -9,7 +9,6 @@
 Q_MOC_INCLUDE("economy/commodity.h")
 Q_MOC_INCLUDE("infrastructure/pathway.h")
 Q_MOC_INCLUDE("map/terrain_type.h")
-Q_MOC_INCLUDE("population/population_class.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
@@ -23,7 +22,6 @@ class building_class;
 class commodity;
 class icon;
 class pathway;
-class population_class;
 class portrait;
 class terrain_type;
 enum class diplomacy_state;
@@ -46,11 +44,6 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(kobold::terrain_type* default_province_terrain MEMBER default_province_terrain)
 	Q_PROPERTY(kobold::terrain_type* default_water_zone_terrain MEMBER default_water_zone_terrain)
 	Q_PROPERTY(kobold::pathway* route_pathway MEMBER route_pathway NOTIFY changed)
-	Q_PROPERTY(kobold::population_class* default_population_class MEMBER default_population_class)
-	Q_PROPERTY(kobold::population_class* default_tribal_population_class MEMBER default_tribal_population_class)
-	Q_PROPERTY(kobold::population_class* default_literate_population_class MEMBER default_literate_population_class)
-	Q_PROPERTY(int population_per_unit MEMBER population_per_unit READ get_population_per_unit)
-	Q_PROPERTY(int population_growth_threshold MEMBER population_growth_threshold READ get_population_growth_threshold NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* research_commodity MEMBER research_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* prestige_commodity MEMBER prestige_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* piety_commodity MEMBER piety_commodity NOTIFY changed)
@@ -175,31 +168,6 @@ public:
 	const pathway *get_route_pathway() const
 	{
 		return this->route_pathway;
-	}
-
-	const population_class *get_default_population_class() const
-	{
-		return this->default_population_class;
-	}
-
-	const population_class *get_default_tribal_population_class() const
-	{
-		return this->default_tribal_population_class;
-	}
-
-	const population_class *get_default_literate_population_class() const
-	{
-		return this->default_literate_population_class;
-	}
-
-	int get_population_per_unit() const
-	{
-		return this->population_per_unit;
-	}
-
-	int get_population_growth_threshold() const
-	{
-		return this->population_growth_threshold;
 	}
 
 	const commodity_map<int> &get_settlement_commodity_bonuses() const
@@ -390,11 +358,6 @@ private:
 	terrain_type *default_province_terrain = nullptr;
 	terrain_type *default_water_zone_terrain = nullptr;
 	pathway *route_pathway = nullptr;
-	population_class *default_population_class = nullptr;
-	population_class *default_tribal_population_class = nullptr;
-	population_class *default_literate_population_class = nullptr;
-	int population_per_unit = 10000;
-	int population_growth_threshold = 100;
 	commodity_map<int> settlement_commodity_bonuses;
 	commodity_map<int> river_settlement_commodity_bonuses;
 	const commodity *research_commodity = nullptr;

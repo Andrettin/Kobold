@@ -16,7 +16,6 @@ class culture;
 class icon;
 class military_unit_type;
 class phenotype;
-class population_type;
 class promotion;
 class province;
 class religion;
@@ -45,7 +44,6 @@ public:
 
 	explicit military_unit(const military_unit_type *type);
 	explicit military_unit(const military_unit_type *type, const kobold::country *country, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
-	explicit military_unit(const military_unit_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
 	explicit military_unit(const military_unit_type *type, const character *character);
 
 	void do_turn();
@@ -89,11 +87,6 @@ public:
 	const kobold::country *get_country() const
 	{
 		return this->country;
-	}
-
-	const kobold::population_type *get_population_type() const
-	{
-		return this->population_type;
 	}
 
 	const kobold::culture *get_culture() const
@@ -274,7 +267,6 @@ private:
 	std::string name;
 	const military_unit_type *type = nullptr;
 	const kobold::country *country = nullptr;
-	const kobold::population_type *population_type = nullptr;
 	const kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;

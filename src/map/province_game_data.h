@@ -13,7 +13,6 @@
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
-Q_MOC_INCLUDE("population/population.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
@@ -23,13 +22,10 @@ class civilian_unit;
 class commodity;
 class country;
 class culture;
-class employment_location;
 class icon;
 class improvement;
 class military_unit;
 class phenotype;
-class population;
-class population_unit;
 class province;
 class religion;
 class scripted_province_modifier;
@@ -53,7 +49,6 @@ class province_game_data final : public QObject
 	Q_PROPERTY(QRect territory_rect READ get_territory_rect CONSTANT)
 	Q_PROPERTY(QPoint center_tile_pos READ get_center_tile_pos CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
 	Q_PROPERTY(QVariantList military_units READ get_military_units_qvariant_list NOTIFY military_units_changed)
 	Q_PROPERTY(QVariantList military_unit_category_counts READ get_military_unit_category_counts_qvariant_list NOTIFY military_unit_category_counts_changed)
 	Q_PROPERTY(QVariantList entering_armies READ get_entering_armies_qvariant_list NOTIFY entering_armies_changed)
@@ -84,7 +79,6 @@ public:
 	}
 
 	void set_culture(const kobold::culture *culture);
-	void on_population_main_culture_changed(const kobold::culture *culture);
 
 	const kobold::religion *get_religion() const
 	{
@@ -92,7 +86,6 @@ public:
 	}
 
 	void set_religion(const kobold::religion *religion);
-	void on_population_main_religion_changed(const kobold::religion *religion);
 
 	const std::string &get_current_cultural_name() const;
 
@@ -148,25 +141,6 @@ public:
 	void remove_modifier(const modifier<const kobold::province> *modifier)
 	{
 		this->apply_modifier(modifier, -1);
-	}
-
-	const std::vector<population_unit *> &get_population_units() const
-	{
-		return this->population_units;
-	}
-
-	int get_population_unit_count() const
-	{
-		return static_cast<int>(this->get_population_units().size());
-	}
-
-	void add_population_unit(population_unit *population_unit);
-	void remove_population_unit(population_unit *population_unit);
-	void clear_population_units();
-
-	kobold::population *get_population() const
-	{
-		return this->population.get();
 	}
 
 	const std::vector<military_unit *> &get_military_units() const
@@ -371,10 +345,6 @@ public:
 
 	bool can_produce_commodity(const commodity *commodity) const;
 
-	std::vector<employment_location *> get_employment_locations() const;
-	void check_employment();
-	void check_available_employment(const std::vector<employment_location *> &employment_locations, std::vector<population_unit *> &unemployed_population_units);
-
 	province_game_data &operator =(const province_game_data &other) = delete;
 
 signals:
@@ -382,7 +352,6 @@ signals:
 	void culture_changed();
 	void religion_changed();
 	void scripted_modifiers_changed();
-	void population_units_changed();
 	void military_units_changed();
 	void military_unit_category_counts_changed();
 	void entering_armies_changed();
@@ -394,8 +363,6 @@ private:
 	const kobold::religion *religion = nullptr;
 	int settlement_count = 0; //only includes built settlements
 	scripted_province_modifier_map<int> scripted_modifiers;
-	std::vector<population_unit *> population_units;
-	qunique_ptr<kobold::population> population;
 	std::vector<military_unit *> military_units;
 	std::map<military_unit_category, int> military_unit_category_counts;
 	std::vector<army *> entering_armies; //armies entering this province

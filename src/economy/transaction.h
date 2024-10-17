@@ -7,7 +7,6 @@ namespace kobold {
 class commodity;
 class country;
 class icon;
-class population_type;
 
 class transaction : public QObject
 {
@@ -21,7 +20,7 @@ class transaction : public QObject
 		Q_PROPERTY(QString description READ get_description CONSTANT)
 
 public:
-	using object_variant = std::variant<std::nullptr_t, const commodity *, const population_type *>;
+	using object_variant = std::variant<std::nullptr_t, const commodity *>;
 
 	explicit transaction(const int amount, const object_variant &object, const int object_quantity, const kobold::country *country)
 		: object(object), amount(amount), object_quantity(object_quantity), country(country)

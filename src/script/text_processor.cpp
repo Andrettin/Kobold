@@ -8,8 +8,6 @@
 #include "map/province_game_data.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
-#include "population/population_type.h"
-#include "population/population_unit.h"
 #include "util/assert_util.h"
 #include "util/queue_util.h"
 #include "util/string_util.h"
@@ -37,9 +35,6 @@ std::string text_processor::process_tokens(std::queue<std::string> &&tokens, con
 		str = this->process_scope_variant_tokens(this->context.root_scope, tokens);
 	} else if (front_subtoken == "source") {
 		str = this->process_scope_variant_tokens(this->context.source_scope, tokens);
-	} else if (front_subtoken == "saved_population_unit_scope") {
-		const std::string scope_name = queue::take(subtokens);
-		str = this->process_population_unit_tokens(this->context.get_saved_scope<const population_unit>(scope_name), tokens);
 	} else if (front_subtoken == "saved_site_scope") {
 		const std::string scope_name = queue::take(subtokens);
 		str = this->process_site_tokens(this->context.get_saved_scope<const site>(scope_name), tokens);
@@ -87,52 +82,6 @@ std::string text_processor::process_culture_tokens(const culture *culture, std::
 	} else {
 		return this->process_named_data_entry_token(culture, front_subtoken);
 	}
-}
-
-std::string text_processor::process_population_type_tokens(const population_type *population_type, std::queue<std::string> &tokens) const
-{
-	if (population_type == nullptr) {
-		throw std::runtime_error("No population type provided when processing population type tokens.");
-	}
-
-	if (tokens.empty()) {
-		throw std::runtime_error("No tokens provided when processing population type tokens.");
-	}
-
-	const std::string token = queue::take(tokens);
-	std::queue<std::string> subtokens = text_processor::get_subtokens(token);
-
-	const std::string front_subtoken = queue::take(subtokens);
-
-	if (front_subtoken == "name") {
-		return population_type->get_name();
-	} else {
-		return this->process_named_data_entry_token(population_type, front_subtoken);
-	}
-}
-
-std::string text_processor::process_population_unit_tokens(const population_unit *population_unit, std::queue<std::string> &tokens) const
-{
-	if (population_unit == nullptr) {
-		throw std::runtime_error("No population unit provided when processing population unit tokens.");
-	}
-
-	if (tokens.empty()) {
-		throw std::runtime_error("No tokens provided when processing population unit tokens.");
-	}
-
-	const std::string token = queue::take(tokens);
-	std::queue<std::string> subtokens = text_processor::get_subtokens(token);
-
-	const std::string front_subtoken = queue::take(subtokens);
-
-	if (front_subtoken == "culture") {
-		return this->process_culture_tokens(population_unit->get_culture(), tokens);
-	} else if (front_subtoken == "type") {
-		return this->process_population_type_tokens(population_unit->get_type(), tokens);
-	}
-
-	throw std::runtime_error(std::format("Failed to process population unit token \"{}\".", token));
 }
 
 std::string text_processor::process_province_tokens(const province *province, std::queue<std::string> &tokens) const

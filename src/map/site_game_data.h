@@ -1,7 +1,6 @@
 #pragma once
 
 #include "economy/commodity_container.h"
-#include "economy/employment_location.h"
 #include "infrastructure/building_slot_type_container.h"
 #include "script/scripted_modifier_container.h"
 #include "util/qunique_ptr.h"
@@ -10,7 +9,6 @@ Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("infrastructure/improvement.h")
 Q_MOC_INCLUDE("infrastructure/settlement_type.h")
 Q_MOC_INCLUDE("map/province.h")
-Q_MOC_INCLUDE("population/population.h")
 
 namespace kobold {
 
@@ -21,9 +19,6 @@ class country;
 class culture;
 class improvement;
 class phenotype;
-class population;
-class population_type;
-class population_unit;
 class province;
 class religion;
 class resource;
@@ -34,7 +29,7 @@ class site;
 class tile;
 enum class improvement_slot;
 
-class site_game_data final : public QObject, public employment_location
+class site_game_data final : public QObject
 {
 	Q_OBJECT
 
@@ -49,8 +44,6 @@ class site_game_data final : public QObject, public employment_location
 	Q_PROPERTY(const kobold::improvement* port_improvement READ get_port_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
-	Q_PROPERTY(int population_unit_count READ get_population_unit_count NOTIFY population_units_changed)
 	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
 	Q_PROPERTY(int transport_level READ get_best_transport_level NOTIFY transport_level_changed)
@@ -62,8 +55,6 @@ public:
 	explicit site_game_data(const kobold::site *site);
 
 	void do_turn();
-	void do_everyday_consumption();
-	void do_luxury_consumption();
 
 	const QPoint &get_tile_pos() const;
 	tile *get_tile() const;
@@ -96,7 +87,6 @@ public:
 	}
 
 	void set_culture(const kobold::culture *culture);
-	void on_population_main_culture_changed(const kobold::culture *culture);
 
 	const std::string &get_current_cultural_name() const;
 
@@ -111,7 +101,6 @@ public:
 	}
 
 	void set_religion(const kobold::religion *religion);
-	void on_population_main_religion_changed(const kobold::religion *religion);
 
 	const kobold::settlement_type *get_settlement_type() const
 	{
@@ -203,38 +192,6 @@ public:
 	void remove_scripted_modifier(const scripted_site_modifier *modifier);
 	void decrement_scripted_modifiers();
 
-	const std::vector<qunique_ptr<population_unit>> &get_population_units() const
-	{
-		return this->population_units;
-	}
-
-	int get_population_unit_count() const
-	{
-		return static_cast<int>(this->get_population_units().size());
-	}
-
-	void add_population_unit(qunique_ptr<population_unit> &&population_unit);
-	qunique_ptr<population_unit> pop_population_unit(population_unit *population_unit);
-	void clear_population_units();
-	void create_population_unit(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const phenotype *phenotype);
-
-	kobold::population *get_population() const
-	{
-		return this->population.get();
-	}
-
-	void on_population_type_count_changed(const population_type *type, const int change);
-
-	virtual const site *get_employment_site() const override;
-	virtual const profession *get_employment_profession() const override;
-
-	virtual bool is_resource_employment() const override
-	{
-		return true;
-	}
-
-	virtual int get_employment_output_multiplier() const override;
-
 	const centesimal_int &get_health() const
 	{
 		return this->health;
@@ -246,11 +203,6 @@ public:
 	}
 
 	void change_health(const centesimal_int &change);
-
-	centesimal_int get_available_health() const
-	{
-		return this->get_health() - this->get_population_unit_count();
-	}
 
 	int get_free_food_consumption() const
 	{
@@ -460,7 +412,6 @@ signals:
 	void improvements_changed();
 	void settlement_type_changed();
 	void scripted_modifiers_changed();
-	void population_units_changed();
 	void health_changed();
 	void commodity_outputs_changed();
 	void transport_level_changed();
@@ -477,8 +428,6 @@ private:
 	std::vector<qunique_ptr<settlement_building_slot>> building_slots;
 	building_slot_type_map<settlement_building_slot *> building_slot_map;
 	scripted_site_modifier_map<int> scripted_modifiers;
-	std::vector<qunique_ptr<population_unit>> population_units;
-	qunique_ptr<kobold::population> population;
 	centesimal_int health;
 	int free_food_consumption = 0;
 	commodity_map<centesimal_int> base_commodity_outputs;

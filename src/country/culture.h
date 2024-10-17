@@ -6,7 +6,6 @@
 namespace kobold {
 
 class cultural_group;
-class population_unit;
 
 template <typename scope_type>
 class condition;
@@ -42,18 +41,12 @@ public:
 		return this->derived_cultures;
 	}
 
-	const condition<population_unit> *get_derivation_conditions() const
-	{
-		return this->derivation_conditions.get();
-	}
-
 signals:
 	void changed();
 
 private:
 	QColor color;
 	std::vector<const culture *> derived_cultures;
-	std::unique_ptr<const condition<population_unit>> derivation_conditions;
 };
 
 }

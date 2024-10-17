@@ -5,14 +5,6 @@
 
 namespace kobold {
 
-class population_unit;
-
-template <typename scope_type>
-class condition;
-
-template <typename scope_type>
-class factor;
-
 class ideology final : public named_data_entry, public data_type<ideology>
 {
 	Q_OBJECT
@@ -27,7 +19,6 @@ public:
 	explicit ideology(const std::string &identifier);
 	~ideology();
 
-	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
 	virtual void check() const override;
 
@@ -36,23 +27,11 @@ public:
 		return this->color;
 	}
 
-	const condition<population_unit> *get_conditions() const
-	{
-		return this->conditions.get();
-	}
-
-	const factor<population_unit> *get_weight_factor() const
-	{
-		return this->weight_factor.get();
-	}
-
 signals:
 	void changed();
 
 private:
 	QColor color;
-	std::unique_ptr<const condition<population_unit>> conditions;
-	std::unique_ptr<const factor<population_unit>> weight_factor;
 };
 
 }

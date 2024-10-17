@@ -7,7 +7,6 @@ namespace kobold {
 
 class character;
 class country;
-class population_unit;
 class province;
 class site;
 
@@ -122,35 +121,6 @@ public:
 	}
 };
 
-class population_unit_scripted_condition final : public data_entry, public data_type<population_unit_scripted_condition>, public scripted_condition_base<population_unit>
-{
-	Q_OBJECT
-
-public:
-	static constexpr const char class_identifier[] = "population_unit_scripted_condition";
-	static constexpr const char property_class_identifier[] = "kobold::population_unit_scripted_condition*";
-	static constexpr const char database_folder[] = "scripted_conditions/population_unit";
-
-	explicit population_unit_scripted_condition(const std::string &identifier) : data_entry(identifier)
-	{
-	}
-
-	virtual void process_gsml_property(const gsml_property &property) override
-	{
-		scripted_condition_base::process_gsml_property(property);
-	}
-
-	virtual void process_gsml_scope(const gsml_data &scope) override
-	{
-		scripted_condition_base::process_gsml_scope(scope);
-	}
-
-	virtual void check() const override
-	{
-		scripted_condition_base::check();
-	}
-};
-
 class province_scripted_condition final : public data_entry, public data_type<province_scripted_condition>, public scripted_condition_base<province>
 {
 	Q_OBJECT
@@ -211,7 +181,6 @@ public:
 
 extern template class scripted_condition_base<character>;
 extern template class scripted_condition_base<country>;
-extern template class scripted_condition_base<population_unit>;
 extern template class scripted_condition_base<province>;
 extern template class scripted_condition_base<site>;
 

@@ -32,9 +32,6 @@ namespace kobold {
 	class military_unit_type;
 	class pathway;
 	class phenotype;
-	class population;
-	class population_class;
-	class population_type;
 	class portrait;
 	class preferences;
 	class province;

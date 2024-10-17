@@ -11,8 +11,6 @@
 #include "language/fallback_name_generator.h"
 #include "language/gendered_name_generator.h"
 #include "language/name_generator.h"
-#include "population/population_class.h"
-#include "population/population_type.h"
 #include "unit/civilian_unit_class.h"
 #include "unit/civilian_unit_type.h"
 #include "unit/military_unit_class.h"
@@ -50,15 +48,6 @@ void culture_base::process_gsml_scope(const gsml_data &scope)
 			const building_class *building_class = building_class::get(key);
 			const building_type *building_type = building_type::get(value);
 			this->set_building_class_type(building_class, building_type);
-		});
-	} else if (tag == "population_class_types") {
-		scope.for_each_property([&](const gsml_property &property) {
-			const std::string &key = property.get_key();
-			const std::string &value = property.get_value();
-
-			const population_class *population_class = population_class::get(key);
-			const population_type *population_type = population_type::get(value);
-			this->set_population_class_type(population_class, population_type);
 		});
 	} else if (tag == "civilian_class_unit_types") {
 		scope.for_each_property([&](const gsml_property &property) {
@@ -193,10 +182,6 @@ void culture_base::check() const
 		assert_throw(building_type->get_building_class() == building_class);
 	}
 
-	for (const auto &[population_class, population_type] : this->population_class_types) {
-		assert_throw(population_type->get_population_class() == population_class);
-	}
-
 	for (const auto &[unit_class, unit_type] : this->civilian_class_unit_types) {
 		assert_throw(unit_type->get_unit_class() == unit_class);
 	}
@@ -313,21 +298,6 @@ const building_type *culture_base::get_building_class_type(const building_class 
 	}
 
 	return building_class->get_default_building_type();
-
-}
-
-const population_type *culture_base::get_population_class_type(const population_class *population_class) const
-{
-	const auto find_iterator = this->population_class_types.find(population_class);
-	if (find_iterator != this->population_class_types.end()) {
-		return find_iterator->second;
-	}
-
-	if (this->get_group() != nullptr) {
-		return this->get_group()->get_population_class_type(population_class);
-	}
-
-	return population_class->get_default_population_type();
 
 }
 

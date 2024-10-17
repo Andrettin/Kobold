@@ -14,8 +14,6 @@
 #include "map/province_container.h"
 #include "map/site_container.h"
 #include "map/terrain_type_container.h"
-#include "population/population_type_container.h"
-#include "population/profession_container.h"
 #include "script/opinion_modifier_container.h"
 #include "technology/technology_container.h"
 #include "unit/military_unit_type_container.h"
@@ -36,7 +34,6 @@ Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("country/subject_type.h")
 Q_MOC_INCLUDE("country/tradition.h")
 Q_MOC_INCLUDE("map/site.h")
-Q_MOC_INCLUDE("population/population.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
@@ -61,11 +58,6 @@ class military_unit;
 class military_unit_type;
 class opinion_modifier;
 class phenotype;
-class population;
-class population_class;
-class population_type;
-class population_unit;
-class profession;
 class province;
 class region;
 class religion;
@@ -118,9 +110,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QRect diplomatic_map_image_rect READ get_diplomatic_map_image_rect NOTIFY diplomatic_map_image_changed)
 	Q_PROPERTY(int score READ get_score NOTIFY score_changed)
 	Q_PROPERTY(int score_rank READ get_score_rank NOTIFY score_rank_changed)
-	Q_PROPERTY(int population_unit_count READ get_population_unit_count NOTIFY population_units_changed)
-	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
-	Q_PROPERTY(int population_growth READ get_population_growth NOTIFY population_growth_changed)
 	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(int wealth READ get_wealth NOTIFY wealth_changed)
@@ -182,12 +171,7 @@ public:
 	void do_turn();
 	void do_production();
 	void do_research();
-	void do_population_growth();
 	void do_food_consumption(const int food_consumption);
-	void do_starvation();
-	void do_everyday_consumption();
-	void do_luxury_consumption();
-	void do_cultural_change();
 	void do_construction();
 	void do_trade(country_map<commodity_map<int>> &country_luxury_demands);
 	void do_inflation();
@@ -631,49 +615,9 @@ public:
 		emit rank_changed();
 	}
 
-	const population_class *get_default_population_class() const;
-
-	const std::vector<population_unit *> &get_population_units() const
-	{
-		return this->population_units;
-	}
-
-	int get_population_unit_count() const
-	{
-		return static_cast<int>(this->get_population_units().size());
-	}
-
-	void add_population_unit(population_unit *population_unit);
-	void remove_population_unit(population_unit *population_unit);
-
-	kobold::population *get_population() const
-	{
-		return this->population.get();
-	}
-
-	void on_population_type_count_changed(const population_type *type, const int change);
-
-	int get_population_growth() const
-	{
-		return this->population_growth;
-	}
-
-	void set_population_growth(const int growth);
-
-	void change_population_growth(const int change)
-	{
-		this->set_population_growth(this->get_population_growth() + change);
-	}
-
-	void grow_population();
-	void decrease_population();
-	population_unit *choose_starvation_population_unit();
-
-	Q_INVOKABLE const icon *get_population_type_small_icon(const kobold::population_type *type) const;
-
 	int get_total_unit_count() const
 	{
-		return this->get_population_unit_count() + static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size()) + static_cast<int>(this->transporters.size());
+		return static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size()) + static_cast<int>(this->transporters.size());
 	}
 
 	const centesimal_int &get_health() const
@@ -695,11 +639,6 @@ public:
 		this->health += change;
 
 		emit health_changed();
-	}
-
-	centesimal_int get_available_health() const
-	{
-		return this->get_health() - this->get_population_unit_count();
 	}
 
 	int get_food_consumption() const
@@ -1195,7 +1134,7 @@ public:
 
 	int get_research_cost_modifier() const
 	{
-		return 100 + (this->get_population_unit_count() - 1);
+		return 100;
 	}
 
 	std::map<technology_category, const technology *> get_research_choice_map() const;
@@ -1259,7 +1198,7 @@ public:
 
 	Q_INVOKABLE int get_total_law_cost_modifier() const
 	{
-		return 100 + (this->get_population_unit_count() - 1) + this->get_law_cost_modifier();
+		return 100 + this->get_law_cost_modifier();
 	}
 
 	void check_laws();
@@ -1297,7 +1236,7 @@ public:
 
 	Q_INVOKABLE int get_policy_value_change_cost_modifier() const
 	{
-		return 100 + (this->get_population_unit_count() - 1);
+		return 100;
 	}
 
 	const tradition_set &get_traditions() const
@@ -1913,41 +1852,6 @@ public:
 
 	void change_building_commodity_bonus(const building_type *building, const commodity *commodity, const int change);
 
-	const profession_map<commodity_map<decimillesimal_int>> &get_profession_commodity_bonuses() const
-	{
-		return this->profession_commodity_bonuses;
-	}
-
-	const commodity_map<decimillesimal_int> &get_profession_commodity_bonuses(const profession *profession) const
-	{
-		const auto find_iterator = this->profession_commodity_bonuses.find(profession);
-
-		if (find_iterator != this->profession_commodity_bonuses.end()) {
-			return find_iterator->second;
-		}
-
-		static const commodity_map<decimillesimal_int> empty_map;
-		return empty_map;
-	}
-
-	const decimillesimal_int &get_profession_commodity_bonus(const profession *profession, const commodity *commodity) const
-	{
-		const auto find_iterator = this->profession_commodity_bonuses.find(profession);
-
-		if (find_iterator != this->profession_commodity_bonuses.end()) {
-			const auto sub_find_iterator = find_iterator->second.find(commodity);
-
-			if (sub_find_iterator != find_iterator->second.end()) {
-				return sub_find_iterator->second;
-			}
-		}
-
-		static constexpr decimillesimal_int zero;
-		return zero;
-	}
-
-	void change_profession_commodity_bonus(const profession *profession, const commodity *commodity, const decimillesimal_int &change);
-
 	int get_commodity_bonus_for_tile_threshold(const commodity *commodity, const int threshold) const
 	{
 		const auto find_iterator = this->commodity_bonuses_for_tile_thresholds.find(commodity);
@@ -1969,26 +1873,6 @@ public:
 	{
 		this->set_commodity_bonus_for_tile_threshold(commodity, threshold, this->get_commodity_bonus_for_tile_threshold(commodity, threshold) + value);
 	}
-
-	const commodity_map<centesimal_int> &get_commodity_bonuses_per_population() const
-	{
-		return this->commodity_bonuses_per_population;
-	}
-
-	const centesimal_int &get_commodity_bonus_per_population(const commodity *commodity) const
-	{
-		const auto find_iterator = this->commodity_bonuses_per_population.find(commodity);
-
-		if (find_iterator != this->commodity_bonuses_per_population.end()) {
-			return find_iterator->second;
-		}
-
-		static const centesimal_int zero;
-
-		return zero;
-	}
-
-	void change_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change);
 
 	const commodity_map<centesimal_int> &get_settlement_commodity_bonuses() const
 	{
@@ -2030,26 +1914,6 @@ public:
 
 	void change_capital_commodity_bonus(const commodity *commodity, const centesimal_int &change);
 
-	const commodity_map<centesimal_int> &get_capital_commodity_bonuses_per_population() const
-	{
-		return this->capital_commodity_bonuses_per_population;
-	}
-
-	const centesimal_int &get_capital_commodity_bonus_per_population(const commodity *commodity) const
-	{
-		const auto find_iterator = this->capital_commodity_bonuses_per_population.find(commodity);
-
-		if (find_iterator != this->capital_commodity_bonuses_per_population.end()) {
-			return find_iterator->second;
-		}
-
-		static const centesimal_int zero;
-
-		return zero;
-	}
-
-	void change_capital_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change);
-
 	Q_INVOKABLE int get_category_research_modifier(kobold::technology_category category) const
 	{
 		const auto find_iterator = this->category_research_modifiers.find(category);
@@ -2066,44 +1930,6 @@ public:
 	void change_category_research_modifier(const technology_category category, const int value)
 	{
 		this->set_category_research_modifier(category, this->get_category_research_modifier(category) + value);
-	}
-
-	Q_INVOKABLE const centesimal_int &get_population_type_modifier_multiplier(const population_type *type) const
-	{
-		const auto find_iterator = this->population_type_modifier_multipliers.find(type);
-
-		if (find_iterator != this->population_type_modifier_multipliers.end()) {
-			return find_iterator->second;
-		}
-
-		static constexpr centesimal_int one(1);
-		return one;
-	}
-
-	void set_population_type_modifier_multiplier(const population_type *type, const centesimal_int &value);
-
-	void change_population_type_modifier_multiplier(const population_type *type, const centesimal_int &change)
-	{
-		this->set_population_type_modifier_multiplier(type, this->get_population_type_modifier_multiplier(type) + change);
-	}
-
-	const centesimal_int &get_population_type_militancy_modifier(const population_type *type) const
-	{
-		const auto find_iterator = this->population_type_militancy_modifiers.find(type);
-
-		if (find_iterator != this->population_type_militancy_modifiers.end()) {
-			return find_iterator->second;
-		}
-
-		static constexpr centesimal_int zero;
-		return zero;
-	}
-
-	void set_population_type_militancy_modifier(const population_type *type, const centesimal_int &value);
-
-	void change_population_type_militancy_modifier(const population_type *type, const centesimal_int &change)
-	{
-		this->set_population_type_militancy_modifier(type, this->get_population_type_militancy_modifier(type) + change);
 	}
 
 	int get_law_cost_modifier() const
@@ -2473,8 +2299,6 @@ signals:
 	void score_changed();
 	void score_rank_changed();
 	void rank_changed();
-	void population_units_changed();
-	void population_growth_changed();
 	void health_changed();
 	void settlement_building_counts_changed();
 	void wealth_changed();
@@ -2559,9 +2383,6 @@ private:
 	int score_rank = 0;
 	int economic_score = 0;
 	int military_score = 0;
-	std::vector<population_unit *> population_units;
-	qunique_ptr<kobold::population> population;
-	int population_growth = 0; //population growth counter
 	centesimal_int health;
 	int food_consumption = 0;
 	std::vector<qunique_ptr<country_building_slot>> building_slots;
@@ -2627,15 +2448,10 @@ private:
 	resource_map<commodity_map<int>> improved_resource_commodity_bonuses;
 	improvement_map<commodity_map<centesimal_int>> improvement_commodity_bonuses;
 	building_type_map<commodity_map<int>> building_commodity_bonuses;
-	profession_map<commodity_map<decimillesimal_int>> profession_commodity_bonuses;
 	commodity_map<std::map<int, int>> commodity_bonuses_for_tile_thresholds;
-	commodity_map<centesimal_int> commodity_bonuses_per_population;
 	commodity_map<centesimal_int> settlement_commodity_bonuses;
 	commodity_map<centesimal_int> capital_commodity_bonuses;
-	commodity_map<centesimal_int> capital_commodity_bonuses_per_population;
 	std::map<technology_category, int> category_research_modifiers;
-	population_type_map<centesimal_int> population_type_modifier_multipliers;
-	population_type_map<centesimal_int> population_type_militancy_modifiers;
 	int law_cost_modifier = 0;
 	int tradition_cost_modifier = 0;
 	int advisor_cost_modifier = 0;

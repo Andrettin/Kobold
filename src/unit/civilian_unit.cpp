@@ -48,13 +48,6 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 	connect(this->get_owner()->get_game_data(), &country_game_data::technologies_changed, this, &civilian_unit::prospectable_tiles_changed);
 }
 
-civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement)
-	: civilian_unit(type, owner, culture, religion, phenotype, home_settlement)
-{
-	this->population_type = population_type;
-	assert_throw(this->get_population_type() != nullptr);
-}
-
 civilian_unit::civilian_unit(const kobold::character *character, const country *owner)
 	: civilian_unit(character->get_civilian_unit_type(), owner, character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
 {
@@ -512,10 +505,6 @@ void civilian_unit::disband(const bool dead)
 	assert_throw(tile != nullptr);
 
 	map::get()->set_tile_civilian_unit(this->get_tile_pos(), nullptr);
-
-	if (!dead && this->get_population_type() != nullptr) {
-		this->get_home_settlement()->get_game_data()->create_population_unit(this->get_population_type(), this->get_culture(), this->get_religion(), this->get_phenotype());
-	}
 
 	this->get_owner()->get_game_data()->remove_civilian_unit(this);
 }

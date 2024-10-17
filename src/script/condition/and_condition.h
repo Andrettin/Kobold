@@ -7,7 +7,6 @@ namespace kobold {
 class character;
 class country;
 class military_unit;
-class population_unit;
 class province;
 class site;
 
@@ -100,7 +99,6 @@ private:
 extern template class and_condition<character>;
 extern template class and_condition<country>;
 extern template class and_condition<military_unit>;
-extern template class and_condition<population_unit>;
 extern template class and_condition<province>;
 extern template class and_condition<site>;
 

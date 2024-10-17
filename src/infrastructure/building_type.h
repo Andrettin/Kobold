@@ -8,7 +8,6 @@
 Q_MOC_INCLUDE("country/cultural_group.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("infrastructure/building_class.h")
-Q_MOC_INCLUDE("population/profession.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
@@ -21,10 +20,8 @@ class country;
 class cultural_group;
 class culture;
 class icon;
-class population_unit;
 class portrait;
 class production_type;
-class profession;
 class province;
 class settlement_type;
 class site;
@@ -55,8 +52,6 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(bool provincial MEMBER provincial READ is_provincial NOTIFY changed)
-	Q_PROPERTY(const kobold::profession* employment_profession MEMBER employment_profession READ get_employment_profession NOTIFY changed)
-	Q_PROPERTY(int employment_capacity MEMBER employment_capacity READ get_employment_capacity NOTIFY changed)
 	Q_PROPERTY(QVariantList production_types READ get_production_types_qvariant_list NOTIFY changed)
 	Q_PROPERTY(int base_capacity MEMBER base_capacity READ get_base_capacity NOTIFY changed)
 	Q_PROPERTY(int capacity_increment MEMBER capacity_increment READ get_capacity_increment NOTIFY changed)
@@ -130,16 +125,6 @@ public:
 	const std::vector<const settlement_type *> &get_settlement_types() const
 	{
 		return this->settlement_types;
-	}
-
-	const profession *get_employment_profession() const
-	{
-		return this->employment_profession;
-	}
-
-	int get_employment_capacity() const
-	{
-		return this->employment_capacity;
 	}
 
 	const std::vector<const production_type *> &get_production_types() const
@@ -324,8 +309,6 @@ private:
 	bool provincial = false;
 	int level = 0;
 	std::vector<const settlement_type *> settlement_types;
-	const profession *employment_profession = nullptr;
-	int employment_capacity = 0;
 	std::vector<const production_type *> production_types;
 	int base_capacity = 0;
 	int capacity_increment = 0;

@@ -12,7 +12,6 @@
 #include "script/modifier_effect/building_capacity_modifier_effect.h"
 #include "script/modifier_effect/building_cost_efficiency_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_bonus_modifier_effect.h"
-#include "script/modifier_effect/capital_commodity_bonus_per_population_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_output_modifier_effect.h"
 #include "script/modifier_effect/category_research_modifier_effect.h"
 #include "script/modifier_effect/cavalry_cost_modifier_effect.h"
@@ -22,7 +21,6 @@
 #include "script/modifier_effect/commodity_bonus_per_building_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_improved_resource_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_improvement_modifier_effect.h"
-#include "script/modifier_effect/commodity_bonus_per_population_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_settlement_modifier_effect.h"
 #include "script/modifier_effect/commodity_output_modifier_effect.h"
 #include "script/modifier_effect/commodity_throughput_modifier_effect.h"
@@ -48,10 +46,7 @@
 #include "script/modifier_effect/military_unit_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_type_stat_modifier_effect.h"
 #include "script/modifier_effect/output_modifier_effect.h"
-#include "script/modifier_effect/population_type_bonus_modifier_effect.h"
-#include "script/modifier_effect/population_type_militancy_modifier_effect.h"
 #include "script/modifier_effect/port_level_modifier_effect.h"
-#include "script/modifier_effect/profession_commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/resource_output_modifier_effect.h"
 #include "script/modifier_effect/ship_stat_modifier_effect.h"
 #include "script/modifier_effect/storage_capacity_modifier_effect.h"
@@ -75,7 +70,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string building_capacity_modifier_suffix = "_capacity";
 		static const std::string capital_commodity_bonus_prefix = "capital_";
-		static const std::string commodity_bonus_per_population_suffix = "_bonus_per_population";
 		static const std::string commodity_per_building_infix = "_per_";
 		static const std::string merchant_ship_stat_modifier_prefix = "merchant_ship_";
 		static const std::string militancy_modifier_suffix = "_militancy_modifier";
@@ -142,29 +136,15 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 		} else if (key.starts_with(capital_commodity_bonus_prefix) && key.ends_with(bonus_suffix) && commodity::try_get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - bonus_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - bonus_suffix.size()));
 			return std::make_unique<capital_commodity_bonus_modifier_effect>(commodity, value);
-		} else if (key.starts_with(capital_commodity_bonus_prefix) && key.ends_with(commodity_bonus_per_population_suffix) && commodity::try_get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - commodity_bonus_per_population_suffix.size())) != nullptr) {
-			const commodity *commodity = commodity::get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - commodity_bonus_per_population_suffix.size()));
-			return std::make_unique<capital_commodity_bonus_per_population_modifier_effect>(commodity, value);
 		} else if (key.starts_with(capital_commodity_bonus_prefix) && key.ends_with(output_modifier_suffix) && commodity::try_get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - output_modifier_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(capital_commodity_bonus_prefix.size(), key.size() - capital_commodity_bonus_prefix.size() - output_modifier_suffix.size()));
 			return std::make_unique<capital_commodity_output_modifier_effect>(commodity, value);
-		} else if (key.ends_with(commodity_bonus_per_population_suffix) && commodity::try_get(key.substr(0, key.size() - commodity_bonus_per_population_suffix.size())) != nullptr) {
-			const commodity *commodity = commodity::get(key.substr(0, key.size() - commodity_bonus_per_population_suffix.size()));
-			return std::make_unique<commodity_bonus_per_population_modifier_effect>(commodity, value);
 		} else if (key.ends_with(throughput_modifier_suffix) && commodity::try_get(key.substr(0, key.size() - throughput_modifier_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - throughput_modifier_suffix.size()));
 			return std::make_unique<commodity_throughput_modifier_effect<scope_type>>(commodity, value);
 		} else if (key.ends_with(research_modifier_suffix) && enum_converter<technology_category>::has_value(key.substr(0, key.size() - research_modifier_suffix.size()))) {
 			const technology_category category = enum_converter<technology_category>::to_enum(key.substr(0, key.size() - research_modifier_suffix.size()));
 			return std::make_unique<category_research_modifier_effect<scope_type>>(category, value);
-		} else if (key.ends_with(bonus_suffix) && population_type::try_get(key.substr(0, key.size() - bonus_suffix.size())) != nullptr) {
-			const population_type *population_type = population_type::get(key.substr(0, key.size() - bonus_suffix.size()));
-
-			return std::make_unique<population_type_bonus_modifier_effect>(population_type, value);
-		} else if (key.ends_with(militancy_modifier_suffix) && population_type::try_get(key.substr(0, key.size() - militancy_modifier_suffix.size())) != nullptr) {
-			const population_type *population_type = population_type::get(key.substr(0, key.size() - militancy_modifier_suffix.size()));
-
-			return std::make_unique<population_type_militancy_modifier_effect>(population_type, value);
 		}
 		
 		size_t infix_pos = key.find(commodity_per_building_infix);
@@ -285,8 +265,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			modifier_effect = std::make_unique<commodity_bonus_per_settlement_modifier_effect<scope_type>>();
 		} else if (tag == "military_unit_domain_stat_modifier") {
 			modifier_effect = std::make_unique<military_unit_domain_stat_modifier_effect>();
-		} else if (tag == "profession_commodity_bonus") {
-			modifier_effect = std::make_unique<profession_commodity_bonus_modifier_effect<scope_type>>();
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (tag == "commodity_bonus_per_adjacent_terrain") {

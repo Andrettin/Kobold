@@ -87,7 +87,6 @@ set_source_files_properties(${database_SRCS} PROPERTIES UNITY_GROUP "database")
 set(economy_SRCS
 	src/economy/commodity.cpp
 	src/economy/commodity_container.cpp
-	src/economy/employment_location.cpp
 	src/economy/expense_transaction.cpp
 	src/economy/food_type.cpp
 	src/economy/income_transaction.cpp
@@ -154,10 +153,8 @@ set(map_SRCS
 	src/map/province.cpp
 	src/map/province_container.cpp
 	src/map/province_game_data.cpp
-	src/map/province_history.cpp
 	src/map/province_map_data.cpp
 	src/map/region.cpp
-	src/map/region_history.cpp
 	src/map/route.cpp
 	src/map/route_container.cpp
 	src/map/site.cpp
@@ -182,15 +179,6 @@ set_source_files_properties(${map_SRCS} PROPERTIES UNITY_GROUP "map")
 set(population_SRCS
 	src/population/phenotype.cpp
 	src/population/phenotype_container.cpp
-	src/population/population.cpp
-	src/population/population_class.cpp
-	src/population/population_class_container.cpp
-	src/population/population_group_map.cpp
-	src/population/population_type.cpp
-	src/population/population_type_container.cpp
-	src/population/population_unit.cpp
-	src/population/profession.cpp
-	src/population/profession_container.cpp
 )
 source_group(population FILES ${population_SRCS})
 set_source_files_properties(${population_SRCS} PROPERTIES UNITY_GROUP "population")
@@ -406,7 +394,6 @@ source_group(database FILES ${database_HDRS})
 set(economy_HDRS
 	src/economy/commodity.h
 	src/economy/commodity_container.h
-	src/economy/employment_location.h
 	src/economy/expense_transaction.h
 	src/economy/expense_transaction_type.h
 	src/economy/food_type.h
@@ -479,7 +466,6 @@ set(map_HDRS
 	src/map/province_history.h
 	src/map/province_map_data.h
 	src/map/region.h
-	src/map/region_history.h
 	src/map/route.h
 	src/map/route_container.h
 	src/map/route_game_data.h
@@ -506,15 +492,6 @@ source_group(map FILES ${map_HDRS})
 set(population_HDRS
 	src/population/phenotype.h
 	src/population/phenotype_container.h
-	src/population/population.h
-	src/population/population_class.h
-	src/population/population_class_container.h
-	src/population/population_group_map.h
-	src/population/population_type.h
-	src/population/population_type_container.h
-	src/population/population_unit.h
-	src/population/profession.h
-	src/population/profession_container.h
 )
 source_group(population FILES ${population_HDRS})
 
@@ -546,15 +523,12 @@ set(script_condition_HDRS
 	src/script/condition/age_condition.h
 	src/script/condition/anarchy_condition.h
 	src/script/condition/and_condition.h
-	src/script/condition/any_global_population_unit_condition.h
 	src/script/condition/any_known_country_condition.h
 	src/script/condition/any_neighbor_country_condition.h
-	src/script/condition/any_population_unit_condition.h
 	src/script/condition/any_settlement_condition.h
 	src/script/condition/artillery_condition.h
 	src/script/condition/attacking_commander_condition.h
 	src/script/condition/available_food_condition.h
-	src/script/condition/available_health_condition.h
 	src/script/condition/birth_year_condition.h
 	src/script/condition/can_gain_building_class_condition.h
 	src/script/condition/can_have_trait_condition.h
@@ -565,7 +539,6 @@ set(script_condition_HDRS
 	src/script/condition/coastal_condition.h
 	src/script/condition/commodity_condition.h
 	src/script/condition/condition.h
-	src/script/condition/consciousness_condition.h
 	src/script/condition/core_condition.h
 	src/script/condition/country_condition.h
 	src/script/condition/country_exists_condition.h
@@ -582,15 +555,10 @@ set(script_condition_HDRS
 	src/script/condition/has_building_class_condition.h
 	src/script/condition/has_building_condition.h
 	src/script/condition/has_flag_condition.h
-	src/script/condition/has_population_culture_condition.h
-	src/script/condition/has_population_ideology_condition.h
-	src/script/condition/has_population_religion_condition.h
-	src/script/condition/has_population_type_condition.h
 	src/script/condition/has_resource_condition.h
 	src/script/condition/has_route_condition.h
 	src/script/condition/has_terrain_condition.h
 	src/script/condition/health_condition.h
-	src/script/condition/ideology_condition.h
 	src/script/condition/improvement_condition.h
 	src/script/condition/independent_condition.h
 	src/script/condition/infantry_condition.h
@@ -599,7 +567,6 @@ set(script_condition_HDRS
 	src/script/condition/is_military_unit_category_available_condition.h
 	src/script/condition/is_ruler_condition.h
 	src/script/condition/law_condition.h
-	src/script/condition/militancy_condition.h
 	src/script/condition/military_unit_category_condition.h
 	src/script/condition/military_unit_domain_condition.h
 	src/script/condition/military_unit_type_condition.h
@@ -609,9 +576,6 @@ set(script_condition_HDRS
 	src/script/condition/or_condition.h
 	src/script/condition/owns_province_condition.h
 	src/script/condition/owns_site_condition.h
-	src/script/condition/population_scaled_commodity_condition.h
-	src/script/condition/population_type_condition.h
-	src/script/condition/population_unit_count_condition.h
 	src/script/condition/primary_attribute_condition.h
 	src/script/condition/produces_commodity_condition.h
 	src/script/condition/promotion_condition.h
@@ -631,7 +595,6 @@ set(script_condition_HDRS
 	src/script/condition/scope_condition_base.h
 	src/script/condition/scripted_condition.h
 	src/script/condition/scripted_condition_condition.h
-	src/script/condition/settlement_condition.h
 	src/script/condition/settlement_type_condition.h
 	src/script/condition/source_character_condition.h
 	src/script/condition/source_site_condition.h
@@ -654,14 +617,12 @@ set(script_effect_HDRS
 	src/script/effect/add_improvement_effect.h
 	src/script/effect/any_known_country_effect.h
 	src/script/effect/any_neighbor_country_effect.h
-	src/script/effect/any_population_unit_effect.h
 	src/script/effect/battle_effect.h
 	src/script/effect/capital_effect.h
 	src/script/effect/change_opinion_effect.h
 	src/script/effect/clear_flag_effect.h
 	src/script/effect/commodity_effect.h
 	src/script/effect/commodity_percent_effect.h
-	src/script/effect/consciousness_effect.h
 	src/script/effect/country_effect.h
 	src/script/effect/create_military_unit_effect.h
 	src/script/effect/create_transporter_effect.h
@@ -676,13 +637,9 @@ set(script_effect_HDRS
 	src/script/effect/if_effect.h
 	src/script/effect/inflation_effect.h
 	src/script/effect/location_effect.h
-	src/script/effect/migrate_to_effect.h
-	src/script/effect/militancy_effect.h
 	src/script/effect/opinion_modifiers_effect.h
 	src/script/effect/policy_effect.h
-	src/script/effect/population_scaled_commodity_effect.h
 	src/script/effect/random_effect.h
-	src/script/effect/random_global_population_unit_effect.h
 	src/script/effect/random_known_country_effect.h
 	src/script/effect/random_list_effect.h
 	src/script/effect/random_neighbor_country_effect.h
@@ -710,7 +667,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/building_capacity_modifier_effect.h
 	src/script/modifier_effect/building_cost_efficiency_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_bonus_modifier_effect.h
-	src/script/modifier_effect/capital_commodity_bonus_per_population_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_output_modifier_effect.h
 	src/script/modifier_effect/category_research_modifier_effect.h
 	src/script/modifier_effect/cavalry_cost_modifier_effect.h
@@ -721,7 +677,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/commodity_bonus_per_improved_resource_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_per_improvement_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_per_settlement_modifier_effect.h
-	src/script/modifier_effect/commodity_bonus_per_population_modifier_effect.h
 	src/script/modifier_effect/commodity_output_modifier_effect.h
 	src/script/modifier_effect/commodity_throughput_modifier_effect.h
 	src/script/modifier_effect/deployment_limit_modifier_effect.h
@@ -747,10 +702,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/military_unit_type_stat_modifier_effect.h
 	src/script/modifier_effect/modifier_effect.h
 	src/script/modifier_effect/output_modifier_effect.h
-	src/script/modifier_effect/population_type_bonus_modifier_effect.h
-	src/script/modifier_effect/population_type_militancy_modifier_effect.h
 	src/script/modifier_effect/port_level_modifier_effect.h
-	src/script/modifier_effect/profession_commodity_bonus_modifier_effect.h
 	src/script/modifier_effect/resource_output_modifier_effect.h
 	src/script/modifier_effect/ship_stat_modifier_effect.h
 	src/script/modifier_effect/storage_capacity_modifier_effect.h

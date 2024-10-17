@@ -22,7 +22,6 @@ class province;
 class scenario;
 class site;
 class wonder;
-struct population_group_key;
 
 template <typename scope_type>
 class delayed_effect_instance;
@@ -106,11 +105,8 @@ public:
 	void apply_history(const kobold::scenario *scenario);
 	void apply_sites();
 	void apply_site_buildings(const site *site);
-	void apply_population_history();
-	int64_t apply_historical_population_group_to_settlement(const population_group_key &group_key, const int population, const site *settlement);
 
 	QCoro::Task<void> on_setup_finished();
-	void adjust_food_production_for_country_populations();
 
 	Q_INVOKABLE QCoro::QmlTask do_turn()
 	{

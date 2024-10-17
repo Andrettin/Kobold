@@ -44,7 +44,6 @@
 #include "map/province_game_data.h"
 #include "map/province_history.h"
 #include "map/region.h"
-#include "map/region_history.h"
 #include "map/route.h"
 #include "map/route_game_data.h"
 #include "map/route_history.h"
@@ -55,8 +54,6 @@
 #include "map/site_type.h"
 #include "map/terrain_type.h"
 #include "map/tile.h"
-#include "population/population_type.h"
-#include "population/population_unit.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/delayed_effect_instance.h"
 #include "time/era.h"
@@ -240,8 +237,6 @@ QCoro::Task<void> game::start_coro()
 	map::get()->create_minimap_image();
 	co_await this->create_exploration_diplomatic_map_image();
 
-	this->adjust_food_production_for_country_populations();
-
 	for (const site *site : site::get_all()) {
 		if (!site->get_game_data()->is_on_map()) {
 			continue;
@@ -253,14 +248,6 @@ QCoro::Task<void> game::start_coro()
 
 	for (const country *country : this->get_countries()) {
 		country_game_data *country_game_data = country->get_game_data();
-
-		for (const province *province : country_game_data->get_provinces()) {
-			province->get_game_data()->check_employment();
-		}
-
-		for (population_unit *population_unit : country_game_data->get_population_units()) {
-			population_unit->choose_ideology();
-		}
 
 		country_game_data->check_ruler();
 
@@ -516,8 +503,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			country->get_game_data()->choose_capital();
 		}
 
-		this->apply_population_history();
-
 		for (const province *province : map::get()->get_provinces()) {
 			for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
 				site_game_data *settlement_game_data = settlement->get_game_data();
@@ -582,7 +567,6 @@ void game::apply_history(const kobold::scenario *scenario)
 						}
 
 						if (deployment_site->get_game_data()->get_owner() != country) {
-							continue;
 							country_game_data->add_leader(character);
 
 							assert_throw(character_game_data->get_country() != nullptr);
@@ -678,12 +662,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			}
 			assert_throw(religion != nullptr);
 
-			const population_type *population_type = historical_civilian_unit->get_population_type();
-			if (population_type == nullptr) {
-				population_type = culture->get_population_class_type(owner_game_data->get_default_population_class());
-			}
-			assert_throw(population_type != nullptr);
-
 			const phenotype *phenotype = historical_civilian_unit->get_phenotype();
 			if (phenotype == nullptr) {
 				phenotype = culture->get_default_phenotype();
@@ -697,7 +675,7 @@ void game::apply_history(const kobold::scenario *scenario)
 				continue;
 			}
 
-			auto civilian_unit = make_qunique<kobold::civilian_unit>(historical_civilian_unit->get_type(), owner, population_type, culture, religion, phenotype, home_settlement);
+			auto civilian_unit = make_qunique<kobold::civilian_unit>(historical_civilian_unit->get_type(), owner, culture, religion, phenotype, home_settlement);
 			civilian_unit->set_tile_pos(tile_pos);
 
 			owner_game_data->add_civilian_unit(std::move(civilian_unit));
@@ -769,12 +747,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			}
 			assert_throw(religion != nullptr);
 
-			const population_type *population_type = historical_military_unit->get_population_type();
-			if (population_type == nullptr) {
-				population_type = culture->get_population_class_type(country_game_data->get_default_population_class());
-			}
-			assert_throw(population_type != nullptr);
-
 			const phenotype *phenotype = historical_military_unit->get_phenotype();
 			if (phenotype == nullptr) {
 				phenotype = culture->get_default_phenotype();
@@ -782,7 +754,7 @@ void game::apply_history(const kobold::scenario *scenario)
 			assert_throw(phenotype != nullptr);
 
 			for (int i = 0; i < historical_military_unit->get_quantity(); ++i) {
-				auto military_unit = make_qunique<kobold::military_unit>(type, country, population_type, culture, religion, phenotype, home_settlement);
+				auto military_unit = make_qunique<kobold::military_unit>(type, country, culture, religion, phenotype, home_settlement);
 				military_unit->set_province(province);
 
 				for (const promotion *promotion : historical_military_unit_history->get_promotions()) {
@@ -846,12 +818,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			}
 			assert_throw(religion != nullptr);
 
-			const population_type *population_type = historical_transporter->get_population_type();
-			if (population_type == nullptr) {
-				population_type = culture->get_population_class_type(country_game_data->get_default_population_class());
-			}
-			assert_throw(population_type != nullptr);
-
 			const phenotype *phenotype = historical_transporter->get_phenotype();
 			if (phenotype == nullptr) {
 				phenotype = culture->get_default_phenotype();
@@ -859,7 +825,7 @@ void game::apply_history(const kobold::scenario *scenario)
 			assert_throw(phenotype != nullptr);
 
 			for (int i = 0; i < historical_transporter->get_quantity(); ++i) {
-				auto transporter = make_qunique<kobold::transporter>(type, country, population_type, culture, religion, phenotype, home_settlement);
+				auto transporter = make_qunique<kobold::transporter>(type, country, culture, religion, phenotype, home_settlement);
 
 				country_game_data->add_transporter(std::move(transporter));
 			}
@@ -1121,254 +1087,6 @@ void game::apply_site_buildings(const site *site)
 	}
 }
 
-void game::apply_population_history()
-{
-	for (const province *province : map::get()->get_provinces()) {
-		if (province->is_water_zone()) {
-			continue;
-		}
-
-		province_game_data *province_game_data = province->get_game_data();
-
-		if (province_game_data->get_settlement_count() == 0) {
-			continue;
-		}
-
-		province->get_history()->initialize_population();
-	}
-
-	//distribute region populations
-	std::vector<region *> regions = region::get_all();
-
-	std::sort(regions.begin(), regions.end(), [](const region *lhs, const region *rhs) {
-		//give priority to smaller regions
-		if (lhs->get_provinces().size() != rhs->get_provinces().size()) {
-			return lhs->get_provinces().size() < rhs->get_provinces().size();
-		}
-
-		return lhs->get_identifier() < rhs->get_identifier();
-	});
-
-	for (const region *region : regions) {
-		region->get_history()->distribute_population();
-	}
-
-	country_map<population_group_map<int>> country_populations;
-
-	for (const province *province : map::get()->get_provinces()) {
-		if (province->is_water_zone()) {
-			continue;
-		}
-
-		province_game_data *province_game_data = province->get_game_data();
-
-		if (province_game_data->get_settlement_count() == 0) {
-			continue;
-		}
-
-		province->get_history()->distribute_population();
-
-		for (const site *settlement : province_game_data->get_settlement_sites()) {
-			site_game_data *settlement_game_data = settlement->get_game_data();
-			site_history *settlement_history = settlement->get_history();
-
-			settlement_history->initialize_population();
-
-			for (const auto &[group_key, population] : settlement_history->get_population_groups()) {
-				if (population <= 0) {
-					continue;
-				}
-
-				const int64_t remaining_population = this->apply_historical_population_group_to_settlement(group_key, population, settlement);
-
-				if (remaining_population != 0 && settlement_game_data->get_owner() != nullptr) {
-					//add the remaining population to remaining population data for the owner
-					country_populations[settlement_game_data->get_owner()][group_key] += remaining_population;
-				}
-			}
-		}
-	}
-
-	for (auto &[country, population_groups] : country_populations) {
-		const site *capital = country->get_game_data()->get_capital();
-
-		if (capital == nullptr) {
-			continue;
-		}
-
-		site_game_data *capital_game_data = capital->get_game_data();
-		assert_throw(capital_game_data->get_owner() == country);
-
-		//initialize entries for groups with less defined properties, since we might need to use them
-		population_groups[population_group_key()];
-		const population_group_map<int> population_groups_copy = population_groups;
-		for (const auto &[group_key, population] : population_groups_copy) {
-			if (group_key.type != nullptr) {
-				population_groups[population_group_key(group_key.type, group_key.culture, nullptr, nullptr)];
-				population_groups[population_group_key(group_key.type, nullptr, group_key.religion, nullptr)];
-				population_groups[population_group_key(group_key.type, nullptr, nullptr, group_key.phenotype)];
-				population_groups[population_group_key(group_key.type, nullptr, nullptr, nullptr)];
-			}
-
-			if (group_key.culture != nullptr) {
-				population_groups[population_group_key(group_key.type, group_key.culture, nullptr, nullptr)];
-				population_groups[population_group_key(nullptr, group_key.culture, group_key.religion, nullptr)];
-				population_groups[population_group_key(nullptr, group_key.culture, nullptr, group_key.phenotype)];
-				population_groups[population_group_key(nullptr, group_key.culture, nullptr, nullptr)];
-			}
-
-			if (group_key.religion != nullptr) {
-				population_groups[population_group_key(group_key.type, nullptr, group_key.religion, nullptr)];
-				population_groups[population_group_key(nullptr, group_key.culture, group_key.religion, nullptr)];
-				population_groups[population_group_key(nullptr, nullptr, group_key.religion, group_key.phenotype)];
-				population_groups[population_group_key(nullptr, nullptr, group_key.religion, nullptr)];
-			}
-
-			if (group_key.phenotype != nullptr) {
-				population_groups[population_group_key(group_key.type, nullptr, nullptr, group_key.phenotype)];
-				population_groups[population_group_key(nullptr, group_key.culture, nullptr, group_key.phenotype)];
-				population_groups[population_group_key(nullptr, nullptr, group_key.religion, group_key.phenotype)];
-				population_groups[population_group_key(nullptr, nullptr, nullptr, group_key.phenotype)];
-			}
-		}
-
-		for (const auto &[group_key, population] : population_groups) {
-			if (population <= 0) {
-				continue;
-			}
-
-			const int64_t remaining_population = this->apply_historical_population_group_to_settlement(group_key, population, capital);
-
-			//add the remaining population to broader groups
-			if (remaining_population > 0 && !group_key.is_empty()) {
-				population_group_key group_key_copy = group_key;
-
-				if (group_key.phenotype != nullptr) {
-					group_key_copy.phenotype = nullptr;
-				} else if (group_key.religion != nullptr) {
-					group_key_copy.religion = nullptr;
-				} else if (group_key.culture != nullptr) {
-					group_key_copy.culture = nullptr;
-				} else if (group_key.type != nullptr) {
-					group_key_copy.type = nullptr;
-				} else {
-					assert_throw(false);
-				}
-
-				const auto group_find_iterator = population_groups.find(group_key_copy);
-				assert_throw(group_find_iterator != population_groups.end());
-				group_find_iterator->second += remaining_population;
-			}
-
-			if (remaining_population != 0 && group_key.is_empty()) {
-				//if this is general population data, then add the remaining population to the stored population growth
-				country->get_game_data()->change_population_growth(remaining_population * defines::get()->get_population_growth_threshold() / defines::get()->get_population_per_unit());
-			}
-		}
-	}
-}
-
-int64_t game::apply_historical_population_group_to_settlement(const population_group_key &group_key, const int population, const site *settlement)
-{
-	if (population <= 0) {
-		return 0;
-	}
-
-	log_trace(std::format("Applying historical population group of type \"{}\", culture \"{}\", religion \"{}\" and size {} for settlement \"{}\".", group_key.type ? group_key.type->get_identifier() : "none", group_key.culture ? group_key.culture->get_identifier() : "none", group_key.religion ? group_key.religion->get_identifier() : "none", population, settlement->get_identifier()));
-
-	site_history *settlement_history = settlement->get_history();
-	site_game_data *settlement_game_data = settlement->get_game_data();
-
-	const province *province = settlement->get_game_data()->get_province();
-	province_history *province_history = province->get_history();
-
-	const country *country = settlement_game_data->get_owner();
-
-	if (country == nullptr) {
-		return 0;
-	}
-
-	const culture *settlement_culture = settlement_history->get_culture();
-	const culture *province_culture = province_history->get_culture();
-
-	const culture *culture = group_key.culture;
-	if (culture == nullptr) {
-		if (settlement_culture != nullptr) {
-			culture = settlement_culture;
-		} else if (province_culture != nullptr) {
-			culture = province_culture;
-		} else {
-			log::log_error(std::format("Province \"{}\" has no culture.", province->get_identifier()));
-			return 0;
-		}
-	}
-	assert_throw(culture != nullptr);
-
-	const religion *settlement_religion = settlement_history->get_religion();
-	const religion *province_religion = province_history->get_religion();
-
-	const religion *religion = group_key.religion;
-	if (religion == nullptr) {
-		if (settlement_religion != nullptr) {
-			religion = settlement_religion;
-		} else if (province_religion != nullptr) {
-			religion = province_religion;
-		} else {
-			log::log_error(std::format("Province \"{}\" has no religion.", province->get_identifier()));
-			return 0;
-		}
-	}
-	assert_throw(religion != nullptr);
-
-	const phenotype *phenotype = group_key.phenotype;
-	if (phenotype == nullptr) {
-		phenotype = culture->get_default_phenotype();
-	}
-	assert_throw(phenotype != nullptr);
-
-	int population_unit_count = population / defines::get()->get_population_per_unit();
-
-	const population_type *population_type = group_key.type;
-	if (population_type == nullptr) {
-		if (!country->get_game_data()->is_tribal()) {
-			centesimal_int literacy_rate = settlement_history->get_literacy_rate();
-			if (literacy_rate == 0) {
-				literacy_rate = province_history->get_literacy_rate();
-			}
-			if (literacy_rate == 0) {
-				literacy_rate = country->get_history()->get_literacy_rate();
-			}
-
-			if (literacy_rate != 0) {
-				const int literate_population_unit_count = (population_unit_count * literacy_rate / 100).to_int();
-				population_unit_count -= literate_population_unit_count;
-
-				const population_class *literate_population_class = defines::get()->get_default_literate_population_class();
-				const kobold::population_type *literate_population_type = culture->get_population_class_type(literate_population_class);
-
-				for (int i = 0; i < literate_population_unit_count; ++i) {
-					settlement_game_data->create_population_unit(literate_population_type, culture, religion, phenotype);
-				}
-			}
-		}
-
-		const population_class *population_class = country->get_game_data()->get_default_population_class();
-		population_type = culture->get_population_class_type(population_class);
-	}
-	assert_throw(population_type != nullptr);
-
-	for (int i = 0; i < population_unit_count; ++i) {
-		settlement_game_data->create_population_unit(population_type, culture, religion, phenotype);
-	}
-
-	int64_t remaining_population = population % defines::get()->get_population_per_unit();
-	remaining_population = std::max<int64_t>(0, remaining_population);
-
-	log_trace(std::format("Remaining population: {}.", remaining_population));
-
-	return remaining_population;
-}
-
 QCoro::Task<void> game::on_setup_finished()
 {
 	co_await this->create_diplomatic_map_image();
@@ -1399,8 +1117,6 @@ QCoro::Task<void> game::on_setup_finished()
 					settlement->get_game_data()->check_free_building(building);
 				}
 			}
-
-			province->get_game_data()->check_employment();
 		}
 
 		//calculate it here rather than on start so that score is displayed properly
@@ -1418,75 +1134,6 @@ QCoro::Task<void> game::on_setup_finished()
 	}
 
 	emit setup_finished();
-}
-
-void game::adjust_food_production_for_country_populations()
-{
-	//increase food resource improvement and building levels to prevent starvation on game start to the extent possible
-	for (const country *country : this->get_countries()) {
-		int food_output = 0;
-
-		for (const auto &[commodity, output] : country->get_game_data()->get_commodity_outputs()) {
-			if (commodity->is_food()) {
-				food_output += output.to_int();
-			}
-		}
-
-		int net_food = food_output - country->get_game_data()->get_net_food_consumption();
-
-		if (net_food >= 0) {
-			continue;
-		}
-
-		static constexpr int max_resource_level = 4;
-
-		for (int i = 1; i <= max_resource_level; ++i) {
-			for (const province *province : country->get_game_data()->get_provinces()) {
-				//construct food resource improvements
-				for (const QPoint &resource_tile_pos : province->get_game_data()->get_resource_tiles()) {
-					tile *resource_tile = map::get()->get_tile(resource_tile_pos);
-					const site *resource_site = resource_tile->get_site();
-
-					if (resource_site->get_type() != site_type::resource && resource_site->get_type() != site_type::settlement) {
-						continue;
-					}
-
-					const resource *resource = resource_tile->get_resource();
-					assert_throw(resource != nullptr);
-
-					if (!resource->get_commodity()->is_food()) {
-						continue;
-					}
-
-					for (const improvement *improvement : resource->get_improvements()) {
-						if (improvement->get_output_multiplier() > i) {
-							continue;
-						}
-
-						if (!improvement->is_buildable_on_site(resource_site)) {
-							continue;
-						}
-
-						resource_site->get_game_data()->set_improvement(improvement->get_slot(), improvement);
-						++net_food;
-						break;
-					}
-
-					if (net_food >= 0) {
-						break;
-					}
-				}
-
-				if (net_food >= 0) {
-					break;
-				}
-			}
-
-			if (net_food >= 0) {
-				break;
-			}
-		}
-	}
 }
 
 QCoro::Task<void> game::do_turn_coro()
@@ -1527,7 +1174,7 @@ QCoro::Task<void> game::do_turn_coro()
 		}
 
 		for (const country *country : this->get_countries()) {
-			//do country events after processing the turn for each country, so that e.g. events won't refer to a population unit scope which no longer exists by the time the player gets to choose and option, because the population unit died due to starvation
+			//do country events after processing the turn for each country, so that e.g. events won't refer to a scope which no longer exists by the time the player gets to choose and option
 			country->get_game_data()->do_events();
 
 			//restore old bids and offers, if possible

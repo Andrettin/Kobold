@@ -27,9 +27,6 @@
 #include "map/site_game_data.h"
 #include "map/site_type.h"
 #include "map/tile.h"
-#include "population/population.h"
-#include "population/population_unit.h"
-#include "population/profession.h"
 #include "script/context.h"
 #include "script/modifier.h"
 #include "script/scripted_province_modifier.h"
@@ -52,9 +49,6 @@ namespace kobold {
 province_game_data::province_game_data(const kobold::province *province)
 	: province(province)
 {
-	this->population = make_qunique<kobold::population>();
-	connect(this->get_population(), &population::main_culture_changed, this, &province_game_data::on_population_main_culture_changed);
-	connect(this->get_population(), &population::main_religion_changed, this, &province_game_data::on_population_main_religion_changed);
 }
 
 province_game_data::~province_game_data()
@@ -66,8 +60,6 @@ void province_game_data::do_turn()
 	for (const site *site : this->get_sites()) {
 		site->get_game_data()->do_turn();
 	}
-
-	this->check_employment();
 
 	this->decrement_scripted_modifiers();
 }
@@ -143,19 +135,6 @@ void province_game_data::set_owner(const country *country)
 
 	if (this->get_owner() != nullptr) {
 		this->get_owner()->get_game_data()->add_province(this->province);
-
-		if (this->get_population()->get_main_culture() == nullptr) {
-			this->set_culture(this->get_owner()->get_culture());
-		}
-
-		if (this->get_population()->get_main_religion() == nullptr) {
-			this->set_religion(this->get_owner()->get_game_data()->get_religion());
-		}
-	} else {
-		//remove population if this province becomes unowned
-		for (population_unit *population_unit : this->population_units) {
-			population_unit->get_settlement()->get_game_data()->pop_population_unit(population_unit);
-		}
 	}
 
 	if (game::get()->is_running()) {
@@ -201,20 +180,7 @@ void province_game_data::set_culture(const kobold::culture *culture)
 	}
 
 	for (const site *settlement : this->get_settlement_sites()) {
-		if (settlement->get_game_data()->get_population()->get_main_culture() == nullptr) {
-			settlement->get_game_data()->set_culture(this->get_culture());
-		}
-	}
-}
-
-void province_game_data::on_population_main_culture_changed(const kobold::culture *culture)
-{
-	if (culture != nullptr) {
-		this->set_culture(culture);
-	} else if (this->get_owner() != nullptr) {
-		this->set_culture(this->get_owner()->get_culture());
-	} else {
-		this->set_culture(nullptr);
+		settlement->get_game_data()->set_culture(this->get_culture());
 	}
 }
 
@@ -227,9 +193,7 @@ void province_game_data::set_religion(const kobold::religion *religion)
 	this->religion = religion;
 
 	for (const site *settlement : this->get_settlement_sites()) {
-		if (settlement->get_game_data()->get_population()->get_main_religion() == nullptr) {
-			settlement->get_game_data()->set_religion(this->get_religion());
-		}
+		settlement->get_game_data()->set_religion(this->get_religion());
 	}
 
 	if (game::get()->is_running()) {
@@ -239,17 +203,6 @@ void province_game_data::set_religion(const kobold::religion *religion)
 	}
 
 	emit religion_changed();
-}
-
-void province_game_data::on_population_main_religion_changed(const kobold::religion *religion)
-{
-	if (religion != nullptr) {
-		this->set_religion(religion);
-	} else if (this->get_owner() != nullptr) {
-		this->set_religion(this->get_owner()->get_game_data()->get_religion());
-	} else {
-		this->set_religion(nullptr);
-	}
 }
 
 const std::string &province_game_data::get_current_cultural_name() const
@@ -401,29 +354,6 @@ void province_game_data::apply_modifier(const modifier<const kobold::province> *
 	assert_throw(modifier != nullptr);
 
 	modifier->apply(this->province, multiplier);
-}
-
-void province_game_data::add_population_unit(population_unit *population_unit)
-{
-	this->population_units.push_back(population_unit);
-
-	if (game::get()->is_running()) {
-		emit population_units_changed();
-	}
-}
-
-void province_game_data::remove_population_unit(population_unit *population_unit)
-{
-	std::erase(this->population_units, population_unit);
-
-	if (game::get()->is_running()) {
-		emit population_units_changed();
-	}
-}
-
-void province_game_data::clear_population_units()
-{
-	this->population_units.clear();
 }
 
 QVariantList province_game_data::get_military_units_qvariant_list() const
@@ -746,102 +676,6 @@ bool province_game_data::can_produce_commodity(const commodity *commodity) const
 	}
 
 	return false;
-}
-
-std::vector<employment_location *> province_game_data::get_employment_locations() const
-{
-	std::vector<employment_location *> employment_locations;
-
-	for (const QPoint &tile_pos : this->get_resource_tiles()) {
-		const tile *tile = map::get()->get_tile(tile_pos);
-		const site *resource_site = tile->get_site();
-		site_game_data *resource_site_game_data = resource_site->get_game_data();
-
-		if (resource_site_game_data->get_employment_capacity() > 0) {
-			employment_locations.push_back(resource_site_game_data);
-		}
-	}
-
-	const site_game_data *provincial_capital_game_data = this->province->get_provincial_capital()->get_game_data();
-
-	for (const qunique_ptr<settlement_building_slot> &building_slot : provincial_capital_game_data->get_building_slots()) {
-		if (building_slot->get_employment_capacity() > 0) {
-			employment_locations.push_back(building_slot.get());
-		}
-	}
-
-	return employment_locations;
-}
-
-void province_game_data::check_employment()
-{
-	const std::vector<employment_location *> employment_locations = this->get_employment_locations();
-
-	std::vector<population_unit *> unemployed_population_units;
-
-	for (population_unit *population_unit : this->population_units) {
-		if (population_unit->is_unemployed()) {
-			unemployed_population_units.push_back(population_unit);
-		}
-	}
-
-	std::vector<employment_location *> food_employment_locations = employment_locations;
-	std::erase_if(food_employment_locations, [this](const employment_location *employment_location) {
-		return !employment_location->get_employment_profession()->get_output_commodity()->is_food();
-	});
-
-	std::vector<employment_location *> non_food_employment_locations = employment_locations;
-	std::erase_if(non_food_employment_locations, [this](const employment_location *employment_location) {
-		return employment_location->get_employment_profession()->get_output_commodity()->is_food();
-	});
-
-	this->check_available_employment(food_employment_locations, unemployed_population_units);
-	this->check_available_employment(non_food_employment_locations, unemployed_population_units);
-}
-
-void province_game_data::check_available_employment(const std::vector<employment_location *> &employment_locations, std::vector<population_unit *> &unemployed_population_units)
-{
-	for (employment_location *employment_location : employment_locations) {
-		int available_employment_capacity = employment_location->get_available_employment_capacity();
-		assert_throw(available_employment_capacity >= 0);
-		if (available_employment_capacity == 0) {
-			continue;
-		}
-
-		const profession *profession = employment_location->get_employment_profession();
-		assert_throw(profession != nullptr);
-
-		const commodity *output_commodity = profession->get_output_commodity();
-
-		std::map<centesimal_int, std::vector<population_unit *>, std::greater<centesimal_int>> unemployed_population_units_by_output;
-		for (population_unit *population_unit : unemployed_population_units) {
-			if (!profession->can_employ(population_unit->get_type())) {
-				continue;
-			}
-
-			unemployed_population_units_by_output[employment_location->get_employee_commodity_outputs(population_unit->get_type())[output_commodity]].push_back(population_unit);
-		}
-
-		for (const auto &[output, output_population_units] : unemployed_population_units_by_output) {
-			for (population_unit *population_unit : output_population_units) {
-				population_unit->set_employment_location(employment_location);
-				--available_employment_capacity;
-				std::erase(unemployed_population_units, population_unit);
-
-				if (available_employment_capacity == 0) {
-					break;
-				}
-			}
-
-			if (available_employment_capacity == 0) {
-				break;
-			}
-		}
-
-		if (unemployed_population_units.empty()) {
-			break;
-		}
-	}
 }
 
 }

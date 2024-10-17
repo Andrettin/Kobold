@@ -10,22 +10,18 @@
 #include "database/named_data_entry.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
-#include "population/population_unit.h"
 #include "script/condition/adjacent_terrain_condition.h"
 #include "script/condition/advisor_condition.h"
 #include "script/condition/advisor_category_condition.h"
 #include "script/condition/age_condition.h"
 #include "script/condition/anarchy_condition.h"
 #include "script/condition/and_condition.h"
-#include "script/condition/any_global_population_unit_condition.h"
 #include "script/condition/any_known_country_condition.h"
 #include "script/condition/any_neighbor_country_condition.h"
-#include "script/condition/any_population_unit_condition.h"
 #include "script/condition/any_settlement_condition.h"
 #include "script/condition/artillery_condition.h"
 #include "script/condition/attacking_commander_condition.h"
 #include "script/condition/available_food_condition.h"
-#include "script/condition/available_health_condition.h"
 #include "script/condition/birth_year_condition.h"
 #include "script/condition/can_gain_building_class_condition.h"
 #include "script/condition/can_have_trait_condition.h"
@@ -35,7 +31,6 @@
 #include "script/condition/character_type_condition.h"
 #include "script/condition/coastal_condition.h"
 #include "script/condition/commodity_condition.h"
-#include "script/condition/consciousness_condition.h"
 #include "script/condition/core_condition.h"
 #include "script/condition/country_condition.h"
 #include "script/condition/country_exists_condition.h"
@@ -52,15 +47,10 @@
 #include "script/condition/has_building_condition.h"
 #include "script/condition/has_building_class_condition.h"
 #include "script/condition/has_flag_condition.h"
-#include "script/condition/has_population_culture_condition.h"
-#include "script/condition/has_population_ideology_condition.h"
-#include "script/condition/has_population_religion_condition.h"
-#include "script/condition/has_population_type_condition.h"
 #include "script/condition/has_resource_condition.h"
 #include "script/condition/has_route_condition.h"
 #include "script/condition/has_terrain_condition.h"
 #include "script/condition/health_condition.h"
-#include "script/condition/ideology_condition.h"
 #include "script/condition/improvement_condition.h"
 #include "script/condition/independent_condition.h"
 #include "script/condition/infantry_condition.h"
@@ -69,7 +59,6 @@
 #include "script/condition/is_military_unit_category_available_condition.h"
 #include "script/condition/is_ruler_condition.h"
 #include "script/condition/law_condition.h"
-#include "script/condition/militancy_condition.h"
 #include "script/condition/military_unit_category_condition.h"
 #include "script/condition/military_unit_domain_condition.h"
 #include "script/condition/military_unit_type_condition.h"
@@ -78,9 +67,6 @@
 #include "script/condition/or_condition.h"
 #include "script/condition/owns_province_condition.h"
 #include "script/condition/owns_site_condition.h"
-#include "script/condition/population_scaled_commodity_condition.h"
-#include "script/condition/population_type_condition.h"
-#include "script/condition/population_unit_count_condition.h"
 #include "script/condition/produces_commodity_condition.h"
 #include "script/condition/primary_attribute_condition.h"
 #include "script/condition/promotion_condition.h"
@@ -97,7 +83,6 @@
 #include "script/condition/saved_scope_condition.h"
 #include "script/condition/scripted_condition_condition.h"
 #include "script/condition/scripted_modifier_condition.h"
-#include "script/condition/settlement_condition.h"
 #include "script/condition/settlement_type_condition.h"
 #include "script/condition/source_character_condition.h"
 #include "script/condition/source_site_condition.h"
@@ -149,8 +134,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<trait_condition>(value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, country>) {
-		static const std::string population_scaled_commodity_prefix = "population_scaled_";
-
 		if (key == "advisor") {
 			return std::make_unique<advisor_condition>(value, condition_operator);
 		} else if (key == "anarchy") {
@@ -189,9 +172,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<wealth_inflated_condition>(value, condition_operator);
 		} else if (commodity::try_get(key) != nullptr && string::is_number(value)) {
 			return std::make_unique<commodity_condition>(commodity::get(key), value, condition_operator);
-		} else if (key.starts_with(population_scaled_commodity_prefix) && commodity::try_get(key.substr(population_scaled_commodity_prefix.size(), key.size() - population_scaled_commodity_prefix.size())) != nullptr) {
-			const commodity *commodity = commodity::get(key.substr(population_scaled_commodity_prefix.size(), key.size() - population_scaled_commodity_prefix.size()));
-			return std::make_unique<population_scaled_commodity_condition>(commodity, value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, military_unit>) {
 		if (key == "artillery") {
@@ -206,12 +186,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<military_unit_type_condition>(value, condition_operator);
 		} else if (key == "promotion") {
 			return std::make_unique<promotion_condition>(value, condition_operator);
-		}
-	} else if constexpr (std::is_same_v<scope_type, population_unit>) {
-		if (key == "ideology") {
-			return std::make_unique<ideology_condition>(value, condition_operator);
-		} else if (key == "population_type") {
-			return std::make_unique<population_type_condition>(value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, province>) {
 		if (key == "core") {
@@ -274,23 +248,11 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<has_building_condition<scope_type>>(value, condition_operator);
 		} else if (key == "has_building_class") {
 			return std::make_unique<has_building_class_condition<scope_type>>(value, condition_operator);
-		} else if (key == "has_population_culture") {
-			return std::make_unique<has_population_culture_condition<scope_type>>(value, condition_operator);
-		} else if (key == "has_population_ideology") {
-			return std::make_unique<has_population_ideology_condition<scope_type>>(value, condition_operator);
-		} else if (key == "has_population_religion") {
-			return std::make_unique<has_population_religion_condition<scope_type>>(value, condition_operator);
-		} else if (key == "has_population_type") {
-			return std::make_unique<has_population_type_condition<scope_type>>(value, condition_operator);
-		} else if (key == "population_unit_count") {
-			return std::make_unique<population_unit_count_condition<scope_type>>(value, condition_operator);
 		}
 	}
 
 	if constexpr (std::is_same_v<scope_type, country> || std::is_same_v<scope_type, site>) {
-		if (key == "available_health") {
-			return std::make_unique<available_health_condition<scope_type>>(value, condition_operator);
-		} else if (key == "health") {
+		if (key == "health") {
 			return std::make_unique<health_condition<scope_type>>(value, condition_operator);
 		}
 	}
@@ -300,14 +262,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<near_water_condition<scope_type>>(value, condition_operator);
 		} else if (key == "provincial_capital") {
 			return std::make_unique<provincial_capital_condition<scope_type>>(value, condition_operator);
-		}
-	}
-
-	if constexpr (std::is_same_v<scope_type, country> || std::is_same_v<scope_type, population_unit> || std::is_same_v<scope_type, site> || std::is_same_v<scope_type, province>) {
-		if (key == "consciousness") {
-			return std::make_unique<consciousness_condition<scope_type>>(value, condition_operator);
-		} else if (key == "militancy") {
-			return std::make_unique<militancy_condition<scope_type>>(value, condition_operator);
 		}
 	}
 
@@ -369,10 +323,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_sc
 		} else if (tag == "any_neighbor_country") {
 			condition = std::make_unique<any_neighbor_country_condition>(condition_operator);
 		}
-	} else if constexpr (std::is_same_v<scope_type, population_unit>) {
-		if (tag == "settlement") {
-			condition = std::make_unique<settlement_condition>(condition_operator);
-		}
 	}
 
 	if constexpr (std::is_same_v<scope_type, country> || std::is_same_v<scope_type, province>) {
@@ -383,21 +333,13 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_sc
 		}
 	}
 
-	if constexpr (std::is_same_v<scope_type, country> || std::is_same_v<scope_type, province> || std::is_same_v<scope_type, site>) {
-		if (tag == "any_population_unit") {
-			condition = std::make_unique<any_population_unit_condition<scope_type>>(condition_operator);
-		}
-	}
-
-	if constexpr (std::is_same_v<scope_type, population_unit> || std::is_same_v<scope_type, site>) {
+	if constexpr (std::is_same_v<scope_type, site>) {
 		if (tag == "province") {
 			condition = std::make_unique<province_condition<scope_type>>(condition_operator);
 		}
 	}
 
-	if (tag == "any_global_population_unit") {
-		condition = std::make_unique<any_global_population_unit_condition<scope_type>>(condition_operator);
-	} else if (tag == "attacking_commander") {
+	if (tag == "attacking_commander") {
 		condition = std::make_unique<attacking_commander_condition<scope_type>>(condition_operator);
 	} else if (tag == "country") {
 		condition = std::make_unique<country_scope_condition<scope_type>>(condition_operator);
@@ -441,7 +383,7 @@ const country *condition<scope_type>::get_scope_country(const scope_type *scope)
 		return scope->get_game_data()->get_country();
 	} else if constexpr (std::is_same_v<scope_type, country>) {
 		return scope;
-	} else if constexpr (std::is_same_v<scope_type, military_unit> || std::is_same_v<scope_type, population_unit>) {
+	} else if constexpr (std::is_same_v<scope_type, military_unit>) {
 		return scope->get_country();
 	} else if constexpr (std::is_same_v<scope_type, province> || std::is_same_v<scope_type, site>) {
 		return scope->get_game_data()->get_owner();
@@ -451,9 +393,7 @@ const country *condition<scope_type>::get_scope_country(const scope_type *scope)
 template <typename scope_type>
 const province *condition<scope_type>::get_scope_province(const scope_type *scope)
 {
-	if constexpr (std::is_same_v<scope_type, population_unit>) {
-		return scope->get_province();
-	} else if constexpr (std::is_same_v<scope_type, province>) {
+	if constexpr (std::is_same_v<scope_type, province>) {
 		return scope;
 	} else if constexpr (std::is_same_v<scope_type, site>) {
 		return scope->get_game_data()->get_province();

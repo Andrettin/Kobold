@@ -148,7 +148,6 @@ private:
 
 extern template class effect<const character>;
 extern template class effect<const country>;
-extern template class effect<population_unit>;
 extern template class effect<const province>;
 extern template class effect<const site>;
 

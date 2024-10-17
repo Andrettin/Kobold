@@ -4,7 +4,6 @@
 #include "database/named_data_entry.h"
 #include "infrastructure/building_class_container.h"
 #include "language/name_variant.h"
-#include "population/population_class_container.h"
 #include "unit/civilian_unit_class_container.h"
 #include "unit/military_unit_class_container.h"
 #include "unit/transporter_class_container.h"
@@ -28,7 +27,6 @@ class government_group;
 class government_type;
 class military_unit_type;
 class phenotype;
-class population_type;
 class transporter_type;
 enum class country_tier;
 
@@ -84,18 +82,6 @@ public:
 		}
 
 		this->building_class_types[building_class] = building_type;
-	}
-
-	const population_type *get_population_class_type(const population_class *population_class) const;
-
-	void set_population_class_type(const population_class *population_class, const population_type *population_type)
-	{
-		if (population_type == nullptr) {
-			this->population_class_types.erase(population_class);
-			return;
-		}
-
-		this->population_class_types[population_class] = population_type;
 	}
 
 	const civilian_unit_type *get_civilian_class_unit_type(const civilian_unit_class *unit_class) const;
@@ -162,7 +148,6 @@ private:
 	title_name_map title_names;
 	ruler_title_name_map ruler_title_names;
 	building_class_map<const building_type *> building_class_types;
-	population_class_map<const population_type *> population_class_types;
 	civilian_unit_class_map<const civilian_unit_type *> civilian_class_unit_types;
 	military_unit_class_map<const military_unit_type *> military_class_unit_types;
 	transporter_class_map<const transporter_type *> transporter_class_types;

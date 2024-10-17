@@ -7,7 +7,6 @@
 #include "database/gsml_data.h"
 #include "map/province.h"
 #include "map/site.h"
-#include "population/population_unit.h"
 #include "util/assert_util.h"
 
 namespace kobold {

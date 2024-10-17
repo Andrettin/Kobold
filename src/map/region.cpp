@@ -3,7 +3,6 @@
 #include "map/region.h"
 
 #include "map/province.h"
-#include "map/region_history.h"
 #include "map/site.h"
 #include "util/vector_util.h"
 
@@ -37,16 +36,6 @@ void region::initialize()
 	}
 
 	named_data_entry::initialize();
-}
-
-data_entry_history *region::get_history_base()
-{
-	return this->history.get();
-}
-
-void region::reset_history()
-{
-	this->history = make_qunique<region_history>(this);
 }
 
 void region::add_province(province *province)

@@ -11,7 +11,6 @@ namespace kobold {
 
 class character;
 class country;
-class population_unit;
 class province;
 class site;
 
@@ -46,7 +45,6 @@ private:
 
 extern template class factor<character>;
 extern template class factor<country>;
-extern template class factor<population_unit>;
 extern template class factor<province>;
 extern template class factor<site>;
 

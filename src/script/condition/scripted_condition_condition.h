@@ -17,8 +17,6 @@ public:
 			return country_scripted_condition::get(identifier);
 		} else if constexpr (std::is_same_v<scope_type, military_unit>) {
 			return military_unit_scripted_condition::get(identifier);
-		} else if constexpr (std::is_same_v<scope_type, population_unit>) {
-			return population_unit_scripted_condition::get(identifier);
 		} else if constexpr (std::is_same_v<scope_type, province>) {
 			return province_scripted_condition::get(identifier);
 		} else if constexpr (std::is_same_v<scope_type, site>) {

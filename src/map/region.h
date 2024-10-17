@@ -7,7 +7,6 @@
 namespace kobold {
 
 class province;
-class region_history;
 
 class region final : public named_data_entry, public data_type<region>
 {
@@ -27,14 +26,6 @@ public:
 	~region();
 
 	virtual void initialize() override;
-	virtual data_entry_history *get_history_base() override;
-
-	region_history *get_history() const
-	{
-		return this->history.get();
-	}
-
-	virtual void reset_history() override;
 
 	bool is_ocean() const
 	{
@@ -77,7 +68,6 @@ private:
 	std::vector<province *> provinces; //provinces located in the region
 	std::vector<region *> subregions; //subregions of this region
 	std::vector<region *> superregions; //regions for which this region is a subregion
-	qunique_ptr<region_history> history;
 };
 
 }

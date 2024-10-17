@@ -27,10 +27,6 @@
 #include "map/site.h"
 #include "map/site_map_data.h"
 #include "map/tile.h"
-#include "population/population.h"
-#include "population/population_type.h"
-#include "population/population_unit.h"
-#include "population/profession.h"
 #include "script/condition/and_condition.h"
 #include "script/context.h"
 #include "script/effect/effect_list.h"
@@ -59,113 +55,11 @@ site_game_data::site_game_data(const kobold::site *site) : site(site)
 	} else {
 		this->set_resource_discovered(true);
 	}
-
-	this->population = make_qunique<kobold::population>();
-	connect(this->get_population(), &population::type_count_changed, this, &site_game_data::on_population_type_count_changed);
-	connect(this->get_population(), &population::main_culture_changed, this, &site_game_data::on_population_main_culture_changed);
-	connect(this->get_population(), &population::main_religion_changed, this, &site_game_data::on_population_main_religion_changed);
-	if (this->get_province() != nullptr) {
-		this->get_population()->add_upper_population(this->get_province()->get_game_data()->get_population());
-	}
 }
 
 void site_game_data::do_turn()
 {
-	for (const qunique_ptr<population_unit> &population_unit : this->population_units) {
-		population_unit->do_turn();
-	}
-
 	this->decrement_scripted_modifiers();
-}
-
-void site_game_data::do_everyday_consumption()
-{
-	std::vector<population_unit *> shuffled_population_units;
-	for (const qunique_ptr<population_unit> &population_unit : this->get_population_units()) {
-		shuffled_population_units.push_back(population_unit.get());
-	}
-	vector::shuffle(shuffled_population_units);
-
-	std::vector<population_unit *> population_units;
-	for (population_unit *population_unit : shuffled_population_units) {
-		if (population_unit->is_everyday_consumption_fulfilled()) {
-			population_units.push_back(population_unit);
-		} else {
-			population_units.insert(population_units.begin(), population_unit);
-		}
-	}
-
-	for (const auto &[commodity, consumption] : this->local_everyday_consumption) {
-		assert_throw(commodity->is_local());
-		assert_throw(!commodity->is_storable());
-
-		const int effective_consumption = std::min(consumption.to_int(), this->is_provincial_capital() ? this->get_province()->get_game_data()->get_local_commodity_output(commodity).to_int() : this->get_commodity_output(commodity).to_int());
-
-		centesimal_int remaining_consumption(consumption.to_int() - effective_consumption);
-		if (remaining_consumption == 0) {
-			continue;
-		}
-
-		//go through population units belonging to the settlement in random order, and cause the effects of them not being able to have their consumption fulfilled
-		for (population_unit *population_unit : population_units) {
-			const centesimal_int pop_consumption = population_unit->get_type()->get_everyday_consumption(commodity);
-			if (pop_consumption == 0) {
-				continue;
-			}
-
-			population_unit->set_everyday_consumption_fulfilled(false);
-			remaining_consumption -= pop_consumption;
-
-			if (remaining_consumption <= 0) {
-				break;
-			}
-		}
-	}
-}
-
-void site_game_data::do_luxury_consumption()
-{
-	std::vector<population_unit *> shuffled_population_units;
-	for (const qunique_ptr<population_unit> &population_unit : this->get_population_units()) {
-		shuffled_population_units.push_back(population_unit.get());
-	}
-	vector::shuffle(shuffled_population_units);
-
-	std::vector<population_unit *> population_units;
-	for (population_unit *population_unit : shuffled_population_units) {
-		if (population_unit->is_luxury_consumption_fulfilled()) {
-			population_units.push_back(population_unit);
-		} else {
-			population_units.insert(population_units.begin(), population_unit);
-		}
-	}
-
-	for (const auto &[commodity, consumption] : this->local_luxury_consumption) {
-		assert_throw(commodity->is_local());
-		assert_throw(!commodity->is_storable());
-
-		const int effective_consumption = std::min(consumption.to_int(), this->is_provincial_capital() ? this->get_province()->get_game_data()->get_local_commodity_output(commodity).to_int() : this->get_commodity_output(commodity).to_int());
-
-		centesimal_int remaining_consumption(consumption.to_int() - effective_consumption);
-		if (remaining_consumption == 0) {
-			continue;
-		}
-
-		//go through population units belonging to the settlement in random order, and cause the effects of them not being able to have their consumption fulfilled
-		for (population_unit *population_unit : population_units) {
-			const centesimal_int pop_consumption = population_unit->get_type()->get_luxury_consumption(commodity);
-			if (pop_consumption == 0) {
-				continue;
-			}
-
-			population_unit->set_luxury_consumption_fulfilled(false);
-			remaining_consumption -= pop_consumption;
-
-			if (remaining_consumption <= 0) {
-				break;
-			}
-		}
-	}
 }
 
 const QPoint &site_game_data::get_tile_pos() const
@@ -258,8 +152,6 @@ void site_game_data::set_owner(const country *owner)
 		}
 
 		if (this->site->is_settlement()) {
-			this->population->remove_upper_population(old_owner->get_game_data()->get_population());
-
 			for (const auto &[commodity, bonus] : old_owner->get_game_data()->get_settlement_commodity_bonuses()) {
 				this->change_base_commodity_output(commodity, -bonus);
 			}
@@ -288,10 +180,6 @@ void site_game_data::set_owner(const country *owner)
 
 	this->owner = owner;
 
-	for (const qunique_ptr<population_unit> &population_unit : this->get_population_units()) {
-		population_unit->set_country(owner);
-	}
-
 	if (this->get_owner() != nullptr) {
 		for (const auto &[commodity, output] : this->get_commodity_outputs()) {
 			if (commodity->is_local()) {
@@ -312,8 +200,6 @@ void site_game_data::set_owner(const country *owner)
 		}
 
 		if (this->site->is_settlement()) {
-			this->population->add_upper_population(this->get_owner()->get_game_data()->get_population());
-
 			for (const auto &[commodity, bonus] : this->get_owner()->get_game_data()->get_settlement_commodity_bonuses()) {
 				this->change_base_commodity_output(commodity, bonus);
 			}
@@ -364,17 +250,6 @@ void site_game_data::set_culture(const kobold::culture *culture)
 	emit culture_changed();
 }
 
-void site_game_data::on_population_main_culture_changed(const kobold::culture *culture)
-{
-	if (culture != nullptr) {
-		this->set_culture(culture);
-	} else if (this->get_province() != nullptr) {
-		this->set_culture(this->get_province()->get_game_data()->get_culture());
-	} else {
-		this->set_culture(nullptr);
-	}
-}
-
 void site_game_data::set_religion(const kobold::religion *religion)
 {
 	if (religion == this->get_religion()) {
@@ -390,17 +265,6 @@ void site_game_data::set_religion(const kobold::religion *religion)
 	}
 
 	emit religion_changed();
-}
-
-void site_game_data::on_population_main_religion_changed(const kobold::religion *religion)
-{
-	if (religion != nullptr) {
-		this->set_religion(religion);
-	} else if (this->get_province() != nullptr) {
-		this->set_religion(this->get_province()->get_game_data()->get_religion());
-	} else {
-		this->set_religion(nullptr);
-	}
 }
 
 void site_game_data::set_settlement_type(const kobold::settlement_type *settlement_type)
@@ -965,12 +829,7 @@ void site_game_data::on_wonder_gained(const wonder *wonder, const int multiplier
 void site_game_data::on_improvement_gained(const improvement *improvement, const int multiplier)
 {
 	if (improvement->get_output_commodity() != nullptr) {
-		if (improvement->get_employment_profession() != nullptr) {
-			assert_throw(improvement->get_slot() == improvement_slot::resource);
-			this->change_employment_capacity(improvement->get_employment_capacity() * multiplier);
-		} else {
-			this->change_base_commodity_output(improvement->get_output_commodity(), centesimal_int(improvement->get_output_multiplier()) * multiplier);
-		}
+		this->change_base_commodity_output(improvement->get_output_commodity(), centesimal_int(improvement->get_output_multiplier()) * multiplier);
 	}
 
 	if (this->get_province() != nullptr && this->get_resource() != nullptr && improvement->get_slot() == improvement_slot::resource) {
@@ -1048,111 +907,6 @@ void site_game_data::decrement_scripted_modifiers()
 	for (const scripted_site_modifier *modifier : modifiers_to_remove) {
 		this->remove_scripted_modifier(modifier);
 	}
-}
-
-void site_game_data::add_population_unit(qunique_ptr<population_unit> &&population_unit)
-{
-	this->get_population()->on_population_unit_gained(population_unit.get());
-
-	this->population_units.push_back(std::move(population_unit));
-
-	if (this->is_capital()) {
-		//recalculate commodity outputs, because there could be a capital commodity population bonus
-		this->calculate_commodity_outputs();
-	}
-
-	if (game::get()->is_running()) {
-		emit population_units_changed();
-	}
-}
-
-qunique_ptr<population_unit> site_game_data::pop_population_unit(population_unit *population_unit)
-{
-	for (size_t i = 0; i < this->population_units.size();) {
-		if (this->population_units[i].get() == population_unit) {
-			qunique_ptr<kobold::population_unit> population_unit_unique_ptr = std::move(this->population_units[i]);
-			this->population_units.erase(this->population_units.begin() + i);
-
-			population_unit->set_employment_location(nullptr);
-			population_unit->set_settlement(nullptr);
-
-			this->get_population()->on_population_unit_lost(population_unit);
-
-			if (this->is_capital()) {
-				//recalculate commodity outputs, because there could be a capital commodity population bonus
-				this->calculate_commodity_outputs();
-			}
-
-			if (game::get()->is_running()) {
-				emit population_units_changed();
-			}
-
-			return population_unit_unique_ptr;
-		} else {
-			++i;
-		}
-	}
-
-	assert_throw(false);
-
-	return nullptr;
-}
-
-void site_game_data::clear_population_units()
-{
-	this->population_units.clear();
-}
-
-void site_game_data::create_population_unit(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const phenotype *phenotype)
-{
-	assert_throw(this->site->is_settlement());
-	assert_throw(this->is_built());
-
-	auto population_unit = make_qunique<kobold::population_unit>(type, culture, religion, phenotype, this->site);
-	this->get_province()->get_game_data()->add_population_unit(population_unit.get());
-
-	this->add_population_unit(std::move(population_unit));
-}
-
-void site_game_data::on_population_type_count_changed(const population_type *type, const int change)
-{
-	if (type->get_output_commodity() != nullptr) {
-		this->change_base_commodity_output(type->get_output_commodity(), centesimal_int(type->get_output_value()) * change);
-	}
-
-	for (const auto &[commodity, value] : type->get_everyday_consumption()) {
-		if (commodity->is_local()) {
-			this->change_local_everyday_consumption(commodity, value * change);
-		}
-	}
-
-	for (const auto &[commodity, value] : type->get_luxury_consumption()) {
-		if (commodity->is_local()) {
-			this->change_local_luxury_consumption(commodity, value * change);
-		}
-	}
-}
-
-const site *site_game_data::get_employment_site() const
-{
-	return this->site;
-}
-
-const profession *site_game_data::get_employment_profession() const
-{
-	const improvement *resource_improvement = this->get_resource_improvement();
-
-	if (resource_improvement != nullptr) {
-		return resource_improvement->get_employment_profession();
-	}
-
-	return nullptr;
-}
-
-int site_game_data::get_employment_output_multiplier() const
-{
-	assert_throw(this->get_resource_improvement() != nullptr);
-	return this->get_resource_improvement()->get_output_multiplier();
 }
 
 void site_game_data::change_health(const centesimal_int &change)
@@ -1238,17 +992,9 @@ void site_game_data::calculate_commodity_outputs()
 	commodity_map<centesimal_int> commodity_output_modifiers = this->get_commodity_output_modifiers();
 
 	if (this->get_owner() != nullptr) {
-		for (const auto &[commodity, value] : this->get_owner()->get_game_data()->get_commodity_bonuses_per_population()) {
-			outputs[commodity] += (value * this->get_population_unit_count());
-		}
-
 		if (this->is_capital()) {
 			for (const auto &[commodity, value] : this->get_owner()->get_game_data()->get_capital_commodity_bonuses()) {
 				outputs[commodity] += value;
-			}
-
-			for (const auto &[commodity, value] : this->get_owner()->get_game_data()->get_capital_commodity_bonuses_per_population()) {
-				outputs[commodity] += (value * this->get_population_unit_count());
 			}
 
 			for (const auto &[commodity, modifier] : this->get_owner()->get_game_data()->get_capital_commodity_output_modifiers()) {

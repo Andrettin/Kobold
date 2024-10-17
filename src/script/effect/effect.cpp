@@ -12,19 +12,16 @@
 #include "map/province_game_data.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
-#include "population/population_unit.h"
 #include "script/effect/add_building_class_effect.h"
 #include "script/effect/add_improvement_effect.h"
 #include "script/effect/any_known_country_effect.h"
 #include "script/effect/any_neighbor_country_effect.h"
-#include "script/effect/any_population_unit_effect.h"
 #include "script/effect/battle_effect.h"
 #include "script/effect/capital_effect.h"
 #include "script/effect/change_opinion_effect.h"
 #include "script/effect/clear_flag_effect.h"
 #include "script/effect/commodity_effect.h"
 #include "script/effect/commodity_percent_effect.h"
-#include "script/effect/consciousness_effect.h"
 #include "script/effect/country_effect.h"
 #include "script/effect/create_military_unit_effect.h"
 #include "script/effect/create_transporter_effect.h"
@@ -36,13 +33,9 @@
 #include "script/effect/if_effect.h"
 #include "script/effect/inflation_effect.h"
 #include "script/effect/location_effect.h"
-#include "script/effect/migrate_to_effect.h"
-#include "script/effect/militancy_effect.h"
 #include "script/effect/opinion_modifiers_effect.h"
 #include "script/effect/policy_effect.h"
-#include "script/effect/population_scaled_commodity_effect.h"
 #include "script/effect/random_effect.h"
-#include "script/effect/random_global_population_unit_effect.h"
 #include "script/effect/random_known_country_effect.h"
 #include "script/effect/random_list_effect.h"
 #include "script/effect/random_neighbor_country_effect.h"
@@ -74,7 +67,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 		}
 	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string percent_suffix = "_percent";
-		static const std::string population_scaled_commodity_prefix = "population_scaled_";
 
 		if (key == "clear_flag") {
 			return std::make_unique<clear_flag_effect>(value, effect_operator);
@@ -98,20 +90,9 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 			return std::make_unique<commodity_effect>(commodity::get(key), value, effect_operator);
 		} else if (policy::try_get(key) != nullptr) {
 			return std::make_unique<policy_effect>(policy::get(key), value, effect_operator);
-		} else if (key.starts_with(population_scaled_commodity_prefix) && commodity::try_get(key.substr(population_scaled_commodity_prefix.size(), key.size() - population_scaled_commodity_prefix.size())) != nullptr) {
-			const commodity *commodity = commodity::get(key.substr(population_scaled_commodity_prefix.size(), key.size() - population_scaled_commodity_prefix.size()));
-			return std::make_unique<population_scaled_commodity_effect>(commodity, value, effect_operator);
 		} else if (key.ends_with(percent_suffix) && commodity::try_get(key.substr(0, key.size() - percent_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - percent_suffix.size()));
 			return std::make_unique<commodity_percent_effect>(commodity, value, effect_operator);
-		}
-	} else if constexpr (std::is_same_v<scope_type, population_unit>) {
-		if (key == "consciousness") {
-			return std::make_unique<consciousness_effect>(value, effect_operator);
-		} else if (key == "migrate_to") {
-			return std::make_unique<migrate_to_effect>(value, effect_operator);
-		} else if (key == "militancy") {
-			return std::make_unique<militancy_effect>(value, effect_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (key == "add_building_class") {
@@ -198,12 +179,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 		}
 	}
 
-	if constexpr (std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
-		if (effect_identifier == "any_population_unit") {
-			effect = std::make_unique<any_population_unit_effect<scope_type>>(effect_operator);
-		}
-	}
-
 	if (effect_identifier == "country") {
 		effect = std::make_unique<country_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "hidden") {
@@ -212,16 +187,12 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 		effect = std::make_unique<if_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "random") {
 		effect = std::make_unique<random_effect<scope_type>>(effect_operator);
-	} else if (effect_identifier == "random_global_population_unit") {
-		effect = std::make_unique<random_global_population_unit_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "random_list") {
 		effect = std::make_unique<random_list_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "saved_character_scope") {
 		effect = std::make_unique<saved_scope_effect<scope_type, const character>>(effect_operator);
 	} else if (effect_identifier == "saved_country_scope") {
 		effect = std::make_unique<saved_scope_effect<scope_type, const country>>(effect_operator);
-	} else if (effect_identifier == "saved_population_unit_scope") {
-		effect = std::make_unique<saved_scope_effect<scope_type, population_unit>>(effect_operator);
 	} else if (effect_identifier == "saved_province_scope") {
 		effect = std::make_unique<saved_scope_effect<scope_type, const province>>(effect_operator);
 	} else if (effect_identifier == "saved_site_scope") {
@@ -248,8 +219,6 @@ const country *effect<scope_type>::get_scope_country(const scope_type *scope)
 		return scope->get_game_data()->get_country();
 	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		return scope;
-	} else if constexpr (std::is_same_v<scope_type, population_unit>) {
-		return scope->get_country();
 	} else if constexpr (std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
 		return scope->get_game_data()->get_owner();
 	}
@@ -348,7 +317,6 @@ std::string effect<scope_type>::get_string(const scope_type *scope, const read_o
 
 template class effect<const character>;
 template class effect<const country>;
-template class effect<population_unit>;
 template class effect<const province>;
 template class effect<const site>;
 

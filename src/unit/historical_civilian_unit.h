@@ -9,7 +9,6 @@ Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("population/phenotype.h")
-Q_MOC_INCLUDE("population/population_type.h")
 Q_MOC_INCLUDE("unit/civilian_unit_type.h")
 
 namespace kobold {
@@ -19,7 +18,6 @@ class country;
 class culture;
 class historical_civilian_unit_history;
 class phenotype;
-class population_type;
 class religion;
 class site;
 
@@ -30,7 +28,6 @@ class historical_civilian_unit final : public named_data_entry, public data_type
 	Q_PROPERTY(kobold::civilian_unit_type* type MEMBER type)
 	Q_PROPERTY(kobold::country* owner MEMBER owner)
 	Q_PROPERTY(kobold::site* home_settlement MEMBER home_settlement)
-	Q_PROPERTY(kobold::population_type* population_type MEMBER population_type)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype)
@@ -69,11 +66,6 @@ public:
 		return this->home_settlement;
 	}
 
-	const kobold::population_type *get_population_type() const
-	{
-		return this->population_type;
-	}
-
 	const kobold::culture *get_culture() const
 	{
 		return this->culture;
@@ -93,7 +85,6 @@ private:
 	civilian_unit_type *type = nullptr;
 	country *owner = nullptr;
 	site *home_settlement = nullptr;
-	kobold::population_type *population_type = nullptr;
 	kobold::culture *culture = nullptr;
 	kobold::religion *religion = nullptr;
 	kobold::phenotype *phenotype = nullptr;

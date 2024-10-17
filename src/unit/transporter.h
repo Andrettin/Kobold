@@ -12,7 +12,6 @@ class country;
 class culture;
 class icon;
 class phenotype;
-class population_type;
 class religion;
 class site;
 class transporter_type;
@@ -29,7 +28,7 @@ class transporter final : public QObject
 	Q_PROPERTY(const kobold::country* country READ get_country CONSTANT)
 
 public:
-	explicit transporter(const transporter_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
+	explicit transporter(const transporter_type *type, const kobold::country *country, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
 
 	void do_turn();
 
@@ -71,11 +70,6 @@ public:
 	const kobold::country *get_country() const
 	{
 		return this->country;
-	}
-
-	const kobold::population_type *get_population_type() const
-	{
-		return this->population_type;
 	}
 
 	const kobold::culture *get_culture() const
@@ -202,7 +196,6 @@ private:
 	std::string name;
 	const transporter_type *type = nullptr;
 	const kobold::country *country = nullptr;
-	const kobold::population_type *population_type = nullptr;
 	const kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;

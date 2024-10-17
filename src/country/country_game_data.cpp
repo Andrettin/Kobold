@@ -60,9 +60,6 @@
 #include "map/terrain_type.h"
 #include "map/tile.h"
 #include "population/phenotype.h"
-#include "population/population.h"
-#include "population/population_type.h"
-#include "population/population_unit.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/factor.h"
@@ -121,9 +118,6 @@ country_game_data::country_game_data(kobold::country *country)
 			this->add_tradeable_commodity(commodity);
 		}
 	}
-
-	this->population = make_qunique<kobold::population>();
-	connect(this->get_population(), &population::type_count_changed, this, &country_game_data::on_population_type_count_changed);
 }
 
 country_game_data::~country_game_data()
@@ -139,11 +133,7 @@ void country_game_data::do_turn()
 
 		this->do_production();
 		this->do_research();
-		this->do_population_growth();
-		this->do_everyday_consumption();
-		this->do_luxury_consumption();
 		this->do_construction();
-		this->do_cultural_change();
 
 		for (const qunique_ptr<civilian_unit> &civilian_unit : this->civilian_units) {
 			civilian_unit->do_turn();
@@ -278,40 +268,6 @@ void country_game_data::do_research()
 	}
 }
 
-void country_game_data::do_population_growth()
-{
-	try {
-		if (this->get_food_consumption() == 0) {
-			this->set_population_growth(0);
-			return;
-		}
-
-		const int available_food = this->get_available_food();
-		const int available_health = std::max(0, this->get_available_health().to_int());
-
-		int food_consumption = this->get_net_food_consumption();
-
-		const int population_growth_change = std::min(available_food, available_health);
-		this->change_population_growth(population_growth_change);
-
-		if (population_growth_change > 0) {
-			//food consumed for population growth
-			food_consumption += population_growth_change;
-		}
-		this->do_food_consumption(food_consumption);
-
-		while (this->get_population_growth() >= defines::get()->get_population_growth_threshold()) {
-			this->grow_population();
-		}
-
-		if (this->get_population_growth() < 0) {
-			this->do_starvation();
-		}
-	} catch (...) {
-		std::throw_with_nested(std::runtime_error(std::format("Error doing population growth for country \"{}\".", this->country->get_identifier())));
-	}
-}
-
 void country_game_data::do_food_consumption(const int food_consumption)
 {
 	int remaining_food_consumption = food_consumption;
@@ -329,249 +285,6 @@ void country_game_data::do_food_consumption(const int food_consumption)
 			if (remaining_food_consumption == 0) {
 				break;
 			}
-		}
-	}
-}
-
-void country_game_data::do_starvation()
-{
-	int starvation_count = 0;
-
-	while (this->get_population_growth() < 0) {
-		//starvation
-		this->decrease_population();
-		++starvation_count;
-
-		if (this->get_food_consumption() == 0) {
-			this->set_population_growth(0);
-			break;
-		}
-	}
-
-	if (starvation_count > 0 && this->country == game::get()->get_player_country()) {
-		const bool plural = starvation_count > 1;
-
-		const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-		engine_interface::get()->add_notification("Starvation", interior_minister_portrait, std::format("Your Excellency, I regret to inform you that {} {} of our population {} starved to death.", number::to_formatted_string(starvation_count), (plural ? "units" : "unit"), (plural ? "have" : "has")));
-	}
-}
-
-void country_game_data::do_everyday_consumption()
-{
-	if (this->get_population_units().empty()) {
-		return;
-	}
-
-	const std::vector<population_unit *> population_units = vector::shuffled(this->get_population_units());
-
-	for (population_unit *population_unit : population_units) {
-		population_unit->set_everyday_consumption_fulfilled(true);
-	}
-
-	const int inflated_everyday_wealth_consumption = this->get_inflated_value(this->get_everyday_wealth_consumption());
-
-	if (inflated_everyday_wealth_consumption > 0) {
-		const int effective_consumption = std::max(0, std::min(inflated_everyday_wealth_consumption, this->get_wealth_with_credit()));
-
-		if (effective_consumption > 0) {
-			this->change_wealth(-effective_consumption);
-
-			for (const auto &[population_type, count] : this->get_population()->get_type_counts()) {
-				if (population_type->get_everyday_wealth_consumption() == 0) {
-					continue;
-				}
-
-				const int population_type_consumption = this->get_inflated_value(population_type->get_everyday_wealth_consumption() * count);
-				this->country->get_turn_data()->add_expense_transaction(expense_transaction_type::population_upkeep, population_type_consumption, population_type, count);
-			}
-
-			int remaining_consumption = inflated_everyday_wealth_consumption - effective_consumption;
-			if (remaining_consumption != 0) {
-				for (population_unit *population_unit : population_units) {
-					const int pop_consumption = this->get_inflated_value(population_unit->get_type()->get_everyday_wealth_consumption());
-					if (pop_consumption == 0) {
-						continue;
-					}
-
-					population_unit->set_everyday_consumption_fulfilled(false);
-					const int remaining_consumption_change = std::min(remaining_consumption, pop_consumption);
-					remaining_consumption -= remaining_consumption_change;
-
-					this->country->get_turn_data()->add_expense_transaction(expense_transaction_type::population_upkeep, -remaining_consumption_change, population_unit->get_type(), -1);
-
-					if (remaining_consumption <= 0) {
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	for (const auto &[commodity, consumption] : this->get_everyday_consumption()) {
-		//local consumption is handled separately
-		assert_throw(!commodity->is_local());
-
-		int effective_consumption = 0;
-
-		if (commodity->is_storable()) {
-			effective_consumption = std::min(consumption.to_int(), this->get_stored_commodity(commodity));
-			this->change_stored_commodity(commodity, -effective_consumption);
-		} else {
-			effective_consumption = std::min(consumption.to_int(), this->get_net_commodity_output(commodity));
-		}
-
-		centesimal_int remaining_consumption(consumption.to_int() - effective_consumption);
-		if (remaining_consumption == 0) {
-			continue;
-		}
-
-		//go through population units belonging to the country in random order, set whether their consumption was fulfilled
-		for (population_unit *population_unit : population_units) {
-			const centesimal_int pop_consumption = population_unit->get_type()->get_everyday_consumption(commodity);
-			if (pop_consumption == 0) {
-				continue;
-			}
-
-			population_unit->set_everyday_consumption_fulfilled(false);
-			remaining_consumption -= pop_consumption;
-
-			if (remaining_consumption <= 0) {
-				break;
-			}
-		}
-	}
-
-	for (const province *province : this->get_provinces()) {
-		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-			if (!settlement->get_game_data()->is_built()) {
-				continue;
-			}
-
-			settlement->get_game_data()->do_everyday_consumption();
-		}
-	}
-
-	static const centesimal_int militancy_change_for_unfulfilled_consumption("0.1");
-	static const centesimal_int militancy_change_for_fulfilled_consumption("-0.1");
-
-	for (population_unit *population_unit : population_units) {
-		if (population_unit->is_everyday_consumption_fulfilled()) {
-			population_unit->change_militancy(militancy_change_for_fulfilled_consumption);
-		} else {
-			population_unit->change_militancy(militancy_change_for_unfulfilled_consumption);
-		}
-	}
-
-	//FIXME: make population units which couldn't have their consumption fulfilled be unhappy/refuse to work for the turn (and possibly demote when demotion is implemented)
-}
-
-void country_game_data::do_luxury_consumption()
-{
-	if (this->get_population_units().empty()) {
-		return;
-	}
-
-	const std::vector<population_unit *> population_units = vector::shuffled(this->get_population_units());
-
-	for (population_unit *population_unit : population_units) {
-		population_unit->set_luxury_consumption_fulfilled(true);
-	}
-
-	for (const auto &[commodity, consumption] : this->get_luxury_consumption()) {
-		//local consumption is handled separately
-		assert_throw(!commodity->is_local());
-
-		int effective_consumption = 0;
-
-		if (commodity->is_storable()) {
-			effective_consumption = std::min(consumption.to_int(), this->get_stored_commodity(commodity));
-			this->change_stored_commodity(commodity, -effective_consumption);
-		} else {
-			effective_consumption = std::min(consumption.to_int(), this->get_net_commodity_output(commodity));
-		}
-
-		centesimal_int remaining_consumption(consumption.to_int() - effective_consumption);
-		if (remaining_consumption == 0) {
-			continue;
-		}
-
-		//go through population units belonging to the country in random order, set whether their consumption was fulfilled
-		for (population_unit *population_unit : population_units) {
-			const centesimal_int pop_consumption = population_unit->get_type()->get_luxury_consumption(commodity);
-			if (pop_consumption == 0) {
-				continue;
-			}
-
-			population_unit->set_luxury_consumption_fulfilled(false);
-			remaining_consumption -= pop_consumption;
-
-			if (remaining_consumption <= 0) {
-				break;
-			}
-		}
-	}
-
-	for (const province *province : this->get_provinces()) {
-		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-			if (!settlement->get_game_data()->is_built()) {
-				continue;
-			}
-
-			settlement->get_game_data()->do_luxury_consumption();
-		}
-	}
-
-	static const centesimal_int consciousness_change_for_fulfilled_consumption("0.1");
-	static const centesimal_int militancy_change_for_fulfilled_consumption("-0.2");
-
-	for (population_unit *population_unit : population_units) {
-		if (population_unit->is_luxury_consumption_fulfilled()) {
-			population_unit->change_consciousness(consciousness_change_for_fulfilled_consumption);
-			population_unit->change_militancy(militancy_change_for_fulfilled_consumption);
-		}
-	}
-}
-
-void country_game_data::do_cultural_change()
-{
-	static constexpr int base_cultural_derivation_chance = 1;
-
-	for (population_unit *population_unit : this->population_units) {
-		const kobold::culture *current_culture = population_unit->get_culture();
-
-		std::vector<const kobold::culture *> potential_cultures;
-
-		const read_only_context ctx(population_unit);
-
-		for (const kobold::culture *culture : current_culture->get_derived_cultures()) {
-			if (culture->get_derivation_conditions() != nullptr && !culture->get_derivation_conditions()->check(population_unit, ctx)) {
-				continue;
-			}
-
-			potential_cultures.push_back(culture);
-		}
-
-		if (potential_cultures.empty()) {
-			continue;
-		}
-
-		vector::shuffle(potential_cultures);
-
-		for (const kobold::culture *culture : potential_cultures) {
-			int chance = base_cultural_derivation_chance;
-
-			if (this->country->get_culture() == culture) {
-				chance *= 2;
-			}
-
-			if (random::get()->generate(100) >= chance) {
-				continue;
-			}
-
-			const kobold::culture *new_culture = vector::get_random(potential_cultures);
-			population_unit->set_culture(new_culture);
-			break;
 		}
 	}
 }
@@ -836,9 +549,7 @@ void country_game_data::set_religion(const kobold::religion *religion)
 	this->religion = religion;
 
 	for (const province *province : this->get_provinces()) {
-		if (province->get_game_data()->get_population()->get_main_religion() == nullptr) {
-			province->get_game_data()->set_religion(this->get_religion());
-		}
+		province->get_game_data()->set_religion(this->get_religion());
 	}
 
 	if (game::get()->is_running()) {
@@ -2104,259 +1815,6 @@ void country_game_data::change_military_score(const int change)
 	this->military_score += change;
 
 	this->change_score(change);
-}
-
-const population_class *country_game_data::get_default_population_class() const
-{
-	if (this->is_tribal()) {
-		return defines::get()->get_default_tribal_population_class();
-	} else {
-		return defines::get()->get_default_population_class();
-	}
-}
-
-void country_game_data::add_population_unit(population_unit *population_unit)
-{
-	this->population_units.push_back(population_unit);
-
-	if (game::get()->is_running()) {
-		emit population_units_changed();
-	}
-}
-
-void country_game_data::remove_population_unit(population_unit *population_unit)
-{
-	std::erase(this->population_units, population_unit);
-
-	if (game::get()->is_running()) {
-		emit population_units_changed();
-	}
-}
-
-void country_game_data::on_population_type_count_changed(const population_type *type, const int change)
-{
-	this->change_everyday_wealth_consumption(type->get_everyday_wealth_consumption() * change);
-
-	for (const auto &[commodity, value] : type->get_everyday_consumption()) {
-		if (commodity->is_local()) {
-			//handled at the settlement level
-			continue;
-		}
-
-		this->change_everyday_consumption(commodity, value * change);
-	}
-
-	for (const auto &[commodity, value] : type->get_luxury_consumption()) {
-		if (commodity->is_local()) {
-			//handled at the settlement level
-			continue;
-		}
-
-		this->change_luxury_consumption(commodity, value * change);
-	}
-
-	//countries generate demand in the world market depending on population commodity demand
-	for (const auto &[commodity, value] : type->get_commodity_demands()) {
-		this->change_commodity_demand(commodity, value * change);
-	}
-
-	this->change_food_consumption(change);
-
-	if (type->get_country_modifier() != nullptr) {
-		const int population_type_count = this->get_population()->get_type_count(type);
-		const int old_population_type_count = population_type_count - change;
-		const centesimal_int &type_modifier_multiplier = this->get_population_type_modifier_multiplier(type);
-		const centesimal_int &max_total_modifier_multiplier = type->get_max_modifier_multiplier();
-
-		type->get_country_modifier()->apply(this->country, -centesimal_int::min(old_population_type_count * type_modifier_multiplier, max_total_modifier_multiplier));
-		type->get_country_modifier()->apply(this->country, centesimal_int::min(population_type_count * type_modifier_multiplier, max_total_modifier_multiplier));
-	}
-}
-
-void country_game_data::set_population_growth(const int growth)
-{
-	if (growth == this->get_population_growth()) {
-		return;
-	}
-
-	const int change = growth - this->get_population_growth();
-
-	this->population_growth = growth;
-
-	this->get_population()->change_size(change * defines::get()->get_population_per_unit() / defines::get()->get_population_growth_threshold());
-
-	if (game::get()->is_running()) {
-		emit population_growth_changed();
-	}
-}
-
-void country_game_data::grow_population()
-{
-	if (this->population_units.empty()) {
-		throw std::runtime_error("Tried to grow population in a country which has no pre-existing population.");
-	}
-
-	std::vector<population_unit *> potential_base_population_units = this->population_units;
-
-	std::erase_if(potential_base_population_units, [this](const population_unit *population_unit) {
-		if (population_unit->get_settlement()->get_game_data()->get_available_health() <= 0) {
-			return true;
-		}
-
-		return false;
-	});
-
-	if (potential_base_population_units.empty()) {
-		//this could happen if the settlements with available health have no population
-		potential_base_population_units = this->population_units;
-	}
-
-	assert_throw(!potential_base_population_units.empty());
-
-	const population_unit *population_unit = vector::get_random(potential_base_population_units);
-	const kobold::culture *culture = population_unit->get_culture();
-	const kobold::religion *religion = population_unit->get_religion();
-	const phenotype *phenotype = population_unit->get_phenotype();
-	const population_type *population_type = culture->get_population_class_type(this->get_default_population_class());
-
-	const site *settlement = population_unit->get_settlement();
-	if (settlement->get_game_data()->get_available_health() <= 0) {
-		//if the population unit's settlement has no available health, but there are empty settlements, grow the population in one of them
-		std::vector<const province *> potential_settlement_provinces = this->get_provinces();
-
-		std::erase_if(potential_settlement_provinces, [this](const province *province) {
-			if (province->get_provincial_capital()->get_game_data()->get_available_health() <= 0) {
-				return true;
-			}
-
-			return false;
-		});
-
-		assert_throw(!potential_settlement_provinces.empty());
-
-		settlement = vector::get_random(potential_settlement_provinces)->get_provincial_capital();
-	}
-
-	settlement->get_game_data()->create_population_unit(population_type, culture, religion, phenotype);
-
-	this->change_population_growth(-defines::get()->get_population_growth_threshold());
-}
-
-void country_game_data::decrease_population()
-{
-	//disband population unit, if possible
-	if (!this->population_units.empty()) {
-		population_unit *population_unit = this->choose_starvation_population_unit();
-		if (population_unit != nullptr) {
-			this->change_population_growth(1);
-			population_unit->get_province()->get_game_data()->remove_population_unit(population_unit);
-			population_unit->get_settlement()->get_game_data()->pop_population_unit(population_unit);
-			return;
-		}
-	}
-
-	//disband civilian unit, if possible
-	civilian_unit *best_civilian_unit = nullptr;
-
-	for (auto it = this->civilian_units.rbegin(); it != this->civilian_units.rend(); ++it) {
-		civilian_unit *civilian_unit = it->get();
-
-		if (civilian_unit->get_character() != nullptr) {
-			//character civilian units do not cost food, so disbanding them does nothing to help with starvation
-			continue;
-		}
-
-		if (
-			best_civilian_unit == nullptr
-			|| (best_civilian_unit->is_busy() && !civilian_unit->is_busy())
-		) {
-			best_civilian_unit = civilian_unit;
-		}
-	}
-
-	if (best_civilian_unit != nullptr) {
-		best_civilian_unit->disband(true);
-		this->change_population_growth(1);
-		return;
-	}
-
-	//disband military unit, if possible
-	for (auto it = this->military_units.rbegin(); it != this->military_units.rend(); ++it) {
-		military_unit *military_unit = it->get();
-
-		if (military_unit->get_character() != nullptr) {
-			//character military units do not cost food, so disbanding them does nothing to help with starvation
-			continue;
-		}
-
-		military_unit->disband(true);
-		this->change_population_growth(1);
-		return;
-	}
-
-	//disband transporter, if possible
-	for (auto it = this->transporters.rbegin(); it != this->transporters.rend(); ++it) {
-		transporter *transporter = it->get();
-
-		transporter->disband(true);
-		this->change_population_growth(1);
-		return;
-	}
-
-	assert_throw(false);
-}
-
-population_unit *country_game_data::choose_starvation_population_unit()
-{
-	std::vector<population_unit *> population_units;
-
-	for (population_unit *population_unit : this->get_population_units()) {
-		if (population_unit->get_settlement()->get_game_data()->get_population_unit_count() == 1) {
-			//do not remove a settlement's last population unit
-			continue;
-		}
-
-		if (
-			population_units.empty()
-			|| population_units.at(0)->is_food_producer() && !population_unit->is_food_producer()
-			|| (population_units.at(0)->is_food_producer() == population_unit->is_food_producer() && population_units.at(0)->get_type()->get_output_value() > population_unit->get_type()->get_output_value())
-		) {
-			population_units.clear();
-			population_units.push_back(population_unit);
-		} else if (population_units.at(0)->is_food_producer() == population_unit->is_food_producer() && population_units.at(0)->get_type()->get_output_value() == population_unit->get_type()->get_output_value()) {
-			population_units.push_back(population_unit);
-		}
-	}
-
-	if (population_units.empty()) {
-		return nullptr;
-	}
-
-	return vector::get_random(population_units);
-}
-
-const icon *country_game_data::get_population_type_small_icon(const population_type *type) const
-{
-	icon_map<int> icon_counts;
-
-	for (const auto &population_unit : this->population_units) {
-		if (population_unit->get_type() != type) {
-			continue;
-		}
-
-		++icon_counts[population_unit->get_small_icon()];
-	}
-
-	const icon *best_icon = nullptr;
-	int best_icon_count = 0;
-	for (const auto &[icon, count] : icon_counts) {
-		if (count > best_icon_count) {
-			best_icon = icon;
-			best_icon_count = count;
-		}
-	}
-
-	return best_icon;
 }
 
 int country_game_data::get_net_food_consumption() const
@@ -5382,39 +4840,6 @@ void country_game_data::change_building_commodity_bonus(const building_type *bui
 	}
 }
 
-void country_game_data::change_profession_commodity_bonus(const profession *profession, const commodity *commodity, const decimillesimal_int &change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	const decimillesimal_int &count = (this->profession_commodity_bonuses[profession][commodity] += change);
-
-	assert_throw(count >= 0);
-
-	if (count == 0) {
-		this->profession_commodity_bonuses[profession].erase(commodity);
-
-		if (this->profession_commodity_bonuses[profession].empty()) {
-			this->profession_commodity_bonuses.erase(profession);
-		}
-	}
-
-	for (const province *province : this->get_provinces()) {
-		for (employment_location *employment_location : province->get_game_data()->get_employment_locations()) {
-			if (employment_location->get_employee_count() == 0) {
-				continue;
-			}
-
-			if (employment_location->get_employment_profession() != profession) {
-				continue;
-			}
-
-			employment_location->calculate_total_employee_commodity_outputs();
-		}
-	}
-}
-
 void country_game_data::set_commodity_bonus_for_tile_threshold(const commodity *commodity, const int threshold, const int value)
 {
 	const int old_value = this->get_commodity_bonus_for_tile_threshold(commodity, threshold);
@@ -5435,31 +4860,6 @@ void country_game_data::set_commodity_bonus_for_tile_threshold(const commodity *
 
 	for (const province *province : this->get_provinces()) {
 		province->get_game_data()->change_commodity_bonus_for_tile_threshold(commodity, threshold, value - old_value);
-	}
-}
-
-void country_game_data::change_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	const centesimal_int count = (this->commodity_bonuses_per_population[commodity] += change);
-
-	assert_throw(count >= 0);
-
-	if (count == 0) {
-		this->commodity_bonuses_per_population.erase(commodity);
-	}
-
-	for (const province *province : this->get_provinces()) {
-		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-			if (!settlement->get_game_data()->is_built()) {
-				continue;
-			}
-
-			settlement->get_game_data()->calculate_commodity_outputs();
-		}
 	}
 }
 
@@ -5507,25 +4907,6 @@ void country_game_data::change_capital_commodity_bonus(const commodity *commodit
 	}
 }
 
-void country_game_data::change_capital_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	const centesimal_int count = (this->capital_commodity_bonuses_per_population[commodity] += change);
-
-	assert_throw(count >= 0);
-
-	if (count == 0) {
-		this->capital_commodity_bonuses_per_population.erase(commodity);
-	}
-
-	if (this->get_capital() != nullptr) {
-		this->get_capital()->get_game_data()->calculate_commodity_outputs();
-	}
-}
-
 void country_game_data::set_category_research_modifier(const technology_category category, const int value)
 {
 	if (value == this->get_category_research_modifier(category)) {
@@ -5536,44 +4917,6 @@ void country_game_data::set_category_research_modifier(const technology_category
 		this->category_research_modifiers.erase(category);
 	} else {
 		this->category_research_modifiers[category] = value;
-	}
-}
-
-void country_game_data::set_population_type_modifier_multiplier(const population_type *type, const centesimal_int &value)
-{
-	const centesimal_int old_value = this->get_population_type_modifier_multiplier(type);
-
-	if (value == old_value) {
-		return;
-	}
-
-	assert_throw(type->get_country_modifier() != nullptr);
-
-	if (value == 1) {
-		this->population_type_modifier_multipliers.erase(type);
-	} else {
-		this->population_type_modifier_multipliers[type] = value;
-	}
-
-	const int population_type_count = this->get_population()->get_type_count(type);
-	const centesimal_int &max_modifier_multiplier = type->get_max_modifier_multiplier();
-
-	type->get_country_modifier()->apply(this->country, -centesimal_int::min(population_type_count * old_value, max_modifier_multiplier));
-	type->get_country_modifier()->apply(this->country, centesimal_int::min(population_type_count * value, max_modifier_multiplier));
-}
-
-void country_game_data::set_population_type_militancy_modifier(const population_type *type, const centesimal_int &value)
-{
-	const centesimal_int old_value = this->get_population_type_militancy_modifier(type);
-
-	if (value == old_value) {
-		return;
-	}
-
-	if (value == 0) {
-		this->population_type_militancy_modifiers.erase(type);
-	} else {
-		this->population_type_militancy_modifiers[type] = value;
 	}
 }
 

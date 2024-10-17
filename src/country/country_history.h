@@ -28,7 +28,6 @@ class country_history final : public data_entry_history
 	Q_PROPERTY(kobold::country_tier tier MEMBER tier)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(kobold::character* ruler MEMBER ruler)
-	Q_PROPERTY(archimedes::centesimal_int literacy_rate MEMBER literacy_rate READ get_literacy_rate)
 	Q_PROPERTY(std::vector<const kobold::technology *> technologies READ get_technologies)
 	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
@@ -56,11 +55,6 @@ public:
 	const kobold::subject_type *get_subject_type() const
 	{
 		return this->subject_type;
-	}
-
-	const centesimal_int &get_literacy_rate() const
-	{
-		return this->literacy_rate;
 	}
 
 	const std::vector<const technology *> &get_technologies() const
@@ -121,7 +115,6 @@ private:
 	kobold::religion *religion = nullptr;
 	character *ruler = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
-	centesimal_int literacy_rate;
 	std::vector<const technology *> technologies;
 	std::vector<const tradition *> traditions;
 	int wealth = 0;

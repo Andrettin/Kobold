@@ -24,7 +24,7 @@ class country_turn_data final : public QObject
 	Q_PROPERTY(QVariantList expense_transactions READ get_expense_transactions_qvariant_list CONSTANT)
 
 public:
-	using transaction_object_variant = std::variant<std::nullptr_t, const commodity *, const population_type *>;
+	using transaction_object_variant = std::variant<std::nullptr_t, const commodity *>;
 
 	static inline const centesimal_int base_inflation_change = centesimal_int("0.5");
 
