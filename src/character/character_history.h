@@ -6,7 +6,7 @@ Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("map/province.h")
 Q_MOC_INCLUDE("map/site.h")
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;
@@ -17,16 +17,16 @@ class character_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::country* country MEMBER country)
-	Q_PROPERTY(metternich::province* deployment_province MEMBER deployment_province)
-	Q_PROPERTY(const metternich::site* deployment_site MEMBER deployment_site)
+	Q_PROPERTY(kobold::country* country MEMBER country)
+	Q_PROPERTY(kobold::province* deployment_province MEMBER deployment_province)
+	Q_PROPERTY(const kobold::site* deployment_site MEMBER deployment_site)
 
 public:
-	explicit character_history(const metternich::character *character) : character(character)
+	explicit character_history(const kobold::character *character) : character(character)
 	{
 	}
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
@@ -42,8 +42,8 @@ public:
 	}
 
 private:
-	const metternich::character *character = nullptr;
-	metternich::country *country = nullptr;
+	const kobold::character *character = nullptr;
+	kobold::country *country = nullptr;
 	province *deployment_province = nullptr;
 	const site *deployment_site = nullptr;
 };

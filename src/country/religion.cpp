@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/religion.h"
 
@@ -8,7 +8,7 @@
 #include "util/random.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void religion::initialize()
 {

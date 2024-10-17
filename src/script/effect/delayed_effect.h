@@ -12,7 +12,7 @@
 #include "util/assert_util.h"
 #include "util/random.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scripted_effect_base;

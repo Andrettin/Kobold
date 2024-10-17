@@ -1,6 +1,6 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class route;
 
@@ -9,7 +9,7 @@ class route_game_data final : public QObject
 	Q_OBJECT
 
 public:
-	explicit route_game_data(const metternich::route *route) : route(route)
+	explicit route_game_data(const kobold::route *route) : route(route)
 	{
 	}
 
@@ -29,7 +29,7 @@ public:
 	}
 
 private:
-	const metternich::route *route = nullptr;
+	const kobold::route *route = nullptr;
 	std::vector<QPoint> tiles;
 };
 

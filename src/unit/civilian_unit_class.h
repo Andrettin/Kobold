@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class civilian_unit_type;
 
@@ -13,7 +13,7 @@ class civilian_unit_class final : public named_data_entry, public data_type<civi
 
 public:
 	static constexpr const char class_identifier[] = "civilian_unit_class";
-	static constexpr const char property_class_identifier[] = "metternich::civilian_unit_class*";
+	static constexpr const char property_class_identifier[] = "kobold::civilian_unit_class*";
 	static constexpr const char database_folder[] = "civilian_unit_classes";
 
 public:

@@ -5,7 +5,7 @@
 #include "script/effect/effect.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class free_technologies_effect final : public effect<const country>
 {

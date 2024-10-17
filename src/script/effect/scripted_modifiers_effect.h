@@ -10,7 +10,7 @@
 #include "script/scripted_province_modifier.h"
 #include "script/scripted_site_modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scripted_modifiers_effect final : public effect<scope_type>

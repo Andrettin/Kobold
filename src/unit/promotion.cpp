@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/promotion.h"
 
@@ -6,7 +6,7 @@
 #include "script/modifier.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 promotion::promotion(const std::string &identifier)
 	: named_data_entry(identifier)
@@ -26,7 +26,7 @@ void promotion::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
 	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<military_unit>>();
+		auto modifier = std::make_unique<kobold::modifier<military_unit>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else {

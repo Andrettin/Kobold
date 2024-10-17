@@ -4,7 +4,7 @@
 #include "character/character_role.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class character_role_condition final : public condition<character>
 {

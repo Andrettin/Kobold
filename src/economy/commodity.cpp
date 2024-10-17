@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/commodity.h"
 
@@ -6,7 +6,7 @@
 #include "technology/technology.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 commodity::commodity(const std::string &identifier)
 	: named_data_entry(identifier), food_type(food_type::none)

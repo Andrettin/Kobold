@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/historical_civilian_unit.h"
 
 #include "unit/historical_civilian_unit_history.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 historical_civilian_unit::historical_civilian_unit(const std::string &identifier) : named_data_entry(identifier)
 {

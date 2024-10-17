@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/expense_transaction.h"
 
@@ -8,7 +8,7 @@
 #include "economy/commodity.h"
 #include "economy/expense_transaction_type.h"
 
-namespace metternich {
+namespace kobold {
 
 QString expense_transaction::get_name() const
 {

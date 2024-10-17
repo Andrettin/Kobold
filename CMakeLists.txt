@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18.0)
 
-project(metternich VERSION 1.0.0)
+project(kobold VERSION 1.0.0)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;RelWithDebInfo" CACHE STRING "" FORCE)
 
@@ -314,7 +314,7 @@ set(xbrz_SRCS
 source_group(xbrz FILES ${xbrz_SRCS})
 set_source_files_properties(${xbrz_SRCS} PROPERTIES UNITY_GROUP "xbrz")
 
-set(metternich_SRCS
+set(kobold_SRCS
 	${character_SRCS}
 	${country_SRCS}
 	${database_SRCS}
@@ -840,7 +840,7 @@ set(xbrz_HDRS
 )
 source_group(xbrz FILES ${xbrz_HDRS})
 
-set(metternich_HDRS
+set(kobold_HDRS
 	${character_HDRS}
 	${country_HDRS}
 	${database_HDRS}
@@ -862,10 +862,10 @@ set(metternich_HDRS
 	${maskedmousearea_HDRS}
 	${xbrz_HDRS}
 	src/engine_interface.h
-	src/metternich.h
+	src/kobold.h
 )
 
-set(metternich_main_SRCS
+set(kobold_main_SRCS
 	src/main.cpp
 )
 
@@ -874,7 +874,7 @@ set(game_test_SRCS
 )
 source_group(game FILES ${game_test_SRCS})
 
-set(metternich_test_SRCS
+set(kobold_test_SRCS
 	${game_test_SRCS}
 	test/main.cpp
 )
@@ -904,10 +904,10 @@ if(WITH_GEOJSON)
 endif()
 
 if(MSVC)
-	add_definitions(/FI"metternich.h")
+	add_definitions(/FI"kobold.h")
 else()
 	#GCC/Clang
-	add_definitions(-include metternich.h)
+	add_definitions(-include kobold.h)
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -921,14 +921,14 @@ else()
 	add_compile_options(-Wall -Wno-unknown-pragmas)
 endif()
 
-add_library(metternich STATIC ${metternich_SRCS} ${metternich_HDRS})
-add_executable(metternich_main WIN32 ${metternich_main_SRCS})
+add_library(kobold STATIC ${kobold_SRCS} ${kobold_HDRS})
+add_executable(kobold_main WIN32 ${kobold_main_SRCS})
 
-add_executable(metternich_test ${metternich_test_SRCS})
-add_test(metternich_test metternich_test)
+add_executable(kobold_test ${kobold_test_SRCS})
+add_test(kobold_test kobold_test)
 enable_testing()
 
-qt_add_shaders(metternich_main "shaders"
+qt_add_shaders(kobold_main "shaders"
 	PREFIX "/"
 	FILES
 		"shaders/opacitymask.frag"
@@ -936,19 +936,19 @@ qt_add_shaders(metternich_main "shaders"
 		"opacitymask.frag.qsb"
 )
 
-target_precompile_headers(metternich REUSE_FROM archimedes)
+target_precompile_headers(kobold REUSE_FROM archimedes)
 
-set_target_properties(metternich PROPERTIES UNITY_BUILD_MODE GROUP)
+set_target_properties(kobold PROPERTIES UNITY_BUILD_MODE GROUP)
 
-set_target_properties(metternich_test PROPERTIES UNITY_BUILD_MODE GROUP)
+set_target_properties(kobold_test PROPERTIES UNITY_BUILD_MODE GROUP)
 set_source_files_properties(${game_test_SRCS} PROPERTIES UNITY_GROUP "game_test")
 
-target_link_libraries(metternich PUBLIC archimedes)
+target_link_libraries(kobold PUBLIC archimedes)
 
-target_precompile_headers(metternich_main REUSE_FROM archimedes)
-target_precompile_headers(metternich_test REUSE_FROM archimedes)
+target_precompile_headers(kobold_main REUSE_FROM archimedes)
+target_precompile_headers(kobold_test REUSE_FROM archimedes)
 
-set_target_properties(metternich_main PROPERTIES OUTPUT_NAME "metternich")
+set_target_properties(kobold_main PROPERTIES OUTPUT_NAME "kobold")
 
-target_link_libraries(metternich_main PUBLIC metternich Qt6::Charts)
-target_link_libraries(metternich_test PUBLIC metternich)
+target_link_libraries(kobold_main PUBLIC kobold Qt6::Charts)
+target_link_libraries(kobold_test PUBLIC kobold)

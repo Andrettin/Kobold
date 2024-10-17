@@ -1,6 +1,6 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class culture;
 class phenotype;
@@ -11,7 +11,7 @@ struct population_group_key final
 {
 	population_group_key() = default;
 
-	explicit population_group_key(const population_type *type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype)
+	explicit population_group_key(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype)
 		: type(type), culture(culture), religion(religion), phenotype(phenotype)
 	{
 	}
@@ -85,9 +85,9 @@ public:
 	bool operator<(const population_group_key &rhs) const;
 
 	const population_type *type = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
-	const metternich::phenotype *phenotype = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::phenotype *phenotype = nullptr;
 };
 
 template <typename T>

@@ -5,7 +5,7 @@
 #include "country/consulate.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class free_consulate_modifier_effect final : public modifier_effect<const country>
 {
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	const metternich::consulate *consulate = nullptr;
+	const kobold::consulate *consulate = nullptr;
 };
 
 }

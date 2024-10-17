@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class law;
 
@@ -12,11 +12,11 @@ class law_group final : public named_data_entry, public data_type<law_group>
 	Q_OBJECT
 
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY changed)
-	Q_PROPERTY(const metternich::law* default_law MEMBER default_law READ get_default_law NOTIFY changed)
+	Q_PROPERTY(const kobold::law* default_law MEMBER default_law READ get_default_law NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "law_group";
-	static constexpr const char property_class_identifier[] = "metternich::law_group*";
+	static constexpr const char property_class_identifier[] = "kobold::law_group*";
 	static constexpr const char database_folder[] = "law_groups";
 
 	explicit law_group(const std::string &identifier) : named_data_entry(identifier)

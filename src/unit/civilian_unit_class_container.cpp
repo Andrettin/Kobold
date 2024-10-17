@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/civilian_unit_class_container.h"
 
 #include "unit/civilian_unit_class.h"
 
-namespace metternich {
+namespace kobold {
 
 bool civilian_unit_class_compare::operator()(const civilian_unit_class *lhs, const civilian_unit_class *rhs) const
 {

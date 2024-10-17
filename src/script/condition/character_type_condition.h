@@ -4,7 +4,7 @@
 #include "character/character_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class character_type_condition final : public condition<character>
 {
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::character_type *character_type = nullptr;
+	const kobold::character_type *character_type = nullptr;
 };
 
 }

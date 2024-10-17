@@ -3,7 +3,7 @@
 #include "population/population_unit.h"
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class consciousness_condition final : public numerical_condition<scope_type>

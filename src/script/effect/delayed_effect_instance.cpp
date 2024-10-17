@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/effect/delayed_effect_instance.h"
 
@@ -13,24 +13,24 @@
 #include "script/effect/scripted_effect.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
-delayed_effect_instance<scope_type>::delayed_effect_instance(const scripted_effect_base<scope_type> *scripted_effect, scope_type *scope, const metternich::context &ctx, const int turns)
+delayed_effect_instance<scope_type>::delayed_effect_instance(const scripted_effect_base<scope_type> *scripted_effect, scope_type *scope, const kobold::context &ctx, const int turns)
 	: delayed_effect_instance(scope, ctx, turns)
 {
 	this->scripted_effect = scripted_effect;
 }
 
 template <typename scope_type>
-delayed_effect_instance<scope_type>::delayed_effect_instance(const scoped_event_base<scope_type> *event, scope_type *scope, const metternich::context &ctx, const int turns)
+delayed_effect_instance<scope_type>::delayed_effect_instance(const scoped_event_base<scope_type> *event, scope_type *scope, const kobold::context &ctx, const int turns)
 	: delayed_effect_instance(scope, ctx, turns)
 {
 	this->event = event;
 }
 
 template <typename scope_type>
-delayed_effect_instance<scope_type>::delayed_effect_instance(scope_type *scope, const metternich::context &ctx, const int turns)
+delayed_effect_instance<scope_type>::delayed_effect_instance(scope_type *scope, const kobold::context &ctx, const int turns)
 	: scope(scope), context(ctx), remaining_turns(turns)
 {
 }
@@ -78,7 +78,7 @@ void delayed_effect_instance<scope_type>::process_gsml_scope(const gsml_data &sc
 	const std::string &tag = scope.get_tag();
 
 	if (tag == "context") {
-		this->context = metternich::context();
+		this->context = kobold::context();
 		database::process_gsml_data(this->context, scope);
 	} else {
 		throw std::runtime_error("Invalid delayed effect instance scope: \"" + scope.get_tag() + "\".");
@@ -111,7 +111,7 @@ void delayed_effect_instance<scope_type>::do_effects()
 	if (this->scripted_effect != nullptr) {
 		this->scripted_effect->get_effects().do_effects(scope, this->context);
 	} else {
-		metternich::context event_ctx(this->get_scope());
+		kobold::context event_ctx(this->get_scope());
 		event_ctx.source_scope = this->context.root_scope;
 
 		this->event->fire(this->get_scope(), event_ctx);

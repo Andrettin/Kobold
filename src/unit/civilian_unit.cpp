@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/civilian_unit.h"
 
@@ -25,9 +25,9 @@
 #include "util/point_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
-civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owner, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const site *home_settlement)
+civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement)
 	: type(type), owner(owner), culture(culture), religion(religion), phenotype(phenotype), home_settlement(home_settlement)
 {
 	assert_throw(this->get_type() != nullptr);
@@ -48,14 +48,14 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 	connect(this->get_owner()->get_game_data(), &country_game_data::technologies_changed, this, &civilian_unit::prospectable_tiles_changed);
 }
 
-civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owner, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const site *home_settlement)
+civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement)
 	: civilian_unit(type, owner, culture, religion, phenotype, home_settlement)
 {
 	this->population_type = population_type;
 	assert_throw(this->get_population_type() != nullptr);
 }
 
-civilian_unit::civilian_unit(const metternich::character *character, const country *owner)
+civilian_unit::civilian_unit(const kobold::character *character, const country *owner)
 	: civilian_unit(character->get_civilian_unit_type(), owner, character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
 {
 	this->character = character;

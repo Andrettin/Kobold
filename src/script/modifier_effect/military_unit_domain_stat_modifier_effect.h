@@ -8,7 +8,7 @@
 #include "unit/military_unit_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_domain_stat_modifier_effect final : public modifier_effect<const country>
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_site_model.h"
 
@@ -6,7 +6,7 @@
 #include "map/site_game_data.h"
 #include "util/exception_util.h"
 
-namespace metternich {
+namespace kobold {
 
 map_site_model::map_site_model()
 {

@@ -11,7 +11,7 @@
 #include "unit/military_unit.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 
@@ -107,7 +107,7 @@ public:
 
 
 private:
-	const metternich::spell *spell = nullptr;
+	const kobold::spell *spell = nullptr;
 };
 
 }

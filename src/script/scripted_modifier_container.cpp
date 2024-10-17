@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/scripted_modifier_container.h"
 
 #include "script/scripted_modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 bool scripted_modifier_compare::operator()(const scripted_modifier *lhs, const scripted_modifier *rhs) const
 {

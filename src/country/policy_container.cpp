@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/policy_container.h"
 
 #include "country/policy.h"
 
-namespace metternich {
+namespace kobold {
 
 bool policy_compare::operator()(const policy *lhs, const policy *rhs) const
 {

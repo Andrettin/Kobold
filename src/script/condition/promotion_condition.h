@@ -5,7 +5,7 @@
 #include "unit/promotion.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class promotion_condition final : public condition<military_unit>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::promotion *promotion = nullptr;
+	const kobold::promotion *promotion = nullptr;
 };
 
 }

@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population_class.h"
 
 #include "population/population_type.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void population_class::set_default_population_type(const population_type *population_type)
 {

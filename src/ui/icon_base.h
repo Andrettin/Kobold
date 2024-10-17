@@ -3,7 +3,7 @@
 #include "database/data_entry.h"
 #include "database/data_type.h"
 
-namespace metternich {
+namespace kobold {
 
 class icon_base : public data_entry
 {

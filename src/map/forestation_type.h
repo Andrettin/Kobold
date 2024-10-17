@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class forestation_type {
 	none,
@@ -11,6 +11,6 @@ enum class forestation_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::forestation_type>;
+extern template class archimedes::enum_converter<kobold::forestation_type>;
 
-Q_DECLARE_METATYPE(metternich::forestation_type)
+Q_DECLARE_METATYPE(kobold::forestation_type)

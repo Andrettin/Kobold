@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/building_type.h"
 
@@ -29,7 +29,7 @@
 #include "util/container_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 building_type::building_type(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -58,7 +58,7 @@ void building_type::process_gsml_scope(const gsml_data &scope)
 			this->commodity_costs[commodity] = std::stoi(property.get_value());
 		});
 	} else if (tag == "cost_factor") {
-		auto factor = std::make_unique<metternich::factor<country>>(100);
+		auto factor = std::make_unique<kobold::factor<country>>(100);
 		database::process_gsml_data(factor, scope);
 		this->cost_factor = std::move(factor);
 	} else if (tag == "conditions") {
@@ -90,7 +90,7 @@ void building_type::process_gsml_scope(const gsml_data &scope)
 		this->stackable_country_modifier = std::make_unique<modifier<const country>>();
 		database::process_gsml_data(this->stackable_country_modifier, scope);
 	} else if (tag == "effects") {
-		auto effect_list = std::make_unique<metternich::effect_list<const site>>();
+		auto effect_list = std::make_unique<kobold::effect_list<const site>>();
 		database::process_gsml_data(effect_list, scope);
 		this->effects = std::move(effect_list);
 	} else {
@@ -144,7 +144,7 @@ void building_type::initialize()
 		this->capital_only = true;
 
 		if (this->get_effects() == nullptr) {
-			this->effects = std::make_unique<metternich::effect_list<const site>>();
+			this->effects = std::make_unique<kobold::effect_list<const site>>();
 		}
 
 		this->effects->add_effect(std::make_unique<capital_effect<const site>>(true));
@@ -282,7 +282,7 @@ commodity_map<int> building_type::get_commodity_costs_for_country(const country 
 	return costs;
 }
 
-QString building_type::get_effects_string(metternich::site *site) const
+QString building_type::get_effects_string(kobold::site *site) const
 {
 	assert_throw(site->is_settlement());
 

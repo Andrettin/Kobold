@@ -6,19 +6,19 @@
 #include "script/flag.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class flag;
 
 class set_flag_effect final : public effect<const country>
 {
 public:
-	explicit set_flag_effect(const metternich::flag *flag, const gsml_operator effect_operator)
+	explicit set_flag_effect(const kobold::flag *flag, const gsml_operator effect_operator)
 		: effect(effect_operator), flag(flag)
 	{
 	}
 
-	explicit set_flag_effect(const metternich::flag *flag)
+	explicit set_flag_effect(const kobold::flag *flag)
 		: set_flag_effect(flag, gsml_operator::assignment)
 	{
 	}
@@ -50,7 +50,7 @@ public:
 	}
 
 private:
-	const metternich::flag *flag = nullptr;
+	const kobold::flag *flag = nullptr;
 };
 
 }

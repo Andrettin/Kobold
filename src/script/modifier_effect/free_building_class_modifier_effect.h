@@ -8,7 +8,7 @@
 #include "script/modifier.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class free_building_class_modifier_effect final : public modifier_effect<const country>
 {
@@ -46,7 +46,7 @@ public:
 	}
 
 private:
-	const metternich::building_class *building_class = nullptr;
+	const kobold::building_class *building_class = nullptr;
 };
 
 }

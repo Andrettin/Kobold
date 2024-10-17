@@ -7,7 +7,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class add_improvement_effect final : public effect<const site>
 {
@@ -46,7 +46,7 @@ public:
 	}
 
 private:
-	const metternich::improvement *improvement = nullptr;
+	const kobold::improvement *improvement = nullptr;
 };
 
 }

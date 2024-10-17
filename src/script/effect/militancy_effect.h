@@ -4,7 +4,7 @@
 #include "script/effect/effect.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class militancy_effect final : public effect<population_unit>
 {

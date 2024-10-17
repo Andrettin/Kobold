@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class special_target_type {
 	root,
@@ -12,6 +12,6 @@ enum class special_target_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::special_target_type>;
+extern template class archimedes::enum_converter<kobold::special_target_type>;
 
-Q_DECLARE_METATYPE(metternich::special_target_type)
+Q_DECLARE_METATYPE(kobold::special_target_type)

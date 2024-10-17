@@ -18,7 +18,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class civilian_unit_type;
@@ -36,9 +36,9 @@ class culture_base : public named_data_entry
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::cultural_group* group MEMBER group NOTIFY changed)
-	Q_PROPERTY(metternich::cultural_group* upper_group MEMBER group NOTIFY changed)
-	Q_PROPERTY(metternich::phenotype* default_phenotype MEMBER default_phenotype)
+	Q_PROPERTY(kobold::cultural_group* group MEMBER group NOTIFY changed)
+	Q_PROPERTY(kobold::cultural_group* upper_group MEMBER group NOTIFY changed)
+	Q_PROPERTY(kobold::phenotype* default_phenotype MEMBER default_phenotype)
 
 public:
 	using government_variant = std::variant<const government_type *, const government_group *>;

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/civilian_unit_type.h"
 
@@ -10,7 +10,7 @@
 #include "unit/civilian_unit_class.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void civilian_unit_type::process_gsml_scope(const gsml_data &scope)
 {

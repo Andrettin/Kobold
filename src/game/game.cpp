@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/game.h"
 
@@ -88,7 +88,7 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
 QDate game::normalize_date(const QDate &date)
 {
@@ -187,7 +187,7 @@ gsml_data game::to_gsml_data() const
 	return data;
 }
 
-QCoro::Task<void> game::create_random_map_coro(const QSize map_size, metternich::era *era)
+QCoro::Task<void> game::create_random_map_coro(const QSize map_size, kobold::era *era)
 {
 	try {
 		this->clear();
@@ -205,10 +205,10 @@ QCoro::Task<void> game::create_random_map_coro(const QSize map_size, metternich:
 	}
 }
 
-QCoro::Task<void> game::setup_scenario_coro(metternich::scenario *scenario)
+QCoro::Task<void> game::setup_scenario_coro(kobold::scenario *scenario)
 {
 	try {
-		const metternich::scenario *old_scenario = this->scenario;
+		const kobold::scenario *old_scenario = this->scenario;
 
 		this->clear();
 		this->rules = preferences::get()->get_game_rules()->duplicate();
@@ -333,7 +333,7 @@ void game::reset_game_data()
 	}
 }
 
-void game::apply_history(const metternich::scenario *scenario)
+void game::apply_history(const kobold::scenario *scenario)
 {
 	try {
 		this->date = game::normalize_date(scenario->get_start_date());
@@ -603,7 +603,7 @@ void game::apply_history(const metternich::scenario *scenario)
 							continue;
 						}
 
-						auto civilian_unit = make_qunique<metternich::civilian_unit>(character, country);
+						auto civilian_unit = make_qunique<kobold::civilian_unit>(character, country);
 						civilian_unit->set_tile_pos(tile_pos);
 
 						country_game_data->add_civilian_unit(std::move(civilian_unit));
@@ -646,7 +646,7 @@ void game::apply_history(const metternich::scenario *scenario)
 				owner_game_data->add_technology_with_prerequisites(type->get_required_technology());
 			}
 
-			const metternich::site *home_settlement = historical_civilian_unit->get_home_settlement();
+			const kobold::site *home_settlement = historical_civilian_unit->get_home_settlement();
 			if (home_settlement == nullptr) {
 				if (site->get_game_data()->get_owner() == owner && site->is_settlement() && site->get_game_data()->is_built()) {
 					home_settlement = site;
@@ -697,7 +697,7 @@ void game::apply_history(const metternich::scenario *scenario)
 				continue;
 			}
 
-			auto civilian_unit = make_qunique<metternich::civilian_unit>(historical_civilian_unit->get_type(), owner, population_type, culture, religion, phenotype, home_settlement);
+			auto civilian_unit = make_qunique<kobold::civilian_unit>(historical_civilian_unit->get_type(), owner, population_type, culture, religion, phenotype, home_settlement);
 			civilian_unit->set_tile_pos(tile_pos);
 
 			owner_game_data->add_civilian_unit(std::move(civilian_unit));
@@ -782,7 +782,7 @@ void game::apply_history(const metternich::scenario *scenario)
 			assert_throw(phenotype != nullptr);
 
 			for (int i = 0; i < historical_military_unit->get_quantity(); ++i) {
-				auto military_unit = make_qunique<metternich::military_unit>(type, country, population_type, culture, religion, phenotype, home_settlement);
+				auto military_unit = make_qunique<kobold::military_unit>(type, country, population_type, culture, religion, phenotype, home_settlement);
 				military_unit->set_province(province);
 
 				for (const promotion *promotion : historical_military_unit_history->get_promotions()) {
@@ -859,7 +859,7 @@ void game::apply_history(const metternich::scenario *scenario)
 			assert_throw(phenotype != nullptr);
 
 			for (int i = 0; i < historical_transporter->get_quantity(); ++i) {
-				auto transporter = make_qunique<metternich::transporter>(type, country, population_type, culture, religion, phenotype, home_settlement);
+				auto transporter = make_qunique<kobold::transporter>(type, country, population_type, culture, religion, phenotype, home_settlement);
 
 				country_game_data->add_transporter(std::move(transporter));
 			}
@@ -1015,14 +1015,14 @@ void game::apply_site_buildings(const site *site)
 		site_province = tile->get_province();
 	}
 
-	const metternich::site *settlement = site->is_settlement() && tile != nullptr ? site : site_province->get_provincial_capital();
+	const kobold::site *settlement = site->is_settlement() && tile != nullptr ? site : site_province->get_provincial_capital();
 
 	if (settlement == nullptr) {
 		return;
 	}
 
-	metternich::site_game_data *settlement_game_data = settlement->get_game_data();
-	const metternich::settlement_type *settlement_type = settlement_game_data->get_settlement_type();
+	kobold::site_game_data *settlement_game_data = settlement->get_game_data();
+	const kobold::settlement_type *settlement_type = settlement_game_data->get_settlement_type();
 
 	const site_history *site_history = site->get_history();
 
@@ -1344,7 +1344,7 @@ int64_t game::apply_historical_population_group_to_settlement(const population_g
 				population_unit_count -= literate_population_unit_count;
 
 				const population_class *literate_population_class = defines::get()->get_default_literate_population_class();
-				const metternich::population_type *literate_population_type = culture->get_population_class_type(literate_population_class);
+				const kobold::population_type *literate_population_type = culture->get_population_class_type(literate_population_class);
 
 				for (int i = 0; i < literate_population_unit_count; ++i) {
 					settlement_game_data->create_population_unit(literate_population_type, culture, religion, phenotype);
@@ -1571,7 +1571,7 @@ QCoro::Task<void> game::do_turn_coro()
 
 void game::do_trade()
 {
-	std::vector<metternich::country *> trade_countries = this->get_countries();
+	std::vector<kobold::country *> trade_countries = this->get_countries();
 
 	std::erase_if(trade_countries, [this](const country *country) {
 		if (country->get_game_data()->is_under_anarchy()) {
@@ -1581,7 +1581,7 @@ void game::do_trade()
 		return false;
 	});
 
-	std::sort(trade_countries.begin(), trade_countries.end(), [&](const metternich::country *lhs, const metternich::country *rhs) {
+	std::sort(trade_countries.begin(), trade_countries.end(), [&](const kobold::country *lhs, const kobold::country *rhs) {
 		//give trade priority by opinion-weighted prestige
 		const int lhs_prestige = lhs->get_game_data()->get_stored_commodity(defines::get()->get_prestige_commodity());
 		const int rhs_prestige = rhs->get_game_data()->get_stored_commodity(defines::get()->get_prestige_commodity());
@@ -1724,7 +1724,7 @@ void game::remove_country(country *country)
 	country->get_game_data()->clear_advisors();
 	country->get_game_data()->clear_leaders();
 
-	for (const metternich::country *other_country : this->get_countries()) {
+	for (const kobold::country *other_country : this->get_countries()) {
 		country_game_data *other_country_game_data = other_country->get_game_data();
 
 		if (other_country_game_data->get_diplomacy_state(country) != diplomacy_state::peace) {
@@ -1750,13 +1750,13 @@ QVariantList game::get_great_powers_qvariant_list() const
 
 void game::calculate_great_power_ranks()
 {
-	std::vector<const metternich::country *> great_powers = game::get()->get_great_powers();
+	std::vector<const kobold::country *> great_powers = game::get()->get_great_powers();
 
 	if (great_powers.empty()) {
 		return;
 	}
 
-	std::sort(great_powers.begin(), great_powers.end(), [](const metternich::country *lhs, const metternich::country *rhs) {
+	std::sort(great_powers.begin(), great_powers.end(), [](const kobold::country *lhs, const kobold::country *rhs) {
 		if (lhs->get_game_data()->is_under_anarchy() != rhs->get_game_data()->is_under_anarchy()) {
 			return rhs->get_game_data()->is_under_anarchy();
 		}

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/culture_base.h"
 
@@ -23,7 +23,7 @@
 #include "util/gender.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 culture_base::culture_base(const std::string &identifier) : named_data_entry(identifier)
 {

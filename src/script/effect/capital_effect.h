@@ -5,7 +5,7 @@
 #include "script/effect/effect.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class capital_effect final : public effect<scope_type>
@@ -41,7 +41,7 @@ public:
 		const site *settlement = nullptr;
 		const country *country = nullptr;
 
-		if constexpr (std::is_same_v<scope_type, const metternich::country>) {
+		if constexpr (std::is_same_v<scope_type, const kobold::country>) {
 			settlement = this->value;
 			country = scope;
 		} else {

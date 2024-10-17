@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class military_unit_stat {
 	firepower,
@@ -141,6 +141,6 @@ inline bool is_percent_military_unit_stat(const military_unit_stat stat)
 
 }
 
-extern template class archimedes::enum_converter<metternich::military_unit_stat>;
+extern template class archimedes::enum_converter<kobold::military_unit_stat>;
 
-Q_DECLARE_METATYPE(metternich::military_unit_stat)
+Q_DECLARE_METATYPE(kobold::military_unit_stat)

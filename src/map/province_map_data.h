@@ -3,7 +3,7 @@
 #include "economy/resource_container.h"
 #include "map/terrain_type_container.h"
 
-namespace metternich {
+namespace kobold {
 
 class province;
 class site;
@@ -16,7 +16,7 @@ class province_map_data final : public QObject
 	Q_PROPERTY(QRect territory_rect READ get_territory_rect NOTIFY territory_changed)
 
 public:
-	explicit province_map_data(const metternich::province *province);
+	explicit province_map_data(const kobold::province *province);
 
 	void on_map_created();
 
@@ -52,12 +52,12 @@ public:
 
 	void calculate_territory_rect_center();
 
-	const std::vector<const metternich::province *> &get_neighbor_provinces() const
+	const std::vector<const kobold::province *> &get_neighbor_provinces() const
 	{
 		return this->neighbor_provinces;
 	}
 
-	void add_neighbor_province(const metternich::province *province);
+	void add_neighbor_province(const kobold::province *province);
 
 	const std::vector<QPoint> &get_tiles() const
 	{
@@ -102,13 +102,13 @@ signals:
 	void territory_changed();
 
 private:
-	const metternich::province *province = nullptr;
+	const kobold::province *province = nullptr;
 	QPoint center_tile_pos = QPoint(-1, -1);
 	bool coastal = false;
 	bool has_river = false;
 	QRect territory_rect;
 	QPoint territory_rect_center = QPoint(-1, -1);
-	std::vector<const metternich::province *> neighbor_provinces;
+	std::vector<const kobold::province *> neighbor_provinces;
 	std::vector<QPoint> tiles;
 	std::vector<QPoint> border_tiles;
 	std::vector<QPoint> resource_tiles;

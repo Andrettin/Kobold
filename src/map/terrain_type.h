@@ -7,7 +7,7 @@
 
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 enum class elevation_type;
@@ -20,7 +20,7 @@ class terrain_type final : public named_data_entry, public data_type<terrain_typ
 	Q_OBJECT
 
 	Q_PROPERTY(QColor color READ get_color WRITE set_color NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(bool water MEMBER water READ is_water NOTIFY changed)
 	Q_PROPERTY(bool desert MEMBER desert READ is_desert NOTIFY changed)
@@ -28,14 +28,14 @@ class terrain_type final : public named_data_entry, public data_type<terrain_typ
 	Q_PROPERTY(bool hills MEMBER hills READ is_hills NOTIFY changed)
 	Q_PROPERTY(bool mountains MEMBER mountains READ is_mountains NOTIFY changed)
 	Q_PROPERTY(bool wetland MEMBER wetland READ is_wetland NOTIFY changed)
-	Q_PROPERTY(metternich::elevation_type elevation_type MEMBER elevation_type READ get_elevation_type NOTIFY changed)
-	Q_PROPERTY(metternich::temperature_type temperature_type MEMBER temperature_type READ get_temperature_type NOTIFY changed)
-	Q_PROPERTY(metternich::moisture_type moisture_type MEMBER moisture_type READ get_moisture_type NOTIFY changed)
-	Q_PROPERTY(metternich::forestation_type forestation_type MEMBER forestation_type READ get_forestation_type NOTIFY changed)
+	Q_PROPERTY(kobold::elevation_type elevation_type MEMBER elevation_type READ get_elevation_type NOTIFY changed)
+	Q_PROPERTY(kobold::temperature_type temperature_type MEMBER temperature_type READ get_temperature_type NOTIFY changed)
+	Q_PROPERTY(kobold::moisture_type moisture_type MEMBER moisture_type READ get_moisture_type NOTIFY changed)
+	Q_PROPERTY(kobold::forestation_type forestation_type MEMBER forestation_type READ get_forestation_type NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "terrain_type";
-	static constexpr const char property_class_identifier[] = "metternich::terrain_type*";
+	static constexpr const char property_class_identifier[] = "kobold::terrain_type*";
 	static constexpr const char database_folder[] = "terrain_types";
 
 	static terrain_type *get_by_color(const QColor &color)
@@ -59,8 +59,8 @@ public:
 		return nullptr;
 	}
 
-	static terrain_type *get_by_biome(const metternich::elevation_type elevation_type, const metternich::temperature_type temperature_type, const metternich::moisture_type moisture_type, const metternich::forestation_type forestation_type);
-	static terrain_type *try_get_by_biome(const metternich::elevation_type elevation_type, const metternich::temperature_type temperature_type, const metternich::moisture_type moisture_type, const metternich::forestation_type forestation_type);
+	static terrain_type *get_by_biome(const kobold::elevation_type elevation_type, const kobold::temperature_type temperature_type, const kobold::moisture_type moisture_type, const kobold::forestation_type forestation_type);
+	static terrain_type *try_get_by_biome(const kobold::elevation_type elevation_type, const kobold::temperature_type temperature_type, const kobold::moisture_type moisture_type, const kobold::forestation_type forestation_type);
 
 	static void clear()
 	{
@@ -98,7 +98,7 @@ public:
 		terrain_type::terrain_types_by_color[color] = this;
 	}
 	
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -216,7 +216,7 @@ signals:
 
 private:
 	QColor color;
-	const metternich::icon *icon = nullptr;
+	const kobold::icon *icon = nullptr;
 	std::filesystem::path image_filepath;
 	bool water = false;
 	bool desert = false;
@@ -224,10 +224,10 @@ private:
 	bool hills = false;
 	bool mountains = false;
 	bool wetland = false;
-	metternich::elevation_type elevation_type;
-	metternich::temperature_type temperature_type;
-	metternich::moisture_type moisture_type;
-	metternich::forestation_type forestation_type;
+	kobold::elevation_type elevation_type;
+	kobold::temperature_type temperature_type;
+	kobold::moisture_type moisture_type;
+	kobold::forestation_type forestation_type;
 	std::vector<const terrain_type *> fallback_terrains;
 	std::vector<int> tiles;
 	std::map<terrain_adjacency, std::vector<int>> adjacency_tiles;

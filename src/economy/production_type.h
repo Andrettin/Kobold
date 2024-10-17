@@ -7,7 +7,7 @@
 Q_MOC_INCLUDE("economy/commodity.h")
 Q_MOC_INCLUDE("technology/technology.h")
 
-namespace metternich {
+namespace kobold {
 
 class commodity;
 class technology;
@@ -18,14 +18,14 @@ class production_type final : public named_data_entry, public data_type<producti
 
 	Q_PROPERTY(QVariantList input_commodities READ get_input_commodities_qvariant_list NOTIFY changed)
 	Q_PROPERTY(int input_wealth MEMBER input_wealth READ get_input_wealth NOTIFY changed)
-	Q_PROPERTY(metternich::commodity* output_commodity MEMBER output_commodity NOTIFY changed)
+	Q_PROPERTY(kobold::commodity* output_commodity MEMBER output_commodity NOTIFY changed)
 	Q_PROPERTY(int output_value MEMBER output_value READ get_output_value NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(bool industrial READ is_industrial CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "production_type";
-	static constexpr const char property_class_identifier[] = "metternich::production_type*";
+	static constexpr const char property_class_identifier[] = "kobold::production_type*";
 	static constexpr const char database_folder[] = "production_types";
 
 	explicit production_type(const std::string &identifier) : named_data_entry(identifier)

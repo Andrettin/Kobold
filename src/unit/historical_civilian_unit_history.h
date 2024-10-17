@@ -2,7 +2,7 @@
 
 #include "database/data_entry_history.h"
 
-namespace metternich {
+namespace kobold {
 
 class site;
 
@@ -10,10 +10,10 @@ class historical_civilian_unit_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::site* site MEMBER site)
+	Q_PROPERTY(kobold::site* site MEMBER site)
 
 public:
-	const metternich::site *get_site() const
+	const kobold::site *get_site() const
 	{
 		return this->site;
 	}
@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	metternich::site *site = nullptr;
+	kobold::site *site = nullptr;
 };
 
 }

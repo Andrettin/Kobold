@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/condition/or_condition.h"
 
 #include "database/gsml_operator.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 or_condition<scope_type>::or_condition(const gsml_operator condition_operator)

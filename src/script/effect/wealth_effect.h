@@ -2,7 +2,7 @@
 
 #include "script/effect/effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class wealth_effect final : public effect<scope_type>

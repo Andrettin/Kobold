@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/military_unit_type_container.h"
 
 #include "unit/military_unit_class.h"
 #include "unit/military_unit_type.h"
 
-namespace metternich {
+namespace kobold {
 
 bool military_unit_type_compare::operator()(const military_unit_type *lhs, const military_unit_type *rhs) const
 {

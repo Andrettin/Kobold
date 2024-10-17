@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map.h"
 
@@ -37,7 +37,7 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
 map::map()
 {
@@ -98,7 +98,7 @@ void map::initialize()
 					return;
 				}
 
-				const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+				const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 				const province *adjacent_province = adjacent_tile->get_province();
 
 				if (tile_province != adjacent_province) {
@@ -239,7 +239,7 @@ void map::update_tile_terrain_tile(const QPoint &tile_pos)
 					terrain_adjacency_type adjacency_type = terrain_adjacency_type::same;
 
 					if (this->contains(adjacent_tile_pos)) {
-						const metternich::tile *adjacent_tile = this->get_tile(adjacent_tile_pos);
+						const kobold::tile *adjacent_tile = this->get_tile(adjacent_tile_pos);
 
 						if (adjacent_tile->get_terrain() == tile->get_terrain()) {
 							adjacency_type = terrain_adjacency_type::same;
@@ -316,7 +316,7 @@ void map::update_tile_terrain_tile(const QPoint &tile_pos)
 					terrain_adjacency_type adjacency_type = terrain_adjacency_type::other;
 
 					if (this->contains(adjacent_tile_pos)) {
-						const metternich::tile *adjacent_tile = this->get_tile(adjacent_tile_pos);
+						const kobold::tile *adjacent_tile = this->get_tile(adjacent_tile_pos);
 
 						if (adjacent_tile->has_inner_river() || vector::contains(tile->get_river_directions(), direction)) {
 							adjacency_type = terrain_adjacency_type::same;
@@ -445,7 +445,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 		case direction::west: {
 			const QPoint northwest_tile_pos = tile_pos + QPoint(-1, -1);
 			if (this->contains(northwest_tile_pos)) {
-				metternich::tile *northwest_tile = this->get_tile(northwest_tile_pos);
+				kobold::tile *northwest_tile = this->get_tile(northwest_tile_pos);
 				if (northwest_tile->get_province() == border_province || northwest_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::northwest);
 				}
@@ -453,7 +453,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 
 			const QPoint southwest_tile_pos = tile_pos + QPoint(-1, 1);
 			if (this->contains(southwest_tile_pos)) {
-				metternich::tile *southwest_tile = this->get_tile(southwest_tile_pos);
+				kobold::tile *southwest_tile = this->get_tile(southwest_tile_pos);
 				if (southwest_tile->get_province() == border_province || southwest_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::southwest);
 				}
@@ -463,7 +463,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 		case direction::east: {
 			const QPoint northeast_tile_pos = tile_pos + QPoint(1, -1);
 			if (this->contains(northeast_tile_pos)) {
-				metternich::tile *northeast_tile = this->get_tile(northeast_tile_pos);
+				kobold::tile *northeast_tile = this->get_tile(northeast_tile_pos);
 				if (northeast_tile->get_province() == border_province || northeast_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::northeast);
 				}
@@ -471,7 +471,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 
 			const QPoint southeast_tile_pos = tile_pos + QPoint(1, 1);
 			if (this->contains(southeast_tile_pos)) {
-				metternich::tile *southeast_tile = this->get_tile(southeast_tile_pos);
+				kobold::tile *southeast_tile = this->get_tile(southeast_tile_pos);
 				if (southeast_tile->get_province() == border_province || southeast_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::southeast);
 				}
@@ -481,7 +481,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 		case direction::north: {
 			const QPoint northwest_tile_pos = tile_pos + QPoint(-1, -1);
 			if (this->contains(northwest_tile_pos)) {
-				metternich::tile *northwest_tile = this->get_tile(northwest_tile_pos);
+				kobold::tile *northwest_tile = this->get_tile(northwest_tile_pos);
 				if (northwest_tile->get_province() == border_province || northwest_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::northwest);
 				}
@@ -489,7 +489,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 
 			const QPoint northeast_tile_pos = tile_pos + QPoint(1, -1);
 			if (this->contains(northeast_tile_pos)) {
-				metternich::tile *northeast_tile = this->get_tile(northeast_tile_pos);
+				kobold::tile *northeast_tile = this->get_tile(northeast_tile_pos);
 				if (northeast_tile->get_province() == border_province || northeast_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::northeast);
 				}
@@ -499,7 +499,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 		case direction::south: {
 			const QPoint southwest_tile_pos = tile_pos + QPoint(-1, 1);
 			if (this->contains(southwest_tile_pos)) {
-				metternich::tile *southwest_tile = this->get_tile(southwest_tile_pos);
+				kobold::tile *southwest_tile = this->get_tile(southwest_tile_pos);
 				if (southwest_tile->get_province() == border_province || southwest_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::southwest);
 				}
@@ -507,7 +507,7 @@ void map::add_tile_border_river_direction(const QPoint &tile_pos, const directio
 
 			const QPoint southeast_tile_pos = tile_pos + QPoint(1, 1);
 			if (this->contains(southeast_tile_pos)) {
-				metternich::tile *southeast_tile = this->get_tile(southeast_tile_pos);
+				kobold::tile *southeast_tile = this->get_tile(southeast_tile_pos);
 				if (southeast_tile->get_province() == border_province || southeast_tile->get_province() == tile->get_province()) {
 					tile->add_river_direction(direction::southeast);
 				}
@@ -616,7 +616,7 @@ void map::set_tile_direction_pathway(const QPoint &tile_pos, const direction dir
 {
 	tile *tile = this->get_tile(tile_pos);
 
-	const metternich::pathway *old_pathway = tile->get_direction_pathway(direction);
+	const kobold::pathway *old_pathway = tile->get_direction_pathway(direction);
 
 	tile->set_direction_pathway(direction, pathway);
 
@@ -669,7 +669,7 @@ void map::calculate_tile_transport_level(const QPoint &tile_pos)
 				continue;
 			}
 
-			const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 			if (adjacent_tile->get_owner() != tile->get_owner()) {
 				continue;
 			}
@@ -699,7 +699,7 @@ void map::calculate_tile_transport_level(const QPoint &tile_pos)
 					return;
 				}
 
-				const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+				const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 				if (adjacent_tile->get_owner() != tile->get_owner()) {
 					return;
 				}
@@ -709,7 +709,7 @@ void map::calculate_tile_transport_level(const QPoint &tile_pos)
 					return;
 				}
 
-				metternich::site_game_data *adjacent_site_game_data = adjacent_site->get_game_data();
+				kobold::site_game_data *adjacent_site_game_data = adjacent_site->get_game_data();
 				adjacent_site_game_data->set_transport_level(std::max(adjacent_site_game_data->get_transport_level(), effective_transport_level));
 				adjacent_site_game_data->set_sea_transport_level(std::max(adjacent_site_game_data->get_sea_transport_level(), effective_sea_transport_level));
 			});
@@ -734,7 +734,7 @@ void map::calculate_tile_transport_level(const QPoint &tile_pos)
 				continue;
 			}
 
-			const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 			if (adjacent_tile->get_owner() != tile->get_owner()) {
 				continue;
 			}
@@ -772,7 +772,7 @@ void map::clear_tile_transport_level(const QPoint &tile_pos)
 					return;
 				}
 
-				const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+				const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 				if (adjacent_tile->get_owner() != tile->get_owner()) {
 					return;
 				}
@@ -800,7 +800,7 @@ void map::clear_tile_transport_level(const QPoint &tile_pos)
 			continue;
 		}
 
-		const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 		if (adjacent_tile->get_owner() != tile->get_owner()) {
 			continue;
 		}
@@ -849,7 +849,7 @@ bool map::is_tile_coastal(const QPoint &tile_pos) const
 			return false;
 		}
 
-		const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 
 		if (adjacent_tile->get_terrain()->is_water()) {
 			result = true;
@@ -879,7 +879,7 @@ bool map::is_tile_on_country_border(const QPoint &tile_pos) const
 			return true;
 		}
 
-		const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 		const country *adjacent_country = adjacent_tile->get_owner();
 
 		if (tile_country != adjacent_country) {
@@ -902,7 +902,7 @@ bool map::is_tile_on_province_border_with(const QPoint &tile_pos, const province
 			return false;
 		}
 
-		const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 		const province *adjacent_province = adjacent_tile->get_province();
 
 		if (adjacent_province == other_province) {
@@ -928,7 +928,7 @@ void map::calculate_tile_country_border_directions(const QPoint &tile_pos)
 			return;
 		}
 
-		const metternich::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
 		const country *adjacent_country = adjacent_tile->get_owner();
 
 		if (tile_country != adjacent_country && tile_country != nullptr && adjacent_country != nullptr) {

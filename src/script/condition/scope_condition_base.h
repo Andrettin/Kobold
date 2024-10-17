@@ -4,7 +4,7 @@
 #include "script/condition/and_condition.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename upper_scope_type, typename scope_type>
 class scope_condition_base : public condition<upper_scope_type>

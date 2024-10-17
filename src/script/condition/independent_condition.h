@@ -6,7 +6,7 @@
 #include "util/string_conversion_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class independent_condition final : public condition<country>
 {

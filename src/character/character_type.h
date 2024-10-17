@@ -6,7 +6,7 @@
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("unit/civilian_unit_class.h")
 
-namespace metternich {
+namespace kobold {
 
 class civilian_unit_class;
 class country;
@@ -25,16 +25,16 @@ class character_type final : public named_data_entry, public data_type<character
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::advisor_category advisor_category MEMBER advisor_category NOTIFY changed)
-	Q_PROPERTY(metternich::character_attribute attribute MEMBER attribute NOTIFY changed)
-	Q_PROPERTY(metternich::military_unit_category military_unit_category MEMBER military_unit_category READ get_military_unit_category NOTIFY changed)
-	Q_PROPERTY(const metternich::civilian_unit_class* civilian_unit_class MEMBER civilian_unit_class READ get_civilian_unit_class NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(metternich::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
+	Q_PROPERTY(kobold::advisor_category advisor_category MEMBER advisor_category NOTIFY changed)
+	Q_PROPERTY(kobold::character_attribute attribute MEMBER attribute NOTIFY changed)
+	Q_PROPERTY(kobold::military_unit_category military_unit_category MEMBER military_unit_category READ get_military_unit_category NOTIFY changed)
+	Q_PROPERTY(const kobold::civilian_unit_class* civilian_unit_class MEMBER civilian_unit_class READ get_civilian_unit_class NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "character_type";
-	static constexpr const char property_class_identifier[] = "metternich::character_type*";
+	static constexpr const char property_class_identifier[] = "kobold::character_type*";
 	static constexpr const char database_folder[] = "character_types";
 
 	explicit character_type(const std::string &identifier);
@@ -43,7 +43,7 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	metternich::advisor_category get_advisor_category() const
+	kobold::advisor_category get_advisor_category() const
 	{
 		return this->advisor_category;
 	}
@@ -53,12 +53,12 @@ public:
 		return this->attribute;
 	}
 
-	metternich::military_unit_category get_military_unit_category() const
+	kobold::military_unit_category get_military_unit_category() const
 	{
 		return this->military_unit_category;
 	}
 
-	const metternich::civilian_unit_class *get_civilian_unit_class() const
+	const kobold::civilian_unit_class *get_civilian_unit_class() const
 	{
 		return this->civilian_unit_class;
 	}
@@ -102,10 +102,10 @@ signals:
 	void changed();
 
 private:
-	metternich::advisor_category advisor_category;
+	kobold::advisor_category advisor_category;
 	character_attribute attribute;
-	metternich::military_unit_category military_unit_category;
-	const metternich::civilian_unit_class *civilian_unit_class = nullptr;
+	kobold::military_unit_category military_unit_category;
+	const kobold::civilian_unit_class *civilian_unit_class = nullptr;
 	technology *required_technology = nullptr;
 	technology *obsolescence_technology = nullptr;
 	std::unique_ptr<modifier<const country>> ruler_modifier;

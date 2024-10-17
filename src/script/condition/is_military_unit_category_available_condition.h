@@ -3,7 +3,7 @@
 #include "script/condition/condition.h"
 #include "unit/military_unit_category.h"
 
-namespace metternich {
+namespace kobold {
 
 class is_military_unit_category_available_condition final : public condition<country>
 {

@@ -7,7 +7,7 @@ Q_MOC_INCLUDE("infrastructure/building_type.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class country;
@@ -28,15 +28,15 @@ class wonder final : public named_data_entry, public data_type<wonder>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
-	Q_PROPERTY(metternich::building_type* building MEMBER building NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(metternich::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(kobold::building_type* building MEMBER building NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "wonder";
-	static constexpr const char property_class_identifier[] = "metternich::wonder*";
+	static constexpr const char property_class_identifier[] = "kobold::wonder*";
 	static constexpr const char database_folder[] = "wonders";
 
 	explicit wonder(const std::string &identifier);
@@ -46,7 +46,7 @@ public:
 	virtual void initialize() override;
 	virtual void check() const override;
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
@@ -109,7 +109,7 @@ signals:
 	void changed();
 
 private:
-	metternich::portrait *portrait = nullptr;
+	kobold::portrait *portrait = nullptr;
 	building_type *building = nullptr;
 	technology *required_technology = nullptr;
 	technology *obsolescence_technology = nullptr;

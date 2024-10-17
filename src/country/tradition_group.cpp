@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/tradition_group.h"
 
 #include "country/tradition.h"
 
-namespace metternich {
+namespace kobold {
 
 void tradition_group::check() const
 {

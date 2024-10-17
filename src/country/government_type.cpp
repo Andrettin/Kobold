@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/government_type.h"
 
@@ -9,7 +9,7 @@
 #include "util/assert_util.h"
 #include "util/gender.h"
 
-namespace metternich {
+namespace kobold {
 
 void government_type::process_title_name_scope(std::map<government_variant, title_name_map> &title_names, const gsml_data &scope)
 {
@@ -75,7 +75,7 @@ void government_type::process_ruler_title_name_scope(ruler_title_name_map &ruler
 			const country_tier tier = enum_converter<country_tier>::to_enum(key);
 			ruler_title_names[tier][gender::none] = value;
 		} else {
-			const gender gender = enum_converter<metternich::gender>::to_enum(key);
+			const gender gender = enum_converter<kobold::gender>::to_enum(key);
 			ruler_title_names[country_tier::none][gender] = value;
 		}
 	});

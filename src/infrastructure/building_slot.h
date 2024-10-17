@@ -5,7 +5,7 @@
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("infrastructure/building_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_slot_type;
 class building_type;
@@ -16,10 +16,10 @@ class building_slot : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::building_slot_type* type READ get_type CONSTANT)
-	Q_PROPERTY(const metternich::building_type* building READ get_building NOTIFY building_changed)
-	Q_PROPERTY(const metternich::building_type* under_construction_building READ get_under_construction_building WRITE set_under_construction_building NOTIFY under_construction_building_changed)
-	Q_PROPERTY(const metternich::country* country READ get_country CONSTANT)
+	Q_PROPERTY(const kobold::building_slot_type* type READ get_type CONSTANT)
+	Q_PROPERTY(const kobold::building_type* building READ get_building NOTIFY building_changed)
+	Q_PROPERTY(const kobold::building_type* under_construction_building READ get_under_construction_building WRITE set_under_construction_building NOTIFY under_construction_building_changed)
+	Q_PROPERTY(const kobold::country* country READ get_country CONSTANT)
 
 public:
 	explicit building_slot(const building_slot_type *type);
@@ -54,17 +54,17 @@ public:
 
 	void build_building(const building_type *building);
 
-	Q_INVOKABLE void build_building(metternich::building_type *building)
+	Q_INVOKABLE void build_building(kobold::building_type *building)
 	{
-		const metternich::building_type *const_building = building;
+		const kobold::building_type *const_building = building;
 		this->build_building(const_building);
 	}
 
 	Q_INVOKABLE virtual void cancel_construction();
 
-	Q_INVOKABLE const metternich::building_type *get_buildable_building() const;
+	Q_INVOKABLE const kobold::building_type *get_buildable_building() const;
 
-	virtual const metternich::country *get_country() const = 0;
+	virtual const kobold::country *get_country() const = 0;
 
 	bool is_available() const;
 

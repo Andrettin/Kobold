@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country_rank.h"
 
 #include "script/condition/and_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 country_rank::country_rank(const std::string &identifier) : named_data_entry(identifier)
 {

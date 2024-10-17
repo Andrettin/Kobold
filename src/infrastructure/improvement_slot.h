@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class improvement_slot {
 	none,
@@ -14,6 +14,6 @@ enum class improvement_slot {
 
 }
 
-extern template class archimedes::enum_converter<metternich::improvement_slot>;
+extern template class archimedes::enum_converter<kobold::improvement_slot>;
 
-Q_DECLARE_METATYPE(metternich::improvement_slot)
+Q_DECLARE_METATYPE(kobold::improvement_slot)

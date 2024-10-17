@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/effect/effect.h"
 
@@ -59,7 +59,7 @@
 #include "script/effect/wealth_inflated_effect.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const gsml_property &property)

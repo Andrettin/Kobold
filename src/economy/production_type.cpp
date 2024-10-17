@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/production_type.h"
 
@@ -7,7 +7,7 @@
 #include "util/assert_util.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void production_type::process_gsml_scope(const gsml_data &scope)
 {

@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class spell_target {
 	none,
@@ -12,6 +12,6 @@ enum class spell_target {
 
 }
 
-extern template class archimedes::enum_converter<metternich::spell_target>;
+extern template class archimedes::enum_converter<kobold::spell_target>;
 
-Q_DECLARE_METATYPE(metternich::spell_target)
+Q_DECLARE_METATYPE(kobold::spell_target)

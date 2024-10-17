@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class temperature_type {
 	none,
@@ -14,6 +14,6 @@ enum class temperature_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::temperature_type>;
+extern template class archimedes::enum_converter<kobold::temperature_type>;
 
-Q_DECLARE_METATYPE(metternich::temperature_type)
+Q_DECLARE_METATYPE(kobold::temperature_type)

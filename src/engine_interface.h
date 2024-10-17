@@ -11,7 +11,7 @@ Q_MOC_INCLUDE("map/map.h")
 Q_MOC_INCLUDE("map/map_template.h")
 Q_MOC_INCLUDE("map/world.h")
 
-namespace metternich {
+namespace kobold {
 
 class consulate;
 class country_tier_data;
@@ -34,10 +34,10 @@ class engine_interface final : public QObject, public singleton<engine_interface
 
 	Q_PROPERTY(bool running READ is_running NOTIFY running_changed)
 	Q_PROPERTY(double scale_factor READ get_scale_factor NOTIFY scale_factor_changed)
-	Q_PROPERTY(metternich::defines* defines READ get_defines CONSTANT)
-	Q_PROPERTY(metternich::game* game READ get_game CONSTANT)
-	Q_PROPERTY(metternich::map* map READ get_map CONSTANT)
-	Q_PROPERTY(metternich::preferences* preferences READ get_preferences CONSTANT)
+	Q_PROPERTY(kobold::defines* defines READ get_defines CONSTANT)
+	Q_PROPERTY(kobold::game* game READ get_game CONSTANT)
+	Q_PROPERTY(kobold::map* map READ get_map CONSTANT)
+	Q_PROPERTY(kobold::preferences* preferences READ get_preferences CONSTANT)
 	Q_PROPERTY(QVariantList selected_military_units READ get_selected_military_units_qvariant_list NOTIFY selected_military_units_changed)
 
 public:
@@ -76,7 +76,7 @@ public:
 	Q_INVOKABLE QVariantList get_law_groups() const;
 	Q_INVOKABLE QVariantList get_policies() const;
 	Q_INVOKABLE QVariantList get_technologies() const;
-	Q_INVOKABLE const metternich::country_tier_data *get_country_tier_data(const metternich::country_tier tier) const;
+	Q_INVOKABLE const kobold::country_tier_data *get_country_tier_data(const kobold::country_tier tier) const;
 	Q_INVOKABLE const consulate *get_consulate(const QString &identifier) const;
 
 	void add_notification(const QString &title, const QObject *portrait_object, const QString &text)
@@ -117,8 +117,8 @@ public:
 		emit selected_military_units_changed();
 	}
 
-	Q_INVOKABLE int get_selected_military_unit_category_count(const metternich::military_unit_category category);
-	Q_INVOKABLE void change_selected_military_unit_category_count(const metternich::military_unit_category category, const int change, metternich::province *province);
+	Q_INVOKABLE int get_selected_military_unit_category_count(const kobold::military_unit_category category);
+	Q_INVOKABLE void change_selected_military_unit_category_count(const kobold::military_unit_category category, const int change, kobold::province *province);
 
 	Q_INVOKABLE void move_selected_military_units_to(const QPoint &tile_pos);
 

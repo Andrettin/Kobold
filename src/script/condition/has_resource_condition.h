@@ -7,7 +7,7 @@
 #include "map/province_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_resource_condition final : public condition<scope_type>
@@ -40,7 +40,7 @@ public:
 	}
 
 private:
-	const metternich::resource *resource = nullptr;
+	const kobold::resource *resource = nullptr;
 };
 
 }

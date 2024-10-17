@@ -6,7 +6,7 @@
 #include "script/condition/condition.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class law_condition final : public condition<scope_type>
@@ -45,7 +45,7 @@ public:
 	}
 
 private:
-	const metternich::law *law = nullptr;
+	const kobold::law *law = nullptr;
 };
 
 }

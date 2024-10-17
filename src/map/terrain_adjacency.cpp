@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/terrain_adjacency.h"
 
 #include "map/direction.h"
 #include "map/terrain_adjacency_type.h"
 
-namespace metternich {
+namespace kobold {
 
 std::string terrain_adjacency::to_string() const
 {

@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_unit;
 
@@ -21,7 +21,7 @@ class ideology final : public named_data_entry, public data_type<ideology>
 
 public:
 	static constexpr const char class_identifier[] = "ideology";
-	static constexpr const char property_class_identifier[] = "metternich::ideology*";
+	static constexpr const char property_class_identifier[] = "kobold::ideology*";
 	static constexpr const char database_folder[] = "ideologies";
 
 	explicit ideology(const std::string &identifier);

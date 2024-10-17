@@ -6,12 +6,12 @@
 #include "infrastructure/country_building_slot.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class building_capacity_modifier_effect final : public modifier_effect<const country>
 {
 public:
-	explicit building_capacity_modifier_effect(const metternich::building_slot_type *building_slot_type, const std::string &value)
+	explicit building_capacity_modifier_effect(const kobold::building_slot_type *building_slot_type, const std::string &value)
 		: modifier_effect(value), building_slot_type(building_slot_type)
 	{
 	}
@@ -34,7 +34,7 @@ public:
 	}
 
 private:
-	const metternich::building_slot_type *building_slot_type = nullptr;
+	const kobold::building_slot_type *building_slot_type = nullptr;
 };
 
 }

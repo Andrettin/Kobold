@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_province_model.h"
 
@@ -12,7 +12,7 @@
 
 #include <QGeoPolygon>
 
-namespace metternich {
+namespace kobold {
 
 map_province_model::map_province_model()
 {

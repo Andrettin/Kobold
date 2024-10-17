@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/scripted_scoped_modifier.h"
 
@@ -7,7 +7,7 @@
 #include "script/modifier.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 scripted_scoped_modifier<scope_type>::scripted_scoped_modifier()
@@ -25,7 +25,7 @@ bool scripted_scoped_modifier<scope_type>::process_gsml_scope(const gsml_data &s
 	const std::string &tag = scope.get_tag();
 
 	if (tag == "modifier") {
-		this->modifier = std::make_unique<metternich::modifier<const scope_type>>();
+		this->modifier = std::make_unique<kobold::modifier<const scope_type>>();
 		database::process_gsml_data(this->modifier, scope);
 		return true;
 	} else {

@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/route_container.h"
 
 #include "map/route.h"
 
-namespace metternich {
+namespace kobold {
 
 bool route_compare::operator()(const route *lhs, const route *rhs) const
 {

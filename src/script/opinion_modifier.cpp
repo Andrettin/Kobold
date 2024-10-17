@@ -3,7 +3,7 @@
 #include "database/defines.h"
 #include "database/gsml_property.h"
 
-namespace metternich {
+namespace kobold {
 
 void opinion_modifier::process_gsml_property(const gsml_property &property)
 {

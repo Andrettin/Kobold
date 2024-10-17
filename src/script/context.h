@@ -5,7 +5,7 @@ namespace archimedes {
 	class gsml_property;
 }
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class character;

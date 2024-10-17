@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/army.h"
 
@@ -20,7 +20,7 @@
 #include "util/container_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 army::army(const std::vector<military_unit *> &military_units, target_variant &&target)
 	: military_units(military_units), target(std::move(target))

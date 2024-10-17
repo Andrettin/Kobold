@@ -4,7 +4,7 @@
 #include "character/character_game_data.h"
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class age_condition final : public numerical_condition<character>
 {

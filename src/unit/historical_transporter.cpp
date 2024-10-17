@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/historical_transporter.h"
 
 #include "unit/historical_transporter_history.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 historical_transporter::historical_transporter(const std::string &identifier) : named_data_entry(identifier)
 {

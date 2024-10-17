@@ -5,13 +5,13 @@
 #include "country/country_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class ruler_condition final : public condition<country>
 {
 public:
 	explicit ruler_condition(const std::string &value, const gsml_operator condition_operator)
-		: condition<metternich::country>(condition_operator)
+		: condition<kobold::country>(condition_operator)
 	{
 		this->ruler = character::get(value);
 	}

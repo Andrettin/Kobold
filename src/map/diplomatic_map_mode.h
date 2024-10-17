@@ -1,6 +1,6 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 enum class diplomatic_map_mode {
 	diplomatic,

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/character_type.h"
 
@@ -11,7 +11,7 @@
 #include "unit/military_unit_category.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 character_type::character_type(const std::string &identifier)
 	: named_data_entry(identifier), advisor_category(advisor_category::none), attribute(character_attribute::none), military_unit_category(military_unit_category::none)
@@ -39,7 +39,7 @@ void character_type::process_gsml_scope(const gsml_data &scope)
 		this->scaled_advisor_modifier = std::make_unique<modifier<const country>>();
 		database::process_gsml_data(this->scaled_advisor_modifier, scope);
 	} else if (tag == "advisor_effects") {
-		auto effect_list = std::make_unique<metternich::effect_list<const country>>();
+		auto effect_list = std::make_unique<kobold::effect_list<const country>>();
 		database::process_gsml_data(effect_list, scope);
 		this->advisor_effects = std::move(effect_list);
 	} else {

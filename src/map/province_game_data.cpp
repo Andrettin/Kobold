@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/province_game_data.h"
 
@@ -47,12 +47,12 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
-province_game_data::province_game_data(const metternich::province *province)
+province_game_data::province_game_data(const kobold::province *province)
 	: province(province)
 {
-	this->population = make_qunique<metternich::population>();
+	this->population = make_qunique<kobold::population>();
 	connect(this->get_population(), &population::main_culture_changed, this, &province_game_data::on_population_main_culture_changed);
 	connect(this->get_population(), &population::main_religion_changed, this, &province_game_data::on_population_main_religion_changed);
 }
@@ -108,7 +108,7 @@ void province_game_data::do_ai_turn()
 			});
 
 			if (!military_units.empty()) {
-				auto army = make_qunique<metternich::army>(military_units, site);
+				auto army = make_qunique<kobold::army>(military_units, site);
 				this->get_owner()->get_game_data()->add_army(std::move(army));
 			}
 			break;
@@ -127,7 +127,7 @@ void province_game_data::set_owner(const country *country)
 		return;
 	}
 
-	const metternich::country *old_owner = this->owner;
+	const kobold::country *old_owner = this->owner;
 
 	this->owner = country;
 
@@ -178,7 +178,7 @@ bool province_game_data::is_capital() const
 	return this->get_owner()->get_game_data()->get_capital_province() == this->province;
 }
 
-void province_game_data::set_culture(const metternich::culture *culture)
+void province_game_data::set_culture(const kobold::culture *culture)
 {
 	if (culture == this->get_culture()) {
 		return;
@@ -207,7 +207,7 @@ void province_game_data::set_culture(const metternich::culture *culture)
 	}
 }
 
-void province_game_data::on_population_main_culture_changed(const metternich::culture *culture)
+void province_game_data::on_population_main_culture_changed(const kobold::culture *culture)
 {
 	if (culture != nullptr) {
 		this->set_culture(culture);
@@ -218,7 +218,7 @@ void province_game_data::on_population_main_culture_changed(const metternich::cu
 	}
 }
 
-void province_game_data::set_religion(const metternich::religion *religion)
+void province_game_data::set_religion(const kobold::religion *religion)
 {
 	if (religion == this->get_religion()) {
 		return;
@@ -241,7 +241,7 @@ void province_game_data::set_religion(const metternich::religion *religion)
 	emit religion_changed();
 }
 
-void province_game_data::on_population_main_religion_changed(const metternich::religion *religion)
+void province_game_data::on_population_main_religion_changed(const kobold::religion *religion)
 {
 	if (religion != nullptr) {
 		this->set_religion(religion);
@@ -277,14 +277,14 @@ const QPoint &province_game_data::get_territory_rect_center() const
 	return this->province->get_map_data()->get_territory_rect_center();
 }
 
-const std::vector<const metternich::province *> &province_game_data::get_neighbor_provinces() const
+const std::vector<const kobold::province *> &province_game_data::get_neighbor_provinces() const
 {
 	return this->province->get_map_data()->get_neighbor_provinces();
 }
 
 bool province_game_data::is_country_border_province() const
 {
-	for (const metternich::province *neighbor_province : this->get_neighbor_provinces()) {
+	for (const kobold::province *neighbor_province : this->get_neighbor_provinces()) {
 		const province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
 		if (neighbor_province_game_data->get_owner() != this->get_owner()) {
 			return true;
@@ -396,7 +396,7 @@ void province_game_data::decrement_scripted_modifiers()
 	}
 }
 
-void province_game_data::apply_modifier(const modifier<const metternich::province> *modifier, const int multiplier)
+void province_game_data::apply_modifier(const modifier<const kobold::province> *modifier, const int multiplier)
 {
 	assert_throw(modifier != nullptr);
 
@@ -498,7 +498,7 @@ bool province_game_data::has_country_military_unit(const country *country) const
 	return false;
 }
 
-QVariantList province_game_data::get_country_military_unit_category_counts(metternich::country *country) const
+QVariantList province_game_data::get_country_military_unit_category_counts(kobold::country *country) const
 {
 	std::map<military_unit_category, int> counts;
 
@@ -511,7 +511,7 @@ QVariantList province_game_data::get_country_military_unit_category_counts(mette
 	return archimedes::map::to_qvariant_list(counts);
 }
 
-int province_game_data::get_country_military_unit_category_count(const metternich::military_unit_category category, metternich::country *country) const
+int province_game_data::get_country_military_unit_category_count(const kobold::military_unit_category category, kobold::country *country) const
 {
 	int count = 0;
 
@@ -600,7 +600,7 @@ QString province_game_data::get_military_unit_category_name(const military_unit_
 	return best_name;
 }
 
-const icon *province_game_data::get_country_military_unit_icon(metternich::country *country) const
+const icon *province_game_data::get_country_military_unit_icon(kobold::country *country) const
 {
 	icon_map<int> icon_counts;
 
@@ -738,7 +738,7 @@ bool province_game_data::can_produce_commodity(const commodity *commodity) const
 {
 	for (const QPoint &tile_pos : this->get_resource_tiles()) {
 		const tile *tile = map::get()->get_tile(tile_pos);
-		const metternich::commodity *tile_resource_commodity = tile->get_resource()->get_commodity();
+		const kobold::commodity *tile_resource_commodity = tile->get_resource()->get_commodity();
 
 		if (tile_resource_commodity == commodity) {
 			return true;

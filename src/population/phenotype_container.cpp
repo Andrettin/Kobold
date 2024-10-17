@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/phenotype_container.h"
 
 #include "population/phenotype.h"
 
-namespace metternich {
+namespace kobold {
 
 bool phenotype_compare::operator()(const phenotype *lhs, const phenotype *rhs) const
 {

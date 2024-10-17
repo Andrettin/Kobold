@@ -8,7 +8,7 @@
 #include "population/population.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_population_culture_condition final : public condition<scope_type>
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	const metternich::culture *culture = nullptr;
+	const kobold::culture *culture = nullptr;
 };
 
 }

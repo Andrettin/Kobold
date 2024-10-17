@@ -10,7 +10,7 @@ Q_MOC_INCLUDE("map/province_game_data.h")
 Q_MOC_INCLUDE("map/province_map_data.h")
 Q_MOC_INCLUDE("map/site.h")
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class cultural_group;
@@ -31,14 +31,14 @@ class province final : public named_data_entry, public data_type<province>
 	Q_PROPERTY(bool bay MEMBER bay READ is_bay NOTIFY changed)
 	Q_PROPERTY(bool lake MEMBER lake READ is_lake NOTIFY changed)
 	Q_PROPERTY(bool water_zone READ is_water_zone NOTIFY changed)
-	Q_PROPERTY(metternich::site* provincial_capital MEMBER provincial_capital NOTIFY changed)
-	Q_PROPERTY(std::vector<metternich::region *> regions READ get_regions NOTIFY changed)
-	Q_PROPERTY(metternich::province_map_data* map_data READ get_map_data NOTIFY changed)
-	Q_PROPERTY(metternich::province_game_data* game_data READ get_game_data NOTIFY changed)
+	Q_PROPERTY(kobold::site* provincial_capital MEMBER provincial_capital NOTIFY changed)
+	Q_PROPERTY(std::vector<kobold::region *> regions READ get_regions NOTIFY changed)
+	Q_PROPERTY(kobold::province_map_data* map_data READ get_map_data NOTIFY changed)
+	Q_PROPERTY(kobold::province_game_data* game_data READ get_game_data NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "province";
-	static constexpr const char property_class_identifier[] = "metternich::province*";
+	static constexpr const char property_class_identifier[] = "kobold::province*";
 	static constexpr const char database_folder[] = "provinces";
 	static constexpr bool history_enabled = true;
 

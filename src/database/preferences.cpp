@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "database/preferences.h"
 
@@ -12,7 +12,7 @@
 #include "util/string_conversion_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 std::filesystem::path preferences::get_path()
 {
@@ -21,7 +21,7 @@ std::filesystem::path preferences::get_path()
 
 preferences::preferences()
 {
-	this->game_rules = make_qunique<metternich::game_rules>();
+	this->game_rules = make_qunique<kobold::game_rules>();
 }
 
 preferences::~preferences()

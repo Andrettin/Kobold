@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class site;
 
@@ -22,7 +22,7 @@ class settlement_type final : public named_data_entry, public data_type<settleme
 
 public:
 	static constexpr const char class_identifier[] = "settlement_type";
-	static constexpr const char property_class_identifier[] = "metternich::settlement_type*";
+	static constexpr const char property_class_identifier[] = "kobold::settlement_type*";
 	static constexpr const char database_folder[] = "settlement_types";
 
 	explicit settlement_type(const std::string &identifier);

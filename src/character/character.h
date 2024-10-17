@@ -21,7 +21,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class character_game_data;
 class character_history;
@@ -54,23 +54,23 @@ class character final : public named_data_entry, public data_type<character>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::dynasty* dynasty MEMBER dynasty NOTIFY changed)
+	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(QString surname READ get_surname_qstring NOTIFY changed)
 	Q_PROPERTY(std::string nickname MEMBER nickname NOTIFY changed)
 	Q_PROPERTY(std::string epithet MEMBER epithet NOTIFY changed)
 	Q_PROPERTY(QString full_name READ get_full_name_qstring NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
-	Q_PROPERTY(metternich::character_role role MEMBER role READ get_role NOTIFY changed)
-	Q_PROPERTY(const metternich::character_type* character_type MEMBER character_type READ get_character_type NOTIFY changed)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(metternich::religion* religion MEMBER religion NOTIFY changed)
-	Q_PROPERTY(metternich::phenotype* phenotype MEMBER phenotype NOTIFY changed)
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
-	Q_PROPERTY(const metternich::site* home_settlement MEMBER home_settlement NOTIFY changed)
-	Q_PROPERTY(const metternich::site* home_site MEMBER home_site NOTIFY changed)
+	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
+	Q_PROPERTY(const kobold::character_type* character_type MEMBER character_type READ get_character_type NOTIFY changed)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
+	Q_PROPERTY(kobold::religion* religion MEMBER religion NOTIFY changed)
+	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(const kobold::site* home_settlement MEMBER home_settlement NOTIFY changed)
+	Q_PROPERTY(const kobold::site* home_site MEMBER home_site NOTIFY changed)
 	Q_PROPERTY(archimedes::gender gender MEMBER gender NOTIFY changed)
-	Q_PROPERTY(metternich::character* father MEMBER father NOTIFY changed)
-	Q_PROPERTY(metternich::character* mother MEMBER mother NOTIFY changed)
+	Q_PROPERTY(kobold::character* father MEMBER father NOTIFY changed)
+	Q_PROPERTY(kobold::character* mother MEMBER mother NOTIFY changed)
 	Q_PROPERTY(QDate start_date MEMBER start_date READ get_start_date NOTIFY changed)
 	Q_PROPERTY(QDate end_date MEMBER end_date READ get_end_date NOTIFY changed)
 	Q_PROPERTY(QDate birth_date MEMBER birth_date READ get_birth_date NOTIFY changed)
@@ -78,14 +78,14 @@ class character final : public named_data_entry, public data_type<character>
 	Q_PROPERTY(archimedes::calendar* vital_date_calendar MEMBER vital_date_calendar)
 	Q_PROPERTY(int skill MEMBER skill READ get_skill NOTIFY changed)
 	Q_PROPERTY(archimedes::centesimal_int skill_multiplier READ get_skill_multiplier WRITE set_skill_multiplier NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(metternich::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
 	Q_PROPERTY(QString leader_type_name READ get_leader_type_name_qstring NOTIFY changed)
-	Q_PROPERTY(metternich::character_game_data* game_data READ get_game_data NOTIFY game_data_changed)
+	Q_PROPERTY(kobold::character_game_data* game_data READ get_game_data NOTIFY game_data_changed)
 
 public:
 	static constexpr const char class_identifier[] = "character";
-	static constexpr const char property_class_identifier[] = "metternich::character*";
+	static constexpr const char property_class_identifier[] = "kobold::character*";
 	static constexpr const char database_folder[] = "characters";
 	static constexpr bool history_enabled = true;
 
@@ -177,7 +177,7 @@ public:
 		return this->role;
 	}
 
-	const metternich::character_type *get_character_type() const
+	const kobold::character_type *get_character_type() const
 	{
 		return this->character_type;
 	}
@@ -186,22 +186,22 @@ public:
 	const civilian_unit_class *get_civilian_unit_class() const;
 	const civilian_unit_type *get_civilian_unit_type() const;
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	const metternich::phenotype *get_phenotype() const
+	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
 	}
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
@@ -307,17 +307,17 @@ signals:
 	void game_data_changed() const;
 
 private:
-	metternich::dynasty *dynasty = nullptr;
+	kobold::dynasty *dynasty = nullptr;
 	std::string surname;
 	std::string nickname;
 	std::string epithet;
 	std::string description;
-	metternich::character_role role;
-	const metternich::character_type *character_type = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::religion *religion = nullptr;
-	metternich::phenotype *phenotype = nullptr;
-	metternich::portrait *portrait = nullptr;
+	kobold::character_role role;
+	const kobold::character_type *character_type = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::religion *religion = nullptr;
+	kobold::phenotype *phenotype = nullptr;
+	kobold::portrait *portrait = nullptr;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
 	archimedes::gender gender;

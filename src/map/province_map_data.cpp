@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/province_map_data.h"
 
@@ -9,9 +9,9 @@
 #include "map/tile.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
-province_map_data::province_map_data(const metternich::province *province) : province(province)
+province_map_data::province_map_data(const kobold::province *province) : province(province)
 {
 }
 
@@ -43,7 +43,7 @@ void province_map_data::calculate_territory_rect_center()
 	this->territory_rect_center = QPoint(sum.x() / tile_count, sum.y() / tile_count);
 }
 
-void province_map_data::add_neighbor_province(const metternich::province *province)
+void province_map_data::add_neighbor_province(const kobold::province *province)
 {
 	this->neighbor_provinces.push_back(province);
 

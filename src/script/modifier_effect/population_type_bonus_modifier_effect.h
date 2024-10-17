@@ -6,12 +6,12 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_type_bonus_modifier_effect final : public modifier_effect<const country>
 {
 public:
-	explicit population_type_bonus_modifier_effect(const metternich::population_type *population_type, const std::string &value)
+	explicit population_type_bonus_modifier_effect(const kobold::population_type *population_type, const std::string &value)
 		: modifier_effect(value), population_type(population_type)
 	{
 	}
@@ -38,7 +38,7 @@ public:
 	}
 
 private:
-	const metternich::population_type *population_type = nullptr;
+	const kobold::population_type *population_type = nullptr;
 };
 
 }

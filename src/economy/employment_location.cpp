@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/employment_location.h"
 
@@ -13,7 +13,7 @@
 #include "population/profession.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 const country *employment_location::get_employment_country() const
 {

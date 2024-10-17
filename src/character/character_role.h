@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class character_role {
 	none,
@@ -32,6 +32,6 @@ inline std::string_view get_character_role_name(const character_role role)
 
 }
 
-extern template class archimedes::enum_converter<metternich::character_role>;
+extern template class archimedes::enum_converter<kobold::character_role>;
 
-Q_DECLARE_METATYPE(metternich::character_role)
+Q_DECLARE_METATYPE(kobold::character_role)

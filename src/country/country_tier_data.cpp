@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country_tier_data.h"
 
 #include "country/country_tier.h"
 #include "script/modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 country_tier_data::country_tier_data(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -20,7 +20,7 @@ void country_tier_data::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 
 	if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else {
@@ -39,7 +39,7 @@ void country_tier_data::check() const
 	}
 }
 
-QString country_tier_data::get_modifier_string(metternich::country *country) const
+QString country_tier_data::get_modifier_string(kobold::country *country) const
 {
 	return QString::fromStdString(this->get_modifier()->get_string(country));
 }

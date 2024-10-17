@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/province_history.h"
 
@@ -9,7 +9,7 @@
 #include "map/site_game_data.h"
 #include "map/site_history.h"
 
-namespace metternich {
+namespace kobold {
 
 void province_history::process_gsml_scope(const gsml_data &scope)
 {

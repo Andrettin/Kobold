@@ -2,7 +2,7 @@
 
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class available_food_condition final : public numerical_condition<country>
 {

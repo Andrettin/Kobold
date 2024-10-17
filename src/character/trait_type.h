@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class trait_type {
 	none,
@@ -14,6 +14,6 @@ enum class trait_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::trait_type>;
+extern template class archimedes::enum_converter<kobold::trait_type>;
 
-Q_DECLARE_METATYPE(metternich::trait_type)
+Q_DECLARE_METATYPE(kobold::trait_type)

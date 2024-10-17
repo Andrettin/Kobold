@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "spell/spell.h"
 
@@ -8,7 +8,7 @@
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 spell::spell(const std::string &identifier)
 	: named_data_entry(identifier), target(spell_target::none)

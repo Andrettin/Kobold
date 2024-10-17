@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_grid_model.h"
 
@@ -24,7 +24,7 @@
 #include "util/exception_util.h"
 #include "util/point_util.h"
 
-namespace metternich {
+namespace kobold {
 
 map_grid_model::map_grid_model()
 {
@@ -220,7 +220,7 @@ QVariant map_grid_model::data(const QModelIndex &index, const int role) const
 					return QString();
 				}
 
-				const metternich::tile *upper_tile = map::get()->get_tile(upper_tile_pos);
+				const kobold::tile *upper_tile = map::get()->get_tile(upper_tile_pos);
 				const province *upper_tile_province = upper_tile->get_province();
 
 				if (upper_tile_province != nullptr && upper_tile_province->get_game_data()->get_center_tile_pos() == upper_tile_pos) {

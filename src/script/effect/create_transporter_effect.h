@@ -12,7 +12,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class create_transporter_effect final : public effect<const country>
 {
@@ -72,7 +72,7 @@ public:
 		const population_type *population_type = culture->get_population_class_type(scope->get_game_data()->get_default_population_class());
 		assert_throw(population_type != nullptr);
 
-		auto transporter = make_qunique<metternich::transporter>(type, scope, population_type, culture, scope->get_game_data()->get_religion(), culture->get_default_phenotype(), scope->get_game_data()->get_capital());
+		auto transporter = make_qunique<kobold::transporter>(type, scope, population_type, culture, scope->get_game_data()->get_religion(), culture->get_default_phenotype(), scope->get_game_data()->get_capital());
 
 		scope->get_game_data()->add_transporter(std::move(transporter));
 	}

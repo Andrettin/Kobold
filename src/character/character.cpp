@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/character.h"
 
@@ -30,7 +30,7 @@
 #include "util/log_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 const std::set<std::string> character::database_dependencies = {
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
@@ -73,11 +73,11 @@ void character::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
 	} else if (tag == "advisor_modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->advisor_modifier = std::move(modifier);
 	} else if (tag == "advisor_effects") {
-		auto effect_list = std::make_unique<metternich::effect_list<const country>>();
+		auto effect_list = std::make_unique<kobold::effect_list<const country>>();
 		database::process_gsml_data(effect_list, scope);
 		this->advisor_effects = std::move(effect_list);
 	} else {

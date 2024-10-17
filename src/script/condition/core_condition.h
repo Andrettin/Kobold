@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class core_condition final : public condition<province>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::country *country = nullptr;
+	const kobold::country *country = nullptr;
 };
 
 }

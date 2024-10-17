@@ -9,7 +9,7 @@
 #include "script/effect/scope_effect_base.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class random_global_population_unit_effect final : public scope_effect_base<scope_type, population_unit>

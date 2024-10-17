@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/mean_time_to_happen.h"
 
@@ -6,12 +6,12 @@
 #include "database/gsml_property.h"
 #include "script/factor.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 mean_time_to_happen<scope_type>::mean_time_to_happen()
 {
-	this->factor = std::make_unique<metternich::factor<scope_type>>();
+	this->factor = std::make_unique<kobold::factor<scope_type>>();
 }
 
 template <typename scope_type>

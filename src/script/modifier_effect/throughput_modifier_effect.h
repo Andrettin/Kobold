@@ -2,7 +2,7 @@
 
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>  
 class throughput_modifier_effect final : public modifier_effect<scope_type>

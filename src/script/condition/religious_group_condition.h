@@ -6,7 +6,7 @@
 #include "script/target_variant.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class religious_group_condition final : public condition<scope_type>
@@ -40,7 +40,7 @@ public:
 			religion = scope->get_game_data()->get_religion();
 		}
 
-		const metternich::religious_group *religious_group = nullptr;
+		const kobold::religious_group *religious_group = nullptr;
 		if (religion != nullptr) {
 			religious_group = religion->get_group();
 		}
@@ -71,7 +71,7 @@ public:
 			const special_target_type target_type = std::get<special_target_type>(this->religious_group_target);
 			const read_only_context::scope_variant_type &target_scope_variant = ctx.get_special_target_scope_variant(target_type);
 
-			const religion *religion = std::visit([](auto &&target_scope) -> const metternich::religion * {
+			const religion *religion = std::visit([](auto &&target_scope) -> const kobold::religion * {
 				using target_scope_type = std::remove_const_t<std::remove_pointer_t<std::decay_t<decltype(target_scope)>>>;
 
 				if constexpr (std::is_same_v<target_scope_type, std::monostate>) {

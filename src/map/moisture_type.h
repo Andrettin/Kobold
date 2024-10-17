@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class moisture_type {
 	none,
@@ -15,6 +15,6 @@ enum class moisture_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::moisture_type>;
+extern template class archimedes::enum_converter<kobold::moisture_type>;
 
-Q_DECLARE_METATYPE(metternich::moisture_type)
+Q_DECLARE_METATYPE(kobold::moisture_type)

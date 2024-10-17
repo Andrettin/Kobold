@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class tradition_category {
 	none,
@@ -26,6 +26,6 @@ inline std::string_view get_tradition_category_name(const tradition_category cat
 
 }
 
-extern template class archimedes::enum_converter<metternich::tradition_category>;
+extern template class archimedes::enum_converter<kobold::tradition_category>;
 
-Q_DECLARE_METATYPE(metternich::tradition_category)
+Q_DECLARE_METATYPE(kobold::tradition_category)

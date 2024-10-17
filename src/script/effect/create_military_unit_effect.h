@@ -14,7 +14,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class create_military_unit_effect final : public effect<const country>
 {
@@ -79,7 +79,7 @@ public:
 		const population_type *population_type = culture->get_population_class_type(scope->get_game_data()->get_default_population_class());
 		assert_throw(population_type != nullptr);
 
-		auto military_unit = make_qunique<metternich::military_unit>(type, scope, population_type, culture, scope->get_game_data()->get_religion(), culture->get_default_phenotype(), scope->get_game_data()->get_capital());
+		auto military_unit = make_qunique<kobold::military_unit>(type, scope, population_type, culture, scope->get_game_data()->get_religion(), culture->get_default_phenotype(), scope->get_game_data()->get_capital());
 		military_unit->set_province(province);
 
 		scope->get_game_data()->add_military_unit(std::move(military_unit));

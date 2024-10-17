@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class country_type {
 	great_power,
@@ -27,6 +27,6 @@ inline std::string get_country_type_name(const country_type type)
 
 }
 
-extern template class archimedes::enum_converter<metternich::country_type>;
+extern template class archimedes::enum_converter<kobold::country_type>;
 
-Q_DECLARE_METATYPE(metternich::country_type)
+Q_DECLARE_METATYPE(kobold::country_type)

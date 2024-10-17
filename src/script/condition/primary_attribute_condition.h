@@ -4,7 +4,7 @@
 #include "character/character_attribute.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class primary_attribute_condition final : public condition<character>
 {

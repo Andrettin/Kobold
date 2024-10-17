@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/event_instance.h"
 
@@ -9,9 +9,9 @@
 #include "script/context.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
-event_instance::event_instance(const metternich::event *event, const QString &name, const QString &description, const context &ctx)
+event_instance::event_instance(const kobold::event *event, const QString &name, const QString &description, const context &ctx)
 	: event(event), name(name), description(description), ctx(ctx)
 {
 	if (event->get_option_count() > 0) {

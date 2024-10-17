@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/settlement_building_slot.h"
 
@@ -23,7 +23,7 @@
 #include "util/string_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 settlement_building_slot::settlement_building_slot(const building_slot_type *type, const site *settlement)
 	: building_slot(type), settlement(settlement)
@@ -126,7 +126,7 @@ void settlement_building_slot::on_building_gained(const building_type *building,
 	settlement_game_data->on_building_gained(building, multiplier);
 }
 
-void settlement_building_slot::set_wonder(const metternich::wonder *wonder)
+void settlement_building_slot::set_wonder(const kobold::wonder *wonder)
 {
 	if (wonder == this->get_wonder()) {
 		return;
@@ -157,7 +157,7 @@ void settlement_building_slot::set_wonder(const metternich::wonder *wonder)
 	}
 }
 
-void settlement_building_slot::set_under_construction_wonder(const metternich::wonder *wonder)
+void settlement_building_slot::set_under_construction_wonder(const kobold::wonder *wonder)
 {
 	if (wonder == this->get_under_construction_wonder()) {
 		return;
@@ -170,7 +170,7 @@ void settlement_building_slot::set_under_construction_wonder(const metternich::w
 	}
 }
 
-bool settlement_building_slot::can_have_wonder(const metternich::wonder *wonder) const
+bool settlement_building_slot::can_have_wonder(const kobold::wonder *wonder) const
 {
 	const site_game_data *settlement_game_data = this->get_settlement()->get_game_data();
 
@@ -183,7 +183,7 @@ bool settlement_building_slot::can_have_wonder(const metternich::wonder *wonder)
 	return building_slot::can_have_wonder(wonder);
 }
 
-bool settlement_building_slot::can_gain_wonder(const metternich::wonder *wonder) const
+bool settlement_building_slot::can_gain_wonder(const kobold::wonder *wonder) const
 {
 	if (this->get_wonder() != nullptr) {
 		return false;
@@ -204,7 +204,7 @@ bool settlement_building_slot::can_gain_wonder(const metternich::wonder *wonder)
 	return true;
 }
 
-bool settlement_building_slot::can_build_wonder(const metternich::wonder *wonder) const
+bool settlement_building_slot::can_build_wonder(const kobold::wonder *wonder) const
 {
 	if (wonder->get_building()->get_required_building() != nullptr && this->get_building() != wonder->get_building()->get_required_building() && !this->get_building()->is_any_required_building(wonder->get_building())) {
 		return false;
@@ -225,7 +225,7 @@ bool settlement_building_slot::can_build_wonder(const metternich::wonder *wonder
 	return this->can_gain_wonder(wonder);
 }
 
-void settlement_building_slot::build_wonder(const metternich::wonder *wonder)
+void settlement_building_slot::build_wonder(const kobold::wonder *wonder)
 {
 	if (this->get_under_construction_building() != nullptr || this->get_under_construction_wonder() != nullptr) {
 		this->cancel_construction();
@@ -266,7 +266,7 @@ void settlement_building_slot::cancel_construction()
 
 const wonder *settlement_building_slot::get_buildable_wonder() const
 {
-	for (const metternich::wonder *wonder : this->get_type()->get_wonders()) {
+	for (const kobold::wonder *wonder : this->get_type()->get_wonders()) {
 		if (wonder->get_required_technology() != nullptr) {
 			if (this->get_country() == nullptr) {
 				continue;

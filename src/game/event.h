@@ -6,7 +6,7 @@
 Q_MOC_INCLUDE("game/event_random_group.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class event_random_group;
 class portrait;
@@ -18,11 +18,11 @@ class event : public named_data_entry
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(bool circular_portrait MEMBER circular_portrait READ has_circular_portrait NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
-	Q_PROPERTY(metternich::event_trigger trigger MEMBER trigger READ get_trigger)
-	Q_PROPERTY(metternich::event_random_group* random_group MEMBER random_group)
+	Q_PROPERTY(kobold::event_trigger trigger MEMBER trigger READ get_trigger)
+	Q_PROPERTY(kobold::event_random_group* random_group MEMBER random_group)
 	Q_PROPERTY(bool random READ is_random WRITE set_random)
 	Q_PROPERTY(bool only_once MEMBER only_once READ fires_only_once)
 
@@ -99,7 +99,7 @@ signals:
 	void changed();
 
 private:
-	metternich::portrait *portrait = nullptr;
+	kobold::portrait *portrait = nullptr;
 	bool circular_portrait = false;
 	std::string description;
 	event_trigger trigger;

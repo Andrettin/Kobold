@@ -7,7 +7,7 @@
 #include "population/population_type_container.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_unit;
 

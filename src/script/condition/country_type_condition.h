@@ -4,7 +4,7 @@
 #include "country/country_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class country_type_condition final : public condition<country>
 {
@@ -12,7 +12,7 @@ public:
 	explicit country_type_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<country>(condition_operator)
 	{
-		this->country_type = enum_converter<metternich::country_type>::to_enum(value);
+		this->country_type = enum_converter<kobold::country_type>::to_enum(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	metternich::country_type country_type;
+	kobold::country_type country_type;
 };
 
 }

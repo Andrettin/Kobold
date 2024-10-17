@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 class military_unit;
@@ -20,12 +20,12 @@ class promotion final : public named_data_entry, public data_type<promotion>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "promotion";
-	static constexpr const char property_class_identifier[] = "metternich::promotion*";
+	static constexpr const char property_class_identifier[] = "kobold::promotion*";
 	static constexpr const char database_folder[] = "promotions";
 
 	explicit promotion(const std::string &identifier);
@@ -34,7 +34,7 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -44,7 +44,7 @@ public:
 		return this->conditions.get();
 	}
 
-	const metternich::modifier<military_unit> *get_modifier() const
+	const kobold::modifier<military_unit> *get_modifier() const
 	{
 		return this->modifier.get();
 	}
@@ -55,9 +55,9 @@ signals:
 	void changed();
 
 private:
-	metternich::icon *icon = nullptr;
+	kobold::icon *icon = nullptr;
 	std::unique_ptr<const condition<military_unit>> conditions;
-	std::unique_ptr<const metternich::modifier<military_unit>> modifier;
+	std::unique_ptr<const kobold::modifier<military_unit>> modifier;
 };
 
 }

@@ -5,7 +5,7 @@
 #include "util/fractional_int.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class consciousness_effect final : public effect<population_unit>
 {

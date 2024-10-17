@@ -3,19 +3,19 @@
 #include "database/data_entry.h"
 #include "database/data_type.h"
 
-namespace metternich {
+namespace kobold {
 
 class technological_period final : public data_entry, public data_type<technological_period>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::technological_period* parent_period MEMBER parent_period NOTIFY changed)
+	Q_PROPERTY(kobold::technological_period* parent_period MEMBER parent_period NOTIFY changed)
 	Q_PROPERTY(int start_year MEMBER start_year READ get_start_year NOTIFY changed)
 	Q_PROPERTY(int end_year MEMBER end_year READ get_end_year NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "technological_period";
-	static constexpr const char property_class_identifier[] = "metternich::technological_period*";
+	static constexpr const char property_class_identifier[] = "kobold::technological_period*";
 	static constexpr const char database_folder[] = "technological_periods";
 
 public:

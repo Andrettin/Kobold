@@ -2,7 +2,7 @@
 
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;

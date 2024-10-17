@@ -6,7 +6,7 @@
 #include "population/profession.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class profession_commodity_bonus_modifier_effect final : public modifier_effect<scope_type>
@@ -68,8 +68,8 @@ public:
 	}
 
 private:
-	const metternich::profession *profession = nullptr;
-	const metternich::commodity *commodity = nullptr;
+	const kobold::profession *profession = nullptr;
+	const kobold::commodity *commodity = nullptr;
 	decimillesimal_int value;
 };
 

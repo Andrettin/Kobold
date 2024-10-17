@@ -5,7 +5,7 @@
 #include "unit/military_unit_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_type_condition final : public condition<military_unit>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::military_unit_type *military_unit_type = nullptr;
+	const kobold::military_unit_type *military_unit_type = nullptr;
 };
 
 }

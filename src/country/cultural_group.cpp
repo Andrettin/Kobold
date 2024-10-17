@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/cultural_group.h"
 
 #include "country/cultural_group_rank.h"
 
-namespace metternich {
+namespace kobold {
 
 cultural_group::cultural_group(const std::string &identifier)
 	: culture_base(identifier), rank(cultural_group_rank::none)

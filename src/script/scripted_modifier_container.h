@@ -1,6 +1,6 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class scripted_character_modifier;
 class scripted_modifier;

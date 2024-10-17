@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/resource.h"
 
@@ -8,7 +8,7 @@
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 void resource::process_gsml_scope(const gsml_data &scope)
 {
@@ -47,7 +47,7 @@ void resource::check() const
 	}
 }
 
-const metternich::icon *resource::get_icon() const
+const kobold::icon *resource::get_icon() const
 {
 	if (this->icon != nullptr) {
 		return this->icon;

@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/character_container.h"
 
 #include "character/character.h"
 
-namespace metternich {
+namespace kobold {
 
 bool character_compare::operator()(const character *lhs, const character *rhs) const
 {

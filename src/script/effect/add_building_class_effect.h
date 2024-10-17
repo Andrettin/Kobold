@@ -8,7 +8,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class add_building_class_effect final : public effect<const site>
 {
@@ -58,7 +58,7 @@ public:
 	}
 
 private:
-	const metternich::building_class *building_class = nullptr;
+	const kobold::building_class *building_class = nullptr;
 };
 
 }

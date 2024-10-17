@@ -6,7 +6,7 @@ Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/transporter_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class culture;
@@ -24,12 +24,12 @@ class transporter final : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QString name READ get_name_qstring NOTIFY name_changed)
-	Q_PROPERTY(const metternich::transporter_type* type READ get_type NOTIFY type_changed)
-	Q_PROPERTY(const metternich::icon* icon READ get_icon NOTIFY icon_changed)
-	Q_PROPERTY(const metternich::country* country READ get_country CONSTANT)
+	Q_PROPERTY(const kobold::transporter_type* type READ get_type NOTIFY type_changed)
+	Q_PROPERTY(const kobold::icon* icon READ get_icon NOTIFY icon_changed)
+	Q_PROPERTY(const kobold::country* country READ get_country CONSTANT)
 
 public:
-	explicit transporter(const transporter_type *type, const metternich::country *country, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement);
+	explicit transporter(const transporter_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
 
 	void do_turn();
 
@@ -68,32 +68,32 @@ public:
 
 	const icon *get_icon() const;
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
 
-	const metternich::population_type *get_population_type() const
+	const kobold::population_type *get_population_type() const
 	{
 		return this->population_type;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	const metternich::phenotype *get_phenotype() const
+	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
 	}
 
-	const metternich::site *get_home_settlement() const
+	const kobold::site *get_home_settlement() const
 	{
 		return this->home_settlement;
 	}
@@ -201,12 +201,12 @@ signals:
 private:
 	std::string name;
 	const transporter_type *type = nullptr;
-	const metternich::country *country = nullptr;
-	const metternich::population_type *population_type = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
-	const metternich::phenotype *phenotype = nullptr;
-	const metternich::site *home_settlement = nullptr;
+	const kobold::country *country = nullptr;
+	const kobold::population_type *population_type = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::phenotype *phenotype = nullptr;
+	const kobold::site *home_settlement = nullptr;
 	int hit_points = 0;
 	int max_hit_points = 0;
 	int morale = 0; //morale is never higher than the amount of hit points; when morale reaches zero, the unit flees in combat

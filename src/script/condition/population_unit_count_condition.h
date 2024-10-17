@@ -2,7 +2,7 @@
 
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class population_unit_count_condition final : public numerical_condition<scope_type>

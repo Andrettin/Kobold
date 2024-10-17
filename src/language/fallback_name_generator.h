@@ -11,7 +11,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class fallback_name_generator final : public singleton<fallback_name_generator>
 {

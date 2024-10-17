@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class transporter_stat {
 	defense,
@@ -40,6 +40,6 @@ inline bool is_percent_transporter_stat(const transporter_stat stat)
 
 }
 
-extern template class archimedes::enum_converter<metternich::transporter_stat>;
+extern template class archimedes::enum_converter<kobold::transporter_stat>;
 
-Q_DECLARE_METATYPE(metternich::transporter_stat)
+Q_DECLARE_METATYPE(kobold::transporter_stat)

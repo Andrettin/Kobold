@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/region_history.h"
 
@@ -11,7 +11,7 @@
 #include "map/site_history.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void region_history::process_gsml_scope(const gsml_data &scope)
 {

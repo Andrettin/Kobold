@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class era final : public named_data_entry, public data_type<era>
 {
@@ -14,7 +14,7 @@ class era final : public named_data_entry, public data_type<era>
 
 public:
 	static constexpr const char class_identifier[] = "era";
-	static constexpr const char property_class_identifier[] = "metternich::era*";
+	static constexpr const char property_class_identifier[] = "kobold::era*";
 	static constexpr const char database_folder[] = "eras";
 
 	static void initialize_all();

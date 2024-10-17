@@ -7,7 +7,7 @@
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("country/religion.h")
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class culture;
@@ -18,9 +18,9 @@ class province_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::country* owner MEMBER owner)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture)
-	Q_PROPERTY(metternich::religion* religion MEMBER religion)
+	Q_PROPERTY(kobold::country* owner MEMBER owner)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture)
+	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(int population READ get_population WRITE set_population)
 	Q_PROPERTY(archimedes::centesimal_int literacy_rate MEMBER literacy_rate READ get_literacy_rate)
 
@@ -36,12 +36,12 @@ public:
 		return this->owner;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
@@ -98,10 +98,10 @@ public:
 	}
 
 private:
-	const metternich::province *province = nullptr;
+	const kobold::province *province = nullptr;
 	country *owner = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::religion *religion = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::religion *religion = nullptr;
 	population_group_map<int> population_groups;
 	centesimal_int literacy_rate;
 };

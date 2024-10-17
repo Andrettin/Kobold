@@ -4,7 +4,7 @@
 #include "map/site_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class depot_level_modifier_effect final : public modifier_effect<const site>
 {

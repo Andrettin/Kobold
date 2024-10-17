@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/diplomatic_map_image_provider.h"
 
@@ -11,7 +11,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 QImage diplomatic_map_image_provider::requestImage(const QString &id, QSize *size, const QSize &requested_size)
 {
@@ -41,7 +41,7 @@ QImage diplomatic_map_image_provider::requestImage(const QString &id, QSize *siz
 			std::optional<diplomacy_state> diplomacy_state;
 			const std::string &diplomacy_state_identifier = id_list.at(2);
 			if (diplomacy_state_identifier != "empire") {
-				diplomacy_state = enum_converter<metternich::diplomacy_state>::to_enum(diplomacy_state_identifier);
+				diplomacy_state = enum_converter<kobold::diplomacy_state>::to_enum(diplomacy_state_identifier);
 			}
 			
 			if (diplomacy_state.has_value()) {

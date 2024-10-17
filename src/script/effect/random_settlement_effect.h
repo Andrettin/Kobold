@@ -11,7 +11,7 @@
 #include "script/effect/scope_effect_base.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class random_settlement_effect final : public scope_effect_base<const country, const site>
 {

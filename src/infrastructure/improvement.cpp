@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/improvement.h"
 
@@ -17,7 +17,7 @@
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 improvement::improvement(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -49,7 +49,7 @@ void improvement::process_gsml_scope(const gsml_data &scope)
 			this->commodity_costs[commodity] = std::stoi(property.get_value());
 		});
 	} else if (tag == "modifier") {
-		this->modifier = std::make_unique<metternich::modifier<const site>>();
+		this->modifier = std::make_unique<kobold::modifier<const site>>();
 		database::process_gsml_data(this->modifier, scope);
 	} else {
 		data_entry::process_gsml_scope(scope);

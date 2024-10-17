@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/world.h"
 
@@ -17,7 +17,7 @@
 #include "util/path_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void world::add_site(const site *site)
 {

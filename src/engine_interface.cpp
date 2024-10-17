@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "engine_interface.h"
 
@@ -32,7 +32,7 @@
 #include "util/qunique_ptr.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 engine_interface::engine_interface()
 {
@@ -136,7 +136,7 @@ QVariantList engine_interface::get_technologies() const
 	return container::to_qvariant_list(technology::get_all());
 }
 
-const country_tier_data *engine_interface::get_country_tier_data(const metternich::country_tier tier) const
+const country_tier_data *engine_interface::get_country_tier_data(const kobold::country_tier tier) const
 {
 	try {
 		return country_tier_data::get(tier);
@@ -154,7 +154,7 @@ const consulate *engine_interface::get_consulate(const QString &identifier) cons
 
 void engine_interface::add_event_instance(qunique_ptr<event_instance> &&event_instance)
 {
-	metternich::event_instance *event_instance_ptr = event_instance.get();
+	kobold::event_instance *event_instance_ptr = event_instance.get();
 	this->event_instances.push_back(std::move(event_instance));
 	emit event_fired(event_instance_ptr);
 }
@@ -163,7 +163,7 @@ void engine_interface::remove_event_instance(event_instance *event_instance)
 {
 	emit event_closed(event_instance);
 
-	std::erase_if(this->event_instances, [event_instance](const qunique_ptr<metternich::event_instance> &element) {
+	std::erase_if(this->event_instances, [event_instance](const qunique_ptr<kobold::event_instance> &element) {
 		return element.get() == event_instance;
 	});
 }
@@ -173,7 +173,7 @@ QVariantList engine_interface::get_selected_military_units_qvariant_list() const
 	return container::to_qvariant_list(this->get_selected_military_units());
 }
 
-int engine_interface::get_selected_military_unit_category_count(const metternich::military_unit_category category)
+int engine_interface::get_selected_military_unit_category_count(const kobold::military_unit_category category)
 {
 	int count = 0;
 
@@ -186,7 +186,7 @@ int engine_interface::get_selected_military_unit_category_count(const metternich
 	return count;
 }
 
-void engine_interface::change_selected_military_unit_category_count(const metternich::military_unit_category category, const int change, metternich::province *province)
+void engine_interface::change_selected_military_unit_category_count(const kobold::military_unit_category category, const int change, kobold::province *province)
 {
 	if (change == 0) {
 		return;
@@ -266,7 +266,7 @@ void engine_interface::move_selected_military_units_to(const QPoint &tile_pos)
 	}
 
 	if (!std::holds_alternative<std::monostate>(target)) {
-		auto army = make_qunique<metternich::army>(this->get_selected_military_units(), std::move(target));
+		auto army = make_qunique<kobold::army>(this->get_selected_military_units(), std::move(target));
 		this->get_selected_military_units().front()->get_country()->get_game_data()->add_army(std::move(army));
 	}
 

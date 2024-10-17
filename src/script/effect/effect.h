@@ -8,7 +8,7 @@ namespace archimedes {
 	enum class gsml_operator;
 }
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class event;

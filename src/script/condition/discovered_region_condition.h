@@ -5,7 +5,7 @@
 #include "map/region.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class discovered_region_condition final : public condition<country>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::region *region = nullptr;
+	const kobold::region *region = nullptr;
 };
 
 }

@@ -6,7 +6,7 @@
 #include "script/condition/condition.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class river_condition final : public condition<site>
 {

@@ -9,7 +9,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_building_condition final : public condition<scope_type>
@@ -58,7 +58,7 @@ public:
 	}
 
 private:
-	const metternich::building_type *building = nullptr;
+	const kobold::building_type *building = nullptr;
 };
 
 }

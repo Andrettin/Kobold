@@ -4,7 +4,7 @@
 #include "country/country_game_data.h"
 #include "script/effect/effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class inflation_effect final : public effect<const country>
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/condition/condition.h"
 
@@ -115,7 +115,7 @@
 #include "unit/military_unit.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_property(const gsml_property &property)

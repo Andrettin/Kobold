@@ -3,7 +3,7 @@
 #include "database/enum_data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 enum class country_tier;
@@ -15,11 +15,11 @@ class country_tier_data final : public named_data_entry, public enum_data_type<c
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "country_tier";
-	static constexpr const char property_class_identifier[] = "metternich::country_tier_data*";
+	static constexpr const char property_class_identifier[] = "kobold::country_tier_data*";
 	static constexpr const char database_folder[] = "country_tiers";
 
 	explicit country_tier_data(const std::string &identifier);
@@ -38,13 +38,13 @@ public:
 		return this->modifier.get();
 	}
 
-	Q_INVOKABLE QString get_modifier_string(metternich::country *country) const;
+	Q_INVOKABLE QString get_modifier_string(kobold::country *country) const;
 
 signals:
 	void changed();
 
 private:
-	const metternich::icon *icon = nullptr;
+	const kobold::icon *icon = nullptr;
 	std::unique_ptr<const modifier<const country>> modifier;
 };
 

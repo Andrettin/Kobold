@@ -4,7 +4,7 @@
 #include "country/country_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class advisor_cost_modifier_effect final : public modifier_effect<const country>
 {

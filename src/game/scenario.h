@@ -11,7 +11,7 @@ namespace archimedes {
 	class calendar;
 }
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class map_template;
@@ -24,7 +24,7 @@ class scenario final : public named_data_entry, public data_type<scenario>
 	Q_PROPERTY(int start_year READ get_start_year NOTIFY changed)
 	Q_PROPERTY(archimedes::calendar* start_date_calendar MEMBER start_date_calendar)
 	Q_PROPERTY(archimedes::timeline* timeline MEMBER timeline NOTIFY changed)
-	Q_PROPERTY(metternich::map_template* map_template MEMBER map_template NOTIFY changed)
+	Q_PROPERTY(kobold::map_template* map_template MEMBER map_template NOTIFY changed)
 	Q_PROPERTY(bool major MEMBER major READ is_major NOTIFY changed)
 	Q_PROPERTY(bool hidden MEMBER hidden READ is_hidden NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
@@ -32,7 +32,7 @@ class scenario final : public named_data_entry, public data_type<scenario>
 
 public:
 	static constexpr const char class_identifier[] = "scenario";
-	static constexpr const char property_class_identifier[] = "metternich::scenario*";
+	static constexpr const char property_class_identifier[] = "kobold::scenario*";
 	static constexpr const char database_folder[] = "scenarios";
 
 	static void initialize_all();
@@ -60,7 +60,7 @@ public:
 		return this->timeline;
 	}
 
-	const metternich::map_template *get_map_template() const
+	const kobold::map_template *get_map_template() const
 	{
 		return this->map_template;
 	}
@@ -99,8 +99,8 @@ private:
 	QDate start_date;
 	calendar *start_date_calendar = nullptr; //the calendar for the start date
 	archimedes::timeline *timeline = nullptr; //the timeline in which the scenario is set
-	metternich::map_template *map_template = nullptr;
-	metternich::country *default_country = nullptr;
+	kobold::map_template *map_template = nullptr;
+	kobold::country *default_country = nullptr;
 	bool major = false;
 	bool hidden = false;
 	std::string description;

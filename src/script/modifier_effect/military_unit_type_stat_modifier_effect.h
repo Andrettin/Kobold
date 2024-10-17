@@ -7,12 +7,12 @@
 #include "unit/military_unit_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_type_stat_modifier_effect final : public modifier_effect<const country>
 {
 public:
-	explicit military_unit_type_stat_modifier_effect(const metternich::military_unit_type *military_unit_type, const military_unit_stat stat, const std::string &value)
+	explicit military_unit_type_stat_modifier_effect(const kobold::military_unit_type *military_unit_type, const military_unit_stat stat, const std::string &value)
 		: modifier_effect(value), military_unit_type(military_unit_type), stat(stat)
 	{
 	}
@@ -44,7 +44,7 @@ public:
 	}
 
 private:
-	const metternich::military_unit_type *military_unit_type = nullptr;
+	const kobold::military_unit_type *military_unit_type = nullptr;
 	military_unit_stat stat{};
 };
 

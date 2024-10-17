@@ -6,12 +6,12 @@
 #include "script/effect/effect.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class commodity_effect final : public effect<const country>
 {
 public:
-	explicit commodity_effect(const metternich::commodity *commodity, const std::string &value, const gsml_operator effect_operator)
+	explicit commodity_effect(const kobold::commodity *commodity, const std::string &value, const gsml_operator effect_operator)
 		: effect<const country>(effect_operator), commodity(commodity)
 	{
 		this->quantity = std::stoi(value);
@@ -73,7 +73,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 	int quantity = 0;
 };
 

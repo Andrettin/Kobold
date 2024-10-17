@@ -10,7 +10,7 @@ namespace archimedes {
 	using centesimal_int = fractional_int<2>;
 }
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;

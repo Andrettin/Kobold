@@ -6,7 +6,7 @@
 #include "unit/military_unit_category.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class military_unit_category_condition final : public condition<scope_type>
@@ -15,7 +15,7 @@ public:
 	explicit military_unit_category_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<scope_type>(condition_operator)
 	{
-		this->military_unit_category = enum_converter<metternich::military_unit_category>::to_enum(value);
+		this->military_unit_category = enum_converter<kobold::military_unit_category>::to_enum(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
@@ -49,7 +49,7 @@ public:
 	}
 
 private:
-	metternich::military_unit_category military_unit_category = metternich::military_unit_category::none;
+	kobold::military_unit_category military_unit_category = kobold::military_unit_category::none;
 };
 
 }

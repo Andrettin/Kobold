@@ -6,12 +6,12 @@
 #include "script/effect/effect.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class policy_effect final : public effect<const country>
 {
 public:
-	explicit policy_effect(const metternich::policy *policy, const std::string &value, const gsml_operator effect_operator)
+	explicit policy_effect(const kobold::policy *policy, const std::string &value, const gsml_operator effect_operator)
 		: effect<const country>(effect_operator), policy(policy)
 	{
 		this->value = std::stoi(value);
@@ -59,7 +59,7 @@ public:
 	}
 
 private:
-	const metternich::policy *policy = nullptr;
+	const kobold::policy *policy = nullptr;
 	int value = 0;
 };
 

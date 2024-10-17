@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/portrait.h"
 
 #include "script/condition/and_condition.h"
 #include "ui/portrait_image_provider.h"
 
-namespace metternich {
+namespace kobold {
 
 portrait::portrait(const std::string &identifier) : icon_base(identifier)
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population_type.h"
 
@@ -19,7 +19,7 @@
 #include "util/random.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 population_type::population_type(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -87,7 +87,7 @@ void population_type::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			const phenotype *phenotype = phenotype::get(key);
-			const metternich::icon *icon = icon::get(value);
+			const kobold::icon *icon = icon::get(value);
 			this->phenotype_icons[phenotype] = icon;
 		});
 	} else if (tag == "phenotype_small_icons") {
@@ -96,7 +96,7 @@ void population_type::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			const phenotype *phenotype = phenotype::get(key);
-			const metternich::icon *icon = icon::get(value);
+			const kobold::icon *icon = icon::get(value);
 			this->phenotype_small_icons[phenotype] = icon;
 		});
 	} else {
@@ -148,7 +148,7 @@ void population_type::check() const
 	}
 }
 
-QString population_type::get_country_modifier_string(const metternich::country *country) const
+QString population_type::get_country_modifier_string(const kobold::country *country) const
 {
 	if (this->get_output_commodity() == nullptr && this->get_country_modifier() == nullptr) {
 		return QString();

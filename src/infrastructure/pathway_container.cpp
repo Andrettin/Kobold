@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/pathway_container.h"
 
 #include "infrastructure/pathway.h"
 
-namespace metternich {
+namespace kobold {
 
 bool pathway_compare::operator()(const pathway *lhs, const pathway *rhs) const
 {

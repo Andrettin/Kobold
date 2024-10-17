@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/policy.h"
 
@@ -6,7 +6,7 @@
 #include "script/modifier.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
 policy::policy(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -26,15 +26,15 @@ void policy::process_gsml_scope(const gsml_data &scope)
 			this->change_commodity_costs[commodity] = std::stoi(property.get_value());
 		});
 	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else if (tag == "left_modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->left_modifier = std::move(modifier);
 	} else if (tag == "right_modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->right_modifier = std::move(modifier);
 	} else {

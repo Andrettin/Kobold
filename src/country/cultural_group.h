@@ -3,7 +3,7 @@
 #include "country/culture_base.h"
 #include "database/data_type.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class cultural_group_rank;
 
@@ -11,11 +11,11 @@ class cultural_group final : public culture_base, public data_type<cultural_grou
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::cultural_group_rank rank MEMBER rank READ get_rank)
+	Q_PROPERTY(kobold::cultural_group_rank rank MEMBER rank READ get_rank)
 
 public:
 	static constexpr const char class_identifier[] = "cultural_group";
-	static constexpr const char property_class_identifier[] = "metternich::cultural_group*";
+	static constexpr const char property_class_identifier[] = "kobold::cultural_group*";
 	static constexpr const char database_folder[] = "cultural_groups";
 	static constexpr bool history_enabled = true;
 

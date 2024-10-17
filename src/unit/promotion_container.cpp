@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/promotion_container.h"
 
 #include "unit/promotion.h"
 
-namespace metternich {
+namespace kobold {
 
 bool promotion_compare::operator()(const promotion *lhs, const promotion *rhs) const
 {

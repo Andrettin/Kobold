@@ -4,7 +4,7 @@
 #include "script/effect/scripted_effect.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scripted_effect_base;

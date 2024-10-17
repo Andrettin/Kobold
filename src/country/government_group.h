@@ -7,7 +7,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 enum class country_tier;
 
@@ -23,7 +23,7 @@ public:
 	using ruler_title_name_map = std::map<country_tier, std::map<gender, std::string>>;
 
 	static constexpr const char class_identifier[] = "government_group";
-	static constexpr const char property_class_identifier[] = "metternich::government_group*";
+	static constexpr const char property_class_identifier[] = "kobold::government_group*";
 	static constexpr const char database_folder[] = "government_groups";
 
 	explicit government_group(const std::string &identifier) : named_data_entry(identifier)

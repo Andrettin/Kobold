@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class war_condition final : public condition<scope_type>

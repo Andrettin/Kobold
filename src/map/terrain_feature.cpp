@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/terrain_feature.h"
 
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void terrain_feature::check() const
 {

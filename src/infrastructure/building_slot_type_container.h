@@ -1,6 +1,6 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class building_slot_type;
 

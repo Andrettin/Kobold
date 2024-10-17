@@ -3,7 +3,7 @@
 #include "character/character.h"
 #include "script/condition/scope_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 

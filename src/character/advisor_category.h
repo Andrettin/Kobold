@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class advisor_category {
 	none,
@@ -35,6 +35,6 @@ inline std::string_view get_advisor_category_name(const advisor_category categor
 
 }
 
-extern template class archimedes::enum_converter<metternich::advisor_category>;
+extern template class archimedes::enum_converter<kobold::advisor_category>;
 
-Q_DECLARE_METATYPE(metternich::advisor_category)
+Q_DECLARE_METATYPE(kobold::advisor_category)

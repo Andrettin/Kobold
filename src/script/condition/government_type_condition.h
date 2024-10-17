@@ -4,7 +4,7 @@
 #include "country/government_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class government_type_condition final : public condition<country>
 {
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::government_type *government_type = nullptr;
+	const kobold::government_type *government_type = nullptr;
 };
 
 }

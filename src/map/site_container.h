@@ -1,12 +1,12 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class site;
 
 struct site_compare
 {
-	bool operator()(const site *site, const metternich::site *other_site) const;
+	bool operator()(const site *site, const kobold::site *other_site) const;
 };
 
 using site_set = std::set<const site *, site_compare>;

@@ -3,7 +3,7 @@
 #include "game/event.h"
 #include "game/scoped_event_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 
@@ -13,7 +13,7 @@ class country_event final : public event, public data_type<country_event>, publi
 
 public:
 	static constexpr const char class_identifier[] = "country_event";
-	static constexpr const char property_class_identifier[] = "metternich::country_event*";
+	static constexpr const char property_class_identifier[] = "kobold::country_event*";
 	static constexpr const char database_folder[] = "events/country";
 
 	static void clear()

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "fallback_name_generator.h"
 
@@ -9,7 +9,7 @@
 #include "util/gender.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 fallback_name_generator::fallback_name_generator()
 {

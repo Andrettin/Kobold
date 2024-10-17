@@ -7,7 +7,7 @@ Q_MOC_INCLUDE("economy/commodity.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class commodity;
 class icon;
@@ -21,18 +21,18 @@ class resource final : public named_data_entry, public data_type<resource>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::commodity* commodity MEMBER commodity NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* tiny_icon MEMBER tiny_icon READ get_tiny_icon NOTIFY changed)
+	Q_PROPERTY(kobold::commodity* commodity MEMBER commodity NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* tiny_icon MEMBER tiny_icon READ get_tiny_icon NOTIFY changed)
 	Q_PROPERTY(bool coastal MEMBER coastal READ is_coastal NOTIFY changed)
 	Q_PROPERTY(bool near_water MEMBER near_water READ is_near_water NOTIFY changed)
 	Q_PROPERTY(bool prospectable MEMBER prospectable READ is_prospectable NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(metternich::technology* discovery_technology MEMBER discovery_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* discovery_technology MEMBER discovery_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "resource";
-	static constexpr const char property_class_identifier[] = "metternich::resource*";
+	static constexpr const char property_class_identifier[] = "kobold::resource*";
 	static constexpr const char database_folder[] = "resources";
 
 	explicit resource(const std::string &identifier) : named_data_entry(identifier)
@@ -43,14 +43,14 @@ public:
 	virtual void initialize() override;
 	virtual void check() const override;
 
-	const metternich::commodity *get_commodity() const
+	const kobold::commodity *get_commodity() const
 	{
 		return this->commodity;
 	}
 
-	const metternich::icon *get_icon() const;
+	const kobold::icon *get_icon() const;
 
-	const metternich::icon *get_tiny_icon() const
+	const kobold::icon *get_tiny_icon() const
 	{
 		return this->tiny_icon;
 	}
@@ -101,9 +101,9 @@ signals:
 	void changed();
 
 private:
-	metternich::commodity *commodity = nullptr;
-	const metternich::icon *icon = nullptr;
-	const metternich::icon *tiny_icon = nullptr;
+	kobold::commodity *commodity = nullptr;
+	const kobold::icon *icon = nullptr;
+	const kobold::icon *tiny_icon = nullptr;
 	bool coastal = false;
 	bool near_water = false;
 	bool prospectable = false;

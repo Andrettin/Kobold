@@ -5,12 +5,12 @@
 #include "country/country_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class capital_commodity_bonus_modifier_effect final : public modifier_effect<const country>
 {
 public:
-	explicit capital_commodity_bonus_modifier_effect(const metternich::commodity *commodity, const std::string &value)
+	explicit capital_commodity_bonus_modifier_effect(const kobold::commodity *commodity, const std::string &value)
 		: modifier_effect(value), commodity(commodity)
 	{
 	}
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

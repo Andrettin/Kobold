@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/ideology.h"
 
@@ -8,7 +8,7 @@
 #include "util/log_util.h"
 #include "util/random.h"
 
-namespace metternich {
+namespace kobold {
 
 ideology::ideology(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -27,7 +27,7 @@ void ideology::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
 	} else if (tag == "weight_factor") {
-		auto factor = std::make_unique<metternich::factor<population_unit>>();
+		auto factor = std::make_unique<kobold::factor<population_unit>>();
 		database::process_gsml_data(factor, scope);
 		this->weight_factor = std::move(factor);
 	} else {

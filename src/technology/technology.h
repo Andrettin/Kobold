@@ -8,7 +8,7 @@
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class character;
@@ -45,14 +45,14 @@ class technology final : public named_data_entry, public data_type<technology>
 	Q_OBJECT
 
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
-	Q_PROPERTY(metternich::technology_category category MEMBER category NOTIFY changed)
+	Q_PROPERTY(kobold::technology_category category MEMBER category NOTIFY changed)
 	Q_PROPERTY(int category_index READ get_category_index NOTIFY changed)
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(int cost MEMBER cost READ get_cost NOTIFY changed)
 	Q_PROPERTY(bool discovery MEMBER discovery READ is_discovery NOTIFY changed)
 	Q_PROPERTY(int year MEMBER year READ get_year NOTIFY changed)
-	Q_PROPERTY(const metternich::technological_period* period MEMBER period READ get_period NOTIFY changed)
+	Q_PROPERTY(const kobold::technological_period* period MEMBER period READ get_period NOTIFY changed)
 	Q_PROPERTY(bool free_technology MEMBER free_technology READ grants_free_technology NOTIFY changed)
 	Q_PROPERTY(int shared_prestige MEMBER shared_prestige READ get_shared_prestige NOTIFY changed)
 	Q_PROPERTY(QVariantList prerequisites READ get_prerequisites_qvariant_list NOTIFY changed)
@@ -66,7 +66,7 @@ class technology final : public named_data_entry, public data_type<technology>
 
 public:
 	static constexpr const char class_identifier[] = "technology";
-	static constexpr const char property_class_identifier[] = "metternich::technology*";
+	static constexpr const char property_class_identifier[] = "kobold::technology*";
 	static constexpr const char database_folder[] = "technologies";
 
 	static constexpr int base_cost = 10;
@@ -105,12 +105,12 @@ public:
 		return static_cast<int>(this->get_category());
 	}
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -126,7 +126,7 @@ public:
 		return (this->get_total_prerequisite_depth() + 1) * technology::base_cost;
 	}
 
-	Q_INVOKABLE int get_cost_for_country(const metternich::country *country) const;
+	Q_INVOKABLE int get_cost_for_country(const kobold::country *country) const;
 
 	const factor<country> *get_cost_factor() const
 	{
@@ -364,13 +364,13 @@ public:
 	std::vector<const character *> get_retired_characters_for_country(const character_role role, const country *country) const;
 	void add_retired_character(const character_role role, const character *character);
 
-	const metternich::modifier<const country> *get_modifier() const
+	const kobold::modifier<const country> *get_modifier() const
 	{
 		return this->modifier.get();
 	}
 
 	std::string get_modifier_string(const country *country) const;
-	Q_INVOKABLE QString get_effects_string(metternich::country *country) const;
+	Q_INVOKABLE QString get_effects_string(kobold::country *country) const;
 	void write_character_effects_string(const character_role role, const std::string_view &role_name, const country *country, std::string &str) const;
 
 	virtual named_data_entry *get_tree_parent() const override
@@ -421,8 +421,8 @@ signals:
 private:
 	std::string description;
 	technology_category category;
-	metternich::portrait *portrait = nullptr;
-	metternich::icon *icon = nullptr;
+	kobold::portrait *portrait = nullptr;
+	kobold::icon *icon = nullptr;
 	culture_set cultures;
 	std::vector<const cultural_group *> cultural_groups;
 	int cost = 0;
@@ -452,7 +452,7 @@ private:
 	std::vector<const tradition *> enabled_traditions;
 	std::map<character_role, std::vector<const character *>> enabled_characters;
 	std::map<character_role, std::vector<const character *>> retired_characters;
-	std::unique_ptr<const metternich::modifier<const country>> modifier;
+	std::unique_ptr<const kobold::modifier<const country>> modifier;
 };
 
 }

@@ -5,7 +5,7 @@
 #include "script/factor.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class random_list_entry

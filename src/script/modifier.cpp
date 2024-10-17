@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/modifier.h"
 
 #include "database/gsml_property.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 modifier<scope_type>::modifier()

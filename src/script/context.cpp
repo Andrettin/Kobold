@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/context.h"
 
@@ -10,7 +10,7 @@
 #include "population/population_unit.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <bool read_only>
 void context_base<read_only>::process_gsml_property(const gsml_property &property)

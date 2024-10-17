@@ -6,7 +6,7 @@
 #include "technology/technology.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class technology_condition final : public condition<scope_type>
@@ -45,7 +45,7 @@ public:
 	}
 
 private:
-	const metternich::technology *technology = nullptr;
+	const kobold::technology *technology = nullptr;
 };
 
 }

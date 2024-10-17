@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/journal_entry.h"
 
@@ -24,7 +24,7 @@
 #include "util/string_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 journal_entry::journal_entry(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -64,11 +64,11 @@ void journal_entry::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(effects, scope);
 		this->failure_effects = std::move(effects);
 	} else if (tag == "active_modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->active_modifier = std::move(modifier);
 	} else if (tag == "completion_modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->completion_modifier = std::move(modifier);
 	} else if (tag == "owned_provinces") {
@@ -169,7 +169,7 @@ bool journal_entry::check_preconditions(const country *country) const
 	}
 
 	for (const character *character : this->get_recruited_characters()) {
-		const metternich::country *character_country = character->get_game_data()->get_country();
+		const kobold::country *character_country = character->get_game_data()->get_country();
 		if (character_country != nullptr && character_country != country) {
 			return false;
 		}
@@ -402,7 +402,7 @@ QString journal_entry::get_failure_conditions_string() const
 	return QString::fromStdString(this->get_failure_conditions()->get_conditions_string(0));
 }
 
-QString journal_entry::get_completion_effects_string(metternich::country *country) const
+QString journal_entry::get_completion_effects_string(kobold::country *country) const
 {
 	std::string str;
 
@@ -425,7 +425,7 @@ QString journal_entry::get_completion_effects_string(metternich::country *countr
 	return QString::fromStdString(str);
 }
 
-QString journal_entry::get_failure_effects_string(metternich::country *country) const
+QString journal_entry::get_failure_effects_string(kobold::country *country) const
 {
 	if (this->get_failure_effects() == nullptr) {
 		return QString();

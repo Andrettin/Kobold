@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/government_type_container.h"
 
 #include "country/government_type.h"
 
-namespace metternich {
+namespace kobold {
 
 bool government_type_compare::operator()(const government_type *lhs, const government_type *rhs) const
 {

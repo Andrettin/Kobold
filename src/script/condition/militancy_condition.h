@@ -2,7 +2,7 @@
 
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class militancy_condition final : public numerical_condition<scope_type>

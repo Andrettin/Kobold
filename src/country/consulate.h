@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 
@@ -14,11 +14,11 @@ class consulate final : public named_data_entry, public data_type<consulate>
 	Q_OBJECT
 
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "consulate";
-	static constexpr const char property_class_identifier[] = "metternich::consulate*";
+	static constexpr const char property_class_identifier[] = "kobold::consulate*";
 	static constexpr const char database_folder[] = "consulates";
 
 	explicit consulate(const std::string &identifier) : named_data_entry(identifier)
@@ -32,7 +32,7 @@ public:
 		return this->level;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -42,7 +42,7 @@ signals:
 
 private:
 	int level = 0;
-	metternich::icon *icon = nullptr;
+	kobold::icon *icon = nullptr;
 };
 
 }

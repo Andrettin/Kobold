@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "technology/technology_container.h"
 
 #include "technology/technology.h"
 
-namespace metternich {
+namespace kobold {
 
 bool technology_compare::operator()(const technology *lhs, const technology *rhs) const
 {

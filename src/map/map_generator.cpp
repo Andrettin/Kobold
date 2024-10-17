@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_generator.h"
 
@@ -30,7 +30,7 @@
 #include "util/vector_util.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void map_generator::generate()
 {

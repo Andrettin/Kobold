@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/law_group.h"
 
 #include "country/law.h"
 #include "util/container_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void law_group::check() const
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/tile.h"
 
@@ -22,7 +22,7 @@
 #include "util/vector_random_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 tile::tile(const terrain_type *base_terrain, const terrain_type *terrain) : terrain(terrain)
 {
@@ -61,7 +61,7 @@ const country *tile::get_owner() const
 	return this->get_province()->get_game_data()->get_owner();
 }
 
-const metternich::site *tile::get_settlement() const
+const kobold::site *tile::get_settlement() const
 {
 	if (this->get_site() != nullptr && this->get_site()->is_settlement()) {
 		return this->get_site();
@@ -72,7 +72,7 @@ const metternich::site *tile::get_settlement() const
 
 const settlement_type *tile::get_settlement_type() const
 {
-	const metternich::site *settlement = this->get_settlement();
+	const kobold::site *settlement = this->get_settlement();
 	if (settlement != nullptr) {
 		return settlement->get_game_data()->get_settlement_type();
 	}
@@ -80,7 +80,7 @@ const settlement_type *tile::get_settlement_type() const
 	return nullptr;
 }
 
-const metternich::resource *tile::get_resource() const
+const kobold::resource *tile::get_resource() const
 {
 	if (this->get_site() != nullptr) {
 		return this->get_site()->get_map_data()->get_resource();
@@ -140,7 +140,7 @@ bool tile::is_river_crossing_direction(const direction direction) const
 
 void tile::set_direction_pathway(const direction direction, const pathway *pathway)
 {
-	const metternich::pathway *old_pathway = this->get_direction_pathway(direction);
+	const kobold::pathway *old_pathway = this->get_direction_pathway(direction);
 
 	if (pathway == old_pathway) {
 		return;

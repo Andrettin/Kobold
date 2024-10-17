@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/improvement_container.h"
 
 #include "infrastructure/improvement.h"
 
-namespace metternich {
+namespace kobold {
 
 bool improvement_compare::operator()(const improvement *lhs, const improvement *rhs) const
 {

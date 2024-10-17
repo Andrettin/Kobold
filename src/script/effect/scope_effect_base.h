@@ -3,7 +3,7 @@
 #include "script/effect/effect.h"
 #include "script/effect/effect_list.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename upper_scope_type, typename scope_type>
 class scope_effect_base : public effect<upper_scope_type>

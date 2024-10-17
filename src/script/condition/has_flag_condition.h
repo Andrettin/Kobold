@@ -6,14 +6,14 @@
 #include "script/flag.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class flag;
 
 class has_flag_condition final : public condition<country>
 {
 public:
-	explicit has_flag_condition(const metternich::flag *flag)
+	explicit has_flag_condition(const kobold::flag *flag)
 		: condition(gsml_operator::assignment), flag(flag)
 	{
 	}
@@ -49,7 +49,7 @@ public:
 	}
 
 private:
-	const metternich::flag *flag = nullptr;
+	const kobold::flag *flag = nullptr;
 };
 
 }

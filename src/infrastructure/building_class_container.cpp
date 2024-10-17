@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/building_class_container.h"
 
 #include "infrastructure/building_class.h"
 
-namespace metternich {
+namespace kobold {
 
 bool building_class_compare::operator()(const building_class *lhs, const building_class *rhs) const
 {

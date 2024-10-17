@@ -7,7 +7,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class commodity_percent_effect final : public effect<const country>
 {
@@ -84,7 +84,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 	int percent = 0;
 };
 

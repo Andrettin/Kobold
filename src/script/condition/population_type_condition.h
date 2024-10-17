@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_type_condition final : public condition<population_unit>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::population_type *population_type = nullptr;
+	const kobold::population_type *population_type = nullptr;
 };
 
 }

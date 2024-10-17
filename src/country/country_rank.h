@@ -4,7 +4,7 @@
 #include "database/named_data_entry.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 
@@ -21,7 +21,7 @@ class country_rank final : public named_data_entry, public data_type<country_ran
 
 public:
 	static constexpr const char class_identifier[] = "country_rank";
-	static constexpr const char property_class_identifier[] = "metternich::country_rank*";
+	static constexpr const char property_class_identifier[] = "kobold::country_rank*";
 	static constexpr const char database_folder[] = "country_ranks";
 
 	explicit country_rank(const std::string &identifier);

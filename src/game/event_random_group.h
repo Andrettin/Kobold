@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;
@@ -17,7 +17,7 @@ class event_random_group final : public named_data_entry, public data_type<event
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::event_trigger trigger MEMBER trigger READ get_trigger)
+	Q_PROPERTY(kobold::event_trigger trigger MEMBER trigger READ get_trigger)
 	Q_PROPERTY(int none_weight MEMBER none_weight READ get_none_weight)
 	Q_PROPERTY(int delay MEMBER delay)
 	Q_PROPERTY(int delay_days MEMBER delay_days)
@@ -40,7 +40,7 @@ private:
 
 public:
 	static constexpr const char class_identifier[] = "event_random_group";
-	static constexpr const char property_class_identifier[] = "metternich::event_random_group*";
+	static constexpr const char property_class_identifier[] = "kobold::event_random_group*";
 	static constexpr const char database_folder[] = "event_random_groups";
 
 	explicit event_random_group(const std::string &identifier);

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/building_slot.h"
 
@@ -13,7 +13,7 @@
 #include "script/condition/condition.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 building_slot::building_slot(const building_slot_type *type)
 	: type(type)

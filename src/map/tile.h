@@ -7,7 +7,7 @@ namespace archimedes {
 	enum class direction;
 }
 
-namespace metternich {
+namespace kobold {
 
 class civilian_unit;
 class country;
@@ -63,32 +63,32 @@ public:
 		this->subtile_frames[index] = subtile;
 	}
 
-	const metternich::province *get_province() const
+	const kobold::province *get_province() const
 	{
 		return this->province;
 	}
 
-	void set_province(const metternich::province *province)
+	void set_province(const kobold::province *province)
 	{
 		this->province = province;
 	}
 
 	const country *get_owner() const;
 
-	const metternich::site *get_site() const
+	const kobold::site *get_site() const
 	{
 		return this->site;
 	}
 
-	void set_site(const metternich::site *site)
+	void set_site(const kobold::site *site)
 	{
 		this->site = site;
 	}
 
-	const metternich::site *get_settlement() const;
+	const kobold::site *get_settlement() const;
 	const settlement_type *get_settlement_type() const;
 
-	const metternich::resource *get_resource() const;
+	const kobold::resource *get_resource() const;
 	bool is_resource_discovered() const;
 
 	void on_main_improvement_changed();
@@ -243,12 +243,12 @@ public:
 		return !this->get_country_border_directions().empty();
 	}
 	
-	metternich::civilian_unit *get_civilian_unit() const
+	kobold::civilian_unit *get_civilian_unit() const
 	{
 		return this->civilian_unit;
 	}
 
-	void set_civilian_unit(metternich::civilian_unit *civilian_unit)
+	void set_civilian_unit(kobold::civilian_unit *civilian_unit)
 	{
 		this->civilian_unit = civilian_unit;
 	}
@@ -264,8 +264,8 @@ private:
 	std::array<short, 4> base_subtile_frames;
 	short tile_frame = 0;
 	std::array<short, 4> subtile_frames;
-	const metternich::province *province = nullptr;
-	const metternich::site *site = nullptr;
+	const kobold::province *province = nullptr;
+	const kobold::site *site = nullptr;
 	int8_t improvement_variation = 0;
 	bool inner_river = false; //whether the tile has an in-tile river
 	std::vector<direction> river_directions;
@@ -276,7 +276,7 @@ private:
 	int sea_transport_level = 0;
 	std::vector<direction> border_directions; //used for graphical borders; this does not include e.g. borders with water tiles for land ones
 	std::vector<direction> country_border_directions;
-	metternich::civilian_unit *civilian_unit = nullptr;
+	kobold::civilian_unit *civilian_unit = nullptr;
 };
 
 }

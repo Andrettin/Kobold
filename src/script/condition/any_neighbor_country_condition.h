@@ -4,7 +4,7 @@
 #include "country/country_game_data.h"
 #include "script/condition/scope_condition_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class any_neighbor_country_condition final : public scope_condition_base<country, country>
 {

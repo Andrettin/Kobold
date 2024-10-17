@@ -11,7 +11,7 @@ Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/civilian_unit_class.h")
 
-namespace metternich {
+namespace kobold {
 
 class civilian_unit_class;
 class cultural_group;
@@ -23,19 +23,19 @@ class civilian_unit_type final : public named_data_entry, public data_type<civil
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::civilian_unit_class* unit_class MEMBER unit_class NOTIFY changed)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(metternich::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::civilian_unit_class* unit_class MEMBER unit_class NOTIFY changed)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
+	Q_PROPERTY(kobold::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(bool explorer MEMBER explorer READ is_explorer NOTIFY changed)
 	Q_PROPERTY(bool prospector MEMBER prospector READ is_prospector NOTIFY changed)
 	Q_PROPERTY(bool developer MEMBER developer READ is_developer NOTIFY changed)
 	Q_PROPERTY(bool spy MEMBER spy READ is_spy NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "civilian_unit_type";
-	static constexpr const char property_class_identifier[] = "metternich::civilian_unit_type*";
+	static constexpr const char property_class_identifier[] = "kobold::civilian_unit_type*";
 	static constexpr const char database_folder[] = "civilian_unit_types";
 
 public:
@@ -52,17 +52,17 @@ public:
 		return this->unit_class;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::cultural_group *get_cultural_group() const
+	const kobold::cultural_group *get_cultural_group() const
 	{
 		return this->cultural_group;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -117,9 +117,9 @@ signals:
 
 private:
 	civilian_unit_class *unit_class = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::cultural_group *cultural_group = nullptr;
-	metternich::icon *icon = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::cultural_group *cultural_group = nullptr;
+	kobold::icon *icon = nullptr;
 	bool explorer = false;
 	bool prospector = false;
 	bool developer = false;

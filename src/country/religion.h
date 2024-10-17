@@ -6,7 +6,7 @@
 
 Q_MOC_INCLUDE("country/religious_group.h")
 
-namespace metternich {
+namespace kobold {
 
 class religious_group;
 
@@ -14,12 +14,12 @@ class religion final : public religion_base, public data_type<religion>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::religious_group* group MEMBER group NOTIFY changed)
+	Q_PROPERTY(kobold::religious_group* group MEMBER group NOTIFY changed)
 	Q_PROPERTY(QColor color MEMBER color READ get_color NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "religion";
-	static constexpr const char property_class_identifier[] = "metternich::religion*";
+	static constexpr const char property_class_identifier[] = "kobold::religion*";
 	static constexpr const char database_folder[] = "religions";
 
 	explicit religion(const std::string &identifier) : religion_base(identifier)

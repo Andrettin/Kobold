@@ -41,7 +41,7 @@ Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class building_type;
@@ -91,17 +91,17 @@ class country_game_data final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::country_tier tier READ get_tier NOTIFY tier_changed)
+	Q_PROPERTY(kobold::country_tier tier READ get_tier NOTIFY tier_changed)
 	Q_PROPERTY(QString name READ get_name_qstring NOTIFY title_name_changed)
 	Q_PROPERTY(QString titled_name READ get_titled_name_qstring NOTIFY title_name_changed)
 	Q_PROPERTY(QString title_name READ get_title_name_qstring NOTIFY title_name_changed)
 	Q_PROPERTY(QString ruler_title_name READ get_ruler_title_name_qstring NOTIFY ruler_title_name_changed)
-	Q_PROPERTY(const metternich::religion* religion READ get_religion NOTIFY religion_changed)
-	Q_PROPERTY(const metternich::country* overlord READ get_overlord NOTIFY overlord_changed)
+	Q_PROPERTY(const kobold::religion* religion READ get_religion NOTIFY religion_changed)
+	Q_PROPERTY(const kobold::country* overlord READ get_overlord NOTIFY overlord_changed)
 	Q_PROPERTY(QString type_name READ get_type_name_qstring NOTIFY type_name_changed)
-	Q_PROPERTY(const metternich::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
+	Q_PROPERTY(const kobold::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
 	Q_PROPERTY(QVariantList provinces READ get_provinces_qvariant_list NOTIFY provinces_changed)
-	Q_PROPERTY(const metternich::site* capital READ get_capital NOTIFY capital_changed)
+	Q_PROPERTY(const kobold::site* capital READ get_capital NOTIFY capital_changed)
 	Q_PROPERTY(bool coastal READ is_coastal NOTIFY provinces_changed)
 	Q_PROPERTY(bool anarchy READ is_under_anarchy NOTIFY provinces_changed)
 	Q_PROPERTY(QRect territory_rect READ get_territory_rect NOTIFY provinces_changed)
@@ -119,7 +119,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(int score READ get_score NOTIFY score_changed)
 	Q_PROPERTY(int score_rank READ get_score_rank NOTIFY score_rank_changed)
 	Q_PROPERTY(int population_unit_count READ get_population_unit_count NOTIFY population_units_changed)
-	Q_PROPERTY(metternich::population* population READ get_population CONSTANT)
+	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
 	Q_PROPERTY(int population_growth READ get_population_growth NOTIFY population_growth_changed)
 	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
@@ -142,24 +142,24 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList technologies READ get_technologies_qvariant_list NOTIFY technologies_changed)
 	Q_PROPERTY(QVariantList available_technologies READ get_available_technologies_qvariant_list NOTIFY technologies_changed)
 	Q_PROPERTY(QVariantList future_technologies READ get_future_technologies_qvariant_list NOTIFY technologies_changed)
-	Q_PROPERTY(const metternich::technology* current_research READ get_current_research WRITE set_current_research NOTIFY current_research_changed)
+	Q_PROPERTY(const kobold::technology* current_research READ get_current_research WRITE set_current_research NOTIFY current_research_changed)
 	Q_PROPERTY(int research_cost_modifier READ get_research_cost_modifier NOTIFY provinces_changed)
 	Q_PROPERTY(QColor diplomatic_map_color READ get_diplomatic_map_color NOTIFY overlord_changed)
-	Q_PROPERTY(const metternich::government_type* government_type READ get_government_type NOTIFY government_type_changed)
+	Q_PROPERTY(const kobold::government_type* government_type READ get_government_type NOTIFY government_type_changed)
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY laws_changed)
 	Q_PROPERTY(QVariantList policy_values READ get_policy_values_qvariant_list NOTIFY policy_values_changed)
 	Q_PROPERTY(QVariantList available_traditions READ get_available_traditions_qvariant_list NOTIFY traditions_changed)
 	Q_PROPERTY(int tradition_cost READ get_tradition_cost NOTIFY traditions_changed)
-	Q_PROPERTY(const metternich::tradition* next_tradition READ get_next_tradition WRITE set_next_tradition NOTIFY next_tradition_changed)
-	Q_PROPERTY(const metternich::tradition* next_belief READ get_next_belief WRITE set_next_belief NOTIFY next_belief_changed)
-	Q_PROPERTY(const metternich::character* ruler READ get_ruler NOTIFY ruler_changed)
+	Q_PROPERTY(const kobold::tradition* next_tradition READ get_next_tradition WRITE set_next_tradition NOTIFY next_tradition_changed)
+	Q_PROPERTY(const kobold::tradition* next_belief READ get_next_belief WRITE set_next_belief NOTIFY next_belief_changed)
+	Q_PROPERTY(const kobold::character* ruler READ get_ruler NOTIFY ruler_changed)
 	Q_PROPERTY(QVariantList advisors READ get_advisors_qvariant_list NOTIFY advisors_changed)
 	Q_PROPERTY(int advisor_cost READ get_advisor_cost NOTIFY advisors_changed)
-	Q_PROPERTY(const metternich::character* next_advisor READ get_next_advisor WRITE set_next_advisor NOTIFY next_advisor_changed)
+	Q_PROPERTY(const kobold::character* next_advisor READ get_next_advisor WRITE set_next_advisor NOTIFY next_advisor_changed)
 	Q_PROPERTY(QVariantList leaders READ get_leaders_qvariant_list NOTIFY leaders_changed)
 	Q_PROPERTY(int leader_cost READ get_leader_cost NOTIFY leaders_changed)
-	Q_PROPERTY(const metternich::character* next_leader READ get_next_leader WRITE set_next_leader NOTIFY next_leader_changed)
-	Q_PROPERTY(const metternich::military_unit_type* next_leader_military_unit_type READ get_next_leader_military_unit_type NOTIFY next_leader_changed)
+	Q_PROPERTY(const kobold::character* next_leader READ get_next_leader WRITE set_next_leader NOTIFY next_leader_changed)
+	Q_PROPERTY(const kobold::military_unit_type* next_leader_military_unit_type READ get_next_leader_military_unit_type NOTIFY next_leader_changed)
 	Q_PROPERTY(QVariantList bids READ get_bids_qvariant_list NOTIFY bids_changed)
 	Q_PROPERTY(QVariantList offers READ get_offers_qvariant_list NOTIFY offers_changed)
 	Q_PROPERTY(int output_modifier READ get_output_modifier_int NOTIFY output_modifier_changed)
@@ -176,7 +176,7 @@ public:
 	static constexpr int base_deployment_limit = 10;
 	static constexpr int vassal_tax_rate = 50;
 
-	explicit country_game_data(metternich::country *country);
+	explicit country_game_data(kobold::country *country);
 	~country_game_data();
 
 	void do_turn();
@@ -231,31 +231,31 @@ public:
 		return QString::fromStdString(this->get_ruler_title_name());
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	void set_religion(const metternich::religion *religion);
+	void set_religion(const kobold::religion *religion);
 
-	const metternich::country *get_overlord() const
+	const kobold::country *get_overlord() const
 	{
 		return this->overlord;
 	}
 
-	void set_overlord(const metternich::country *overlord);
+	void set_overlord(const kobold::country *overlord);
 
-	bool is_vassal_of(const metternich::country *country) const;
-	bool is_any_vassal_of(const metternich::country *country) const;
+	bool is_vassal_of(const kobold::country *country) const;
+	bool is_any_vassal_of(const kobold::country *country) const;
 
-	Q_INVOKABLE bool is_any_vassal_of(metternich::country *country)
+	Q_INVOKABLE bool is_any_vassal_of(kobold::country *country)
 	{
-		const metternich::country *country_const = country;
+		const kobold::country *country_const = country;
 		return this->is_any_vassal_of(country_const);
 	}
 
-	bool is_overlord_of(const metternich::country *country) const;
-	bool is_any_overlord_of(const metternich::country *country) const;
+	bool is_overlord_of(const kobold::country *country) const;
+	bool is_any_overlord_of(const kobold::country *country) const;
 
 	bool is_independent() const
 	{
@@ -269,12 +269,12 @@ public:
 		return QString::fromStdString(this->get_type_name());
 	}
 
-	const metternich::subject_type *get_subject_type() const
+	const kobold::subject_type *get_subject_type() const
 	{
 		return this->subject_type;
 	}
 
-	void set_subject_type(const metternich::subject_type *subject_type);
+	void set_subject_type(const kobold::subject_type *subject_type);
 
 	const std::vector<const province *> &get_provinces() const
 	{
@@ -421,20 +421,20 @@ public:
 		return this->known_countries;
 	}
 
-	bool is_country_known(const metternich::country *other_country) const
+	bool is_country_known(const kobold::country *other_country) const
 	{
 		return this->get_known_countries().contains(other_country);
 	}
 
-	void add_known_country(const metternich::country *other_country);
+	void add_known_country(const kobold::country *other_country);
 
-	void remove_known_country(const metternich::country *other_country)
+	void remove_known_country(const kobold::country *other_country)
 	{
 		this->known_countries.erase(other_country);
 	}
 
-	diplomacy_state get_diplomacy_state(const metternich::country *other_country) const;
-	void set_diplomacy_state(const metternich::country *other_country, const diplomacy_state state);
+	diplomacy_state get_diplomacy_state(const kobold::country *other_country) const;
+	void set_diplomacy_state(const kobold::country *other_country, const diplomacy_state state);
 
 	const std::map<diplomacy_state, int> &get_diplomacy_state_counts() const
 	{
@@ -442,15 +442,15 @@ public:
 	}
 
 	void change_diplomacy_state_count(const diplomacy_state state, const int change);
-	Q_INVOKABLE QString get_diplomacy_state_diplomatic_map_suffix(metternich::country *other_country) const;
+	Q_INVOKABLE QString get_diplomacy_state_diplomatic_map_suffix(kobold::country *other_country) const;
 
 	bool at_war() const;
 
-	bool can_attack(const metternich::country *other_country) const;
+	bool can_attack(const kobold::country *other_country) const;
 
-	std::optional<diplomacy_state> get_offered_diplomacy_state(const metternich::country *other_country) const;
+	std::optional<diplomacy_state> get_offered_diplomacy_state(const kobold::country *other_country) const;
 
-	Q_INVOKABLE int get_offered_diplomacy_state_int(metternich::country *other_country) const
+	Q_INVOKABLE int get_offered_diplomacy_state_int(kobold::country *other_country) const
 	{
 		const std::optional<diplomacy_state> state = this->get_offered_diplomacy_state(other_country);
 
@@ -461,9 +461,9 @@ public:
 		return static_cast<int>(state.value());
 	}
 
-	void set_offered_diplomacy_state(const metternich::country *other_country, const std::optional<diplomacy_state> &state);
+	void set_offered_diplomacy_state(const kobold::country *other_country, const std::optional<diplomacy_state> &state);
 
-	Q_INVOKABLE void set_offered_diplomacy_state_int(metternich::country *other_country, const int state)
+	Q_INVOKABLE void set_offered_diplomacy_state_int(kobold::country *other_country, const int state)
 	{
 		if (state == -1) {
 			this->set_offered_diplomacy_state(other_country, std::nullopt);
@@ -474,7 +474,7 @@ public:
 
 	QVariantList get_consulates_qvariant_list() const;
 
-	const consulate *get_consulate(const metternich::country *other_country) const
+	const consulate *get_consulate(const kobold::country *other_country) const
 	{
 		const auto find_iterator = this->consulates.find(other_country);
 
@@ -485,11 +485,11 @@ public:
 		return nullptr;
 	}
 
-	void set_consulate(const metternich::country *other_country, const consulate *consulate);
+	void set_consulate(const kobold::country *other_country, const consulate *consulate);
 
-	int get_opinion_of(const metternich::country *other) const;
+	int get_opinion_of(const kobold::country *other) const;
 
-	int get_base_opinion(const metternich::country *other) const
+	int get_base_opinion(const kobold::country *other) const
 	{
 		const auto find_iterator = this->base_opinions.find(other);
 		if (find_iterator != this->base_opinions.end()) {
@@ -499,14 +499,14 @@ public:
 		return 0;
 	}
 
-	void set_base_opinion(const metternich::country *other, const int opinion);
+	void set_base_opinion(const kobold::country *other, const int opinion);
 
-	void change_base_opinion(const metternich::country *other, const int change)
+	void change_base_opinion(const kobold::country *other, const int change)
 	{
 		this->set_base_opinion(other, this->get_base_opinion(other) + change);
 	}
 
-	const opinion_modifier_map<int> &get_opinion_modifiers_for(const metternich::country *other) const
+	const opinion_modifier_map<int> &get_opinion_modifiers_for(const kobold::country *other) const
 	{
 		static const opinion_modifier_map<int> empty_map;
 
@@ -518,16 +518,16 @@ public:
 		return empty_map;
 	}
 
-	void add_opinion_modifier(const metternich::country *other, const opinion_modifier *modifier, const int duration);
-	void remove_opinion_modifier(const metternich::country *other, const opinion_modifier *modifier);
+	void add_opinion_modifier(const kobold::country *other, const opinion_modifier *modifier, const int duration);
+	void remove_opinion_modifier(const kobold::country *other, const opinion_modifier *modifier);
 
-	int get_opinion_weighted_prestige_for(const metternich::country *other) const;
+	int get_opinion_weighted_prestige_for(const kobold::country *other) const;
 
-	std::vector<const metternich::country *> get_vassals() const;
+	std::vector<const kobold::country *> get_vassals() const;
 	QVariantList get_vassals_qvariant_list() const;
 	QVariantList get_subject_type_counts_qvariant_list() const;
 
-	std::vector<const metternich::country *> get_neighbor_countries() const;
+	std::vector<const kobold::country *> get_neighbor_countries() const;
 
 	const QColor &get_diplomatic_map_color() const;
 
@@ -646,7 +646,7 @@ public:
 	void add_population_unit(population_unit *population_unit);
 	void remove_population_unit(population_unit *population_unit);
 
-	metternich::population *get_population() const
+	kobold::population *get_population() const
 	{
 		return this->population.get();
 	}
@@ -669,7 +669,7 @@ public:
 	void decrease_population();
 	population_unit *choose_starvation_population_unit();
 
-	Q_INVOKABLE const icon *get_population_type_small_icon(const metternich::population_type *type) const;
+	Q_INVOKABLE const icon *get_population_type_small_icon(const kobold::population_type *type) const;
 
 	int get_total_unit_count() const
 	{
@@ -749,9 +749,9 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE int get_settlement_building_count(metternich::building_type *building) const
+	Q_INVOKABLE int get_settlement_building_count(kobold::building_type *building) const
 	{
-		const metternich::building_type *const_building = building;
+		const kobold::building_type *const_building = building;
 		return this->get_settlement_building_count(const_building);
 	}
 
@@ -910,7 +910,7 @@ public:
 
 	QVariantList get_stored_commodities_qvariant_list() const;
 
-	Q_INVOKABLE int get_stored_commodity(const metternich::commodity *commodity) const
+	Q_INVOKABLE int get_stored_commodity(const kobold::commodity *commodity) const
 	{
 		const auto find_iterator = this->stored_commodities.find(commodity);
 
@@ -992,7 +992,7 @@ public:
 
 	QVariantList get_transported_commodity_outputs_qvariant_list() const;
 
-	Q_INVOKABLE int get_transported_commodity_output(const metternich::commodity *commodity) const
+	Q_INVOKABLE int get_transported_commodity_output(const kobold::commodity *commodity) const
 	{
 		const auto find_iterator = this->transported_commodity_outputs.find(commodity);
 
@@ -1003,7 +1003,7 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE void change_transported_commodity_output(const metternich::commodity *commodity, const int change);
+	Q_INVOKABLE void change_transported_commodity_output(const kobold::commodity *commodity, const int change);
 
 	const commodity_map<centesimal_int> &get_commodity_outputs() const
 	{
@@ -1147,7 +1147,7 @@ public:
 
 	void assign_transport_orders();
 
-	bool can_declare_war_on(const metternich::country *other_country) const;
+	bool can_declare_war_on(const kobold::country *other_country) const;
 
 	const technology_set &get_technologies() const
 	{
@@ -1161,9 +1161,9 @@ public:
 		return this->get_technologies().contains(technology);
 	}
 
-	Q_INVOKABLE bool has_technology(metternich::technology *technology) const
+	Q_INVOKABLE bool has_technology(kobold::technology *technology) const
 	{
-		const metternich::technology *const_technology = technology;
+		const kobold::technology *const_technology = technology;
 		return this->has_technology(const_technology);
 	}
 
@@ -1176,9 +1176,9 @@ public:
 	QVariantList get_available_technologies_qvariant_list() const;
 	bool is_technology_available(const technology *technology) const;
 
-	Q_INVOKABLE bool is_technology_available(metternich::technology *technology) const
+	Q_INVOKABLE bool is_technology_available(kobold::technology *technology) const
 	{
-		const metternich::technology *const_technology = technology;
+		const kobold::technology *const_technology = technology;
 		return this->is_technology_available(const_technology);
 	}
 
@@ -1213,22 +1213,22 @@ public:
 		}
 	}
 
-	Q_INVOKABLE void gain_free_technology(metternich::technology *technology)
+	Q_INVOKABLE void gain_free_technology(kobold::technology *technology)
 	{
-		const metternich::technology *const_technology = technology;
+		const kobold::technology *const_technology = technology;
 		return this->gain_free_technology(const_technology);
 	}
 
 	void gain_free_technologies(const int count);
 	void gain_technologies_known_by_others();
 
-	const metternich::government_type *get_government_type() const
+	const kobold::government_type *get_government_type() const
 	{
 		return this->government_type;
 	}
 
-	void set_government_type(const metternich::government_type *government_type);
-	bool can_have_government_type(const metternich::government_type *government_type) const;
+	void set_government_type(const kobold::government_type *government_type);
+	bool can_have_government_type(const kobold::government_type *government_type) const;
 	void check_government_type();
 
 	bool is_tribal() const;
@@ -1240,7 +1240,7 @@ public:
 
 	QVariantList get_laws_qvariant_list() const;
 
-	Q_INVOKABLE const metternich::law *get_law(const metternich::law_group *law_group) const
+	Q_INVOKABLE const kobold::law *get_law(const kobold::law_group *law_group) const
 	{
 		const auto find_iterator = this->get_laws().find(law_group);
 
@@ -1253,9 +1253,9 @@ public:
 
 	void set_law(const law_group *law_group, const law *law);
 	bool has_law(const law *law) const;
-	Q_INVOKABLE bool can_have_law(const metternich::law *law) const;
-	Q_INVOKABLE bool can_enact_law(const metternich::law *law) const;
-	Q_INVOKABLE void enact_law(const metternich::law *law);
+	Q_INVOKABLE bool can_have_law(const kobold::law *law) const;
+	Q_INVOKABLE bool can_enact_law(const kobold::law *law) const;
+	Q_INVOKABLE void enact_law(const kobold::law *law);
 
 	Q_INVOKABLE int get_total_law_cost_modifier() const
 	{
@@ -1271,7 +1271,7 @@ public:
 
 	QVariantList get_policy_values_qvariant_list() const;
 
-	Q_INVOKABLE int get_policy_value(const metternich::policy *policy) const
+	Q_INVOKABLE int get_policy_value(const kobold::policy *policy) const
 	{
 		const auto find_iterator = this->get_policy_values().find(policy);
 
@@ -1289,11 +1289,11 @@ public:
 		this->set_policy_value(policy, this->get_policy_value(policy) + change);
 	}
 
-	Q_INVOKABLE int get_min_policy_value(const metternich::policy *policy) const;
-	Q_INVOKABLE int get_max_policy_value(const metternich::policy *policy) const;
+	Q_INVOKABLE int get_min_policy_value(const kobold::policy *policy) const;
+	Q_INVOKABLE int get_max_policy_value(const kobold::policy *policy) const;
 
-	Q_INVOKABLE bool can_change_policy_value(const metternich::policy *policy, const int change) const;
-	Q_INVOKABLE void do_policy_value_change(const metternich::policy *policy, const int change);
+	Q_INVOKABLE bool can_change_policy_value(const kobold::policy *policy, const int change) const;
+	Q_INVOKABLE void do_policy_value_change(const kobold::policy *policy, const int change);
 
 	Q_INVOKABLE int get_policy_value_change_cost_modifier() const
 	{
@@ -1305,7 +1305,7 @@ public:
 		return this->traditions;
 	}
 
-	Q_INVOKABLE bool has_tradition(const metternich::tradition *tradition) const
+	Q_INVOKABLE bool has_tradition(const kobold::tradition *tradition) const
 	{
 		return this->get_traditions().contains(tradition);
 	}
@@ -1313,7 +1313,7 @@ public:
 	std::vector<const tradition *> get_available_traditions() const;
 	QVariantList get_available_traditions_qvariant_list() const;
 
-	Q_INVOKABLE bool can_have_tradition(const metternich::tradition *tradition) const;
+	Q_INVOKABLE bool can_have_tradition(const kobold::tradition *tradition) const;
 	void gain_tradition(const tradition *tradition, const int multiplier);
 	void gain_tradition_with_prerequisites(const tradition *tradition);
 	void check_traditions();
@@ -1479,7 +1479,7 @@ public:
 
 	QVariantList get_bids_qvariant_list() const;
 
-	Q_INVOKABLE int get_bid(const metternich::commodity *commodity) const
+	Q_INVOKABLE int get_bid(const kobold::commodity *commodity) const
 	{
 		const auto find_iterator = this->bids.find(commodity);
 
@@ -1490,9 +1490,9 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE void set_bid(const metternich::commodity *commodity, const int value);
+	Q_INVOKABLE void set_bid(const kobold::commodity *commodity, const int value);
 
-	Q_INVOKABLE void change_bid(const metternich::commodity *commodity, const int change)
+	Q_INVOKABLE void change_bid(const kobold::commodity *commodity, const int change)
 	{
 		this->set_bid(commodity, this->get_bid(commodity) + change);
 	}
@@ -1504,7 +1504,7 @@ public:
 
 	QVariantList get_offers_qvariant_list() const;
 
-	Q_INVOKABLE int get_offer(const metternich::commodity *commodity) const
+	Q_INVOKABLE int get_offer(const kobold::commodity *commodity) const
 	{
 		const auto find_iterator = this->offers.find(commodity);
 
@@ -1515,21 +1515,21 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE void set_offer(const metternich::commodity *commodity, const int value);
+	Q_INVOKABLE void set_offer(const kobold::commodity *commodity, const int value);
 
-	Q_INVOKABLE void change_offer(const metternich::commodity *commodity, const int change)
+	Q_INVOKABLE void change_offer(const kobold::commodity *commodity, const int change)
 	{
 		this->set_offer(commodity, this->get_offer(commodity) + change);
 	}
 
-	void do_sale(const metternich::country *other_country, const commodity *commodity, const int sold_quantity, const bool state_purchase);
+	void do_sale(const kobold::country *other_country, const commodity *commodity, const int sold_quantity, const bool state_purchase);
 
 	const commodity_map<int> &get_commodity_needs() const
 	{
 		return this->commodity_needs;
 	}
 
-	int get_commodity_need(const metternich::commodity *commodity) const
+	int get_commodity_need(const kobold::commodity *commodity) const
 	{
 		const auto find_iterator = this->commodity_needs.find(commodity);
 
@@ -1540,7 +1540,7 @@ public:
 		return 0;
 	}
 
-	void set_commodity_need(const metternich::commodity *commodity, const int value)
+	void set_commodity_need(const kobold::commodity *commodity, const int value)
 	{
 		if (value == this->get_commodity_need(commodity)) {
 			return;
@@ -1754,9 +1754,9 @@ public:
 		return zero;
 	}
 
-	Q_INVOKABLE int get_commodity_output_modifier(metternich::commodity *commodity) const
+	Q_INVOKABLE int get_commodity_output_modifier(kobold::commodity *commodity) const
 	{
-		const metternich::commodity *const_commodity = commodity;
+		const kobold::commodity *const_commodity = commodity;
 		return this->get_commodity_output_modifier(const_commodity).to_int();
 	}
 
@@ -1814,9 +1814,9 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE int get_commodity_throughput_modifier(metternich::commodity *commodity) const
+	Q_INVOKABLE int get_commodity_throughput_modifier(kobold::commodity *commodity) const
 	{
-		const metternich::commodity *const_commodity = commodity;
+		const kobold::commodity *const_commodity = commodity;
 		return this->get_commodity_throughput_modifier(const_commodity);
 	}
 
@@ -2050,7 +2050,7 @@ public:
 
 	void change_capital_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change);
 
-	Q_INVOKABLE int get_category_research_modifier(metternich::technology_category category) const
+	Q_INVOKABLE int get_category_research_modifier(kobold::technology_category category) const
 	{
 		const auto find_iterator = this->category_research_modifiers.find(category);
 
@@ -2523,10 +2523,10 @@ signals:
 	void journal_entry_completed(const journal_entry *journal_entry);
 
 private:
-	metternich::country *country = nullptr;
+	kobold::country *country = nullptr;
 	country_tier tier{};
-	const metternich::religion *religion = nullptr;
-	const metternich::country *overlord = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::country *overlord = nullptr;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;
 	int settlement_count = 0; //only includes built settlements
@@ -2541,7 +2541,7 @@ private:
 	resource_map<int> resource_counts;
 	resource_map<int> vassal_resource_counts;
 	terrain_type_map<int> tile_terrain_counts;
-	const metternich::subject_type *subject_type = nullptr;
+	const kobold::subject_type *subject_type = nullptr;
 	country_set known_countries;
 	country_map<diplomacy_state> diplomacy_states;
 	std::map<diplomacy_state, int> diplomacy_state_counts;
@@ -2560,7 +2560,7 @@ private:
 	int economic_score = 0;
 	int military_score = 0;
 	std::vector<population_unit *> population_units;
-	qunique_ptr<metternich::population> population;
+	qunique_ptr<kobold::population> population;
 	int population_growth = 0; //population growth counter
 	centesimal_int health;
 	int food_consumption = 0;
@@ -2589,7 +2589,7 @@ private:
 	technology_set technologies;
 	const technology *current_research = nullptr;
 	int free_technology_count = 0;
-	const metternich::government_type *government_type = nullptr;
+	const kobold::government_type *government_type = nullptr;
 	law_group_map<const law *> laws;
 	policy_map<int> policy_values;
 	tradition_set traditions;

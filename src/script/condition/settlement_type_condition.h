@@ -5,7 +5,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class settlement_type_condition final : public condition<site>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::settlement_type *settlement_type = nullptr;
+	const kobold::settlement_type *settlement_type = nullptr;
 };
 
 }

@@ -6,7 +6,7 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "unit/promotion.h"
 
-namespace metternich {
+namespace kobold {
 
 class free_warship_promotion_modifier_effect final : public modifier_effect<const country>
 {
@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	const metternich::promotion *promotion = nullptr;
+	const kobold::promotion *promotion = nullptr;
 };
 
 }

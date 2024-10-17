@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class country_exists_condition final : public condition<scope_type>
@@ -39,7 +39,7 @@ public:
 	}
 
 private:
-	const metternich::country *country = nullptr;
+	const kobold::country *country = nullptr;
 };
 
 }

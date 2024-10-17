@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/transporter_class_container.h"
 
 #include "unit/transporter_class.h"
 
-namespace metternich {
+namespace kobold {
 
 bool transporter_class_compare::operator()(const transporter_class *lhs, const transporter_class *rhs) const
 {

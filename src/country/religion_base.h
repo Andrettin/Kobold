@@ -6,7 +6,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class government_group;
 class government_type;

@@ -6,7 +6,7 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "util/number_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class commodity_bonus_per_settlement_modifier_effect final : public modifier_effect<scope_type>
@@ -55,7 +55,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

@@ -4,7 +4,7 @@ Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("map/province.h")
 Q_MOC_INCLUDE("map/site.h")
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;
@@ -17,9 +17,9 @@ class army final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::country* country READ get_country CONSTANT)
-	Q_PROPERTY(const metternich::province* target_province READ get_target_province CONSTANT)
-	Q_PROPERTY(const metternich::site* target_site READ get_target_site CONSTANT)
+	Q_PROPERTY(const kobold::country* country READ get_country CONSTANT)
+	Q_PROPERTY(const kobold::province* target_province READ get_target_province CONSTANT)
+	Q_PROPERTY(const kobold::site* target_site READ get_target_site CONSTANT)
 	Q_PROPERTY(QVariantList military_units READ get_military_units_qvariant_list NOTIFY military_units_changed)
 
 public:
@@ -30,7 +30,7 @@ public:
 
 	void do_turn();
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
@@ -70,7 +70,7 @@ signals:
 	void military_units_changed();
 
 private:
-	const metternich::country *country = nullptr;
+	const kobold::country *country = nullptr;
 	std::vector<military_unit *> military_units;
 	target_variant target; //the province or site the army is moving to
 };

@@ -5,12 +5,12 @@
 #include "population/population_type.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_type_militancy_modifier_effect final : public modifier_effect<const country>
 {
 public:
-	explicit population_type_militancy_modifier_effect(const metternich::population_type *population_type, const std::string &value)
+	explicit population_type_militancy_modifier_effect(const kobold::population_type *population_type, const std::string &value)
 		: modifier_effect(value), population_type(population_type)
 	{
 	}
@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	const metternich::population_type *population_type = nullptr;
+	const kobold::population_type *population_type = nullptr;
 };
 
 }

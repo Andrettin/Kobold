@@ -9,7 +9,7 @@ Q_MOC_INCLUDE("character/character.h")
 Q_MOC_INCLUDE("country/government_type.h")
 Q_MOC_INCLUDE("country/religion.h")
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class consulate;
@@ -25,16 +25,16 @@ class country_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::country_tier tier MEMBER tier)
-	Q_PROPERTY(metternich::religion* religion MEMBER religion)
-	Q_PROPERTY(metternich::character* ruler MEMBER ruler)
+	Q_PROPERTY(kobold::country_tier tier MEMBER tier)
+	Q_PROPERTY(kobold::religion* religion MEMBER religion)
+	Q_PROPERTY(kobold::character* ruler MEMBER ruler)
 	Q_PROPERTY(archimedes::centesimal_int literacy_rate MEMBER literacy_rate READ get_literacy_rate)
-	Q_PROPERTY(std::vector<const metternich::technology *> technologies READ get_technologies)
-	Q_PROPERTY(std::vector<const metternich::tradition *> traditions READ get_traditions)
+	Q_PROPERTY(std::vector<const kobold::technology *> technologies READ get_technologies)
+	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
 
 public:
-	explicit country_history(const metternich::country *country);
+	explicit country_history(const kobold::country *country);
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 
@@ -43,7 +43,7 @@ public:
 		return this->tier;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
@@ -53,7 +53,7 @@ public:
 		return this->ruler;
 	}
 
-	const metternich::subject_type *get_subject_type() const
+	const kobold::subject_type *get_subject_type() const
 	{
 		return this->subject_type;
 	}
@@ -108,7 +108,7 @@ public:
 		return this->diplomacy_states;
 	}
 
-	diplomacy_state get_diplomacy_state(const metternich::country *other_country) const;
+	diplomacy_state get_diplomacy_state(const kobold::country *other_country) const;
 
 	const country_map<const consulate *> &get_consulates() const
 	{
@@ -116,11 +116,11 @@ public:
 	}
 
 private:
-	const metternich::country *country = nullptr;
+	const kobold::country *country = nullptr;
 	country_tier tier{};
-	metternich::religion *religion = nullptr;
+	kobold::religion *religion = nullptr;
 	character *ruler = nullptr;
-	const metternich::subject_type *subject_type = nullptr;
+	const kobold::subject_type *subject_type = nullptr;
 	centesimal_int literacy_rate;
 	std::vector<const technology *> technologies;
 	std::vector<const tradition *> traditions;

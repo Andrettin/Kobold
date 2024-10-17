@@ -2,7 +2,7 @@
 
 #include "database/data_entry_history.h"
 
-namespace metternich {
+namespace kobold {
 
 class historical_transporter_history final : public data_entry_history
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/military_unit.h"
 
@@ -36,7 +36,7 @@
 #include "util/set_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 military_unit::military_unit(const military_unit_type *type) : type(type)
 {
@@ -53,7 +53,7 @@ military_unit::military_unit(const military_unit_type *type) : type(type)
 	this->check_free_promotions();
 }
 
-military_unit::military_unit(const military_unit_type *type, const metternich::country *country, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement)
+military_unit::military_unit(const military_unit_type *type, const kobold::country *country, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement)
 	: military_unit(type)
 {
 	this->country = country;
@@ -83,7 +83,7 @@ military_unit::military_unit(const military_unit_type *type, const metternich::c
 	this->check_free_promotions();
 }
 
-military_unit::military_unit(const military_unit_type *type, const metternich::country *country, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement)
+military_unit::military_unit(const military_unit_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement)
 	: military_unit(type, country, culture, religion, phenotype, home_settlement)
 {
 	this->population_type = population_type;
@@ -91,7 +91,7 @@ military_unit::military_unit(const military_unit_type *type, const metternich::c
 	assert_throw(this->get_population_type() != nullptr);
 }
 
-military_unit::military_unit(const military_unit_type *type, const metternich::character *character)
+military_unit::military_unit(const military_unit_type *type, const kobold::character *character)
 	: military_unit(type, character->get_game_data()->get_country(), character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
 {
 	this->character = character;
@@ -212,7 +212,7 @@ const icon *military_unit::get_icon() const
 	return this->get_type()->get_icon();
 }
 
-void military_unit::set_province(const metternich::province *province)
+void military_unit::set_province(const kobold::province *province)
 {
 	if (province == this->get_province()) {
 		return;
@@ -229,7 +229,7 @@ void military_unit::set_province(const metternich::province *province)
 
 		//when ships move to a water zone, explore all adjacent water zones and coasts as well
 		if (this->get_province()->is_water_zone()) {
-			for (const metternich::province *neighbor_province : this->get_province()->get_game_data()->get_neighbor_provinces()) {
+			for (const kobold::province *neighbor_province : this->get_province()->get_game_data()->get_neighbor_provinces()) {
 				if (this->get_country()->get_game_data()->is_province_explored(neighbor_province)) {
 					continue;
 				}
@@ -255,13 +255,13 @@ void military_unit::set_province(const metternich::province *province)
 	emit province_changed();
 }
 
-void military_unit::set_army(metternich::army *army)
+void military_unit::set_army(kobold::army *army)
 {
 	if (army == this->get_army()) {
 		return;
 	}
 
-	const metternich::army *old_army = this->get_army();
+	const kobold::army *old_army = this->get_army();
 
 	this->army = army;
 
@@ -278,7 +278,7 @@ void military_unit::set_army(metternich::army *army)
 	}
 }
 
-const metternich::character *military_unit::get_commander() const
+const kobold::character *military_unit::get_commander() const
 {
 	if (this->get_army() != nullptr) {
 		return this->get_army()->get_commander();
@@ -287,7 +287,7 @@ const metternich::character *military_unit::get_commander() const
 	return nullptr;
 }
 
-bool military_unit::can_move_to(const metternich::province *province) const
+bool military_unit::can_move_to(const kobold::province *province) const
 {
 	switch (this->get_domain()) {
 		case military_unit_domain::land:
@@ -314,7 +314,7 @@ bool military_unit::can_move_to(const metternich::province *province) const
 		//water zones can be freely moved to, if there is a path to them, as they are never owned by countries
 		return true;
 	} else {
-		const metternich::country *province_owner = province->get_game_data()->get_owner();
+		const kobold::country *province_owner = province->get_game_data()->get_owner();
 
 		if (province_owner != nullptr) {
 			if (province_owner == this->get_country()) {
@@ -332,7 +332,7 @@ bool military_unit::can_move_to(const metternich::province *province) const
 	return false;
 }
 
-bool military_unit::is_hostile_to(const metternich::country *country) const
+bool military_unit::is_hostile_to(const kobold::country *country) const
 {
 	return this->get_country()->get_game_data()->can_attack(country);
 }
@@ -372,7 +372,7 @@ centesimal_int military_unit::get_effective_stat(const military_unit_stat stat) 
 {
 	centesimal_int stat_value = this->get_stat(stat);
 
-	const metternich::character *commander = this->get_commander();
+	const kobold::character *commander = this->get_commander();
 	if (commander != nullptr) {
 		stat_value += commander->get_game_data()->get_commanded_military_unit_stat_modifier(stat);
 		stat_value += commander->get_game_data()->get_commanded_military_unit_type_stat_modifier(this->get_type(), stat);
@@ -539,7 +539,7 @@ void military_unit::attack(military_unit *target, const bool ranged, const bool 
 {
 	assert_throw(target != nullptr);
 
-	const metternich::province *province = target->get_province();
+	const kobold::province *province = target->get_province();
 	const terrain_type *terrain = nullptr;
 	if (province != nullptr) {
 		terrain = province->get_provincial_capital()->get_game_data()->get_tile()->get_terrain();

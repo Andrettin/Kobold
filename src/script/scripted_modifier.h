@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 
@@ -13,7 +13,7 @@ class scripted_modifier : public named_data_entry
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(bool negative MEMBER negative READ is_negative NOTIFY changed)
 
 public:
@@ -28,7 +28,7 @@ public:
 		}
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -42,7 +42,7 @@ signals:
 	void changed();
 
 private:
-	metternich::icon *icon = nullptr;
+	kobold::icon *icon = nullptr;
 	bool negative = false;
 };
 

@@ -9,7 +9,7 @@ Q_MOC_INCLUDE("population/profession.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class commodity;
 class icon;
@@ -29,22 +29,22 @@ class improvement final : public named_data_entry, public data_type<improvement>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::improvement_slot slot MEMBER slot READ get_slot NOTIFY changed)
-	Q_PROPERTY(metternich::resource* resource MEMBER resource NOTIFY changed)
+	Q_PROPERTY(kobold::improvement_slot slot MEMBER slot READ get_slot NOTIFY changed)
+	Q_PROPERTY(kobold::resource* resource MEMBER resource NOTIFY changed)
 	Q_PROPERTY(bool ruins MEMBER ruins READ is_ruins NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(int output_multiplier MEMBER output_multiplier READ get_output_multiplier NOTIFY changed)
-	Q_PROPERTY(const metternich::profession* employment_profession MEMBER employment_profession READ get_employment_profession NOTIFY changed)
+	Q_PROPERTY(const kobold::profession* employment_profession MEMBER employment_profession READ get_employment_profession NOTIFY changed)
 	Q_PROPERTY(int employment_capacity MEMBER employment_capacity READ get_employment_capacity NOTIFY changed)
 	Q_PROPERTY(int variation_count MEMBER variation_count READ get_variation_count)
-	Q_PROPERTY(metternich::improvement* required_improvement MEMBER required_improvement NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::improvement* required_improvement MEMBER required_improvement NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "improvement";
-	static constexpr const char property_class_identifier[] = "metternich::improvement*";
+	static constexpr const char property_class_identifier[] = "kobold::improvement*";
 	static constexpr const char database_folder[] = "improvements";
 
 	explicit improvement(const std::string &identifier);
@@ -66,7 +66,7 @@ public:
 
 	void calculate_level();
 
-	const metternich::resource *get_resource() const
+	const kobold::resource *get_resource() const
 	{
 		return this->resource;
 	}
@@ -76,7 +76,7 @@ public:
 		return this->ruins;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -163,9 +163,9 @@ signals:
 private:
 	improvement_slot slot{};
 	int level = 0;
-	metternich::resource *resource = nullptr; //the resource for which this improvement can be built
+	kobold::resource *resource = nullptr; //the resource for which this improvement can be built
 	bool ruins = false; //if true, this improvement can be explored by troops, yielding some bonus (or malus)
-	const metternich::icon *icon = nullptr;
+	const kobold::icon *icon = nullptr;
 	std::filesystem::path image_filepath;
 	std::map<const terrain_type *, std::filesystem::path> terrain_image_filepaths;
 	int output_multiplier = 0;

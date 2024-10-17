@@ -8,7 +8,7 @@ Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 class portrait;
@@ -29,18 +29,18 @@ class tradition final : public named_data_entry, public data_type<tradition>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::tradition_category category MEMBER category READ get_category NOTIFY changed)
+	Q_PROPERTY(kobold::tradition_category category MEMBER category READ get_category NOTIFY changed)
 	Q_PROPERTY(QString category_name READ get_category_name_qstring NOTIFY changed)
-	Q_PROPERTY(metternich::tradition_group* group MEMBER group NOTIFY changed)
-	Q_PROPERTY(const metternich::portrait* portrait MEMBER portrait READ get_portrait NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::tradition_group* group MEMBER group NOTIFY changed)
+	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait READ get_portrait NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(const QObject* tree_parent READ get_tree_parent CONSTANT)
 	Q_PROPERTY(QVariantList secondary_tree_parents READ get_secondary_tree_parents CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "tradition";
-	static constexpr const char property_class_identifier[] = "metternich::tradition*";
+	static constexpr const char property_class_identifier[] = "kobold::tradition*";
 	static constexpr const char database_folder[] = "traditions";
 
 	explicit tradition(const std::string &identifier);
@@ -109,7 +109,7 @@ public:
 		return this->conditions.get();
 	}
 
-	Q_INVOKABLE QString get_requirements_string(const metternich::country *country) const;
+	Q_INVOKABLE QString get_requirements_string(const kobold::country *country) const;
 
 	const modifier<const country> *get_modifier() const
 	{
@@ -121,7 +121,7 @@ public:
 		return this->effects.get();
 	}
 
-	Q_INVOKABLE QString get_modifier_string(const metternich::country *country) const;
+	Q_INVOKABLE QString get_modifier_string(const kobold::country *country) const;
 
 	bool is_available_for_country(const country *country) const;
 

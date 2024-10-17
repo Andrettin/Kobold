@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/tradition_container.h"
 
 #include "country/tradition.h"
 
-namespace metternich {
+namespace kobold {
 
 bool tradition_compare::operator()(const tradition *lhs, const tradition *rhs) const
 {

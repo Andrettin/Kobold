@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/commodity_container.h"
 
 #include "economy/commodity.h"
 
-namespace metternich {
+namespace kobold {
 
 bool commodity_compare::operator()(const commodity *lhs, const commodity *rhs) const
 {

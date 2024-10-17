@@ -8,7 +8,7 @@ Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("infrastructure/settlement_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class improvement;
@@ -23,14 +23,14 @@ class site_history final : public data_entry_history
 
 	Q_PROPERTY(bool resource_discovered MEMBER resource_discovered READ is_resource_discovered)
 	Q_PROPERTY(bool developed MEMBER developed)
-	Q_PROPERTY(metternich::settlement_type* settlement_type MEMBER settlement_type)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture)
-	Q_PROPERTY(metternich::religion* religion MEMBER religion)
+	Q_PROPERTY(kobold::settlement_type* settlement_type MEMBER settlement_type)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture)
+	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(int population READ get_population WRITE set_population)
 	Q_PROPERTY(archimedes::centesimal_int literacy_rate MEMBER literacy_rate READ get_literacy_rate)
 
 public:
-	explicit site_history(const metternich::site *site) : site(site)
+	explicit site_history(const kobold::site *site) : site(site)
 	{
 	}
 
@@ -47,7 +47,7 @@ public:
 		return this->developed || this->get_settlement_type() != nullptr || !this->get_improvements().empty() || !this->get_buildings().empty() || !this->get_wonders().empty() || !this->get_population_groups().empty();
 	}
 
-	const metternich::settlement_type *get_settlement_type() const
+	const kobold::settlement_type *get_settlement_type() const
 	{
 		return this->settlement_type;
 	}
@@ -97,12 +97,12 @@ public:
 		return nullptr;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
@@ -175,12 +175,12 @@ public:
 	}
 
 private:
-	const metternich::site *site = nullptr;
+	const kobold::site *site = nullptr;
 	bool resource_discovered = false;
 	bool developed = false;
-	metternich::settlement_type *settlement_type = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::religion *religion = nullptr;
+	kobold::settlement_type *settlement_type = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::religion *religion = nullptr;
 	std::map<improvement_slot, const improvement *> improvements;
 	building_slot_type_map<const building_type *> buildings;
 	building_slot_type_map<const wonder *> wonders;

@@ -3,7 +3,7 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "unit/military_unit.h"
 
-namespace metternich {
+namespace kobold {
 
 class entrenchment_bonus_modifier_effect final : public modifier_effect<const country>
 {

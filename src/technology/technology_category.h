@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class technology_category {
 	none,
@@ -41,6 +41,6 @@ inline std::string get_technology_category_name(const technology_category catego
 
 }
 
-extern template class archimedes::enum_converter<metternich::technology_category>;
+extern template class archimedes::enum_converter<kobold::technology_category>;
 
-Q_DECLARE_METATYPE(metternich::technology_category)
+Q_DECLARE_METATYPE(kobold::technology_category)

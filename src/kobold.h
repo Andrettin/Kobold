@@ -2,7 +2,7 @@
 
 #include "archimedes.h"
 
-namespace metternich {
+namespace kobold {
 	using namespace archimedes;
 
 	class building_class;

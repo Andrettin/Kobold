@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class cultural_group_rank {
 	none,
@@ -14,6 +14,6 @@ enum class cultural_group_rank {
 
 }
 
-extern template class archimedes::enum_converter<metternich::cultural_group_rank>;
+extern template class archimedes::enum_converter<kobold::cultural_group_rank>;
 
-Q_DECLARE_METATYPE(metternich::cultural_group_rank)
+Q_DECLARE_METATYPE(kobold::cultural_group_rank)

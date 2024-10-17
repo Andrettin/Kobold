@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/culture_history.h"
 
@@ -8,7 +8,7 @@
 #include "map/province_game_data.h"
 #include "map/region.h"
 
-namespace metternich {
+namespace kobold {
 
 void culture_history::apply_to_country(const country *country) const
 {

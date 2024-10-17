@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/game_rules.h"
 
@@ -6,7 +6,7 @@
 #include "database/gsml_data.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void game_rules::process_gsml_property(const gsml_property &property)
 {

@@ -7,7 +7,7 @@ namespace archimedes {
 	class gsml_property;
 }
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scoped_event_base;
@@ -56,7 +56,7 @@ private:
 	const scripted_effect_base<scope_type> *scripted_effect = nullptr;
 	const scoped_event_base<scope_type> *event = nullptr;
 	scope_type *scope = nullptr;
-	metternich::context context;
+	kobold::context context;
 	int remaining_turns = 0;
 };
 

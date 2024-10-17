@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/text_processor.h"
 
@@ -14,7 +14,7 @@
 #include "util/queue_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 std::string text_processor::process_tokens(std::queue<std::string> &&tokens, const bool process_in_game_data, bool &processed) const
 {

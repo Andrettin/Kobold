@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/factor_modifier.h"
 
@@ -8,7 +8,7 @@
 #include "script/condition/and_condition.h"
 #include "script/context.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 factor_modifier<scope_type>::factor_modifier()
@@ -35,7 +35,7 @@ void factor_modifier<scope_type>::process_gsml_property(const gsml_property &pro
 			throw std::runtime_error("Invalid operator for property (\"" + property.get_key() + "\").");
 		}
 	} else {
-		std::unique_ptr<const condition<scope_type>> condition = metternich::condition<scope_type>::from_gsml_property(property);
+		std::unique_ptr<const condition<scope_type>> condition = kobold::condition<scope_type>::from_gsml_property(property);
 		this->conditions->add_condition(std::move(condition));
 	}
 }
@@ -43,7 +43,7 @@ void factor_modifier<scope_type>::process_gsml_property(const gsml_property &pro
 template <typename scope_type>
 void factor_modifier<scope_type>::process_gsml_scope(const gsml_data &scope)
 {
-	std::unique_ptr<const condition<scope_type>> condition = metternich::condition<scope_type>::from_gsml_scope(scope);
+	std::unique_ptr<const condition<scope_type>> condition = kobold::condition<scope_type>::from_gsml_scope(scope);
 	this->conditions->add_condition(std::move(condition));
 }
 

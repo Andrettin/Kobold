@@ -9,13 +9,13 @@
 #include "unit/transporter_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class ship_stat_modifier_effect final : public modifier_effect<const country>
 {
 public:
 	explicit ship_stat_modifier_effect(const std::string &stat_name, const std::string &value)
-		: modifier_effect(value), military_unit_stat(enum_converter<metternich::military_unit_stat>::to_enum(stat_name)), transporter_stat(enum_converter<metternich::transporter_stat>::to_enum(stat_name))
+		: modifier_effect(value), military_unit_stat(enum_converter<kobold::military_unit_stat>::to_enum(stat_name)), transporter_stat(enum_converter<kobold::transporter_stat>::to_enum(stat_name))
 	{
 	}
 
@@ -56,8 +56,8 @@ public:
 	}
 
 private:
-	metternich::military_unit_stat military_unit_stat{};
-	metternich::transporter_stat transporter_stat{};
+	kobold::military_unit_stat military_unit_stat{};
+	kobold::transporter_stat transporter_stat{};
 };
 
 }

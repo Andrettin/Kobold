@@ -11,7 +11,7 @@ namespace archimedes {
 	enum class direction;
 }
 
-namespace metternich {
+namespace kobold {
 
 class technology;
 class tile;
@@ -22,14 +22,14 @@ class pathway final : public named_data_entry, public data_type<pathway>
 
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(int transport_level MEMBER transport_level READ get_transport_level NOTIFY changed)
-	Q_PROPERTY(metternich::pathway* required_pathway MEMBER required_pathway NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(metternich::technology* river_crossing_required_technology MEMBER river_crossing_required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::pathway* required_pathway MEMBER required_pathway NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* river_crossing_required_technology MEMBER river_crossing_required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "pathway";
-	static constexpr const char property_class_identifier[] = "metternich::pathway*";
+	static constexpr const char property_class_identifier[] = "kobold::pathway*";
 	static constexpr const char database_folder[] = "pathways";
 
 	explicit pathway(const std::string &identifier) : named_data_entry(identifier)

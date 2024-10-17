@@ -12,7 +12,7 @@ Q_MOC_INCLUDE("map/site_map_data.h")
 Q_MOC_INCLUDE("map/terrain_type.h")
 Q_MOC_INCLUDE("map/world.h")
 
-namespace metternich {
+namespace kobold {
 
 class cultural_group;
 class culture;
@@ -29,20 +29,20 @@ class site final : public named_data_entry, public data_type<site>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::world* world MEMBER world)
+	Q_PROPERTY(kobold::world* world MEMBER world)
 	Q_PROPERTY(archimedes::geocoordinate geocoordinate MEMBER geocoordinate READ get_geocoordinate)
 	Q_PROPERTY(QPoint pos_offset MEMBER pos_offset READ get_pos_offset)
-	Q_PROPERTY(metternich::site_type type MEMBER type READ get_type)
+	Q_PROPERTY(kobold::site_type type MEMBER type READ get_type)
 	Q_PROPERTY(bool settlement READ is_settlement NOTIFY changed)
-	Q_PROPERTY(metternich::terrain_type* terrain_type MEMBER terrain_type)
-	Q_PROPERTY(metternich::resource* resource MEMBER resource NOTIFY changed)
-	Q_PROPERTY(metternich::province* province MEMBER province NOTIFY changed)
-	Q_PROPERTY(metternich::site_map_data* map_data READ get_map_data NOTIFY changed)
-	Q_PROPERTY(metternich::site_game_data* game_data READ get_game_data NOTIFY changed)
+	Q_PROPERTY(kobold::terrain_type* terrain_type MEMBER terrain_type)
+	Q_PROPERTY(kobold::resource* resource MEMBER resource NOTIFY changed)
+	Q_PROPERTY(kobold::province* province MEMBER province NOTIFY changed)
+	Q_PROPERTY(kobold::site_map_data* map_data READ get_map_data NOTIFY changed)
+	Q_PROPERTY(kobold::site_game_data* game_data READ get_game_data NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "site";
-	static constexpr const char property_class_identifier[] = "metternich::site*";
+	static constexpr const char property_class_identifier[] = "kobold::site*";
 	static constexpr const char database_folder[] = "sites";
 	static constexpr bool history_enabled = true;
 
@@ -76,7 +76,7 @@ public:
 		return this->game_data.get();
 	}
 
-	const metternich::world *get_world() const
+	const kobold::world *get_world() const
 	{
 		return this->world;
 	}
@@ -98,22 +98,22 @@ public:
 
 	bool is_settlement() const;
 
-	const metternich::terrain_type *get_terrain_type() const
+	const kobold::terrain_type *get_terrain_type() const
 	{
 		return this->terrain_type;
 	}
 
-	const metternich::resource *get_resource() const
+	const kobold::resource *get_resource() const
 	{
 		return this->resource;
 	}
 
-	metternich::province *get_province() const
+	kobold::province *get_province() const
 	{
 		return this->province;
 	}
 
-	void set_province(metternich::province *province)
+	void set_province(kobold::province *province)
 	{
 		this->province = province;
 	}
@@ -125,13 +125,13 @@ signals:
 	void changed();
 
 private:
-	metternich::world *world = nullptr;
+	kobold::world *world = nullptr;
 	archimedes::geocoordinate geocoordinate;
 	QPoint pos_offset = QPoint(0, 0);
 	site_type type;
-	metternich::terrain_type *terrain_type = nullptr;
-	metternich::resource *resource = nullptr;
-	metternich::province *province = nullptr;
+	kobold::terrain_type *terrain_type = nullptr;
+	kobold::resource *resource = nullptr;
+	kobold::province *province = nullptr;
 	std::map<const culture *, std::string> cultural_names;
 	std::map<const cultural_group *, std::string> cultural_group_names;
 	qunique_ptr<site_history> history;

@@ -7,7 +7,7 @@
 #include "map/terrain_type.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class commodity_bonus_per_adjacent_terrain_modifier_effect final : public modifier_effect<const site>
 {
@@ -59,8 +59,8 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
-	const metternich::terrain_type *terrain = nullptr;
+	const kobold::commodity *commodity = nullptr;
+	const kobold::terrain_type *terrain = nullptr;
 };
 
 }

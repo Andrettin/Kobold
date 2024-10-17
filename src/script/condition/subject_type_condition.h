@@ -4,7 +4,7 @@
 #include "country/subject_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class subject_type_condition final : public condition<country>
 {
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::subject_type *subject_type = nullptr;
+	const kobold::subject_type *subject_type = nullptr;
 };
 
 }

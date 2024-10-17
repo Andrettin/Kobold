@@ -7,7 +7,7 @@
 
 Q_MOC_INCLUDE("map/route_game_data.h")
 
-namespace metternich {
+namespace kobold {
 
 class route_game_data;
 class route_history;
@@ -18,11 +18,11 @@ class route final : public named_data_entry, public data_type<route>
 
 	Q_PROPERTY(QColor color READ get_color WRITE set_color NOTIFY changed)
 	Q_PROPERTY(bool hidden MEMBER hidden READ is_hidden NOTIFY changed)
-	Q_PROPERTY(metternich::route_game_data* game_data READ get_game_data NOTIFY changed)
+	Q_PROPERTY(kobold::route_game_data* game_data READ get_game_data NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "route";
-	static constexpr const char property_class_identifier[] = "metternich::route*";
+	static constexpr const char property_class_identifier[] = "kobold::route*";
 	static constexpr const char database_folder[] = "routes";
 	static constexpr bool history_enabled = true;
 

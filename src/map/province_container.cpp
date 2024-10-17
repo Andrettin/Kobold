@@ -1,12 +1,12 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/province_container.h"
 
 #include "map/province.h"
 
-namespace metternich {
+namespace kobold {
 
-bool province_compare::operator()(const province *province, const metternich::province *other_province) const
+bool province_compare::operator()(const province *province, const kobold::province *other_province) const
 {
 	return province->get_identifier() < other_province->get_identifier();
 }

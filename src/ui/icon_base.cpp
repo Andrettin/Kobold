@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/icon_base.h"
 
 #include "ui/icon_image_provider.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void icon_base::check() const
 {

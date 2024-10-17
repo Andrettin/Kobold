@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population_unit.h"
 
@@ -25,9 +25,9 @@
 #include "util/assert_util.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
-population_unit::population_unit(const population_type *type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const site *settlement)
+population_unit::population_unit(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *settlement)
 	: type(type), culture(culture), religion(religion), phenotype(phenotype), settlement(settlement)
 {
 	assert_throw(this->get_type() != nullptr);
@@ -92,7 +92,7 @@ void population_unit::set_type(const population_type *type)
 	emit type_changed();
 }
 
-void population_unit::set_culture(const metternich::culture *culture)
+void population_unit::set_culture(const kobold::culture *culture)
 {
 	if (culture == this->get_culture()) {
 		return;
@@ -112,7 +112,7 @@ void population_unit::set_culture(const metternich::culture *culture)
 	emit culture_changed();
 }
 
-void population_unit::set_religion(const metternich::religion *religion)
+void population_unit::set_religion(const kobold::religion *religion)
 {
 	if (religion == this->get_religion()) {
 		return;
@@ -127,7 +127,7 @@ void population_unit::set_religion(const metternich::religion *religion)
 	emit religion_changed();
 }
 
-void population_unit::set_phenotype(const metternich::phenotype *phenotype)
+void population_unit::set_phenotype(const kobold::phenotype *phenotype)
 {
 	if (phenotype == this->get_phenotype()) {
 		return;
@@ -147,7 +147,7 @@ const icon *population_unit::get_small_icon() const
 	return this->get_type()->get_phenotype_small_icon(this->get_phenotype());
 }
 
-void population_unit::set_country(const metternich::country *country)
+void population_unit::set_country(const kobold::country *country)
 {
 	if (country == this->get_country()) {
 		return;
@@ -193,11 +193,11 @@ void population_unit::set_settlement(const site *settlement)
 		emit province_changed();
 	}
 
-	const metternich::country *country = settlement ? settlement->get_game_data()->get_owner() : nullptr;
+	const kobold::country *country = settlement ? settlement->get_game_data()->get_owner() : nullptr;
 	this->set_country(country);
 }
 
-void population_unit::set_ideology(const metternich::ideology *ideology)
+void population_unit::set_ideology(const kobold::ideology *ideology)
 {
 	if (ideology == this->get_ideology()) {
 		return;
@@ -216,9 +216,9 @@ void population_unit::set_ideology(const metternich::ideology *ideology)
 
 void population_unit::choose_ideology()
 {
-	std::vector<const metternich::ideology *> potential_ideologies;
+	std::vector<const kobold::ideology *> potential_ideologies;
 
-	for (const metternich::ideology *ideology : ideology::get_all()) {
+	for (const kobold::ideology *ideology : ideology::get_all()) {
 		if (ideology->get_conditions() != nullptr && !ideology->get_conditions()->check(this, read_only_context(this))) {
 			continue;
 		}
@@ -283,7 +283,7 @@ void population_unit::set_militancy(const centesimal_int &militancy)
 	}
 }
 
-void population_unit::set_employment_location(metternich::employment_location *employment_location)
+void population_unit::set_employment_location(kobold::employment_location *employment_location)
 {
 	if (employment_location == this->get_employment_location()) {
 		return;

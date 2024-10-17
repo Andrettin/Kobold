@@ -9,13 +9,13 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "util/number_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class commodity_bonus_per_improved_resource_modifier_effect final : public modifier_effect<scope_type>
 {
 public:
-	explicit commodity_bonus_per_improved_resource_modifier_effect(const metternich::commodity *commodity, const metternich::resource *resource, const std::string &value)
+	explicit commodity_bonus_per_improved_resource_modifier_effect(const kobold::commodity *commodity, const kobold::resource *resource, const std::string &value)
 		: modifier_effect<scope_type>(value), commodity(commodity), resource(resource)
 	{
 	}
@@ -37,8 +37,8 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
-	const metternich::resource *resource = nullptr;
+	const kobold::commodity *commodity = nullptr;
+	const kobold::resource *resource = nullptr;
 };
 
 }

@@ -4,7 +4,7 @@
 #include "database/named_data_entry.h"
 #include "util/qunique_ptr.h"
 
-namespace metternich {
+namespace kobold {
 
 class province;
 class region_history;
@@ -14,11 +14,11 @@ class region final : public named_data_entry, public data_type<region>
 	Q_OBJECT
 
 	Q_PROPERTY(bool ocean MEMBER ocean READ is_ocean)
-	Q_PROPERTY(std::vector<metternich::region *> superregions READ get_superregions)
+	Q_PROPERTY(std::vector<kobold::region *> superregions READ get_superregions)
 
 public:
 	static constexpr const char class_identifier[] = "region";
-	static constexpr const char property_class_identifier[] = "metternich::region*";
+	static constexpr const char property_class_identifier[] = "kobold::region*";
 	static constexpr const char database_folder[] = "regions";
 	static constexpr bool history_enabled = true;
 

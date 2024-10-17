@@ -4,7 +4,7 @@
 #include "country/culture.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class cultural_group_condition final : public condition<scope_type>
@@ -49,7 +49,7 @@ public:
 	}
 
 private:
-	const metternich::cultural_group *cultural_group = nullptr;
+	const kobold::cultural_group *cultural_group = nullptr;
 };
 
 }

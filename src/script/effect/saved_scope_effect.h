@@ -2,7 +2,7 @@
 
 #include "script/effect/scope_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename upper_scope_type, typename scope_type>
 class saved_scope_effect final : public scope_effect<upper_scope_type, scope_type>

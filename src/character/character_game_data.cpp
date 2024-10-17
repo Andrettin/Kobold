@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/character_game_data.h"
 
@@ -32,9 +32,9 @@
 #include "util/vector_random_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
-character_game_data::character_game_data(const metternich::character *character)
+character_game_data::character_game_data(const kobold::character *character)
 	: character(character)
 {
 	connect(game::get(), &game::turn_changed, this, &character_game_data::age_changed);
@@ -116,9 +116,9 @@ void character_game_data::check_portrait()
 		return;
 	}
 
-	std::vector<const metternich::portrait *> potential_portraits;
+	std::vector<const kobold::portrait *> potential_portraits;
 
-	for (const metternich::portrait *portrait : portrait::get_character_portraits()) {
+	for (const kobold::portrait *portrait : portrait::get_character_portraits()) {
 		assert_throw(portrait->is_character_portrait());
 		assert_throw(portrait->get_character_conditions() != nullptr);
 
@@ -137,7 +137,7 @@ void character_game_data::check_portrait()
 	this->portrait = vector::get_random(potential_portraits);
 }
 
-void character_game_data::set_country(const metternich::country *country)
+void character_game_data::set_country(const kobold::country *country)
 {
 	if (country == this->get_country()) {
 		return;
@@ -488,7 +488,7 @@ bool character_game_data::is_advisor() const
 	return this->get_country() != nullptr && vector::contains(this->get_country()->get_game_data()->get_advisors(), this->character);
 }
 
-std::string character_game_data::get_ruler_modifier_string(const metternich::country *country) const
+std::string character_game_data::get_ruler_modifier_string(const kobold::country *country) const
 {
 	assert_throw(this->character->get_role() == character_role::ruler);
 
@@ -522,7 +522,7 @@ std::string character_game_data::get_ruler_modifier_string(const metternich::cou
 	return str;
 }
 
-void character_game_data::apply_ruler_modifier(const metternich::country *country, const int multiplier) const
+void character_game_data::apply_ruler_modifier(const kobold::country *country, const int multiplier) const
 {
 	assert_throw(this->character->get_role() == character_role::ruler);
 	assert_throw(country != nullptr);
@@ -539,7 +539,7 @@ void character_game_data::apply_ruler_modifier(const metternich::country *countr
 	}
 }
 
-void character_game_data::apply_trait_ruler_modifier(const trait *trait, const metternich::country *country, const int multiplier) const
+void character_game_data::apply_trait_ruler_modifier(const trait *trait, const kobold::country *country, const int multiplier) const
 {
 	if (trait->get_ruler_modifier() != nullptr) {
 		trait->get_ruler_modifier()->apply(country, multiplier);
@@ -550,7 +550,7 @@ void character_game_data::apply_trait_ruler_modifier(const trait *trait, const m
 	}
 }
 
-QString character_game_data::get_advisor_effects_string(const metternich::country *country) const
+QString character_game_data::get_advisor_effects_string(const kobold::country *country) const
 {
 	assert_throw(this->character->get_role() == character_role::advisor);
 
@@ -609,7 +609,7 @@ QString character_game_data::get_advisor_effects_string(const metternich::countr
 	}
 
 	if (this->get_country() != country) {
-		const metternich::character *replaced_advisor = country->get_game_data()->get_replaced_advisor_for(this->character);
+		const kobold::character *replaced_advisor = country->get_game_data()->get_replaced_advisor_for(this->character);
 		if (replaced_advisor != nullptr) {
 			if (!str.empty()) {
 				str += '\n';
@@ -622,7 +622,7 @@ QString character_game_data::get_advisor_effects_string(const metternich::countr
 	return QString::fromStdString(str);
 }
 
-void character_game_data::apply_advisor_modifier(const metternich::country *country, const int multiplier) const
+void character_game_data::apply_advisor_modifier(const kobold::country *country, const int multiplier) const
 {
 	assert_throw(this->character->get_role() == character_role::advisor);
 	assert_throw(country != nullptr);
@@ -645,7 +645,7 @@ void character_game_data::apply_advisor_modifier(const metternich::country *coun
 }
 
 
-void character_game_data::apply_trait_advisor_modifier(const trait *trait, const metternich::country *country, const int multiplier) const
+void character_game_data::apply_trait_advisor_modifier(const trait *trait, const kobold::country *country, const int multiplier) const
 {
 	if (trait->get_advisor_modifier() != nullptr) {
 		trait->get_advisor_modifier()->apply(country, multiplier);
@@ -674,7 +674,7 @@ void character_game_data::deploy_to_province(const province *province)
 
 	const military_unit_type *military_unit_type = this->get_country()->get_game_data()->get_best_military_unit_category_type(this->character->get_military_unit_category(), this->character->get_culture());
 
-	auto military_unit = make_qunique<metternich::military_unit>(military_unit_type, this->character);
+	auto military_unit = make_qunique<kobold::military_unit>(military_unit_type, this->character);
 
 	assert_throw(military_unit->can_move_to(province));
 
@@ -691,14 +691,14 @@ void character_game_data::undeploy()
 	this->military_unit->disband(false);
 }
 
-void character_game_data::apply_modifier(const modifier<const metternich::character> *modifier, const int multiplier)
+void character_game_data::apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier)
 {
 	assert_throw(modifier != nullptr);
 
 	modifier->apply(this->character, multiplier);
 }
 
-void character_game_data::apply_military_unit_modifier(metternich::military_unit *military_unit, const int multiplier)
+void character_game_data::apply_military_unit_modifier(kobold::military_unit *military_unit, const int multiplier)
 {
 	for (const trait *trait : this->get_traits()) {
 		if (trait->get_military_unit_modifier() != nullptr) {

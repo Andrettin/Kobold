@@ -3,7 +3,7 @@
 #include "script/condition/condition.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type, typename base_value_type = int>
 class numerical_condition : public condition<scope_type>

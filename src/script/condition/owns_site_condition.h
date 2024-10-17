@@ -6,7 +6,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class owns_site_condition final : public condition<country>
 {
@@ -38,7 +38,7 @@ public:
 	}
 
 private:
-	const metternich::site *site = nullptr;
+	const kobold::site *site = nullptr;
 };
 
 }

@@ -4,7 +4,7 @@
 #include "database/data_type.h"
 #include "script/effect/effect_list.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;
@@ -51,7 +51,7 @@ class character_scripted_effect final : public data_entry, public data_type<char
 
 public:
 	static constexpr const char class_identifier[] = "character_scripted_effect";
-	static constexpr const char property_class_identifier[] = "metternich::character_scripted_effect*";
+	static constexpr const char property_class_identifier[] = "kobold::character_scripted_effect*";
 	static constexpr const char database_folder[] = "scripted_effects/character";
 
 	explicit character_scripted_effect(const std::string &identifier) : data_entry(identifier)
@@ -85,7 +85,7 @@ class country_scripted_effect final : public data_entry, public data_type<countr
 
 public:
 	static constexpr const char class_identifier[] = "country_scripted_effect";
-	static constexpr const char property_class_identifier[] = "metternich::country_scripted_effect*";
+	static constexpr const char property_class_identifier[] = "kobold::country_scripted_effect*";
 	static constexpr const char database_folder[] = "scripted_effects/country";
 
 	explicit country_scripted_effect(const std::string &identifier) : data_entry(identifier)
@@ -119,7 +119,7 @@ class population_unit_scripted_effect final : public data_entry, public data_typ
 
 public:
 	static constexpr const char class_identifier[] = "population_unit_scripted_effect";
-	static constexpr const char property_class_identifier[] = "metternich::population_unit_scripted_effect*";
+	static constexpr const char property_class_identifier[] = "kobold::population_unit_scripted_effect*";
 	static constexpr const char database_folder[] = "scripted_effects/population_unit";
 
 	explicit population_unit_scripted_effect(const std::string &identifier) : data_entry(identifier)
@@ -153,7 +153,7 @@ class province_scripted_effect final : public data_entry, public data_type<provi
 
 public:
 	static constexpr const char class_identifier[] = "province_scripted_effect";
-	static constexpr const char property_class_identifier[] = "metternich::province_scripted_effect*";
+	static constexpr const char property_class_identifier[] = "kobold::province_scripted_effect*";
 	static constexpr const char database_folder[] = "scripted_effects/province";
 
 	explicit province_scripted_effect(const std::string &identifier) : data_entry(identifier)

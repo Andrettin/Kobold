@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/culture_container.h"
 
 #include "country/culture.h"
 
-namespace metternich {
+namespace kobold {
 
 bool culture_compare::operator()(const culture *lhs, const culture *rhs) const
 {

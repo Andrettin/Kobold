@@ -12,7 +12,7 @@ Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/military_unit_class.h")
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_class;
 class country;
@@ -29,20 +29,20 @@ class military_unit_type final : public named_data_entry, public data_type<milit
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::military_unit_class* unit_class MEMBER unit_class NOTIFY changed)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(metternich::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::military_unit_class* unit_class MEMBER unit_class NOTIFY changed)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
+	Q_PROPERTY(kobold::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(int hit_points MEMBER hit_points READ get_hit_points NOTIFY changed)
 	Q_PROPERTY(bool entrench MEMBER entrench READ can_entrench NOTIFY changed)
 	Q_PROPERTY(int entrenchment_bonus MEMBER entrenchment_bonus READ get_entrenchment_bonus NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 	Q_PROPERTY(int upkeep MEMBER upkeep READ get_upkeep NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "military_unit_type";
-	static constexpr const char property_class_identifier[] = "metternich::military_unit_type*";
+	static constexpr const char property_class_identifier[] = "kobold::military_unit_type*";
 	static constexpr const char database_folder[] = "military_unit_types";
 
 public:
@@ -67,17 +67,17 @@ public:
 	bool is_artillery() const;
 	bool is_ship() const;
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::cultural_group *get_cultural_group() const
+	const kobold::cultural_group *get_cultural_group() const
 	{
 		return this->cultural_group;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -152,9 +152,9 @@ signals:
 
 private:
 	military_unit_class *unit_class = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::cultural_group *cultural_group = nullptr;
-	metternich::icon *icon = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::cultural_group *cultural_group = nullptr;
+	kobold::icon *icon = nullptr;
 	std::map<military_unit_stat, centesimal_int> stats;
 	int hit_points = 25;
 	bool entrench = false;

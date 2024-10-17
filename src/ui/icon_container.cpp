@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/icon_container.h"
 
 #include "ui/icon.h"
 
-namespace metternich {
+namespace kobold {
 
 bool icon_compare::operator()(const icon *lhs, const icon *rhs) const
 {

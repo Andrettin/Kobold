@@ -5,7 +5,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class can_gain_building_class_condition final : public condition<site>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::building_class *building_class = nullptr;
+	const kobold::building_class *building_class = nullptr;
 };
 
 }

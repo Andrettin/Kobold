@@ -3,7 +3,7 @@
 #include "character/character.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class source_character_condition final : public condition<scope_type>
@@ -25,7 +25,7 @@ public:
 	{
 		Q_UNUSED(scope);
 
-		return std::holds_alternative<const metternich::character *>(ctx.source_scope) && std::get<const metternich::character *>(ctx.source_scope) == this->character;
+		return std::holds_alternative<const kobold::character *>(ctx.source_scope) && std::get<const kobold::character *>(ctx.source_scope) == this->character;
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::character *character = nullptr;
+	const kobold::character *character = nullptr;
 };
 
 }

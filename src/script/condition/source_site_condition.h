@@ -3,7 +3,7 @@
 #include "map/site.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class source_site_condition final : public condition<scope_type>
@@ -25,7 +25,7 @@ public:
 	{
 		Q_UNUSED(scope);
 
-		return std::holds_alternative<const metternich::site *>(ctx.source_scope) && std::get<const metternich::site *>(ctx.source_scope) == this->site;
+		return std::holds_alternative<const kobold::site *>(ctx.source_scope) && std::get<const kobold::site *>(ctx.source_scope) == this->site;
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::site *site = nullptr;
+	const kobold::site *site = nullptr;
 };
 
 }

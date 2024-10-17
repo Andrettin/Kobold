@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class character_attribute {
 	none,
@@ -35,6 +35,6 @@ inline std::string_view get_character_attribute_name(const character_attribute a
 
 }
 
-extern template class archimedes::enum_converter<metternich::character_attribute>;
+extern template class archimedes::enum_converter<kobold::character_attribute>;
 
-Q_DECLARE_METATYPE(metternich::character_attribute)
+Q_DECLARE_METATYPE(kobold::character_attribute)

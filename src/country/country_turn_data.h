@@ -3,7 +3,7 @@
 #include "util/fractional_int.h"
 #include "util/qunique_ptr.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class expense_transaction;
@@ -28,7 +28,7 @@ public:
 
 	static inline const centesimal_int base_inflation_change = centesimal_int("0.5");
 
-	explicit country_turn_data(metternich::country *country);
+	explicit country_turn_data(kobold::country *country);
 	~country_turn_data();
 
 	int get_total_income() const
@@ -54,8 +54,8 @@ public:
 	QVariantList get_income_transactions_qvariant_list() const;
 	QVariantList get_expense_transactions_qvariant_list() const;
 
-	void add_income_transaction(const income_transaction_type transaction_type, const int amount, const transaction_object_variant &object = nullptr, const int object_quantity = 0, const metternich::country *other_country = nullptr);
-	void add_expense_transaction(const expense_transaction_type transaction_type, const int amount, const transaction_object_variant &object = nullptr, const int object_quantity = 0, const metternich::country *other_country = nullptr);
+	void add_income_transaction(const income_transaction_type transaction_type, const int amount, const transaction_object_variant &object = nullptr, const int object_quantity = 0, const kobold::country *other_country = nullptr);
+	void add_expense_transaction(const expense_transaction_type transaction_type, const int amount, const transaction_object_variant &object = nullptr, const int object_quantity = 0, const kobold::country *other_country = nullptr);
 
 	void calculate_inflation();
 
@@ -100,7 +100,7 @@ public:
 	}
 
 private:
-	metternich::country *country = nullptr;
+	kobold::country *country = nullptr;
 	int total_income = 0;
 	int total_expense = 0;
 	centesimal_int total_inflation_change;

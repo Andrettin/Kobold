@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/wonder.h"
 
@@ -13,7 +13,7 @@
 #include "script/modifier.h"
 #include "technology/technology.h"
 
-namespace metternich {
+namespace kobold {
 
 wonder::wonder(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -33,7 +33,7 @@ void wonder::process_gsml_scope(const gsml_data &scope)
 			this->commodity_costs[commodity] = std::stoi(property.get_value());
 		});
 	} else if (tag == "cost_factor") {
-		auto factor = std::make_unique<metternich::factor<country>>(100);
+		auto factor = std::make_unique<kobold::factor<country>>(100);
 		database::process_gsml_data(factor, scope);
 		this->cost_factor = std::move(factor);
 	} else if (tag == "conditions") {

@@ -6,12 +6,12 @@
 #include "script/condition/numerical_condition.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_scaled_commodity_condition final : public numerical_condition<country, centesimal_int>
 {
 public:
-	explicit population_scaled_commodity_condition(const metternich::commodity *commodity, const std::string &value, const gsml_operator condition_operator)
+	explicit population_scaled_commodity_condition(const kobold::commodity *commodity, const std::string &value, const gsml_operator condition_operator)
 		: numerical_condition<country, centesimal_int>(value, condition_operator), commodity(commodity)
 	{
 	}
@@ -38,7 +38,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

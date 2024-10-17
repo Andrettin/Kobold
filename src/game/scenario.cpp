@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/scenario.h"
 
@@ -7,7 +7,7 @@
 #include "util/assert_util.h"
 #include "util/container_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 void scenario::initialize_all()
 {

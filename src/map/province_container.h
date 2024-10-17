@@ -1,12 +1,12 @@
 #pragma once
 
-namespace metternich {
+namespace kobold {
 
 class province;
 
 struct province_compare
 {
-	bool operator()(const province *province, const metternich::province *other_province) const;
+	bool operator()(const province *province, const kobold::province *other_province) const;
 };
 
 using province_set = std::set<const province *, province_compare>;

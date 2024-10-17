@@ -5,7 +5,7 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class gain_technologies_known_by_others_modifier_effect final : public modifier_effect<const country>
 {

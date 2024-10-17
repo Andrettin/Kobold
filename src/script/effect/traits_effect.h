@@ -5,7 +5,7 @@
 #include "character/trait.h"
 #include "script/effect/effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class traits_effect final : public effect<const character>
 {
@@ -43,7 +43,7 @@ public:
 	}
 
 private:
-	const metternich::trait *trait = nullptr;
+	const kobold::trait *trait = nullptr;
 };
 
 }

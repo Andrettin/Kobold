@@ -6,7 +6,7 @@
 #include "script/condition/condition.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class advisor_condition final : public condition<country>
 {

@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/ideology_container.h"
 
 #include "country/ideology.h"
 
-namespace metternich {
+namespace kobold {
 
 bool ideology_compare::operator()(const ideology *lhs, const ideology *rhs) const
 {

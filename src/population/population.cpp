@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population.h"
 
@@ -10,7 +10,7 @@
 #include "util/assert_util.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void population::change_population_unit_count(const int change)
 {
@@ -123,7 +123,7 @@ QVariantList population::get_religion_counts_qvariant_list() const
 	return counts;
 }
 
-void population::change_religion_count(const metternich::religion *religion, const int change)
+void population::change_religion_count(const kobold::religion *religion, const int change)
 {
 	if (change == 0) {
 		return;

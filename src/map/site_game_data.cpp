@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/site_game_data.h"
 
@@ -43,9 +43,9 @@
 #include "util/vector_random_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
-site_game_data::site_game_data(const metternich::site *site) : site(site)
+site_game_data::site_game_data(const kobold::site *site) : site(site)
 {
 	if (site->is_settlement()) {
 		this->initialize_building_slots();
@@ -60,7 +60,7 @@ site_game_data::site_game_data(const metternich::site *site) : site(site)
 		this->set_resource_discovered(true);
 	}
 
-	this->population = make_qunique<metternich::population>();
+	this->population = make_qunique<kobold::population>();
 	connect(this->get_population(), &population::type_count_changed, this, &site_game_data::on_population_type_count_changed);
 	connect(this->get_population(), &population::main_culture_changed, this, &site_game_data::on_population_main_culture_changed);
 	connect(this->get_population(), &population::main_religion_changed, this, &site_game_data::on_population_main_religion_changed);
@@ -347,7 +347,7 @@ const std::string &site_game_data::get_current_cultural_name() const
 	return this->site->get_cultural_name(this->get_culture());
 }
 
-void site_game_data::set_culture(const metternich::culture *culture)
+void site_game_data::set_culture(const kobold::culture *culture)
 {
 	if (culture == this->get_culture()) {
 		return;
@@ -364,7 +364,7 @@ void site_game_data::set_culture(const metternich::culture *culture)
 	emit culture_changed();
 }
 
-void site_game_data::on_population_main_culture_changed(const metternich::culture *culture)
+void site_game_data::on_population_main_culture_changed(const kobold::culture *culture)
 {
 	if (culture != nullptr) {
 		this->set_culture(culture);
@@ -375,7 +375,7 @@ void site_game_data::on_population_main_culture_changed(const metternich::cultur
 	}
 }
 
-void site_game_data::set_religion(const metternich::religion *religion)
+void site_game_data::set_religion(const kobold::religion *religion)
 {
 	if (religion == this->get_religion()) {
 		return;
@@ -392,7 +392,7 @@ void site_game_data::set_religion(const metternich::religion *religion)
 	emit religion_changed();
 }
 
-void site_game_data::on_population_main_religion_changed(const metternich::religion *religion)
+void site_game_data::on_population_main_religion_changed(const kobold::religion *religion)
 {
 	if (religion != nullptr) {
 		this->set_religion(religion);
@@ -403,7 +403,7 @@ void site_game_data::on_population_main_religion_changed(const metternich::relig
 	}
 }
 
-void site_game_data::set_settlement_type(const metternich::settlement_type *settlement_type)
+void site_game_data::set_settlement_type(const kobold::settlement_type *settlement_type)
 {
 	assert_throw(this->site->is_settlement());
 
@@ -411,7 +411,7 @@ void site_game_data::set_settlement_type(const metternich::settlement_type *sett
 		return;
 	}
 
-	const metternich::settlement_type *old_settlement_type = this->get_settlement_type();
+	const kobold::settlement_type *old_settlement_type = this->get_settlement_type();
 
 	if (old_settlement_type != nullptr) {
 		if (old_settlement_type->get_modifier() != nullptr) {
@@ -464,11 +464,11 @@ void site_game_data::check_settlement_type()
 		return;
 	}
 
-	std::vector<const metternich::settlement_type *> potential_settlement_types;
+	std::vector<const kobold::settlement_type *> potential_settlement_types;
 
 	int best_preserved_building_count = 0;
 
-	for (const metternich::settlement_type *base_settlement_type : this->get_settlement_type()->get_base_settlement_types()) {
+	for (const kobold::settlement_type *base_settlement_type : this->get_settlement_type()->get_base_settlement_types()) {
 		if (base_settlement_type->get_conditions() != nullptr && !base_settlement_type->get_conditions()->check(this->site, read_only_context(this->site))) {
 			continue;
 		}
@@ -546,7 +546,7 @@ bool site_game_data::has_improvement(const improvement *improvement) const
 
 void site_game_data::set_improvement(const improvement_slot slot, const improvement *improvement)
 {
-	const metternich::improvement *old_improvement = this->get_improvement(slot);
+	const kobold::improvement *old_improvement = this->get_improvement(slot);
 
 	if (old_improvement == improvement) {
 		return;
@@ -1070,7 +1070,7 @@ qunique_ptr<population_unit> site_game_data::pop_population_unit(population_unit
 {
 	for (size_t i = 0; i < this->population_units.size();) {
 		if (this->population_units[i].get() == population_unit) {
-			qunique_ptr<metternich::population_unit> population_unit_unique_ptr = std::move(this->population_units[i]);
+			qunique_ptr<kobold::population_unit> population_unit_unique_ptr = std::move(this->population_units[i]);
 			this->population_units.erase(this->population_units.begin() + i);
 
 			population_unit->set_employment_location(nullptr);
@@ -1103,12 +1103,12 @@ void site_game_data::clear_population_units()
 	this->population_units.clear();
 }
 
-void site_game_data::create_population_unit(const population_type *type, const metternich::culture *culture, const metternich::religion *religion, const phenotype *phenotype)
+void site_game_data::create_population_unit(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const phenotype *phenotype)
 {
 	assert_throw(this->site->is_settlement());
 	assert_throw(this->is_built());
 
-	auto population_unit = make_qunique<metternich::population_unit>(type, culture, religion, phenotype, this->site);
+	auto population_unit = make_qunique<kobold::population_unit>(type, culture, religion, phenotype, this->site);
 	this->get_province()->get_game_data()->add_population_unit(population_unit.get());
 
 	this->add_population_unit(std::move(population_unit));

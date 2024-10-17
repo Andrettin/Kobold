@@ -8,7 +8,7 @@ Q_MOC_INCLUDE("country/law_group.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class law_group;
 class technology;
@@ -23,14 +23,14 @@ class law final : public named_data_entry, public data_type<law>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::law_group * group MEMBER group NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::law_group * group MEMBER group NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(QVariantList commodity_costs READ get_commodity_costs_qvariant_list NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "law";
-	static constexpr const char property_class_identifier[] = "metternich::law*";
+	static constexpr const char property_class_identifier[] = "kobold::law*";
 	static constexpr const char database_folder[] = "laws";
 
 	explicit law(const std::string &identifier);
@@ -72,7 +72,7 @@ public:
 		return this->modifier.get();
 	}
 
-	Q_INVOKABLE QString get_modifier_string(const metternich::country *country) const;
+	Q_INVOKABLE QString get_modifier_string(const kobold::country *country) const;
 
 signals:
 	void changed();

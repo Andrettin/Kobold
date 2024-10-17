@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/country_building_slot.h"
 
@@ -17,9 +17,9 @@
 #include "util/map_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
-country_building_slot::country_building_slot(const building_slot_type *type, const metternich::country *country)
+country_building_slot::country_building_slot(const building_slot_type *type, const kobold::country *country)
 	: building_slot(type), country(country)
 {
 	assert_throw(this->get_country() != nullptr);
@@ -251,9 +251,9 @@ commodity_map<int> country_building_slot::get_production_type_inputs(const produ
 	return inputs;
 }
 
-QVariantList country_building_slot::get_production_type_inputs(metternich::production_type *production_type) const
+QVariantList country_building_slot::get_production_type_inputs(kobold::production_type *production_type) const
 {
-	const metternich::production_type *const_production_type = production_type;
+	const kobold::production_type *const_production_type = production_type;
 	return archimedes::map::to_qvariant_list(this->get_production_type_inputs(const_production_type));
 }
 

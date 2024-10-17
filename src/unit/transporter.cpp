@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/transporter.h"
 
@@ -17,9 +17,9 @@
 #include "util/assert_util.h"
 #include "util/log_util.h"
 
-namespace metternich {
+namespace kobold {
 
-transporter::transporter(const transporter_type *type, const metternich::country *country, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement)
+transporter::transporter(const transporter_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement)
 	: type(type), country(country), culture(culture), religion(religion), phenotype(phenotype), home_settlement(home_settlement), population_type(population_type)
 {
 	assert_throw(this->get_type() != nullptr);

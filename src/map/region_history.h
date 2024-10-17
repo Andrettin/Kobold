@@ -3,7 +3,7 @@
 #include "database/data_entry_history.h"
 #include "population/population_group_map.h"
 
-namespace metternich {
+namespace kobold {
 
 class region;
 
@@ -15,7 +15,7 @@ class region_history final : public data_entry_history
 	Q_PROPERTY(archimedes::centesimal_int literacy_rate MEMBER literacy_rate READ get_literacy_rate)
 
 public:
-	explicit region_history(const metternich::region *region) : region(region)
+	explicit region_history(const kobold::region *region) : region(region)
 	{
 	}
 
@@ -52,7 +52,7 @@ public:
 	}
 
 private:
-	const metternich::region *region = nullptr;
+	const kobold::region *region = nullptr;
 	population_group_map<int> population_groups;
 	centesimal_int literacy_rate;
 };

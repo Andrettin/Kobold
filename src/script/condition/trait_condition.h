@@ -5,7 +5,7 @@
 #include "character/trait.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class trait_condition final : public condition<character>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::trait *trait = nullptr;
+	const kobold::trait *trait = nullptr;
 };
 
 }

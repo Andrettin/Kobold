@@ -5,12 +5,12 @@
 #include "economy/commodity.h"
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class commodity_condition final : public numerical_condition<country>
 {
 public:
-	explicit commodity_condition(const metternich::commodity *commodity, const std::string &value, const gsml_operator condition_operator)
+	explicit commodity_condition(const kobold::commodity *commodity, const std::string &value, const gsml_operator condition_operator)
 		: numerical_condition<country>(value, condition_operator), commodity(commodity)
 	{
 	}
@@ -32,7 +32,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

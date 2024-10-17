@@ -4,7 +4,7 @@
 #include "database/named_data_entry.h"
 #include "economy/commodity_container.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 
@@ -21,7 +21,7 @@ class policy final : public named_data_entry, public data_type<policy>
 
 public:
 	static constexpr const char class_identifier[] = "policy";
-	static constexpr const char property_class_identifier[] = "metternich::policy*";
+	static constexpr const char property_class_identifier[] = "kobold::policy*";
 	static constexpr const char database_folder[] = "policies";
 
 	static constexpr int min_value = -5;
@@ -71,23 +71,23 @@ public:
 
 	QVariantList get_change_commodity_costs_qvariant_list() const;
 
-	const metternich::modifier<const country> *get_modifier() const
+	const kobold::modifier<const country> *get_modifier() const
 	{
 		return this->modifier.get();
 	}
 
-	const metternich::modifier<const country> *get_left_modifier() const
+	const kobold::modifier<const country> *get_left_modifier() const
 	{
 		return this->left_modifier.get();
 	}
 
-	const metternich::modifier<const country> *get_right_modifier() const
+	const kobold::modifier<const country> *get_right_modifier() const
 	{
 		return this->right_modifier.get();
 	}
 
 	void apply_modifier(const country *country, const int value, const int multiplier) const;
-	Q_INVOKABLE QString get_modifier_string(const metternich::country *country, const int value) const;
+	Q_INVOKABLE QString get_modifier_string(const kobold::country *country, const int value) const;
 
 signals:
 	void changed();
@@ -96,9 +96,9 @@ private:
 	std::string left_name;
 	std::string right_name;
 	commodity_map<int> change_commodity_costs;
-	std::unique_ptr<const metternich::modifier<const country>> modifier;
-	std::unique_ptr<const metternich::modifier<const country>> left_modifier;
-	std::unique_ptr<const metternich::modifier<const country>> right_modifier;
+	std::unique_ptr<const kobold::modifier<const country>> modifier;
+	std::unique_ptr<const kobold::modifier<const country>> left_modifier;
+	std::unique_ptr<const kobold::modifier<const country>> right_modifier;
 };
 
 }

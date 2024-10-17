@@ -6,7 +6,7 @@
 #include "map/route_container.h"
 #include "map/terrain_geodata_map.h"
 
-namespace metternich {
+namespace kobold {
 
 class site;
 
@@ -20,7 +20,7 @@ public:
 	using province_geodata_map_type = province_map<std::vector<std::unique_ptr<QGeoShape>>>;
 
 	static constexpr const char class_identifier[] = "world";
-	static constexpr const char property_class_identifier[] = "metternich::world*";
+	static constexpr const char property_class_identifier[] = "kobold::world*";
 	static constexpr const char database_folder[] = "worlds";
 	static constexpr const char terrain_map_folder[] = "terrain";
 	static constexpr const char routes_map_folder[] = "routes";

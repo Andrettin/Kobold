@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population_group_map.h"
 
@@ -9,7 +9,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 population_group_key::population_group_key(const std::string &key_str)
 {

@@ -5,7 +5,7 @@
 #include "script/scripted_province_modifier.h"
 #include "script/scripted_site_modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scripted_modifier_condition final : public condition<scope_type>

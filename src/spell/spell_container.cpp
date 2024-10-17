@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "spell/spell_container.h"
 
 #include "spell/spell.h"
 
-namespace metternich {
+namespace kobold {
 
 bool spell_compare::operator()(const spell *lhs, const spell *rhs) const
 {

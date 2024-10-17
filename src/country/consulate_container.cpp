@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/consulate_container.h"
 
 #include "country/consulate.h"
 
-namespace metternich {
+namespace kobold {
 
 bool consulate_compare::operator()(const consulate *lhs, const consulate *rhs) const
 {

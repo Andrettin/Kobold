@@ -15,7 +15,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country_game_data;
@@ -36,22 +36,22 @@ class country final : public named_data_entry, public data_type<country>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::country_type type MEMBER type READ get_type NOTIFY changed)
+	Q_PROPERTY(kobold::country_type type MEMBER type READ get_type NOTIFY changed)
 	Q_PROPERTY(bool great_power READ is_great_power CONSTANT)
 	Q_PROPERTY(bool tribe READ is_tribe CONSTANT)
 	Q_PROPERTY(QColor color MEMBER color READ get_color NOTIFY changed)
-	Q_PROPERTY(metternich::country_tier default_tier MEMBER default_tier READ get_default_tier)
-	Q_PROPERTY(metternich::country_tier min_tier MEMBER min_tier READ get_min_tier)
-	Q_PROPERTY(metternich::country_tier max_tier MEMBER max_tier READ get_max_tier)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(metternich::religion* default_religion MEMBER default_religion NOTIFY changed)
-	Q_PROPERTY(metternich::government_type* default_government_type MEMBER default_government_type NOTIFY changed)
-	Q_PROPERTY(metternich::site* default_capital MEMBER default_capital NOTIFY changed)
+	Q_PROPERTY(kobold::country_tier default_tier MEMBER default_tier READ get_default_tier)
+	Q_PROPERTY(kobold::country_tier min_tier MEMBER min_tier READ get_min_tier)
+	Q_PROPERTY(kobold::country_tier max_tier MEMBER max_tier READ get_max_tier)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
+	Q_PROPERTY(kobold::religion* default_religion MEMBER default_religion NOTIFY changed)
+	Q_PROPERTY(kobold::government_type* default_government_type MEMBER default_government_type NOTIFY changed)
+	Q_PROPERTY(kobold::site* default_capital MEMBER default_capital NOTIFY changed)
 	Q_PROPERTY(bool short_name MEMBER short_name READ has_short_name NOTIFY changed)
 	Q_PROPERTY(bool definite_article MEMBER definite_article NOTIFY changed)
 	Q_PROPERTY(QVariantList available_technologies READ get_available_technologies_qvariant_list NOTIFY changed)
-	Q_PROPERTY(metternich::country_game_data* game_data READ get_game_data NOTIFY game_data_changed)
-	Q_PROPERTY(metternich::country_turn_data* turn_data READ get_turn_data NOTIFY turn_data_changed)
+	Q_PROPERTY(kobold::country_game_data* game_data READ get_game_data NOTIFY game_data_changed)
+	Q_PROPERTY(kobold::country_turn_data* turn_data READ get_turn_data NOTIFY turn_data_changed)
 
 public:
 	using government_variant = std::variant<const government_type *, const government_group *>;
@@ -59,7 +59,7 @@ public:
 	using ruler_title_name_map = std::map<government_variant, std::map<country_tier, std::map<gender, std::string>>>;
 
 	static constexpr const char class_identifier[] = "country";
-	static constexpr const char property_class_identifier[] = "metternich::country*";
+	static constexpr const char property_class_identifier[] = "kobold::country*";
 	static constexpr const char database_folder[] = "countries";
 	static constexpr bool history_enabled = true;
 
@@ -127,7 +127,7 @@ public:
 	const std::string &get_title_name(const government_type *government_type, const country_tier tier, const religion *religion) const;
 	const std::string &get_ruler_title_name(const government_type *government_type, const country_tier tier, const gender gender, const religion *religion) const;
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
@@ -188,7 +188,7 @@ private:
 	country_tier default_tier{};
 	country_tier min_tier{};
 	country_tier max_tier{};
-	metternich::culture *culture = nullptr;
+	kobold::culture *culture = nullptr;
 	religion *default_religion = nullptr;
 	government_type *default_government_type = nullptr;
 	site *default_capital = nullptr;

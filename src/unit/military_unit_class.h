@@ -8,7 +8,7 @@ namespace archimedes {
 	class name_generator;
 }
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_type;
 enum class military_unit_domain;
@@ -18,12 +18,12 @@ class military_unit_class final : public named_data_entry, public data_type<mili
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::military_unit_domain domain MEMBER domain READ get_domain)
-	Q_PROPERTY(metternich::military_unit_category category MEMBER category READ get_category)
+	Q_PROPERTY(kobold::military_unit_domain domain MEMBER domain READ get_domain)
+	Q_PROPERTY(kobold::military_unit_category category MEMBER category READ get_category)
 
 public:
 	static constexpr const char class_identifier[] = "military_unit_class";
-	static constexpr const char property_class_identifier[] = "metternich::military_unit_class*";
+	static constexpr const char property_class_identifier[] = "kobold::military_unit_class*";
 	static constexpr const char database_folder[] = "military_unit_classes";
 
 public:

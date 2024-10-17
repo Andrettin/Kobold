@@ -7,7 +7,7 @@
 
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class character;
@@ -34,13 +34,13 @@ class journal_entry final : public named_data_entry, public data_type<journal_en
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
 	Q_PROPERTY(archimedes::decimillesimal_int completion_random_chance MEMBER completion_random_chance READ get_completion_random_chance)
 
 public:
 	static constexpr const char class_identifier[] = "journal_entry";
-	static constexpr const char property_class_identifier[] = "metternich::journal_entry*";
+	static constexpr const char property_class_identifier[] = "kobold::journal_entry*";
 	static constexpr const char database_folder[] = "journal_entries";
 	static constexpr int ai_building_desire_modifier = 100;
 	static constexpr int ai_technology_desire_modifier = 100;
@@ -54,7 +54,7 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
@@ -96,14 +96,14 @@ public:
 		return this->completion_effects.get();
 	}
 
-	Q_INVOKABLE QString get_completion_effects_string(metternich::country *country) const;
+	Q_INVOKABLE QString get_completion_effects_string(kobold::country *country) const;
 
 	const effect_list<const country> *get_failure_effects() const
 	{
 		return this->failure_effects.get();
 	}
 
-	Q_INVOKABLE QString get_failure_effects_string(metternich::country *country) const;
+	Q_INVOKABLE QString get_failure_effects_string(kobold::country *country) const;
 
 	const modifier<const country> *get_active_modifier() const
 	{
@@ -148,7 +148,7 @@ signals:
 	void changed();
 
 private:
-	metternich::portrait *portrait = nullptr;
+	kobold::portrait *portrait = nullptr;
 	std::string description;
 	std::unique_ptr<const condition<country>> preconditions;
 	std::unique_ptr<const condition<country>> conditions;

@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/icon.h"
 
 #include "ui/icon_image_provider.h"
 
-namespace metternich {
+namespace kobold {
 
 void icon::initialize()
 {

@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class country_tier {
 	none,
@@ -15,6 +15,6 @@ enum class country_tier {
 
 }
 
-extern template class archimedes::enum_converter<metternich::country_tier>;
+extern template class archimedes::enum_converter<kobold::country_tier>;
 
-Q_DECLARE_METATYPE(metternich::country_tier)
+Q_DECLARE_METATYPE(kobold::country_tier)

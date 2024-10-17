@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/building_slot_type_container.h"
 
 #include "infrastructure/building_slot_type.h"
 
-namespace metternich {
+namespace kobold {
 
 bool building_slot_type_compare::operator()(const building_slot_type *lhs, const building_slot_type *rhs) const
 {

@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class transporter_category {
 	none,
@@ -13,6 +13,6 @@ enum class transporter_category {
 
 }
 
-extern template class archimedes::enum_converter<metternich::transporter_category>;
+extern template class archimedes::enum_converter<kobold::transporter_category>;
 
-Q_DECLARE_METATYPE(metternich::transporter_category)
+Q_DECLARE_METATYPE(kobold::transporter_category)

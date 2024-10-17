@@ -2,7 +2,7 @@
 
 #include "database/data_entry_history.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class province;
@@ -13,9 +13,9 @@ class culture_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(std::vector<metternich::technology *> technologies READ get_technologies)
-	Q_PROPERTY(std::vector<const metternich::province *> explored_provinces READ get_explored_provinces)
-	Q_PROPERTY(std::vector<const metternich::region *> explored_regions READ get_explored_regions)
+	Q_PROPERTY(std::vector<kobold::technology *> technologies READ get_technologies)
+	Q_PROPERTY(std::vector<const kobold::province *> explored_provinces READ get_explored_provinces)
+	Q_PROPERTY(std::vector<const kobold::region *> explored_regions READ get_explored_regions)
 
 public:
 	const std::vector<technology *> &get_technologies() const

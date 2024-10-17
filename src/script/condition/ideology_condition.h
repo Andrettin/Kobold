@@ -4,7 +4,7 @@
 #include "population/population_unit.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class ideology_condition final : public condition<population_unit>
 {
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	const metternich::ideology *ideology = nullptr;
+	const kobold::ideology *ideology = nullptr;
 };
 
 }

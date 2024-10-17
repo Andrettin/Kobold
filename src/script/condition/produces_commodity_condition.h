@@ -4,7 +4,7 @@
 #include "script/condition/condition.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class produces_commodity_condition final : public condition<scope_type>
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	metternich::commodity *commodity = nullptr;
+	kobold::commodity *commodity = nullptr;
 };
 
 }

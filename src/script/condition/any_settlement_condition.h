@@ -8,7 +8,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/scope_condition_base.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename upper_scope_type>
 class any_settlement_condition final : public scope_condition_base<upper_scope_type, site>

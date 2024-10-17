@@ -6,7 +6,7 @@
 #include "script/condition/and_condition.h"
 #include "script/effect/scope_effect_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 

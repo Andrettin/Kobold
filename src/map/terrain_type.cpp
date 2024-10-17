@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/terrain_type.h"
 
@@ -15,20 +15,20 @@
 #include "util/image_util.h"
 #include "util/path_util.h"
 
-namespace metternich {
+namespace kobold {
 
-terrain_type *terrain_type::get_by_biome(const metternich::elevation_type elevation_type, const metternich::temperature_type temperature_type, const metternich::moisture_type moisture_type, const metternich::forestation_type forestation_type)
+terrain_type *terrain_type::get_by_biome(const kobold::elevation_type elevation_type, const kobold::temperature_type temperature_type, const kobold::moisture_type moisture_type, const kobold::forestation_type forestation_type)
 {
 	terrain_type *terrain_type = terrain_type::try_get_by_biome(elevation_type, temperature_type, moisture_type, forestation_type);
 
 	if (terrain_type == nullptr) {
-		throw std::runtime_error("No terrain type found for " + enum_converter<metternich::elevation_type>::to_string(elevation_type) + ", " + enum_converter<metternich::temperature_type>::to_string(temperature_type) + ", " + enum_converter<metternich::moisture_type>::to_string(moisture_type) + ", " + enum_converter<metternich::forestation_type>::to_string(forestation_type) + " biome.");
+		throw std::runtime_error("No terrain type found for " + enum_converter<kobold::elevation_type>::to_string(elevation_type) + ", " + enum_converter<kobold::temperature_type>::to_string(temperature_type) + ", " + enum_converter<kobold::moisture_type>::to_string(moisture_type) + ", " + enum_converter<kobold::forestation_type>::to_string(forestation_type) + " biome.");
 	}
 
 	return terrain_type;
 }
 
-terrain_type *terrain_type::try_get_by_biome(const metternich::elevation_type elevation_type, const metternich::temperature_type temperature_type, const metternich::moisture_type moisture_type, const metternich::forestation_type forestation_type)
+terrain_type *terrain_type::try_get_by_biome(const kobold::elevation_type elevation_type, const kobold::temperature_type temperature_type, const kobold::moisture_type moisture_type, const kobold::forestation_type forestation_type)
 {
 	const auto find_iterator = terrain_type::terrain_types_by_biome.find(elevation_type);
 	if (find_iterator == terrain_type::terrain_types_by_biome.end()) {
@@ -207,7 +207,7 @@ void terrain_type::set_image_filepath(const std::filesystem::path &filepath)
 	this->image_filepath = database::get()->get_graphics_path(this->get_module()) / filepath;
 }
 
-void terrain_type::assign_to_biome(const metternich::elevation_type elevation_type, const metternich::temperature_type temperature_type, const metternich::moisture_type moisture_type, const metternich::forestation_type forestation_type)
+void terrain_type::assign_to_biome(const kobold::elevation_type elevation_type, const kobold::temperature_type temperature_type, const kobold::moisture_type moisture_type, const kobold::forestation_type forestation_type)
 {
 	assert_throw(elevation_type != elevation_type::none);
 	assert_throw(terrain_type::terrain_types_by_biome[elevation_type][temperature_type][moisture_type][forestation_type] == nullptr);

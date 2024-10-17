@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/site.h"
 
@@ -15,7 +15,7 @@
 #include "util/assert_util.h"
 #include "util/log_util.h"
 
-namespace metternich {
+namespace kobold {
 
 site::site(const std::string &identifier) : named_data_entry(identifier), type(site_type::none)
 {

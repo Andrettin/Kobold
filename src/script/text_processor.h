@@ -3,7 +3,7 @@
 #include "script/context.h"
 #include "util/text_processor_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class culture;
 class population_type;

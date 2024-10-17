@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country.h"
 
@@ -23,7 +23,7 @@
 #include "util/log_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 country::country(const std::string &identifier)
 	: named_data_entry(identifier), type(country_type::minor_nation), default_tier(country_tier::none), min_tier(country_tier::none), max_tier(country_tier::none)

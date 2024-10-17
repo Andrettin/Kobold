@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "technology/technology.h"
 
@@ -37,7 +37,7 @@
 #include "util/string_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 void technology::initialize_all()
 {
@@ -79,11 +79,11 @@ void technology::process_gsml_scope(const gsml_data &scope)
 			this->prerequisites.push_back(technology::get(value));
 		}
 	} else if (tag == "cost_factor") {
-		auto factor = std::make_unique<metternich::factor<country>>(100);
+		auto factor = std::make_unique<kobold::factor<country>>(100);
 		database::process_gsml_data(factor, scope);
 		this->cost_factor = std::move(factor);
 	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else {
@@ -211,7 +211,7 @@ int technology::get_shared_prestige_for_country(const country *country) const
 		return prestige;
 	}
 
-	for (const metternich::country *loop_country : game::get()->get_countries()) {
+	for (const kobold::country *loop_country : game::get()->get_countries()) {
 		if (loop_country == country) {
 			continue;
 		}
@@ -239,7 +239,7 @@ bool technology::requires_technology(const technology *technology) const
 {
 	assert_throw(this != technology);
 
-	for (const metternich::technology *prerequisite : this->get_prerequisites()) {
+	for (const kobold::technology *prerequisite : this->get_prerequisites()) {
 		if (prerequisite == technology || prerequisite->requires_technology(technology)) {
 			return true;
 		}
@@ -429,7 +429,7 @@ void technology::add_enabled_law(const law *law)
 {
 	this->enabled_laws.push_back(law);
 
-	std::sort(this->enabled_laws.begin(), this->enabled_laws.end(), [](const metternich::law *lhs, const metternich::law *rhs) {
+	std::sort(this->enabled_laws.begin(), this->enabled_laws.end(), [](const kobold::law *lhs, const kobold::law *rhs) {
 		return lhs->get_identifier() < rhs->get_identifier();
 	});
 }
@@ -453,7 +453,7 @@ void technology::add_enabled_tradition(const tradition *tradition)
 {
 	this->enabled_traditions.push_back(tradition);
 
-	std::sort(this->enabled_traditions.begin(), this->enabled_traditions.end(), [](const metternich::tradition *lhs, const metternich::tradition *rhs) {
+	std::sort(this->enabled_traditions.begin(), this->enabled_traditions.end(), [](const kobold::tradition *lhs, const kobold::tradition *rhs) {
 		return lhs->get_identifier() < rhs->get_identifier();
 	});
 }
@@ -481,7 +481,7 @@ void technology::add_enabled_character(const character_role role, const characte
 {
 	this->enabled_characters[role].push_back(character);
 
-	std::sort(this->enabled_characters[role].begin(), this->enabled_characters[role].end(), [](const metternich::character *lhs, const metternich::character *rhs) {
+	std::sort(this->enabled_characters[role].begin(), this->enabled_characters[role].end(), [](const kobold::character *lhs, const kobold::character *rhs) {
 		return lhs->get_full_name() < rhs->get_full_name();
 	});
 }
@@ -509,7 +509,7 @@ void technology::add_retired_character(const character_role role, const characte
 {
 	this->retired_characters[role].push_back(character);
 
-	std::sort(this->retired_characters[role].begin(), this->retired_characters[role].end(), [](const metternich::character *lhs, const metternich::character *rhs) {
+	std::sort(this->retired_characters[role].begin(), this->retired_characters[role].end(), [](const kobold::character *lhs, const kobold::character *rhs) {
 		return lhs->get_full_name() < rhs->get_full_name();
 	});
 }
@@ -523,7 +523,7 @@ std::string technology::get_modifier_string(const country *country) const
 	return this->get_modifier()->get_string(country);
 }
 
-QString technology::get_effects_string(metternich::country *country) const
+QString technology::get_effects_string(kobold::country *country) const
 {
 	std::string str = this->get_modifier_string(country);
 

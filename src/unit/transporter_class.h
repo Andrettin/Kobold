@@ -4,7 +4,7 @@
 #include "database/named_data_entry.h"
 #include "unit/transporter_class_container.h"
 
-namespace metternich {
+namespace kobold {
 
 class transporter_type;
 enum class transporter_category;
@@ -13,11 +13,11 @@ class transporter_class final : public named_data_entry, public data_type<transp
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::transporter_category category MEMBER category READ get_category)
+	Q_PROPERTY(kobold::transporter_category category MEMBER category READ get_category)
 
 public:
 	static constexpr const char class_identifier[] = "transporter_class";
-	static constexpr const char property_class_identifier[] = "metternich::transporter_class*";
+	static constexpr const char property_class_identifier[] = "kobold::transporter_class*";
 	static constexpr const char database_folder[] = "transporter_classes";
 
 public:

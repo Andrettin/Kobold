@@ -4,7 +4,7 @@ namespace archimedes {
 	enum class direction;
 }
 
-namespace metternich {
+namespace kobold {
 
 enum class terrain_adjacency_type;
 

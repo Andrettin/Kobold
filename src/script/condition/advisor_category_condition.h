@@ -6,7 +6,7 @@
 #include "character/character_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class advisor_category_condition final : public condition<character>
 {
@@ -14,7 +14,7 @@ public:
 	explicit advisor_category_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<character>(condition_operator)
 	{
-		this->advisor_category = enum_converter<metternich::advisor_category>::to_enum(value);
+		this->advisor_category = enum_converter<kobold::advisor_category>::to_enum(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
@@ -46,7 +46,7 @@ public:
 	}
 
 private:
-	metternich::advisor_category advisor_category = advisor_category::none;
+	kobold::advisor_category advisor_category = advisor_category::none;
 };
 
 }

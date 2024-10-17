@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/terrain_type_container.h"
 
 #include "map/terrain_type.h"
 
-namespace metternich {
+namespace kobold {
 
 bool terrain_type_compare::operator()(const terrain_type *lhs, const terrain_type *rhs) const
 {

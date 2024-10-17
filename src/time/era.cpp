@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "time/era.h"
 
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 void era::initialize_all()
 {

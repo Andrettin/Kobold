@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/culture.h"
 
@@ -10,7 +10,7 @@
 #include "util/log_util.h"
 #include "util/random.h"
 
-namespace metternich {
+namespace kobold {
 
 culture::culture(const std::string &identifier) : culture_base(identifier)
 {

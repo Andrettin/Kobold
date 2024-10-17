@@ -6,7 +6,7 @@
 #include "script/flag.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class flag;
 
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	const metternich::flag *flag = nullptr;
+	const kobold::flag *flag = nullptr;
 };
 
 }

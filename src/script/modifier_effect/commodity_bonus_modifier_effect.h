@@ -5,18 +5,18 @@
 #include "map/site_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class commodity_bonus_modifier_effect final : public modifier_effect<const site>
 {
 public:
-	explicit commodity_bonus_modifier_effect(const metternich::commodity *commodity, const int value)
+	explicit commodity_bonus_modifier_effect(const kobold::commodity *commodity, const int value)
 		 : commodity(commodity)
 	{
 		this->value = centesimal_int(value);
 	}
 
-	explicit commodity_bonus_modifier_effect(const metternich::commodity *commodity, const std::string &value)
+	explicit commodity_bonus_modifier_effect(const kobold::commodity *commodity, const std::string &value)
 		: commodity_bonus_modifier_effect(commodity, std::stoi(value))
 	{
 	}
@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

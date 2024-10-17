@@ -4,7 +4,7 @@
 #include "script/scripted_modifier.h"
 #include "script/scripted_scoped_modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 class site;
 
@@ -17,7 +17,7 @@ class scripted_site_modifier final : public scripted_modifier, public data_type<
 
 public:
 	static constexpr const char class_identifier[] = "scripted_site_modifier";
-	static constexpr const char property_class_identifier[] = "metternich::scripted_site_modifier*";
+	static constexpr const char property_class_identifier[] = "kobold::scripted_site_modifier*";
 	static constexpr const char database_folder[] = "scripted_modifiers/site";
 
 	explicit scripted_site_modifier(const std::string &identifier) : scripted_modifier(identifier)
@@ -37,7 +37,7 @@ public:
 		scripted_scoped_modifier::check();
 	}
 
-	Q_INVOKABLE QString get_modifier_string(metternich::site *scope) const
+	Q_INVOKABLE QString get_modifier_string(kobold::site *scope) const
 	{
 		return scripted_scoped_modifier::get_modifier_string(scope);
 	}

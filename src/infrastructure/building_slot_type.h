@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class building_type;
 class wonder;
@@ -14,7 +14,7 @@ class building_slot_type final : public named_data_entry, public data_type<build
 
 public:
 	static constexpr const char class_identifier[] = "building_slot_type";
-	static constexpr const char property_class_identifier[] = "metternich::building_slot_type*";
+	static constexpr const char property_class_identifier[] = "kobold::building_slot_type*";
 	static constexpr const char database_folder[] = "building_slot_types";
 
 public:

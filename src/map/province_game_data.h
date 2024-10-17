@@ -16,7 +16,7 @@ Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("population/population.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class civilian_unit;
@@ -45,21 +45,21 @@ class province_game_data final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::country* owner READ get_owner NOTIFY owner_changed)
-	Q_PROPERTY(const metternich::culture* culture READ get_culture NOTIFY culture_changed)
-	Q_PROPERTY(const metternich::religion* religion READ get_religion NOTIFY religion_changed)
+	Q_PROPERTY(const kobold::country* owner READ get_owner NOTIFY owner_changed)
+	Q_PROPERTY(const kobold::culture* culture READ get_culture NOTIFY culture_changed)
+	Q_PROPERTY(const kobold::religion* religion READ get_religion NOTIFY religion_changed)
 	Q_PROPERTY(QString current_cultural_name READ get_current_cultural_name_qstring NOTIFY culture_changed)
 	Q_PROPERTY(bool coastal READ is_coastal CONSTANT)
 	Q_PROPERTY(QRect territory_rect READ get_territory_rect CONSTANT)
 	Q_PROPERTY(QPoint center_tile_pos READ get_center_tile_pos CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(metternich::population* population READ get_population CONSTANT)
+	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
 	Q_PROPERTY(QVariantList military_units READ get_military_units_qvariant_list NOTIFY military_units_changed)
 	Q_PROPERTY(QVariantList military_unit_category_counts READ get_military_unit_category_counts_qvariant_list NOTIFY military_unit_category_counts_changed)
 	Q_PROPERTY(QVariantList entering_armies READ get_entering_armies_qvariant_list NOTIFY entering_armies_changed)
 
 public:
-	explicit province_game_data(const metternich::province *province);
+	explicit province_game_data(const kobold::province *province);
 	province_game_data(const province_game_data &other) = delete;
 	~province_game_data();
 
@@ -78,21 +78,21 @@ public:
 
 	bool is_capital() const;
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	void set_culture(const metternich::culture *culture);
-	void on_population_main_culture_changed(const metternich::culture *culture);
+	void set_culture(const kobold::culture *culture);
+	void on_population_main_culture_changed(const kobold::culture *culture);
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	void set_religion(const metternich::religion *religion);
-	void on_population_main_religion_changed(const metternich::religion *religion);
+	void set_religion(const kobold::religion *religion);
+	void on_population_main_religion_changed(const kobold::religion *religion);
 
 	const std::string &get_current_cultural_name() const;
 
@@ -106,7 +106,7 @@ public:
 
 	const QRect &get_territory_rect() const;
 	const QPoint &get_territory_rect_center() const;
-	const std::vector<const metternich::province *> &get_neighbor_provinces() const;
+	const std::vector<const kobold::province *> &get_neighbor_provinces() const;
 
 	bool is_country_border_province() const;
 
@@ -143,9 +143,9 @@ public:
 	void remove_scripted_modifier(const scripted_province_modifier *modifier);
 	void decrement_scripted_modifiers();
 
-	void apply_modifier(const modifier<const metternich::province> *modifier, const int multiplier = 1);
+	void apply_modifier(const modifier<const kobold::province> *modifier, const int multiplier = 1);
 
-	void remove_modifier(const modifier<const metternich::province> *modifier)
+	void remove_modifier(const modifier<const kobold::province> *modifier)
 	{
 		this->apply_modifier(modifier, -1);
 	}
@@ -164,7 +164,7 @@ public:
 	void remove_population_unit(population_unit *population_unit);
 	void clear_population_units();
 
-	metternich::population *get_population() const
+	kobold::population *get_population() const
 	{
 		return this->population.get();
 	}
@@ -182,7 +182,7 @@ public:
 
 	QVariantList get_military_unit_category_counts_qvariant_list() const;
 
-	Q_INVOKABLE int get_military_unit_category_count(const metternich::military_unit_category category) const
+	Q_INVOKABLE int get_military_unit_category_count(const kobold::military_unit_category category) const
 	{
 		const auto find_iterator = this->military_unit_category_counts.find(category);
 
@@ -196,13 +196,13 @@ public:
 	void change_military_unit_category_count(const military_unit_category category, const int change);
 
 	bool has_country_military_unit(const country *country) const;
-	Q_INVOKABLE QVariantList get_country_military_unit_category_counts(metternich::country *country) const;
-	Q_INVOKABLE int get_country_military_unit_category_count(const metternich::military_unit_category category, metternich::country *country) const;
+	Q_INVOKABLE QVariantList get_country_military_unit_category_counts(kobold::country *country) const;
+	Q_INVOKABLE int get_country_military_unit_category_count(const kobold::military_unit_category category, kobold::country *country) const;
 
 	Q_INVOKABLE const icon *get_military_unit_icon() const;
-	Q_INVOKABLE const icon *get_military_unit_category_icon(const metternich::military_unit_category category) const;
-	Q_INVOKABLE QString get_military_unit_category_name(const metternich::military_unit_category category) const;
-	Q_INVOKABLE const icon *get_country_military_unit_icon(metternich::country *country) const;
+	Q_INVOKABLE const icon *get_military_unit_category_icon(const kobold::military_unit_category category) const;
+	Q_INVOKABLE QString get_military_unit_category_name(const kobold::military_unit_category category) const;
+	Q_INVOKABLE const icon *get_country_military_unit_icon(kobold::country *country) const;
 
 	const std::vector<army *> &get_entering_armies() const
 	{
@@ -388,14 +388,14 @@ signals:
 	void entering_armies_changed();
 
 private:
-	const metternich::province *province = nullptr;
+	const kobold::province *province = nullptr;
 	const country *owner = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
 	int settlement_count = 0; //only includes built settlements
 	scripted_province_modifier_map<int> scripted_modifiers;
 	std::vector<population_unit *> population_units;
-	qunique_ptr<metternich::population> population;
+	qunique_ptr<kobold::population> population;
 	std::vector<military_unit *> military_units;
 	std::map<military_unit_category, int> military_unit_category_counts;
 	std::vector<army *> entering_armies; //armies entering this province

@@ -6,7 +6,7 @@
 #include "script/condition/condition.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class game_rule_condition final : public condition<scope_type>

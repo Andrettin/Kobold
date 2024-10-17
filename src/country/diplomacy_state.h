@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class diplomacy_state {
 	peace,
@@ -75,6 +75,6 @@ inline bool is_vassalage_diplomacy_state(const diplomacy_state state)
 
 }
 
-extern template class archimedes::enum_converter<metternich::diplomacy_state>;
+extern template class archimedes::enum_converter<kobold::diplomacy_state>;
 
-Q_DECLARE_METATYPE(metternich::diplomacy_state)
+Q_DECLARE_METATYPE(kobold::diplomacy_state)

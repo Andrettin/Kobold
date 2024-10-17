@@ -2,7 +2,7 @@
 
 #include "script/condition/scope_condition_base.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename upper_scope_type, typename scope_type>
 class scope_condition : public scope_condition_base<upper_scope_type, scope_type>

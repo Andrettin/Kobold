@@ -2,7 +2,7 @@
 
 #include "util/image_provider_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class tile_image_provider final : public image_provider_base
 {

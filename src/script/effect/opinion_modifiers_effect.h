@@ -10,7 +10,7 @@
 #include "util/assert_util.h"
 #include "util/number_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class opinion_modifiers_effect final : public effect<scope_type>

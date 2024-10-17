@@ -8,7 +8,7 @@
 #include "spell/healing_spell_effect.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 qunique_ptr<spell_effect> spell_effect::from_gsml_property(const gsml_property &property)
 {

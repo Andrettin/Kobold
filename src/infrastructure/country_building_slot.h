@@ -3,7 +3,7 @@
 #include "infrastructure/building_slot.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class production_type;
 
@@ -18,14 +18,14 @@ class country_building_slot final : public building_slot
 	Q_PROPERTY(QString country_modifier_string READ get_country_modifier_string NOTIFY country_modifier_changed)
 
 public:
-	explicit country_building_slot(const building_slot_type *type, const metternich::country *country);
+	explicit country_building_slot(const building_slot_type *type, const kobold::country *country);
 
 	void set_building(const building_type *building);
 
 	virtual bool can_have_building(const building_type *building) const override;
 	virtual bool can_build_building(const building_type *building) const override;
 
-	virtual const metternich::country *get_country() const override
+	virtual const kobold::country *get_country() const override
 	{
 		return this->country;
 	}
@@ -95,27 +95,27 @@ public:
 		return 0;
 	}
 
-	Q_INVOKABLE int get_production_type_employed_capacity(metternich::production_type *production_type) const
+	Q_INVOKABLE int get_production_type_employed_capacity(kobold::production_type *production_type) const
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		return this->get_production_type_employed_capacity(const_production_type);
 	}
 
 	commodity_map<int> get_production_type_inputs(const production_type *production_type) const;
-	Q_INVOKABLE QVariantList get_production_type_inputs(metternich::production_type *production_type) const;
+	Q_INVOKABLE QVariantList get_production_type_inputs(kobold::production_type *production_type) const;
 	int get_production_type_input_wealth(const production_type *production_type) const;
 
-	Q_INVOKABLE int get_production_type_input_wealth(metternich::production_type *production_type) const
+	Q_INVOKABLE int get_production_type_input_wealth(kobold::production_type *production_type) const
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		return this->get_production_type_input_wealth(const_production_type);
 	}
 
 	centesimal_int get_production_type_output(const production_type *production_type) const;
 
-	Q_INVOKABLE int get_production_type_output(metternich::production_type *production_type) const
+	Q_INVOKABLE int get_production_type_output(kobold::production_type *production_type) const
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		return this->get_production_type_output(const_production_type).to_int();
 	}
 
@@ -123,33 +123,33 @@ public:
 
 	bool can_increase_production(const production_type *production_type) const;
 
-	Q_INVOKABLE bool can_increase_production(metternich::production_type *production_type) const
+	Q_INVOKABLE bool can_increase_production(kobold::production_type *production_type) const
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		return this->can_increase_production(const_production_type);
 	}
 
 	void increase_production(const production_type *production_type);
 
-	Q_INVOKABLE void increase_production(metternich::production_type *production_type)
+	Q_INVOKABLE void increase_production(kobold::production_type *production_type)
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		this->increase_production(const_production_type);
 	}
 
 	bool can_decrease_production(const production_type *production_type) const;
 
-	Q_INVOKABLE bool can_decrease_production(metternich::production_type *production_type) const
+	Q_INVOKABLE bool can_decrease_production(kobold::production_type *production_type) const
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		return this->can_decrease_production(const_production_type);
 	}
 
 	void decrease_production(const production_type *production_type, const bool restore_inputs);
 
-	Q_INVOKABLE void decrease_production(metternich::production_type *production_type)
+	Q_INVOKABLE void decrease_production(kobold::production_type *production_type)
 	{
-		const metternich::production_type *const_production_type = production_type;
+		const kobold::production_type *const_production_type = production_type;
 		this->decrease_production(const_production_type, true);
 	}
 
@@ -163,7 +163,7 @@ signals:
 	void country_modifier_changed();
 
 private:
-	const metternich::country *country = nullptr;
+	const kobold::country *country = nullptr;
 	int expansion_count = 0;
 	int capacity = 0;
 	int employed_capacity = 0;

@@ -9,7 +9,7 @@
 #include "unit/transporter_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class merchant_ship_stat_modifier_effect final : public modifier_effect<const country>
 {

@@ -4,7 +4,7 @@
 #include "country/country_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class diplomatic_penalty_for_expansion_modifier_effect final : public modifier_effect<const country>
 {

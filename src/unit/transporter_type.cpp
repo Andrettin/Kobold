@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/transporter_type.h"
 
@@ -13,7 +13,7 @@
 #include "unit/transporter_stat.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void transporter_type::process_gsml_scope(const gsml_data &scope)
 {

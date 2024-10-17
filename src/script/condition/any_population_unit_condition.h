@@ -3,7 +3,7 @@
 #include "population/population_unit.h"
 #include "script/condition/scope_condition_base.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class any_population_unit_condition final : public scope_condition_base<scope_type, population_unit>

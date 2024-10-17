@@ -4,7 +4,7 @@
 #include "country/country_game_data.h"
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class wealth_inflated_condition final : public numerical_condition<country>
 {

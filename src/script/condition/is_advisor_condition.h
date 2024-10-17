@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class is_advisor_condition final : public condition<character>
 {

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/effect/effect_list.h"
 
@@ -6,7 +6,7 @@
 #include "database/gsml_property.h"
 #include "script/effect/effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 effect_list<scope_type>::effect_list()

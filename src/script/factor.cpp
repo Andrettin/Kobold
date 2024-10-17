@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/factor.h"
 
@@ -8,7 +8,7 @@
 #include "database/gsml_property.h"
 #include "script/factor_modifier.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 factor<scope_type>::factor()

@@ -1,12 +1,12 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/site_container.h"
 
 #include "map/site.h"
 
-namespace metternich {
+namespace kobold {
 
-bool site_compare::operator()(const site *site, const metternich::site *other_site) const
+bool site_compare::operator()(const site *site, const kobold::site *other_site) const
 {
 	return site->get_identifier() < other_site->get_identifier();
 }

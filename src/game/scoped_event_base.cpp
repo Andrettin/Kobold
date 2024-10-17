@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/scoped_event_base.h"
 
@@ -22,7 +22,7 @@
 #include "util/random.h"
 #include "util/vector_random_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 const scope_type *scoped_event_base<scope_type>::get_scope_from_context(const read_only_context &ctx)
@@ -175,7 +175,7 @@ bool scoped_event_base<scope_type>::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(this->random_weight_factor, scope);
 		return true;
 	} else if (tag == "mean_time_to_happen") {
-		this->mean_time_to_happen = std::make_unique<metternich::mean_time_to_happen<std::remove_const_t<scope_type>>>();
+		this->mean_time_to_happen = std::make_unique<kobold::mean_time_to_happen<std::remove_const_t<scope_type>>>();
 		database::process_gsml_data(this->mean_time_to_happen, scope);
 		return true;
 	} else if (tag == "conditions") {

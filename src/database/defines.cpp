@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "database/defines.h"
 
@@ -19,7 +19,7 @@
 #include "util/log_util.h"
 #include "util/path_util.h"
 
-namespace metternich {
+namespace kobold {
 
 defines::defines() : min_log_level(log_level::warning)
 {
@@ -69,7 +69,7 @@ void defines::process_gsml_scope(const gsml_data &scope)
 	} else if (tag == "diplomacy_state_colors") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();
-			const diplomacy_state diplomacy_state = enum_converter<metternich::diplomacy_state>::to_enum(child_tag);
+			const diplomacy_state diplomacy_state = enum_converter<kobold::diplomacy_state>::to_enum(child_tag);
 			this->diplomacy_state_colors[diplomacy_state] = child_scope.to_color();
 		});
 	} else if (tag == "event_trigger_none_random_weights") {

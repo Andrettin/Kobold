@@ -6,7 +6,7 @@
 #include "script/effect/effect.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class event_effect final : public effect<scope_type>

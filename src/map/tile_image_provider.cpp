@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/tile_image_provider.h"
 
@@ -15,7 +15,7 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
 tile_image_provider::tile_image_provider()
 {

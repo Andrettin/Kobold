@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country_history.h"
 
@@ -10,9 +10,9 @@
 #include "economy/commodity.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
-country_history::country_history(const metternich::country *country)
+country_history::country_history(const kobold::country *country)
 	: country(country), tier(country_tier::none)
 {
 }
@@ -27,9 +27,9 @@ void country_history::process_gsml_scope(const gsml_data &scope)
 			this->commodities[commodity] = std::stoi(property.get_value());
 		});
 	} else if (tag == "diplomacy_state") {
-		const metternich::country *other_country = nullptr;
+		const kobold::country *other_country = nullptr;
 		std::optional<diplomacy_state> state;
-		const metternich::subject_type *subject_type = nullptr;
+		const kobold::subject_type *subject_type = nullptr;
 
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
@@ -80,7 +80,7 @@ void country_history::process_gsml_scope(const gsml_data &scope)
 
 		this->diplomacy_states[other_country] = state.value();
 	} else if (tag == "consulate") {
-		const metternich::country *other_country = nullptr;
+		const kobold::country *other_country = nullptr;
 		const consulate *consulate = nullptr;
 
 		scope.for_each_property([&](const gsml_property &property) {
@@ -106,7 +106,7 @@ void country_history::process_gsml_scope(const gsml_data &scope)
 	}
 }
 
-diplomacy_state country_history::get_diplomacy_state(const metternich::country *other_country) const
+diplomacy_state country_history::get_diplomacy_state(const kobold::country *other_country) const
 {
 	const auto find_iterator = this->diplomacy_states.find(other_country);
 

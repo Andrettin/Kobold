@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/icon_image_provider.h"
 
@@ -11,7 +11,7 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
 icon_image_provider::icon_image_provider()
 {

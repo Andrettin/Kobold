@@ -2,7 +2,7 @@
 
 #include "script/effect/scope_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 

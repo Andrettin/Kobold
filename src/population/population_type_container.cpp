@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/population_type_container.h"
 
 #include "economy/commodity.h"
 #include "population/population_type.h"
 
-namespace metternich {
+namespace kobold {
 
 bool population_type_compare::operator()(const population_type *lhs, const population_type *rhs) const
 {

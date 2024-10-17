@@ -7,7 +7,7 @@
 #include "util/number_util.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class change_opinion_effect final : public effect<scope_type>

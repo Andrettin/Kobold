@@ -9,7 +9,7 @@
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class civilian_unit;
@@ -32,8 +32,8 @@ class character_game_data final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::portrait* portrait READ get_portrait NOTIFY portrait_changed)
-	Q_PROPERTY(const metternich::country* country READ get_country NOTIFY country_changed)
+	Q_PROPERTY(const kobold::portrait* portrait READ get_portrait NOTIFY portrait_changed)
+	Q_PROPERTY(const kobold::country* country READ get_country NOTIFY country_changed)
 	Q_PROPERTY(int age READ get_age NOTIFY age_changed)
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
 	Q_PROPERTY(QVariantList traits READ get_traits_qvariant_list NOTIFY traits_changed)
@@ -43,11 +43,11 @@ class character_game_data final : public QObject
 	Q_PROPERTY(bool deployable READ is_deployable NOTIFY spells_changed)
 
 public:
-	explicit character_game_data(const metternich::character *character);
+	explicit character_game_data(const kobold::character *character);
 
 	void on_setup_finished();
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
@@ -55,12 +55,12 @@ public:
 	bool is_current_portrait_valid() const;
 	void check_portrait();
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
 
-	void set_country(const metternich::country *country);
+	void set_country(const kobold::country *country);
 
 	int get_age() const;
 
@@ -121,26 +121,26 @@ public:
 	void decrement_scripted_modifiers();
 
 	bool is_ruler() const;
-	std::string get_ruler_modifier_string(const metternich::country *country) const;
+	std::string get_ruler_modifier_string(const kobold::country *country) const;
 
-	Q_INVOKABLE QString get_ruler_modifier_qstring(const metternich::country *country) const
+	Q_INVOKABLE QString get_ruler_modifier_qstring(const kobold::country *country) const
 	{
 		return QString::fromStdString(this->get_ruler_modifier_string(country));
 	}
 
-	void apply_ruler_modifier(const metternich::country *country, const int multiplier) const;
-	void apply_trait_ruler_modifier(const trait *trait, const metternich::country *country, const int multiplier) const;
+	void apply_ruler_modifier(const kobold::country *country, const int multiplier) const;
+	void apply_trait_ruler_modifier(const trait *trait, const kobold::country *country, const int multiplier) const;
 	bool is_advisor() const;
-	Q_INVOKABLE QString get_advisor_effects_string(const metternich::country *country) const;
-	void apply_advisor_modifier(const metternich::country *country, const int multiplier) const;
-	void apply_trait_advisor_modifier(const trait *trait, const metternich::country *country, const int multiplier) const;
+	Q_INVOKABLE QString get_advisor_effects_string(const kobold::country *country) const;
+	void apply_advisor_modifier(const kobold::country *country, const int multiplier) const;
+	void apply_trait_advisor_modifier(const trait *trait, const kobold::country *country, const int multiplier) const;
 
-	metternich::military_unit *get_military_unit() const
+	kobold::military_unit *get_military_unit() const
 	{
 		return this->military_unit;
 	}
 	
-	void set_military_unit(metternich::military_unit *military_unit)
+	void set_military_unit(kobold::military_unit *military_unit)
 	{
 		if (military_unit == this->get_military_unit()) {
 			return;
@@ -159,12 +159,12 @@ public:
 	void deploy_to_province(const province *province);
 	void undeploy();
 
-	metternich::civilian_unit *get_civilian_unit() const
+	kobold::civilian_unit *get_civilian_unit() const
 	{
 		return this->civilian_unit;
 	}
 
-	void set_civilian_unit(metternich::civilian_unit *civilian_unit)
+	void set_civilian_unit(kobold::civilian_unit *civilian_unit)
 	{
 		if (civilian_unit == this->get_civilian_unit()) {
 			return;
@@ -173,8 +173,8 @@ public:
 		this->civilian_unit = civilian_unit;
 	}
 
-	void apply_modifier(const modifier<const metternich::character> *modifier, const int multiplier);
-	void apply_military_unit_modifier(metternich::military_unit *military_unit, const int multiplier);
+	void apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier);
+	void apply_military_unit_modifier(kobold::military_unit *military_unit, const int multiplier);
 
 	const spell_set &get_spells() const
 	{
@@ -262,15 +262,15 @@ signals:
 	void spells_changed();
 
 private:
-	const metternich::character *character = nullptr;
-	const metternich::portrait *portrait = nullptr;
-	const metternich::country *country = nullptr;
+	const kobold::character *character = nullptr;
+	const kobold::portrait *portrait = nullptr;
+	const kobold::country *country = nullptr;
 	bool dead = false;
 	std::map<character_attribute, int> attribute_values;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;
-	metternich::military_unit *military_unit = nullptr;
-	metternich::civilian_unit *civilian_unit = nullptr;
+	kobold::military_unit *military_unit = nullptr;
+	kobold::civilian_unit *civilian_unit = nullptr;
 	spell_set spells;
 	spell_set item_spells;
 	std::map<military_unit_stat, centesimal_int> commanded_military_unit_stat_modifiers;

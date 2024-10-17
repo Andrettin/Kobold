@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_country_model.h"
 
@@ -12,7 +12,7 @@
 
 #include <QGeoPolygon>
 
-namespace metternich {
+namespace kobold {
 
 void map_country_model::reset_model()
 {
@@ -125,7 +125,7 @@ std::pair<const country *, const QGeoPolygon *> map_country_model::get_geopolygo
 			continue;
 		}
 
-		return std::pair<const metternich::country *, const QGeoPolygon *>(country, geopolygons.at(index - i).get());
+		return std::pair<const kobold::country *, const QGeoPolygon *>(country, geopolygons.at(index - i).get());
 	}
 
 	throw std::runtime_error(std::format("Geopolygon data not found for index {}.", index));

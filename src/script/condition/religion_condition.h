@@ -5,7 +5,7 @@
 #include "script/target_variant.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class religion_condition final : public condition<scope_type>
@@ -31,7 +31,7 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		const metternich::religion *religion = nullptr;
+		const kobold::religion *religion = nullptr;
 
 		if constexpr (std::is_same_v<scope_type, character> || std::is_same_v<scope_type, military_unit> || std::is_same_v<scope_type, population_unit>) {
 			religion = scope->get_religion();

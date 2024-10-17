@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("technology/technology.h")
 
-namespace metternich {
+namespace kobold {
 
 class icon;
 class technology;
@@ -15,8 +15,8 @@ class commodity final : public named_data_entry, public data_type<commodity>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
-	Q_PROPERTY(metternich::food_type food_type MEMBER food_type READ get_food_type NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::food_type food_type MEMBER food_type READ get_food_type NOTIFY changed)
 	Q_PROPERTY(bool abstract MEMBER abstract READ is_abstract NOTIFY changed)
 	Q_PROPERTY(bool storable MEMBER storable READ is_storable NOTIFY changed)
 	Q_PROPERTY(bool local MEMBER local READ is_local NOTIFY changed)
@@ -25,11 +25,11 @@ class commodity final : public named_data_entry, public data_type<commodity>
 	Q_PROPERTY(bool health MEMBER health READ is_health NOTIFY changed)
 	Q_PROPERTY(int wealth_value MEMBER wealth_value READ get_wealth_value NOTIFY changed)
 	Q_PROPERTY(int base_price MEMBER base_price READ get_base_price NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "commodity";
-	static constexpr const char property_class_identifier[] = "metternich::commodity*";
+	static constexpr const char property_class_identifier[] = "kobold::commodity*";
 	static constexpr const char database_folder[] = "commodities";
 
 	static constexpr int abstract_commodity_value = 100; //used for e.g. score calculation
@@ -39,14 +39,14 @@ public:
 	virtual void initialize() override;
 	virtual void check() const override;
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
 
 	bool is_food() const;
 
-	metternich::food_type get_food_type() const
+	kobold::food_type get_food_type() const
 	{
 		return this->food_type;
 	}
@@ -110,8 +110,8 @@ signals:
 	void changed();
 
 private:
-	metternich::icon *icon = nullptr;
-	metternich::food_type food_type;
+	kobold::icon *icon = nullptr;
+	kobold::food_type food_type;
 	bool abstract = false;
 	bool storable = true;
 	bool local = false;

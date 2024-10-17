@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class elevation_type {
 	none,
@@ -14,6 +14,6 @@ enum class elevation_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::elevation_type>;
+extern template class archimedes::enum_converter<kobold::elevation_type>;
 
-Q_DECLARE_METATYPE(metternich::elevation_type)
+Q_DECLARE_METATYPE(kobold::elevation_type)

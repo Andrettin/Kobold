@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("infrastructure/building_slot_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_slot_type;
 class building_type;
@@ -14,11 +14,11 @@ class building_class final : public named_data_entry, public data_type<building_
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::building_slot_type* slot_type MEMBER slot_type NOTIFY changed)
+	Q_PROPERTY(kobold::building_slot_type* slot_type MEMBER slot_type NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "building_class";
-	static constexpr const char property_class_identifier[] = "metternich::building_class*";
+	static constexpr const char property_class_identifier[] = "kobold::building_class*";
 	static constexpr const char database_folder[] = "building_classes";
 
 public:

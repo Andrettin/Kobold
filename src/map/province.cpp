@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/province.h"
 
@@ -15,7 +15,7 @@
 #include "util/log_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 province::province(const std::string &identifier) : named_data_entry(identifier)
 {

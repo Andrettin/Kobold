@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "ui/icon_base.h"
 
-namespace metternich {
+namespace kobold {
 
 class character;
 
@@ -16,7 +16,7 @@ class portrait final : public icon_base, public data_type<portrait>
 
 public:
 	static constexpr const char class_identifier[] = "portrait";
-	static constexpr const char property_class_identifier[] = "metternich::portrait*";
+	static constexpr const char property_class_identifier[] = "kobold::portrait*";
 	static constexpr const char database_folder[] = "portraits";
 
 	static const std::vector<const portrait *> &get_character_portraits()

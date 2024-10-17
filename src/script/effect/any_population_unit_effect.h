@@ -5,7 +5,7 @@
 #include "script/effect/scope_effect_base.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class population_unit;
 
@@ -38,7 +38,7 @@ public:
 	virtual void do_assignment_effect(upper_scope_type *upper_scope, context &ctx) const override
 	{
 		for (const auto &population_unit : upper_scope->get_game_data()->get_population_units()) {
-			metternich::population_unit *population_unit_ptr = nullptr;
+			kobold::population_unit *population_unit_ptr = nullptr;
 			if constexpr (std::is_same_v<upper_scope_type, const site>) {
 				population_unit_ptr = population_unit.get();
 			} else {

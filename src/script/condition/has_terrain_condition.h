@@ -7,7 +7,7 @@
 #include "map/terrain_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_terrain_condition final : public condition<scope_type>

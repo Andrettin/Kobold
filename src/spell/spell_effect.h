@@ -3,7 +3,7 @@
 #include "database/basic_data_entry.h"
 #include "util/qunique_ptr.h"
 
-namespace metternich {
+namespace kobold {
 
 class military_unit;
 

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country_game_data.h"
 
@@ -96,9 +96,9 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
-country_game_data::country_game_data(metternich::country *country)
+country_game_data::country_game_data(kobold::country *country)
 	: country(country), tier(country_tier::none), religion(country->get_default_religion())
 {
 	connect(this, &country_game_data::tier_changed, this, &country_game_data::title_name_changed);
@@ -122,7 +122,7 @@ country_game_data::country_game_data(metternich::country *country)
 		}
 	}
 
-	this->population = make_qunique<metternich::population>();
+	this->population = make_qunique<kobold::population>();
 	connect(this->get_population(), &population::type_count_changed, this, &country_game_data::on_population_type_count_changed);
 }
 
@@ -538,13 +538,13 @@ void country_game_data::do_cultural_change()
 	static constexpr int base_cultural_derivation_chance = 1;
 
 	for (population_unit *population_unit : this->population_units) {
-		const metternich::culture *current_culture = population_unit->get_culture();
+		const kobold::culture *current_culture = population_unit->get_culture();
 
-		std::vector<const metternich::culture *> potential_cultures;
+		std::vector<const kobold::culture *> potential_cultures;
 
 		const read_only_context ctx(population_unit);
 
-		for (const metternich::culture *culture : current_culture->get_derived_cultures()) {
+		for (const kobold::culture *culture : current_culture->get_derived_cultures()) {
 			if (culture->get_derivation_conditions() != nullptr && !culture->get_derivation_conditions()->check(population_unit, ctx)) {
 				continue;
 			}
@@ -558,7 +558,7 @@ void country_game_data::do_cultural_change()
 
 		vector::shuffle(potential_cultures);
 
-		for (const metternich::culture *culture : potential_cultures) {
+		for (const kobold::culture *culture : potential_cultures) {
 			int chance = base_cultural_derivation_chance;
 
 			if (this->country->get_culture() == culture) {
@@ -569,7 +569,7 @@ void country_game_data::do_cultural_change()
 				continue;
 			}
 
-			const metternich::culture *new_culture = vector::get_random(potential_cultures);
+			const kobold::culture *new_culture = vector::get_random(potential_cultures);
 			population_unit->set_culture(new_culture);
 			break;
 		}
@@ -602,8 +602,8 @@ void country_game_data::do_trade(country_map<commodity_map<int>> &country_luxury
 		}
 
 		//get the known countries and sort them by priority
-		std::vector<const metternich::country *> countries = container::to_vector(this->get_known_countries());
-		std::sort(countries.begin(), countries.end(), [&](const metternich::country *lhs, const metternich::country *rhs) {
+		std::vector<const kobold::country *> countries = container::to_vector(this->get_known_countries());
+		std::sort(countries.begin(), countries.end(), [&](const kobold::country *lhs, const kobold::country *rhs) {
 			if (this->is_vassal_of(lhs) != this->is_vassal_of(rhs)) {
 				return this->is_vassal_of(lhs);
 			}
@@ -627,7 +627,7 @@ void country_game_data::do_trade(country_map<commodity_map<int>> &country_luxury
 		for (auto &[commodity, offer] : offers) {
 			const int price = game::get()->get_price(commodity);
 
-			for (const metternich::country *other_country : countries) {
+			for (const kobold::country *other_country : countries) {
 				country_game_data *other_country_game_data = other_country->get_game_data();
 
 				const int bid = other_country_game_data->get_bid(commodity);
@@ -827,7 +827,7 @@ const std::string &country_game_data::get_ruler_title_name() const
 	return this->country->get_ruler_title_name(this->get_government_type(), this->get_tier(), gender, this->get_religion());
 }
 
-void country_game_data::set_religion(const metternich::religion *religion)
+void country_game_data::set_religion(const kobold::religion *religion)
 {
 	if (religion == this->get_religion()) {
 		return;
@@ -846,7 +846,7 @@ void country_game_data::set_religion(const metternich::religion *religion)
 	}
 }
 
-void country_game_data::set_overlord(const metternich::country *overlord)
+void country_game_data::set_overlord(const kobold::country *overlord)
 {
 	if (overlord == this->get_overlord()) {
 		return;
@@ -877,12 +877,12 @@ void country_game_data::set_overlord(const metternich::country *overlord)
 	}
 }
 
-bool country_game_data::is_vassal_of(const metternich::country *country) const
+bool country_game_data::is_vassal_of(const kobold::country *country) const
 {
 	return this->get_overlord() == country;
 }
 
-bool country_game_data::is_any_vassal_of(const metternich::country *country) const
+bool country_game_data::is_any_vassal_of(const kobold::country *country) const
 {
 	if (this->is_vassal_of(country)) {
 		return true;
@@ -895,19 +895,19 @@ bool country_game_data::is_any_vassal_of(const metternich::country *country) con
 	return false;
 }
 
-bool country_game_data::is_overlord_of(const metternich::country *country) const
+bool country_game_data::is_overlord_of(const kobold::country *country) const
 {
 	return country->get_game_data()->is_vassal_of(this->country);
 }
 
-bool country_game_data::is_any_overlord_of(const metternich::country *country) const
+bool country_game_data::is_any_overlord_of(const kobold::country *country) const
 {
 	if (this->is_overlord_of(country)) {
 		return true;
 	}
 
-	const std::vector<const metternich::country *> vassals = this->get_vassals();
-	for (const metternich::country *vassal : this->get_vassals()) {
+	const std::vector<const kobold::country *> vassals = this->get_vassals();
+	for (const kobold::country *vassal : this->get_vassals()) {
 		if (vassal->get_game_data()->is_any_overlord_of(country)) {
 			return true;
 		}
@@ -940,7 +940,7 @@ std::string country_game_data::get_type_name() const
 }
 
 
-void country_game_data::set_subject_type(const metternich::subject_type *subject_type)
+void country_game_data::set_subject_type(const kobold::subject_type *subject_type)
 {
 	if (subject_type == this->get_subject_type()) {
 		return;
@@ -990,8 +990,8 @@ void country_game_data::add_province(const province *province)
 		this->border_provinces.push_back(province);
 	}
 
-	for (const metternich::province *neighbor_province : province_game_data->get_neighbor_provinces()) {
-		const metternich::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
+	for (const kobold::province *neighbor_province : province_game_data->get_neighbor_provinces()) {
+		const kobold::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
 		if (neighbor_province_game_data->get_owner() != this->country) {
 			continue;
 		}
@@ -1024,7 +1024,7 @@ void country_game_data::add_province(const province *province)
 		game::get()->add_country(this->country);
 	}
 
-	for (const metternich::country *country : game::get()->get_countries()) {
+	for (const kobold::country *country : game::get()->get_countries()) {
 		if (country == this->country) {
 			continue;
 		}
@@ -1062,8 +1062,8 @@ void country_game_data::remove_province(const province *province)
 
 	std::erase(this->border_provinces, province);
 
-	for (const metternich::province *neighbor_province : province_game_data->get_neighbor_provinces()) {
-		const metternich::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
+	for (const kobold::province *neighbor_province : province_game_data->get_neighbor_provinces()) {
+		const kobold::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
 		if (neighbor_province_game_data->get_owner() != this->country) {
 			continue;
 		}
@@ -1087,7 +1087,7 @@ void country_game_data::remove_province(const province *province)
 	this->calculate_territory_rect();
 
 	//remove this as a known country for other countries, if they no longer have explored tiles in this country's territory
-	for (const metternich::country *country : game::get()->get_countries()) {
+	for (const kobold::country *country : game::get()->get_countries()) {
 		if (country == this->country) {
 			continue;
 		}
@@ -1102,7 +1102,7 @@ void country_game_data::remove_province(const province *province)
 		}
 
 		bool known_province = false;
-		for (const metternich::province *loop_province : this->get_provinces()) {
+		for (const kobold::province *loop_province : this->get_provinces()) {
 			if (country->get_game_data()->is_province_discovered(loop_province)) {
 				known_province = true;
 				break;
@@ -1222,7 +1222,7 @@ void country_game_data::choose_capital()
 
 	const site *best_capital = nullptr;
 
-	for (const metternich::province *province : this->get_provinces()) {
+	for (const kobold::province *province : this->get_provinces()) {
 		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
 			const site_game_data *settlement_game_data = settlement->get_game_data();
 
@@ -1410,7 +1410,7 @@ void country_game_data::calculate_text_rect()
 				break;
 			}
 
-			const metternich::tile *adjacent_tile = map->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = map->get_tile(adjacent_pos);
 
 			if (adjacent_tile->get_owner() != this->country) {
 				can_expand_left = false;
@@ -1432,7 +1432,7 @@ void country_game_data::calculate_text_rect()
 				break;
 			}
 
-			const metternich::tile *adjacent_tile = map->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = map->get_tile(adjacent_pos);
 
 			if (adjacent_tile->get_owner() != this->country) {
 				can_expand_right = false;
@@ -1454,7 +1454,7 @@ void country_game_data::calculate_text_rect()
 				break;
 			}
 
-			const metternich::tile *adjacent_tile = map->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = map->get_tile(adjacent_pos);
 
 			if (adjacent_tile->get_owner() != this->country) {
 				can_expand_up = false;
@@ -1476,7 +1476,7 @@ void country_game_data::calculate_text_rect()
 				break;
 			}
 
-			const metternich::tile *adjacent_tile = map->get_tile(adjacent_pos);
+			const kobold::tile *adjacent_tile = map->get_tile(adjacent_pos);
 
 			if (adjacent_tile->get_owner() != this->country) {
 				can_expand_down = false;
@@ -1509,7 +1509,7 @@ QVariantList country_game_data::get_tile_terrain_counts_qvariant_list() const
 	return counts;
 }
 
-void country_game_data::add_known_country(const metternich::country *other_country)
+void country_game_data::add_known_country(const kobold::country *other_country)
 {
 	this->known_countries.insert(other_country);
 
@@ -1531,7 +1531,7 @@ void country_game_data::add_known_country(const metternich::country *other_count
 	}
 }
 
-diplomacy_state country_game_data::get_diplomacy_state(const metternich::country *other_country) const
+diplomacy_state country_game_data::get_diplomacy_state(const kobold::country *other_country) const
 {
 	const auto find_iterator = this->diplomacy_states.find(other_country);
 
@@ -1542,7 +1542,7 @@ diplomacy_state country_game_data::get_diplomacy_state(const metternich::country
 	return diplomacy_state::peace;
 }
 
-void country_game_data::set_diplomacy_state(const metternich::country *other_country, const diplomacy_state state)
+void country_game_data::set_diplomacy_state(const kobold::country *other_country, const diplomacy_state state)
 {
 	const diplomacy_state old_state = this->get_diplomacy_state(other_country);
 
@@ -1612,7 +1612,7 @@ void country_game_data::change_diplomacy_state_count(const diplomacy_state state
 	}
 }
 
-QString country_game_data::get_diplomacy_state_diplomatic_map_suffix(metternich::country *other_country) const
+QString country_game_data::get_diplomacy_state_diplomatic_map_suffix(kobold::country *other_country) const
 {
 	if (other_country == this->country || this->is_any_overlord_of(other_country) || this->is_any_vassal_of(other_country)) {
 		return "empire";
@@ -1626,7 +1626,7 @@ bool country_game_data::at_war() const
 	return this->diplomacy_state_counts.contains(diplomacy_state::war);
 }
 
-bool country_game_data::can_attack(const metternich::country *other_country) const
+bool country_game_data::can_attack(const kobold::country *other_country) const
 {
 	if (other_country == nullptr) {
 		return false;
@@ -1661,7 +1661,7 @@ bool country_game_data::can_attack(const metternich::country *other_country) con
 	return false;
 }
 
-std::optional<diplomacy_state> country_game_data::get_offered_diplomacy_state(const metternich::country *other_country) const
+std::optional<diplomacy_state> country_game_data::get_offered_diplomacy_state(const kobold::country *other_country) const
 {
 	const auto find_iterator = this->offered_diplomacy_states.find(other_country);
 
@@ -1672,7 +1672,7 @@ std::optional<diplomacy_state> country_game_data::get_offered_diplomacy_state(co
 	return std::nullopt;
 }
 
-void country_game_data::set_offered_diplomacy_state(const metternich::country *other_country, const std::optional<diplomacy_state> &state)
+void country_game_data::set_offered_diplomacy_state(const kobold::country *other_country, const std::optional<diplomacy_state> &state)
 {
 	const diplomacy_state old_state = this->get_diplomacy_state(other_country);
 
@@ -1696,7 +1696,7 @@ QVariantList country_game_data::get_consulates_qvariant_list() const
 	return archimedes::map::to_qvariant_list(this->consulates);
 }
 
-void country_game_data::set_consulate(const metternich::country *other_country, const consulate *consulate)
+void country_game_data::set_consulate(const kobold::country *other_country, const consulate *consulate)
 {
 	if (consulate == nullptr) {
 		this->consulates.erase(other_country);
@@ -1713,7 +1713,7 @@ void country_game_data::set_consulate(const metternich::country *other_country, 
 	}
 }
 
-int country_game_data::get_opinion_of(const metternich::country *other) const
+int country_game_data::get_opinion_of(const kobold::country *other) const
 {
 	int opinion = this->get_base_opinion(other);
 
@@ -1726,7 +1726,7 @@ int country_game_data::get_opinion_of(const metternich::country *other) const
 	return opinion;
 }
 
-void country_game_data::set_base_opinion(const metternich::country *other, const int opinion)
+void country_game_data::set_base_opinion(const kobold::country *other, const int opinion)
 {
 	assert_throw(other != this->country);
 
@@ -1749,12 +1749,12 @@ void country_game_data::set_base_opinion(const metternich::country *other, const
 	}
 }
 
-void country_game_data::add_opinion_modifier(const metternich::country *other, const opinion_modifier *modifier, const int duration)
+void country_game_data::add_opinion_modifier(const kobold::country *other, const opinion_modifier *modifier, const int duration)
 {
 	this->opinion_modifiers[other][modifier] = std::max(this->opinion_modifiers[other][modifier], duration);
 }
 
-void country_game_data::remove_opinion_modifier(const metternich::country *other, const opinion_modifier *modifier)
+void country_game_data::remove_opinion_modifier(const kobold::country *other, const opinion_modifier *modifier)
 {
 	opinion_modifier_map<int> &opinion_modifiers = this->opinion_modifiers[other];
 	opinion_modifiers.erase(modifier);
@@ -1764,7 +1764,7 @@ void country_game_data::remove_opinion_modifier(const metternich::country *other
 	}
 }
 
-int country_game_data::get_opinion_weighted_prestige_for(const metternich::country *other) const
+int country_game_data::get_opinion_weighted_prestige_for(const kobold::country *other) const
 {
 	const int opinion = this->get_opinion_of(other);
 	const int prestige = std::max(1, other->get_game_data()->get_stored_commodity(defines::get()->get_prestige_commodity()));
@@ -1773,9 +1773,9 @@ int country_game_data::get_opinion_weighted_prestige_for(const metternich::count
 	return opinion_weighted_prestige;
 }
 
-std::vector<const metternich::country *> country_game_data::get_vassals() const
+std::vector<const kobold::country *> country_game_data::get_vassals() const
 {
-	std::vector<const metternich::country *> vassals;
+	std::vector<const kobold::country *> vassals;
 
 	for (const auto &[country, diplomacy_state] : this->diplomacy_states) {
 		if (is_overlordship_diplomacy_state(diplomacy_state)) {
@@ -1793,7 +1793,7 @@ QVariantList country_game_data::get_vassals_qvariant_list() const
 
 QVariantList country_game_data::get_subject_type_counts_qvariant_list() const
 {
-	std::map<const metternich::subject_type *, int> subject_type_counts;
+	std::map<const kobold::subject_type *, int> subject_type_counts;
 
 	for (const auto &[country, diplomacy_state] : this->diplomacy_states) {
 		if (is_overlordship_diplomacy_state(diplomacy_state)) {
@@ -1810,13 +1810,13 @@ QVariantList country_game_data::get_subject_type_counts_qvariant_list() const
 	return counts;
 }
 
-std::vector<const metternich::country *> country_game_data::get_neighbor_countries() const
+std::vector<const kobold::country *> country_game_data::get_neighbor_countries() const
 {
-	std::vector<const metternich::country *> neighbor_countries;
+	std::vector<const kobold::country *> neighbor_countries;
 
 	for (const province *province : this->get_border_provinces()) {
-		for (const metternich::province *neighbor_province : province->get_game_data()->get_neighbor_provinces()) {
-			const metternich::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
+		for (const kobold::province *neighbor_province : province->get_game_data()->get_neighbor_provinces()) {
+			const kobold::province_game_data *neighbor_province_game_data = neighbor_province->get_game_data();
 			if (neighbor_province_game_data->get_owner() == this->country) {
 				continue;
 			}
@@ -2015,7 +2015,7 @@ QCoro::Task<void> country_game_data::create_diplomatic_map_mode_image(const dipl
 					break;
 				}
 				case diplomatic_map_mode::religious: {
-					const metternich::religion *religion = nullptr;
+					const kobold::religion *religion = nullptr;
 
 					if (tile->get_settlement() != nullptr && tile->get_settlement()->get_game_data()->get_religion() != nullptr) {
 						religion = tile->get_settlement()->get_game_data()->get_religion();
@@ -2214,8 +2214,8 @@ void country_game_data::grow_population()
 	assert_throw(!potential_base_population_units.empty());
 
 	const population_unit *population_unit = vector::get_random(potential_base_population_units);
-	const metternich::culture *culture = population_unit->get_culture();
-	const metternich::religion *religion = population_unit->get_religion();
+	const kobold::culture *culture = population_unit->get_culture();
+	const kobold::religion *religion = population_unit->get_religion();
 	const phenotype *phenotype = population_unit->get_phenotype();
 	const population_type *population_type = culture->get_population_class_type(this->get_default_population_class());
 
@@ -3108,7 +3108,7 @@ void country_game_data::assign_transport_orders()
 	}
 }
 
-bool country_game_data::can_declare_war_on(const metternich::country *other_country) const
+bool country_game_data::can_declare_war_on(const kobold::country *other_country) const
 {
 	if (!this->country->can_declare_war()) {
 		return false;
@@ -3188,7 +3188,7 @@ void country_game_data::add_technology(const technology *technology)
 
 	//check if any discoveries can now be triggered, if they required this technology
 	bool leads_to_discovery = false;
-	for (const metternich::technology *requiring_technology : technology->get_leads_to()) {
+	for (const kobold::technology *requiring_technology : technology->get_leads_to()) {
 		if (requiring_technology->is_discovery()) {
 			leads_to_discovery = true;
 			break;
@@ -3260,7 +3260,7 @@ void country_game_data::add_technology_with_prerequisites(const technology *tech
 {
 	this->add_technology(technology);
 
-	for (const metternich::technology *prerequisite : technology->get_prerequisites()) {
+	for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
 		this->add_technology_with_prerequisites(prerequisite);
 	}
 }
@@ -3277,7 +3277,7 @@ bool country_game_data::can_gain_technology(const technology *technology) const
 		return false;
 	}
 
-	for (const metternich::technology *prerequisite : technology->get_prerequisites()) {
+	for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
 		if (!this->has_technology(prerequisite)) {
 			return false;
 		}
@@ -3326,7 +3326,7 @@ QVariantList country_game_data::get_future_technologies_qvariant_list() const
 		}
 
 		bool has_all_prerequisites = true;
-		for (const metternich::technology *prerequisite : technology->get_prerequisites()) {
+		for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
 			if (!this->has_technology(prerequisite)) {
 				has_all_prerequisites = false;
 			}
@@ -3383,7 +3383,7 @@ void country_game_data::on_technology_researched(const technology *technology)
 		bool first_to_research = true;
 
 		//technology grants a free technology for the first one to research it
-		for (const metternich::country *country : game::get()->get_countries()) {
+		for (const kobold::country *country : game::get()->get_countries()) {
 			if (country == this->country) {
 				continue;
 			}
@@ -3417,7 +3417,7 @@ std::map<technology_category, const technology *> country_game_data::get_researc
 	std::map<technology_category, std::vector<const technology *>> potential_technologies_per_category;
 
 	for (const technology *technology : available_technologies) {
-		std::vector<const metternich::technology *> &category_technologies = potential_technologies_per_category[technology->get_category()];
+		std::vector<const kobold::technology *> &category_technologies = potential_technologies_per_category[technology->get_category()];
 
 		const int weight = 1;
 		for (int i = 0; i < weight; ++i) {
@@ -3506,7 +3506,7 @@ void country_game_data::gain_technologies_known_by_others()
 
 	technology_map<int> technology_known_counts;
 
-	for (const metternich::country *known_country : this->get_known_countries()) {
+	for (const kobold::country *known_country : this->get_known_countries()) {
 		for (const technology *technology : known_country->get_game_data()->get_technologies()) {
 			++technology_known_counts[technology];
 		}
@@ -3525,7 +3525,7 @@ void country_game_data::gain_technologies_known_by_others()
 	}
 }
 
-void country_game_data::set_government_type(const metternich::government_type *government_type)
+void country_game_data::set_government_type(const kobold::government_type *government_type)
 {
 	if (government_type == this->get_government_type()) {
 		return;
@@ -3544,7 +3544,7 @@ void country_game_data::set_government_type(const metternich::government_type *g
 	}
 }
 
-bool country_game_data::can_have_government_type(const metternich::government_type *government_type) const
+bool country_game_data::can_have_government_type(const kobold::government_type *government_type) const
 {
 	if (government_type->get_conditions() != nullptr && !government_type->get_conditions()->check(this->country, read_only_context(this->country))) {
 		return false;
@@ -3559,9 +3559,9 @@ void country_game_data::check_government_type()
 		return;
 	}
 
-	std::vector<const metternich::government_type *> potential_government_types;
+	std::vector<const kobold::government_type *> potential_government_types;
 
-	for (const metternich::government_type *government_type : government_type::get_all()) {
+	for (const kobold::government_type *government_type : government_type::get_all()) {
 		if (this->can_have_government_type(government_type)) {
 			potential_government_types.push_back(government_type);
 		}
@@ -3588,7 +3588,7 @@ void country_game_data::set_law(const law_group *law_group, const law *law)
 		return;
 	}
 
-	const metternich::law *old_law = this->get_law(law_group);
+	const kobold::law *old_law = this->get_law(law_group);
 	if (old_law != nullptr) {
 		old_law->get_modifier()->remove(this->country);
 	}
@@ -3611,7 +3611,7 @@ bool country_game_data::has_law(const law *law) const
 	return this->get_law(law->get_group()) == law;
 }
 
-bool country_game_data::can_have_law(const metternich::law *law) const
+bool country_game_data::can_have_law(const kobold::law *law) const
 {
 	if (law->get_required_technology() != nullptr && !this->has_technology(law->get_required_technology())) {
 		return false;
@@ -3624,7 +3624,7 @@ bool country_game_data::can_have_law(const metternich::law *law) const
 	return true;
 }
 
-bool country_game_data::can_enact_law(const metternich::law *law) const
+bool country_game_data::can_enact_law(const kobold::law *law) const
 {
 	if (!this->can_have_law(law)) {
 		return false;
@@ -3700,17 +3700,17 @@ void country_game_data::set_policy_value(const policy *policy, const int value)
 	}
 }
 
-int country_game_data::get_min_policy_value(const metternich::policy *policy) const
+int country_game_data::get_min_policy_value(const kobold::policy *policy) const
 {
 	return this->get_government_type()->get_min_policy_value(policy);
 }
 
-int country_game_data::get_max_policy_value(const metternich::policy *policy) const
+int country_game_data::get_max_policy_value(const kobold::policy *policy) const
 {
 	return this->get_government_type()->get_max_policy_value(policy);
 }
 
-bool country_game_data::can_change_policy_value(const metternich::policy *policy, const int change) const
+bool country_game_data::can_change_policy_value(const kobold::policy *policy, const int change) const
 {
 	const int new_value = this->get_policy_value(policy) + change;
 	if (new_value < this->get_min_policy_value(policy)) {
@@ -3771,7 +3771,7 @@ bool country_game_data::can_have_tradition(const tradition *tradition) const
 		return false;
 	}
 
-	for (const metternich::tradition *prerequisite : tradition->get_prerequisites()) {
+	for (const kobold::tradition *prerequisite : tradition->get_prerequisites()) {
 		if (!this->has_tradition(prerequisite)) {
 			return false;
 		}
@@ -3808,13 +3808,13 @@ void country_game_data::gain_tradition(const tradition *tradition, const int mul
 	}
 
 	if (multiplier > 0) {
-		for (const metternich::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
+		for (const kobold::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
 			if (this->has_tradition(incompatible_tradition)) {
 				this->gain_tradition(incompatible_tradition, -1);
 			}
 		}
 	} else if (multiplier < 0) {
-		for (const metternich::tradition *requiring_tradition : tradition->get_requiring_traditions()) {
+		for (const kobold::tradition *requiring_tradition : tradition->get_requiring_traditions()) {
 			if (this->has_tradition(requiring_tradition)) {
 				this->gain_tradition(requiring_tradition, -1);
 			}
@@ -3831,7 +3831,7 @@ void country_game_data::gain_tradition(const tradition *tradition, const int mul
 
 void country_game_data::gain_tradition_with_prerequisites(const tradition *tradition)
 {
-	for (const metternich::tradition *prerequisite : tradition->get_prerequisites()) {
+	for (const kobold::tradition *prerequisite : tradition->get_prerequisites()) {
 		this->gain_tradition_with_prerequisites(prerequisite);
 	}
 
@@ -3944,7 +3944,7 @@ void country_game_data::choose_next_tradition()
 		}
 
 		bool has_incompatible_tradition = false;
-		for (const metternich::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
+		for (const kobold::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
 			if (this->has_tradition(incompatible_tradition)) {
 				has_incompatible_tradition = true;
 				break;
@@ -3954,7 +3954,7 @@ void country_game_data::choose_next_tradition()
 			continue;
 		}
 
-		std::vector<const metternich::tradition *> &group_traditions = potential_traditions_per_group[tradition->get_group()];
+		std::vector<const kobold::tradition *> &group_traditions = potential_traditions_per_group[tradition->get_group()];
 
 		group_traditions.push_back(tradition);
 	}
@@ -4022,7 +4022,7 @@ void country_game_data::choose_next_belief()
 		}
 
 		bool has_incompatible_tradition = false;
-		for (const metternich::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
+		for (const kobold::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
 			if (this->has_tradition(incompatible_tradition)) {
 				has_incompatible_tradition = true;
 				break;
@@ -4032,7 +4032,7 @@ void country_game_data::choose_next_belief()
 			continue;
 		}
 
-		std::vector<const metternich::tradition *> &group_beliefs = potential_beliefs_per_group[tradition->get_group()];
+		std::vector<const kobold::tradition *> &group_beliefs = potential_beliefs_per_group[tradition->get_group()];
 
 		group_beliefs.push_back(tradition);
 	}
@@ -4322,7 +4322,7 @@ void country_game_data::choose_next_advisor()
 			weight += 4;
 		}
 
-		std::vector<const metternich::character *> &category_advisors = potential_advisors_per_category[character->get_character_type()->get_advisor_category()];
+		std::vector<const kobold::character *> &category_advisors = potential_advisors_per_category[character->get_character_type()->get_advisor_category()];
 
 		for (int i = 0; i < weight; ++i) {
 			category_advisors.push_back(character);
@@ -4606,7 +4606,7 @@ void country_game_data::choose_next_leader()
 
 		const military_unit_category leader_category = character->get_military_unit_category();
 
-		std::vector<const metternich::character *> &category_leaders = potential_leaders_per_category[leader_category];
+		std::vector<const kobold::character *> &category_leaders = potential_leaders_per_category[leader_category];
 
 		category_leaders.push_back(character);
 	}
@@ -4767,7 +4767,7 @@ void country_game_data::set_offer(const commodity *commodity, const int value)
 	}
 }
 
-void country_game_data::do_sale(const metternich::country *other_country, const commodity *commodity, const int sold_quantity, const bool state_purchase)
+void country_game_data::do_sale(const kobold::country *other_country, const commodity *commodity, const int sold_quantity, const bool state_purchase)
 {
 	this->change_stored_commodity(commodity, -sold_quantity);
 
@@ -5677,7 +5677,7 @@ void country_game_data::explore_tile(const QPoint &tile_pos)
 	}
 
 	const tile *tile = map::get()->get_tile(tile_pos);
-	const metternich::country *tile_owner = tile->get_owner();
+	const kobold::country *tile_owner = tile->get_owner();
 	const resource *tile_resource = tile->get_resource();
 
 	if (tile_owner != nullptr && tile_owner != this->country && !this->is_country_known(tile_owner)) {
@@ -5719,7 +5719,7 @@ void country_game_data::explore_province(const province *province)
 	const province_game_data *province_game_data = province->get_game_data();
 	assert_throw(province_game_data->is_on_map());
 
-	const metternich::country *province_owner = province_game_data->get_owner();
+	const kobold::country *province_owner = province_game_data->get_owner();
 
 	if (province_owner != nullptr && province_owner != this->country && !this->is_country_known(province_owner)) {
 		this->add_known_country(province_owner);
@@ -6134,8 +6134,8 @@ void country_game_data::set_free_consulate_count(const consulate *consulate, con
 	} else if (old_value == 0) {
 		this->free_consulate_counts[consulate] = value;
 
-		for (const metternich::country *known_country : this->get_known_countries()) {
-			const metternich::consulate *current_consulate = this->get_consulate(known_country);
+		for (const kobold::country *known_country : this->get_known_countries()) {
+			const kobold::consulate *current_consulate = this->get_consulate(known_country);
 			if (current_consulate == nullptr || current_consulate->get_level() < consulate->get_level()) {
 				this->set_consulate(known_country, consulate);
 			}

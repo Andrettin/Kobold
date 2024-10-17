@@ -3,7 +3,7 @@
 #include "country/culture.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class culture_condition final : public condition<scope_type>
@@ -25,7 +25,7 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		const metternich::culture *culture = nullptr;
+		const kobold::culture *culture = nullptr;
 
 		if constexpr (std::is_same_v<scope_type, character> || std::is_same_v<scope_type, country> || std::is_same_v<scope_type, military_unit> || std::is_same_v<scope_type, population_unit>) {
 			culture = scope->get_culture();
@@ -44,7 +44,7 @@ public:
 	}
 
 private:
-	const metternich::culture *culture = nullptr;
+	const kobold::culture *culture = nullptr;
 };
 
 }

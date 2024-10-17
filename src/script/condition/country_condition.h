@@ -6,7 +6,7 @@
 #include "util/assert_util.h"
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class country_condition final : public condition<scope_type>
@@ -38,9 +38,9 @@ public:
 		Q_UNUSED(indent);
 
 		if (std::holds_alternative<const country *>(this->country_target)) {
-			const std::string country_name = std::get<const metternich::country *>(this->country_target)->get_name();
+			const std::string country_name = std::get<const kobold::country *>(this->country_target)->get_name();
 
-			if constexpr (std::is_same_v<scope_type, metternich::country>) {
+			if constexpr (std::is_same_v<scope_type, kobold::country>) {
 				return "Is " + country_name;
 			} else {
 				return country_name + " country";

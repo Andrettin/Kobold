@@ -11,7 +11,7 @@ namespace archimedes {
 	class gsml_property;
 }
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class character;
@@ -38,8 +38,8 @@ class game final : public QObject, public singleton<game>
 	Q_PROPERTY(int turn READ get_turn NOTIFY turn_changed)
 	Q_PROPERTY(QVariantList countries READ get_countries_qvariant_list NOTIFY countries_changed)
 	Q_PROPERTY(QVariantList great_powers READ get_great_powers_qvariant_list NOTIFY countries_changed)
-	Q_PROPERTY(const metternich::country* player_country READ get_player_country WRITE set_player_country NOTIFY player_country_changed)
-	Q_PROPERTY(const metternich::game_rules* rules READ get_rules CONSTANT)
+	Q_PROPERTY(const kobold::country* player_country READ get_player_country WRITE set_player_country NOTIFY player_country_changed)
+	Q_PROPERTY(const kobold::game_rules* rules READ get_rules CONSTANT)
 
 public:
 	static QDate normalize_date(const QDate &date);
@@ -73,24 +73,24 @@ public:
 		emit running_changed();
 	}
 
-	const metternich::scenario *get_scenario() const
+	const kobold::scenario *get_scenario() const
 	{
 		return this->scenario;
 	}
 
-	Q_INVOKABLE QCoro::QmlTask create_random_map(const QSize &map_size, metternich::era *era)
+	Q_INVOKABLE QCoro::QmlTask create_random_map(const QSize &map_size, kobold::era *era)
 	{
 		return this->create_random_map_coro(map_size, era);
 	}
 
-	QCoro::Task<void> create_random_map_coro(const QSize map_size, metternich::era *era);
+	QCoro::Task<void> create_random_map_coro(const QSize map_size, kobold::era *era);
 
-	Q_INVOKABLE QCoro::QmlTask setup_scenario(metternich::scenario *scenario)
+	Q_INVOKABLE QCoro::QmlTask setup_scenario(kobold::scenario *scenario)
 	{
 		return this->setup_scenario_coro(scenario);
 	}
 
-	QCoro::Task<void> setup_scenario_coro(metternich::scenario *scenario);
+	QCoro::Task<void> setup_scenario_coro(kobold::scenario *scenario);
 
 	Q_INVOKABLE QCoro::QmlTask start()
 	{
@@ -103,7 +103,7 @@ public:
 	void clear();
 	void reset_game_data();
 
-	void apply_history(const metternich::scenario *scenario);
+	void apply_history(const kobold::scenario *scenario);
 	void apply_sites();
 	void apply_site_buildings(const site *site);
 	void apply_population_history();
@@ -179,7 +179,7 @@ public:
 		emit player_country_changed();
 	}
 
-	Q_INVOKABLE int get_price(const metternich::commodity *commodity) const;
+	Q_INVOKABLE int get_price(const kobold::commodity *commodity) const;
 	void set_price(const commodity *commodity, const int value);
 
 	void change_price(const commodity *commodity, const int value)
@@ -265,7 +265,7 @@ signals:
 private:
 	qunique_ptr<game_rules> rules;
 	bool running = false;
-	const metternich::scenario *scenario = nullptr;
+	const kobold::scenario *scenario = nullptr;
 	QDate date; //the current date in the game
 	int turn = 1;
 	std::vector<country *> countries; //the countries currently in the game, i.e. those with at least 1 province

@@ -6,7 +6,7 @@ namespace archimedes {
 	enum class direction;
 }
 
-namespace metternich {
+namespace kobold {
 
 class civilian_unit;
 class improvement;

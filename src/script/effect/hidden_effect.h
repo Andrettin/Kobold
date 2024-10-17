@@ -6,7 +6,7 @@
 #include "script/effect/effect.h"
 #include "script/effect/effect_list.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class hidden_effect final : public effect<scope_type>

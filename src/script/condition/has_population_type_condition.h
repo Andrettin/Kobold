@@ -4,7 +4,7 @@
 #include "population/population_type.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_population_type_condition final : public condition<scope_type>

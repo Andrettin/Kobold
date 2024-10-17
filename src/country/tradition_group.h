@@ -3,7 +3,7 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-namespace metternich {
+namespace kobold {
 
 class tradition;
 
@@ -13,7 +13,7 @@ class tradition_group final : public named_data_entry, public data_type<traditio
 
 public:
 	static constexpr const char class_identifier[] = "tradition_group";
-	static constexpr const char property_class_identifier[] = "metternich::tradition_group*";
+	static constexpr const char property_class_identifier[] = "kobold::tradition_group*";
 	static constexpr const char database_folder[] = "tradition_groups";
 
 	explicit tradition_group(const std::string &identifier) : named_data_entry(identifier)

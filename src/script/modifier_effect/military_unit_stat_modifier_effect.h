@@ -6,7 +6,7 @@
 #include "unit/military_unit.h"
 #include "unit/military_unit_stat.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>  
 class military_unit_stat_modifier_effect final : public modifier_effect<scope_type>

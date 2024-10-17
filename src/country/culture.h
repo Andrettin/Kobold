@@ -3,7 +3,7 @@
 #include "country/culture_base.h"
 #include "database/data_type.h"
 
-namespace metternich {
+namespace kobold {
 
 class cultural_group;
 class population_unit;
@@ -19,7 +19,7 @@ class culture final : public culture_base, public data_type<culture>
 
 public:
 	static constexpr const char class_identifier[] = "culture";
-	static constexpr const char property_class_identifier[] = "metternich::culture*";
+	static constexpr const char property_class_identifier[] = "kobold::culture*";
 	static constexpr const char database_folder[] = "cultures";
 	static constexpr bool history_enabled = true;
 

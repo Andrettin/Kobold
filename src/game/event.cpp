@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/event.h"
 
@@ -8,7 +8,7 @@
 #include "game/event_trigger.h"
 #include "script/text_processor.h"
 
-namespace metternich {
+namespace kobold {
 
 event::event(const std::string &identifier) : named_data_entry(identifier), trigger(event_trigger::none)
 {
@@ -47,7 +47,7 @@ void event::create_instance(const context &ctx) const
 	const std::string name = text_processor.process_text(this->get_name(), true);
 	const std::string description = text_processor.process_text(this->get_description(), true);
 
-	auto event_instance = make_qunique<metternich::event_instance>(this, QString::fromStdString(name), QString::fromStdString(description), ctx);
+	auto event_instance = make_qunique<kobold::event_instance>(this, QString::fromStdString(name), QString::fromStdString(description), ctx);
 	engine_interface::get()->add_event_instance(std::move(event_instance));
 }
 

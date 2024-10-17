@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/consulate.h"
 
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void consulate::check() const
 {

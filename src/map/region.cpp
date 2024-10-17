@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/region.h"
 
@@ -7,7 +7,7 @@
 #include "map/site.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 region::region(const std::string &identifier) : named_data_entry(identifier)
 {

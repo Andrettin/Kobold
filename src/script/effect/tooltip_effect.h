@@ -6,7 +6,7 @@
 #include "script/effect/effect.h"
 #include "script/effect/effect_list.h"
 
-namespace metternich {
+namespace kobold {
 
 //a scripted effect which displays a custom tooltip for the effects it encloses
 template <typename scope_type>

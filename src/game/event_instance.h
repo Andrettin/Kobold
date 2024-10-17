@@ -6,7 +6,7 @@
 
 Q_MOC_INCLUDE("game/event.h")
 
-namespace metternich {
+namespace kobold {
 
 class event;
 
@@ -14,16 +14,16 @@ class event_instance final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::event* event READ get_event CONSTANT)
+	Q_PROPERTY(const kobold::event* event READ get_event CONSTANT)
 	Q_PROPERTY(QString name READ get_name CONSTANT)
 	Q_PROPERTY(QString description READ get_description CONSTANT)
 	Q_PROPERTY(QStringList option_names READ get_option_names CONSTANT)
 	Q_PROPERTY(QStringList option_tooltips READ get_option_tooltips CONSTANT)
 
 public:
-	explicit event_instance(const metternich::event *event, const QString &name, const QString &description, const context &ctx);
+	explicit event_instance(const kobold::event *event, const QString &name, const QString &description, const context &ctx);
 
-	const metternich::event *get_event() const
+	const kobold::event *get_event() const
 	{
 		return this->event;
 	}
@@ -51,7 +51,7 @@ public:
 	Q_INVOKABLE void choose_option(const int displayed_option_index);
 
 private:
-	const metternich::event *event = nullptr;
+	const kobold::event *event = nullptr;
 	QString name;
 	QString description;
 	std::vector<int> option_indexes;

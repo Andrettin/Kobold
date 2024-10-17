@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "script/condition/scripted_condition.h"
 
 #include "script/condition/and_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 scripted_condition_base<scope_type>::scripted_condition_base()

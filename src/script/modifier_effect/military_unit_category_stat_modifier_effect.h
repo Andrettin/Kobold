@@ -10,7 +10,7 @@
 #include "unit/military_unit_type.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class military_unit_category_stat_modifier_effect final : public modifier_effect<scope_type>

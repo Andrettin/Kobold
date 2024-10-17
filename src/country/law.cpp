@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/law.h"
 
@@ -9,7 +9,7 @@
 #include "technology/technology.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
 law::law(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -33,7 +33,7 @@ void law::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
 	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else {
@@ -78,7 +78,7 @@ QVariantList law::get_commodity_costs_qvariant_list() const
 	return archimedes::map::to_qvariant_list(this->get_commodity_costs());
 }
 
-QString law::get_modifier_string(const metternich::country *country) const
+QString law::get_modifier_string(const kobold::country *country) const
 {
 	return QString::fromStdString(this->get_modifier()->get_string(country));
 }

@@ -5,7 +5,7 @@
 #include "script/modifier_effect/modifier_effect.h"
 #include "technology/technology_category.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class category_research_modifier_effect final : public modifier_effect<scope_type>

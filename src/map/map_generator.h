@@ -3,7 +3,7 @@
 #include "map/province_container.h"
 #include "map/terrain_type_container.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class era;
@@ -33,7 +33,7 @@ private:
 	static constexpr int min_forest_forestation = 900;
 
 public:
-	explicit map_generator(const QSize &size, const metternich::era *era)
+	explicit map_generator(const QSize &size, const kobold::era *era)
 		: size(size), era(era)
 	{
 	}
@@ -111,7 +111,7 @@ private:
 
 private:
 	QSize size = QSize(0, 0);
-	const metternich::era *era = nullptr;
+	const kobold::era *era = nullptr;
 	int province_count = 0;
 	std::vector<QPoint> province_seeds;
 	std::vector<std::vector<QPoint>> province_tiles;

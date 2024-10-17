@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "economy/transaction.h"
 
@@ -8,7 +8,7 @@
 #include "util/number_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 const std::string &transaction::get_object_name() const
 {

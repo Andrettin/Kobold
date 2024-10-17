@@ -5,7 +5,7 @@
 #include "script/condition/condition.h"
 #include "util/gender.h"
 
-namespace metternich {
+namespace kobold {
 
 class gender_condition final : public condition<character>
 {

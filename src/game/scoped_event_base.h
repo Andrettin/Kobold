@@ -4,7 +4,7 @@ namespace archimedes {
 	class gsml_data;
 }
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;
@@ -112,7 +112,7 @@ public:
 		return this->random_weight_factor.get();
 	}
 
-	const metternich::mean_time_to_happen<std::remove_const_t<scope_type>> *get_mean_time_to_happen() const
+	const kobold::mean_time_to_happen<std::remove_const_t<scope_type>> *get_mean_time_to_happen() const
 	{
 		return this->mean_time_to_happen.get();
 	}
@@ -153,7 +153,7 @@ public:
 
 private:
 	std::unique_ptr<factor<std::remove_const_t<scope_type>>> random_weight_factor;
-	std::unique_ptr<metternich::mean_time_to_happen<std::remove_const_t<scope_type>>> mean_time_to_happen;
+	std::unique_ptr<kobold::mean_time_to_happen<std::remove_const_t<scope_type>>> mean_time_to_happen;
 	std::unique_ptr<const condition<std::remove_const_t<scope_type>>> conditions;
 	std::unique_ptr<effect_list<scope_type>> immediate_effects;
 	std::vector<std::unique_ptr<event_option<scope_type>>> options;

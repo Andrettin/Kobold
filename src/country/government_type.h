@@ -11,7 +11,7 @@ namespace archimedes {
 	enum class gender;
 }
 
-namespace metternich {
+namespace kobold {
 
 class government_group;
 enum class country_tier;
@@ -26,8 +26,8 @@ class government_type final : public named_data_entry, public data_type<governme
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::government_group* group MEMBER group READ get_group NOTIFY changed)
-	Q_PROPERTY(const metternich::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::government_group* group MEMBER group READ get_group NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 
 public:
 	using government_variant = std::variant<const government_type *, const government_group *>;
@@ -35,7 +35,7 @@ public:
 	using ruler_title_name_map = std::map<country_tier, std::map<gender, std::string>>;
 
 	static constexpr const char class_identifier[] = "government_type";
-	static constexpr const char property_class_identifier[] = "metternich::government_type*";
+	static constexpr const char property_class_identifier[] = "kobold::government_type*";
 	static constexpr const char database_folder[] = "government_types";
 
 	static void process_title_name_scope(std::map<government_variant, title_name_map> &title_names, const gsml_data &scope);

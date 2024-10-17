@@ -4,7 +4,7 @@ namespace archimedes {
 	class gsml_data;
 }
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class country;

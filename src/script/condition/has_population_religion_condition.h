@@ -4,7 +4,7 @@
 #include "population/population.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class has_population_religion_condition final : public condition<scope_type>
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::religion *religion = nullptr;
+	const kobold::religion *religion = nullptr;
 };
 
 }

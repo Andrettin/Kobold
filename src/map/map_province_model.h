@@ -4,7 +4,7 @@
 #include <QAbstractListModel> 
 #pragma warning(pop)
 
-namespace metternich {
+namespace kobold {
 
 class province;
 

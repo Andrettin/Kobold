@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/pathway.h"
 
@@ -11,7 +11,7 @@
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 	
 void pathway::process_gsml_scope(const gsml_data &scope)
 {

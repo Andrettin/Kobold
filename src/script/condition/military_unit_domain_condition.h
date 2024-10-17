@@ -5,7 +5,7 @@
 #include "unit/military_unit_domain.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class military_unit_domain_condition final : public condition<military_unit>
 {
@@ -13,7 +13,7 @@ public:
 	explicit military_unit_domain_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<military_unit>(condition_operator)
 	{
-		this->military_unit_domain = enum_converter<metternich::military_unit_domain>::to_enum(value);
+		this->military_unit_domain = enum_converter<kobold::military_unit_domain>::to_enum(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	metternich::military_unit_domain military_unit_domain = metternich::military_unit_domain::none;
+	kobold::military_unit_domain military_unit_domain = kobold::military_unit_domain::none;
 };
 
 }

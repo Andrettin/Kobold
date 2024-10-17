@@ -7,7 +7,7 @@
 #include "script/condition/condition.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class adjacent_terrain_condition final : public condition<site>
 {

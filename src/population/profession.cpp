@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/profession.h"
 
@@ -7,7 +7,7 @@
 #include "util/assert_util.h"
 #include "util/map_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void profession::process_gsml_scope(const gsml_data &scope)
 {

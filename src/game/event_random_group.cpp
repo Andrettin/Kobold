@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "game/event_random_group.h"
 
@@ -7,7 +7,7 @@
 #include "game/event_trigger.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 event_random_group::event_random_group(const std::string &identifier)
 	: named_data_entry(identifier), trigger(event_trigger::none)

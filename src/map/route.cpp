@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/route.h"
 #include "map/route_game_data.h"
 #include "map/route_history.h"
 
-namespace metternich {
+namespace kobold {
 
 void route::check() const
 {

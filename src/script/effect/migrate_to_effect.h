@@ -6,7 +6,7 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class migrate_to_effect final : public effect<population_unit>
 {

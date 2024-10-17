@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class military_unit_domain {
 	none,
@@ -29,6 +29,6 @@ inline std::string get_military_unit_domain_name(const military_unit_domain doma
 
 }
 
-extern template class archimedes::enum_converter<metternich::military_unit_domain>;
+extern template class archimedes::enum_converter<kobold::military_unit_domain>;
 
-Q_DECLARE_METATYPE(metternich::military_unit_domain)
+Q_DECLARE_METATYPE(kobold::military_unit_domain)

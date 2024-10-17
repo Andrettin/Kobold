@@ -3,7 +3,7 @@
 #include "script/condition/and_condition.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class tooltip_condition final : public condition<scope_type>

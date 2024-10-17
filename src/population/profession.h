@@ -8,7 +8,7 @@
 
 Q_MOC_INCLUDE("economy/commodity.h")
 
-namespace metternich {
+namespace kobold {
 
 class commodity;
 
@@ -18,13 +18,13 @@ class profession final : public named_data_entry, public data_type<profession>
 
 	Q_PROPERTY(QVariantList input_commodities READ get_input_commodities_qvariant_list NOTIFY changed)
 	Q_PROPERTY(int input_wealth MEMBER input_wealth READ get_input_wealth NOTIFY changed)
-	Q_PROPERTY(metternich::commodity* output_commodity MEMBER output_commodity NOTIFY changed)
+	Q_PROPERTY(kobold::commodity* output_commodity MEMBER output_commodity NOTIFY changed)
 	Q_PROPERTY(archimedes::centesimal_int output_value MEMBER output_value READ get_output_value NOTIFY changed)
 	Q_PROPERTY(bool industrial READ is_industrial CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "profession";
-	static constexpr const char property_class_identifier[] = "metternich::profession*";
+	static constexpr const char property_class_identifier[] = "kobold::profession*";
 	static constexpr const char database_folder[] = "professions";
 
 	explicit profession(const std::string &identifier) : named_data_entry(identifier)

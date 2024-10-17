@@ -5,7 +5,7 @@
 #include "script/effect/effect_list.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class if_effect final : public effect<scope_type>

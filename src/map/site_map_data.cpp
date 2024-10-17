@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/site_map_data.h"
 
@@ -9,9 +9,9 @@
 #include "util/assert_util.h"
 #include "util/point_util.h"
 
-namespace metternich {
+namespace kobold {
 
-site_map_data::site_map_data(const metternich::site *site) : site(site), resource(site->get_resource())
+site_map_data::site_map_data(const kobold::site *site) : site(site), resource(site->get_resource())
 {
 }
 
@@ -53,7 +53,7 @@ void site_map_data::calculate_adjacent_terrain_counts()
 			return;
 		}
 
-		const metternich::tile *adjacent_tile = map::get()->get_tile(adjacent_pos);
+		const kobold::tile *adjacent_tile = map::get()->get_tile(adjacent_pos);
 		assert_throw(adjacent_tile->get_terrain() != nullptr);
 		++this->adjacent_terrain_counts[adjacent_tile->get_terrain()];
 	});

@@ -16,7 +16,7 @@ namespace archimedes {
 	class map_projection;
 }
 
-namespace metternich {
+namespace kobold {
 
 class site;
 class world;
@@ -26,7 +26,7 @@ class map_template final : public named_data_entry, public data_type<map_templat
 	Q_OBJECT
 
 	Q_PROPERTY(QSize size MEMBER size READ get_size)
-	Q_PROPERTY(metternich::world* world MEMBER world)
+	Q_PROPERTY(kobold::world* world MEMBER world)
 	Q_PROPERTY(archimedes::map_projection* map_projection MEMBER map_projection)
 	Q_PROPERTY(archimedes::decimillesimal_int min_longitude READ get_min_longitude WRITE set_min_longitude)
 	Q_PROPERTY(archimedes::decimillesimal_int max_longitude READ get_max_longitude WRITE set_max_longitude)
@@ -43,7 +43,7 @@ public:
 	using province_geodata_map_type = province_map<std::vector<std::unique_ptr<QGeoShape>>>;
 
 	static constexpr const char class_identifier[] = "map_template";
-	static constexpr const char property_class_identifier[] = "metternich::map_template*";
+	static constexpr const char property_class_identifier[] = "kobold::map_template*";
 	static constexpr const char database_folder[] = "map_templates";
 
 	static const std::set<std::string> database_dependencies;
@@ -62,12 +62,12 @@ public:
 		return this->size;
 	}
 
-	const metternich::world *get_world() const
+	const kobold::world *get_world() const
 	{
 		return this->world;
 	}
 
-	const metternich::map_projection *get_map_projection() const
+	const kobold::map_projection *get_map_projection() const
 	{
 		return this->map_projection;
 	}
@@ -169,7 +169,7 @@ public:
 
 private:
 	QSize size = QSize(0, 0);
-	metternich::world *world = nullptr;
+	kobold::world *world = nullptr;
 	archimedes::map_projection *map_projection = nullptr;
 	archimedes::georectangle georectangle = archimedes::georectangle(geocoordinate(geocoordinate::min_longitude, geocoordinate::min_latitude), geocoordinate(geocoordinate::max_longitude, geocoordinate::max_latitude));
 	int geocoordinate_x_offset = 0;

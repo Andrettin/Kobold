@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class event_trigger {
 	none,
@@ -14,6 +14,6 @@ enum class event_trigger {
 
 }
 
-extern template class archimedes::enum_converter<metternich::event_trigger>;
+extern template class archimedes::enum_converter<kobold::event_trigger>;
 
-Q_DECLARE_METATYPE(metternich::event_trigger)
+Q_DECLARE_METATYPE(kobold::event_trigger)

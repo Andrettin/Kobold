@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class site_type {
 	none,
@@ -13,6 +13,6 @@ enum class site_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::site_type>;
+extern template class archimedes::enum_converter<kobold::site_type>;
 
-Q_DECLARE_METATYPE(metternich::site_type)
+Q_DECLARE_METATYPE(kobold::site_type)

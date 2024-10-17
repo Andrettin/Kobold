@@ -7,13 +7,13 @@
 #include "map/province_game_data.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class commodity_output_modifier_effect final : public modifier_effect<scope_type>
 {
 public:
-	explicit commodity_output_modifier_effect(const metternich::commodity *commodity, const std::string &value)
+	explicit commodity_output_modifier_effect(const kobold::commodity *commodity, const std::string &value)
 		: modifier_effect<scope_type>(value), commodity(commodity)
 	{
 	}
@@ -45,7 +45,7 @@ public:
 	}
 
 private:
-	const metternich::commodity *commodity = nullptr;
+	const kobold::commodity *commodity = nullptr;
 };
 
 }

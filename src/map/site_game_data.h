@@ -12,7 +12,7 @@ Q_MOC_INCLUDE("infrastructure/settlement_type.h")
 Q_MOC_INCLUDE("map/province.h")
 Q_MOC_INCLUDE("population/population.h")
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class building_class;
@@ -39,17 +39,17 @@ class site_game_data final : public QObject, public employment_location
 	Q_OBJECT
 
 	Q_PROPERTY(QPoint tile_pos READ get_tile_pos CONSTANT)
-	Q_PROPERTY(const metternich::province* province READ get_province CONSTANT)
-	Q_PROPERTY(const metternich::country* owner READ get_owner NOTIFY owner_changed)
+	Q_PROPERTY(const kobold::province* province READ get_province CONSTANT)
+	Q_PROPERTY(const kobold::country* owner READ get_owner NOTIFY owner_changed)
 	Q_PROPERTY(QString current_cultural_name READ get_current_cultural_name_qstring NOTIFY culture_changed)
-	Q_PROPERTY(const metternich::settlement_type* settlement_type READ get_settlement_type NOTIFY settlement_type_changed)
-	Q_PROPERTY(const metternich::improvement* improvement READ get_main_improvement NOTIFY improvements_changed)
-	Q_PROPERTY(const metternich::improvement* resource_improvement READ get_resource_improvement NOTIFY improvements_changed)
-	Q_PROPERTY(const metternich::improvement* depot_improvement READ get_depot_improvement NOTIFY improvements_changed)
-	Q_PROPERTY(const metternich::improvement* port_improvement READ get_port_improvement NOTIFY improvements_changed)
+	Q_PROPERTY(const kobold::settlement_type* settlement_type READ get_settlement_type NOTIFY settlement_type_changed)
+	Q_PROPERTY(const kobold::improvement* improvement READ get_main_improvement NOTIFY improvements_changed)
+	Q_PROPERTY(const kobold::improvement* resource_improvement READ get_resource_improvement NOTIFY improvements_changed)
+	Q_PROPERTY(const kobold::improvement* depot_improvement READ get_depot_improvement NOTIFY improvements_changed)
+	Q_PROPERTY(const kobold::improvement* port_improvement READ get_port_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(metternich::population* population READ get_population CONSTANT)
+	Q_PROPERTY(kobold::population* population READ get_population CONSTANT)
 	Q_PROPERTY(int population_unit_count READ get_population_unit_count NOTIFY population_units_changed)
 	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
@@ -59,7 +59,7 @@ class site_game_data final : public QObject, public employment_location
 public:
 	static constexpr int base_free_food_consumption = 1;
 
-	explicit site_game_data(const metternich::site *site);
+	explicit site_game_data(const kobold::site *site);
 
 	void do_turn();
 	void do_everyday_consumption();
@@ -90,13 +90,13 @@ public:
 
 	void set_owner(const country *owner);
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	void set_culture(const metternich::culture *culture);
-	void on_population_main_culture_changed(const metternich::culture *culture);
+	void set_culture(const kobold::culture *culture);
+	void on_population_main_culture_changed(const kobold::culture *culture);
 
 	const std::string &get_current_cultural_name() const;
 
@@ -105,20 +105,20 @@ public:
 		return QString::fromStdString(this->get_current_cultural_name());
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	void set_religion(const metternich::religion *religion);
-	void on_population_main_religion_changed(const metternich::religion *religion);
+	void set_religion(const kobold::religion *religion);
+	void on_population_main_religion_changed(const kobold::religion *religion);
 
-	const metternich::settlement_type *get_settlement_type() const
+	const kobold::settlement_type *get_settlement_type() const
 	{
 		return this->settlement_type;
 	}
 
-	void set_settlement_type(const metternich::settlement_type *settlement_type);
+	void set_settlement_type(const kobold::settlement_type *settlement_type);
 	void check_settlement_type();
 
 	bool is_built() const;
@@ -216,9 +216,9 @@ public:
 	void add_population_unit(qunique_ptr<population_unit> &&population_unit);
 	qunique_ptr<population_unit> pop_population_unit(population_unit *population_unit);
 	void clear_population_units();
-	void create_population_unit(const population_type *type, const metternich::culture *culture, const metternich::religion *religion, const phenotype *phenotype);
+	void create_population_unit(const population_type *type, const kobold::culture *culture, const kobold::religion *religion, const phenotype *phenotype);
 
-	metternich::population *get_population() const
+	kobold::population *get_population() const
 	{
 		return this->population.get();
 	}
@@ -287,9 +287,9 @@ public:
 		return zero;
 	}
 
-	Q_INVOKABLE int get_commodity_output(metternich::commodity *commodity)
+	Q_INVOKABLE int get_commodity_output(kobold::commodity *commodity)
 	{
-		const metternich::commodity *const_commodity = commodity;
+		const kobold::commodity *const_commodity = commodity;
 		return this->get_commodity_output(const_commodity).to_int();
 	}
 
@@ -467,18 +467,18 @@ signals:
 	void visiting_armies_changed();
 
 private:
-	const metternich::site *site = nullptr;
+	const kobold::site *site = nullptr;
 	const country *owner = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
-	const metternich::settlement_type *settlement_type = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::settlement_type *settlement_type = nullptr;
 	std::map<improvement_slot, const improvement *> improvements;
 	bool resource_discovered = false;
 	std::vector<qunique_ptr<settlement_building_slot>> building_slots;
 	building_slot_type_map<settlement_building_slot *> building_slot_map;
 	scripted_site_modifier_map<int> scripted_modifiers;
 	std::vector<qunique_ptr<population_unit>> population_units;
-	qunique_ptr<metternich::population> population;
+	qunique_ptr<kobold::population> population;
 	centesimal_int health;
 	int free_food_consumption = 0;
 	commodity_map<centesimal_int> base_commodity_outputs;

@@ -1,10 +1,10 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/dynasty.h"
 
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void dynasty::check() const
 {

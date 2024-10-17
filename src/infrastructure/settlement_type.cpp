@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/settlement_type.h"
 
@@ -7,7 +7,7 @@
 #include "script/modifier.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 settlement_type::settlement_type(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -37,7 +37,7 @@ void settlement_type::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->build_conditions = std::move(conditions);
 	} else if (tag == "modifier") {
-		this->modifier = std::make_unique<metternich::modifier<const site>>();
+		this->modifier = std::make_unique<kobold::modifier<const site>>();
 		database::process_gsml_data(this->modifier, scope);
 	} else {
 		data_entry::process_gsml_scope(scope);

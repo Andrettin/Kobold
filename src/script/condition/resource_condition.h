@@ -5,7 +5,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class resource_condition final : public condition<site>
 {
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	const metternich::resource *resource = nullptr;
+	const kobold::resource *resource = nullptr;
 };
 
 }

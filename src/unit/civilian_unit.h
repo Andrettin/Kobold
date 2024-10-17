@@ -7,7 +7,7 @@ Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/civilian_unit_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class character;
 class civilian_unit_type;
@@ -25,10 +25,10 @@ class civilian_unit final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::civilian_unit_type* type READ get_type NOTIFY type_changed)
-	Q_PROPERTY(const metternich::icon* icon READ get_icon NOTIFY icon_changed)
-	Q_PROPERTY(const metternich::country* owner READ get_owner CONSTANT)
-	Q_PROPERTY(const metternich::character* character READ get_character CONSTANT)
+	Q_PROPERTY(const kobold::civilian_unit_type* type READ get_type NOTIFY type_changed)
+	Q_PROPERTY(const kobold::icon* icon READ get_icon NOTIFY icon_changed)
+	Q_PROPERTY(const kobold::country* owner READ get_owner CONSTANT)
+	Q_PROPERTY(const kobold::character* character READ get_character CONSTANT)
 	Q_PROPERTY(QPoint tile_pos READ get_tile_pos NOTIFY tile_pos_changed)
 	Q_PROPERTY(bool moving READ is_moving NOTIFY original_tile_pos_changed)
 	Q_PROPERTY(bool working READ is_working NOTIFY task_completion_turns_changed)
@@ -40,9 +40,9 @@ public:
 	static constexpr int exploration_turns = 1;
 	static constexpr int prospection_turns = 1;
 
-	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const site *home_settlement);
-	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const site *home_settlement);
-	explicit civilian_unit(const metternich::character *character, const country *owner);
+	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
+	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
+	explicit civilian_unit(const kobold::character *character, const country *owner);
 
 	void do_turn();
 	void do_ai_turn();
@@ -69,22 +69,22 @@ public:
 		return this->owner;
 	}
 
-	const metternich::population_type *get_population_type() const
+	const kobold::population_type *get_population_type() const
 	{
 		return this->population_type;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	const metternich::phenotype *get_phenotype() const
+	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
 	}
@@ -94,7 +94,7 @@ public:
 		return this->home_settlement;
 	}
 
-	const metternich::character *get_character() const
+	const kobold::character *get_character() const
 	{
 		return this->character;
 	}
@@ -180,12 +180,12 @@ signals:
 private:
 	const civilian_unit_type *type = nullptr;
 	const country *owner = nullptr;
-	const metternich::population_type *population_type = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
-	const metternich::phenotype *phenotype = nullptr;
+	const kobold::population_type *population_type = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::phenotype *phenotype = nullptr;
 	const site *home_settlement = nullptr;
-	const metternich::character *character = nullptr;
+	const kobold::character *character = nullptr;
 	QPoint tile_pos = QPoint(-1, -1);
 	QPoint original_tile_pos = QPoint(-1, -1); //the tile position before moving
 	const improvement *improvement_under_construction = nullptr;

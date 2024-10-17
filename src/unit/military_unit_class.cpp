@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "unit/military_unit_class.h"
 
@@ -9,7 +9,7 @@
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void military_unit_class::propagate_names(const military_unit_class_map<std::unique_ptr<name_generator>> &name_generators, std::unique_ptr<name_generator> &ship_name_generator)
 {

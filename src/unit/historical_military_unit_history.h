@@ -4,7 +4,7 @@
 
 Q_MOC_INCLUDE("map/province.h")
 
-namespace metternich {
+namespace kobold {
 
 class promotion;
 class province;
@@ -13,11 +13,11 @@ class historical_military_unit_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::province* province MEMBER province)
-	Q_PROPERTY(std::vector<metternich::promotion *> promotions READ get_promotions)
+	Q_PROPERTY(kobold::province* province MEMBER province)
+	Q_PROPERTY(std::vector<kobold::promotion *> promotions READ get_promotions)
 
 public:
-	const metternich::province *get_province() const
+	const kobold::province *get_province() const
 	{
 		return this->province;
 	}
@@ -32,18 +32,18 @@ public:
 		return this->promotions;
 	}
 
-	Q_INVOKABLE void add_promotion(metternich::promotion *promotion)
+	Q_INVOKABLE void add_promotion(kobold::promotion *promotion)
 	{
 		this->promotions.push_back(promotion);
 	}
 
-	Q_INVOKABLE void remove_promotion(metternich::promotion *promotion)
+	Q_INVOKABLE void remove_promotion(kobold::promotion *promotion)
 	{
 		std::erase(this->promotions, promotion);
 	}
 
 private:
-	metternich::province *province = nullptr;
+	kobold::province *province = nullptr;
 	std::vector<promotion *> promotions;
 };
 

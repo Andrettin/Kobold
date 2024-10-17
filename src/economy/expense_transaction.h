@@ -2,7 +2,7 @@
 
 #include "economy/transaction.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class expense_transaction_type;
 
@@ -11,7 +11,7 @@ class expense_transaction final : public transaction
 	Q_OBJECT
 
 public:
-	explicit expense_transaction(const expense_transaction_type type, const int amount, const object_variant &object, const int object_quantity, const metternich::country *country)
+	explicit expense_transaction(const expense_transaction_type type, const int amount, const object_variant &object, const int object_quantity, const kobold::country *country)
 		: transaction(amount, object, object_quantity, country), type(type)
 	{
 	}

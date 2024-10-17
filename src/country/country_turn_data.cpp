@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/country_turn_data.h"
 
@@ -7,9 +7,9 @@
 #include "economy/income_transaction_type.h"
 #include "util/container_util.h"
 
-namespace metternich {
+namespace kobold {
 
-country_turn_data::country_turn_data(metternich::country *country) : country(country)
+country_turn_data::country_turn_data(kobold::country *country) : country(country)
 {
 }
 
@@ -27,7 +27,7 @@ QVariantList country_turn_data::get_expense_transactions_qvariant_list() const
 	return container::to_qvariant_list(this->expense_transactions);
 }
 
-void country_turn_data::add_income_transaction(const income_transaction_type transaction_type, const int amount, const transaction_object_variant &object, const int object_quantity, const metternich::country *other_country)
+void country_turn_data::add_income_transaction(const income_transaction_type transaction_type, const int amount, const transaction_object_variant &object, const int object_quantity, const kobold::country *other_country)
 {
 	this->total_income += amount;
 
@@ -45,11 +45,11 @@ void country_turn_data::add_income_transaction(const income_transaction_type tra
 		return;
 	}
 
-	auto transaction = make_qunique<metternich::income_transaction>(transaction_type, amount, object, object_quantity, other_country);
+	auto transaction = make_qunique<kobold::income_transaction>(transaction_type, amount, object, object_quantity, other_country);
 	this->income_transactions.push_back(std::move(transaction));
 }
 
-void country_turn_data::add_expense_transaction(const expense_transaction_type transaction_type, const int amount, const transaction_object_variant &object, const int object_quantity, const metternich::country *other_country)
+void country_turn_data::add_expense_transaction(const expense_transaction_type transaction_type, const int amount, const transaction_object_variant &object, const int object_quantity, const kobold::country *other_country)
 {
 	this->total_expense += amount;
 
@@ -72,7 +72,7 @@ void country_turn_data::add_expense_transaction(const expense_transaction_type t
 		return;
 	}
 
-	auto transaction = make_qunique<metternich::expense_transaction>(transaction_type, amount, object, object_quantity, other_country);
+	auto transaction = make_qunique<kobold::expense_transaction>(transaction_type, amount, object, object_quantity, other_country);
 	this->expense_transactions.push_back(std::move(transaction));
 }
 

@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "ui/interface_image_provider.h"
 
@@ -11,7 +11,7 @@
 
 #include "xbrz.h"
 
-namespace metternich {
+namespace kobold {
 
 interface_image_provider::interface_image_provider()
 {

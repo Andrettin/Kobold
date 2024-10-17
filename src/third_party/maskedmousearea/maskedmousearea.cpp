@@ -7,9 +7,9 @@
 #include <QGuiApplication>
 #include <qqmlfile.h>
 
-//Metternich start
+//Kobold start
 #include <QQuickImageProvider>
-//Metternich end
+//Kobold end
 
 MaskedMouseArea::MaskedMouseArea(QQuickItem *parent)
     : QQuickItem(parent),
@@ -41,7 +41,7 @@ void MaskedMouseArea::setMaskSource(const QUrl &source)
 {
     if (m_maskSource != source) {
         m_maskSource = source;
-		//Metternich start
+		//Kobold start
 		//m_maskImage = QImage(QQmlFile::urlToLocalFileOrQrc(source));
 		if (source.toString().startsWith("image://")) {
 			const QString image_source = source.toString().remove("image://");
@@ -52,7 +52,7 @@ void MaskedMouseArea::setMaskSource(const QUrl &source)
 		} else {
 			m_maskImage = QImage(QQmlFile::urlToLocalFileOrQrc(source));
 		}
-		//Metternich end
+		//Kobold end
         emit maskSourceChanged();
     }
 }

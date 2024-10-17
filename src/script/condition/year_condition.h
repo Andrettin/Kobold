@@ -3,7 +3,7 @@
 #include "game/game.h"
 #include "script/condition/numerical_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class year_condition final : public numerical_condition<scope_type>

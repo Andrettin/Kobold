@@ -3,7 +3,7 @@
 #include "script/condition/condition.h"
 #include "script/condition/scripted_condition.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class scripted_condition_condition final : public condition<scope_type>

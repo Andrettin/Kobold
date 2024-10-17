@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "population/phenotype.h"
 
@@ -6,7 +6,7 @@
 #include "util/log_util.h"
 #include "util/random.h"
 
-namespace metternich {
+namespace kobold {
 
 void phenotype::initialize()
 {

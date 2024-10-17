@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/site_history.h"
 
@@ -12,7 +12,7 @@
 #include "map/site.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void site_history::process_gsml_property(const gsml_property &property)
 {

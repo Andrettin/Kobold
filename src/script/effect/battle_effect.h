@@ -14,7 +14,7 @@
 #include "util/qunique_ptr.h"
 #include "util/string_conversion_util.h"
 
-namespace metternich {
+namespace kobold {
 
 template <typename scope_type>
 class battle_effect final : public effect<scope_type>
@@ -75,7 +75,7 @@ public:
 
 		for (const auto &[military_unit_type, quantity] : this->enemies) {
 			for (int i = 0; i < quantity; ++i) {
-				auto military_unit = make_qunique<metternich::military_unit>(military_unit_type);
+				auto military_unit = make_qunique<kobold::military_unit>(military_unit_type);
 				enemy_units.push_back(military_unit.get());
 				enemy_unit_unique_ptrs.push_back(std::move(military_unit));
 			}

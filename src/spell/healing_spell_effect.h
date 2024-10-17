@@ -7,7 +7,7 @@
 #include "unit/military_unit.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 class healing_spell_effect final : public spell_effect
 {

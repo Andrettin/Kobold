@@ -2,7 +2,7 @@
 
 #include "script/effect/effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class wealth_inflated_effect final : public effect<const country>
 {

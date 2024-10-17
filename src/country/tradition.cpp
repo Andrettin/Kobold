@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/tradition.h"
 
@@ -12,7 +12,7 @@
 #include "script/modifier.h"
 #include "technology/technology.h"
 
-namespace metternich {
+namespace kobold {
 
 tradition::tradition(const std::string &identifier) : named_data_entry(identifier)
 {
@@ -44,11 +44,11 @@ void tradition::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
 	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<metternich::modifier<const country>>();
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
 	} else if (tag == "effects") {
-		auto effect_list = std::make_unique<metternich::effect_list<const country>>();
+		auto effect_list = std::make_unique<kobold::effect_list<const country>>();
 		database::process_gsml_data(effect_list, scope);
 		this->effects = std::move(effect_list);
 	} else {
@@ -131,7 +131,7 @@ void tradition::calculate_total_prerequisite_depth()
 	this->total_prerequisite_depth = depth;
 }
 
-QString tradition::get_requirements_string(const metternich::country *country) const
+QString tradition::get_requirements_string(const kobold::country *country) const
 {
 	std::string str;
 
@@ -172,7 +172,7 @@ QString tradition::get_requirements_string(const metternich::country *country) c
 	return QString::fromStdString(str);
 }
 
-QString tradition::get_modifier_string(const metternich::country *country) const
+QString tradition::get_modifier_string(const kobold::country *country) const
 {
 	std::string str;
 	

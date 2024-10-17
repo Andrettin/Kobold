@@ -3,7 +3,7 @@
 #include "economy/commodity_container.h"
 #include "util/fractional_int.h"
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class population_type;

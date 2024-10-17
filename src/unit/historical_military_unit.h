@@ -11,7 +11,7 @@ Q_MOC_INCLUDE("population/phenotype.h")
 Q_MOC_INCLUDE("population/population_type.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class culture;
@@ -26,18 +26,18 @@ class historical_military_unit final : public named_data_entry, public data_type
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::military_unit_type* type MEMBER type)
-	Q_PROPERTY(metternich::country* country MEMBER country)
-	Q_PROPERTY(metternich::site* home_settlement MEMBER home_settlement)
-	Q_PROPERTY(metternich::population_type* population_type MEMBER population_type)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture)
-	Q_PROPERTY(metternich::religion* religion MEMBER religion)
-	Q_PROPERTY(metternich::phenotype* phenotype MEMBER phenotype)
+	Q_PROPERTY(kobold::military_unit_type* type MEMBER type)
+	Q_PROPERTY(kobold::country* country MEMBER country)
+	Q_PROPERTY(kobold::site* home_settlement MEMBER home_settlement)
+	Q_PROPERTY(kobold::population_type* population_type MEMBER population_type)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture)
+	Q_PROPERTY(kobold::religion* religion MEMBER religion)
+	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype)
 	Q_PROPERTY(int quantity MEMBER quantity READ get_quantity)
 
 public:
 	static constexpr const char class_identifier[] = "historical_military_unit";
-	static constexpr const char property_class_identifier[] = "metternich::historical_military_unit*";
+	static constexpr const char property_class_identifier[] = "kobold::historical_military_unit*";
 	static constexpr const char database_folder[] = "military_units";
 	static constexpr bool history_enabled = true;
 
@@ -59,7 +59,7 @@ public:
 		return this->type;
 	}
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
@@ -69,22 +69,22 @@ public:
 		return this->home_settlement;
 	}
 
-	const metternich::population_type *get_population_type() const
+	const kobold::population_type *get_population_type() const
 	{
 		return this->population_type;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	const metternich::phenotype *get_phenotype() const
+	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
 	}
@@ -96,12 +96,12 @@ public:
 
 private:
 	military_unit_type *type = nullptr;
-	metternich::country *country = nullptr;
+	kobold::country *country = nullptr;
 	site *home_settlement = nullptr;
-	metternich::population_type *population_type = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::religion *religion = nullptr;
-	metternich::phenotype *phenotype = nullptr;
+	kobold::population_type *population_type = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::religion *religion = nullptr;
+	kobold::phenotype *phenotype = nullptr;
 	int quantity = 1;
 	qunique_ptr<historical_military_unit_history> history;
 };

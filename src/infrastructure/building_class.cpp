@@ -1,11 +1,11 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "infrastructure/building_class.h"
 
 #include "infrastructure/building_type.h"
 #include "util/assert_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void building_class::set_default_building_type(const building_type *building_type)
 {

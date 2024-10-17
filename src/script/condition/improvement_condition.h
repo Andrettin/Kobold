@@ -5,7 +5,7 @@
 #include "map/site_game_data.h"
 #include "script/condition/condition.h"
 
-namespace metternich {
+namespace kobold {
 
 class improvement_condition final : public condition<site>
 {
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	const metternich::improvement *improvement = nullptr;
+	const kobold::improvement *improvement = nullptr;
 };
 
 }

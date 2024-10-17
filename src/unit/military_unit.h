@@ -7,7 +7,7 @@ Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
 
-namespace metternich {
+namespace kobold {
 
 class army;
 class character;
@@ -30,9 +30,9 @@ class military_unit final : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QString name READ get_name_qstring NOTIFY name_changed)
-	Q_PROPERTY(const metternich::military_unit_type* type READ get_type NOTIFY type_changed)
-	Q_PROPERTY(const metternich::icon* icon READ get_icon NOTIFY icon_changed)
-	Q_PROPERTY(const metternich::country* country READ get_country CONSTANT)
+	Q_PROPERTY(const kobold::military_unit_type* type READ get_type NOTIFY type_changed)
+	Q_PROPERTY(const kobold::icon* icon READ get_icon NOTIFY icon_changed)
+	Q_PROPERTY(const kobold::country* country READ get_country CONSTANT)
 	Q_PROPERTY(bool moving READ is_moving NOTIFY army_changed)
 	Q_PROPERTY(QVariantList promotions READ get_promotions_qvariant_list NOTIFY promotions_changed)
 	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
@@ -44,8 +44,8 @@ public:
 	static constexpr int morale_recovery_per_turn = 20;
 
 	explicit military_unit(const military_unit_type *type);
-	explicit military_unit(const military_unit_type *type, const metternich::country *country, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement);
-	explicit military_unit(const military_unit_type *type, const metternich::country *country, const metternich::population_type *population_type, const metternich::culture *culture, const metternich::religion *religion, const metternich::phenotype *phenotype, const metternich::site *home_settlement);
+	explicit military_unit(const military_unit_type *type, const kobold::country *country, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
+	explicit military_unit(const military_unit_type *type, const kobold::country *country, const kobold::population_type *population_type, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
 	explicit military_unit(const military_unit_type *type, const character *character);
 
 	void do_turn();
@@ -86,64 +86,64 @@ public:
 
 	const icon *get_icon() const;
 
-	const metternich::country *get_country() const
+	const kobold::country *get_country() const
 	{
 		return this->country;
 	}
 
-	const metternich::population_type *get_population_type() const
+	const kobold::population_type *get_population_type() const
 	{
 		return this->population_type;
 	}
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::religion *get_religion() const
+	const kobold::religion *get_religion() const
 	{
 		return this->religion;
 	}
 
-	const metternich::phenotype *get_phenotype() const
+	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
 	}
 
-	const metternich::site *get_home_settlement() const
+	const kobold::site *get_home_settlement() const
 	{
 		return this->home_settlement;
 	}
 
-	const metternich::character *get_character() const
+	const kobold::character *get_character() const
 	{
 		return this->character;
 	}
 
-	const metternich::province *get_province() const
+	const kobold::province *get_province() const
 	{
 		return this->province;
 	}
 
-	void set_province(const metternich::province *province);
+	void set_province(const kobold::province *province);
 
-	const metternich::army *get_army() const
+	const kobold::army *get_army() const
 	{
 		return this->army;
 	}
 
-	void set_army(metternich::army *army);
-	const metternich::character *get_commander() const;
+	void set_army(kobold::army *army);
+	const kobold::character *get_commander() const;
 
-	bool can_move_to(const metternich::province *province) const;
+	bool can_move_to(const kobold::province *province) const;
 
 	bool is_moving() const
 	{
 		return this->get_army() != nullptr;
 	}
 
-	bool is_hostile_to(const metternich::country *country) const;
+	bool is_hostile_to(const kobold::country *country) const;
 
 	int get_hit_points() const
 	{
@@ -273,15 +273,15 @@ signals:
 private:
 	std::string name;
 	const military_unit_type *type = nullptr;
-	const metternich::country *country = nullptr;
-	const metternich::population_type *population_type = nullptr;
-	const metternich::culture *culture = nullptr;
-	const metternich::religion *religion = nullptr;
-	const metternich::phenotype *phenotype = nullptr;
-	const metternich::site *home_settlement = nullptr;
-	const metternich::character *character = nullptr;
-	const metternich::province *province = nullptr; //the province the unit is in
-	metternich::army *army = nullptr; //the army to which the unit belongs
+	const kobold::country *country = nullptr;
+	const kobold::population_type *population_type = nullptr;
+	const kobold::culture *culture = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::phenotype *phenotype = nullptr;
+	const kobold::site *home_settlement = nullptr;
+	const kobold::character *character = nullptr;
+	const kobold::province *province = nullptr; //the province the unit is in
+	kobold::army *army = nullptr; //the army to which the unit belongs
 	int hit_points = 0;
 	int max_hit_points = 0;
 	int morale = 0; //morale is never higher than the amount of hit points; when morale reaches zero, the unit flees in combat

@@ -5,7 +5,7 @@
 
 Q_MOC_INCLUDE("infrastructure/wonder.h")
 
-namespace metternich {
+namespace kobold {
 
 class site;
 class wonder;
@@ -14,8 +14,8 @@ class settlement_building_slot final : public building_slot, public employment_l
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::wonder* wonder READ get_wonder NOTIFY wonder_changed)
-	Q_PROPERTY(const metternich::wonder* under_construction_wonder READ get_under_construction_wonder WRITE set_under_construction_wonder NOTIFY under_construction_wonder_changed)
+	Q_PROPERTY(const kobold::wonder* wonder READ get_wonder NOTIFY wonder_changed)
+	Q_PROPERTY(const kobold::wonder* under_construction_wonder READ get_under_construction_wonder WRITE set_under_construction_wonder NOTIFY under_construction_wonder_changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string NOTIFY country_modifier_changed)
 
 public:
@@ -48,7 +48,7 @@ public:
 	void build_wonder(const wonder *wonder);
 	Q_INVOKABLE virtual void cancel_construction() override;
 
-	Q_INVOKABLE const metternich::wonder *get_buildable_wonder() const;
+	Q_INVOKABLE const kobold::wonder *get_buildable_wonder() const;
 
 	const site *get_settlement() const
 	{
@@ -69,8 +69,8 @@ signals:
 
 private:
 	const site *settlement = nullptr;
-	const metternich::wonder *wonder = nullptr;
-	const metternich::wonder *under_construction_wonder = nullptr;
+	const kobold::wonder *wonder = nullptr;
+	const kobold::wonder *under_construction_wonder = nullptr;
 };
 
 }

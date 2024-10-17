@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "map/map_template.h"
 
@@ -29,7 +29,7 @@
 #include "util/rect_util.h"
 #include "util/vector_util.h"
 
-namespace metternich {
+namespace kobold {
 
 const std::set<std::string> map_template::database_dependencies = {
 	//map templates must be initialized after sites, as sites add themselves to the world site list in their initialization function, and during map template initialization the sites are then added to the map template's site position map
@@ -236,7 +236,7 @@ void map_template::write_terrain_image()
 		QColor color;
 
 		if (std::holds_alternative<const terrain_feature *>(terrain_variant)) {
-			const terrain_feature *terrain_feature = std::get<const metternich::terrain_feature *>(terrain_variant);
+			const terrain_feature *terrain_feature = std::get<const kobold::terrain_feature *>(terrain_variant);
 
 			if (terrain_feature->is_river() || terrain_feature->is_border_river()) {
 				continue;
@@ -248,7 +248,7 @@ void map_template::write_terrain_image()
 
 			color = terrain_feature->get_terrain_type()->get_color();
 		} else {
-			const terrain_type *terrain_type = std::get<const metternich::terrain_type *>(terrain_variant);
+			const terrain_type *terrain_type = std::get<const kobold::terrain_type *>(terrain_variant);
 			color = terrain_type->get_color();
 		}
 
@@ -386,7 +386,7 @@ void map_template::write_river_image()
 			QColor color;
 
 			if (std::holds_alternative<const terrain_feature *>(terrain_variant)) {
-				const terrain_feature *terrain_feature = std::get<const metternich::terrain_feature *>(terrain_variant);
+				const terrain_feature *terrain_feature = std::get<const kobold::terrain_feature *>(terrain_variant);
 
 				if (!terrain_feature->is_river()) {
 					continue;
@@ -459,7 +459,7 @@ void map_template::write_border_river_image()
 			QColor color;
 
 			if (std::holds_alternative<const terrain_feature *>(terrain_variant)) {
-				const terrain_feature *terrain_feature = std::get<const metternich::terrain_feature *>(terrain_variant);
+				const terrain_feature *terrain_feature = std::get<const kobold::terrain_feature *>(terrain_variant);
 
 				if (!terrain_feature->is_border_river()) {
 					continue;

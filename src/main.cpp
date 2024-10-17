@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "character/advisor_category.h"
 #include "character/character.h"
@@ -83,7 +83,7 @@
 #include <QQmlContext>
 #pragma warning(pop)
 
-using namespace metternich;
+using namespace kobold;
 
 static QCoro::Task<void> initialize()
 {
@@ -200,7 +200,7 @@ int main(int argc, char **argv)
 		qmlRegisterType<map_site_model>("map_site_model", 1, 0, "MapSiteModel");
 		qmlRegisterType<MaskedMouseArea>("MaskedMouseArea", 1, 0, "MaskedMouseArea");
 
-		engine.rootContext()->setContextProperty("metternich", engine_interface::get());
+		engine.rootContext()->setContextProperty("kobold", engine_interface::get());
 
 		engine.addImageProvider("diplomatic_map", new diplomatic_map_image_provider);
 		engine.addImageProvider("empty", new empty_image_provider);

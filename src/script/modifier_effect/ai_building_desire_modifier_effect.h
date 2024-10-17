@@ -5,7 +5,7 @@
 #include "infrastructure/building_type.h"
 #include "script/modifier_effect/modifier_effect.h"
 
-namespace metternich {
+namespace kobold {
 
 class ai_building_desire_modifier_effect final : public modifier_effect<const country>
 {

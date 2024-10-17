@@ -1,4 +1,4 @@
-#include "metternich.h"
+#include "kobold.h"
 
 #include "country/government_group.h"
 
@@ -8,7 +8,7 @@
 #include "util/gender.h"
 #include "util/string_util.h"
 
-namespace metternich {
+namespace kobold {
 
 void government_group::process_gsml_scope(const gsml_data &scope)
 {

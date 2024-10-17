@@ -2,7 +2,7 @@
 
 #include "util/enum_converter.h"
 
-namespace metternich {
+namespace kobold {
 
 enum class food_type {
 	none,
@@ -13,6 +13,6 @@ enum class food_type {
 
 }
 
-extern template class archimedes::enum_converter<metternich::food_type>;
+extern template class archimedes::enum_converter<kobold::food_type>;
 
-Q_DECLARE_METATYPE(metternich::food_type)
+Q_DECLARE_METATYPE(kobold::food_type)

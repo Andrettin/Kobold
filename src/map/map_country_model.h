@@ -8,7 +8,7 @@
 
 Q_MOC_INCLUDE("map/map_province_model.h")
 
-namespace metternich {
+namespace kobold {
 
 class country;
 class map_province_model;
@@ -17,7 +17,7 @@ class map_country_model : public QAbstractListModel
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const metternich::map_province_model* map_province_model MEMBER map_province_model WRITE set_map_province_model)
+	Q_PROPERTY(const kobold::map_province_model* map_province_model MEMBER map_province_model WRITE set_map_province_model)
 
 public:
 	enum class role {
@@ -28,7 +28,7 @@ public:
 	void reset_model();
 	void create_country_geopolygons(const country *country, const std::vector<const QGeoPolygon *> &country_province_geopolygons);
 
-	void set_map_province_model(const metternich::map_province_model *map_province_model)
+	void set_map_province_model(const kobold::map_province_model *map_province_model)
 	{
 		if (map_province_model == this->map_province_model) {
 			return;

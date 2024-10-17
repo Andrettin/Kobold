@@ -11,7 +11,7 @@ namespace archimedes {
 	class gsml_property;
 }
 
-namespace metternich {
+namespace kobold {
 
 class game_rules;
 
@@ -22,7 +22,7 @@ class preferences final : public QObject, public singleton<preferences>
 	Q_PROPERTY(archimedes::centesimal_int scale_factor READ get_scale_factor WRITE set_scale_factor NOTIFY scale_factor_changed)
 	Q_PROPERTY(QString scale_factor_string READ get_scale_factor_qstring WRITE set_scale_factor_qstring NOTIFY scale_factor_changed)
 	Q_PROPERTY(bool major_scenarios_only MEMBER major_scenarios_only WRITE set_major_scenarios_only NOTIFY major_scenarios_only_changed)
-	Q_PROPERTY(metternich::game_rules* game_rules READ get_game_rules CONSTANT)
+	Q_PROPERTY(kobold::game_rules* game_rules READ get_game_rules CONSTANT)
 
 public:
 	static std::filesystem::path get_path();

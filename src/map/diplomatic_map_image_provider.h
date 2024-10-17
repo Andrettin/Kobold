@@ -4,7 +4,7 @@
 #include <QQuickImageProvider>
 #pragma warning(pop)
 
-namespace metternich {
+namespace kobold {
 
 class diplomatic_map_image_provider final : public QQuickImageProvider
 {

@@ -13,7 +13,7 @@ Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
-namespace metternich {
+namespace kobold {
 
 class building_class;
 class building_slot_type;
@@ -49,13 +49,13 @@ class building_type final : public named_data_entry, public data_type<building_t
 {
 	Q_OBJECT
 
-	Q_PROPERTY(metternich::building_class* building_class MEMBER building_class NOTIFY changed)
-	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(metternich::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
-	Q_PROPERTY(metternich::portrait* portrait MEMBER portrait NOTIFY changed)
-	Q_PROPERTY(metternich::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(kobold::building_class* building_class MEMBER building_class NOTIFY changed)
+	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
+	Q_PROPERTY(kobold::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
+	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(bool provincial MEMBER provincial READ is_provincial NOTIFY changed)
-	Q_PROPERTY(const metternich::profession* employment_profession MEMBER employment_profession READ get_employment_profession NOTIFY changed)
+	Q_PROPERTY(const kobold::profession* employment_profession MEMBER employment_profession READ get_employment_profession NOTIFY changed)
 	Q_PROPERTY(int employment_capacity MEMBER employment_capacity READ get_employment_capacity NOTIFY changed)
 	Q_PROPERTY(QVariantList production_types READ get_production_types_qvariant_list NOTIFY changed)
 	Q_PROPERTY(int base_capacity MEMBER base_capacity READ get_base_capacity NOTIFY changed)
@@ -71,13 +71,13 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(bool expandable MEMBER expandable READ is_expandable NOTIFY changed)
 	Q_PROPERTY(int max_level MEMBER max_level READ get_max_level NOTIFY changed)
 	Q_PROPERTY(int fort_level MEMBER fort_level READ get_fort_level NOTIFY changed)
-	Q_PROPERTY(metternich::building_type* required_building MEMBER required_building NOTIFY changed)
-	Q_PROPERTY(metternich::technology* required_technology MEMBER required_technology NOTIFY changed)
+	Q_PROPERTY(kobold::building_type* required_building MEMBER required_building NOTIFY changed)
+	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "building_type";
-	static constexpr const char property_class_identifier[] = "metternich::building_type*";
+	static constexpr const char property_class_identifier[] = "kobold::building_type*";
 	static constexpr const char database_folder[] = "building_types";
 
 public:
@@ -95,22 +95,22 @@ public:
 
 	const building_slot_type *get_slot_type() const;
 
-	const metternich::culture *get_culture() const
+	const kobold::culture *get_culture() const
 	{
 		return this->culture;
 	}
 
-	const metternich::cultural_group *get_cultural_group() const
+	const kobold::cultural_group *get_cultural_group() const
 	{
 		return this->cultural_group;
 	}
 
-	const metternich::portrait *get_portrait() const
+	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
 	}
 
-	const metternich::icon *get_icon() const
+	const kobold::icon *get_icon() const
 	{
 		return this->icon;
 	}
@@ -305,7 +305,7 @@ public:
 		return this->stackable_country_modifier.get();
 	}
 
-	Q_INVOKABLE QString get_effects_string(metternich::site *site) const;
+	Q_INVOKABLE QString get_effects_string(kobold::site *site) const;
 
 	const effect_list<const site> *get_effects() const
 	{
@@ -317,10 +317,10 @@ signals:
 
 private:
 	building_class *building_class = nullptr;
-	metternich::culture *culture = nullptr;
-	metternich::cultural_group *cultural_group = nullptr;
-	metternich::portrait *portrait = nullptr;
-	metternich::icon *icon = nullptr;
+	kobold::culture *culture = nullptr;
+	kobold::cultural_group *cultural_group = nullptr;
+	kobold::portrait *portrait = nullptr;
+	kobold::icon *icon = nullptr;
 	bool provincial = false;
 	int level = 0;
 	std::vector<const settlement_type *> settlement_types;
