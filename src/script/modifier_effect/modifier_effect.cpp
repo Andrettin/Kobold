@@ -8,7 +8,6 @@
 #include "database/gsml_property.h"
 #include "script/modifier_effect/advisor_cost_modifier_effect.h"
 #include "script/modifier_effect/ai_building_desire_modifier_effect.h"
-#include "script/modifier_effect/air_discipline_modifier_effect.h"
 #include "script/modifier_effect/artillery_cost_modifier_effect.h"
 #include "script/modifier_effect/building_capacity_modifier_effect.h"
 #include "script/modifier_effect/building_cost_efficiency_modifier_effect.h"
@@ -24,6 +23,7 @@
 #include "script/modifier_effect/commodity_bonus_per_improved_resource_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_improvement_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_population_modifier_effect.h"
+#include "script/modifier_effect/commodity_bonus_per_settlement_modifier_effect.h"
 #include "script/modifier_effect/commodity_output_modifier_effect.h"
 #include "script/modifier_effect/commodity_throughput_modifier_effect.h"
 #include "script/modifier_effect/deployment_limit_modifier_effect.h"
@@ -40,17 +40,13 @@
 #include "script/modifier_effect/industrial_output_modifier_effect.h"
 #include "script/modifier_effect/infantry_cost_modifier_effect.h"
 #include "script/modifier_effect/inflation_change_modifier_effect.h"
-#include "script/modifier_effect/land_damage_modifier_effect.h"
-#include "script/modifier_effect/land_discipline_modifier_effect.h"
-#include "script/modifier_effect/land_morale_recovery_modifier_effect.h"
-#include "script/modifier_effect/land_recovery_modifier_effect.h"
 #include "script/modifier_effect/law_cost_modifier_effect.h"
 #include "script/modifier_effect/leader_cost_modifier_effect.h"
 #include "script/modifier_effect/merchant_ship_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_category_stat_modifier_effect.h"
+#include "script/modifier_effect/military_unit_domain_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_type_stat_modifier_effect.h"
-#include "script/modifier_effect/naval_discipline_modifier_effect.h"
 #include "script/modifier_effect/output_modifier_effect.h"
 #include "script/modifier_effect/population_type_bonus_modifier_effect.h"
 #include "script/modifier_effect/population_type_militancy_modifier_effect.h"
@@ -92,8 +88,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 
 		if (key == "advisor_cost_modifier") {
 			return std::make_unique<advisor_cost_modifier_effect>(value);
-		} else if (key == "air_discipline") {
-			return std::make_unique<air_discipline_modifier_effect>(value);
 		} else if (key == "artillery_cost_modifier") {
 			return std::make_unique<artillery_cost_modifier_effect>(value);
 		} else if (key == "building_cost_efficiency") {
@@ -126,20 +120,10 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<infantry_cost_modifier_effect>(value);
 		} else if (key == "inflation_change") {
 			return std::make_unique<inflation_change_modifier_effect>(value);
-		} else if (key == "land_damage_modifier") {
-			return std::make_unique<land_damage_modifier_effect>(value);
-		} else if (key == "land_discipline") {
-			return std::make_unique<land_discipline_modifier_effect>(value);
-		} else if (key == "land_morale_recovery_modifier") {
-			return std::make_unique<land_morale_recovery_modifier_effect>(value);
-		} else if (key == "land_recovery_modifier") {
-			return std::make_unique<land_recovery_modifier_effect>(value);
 		} else if (key == "law_cost_modifier") {
 			return std::make_unique<law_cost_modifier_effect>(value);
 		} else if (key == "leader_cost_modifier") {
 			return std::make_unique<leader_cost_modifier_effect>(value);
-		} else if (key == "naval_discipline") {
-			return std::make_unique<naval_discipline_modifier_effect>(value);
 		} else if (key == "resource_output_modifier") {
 			return std::make_unique<resource_output_modifier_effect<scope_type>>(value);
 		} else if (key == "storage_capacity") {
@@ -232,10 +216,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 				}
 			}
 		}
-	} else if constexpr (std::is_same_v<scope_type, military_unit>) {
-		if (enum_converter<military_unit_stat>::has_value(key)) {
-			return std::make_unique<military_unit_stat_modifier_effect>(enum_converter<military_unit_stat>::to_enum(key), value);
-		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (key == "depot_level") {
 			return std::make_unique<depot_level_modifier_effect>(value);
@@ -246,6 +226,12 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			const commodity *commodity = commodity::get(key.substr(0, commodity_identifier_size));
 
 			return std::make_unique<commodity_bonus_modifier_effect>(commodity, value);
+		}
+	}
+
+	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, military_unit>) {
+		if (enum_converter<military_unit_stat>::has_value(key)) {
+			return std::make_unique<military_unit_stat_modifier_effect<scope_type>>(enum_converter<military_unit_stat>::to_enum(key), value);
 		}
 	}
 
@@ -295,14 +281,22 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			modifier_effect = std::make_unique<ai_building_desire_modifier_effect>();
 		} else if (tag == "commodity_bonus_per_improvement") {
 			modifier_effect = std::make_unique<commodity_bonus_per_improvement_modifier_effect<scope_type>>();
-		} else if (tag == "military_unit_category_stat_modifier") {
-			modifier_effect = std::make_unique<military_unit_category_stat_modifier_effect>();
+		} else if (tag == "commodity_bonus_per_settlement") {
+			modifier_effect = std::make_unique<commodity_bonus_per_settlement_modifier_effect<scope_type>>();
+		} else if (tag == "military_unit_domain_stat_modifier") {
+			modifier_effect = std::make_unique<military_unit_domain_stat_modifier_effect>();
 		} else if (tag == "profession_commodity_bonus") {
 			modifier_effect = std::make_unique<profession_commodity_bonus_modifier_effect<scope_type>>();
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (tag == "commodity_bonus_per_adjacent_terrain") {
 			modifier_effect = std::make_unique<commodity_bonus_per_adjacent_terrain_modifier_effect>();
+		}
+	}
+	
+	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
+		if (tag == "military_unit_category_stat_modifier") {
+			modifier_effect = std::make_unique<military_unit_category_stat_modifier_effect<scope_type>>();
 		}
 	}
 

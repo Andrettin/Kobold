@@ -20,6 +20,9 @@ template <typename scope_type>
 class condition;
 
 template <typename scope_type>
+class effect_list;
+
+template <typename scope_type>
 class modifier;
 
 class tradition final : public named_data_entry, public data_type<tradition>
@@ -86,6 +89,11 @@ public:
 
 	void calculate_total_prerequisite_depth();
 
+	const std::vector<const tradition *> &get_requiring_traditions() const
+	{
+		return this->requiring_traditions;
+	}
+
 	const std::vector<const tradition *> &get_incompatible_traditions() const
 	{
 		return this->incompatible_traditions;
@@ -106,6 +114,11 @@ public:
 	const modifier<const country> *get_modifier() const
 	{
 		return this->modifier.get();
+	}
+
+	const effect_list<const country> *get_effects() const
+	{
+		return this->effects.get();
 	}
 
 	Q_INVOKABLE QString get_modifier_string(const metternich::country *country) const;
@@ -164,11 +177,13 @@ private:
 	const icon *icon = nullptr;
 	technology *required_technology = nullptr;
 	std::vector<tradition *> prerequisites;
+	std::vector<const tradition *> requiring_traditions;
 	int total_prerequisite_depth = 0;
 	std::vector<const tradition *> incompatible_traditions;
 	std::unique_ptr<const condition<country>> preconditions;
 	std::unique_ptr<const condition<country>> conditions;
 	std::unique_ptr<const modifier<const country>> modifier;
+	std::unique_ptr<const effect_list<const country>> effects;
 };
 
 }

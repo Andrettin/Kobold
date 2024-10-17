@@ -3,10 +3,10 @@
 #include "country/country_game_data.h"
 
 #include "character/advisor_category.h"
-#include "character/advisor_type.h"
 #include "character/character.h"
 #include "character/character_game_data.h"
 #include "character/character_role.h"
+#include "character/character_type.h"
 #include "character/trait.h"
 #include "country/consulate.h"
 #include "country/country.h"
@@ -951,6 +951,8 @@ void country_game_data::set_subject_type(const metternich::subject_type *subject
 	if (game::get()->is_running()) {
 		emit subject_type_changed();
 	}
+
+	this->check_government_type();
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const
@@ -3800,10 +3802,21 @@ void country_game_data::gain_tradition(const tradition *tradition, const int mul
 		tradition->get_modifier()->apply(this->country, multiplier);
 	}
 
+	if (tradition->get_effects() != nullptr && multiplier > 0 && game::get()->is_running()) {
+		context ctx(this->country);
+		tradition->get_effects()->do_effects(this->country, ctx);
+	}
+
 	if (multiplier > 0) {
 		for (const metternich::tradition *incompatible_tradition : tradition->get_incompatible_traditions()) {
 			if (this->has_tradition(incompatible_tradition)) {
 				this->gain_tradition(incompatible_tradition, -1);
+			}
+		}
+	} else if (multiplier < 0) {
+		for (const metternich::tradition *requiring_tradition : tradition->get_requiring_traditions()) {
+			if (this->has_tradition(requiring_tradition)) {
+				this->gain_tradition(requiring_tradition, -1);
 			}
 		}
 	}
@@ -3813,6 +3826,7 @@ void country_game_data::gain_tradition(const tradition *tradition, const int mul
 	}
 
 	this->check_traditions();
+	this->check_government_type();
 }
 
 void country_game_data::gain_tradition_with_prerequisites(const tradition *tradition)
@@ -4085,24 +4099,14 @@ void country_game_data::set_ruler(const character *ruler)
 	const character *old_ruler = this->get_ruler();
 
 	if (old_ruler != nullptr) {
-		for (const trait *trait : old_ruler->get_traits()) {
-			if (trait->get_ruler_modifier() != nullptr) {
-				trait->get_ruler_modifier()->remove(this->country);
-			}
-		}
-
+		old_ruler->get_game_data()->apply_ruler_modifier(this->country, -1);
 		old_ruler->get_game_data()->set_country(nullptr);
 	}
 
 	this->ruler = ruler;
 
 	if (this->get_ruler() != nullptr) {
-		for (const trait *trait : this->get_ruler()->get_traits()) {
-			if (trait->get_ruler_modifier() != nullptr) {
-				trait->get_ruler_modifier()->apply(this->country);
-			}
-		}
-
+		this->get_ruler()->get_game_data()->apply_ruler_modifier(this->country, 1);
 		this->get_ruler()->get_game_data()->set_country(this->country);
 	}
 
@@ -4181,7 +4185,7 @@ void country_game_data::check_ruler()
 			if (this->country == game::get()->get_player_country() && game::get()->is_running()) {
 				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
 
-				engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!\n\n{}", this->get_ruler()->get_full_name(), this->get_ruler()->get_ruler_modifier_string(this->country)));
+				engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!\n\n{}", this->get_ruler()->get_full_name(), this->get_ruler()->get_game_data()->get_ruler_modifier_string(this->country)));
 			}
 		}
 	}
@@ -4241,11 +4245,11 @@ void country_game_data::check_advisors()
 				this->add_advisor(this->get_next_advisor());
 
 				if (this->get_next_advisor()->get_advisor_effects() != nullptr) {
-					context ctx(country);
+					context ctx(this->country);
 					this->get_next_advisor()->get_advisor_effects()->do_effects(country, ctx);
-				} else if (this->get_next_advisor()->get_advisor_type()->get_effects() != nullptr) {
-					context ctx(country);
-					this->get_next_advisor()->get_advisor_type()->get_effects()->do_effects(country, ctx);
+				} else if (this->get_next_advisor()->get_character_type()->get_advisor_effects() != nullptr) {
+					context ctx(this->country);
+					this->get_next_advisor()->get_character_type()->get_advisor_effects()->do_effects(country, ctx);
 				}
 
 				emit advisor_recruited(this->get_next_advisor());
@@ -4271,7 +4275,7 @@ void country_game_data::add_advisor(const character *advisor)
 
 	this->advisors.push_back(advisor);
 	advisor->get_game_data()->set_country(this->country);
-	advisor->apply_advisor_modifier(this->country, 1);
+	advisor->get_game_data()->apply_advisor_modifier(this->country, 1);
 
 	emit advisors_changed();
 }
@@ -4282,7 +4286,7 @@ void country_game_data::remove_advisor(const character *advisor)
 
 	std::erase(this->advisors, advisor);
 	advisor->get_game_data()->set_country(nullptr);
-	advisor->apply_advisor_modifier(this->country, -1);
+	advisor->get_game_data()->apply_advisor_modifier(this->country, -1);
 
 	emit advisors_changed();
 }
@@ -4318,7 +4322,7 @@ void country_game_data::choose_next_advisor()
 			weight += 4;
 		}
 
-		std::vector<const metternich::character *> &category_advisors = potential_advisors_per_category[character->get_advisor_type()->get_category()];
+		std::vector<const metternich::character *> &category_advisors = potential_advisors_per_category[character->get_character_type()->get_advisor_category()];
 
 		for (int i = 0; i < weight; ++i) {
 			category_advisors.push_back(character);
@@ -4342,7 +4346,12 @@ void country_game_data::choose_next_advisor()
 		int best_desire = 0;
 		for (const auto &[category, advisor] : potential_advisor_map) {
 			//consider advisors with special modifiers or effects to have maximum skill, for the purposes of preferring to select them
-			int desire = (advisor->get_skill() != 0 ? advisor->get_skill() : character::max_skill) * 100;
+			int advisor_skill = advisor->get_game_data()->get_primary_attribute_value();
+			if (advisor->get_advisor_modifier() != nullptr || advisor->get_advisor_effects() != nullptr || (advisor->get_character_type()->get_advisor_modifier() != nullptr && advisor->get_character_type()->get_scaled_advisor_modifier() == nullptr)) {
+				advisor_skill = defines::get()->get_max_character_skill();;
+			}
+
+			int desire = advisor_skill * 100;
 
 			for (const journal_entry *journal_entry : this->get_active_journal_entries()) {
 				if (vector::contains(journal_entry->get_recruited_characters(), advisor)) {
@@ -4420,11 +4429,11 @@ bool country_game_data::has_incompatible_advisor_to(const character *advisor) co
 			continue;
 		}
 
-		if (other_advisor->get_advisor_type() != advisor->get_advisor_type()) {
+		if (other_advisor->get_character_type() != advisor->get_character_type()) {
 			continue;
 		}
 
-		if (advisor->get_advisor_type()->get_scaled_modifier() != nullptr && advisor->get_skill() > other_advisor->get_skill()) {
+		if (advisor->get_character_type()->get_scaled_advisor_modifier() != nullptr && advisor->get_game_data()->get_primary_attribute_value() > other_advisor->get_game_data()->get_primary_attribute_value()) {
 			continue;
 		}
 
@@ -4446,7 +4455,7 @@ const character *country_game_data::get_replaced_advisor_for(const character *ad
 			continue;
 		}
 
-		if (other_advisor->get_advisor_type() != advisor->get_advisor_type()) {
+		if (other_advisor->get_character_type() != advisor->get_character_type()) {
 			continue;
 		}
 
@@ -5080,7 +5089,7 @@ void country_game_data::set_transporter_type_stat_modifier(const transporter_typ
 	}
 }
 
-void country_game_data::set_output_modifier(const int value)
+void country_game_data::set_output_modifier(const centesimal_int &value)
 {
 	if (value == this->get_output_modifier()) {
 		return;
@@ -5155,7 +5164,7 @@ void country_game_data::set_industrial_output_modifier(const int value)
 	}
 }
 
-void country_game_data::set_commodity_output_modifier(const commodity *commodity, const int value)
+void country_game_data::set_commodity_output_modifier(const commodity *commodity, const centesimal_int &value)
 {
 	if (value == this->get_commodity_output_modifier(commodity)) {
 		return;
@@ -5190,7 +5199,7 @@ void country_game_data::set_commodity_output_modifier(const commodity *commodity
 	this->calculate_site_commodity_output(commodity);
 }
 
-void country_game_data::set_capital_commodity_output_modifier(const commodity *commodity, const int value)
+void country_game_data::set_capital_commodity_output_modifier(const commodity *commodity, const centesimal_int &value)
 {
 	if (value == this->get_capital_commodity_output_modifier(commodity)) {
 		return;
@@ -5450,6 +5459,31 @@ void country_game_data::change_commodity_bonus_per_population(const commodity *c
 			}
 
 			settlement->get_game_data()->calculate_commodity_outputs();
+		}
+	}
+}
+
+void country_game_data::change_settlement_commodity_bonus(const commodity *commodity, const centesimal_int &change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const centesimal_int count = (this->settlement_commodity_bonuses[commodity] += change);
+
+	assert_throw(count >= 0);
+
+	if (count == 0) {
+		this->settlement_commodity_bonuses.erase(commodity);
+	}
+
+	for (const province *province : this->get_provinces()) {
+		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
+			if (!settlement->get_game_data()->is_built()) {
+				continue;
+			}
+
+			settlement->get_game_data()->change_base_commodity_output(commodity, centesimal_int(change));
 		}
 	}
 }

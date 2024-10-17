@@ -28,6 +28,7 @@ class portrait;
 class terrain_type;
 enum class diplomacy_state;
 enum class event_trigger;
+enum class trait_type;
 
 class defines final : public defines_base, public singleton<defines>
 {
@@ -59,6 +60,7 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(const metternich::icon* tariff_icon MEMBER tariff_icon NOTIFY changed)
 	Q_PROPERTY(const metternich::icon* treasure_fleet_icon MEMBER treasure_fleet_icon NOTIFY changed)
 	Q_PROPERTY(const metternich::icon* military_upkeep_icon MEMBER military_upkeep_icon NOTIFY changed)
+	Q_PROPERTY(int max_character_skill MEMBER max_character_skill READ get_max_character_skill NOTIFY changed)
 	Q_PROPERTY(metternich::portrait* interior_minister_portrait MEMBER interior_minister_portrait NOTIFY changed)
 	Q_PROPERTY(metternich::portrait* war_minister_portrait MEMBER war_minister_portrait NOTIFY changed)
 	Q_PROPERTY(QColor minor_nation_color MEMBER minor_nation_color READ get_minor_nation_color NOTIFY changed)
@@ -255,6 +257,31 @@ public:
 		return this->military_upkeep_icon;
 	}
 
+	int get_min_traits_for_type(const trait_type type) const
+	{
+		const auto find_iterator = this->min_traits_per_type.find(type);
+		if (find_iterator != this->min_traits_per_type.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	int get_max_traits_for_type(const trait_type type) const
+	{
+		const auto find_iterator = this->max_traits_per_type.find(type);
+		if (find_iterator != this->max_traits_per_type.end()) {
+			return find_iterator->second;
+		}
+
+		return std::numeric_limits<int>::max();
+	}
+
+	int get_max_character_skill() const
+	{
+		return this->max_character_skill;
+	}
+
 	const portrait *get_interior_minister_portrait() const
 	{
 		return this->interior_minister_portrait;
@@ -379,6 +406,9 @@ private:
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
+	std::map<trait_type, int> min_traits_per_type;
+	std::map<trait_type, int> max_traits_per_type;
+	int max_character_skill = 0;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	QColor minor_nation_color;

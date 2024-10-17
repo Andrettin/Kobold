@@ -5,8 +5,8 @@
 #include "util/fractional_int.h"
 #include "util/qunique_ptr.h"
 
-Q_MOC_INCLUDE("character/advisor_type.h")
 Q_MOC_INCLUDE("character/character_game_data.h")
+Q_MOC_INCLUDE("character/character_type.h")
 Q_MOC_INCLUDE("character/dynasty.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
@@ -15,7 +15,6 @@ Q_MOC_INCLUDE("population/phenotype.h")
 Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("time/calendar.h")
 Q_MOC_INCLUDE("ui/portrait.h")
-Q_MOC_INCLUDE("unit/civilian_unit_type.h")
 
 namespace archimedes {
 	class calendar;
@@ -24,9 +23,10 @@ namespace archimedes {
 
 namespace metternich {
 
-class advisor_type;
 class character_game_data;
 class character_history;
+class character_type;
+class civilian_unit_class;
 class civilian_unit_type;
 class country;
 class culture;
@@ -37,6 +37,7 @@ class religion;
 class site;
 class technology;
 class trait;
+enum class character_attribute;
 enum class character_role;
 enum class military_unit_category;
 
@@ -60,9 +61,7 @@ class character final : public named_data_entry, public data_type<character>
 	Q_PROPERTY(QString full_name READ get_full_name_qstring NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
 	Q_PROPERTY(metternich::character_role role MEMBER role READ get_role NOTIFY changed)
-	Q_PROPERTY(metternich::advisor_type* advisor_type MEMBER advisor_type NOTIFY changed)
-	Q_PROPERTY(metternich::military_unit_category military_unit_category MEMBER military_unit_category READ get_military_unit_category NOTIFY changed)
-	Q_PROPERTY(const metternich::civilian_unit_type* civilian_unit_type MEMBER civilian_unit_type NOTIFY changed)
+	Q_PROPERTY(const metternich::character_type* character_type MEMBER character_type READ get_character_type NOTIFY changed)
 	Q_PROPERTY(metternich::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(metternich::religion* religion MEMBER religion NOTIFY changed)
 	Q_PROPERTY(metternich::phenotype* phenotype MEMBER phenotype NOTIFY changed)
@@ -91,9 +90,6 @@ public:
 	static constexpr bool history_enabled = true;
 
 	static const std::set<std::string> database_dependencies;
-
-	static constexpr size_t ruler_trait_count = 2;
-	static constexpr int max_skill = 10;
 
 	static bool skill_compare(const character *lhs, const character *rhs);
 
@@ -181,20 +177,14 @@ public:
 		return this->role;
 	}
 
-	const metternich::advisor_type *get_advisor_type() const
+	const metternich::character_type *get_character_type() const
 	{
-		return this->advisor_type;
+		return this->character_type;
 	}
 
-	metternich::military_unit_category get_military_unit_category() const
-	{
-		return this->military_unit_category;
-	}
-
-	const metternich::civilian_unit_type *get_civilian_unit_type() const
-	{
-		return this->civilian_unit_type;
-	}
+	const military_unit_category get_military_unit_category() const;
+	const civilian_unit_class *get_civilian_unit_class() const;
+	const civilian_unit_type *get_civilian_unit_type() const;
 
 	const metternich::culture *get_culture() const
 	{
@@ -256,20 +246,15 @@ public:
 		return this->death_date;
 	}
 
+	character_attribute get_primary_attribute() const;
+
 	int get_skill() const
 	{
 		return this->skill;
 	}
 
-	centesimal_int get_skill_multiplier() const
-	{
-		return centesimal_int(this->get_skill()) / character::max_skill;
-	}
-
-	void set_skill_multiplier(const centesimal_int &skill_multiplier)
-	{
-		this->skill = (skill_multiplier * character::max_skill).to_int();
-	}
+	centesimal_int get_skill_multiplier() const;
+	void set_skill_multiplier(const centesimal_int &skill_multiplier);
 
 	const std::vector<const trait *> &get_traits() const
 	{
@@ -298,26 +283,15 @@ public:
 
 	void add_rulable_country(country *country);
 
-	std::string get_ruler_modifier_string(const country *country) const;
-
-	Q_INVOKABLE QString get_ruler_modifier_qstring(metternich::country *country) const
-	{
-		return QString::fromStdString(this->get_ruler_modifier_string(country));
-	}
-
 	const modifier<const country> *get_advisor_modifier() const
 	{
 		return this->advisor_modifier.get();
 	}
 
-	Q_INVOKABLE QString get_advisor_effects_string(metternich::country *country) const;
-
 	const effect_list<const country> *get_advisor_effects() const
 	{
 		return this->advisor_effects.get();
 	}
-
-	void apply_advisor_modifier(const country *country, const int multiplier) const;
 
 	bool is_admiral() const;
 	bool is_explorer() const;
@@ -339,9 +313,7 @@ private:
 	std::string epithet;
 	std::string description;
 	metternich::character_role role;
-	metternich::advisor_type *advisor_type = nullptr;
-	metternich::military_unit_category military_unit_category;
-	const metternich::civilian_unit_type *civilian_unit_type = nullptr;
+	const metternich::character_type *character_type = nullptr;
 	metternich::culture *culture = nullptr;
 	metternich::religion *religion = nullptr;
 	metternich::phenotype *phenotype = nullptr;
@@ -356,7 +328,7 @@ private:
 	QDate birth_date;
 	QDate death_date;
 	calendar *vital_date_calendar = nullptr; //the calendar for the birth, death, start and end dates
-	int skill = 1;
+	int skill = 0;
 	std::vector<const country *> rulable_countries;
 	std::vector<const trait *> traits;
 	technology *required_technology = nullptr;

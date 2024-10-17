@@ -2,10 +2,11 @@
 
 #include "character/character.h"
 
-#include "character/advisor_type.h"
+#include "character/character_attribute.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
 #include "character/character_role.h"
+#include "character/character_type.h"
 #include "character/dynasty.h"
 #include "character/trait.h"
 #include "character/trait_type.h"
@@ -13,6 +14,7 @@
 #include "country/country_game_data.h"
 #include "country/culture.h"
 #include "country/religion.h"
+#include "database/defines.h"
 #include "map/province.h"
 #include "map/site.h"
 #include "map/site_type.h"
@@ -21,6 +23,7 @@
 #include "script/modifier.h"
 #include "technology/technology.h"
 #include "time/calendar.h"
+#include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
 #include "util/assert_util.h"
 #include "util/gender.h"
@@ -43,7 +46,7 @@ bool character::skill_compare(const character *lhs, const character *rhs)
 	return lhs->get_identifier() < rhs->get_identifier();
 }
 
-character::character(const std::string &identifier) : named_data_entry(identifier), role(character_role::none), military_unit_category(military_unit_category::none), gender(gender::none)
+character::character(const std::string &identifier) : named_data_entry(identifier), role(character_role::none), gender(gender::none)
 {
 	this->reset_game_data();
 }
@@ -188,12 +191,12 @@ void character::initialize()
 		}
 	}
 
-	if (this->get_advisor_type() != nullptr) {
+	if (this->get_character_type() != nullptr) {
 		if (this->get_required_technology() == nullptr) {
-			this->required_technology = this->get_advisor_type()->get_required_technology();
+			this->required_technology = this->get_character_type()->get_required_technology();
 
 			if (this->get_obsolescence_technology() == nullptr) {
-				this->obsolescence_technology = this->get_advisor_type()->get_obsolescence_technology();
+				this->obsolescence_technology = this->get_character_type()->get_obsolescence_technology();
 			}
 		}
 	}
@@ -213,19 +216,40 @@ void character::initialize()
 
 void character::check() const
 {
+	if (this->get_role() == character_role::ruler || this->get_role() == character_role::advisor) {
+		if (this->get_character_type() == nullptr) {
+			throw std::runtime_error(std::format("Character \"{}\" is a ruler or advisor, but has no character type.", this->get_identifier()));
+		}
+	}
+
 	switch (this->get_role()) {
-		case character_role::ruler:
+		case character_role::ruler: {
 			if (this->get_rulable_countries().empty()) {
 				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no rulable countries.", this->get_identifier()));
 			}
 
-			if (this->get_traits().size() < character::ruler_trait_count) {
-				log::log_error(std::format("Character \"{}\" is a ruler, but only has {} {}, instead of the expected {}.", this->get_identifier(), this->get_traits().size(), this->get_traits().size() == 1 ? "trait" : "traits", character::ruler_trait_count));
+			if (this->get_character_type()->get_ruler_modifier() == nullptr && this->get_character_type()->get_scaled_ruler_modifier() == nullptr) {
+				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but its character type (\"{}\") has no ruler modifier.", this->get_identifier(), this->get_character_type()->get_identifier()));
+			}
+
+			std::vector<const trait *> ruler_traits = this->get_traits();
+			std::erase_if(ruler_traits, [](const trait *trait) {
+				return trait->get_type() != trait_type::ruler;
+			});
+			const int ruler_trait_count = static_cast<int>(ruler_traits.size());
+			const int min_ruler_traits = defines::get()->get_min_traits_for_type(trait_type::ruler);
+			const int max_ruler_traits = defines::get()->get_max_traits_for_type(trait_type::ruler);
+
+			if (ruler_trait_count < min_ruler_traits) {
+				log::log_error(std::format("Ruler character \"{}\" only has {} ruler {}, less than the expected minimum of {}.", this->get_identifier(), ruler_trait_count, ruler_trait_count == 1 ? "trait" : "traits", min_ruler_traits));
+			} else if (ruler_trait_count > max_ruler_traits) {
+				log::log_error(std::format("Ruler character \"{}\" has {} ruler {}, more than the expected maximum of {}.", this->get_identifier(), ruler_trait_count, ruler_trait_count == 1 ? "trait" : "traits", max_ruler_traits));
 			}
 			break;
+		}
 		case character_role::advisor:
-			if (this->get_advisor_type() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is an advisor, but has no advisor type.", this->get_identifier()));
+			if (this->get_character_type()->get_advisor_modifier() == nullptr && this->get_character_type()->get_scaled_advisor_modifier() == nullptr && this->get_character_type()->get_advisor_effects() == nullptr) {
+				throw std::runtime_error(std::format("Character \"{}\" is an advisor, but its character type (\"{}\") has no advisor modifier or effects.", this->get_identifier(), this->get_character_type()->get_identifier()));
 			}
 			break;
 		case character_role::leader:
@@ -234,8 +258,12 @@ void character::check() const
 			}
 			break;
 		case character_role::civilian:
+			if (this->get_civilian_unit_class() == nullptr) {
+				throw std::runtime_error(std::format("Character \"{}\" is a civilian, but has no civilian unit class.", this->get_identifier()));
+			}
+
 			if (this->get_civilian_unit_type() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is a civilian, but has no civilian unit type.", this->get_identifier()));
+				throw std::runtime_error(std::format("Character \"{}\" is a civilian, but its culture (\"{}\") has no civilian unit type for its civilian unit class (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_civilian_unit_class()->get_identifier()));
 			}
 			break;
 		default:
@@ -247,10 +275,6 @@ void character::check() const
 	}
 
 	if (this->get_role() != character_role::advisor) {
-		if (this->get_advisor_type() != nullptr) {
-			throw std::runtime_error(std::format("Character \"{}\" has an advisor type, but is not an advisor.", this->get_identifier()));
-		}
-
 		if (this->advisor_modifier != nullptr) {
 			throw std::runtime_error(std::format("Character \"{}\" has an advisor modifier, but is not an advisor.", this->get_identifier()));
 		}
@@ -258,14 +282,6 @@ void character::check() const
 		if (this->advisor_effects != nullptr) {
 			throw std::runtime_error(std::format("Character \"{}\" has advisor effects, but is not an advisor.", this->get_identifier()));
 		}
-	}
-
-	if (this->get_role() != character_role::leader && this->get_military_unit_category() != military_unit_category::none) {
-		throw std::runtime_error(std::format("Character \"{}\" has a military unit category, but is not a leader.", this->get_identifier()));
-	}
-
-	if (this->get_role() != character_role::civilian && this->get_civilian_unit_type() != nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has a civilian unit type, but is not a civilian.", this->get_identifier()));
 	}
 
 	assert_throw(this->get_culture() != nullptr);
@@ -355,99 +371,59 @@ std::string character::get_full_name() const
 	return full_name;
 }
 
+const military_unit_category character::get_military_unit_category() const
+{
+	if (this->get_character_type() != nullptr) {
+		return this->get_character_type()->get_military_unit_category();
+	}
+
+	return military_unit_category::none;
+}
+
+const civilian_unit_class *character::get_civilian_unit_class() const
+{
+	if (this->get_character_type() != nullptr) {
+		return this->get_character_type()->get_civilian_unit_class();
+	}
+
+	return nullptr;
+}
+
+const civilian_unit_type *character::get_civilian_unit_type() const
+{
+	const civilian_unit_class *civilian_unit_class = this->get_civilian_unit_class();
+	if (civilian_unit_class != nullptr) {
+		return this->get_culture()->get_civilian_class_unit_type(civilian_unit_class);
+	}
+
+	return nullptr;
+}
+
+character_attribute character::get_primary_attribute() const
+{
+	if (this->get_character_type() != nullptr) {
+		return this->get_character_type()->get_attribute();
+	}
+
+	return character_attribute::none;
+}
+
+centesimal_int character::get_skill_multiplier() const
+{
+	assert_throw(defines::get()->get_max_character_skill() > 0);
+	return centesimal_int(this->get_skill()) / defines::get()->get_max_character_skill();
+}
+
+void character::set_skill_multiplier(const centesimal_int &skill_multiplier)
+{
+	assert_throw(defines::get()->get_max_character_skill() > 0);
+	this->skill = (skill_multiplier * defines::get()->get_max_character_skill()).to_int();
+}
+
 void character::add_rulable_country(country *country)
 {
 	this->rulable_countries.push_back(country);
 	country->add_ruler(this);
-}
-
-std::string character::get_ruler_modifier_string(const country *country) const
-{
-	assert_throw(this->get_role() == character_role::ruler);
-
-	std::string str;
-
-	for (const trait *trait : this->get_traits()) {
-		if (trait->get_ruler_modifier() == nullptr) {
-			continue;
-		}
-
-		if (!str.empty()) {
-			str += "\n";
-		}
-
-		str += string::highlight(trait->get_name());
-		str += "\n" + trait->get_ruler_modifier()->get_string(country, 1, 1);
-	}
-
-	return str;
-}
-
-QString character::get_advisor_effects_string(metternich::country *country) const
-{
-	assert_throw(this->get_role() == character_role::advisor);
-
-	std::string str;
-
-	if (this->advisor_modifier != nullptr) {
-		str += this->advisor_modifier->get_string(country);
-	}
-
-	if (this->advisor_effects != nullptr) {
-		if (!str.empty()) {
-			str += '\n';
-		}
-
-		str += this->advisor_effects->get_effects_string(country, read_only_context(country));
-	}
-
-	if (!str.empty()) {
-		return QString::fromStdString(str);
-	}
-
-	if (this->get_advisor_type()->get_modifier() != nullptr) {
-		str = this->get_advisor_type()->get_modifier()->get_string(country);
-	} else if (this->get_advisor_type()->get_scaled_modifier() != nullptr) {
-		str = this->get_advisor_type()->get_scaled_modifier()->get_string(country, this->get_skill());
-	}
-	
-	if (this->get_advisor_type()->get_effects() != nullptr) {
-		if (!str.empty()) {
-			str += '\n';
-		}
-
-		str += this->get_advisor_type()->get_effects()->get_effects_string(country, read_only_context(country));
-	}
-
-	if (this->get_game_data()->get_country() != country) {
-		const character *replaced_advisor = country->get_game_data()->get_replaced_advisor_for(this);
-		if (replaced_advisor != nullptr) {
-			if (!str.empty()) {
-				str += '\n';
-			}
-
-			str += std::format("Replaces {}", replaced_advisor->get_full_name());
-		}
-	}
-
-	return QString::fromStdString(str);
-}
-
-void character::apply_advisor_modifier(const country *country, const int multiplier) const
-{
-	assert_throw(this->get_role() == character_role::advisor);
-
-	if (this->advisor_effects != nullptr) {
-		return;
-	}
-
-	if (this->advisor_modifier != nullptr) {
-		this->advisor_modifier->apply(country, multiplier);
-	} else if (this->get_advisor_type()->get_modifier() != nullptr) {
-		this->get_advisor_type()->get_modifier()->apply(country);
-	} else if (this->get_advisor_type()->get_scaled_modifier() != nullptr) {
-		this->get_advisor_type()->get_scaled_modifier()->apply(country, this->get_skill() * multiplier);
-	}
 }
 
 bool character::is_admiral() const

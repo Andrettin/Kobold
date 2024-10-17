@@ -1,23 +1,23 @@
 #pragma once
 
-#include "character/advisor_type.h"
 #include "character/character.h"
+#include "character/character_role.h"
 #include "script/condition/condition.h"
 
 namespace metternich {
 
-class advisor_type_condition final : public condition<character>
+class character_role_condition final : public condition<character>
 {
 public:
-	explicit advisor_type_condition(const std::string &value, const gsml_operator condition_operator)
+	explicit character_role_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<character>(condition_operator)
 	{
-		this->advisor_type = advisor_type::get(value);
+		this->role = enum_converter<character_role>::to_enum(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
 	{
-		static const std::string class_identifier = "advisor_type";
+		static const std::string class_identifier = "character_role";
 		return class_identifier;
 	}
 
@@ -25,18 +25,18 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		return scope->get_advisor_type() == this->advisor_type;
+		return scope->get_role() == this->role;
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override
 	{
 		Q_UNUSED(indent);
 
-		return this->advisor_type->get_name() + " advisor type";
+		return std::format("{} role", get_character_role_name(this->role));
 	}
 
 private:
-	const metternich::advisor_type *advisor_type = nullptr;
+	character_role role = character_role::none;
 };
 
 }

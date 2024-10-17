@@ -162,7 +162,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(const metternich::military_unit_type* next_leader_military_unit_type READ get_next_leader_military_unit_type NOTIFY next_leader_changed)
 	Q_PROPERTY(QVariantList bids READ get_bids_qvariant_list NOTIFY bids_changed)
 	Q_PROPERTY(QVariantList offers READ get_offers_qvariant_list NOTIFY offers_changed)
-	Q_PROPERTY(int output_modifier READ get_output_modifier NOTIFY output_modifier_changed)
+	Q_PROPERTY(int output_modifier READ get_output_modifier_int NOTIFY output_modifier_changed)
 	Q_PROPERTY(int resource_output_modifier READ get_resource_output_modifier NOTIFY resource_output_modifier_changed)
 	Q_PROPERTY(int industrial_output_modifier READ get_industrial_output_modifier NOTIFY industrial_output_modifier_changed)
 	Q_PROPERTY(int throughput_modifier READ get_throughput_modifier NOTIFY throughput_modifier_changed)
@@ -1590,66 +1590,6 @@ public:
 		this->deployment_limit += change;
 	}
 
-	int get_land_damage_modifier() const
-	{
-		return this->land_damage_modifier;
-	}
-
-	void change_land_damage_modifier(const int change)
-	{
-		this->land_damage_modifier += change;
-	}
-
-	int get_land_recovery_modifier() const
-	{
-		return this->land_recovery_modifier;
-	}
-
-	void change_land_recovery_modifier(const int change)
-	{
-		this->land_recovery_modifier += change;
-	}
-
-	int get_land_morale_recovery_modifier() const
-	{
-		return this->land_morale_recovery_modifier;
-	}
-
-	void change_land_morale_recovery_modifier(const int change)
-	{
-		this->land_morale_recovery_modifier += change;
-	}
-
-	int get_land_discipline_modifier() const
-	{
-		return this->land_discipline_modifier;
-	}
-
-	void change_land_discipline_modifier(const int change)
-	{
-		this->land_discipline_modifier += change;
-	}
-
-	int get_naval_discipline_modifier() const
-	{
-		return this->naval_discipline_modifier;
-	}
-
-	void change_naval_discipline_modifier(const int change)
-	{
-		this->naval_discipline_modifier += change;
-	}
-
-	int get_air_discipline_modifier() const
-	{
-		return this->air_discipline_modifier;
-	}
-
-	void change_air_discipline_modifier(const int change)
-	{
-		this->air_discipline_modifier += change;
-	}
-
 	int get_entrenchment_bonus_modifier() const
 	{
 		return this->entrenchment_bonus_modifier;
@@ -1756,16 +1696,21 @@ public:
 		this->unit_upgrade_cost_modifier += change;
 	}
 
-	int get_output_modifier() const
+	const centesimal_int &get_output_modifier() const
 	{
 		return this->output_modifier;
 	}
 
-	void set_output_modifier(const int value);
-
-	void change_output_modifier(const int value)
+	int get_output_modifier_int() const
 	{
-		this->set_output_modifier(this->get_output_modifier() + value);
+		return this->get_output_modifier().to_int();
+	}
+
+	void set_output_modifier(const centesimal_int &value);
+
+	void change_output_modifier(const centesimal_int &change)
+	{
+		this->set_output_modifier(this->get_output_modifier() + change);
 	}
 
 	int get_resource_output_modifier() const
@@ -1792,12 +1737,12 @@ public:
 		this->set_industrial_output_modifier(this->get_industrial_output_modifier() + value);
 	}
 
-	const commodity_map<int> &get_commodity_output_modifiers() const
+	const commodity_map<centesimal_int> &get_commodity_output_modifiers() const
 	{
 		return this->commodity_output_modifiers;
 	}
 
-	int get_commodity_output_modifier(const commodity *commodity) const
+	const centesimal_int &get_commodity_output_modifier(const commodity *commodity) const
 	{
 		const auto find_iterator = this->commodity_output_modifiers.find(commodity);
 
@@ -1805,28 +1750,29 @@ public:
 			return find_iterator->second;
 		}
 
-		return 0;
+		static constexpr centesimal_int zero;
+		return zero;
 	}
 
 	Q_INVOKABLE int get_commodity_output_modifier(metternich::commodity *commodity) const
 	{
 		const metternich::commodity *const_commodity = commodity;
-		return this->get_commodity_output_modifier(const_commodity);
+		return this->get_commodity_output_modifier(const_commodity).to_int();
 	}
 
-	void set_commodity_output_modifier(const commodity *commodity, const int value);
+	void set_commodity_output_modifier(const commodity *commodity, const centesimal_int &value);
 
-	void change_commodity_output_modifier(const commodity *commodity, const int value)
+	void change_commodity_output_modifier(const commodity *commodity, const centesimal_int &change)
 	{
-		this->set_commodity_output_modifier(commodity, this->get_commodity_output_modifier(commodity) + value);
+		this->set_commodity_output_modifier(commodity, this->get_commodity_output_modifier(commodity) + change);
 	}
 
-	const commodity_map<int> &get_capital_commodity_output_modifiers() const
+	const commodity_map<centesimal_int> &get_capital_commodity_output_modifiers() const
 	{
 		return this->capital_commodity_output_modifiers;
 	}
 
-	int get_capital_commodity_output_modifier(const commodity *commodity) const
+	const centesimal_int &get_capital_commodity_output_modifier(const commodity *commodity) const
 	{
 		const auto find_iterator = this->capital_commodity_output_modifiers.find(commodity);
 
@@ -1834,14 +1780,15 @@ public:
 			return find_iterator->second;
 		}
 
-		return 0;
+		static constexpr centesimal_int zero;
+		return zero;
 	}
 
-	void set_capital_commodity_output_modifier(const commodity *commodity, const int value);
+	void set_capital_commodity_output_modifier(const commodity *commodity, const centesimal_int &value);
 
-	void change_capital_commodity_output_modifier(const commodity *commodity, const int value)
+	void change_capital_commodity_output_modifier(const commodity *commodity, const centesimal_int &change)
 	{
-		this->set_capital_commodity_output_modifier(commodity, this->get_capital_commodity_output_modifier(commodity) + value);
+		this->set_capital_commodity_output_modifier(commodity, this->get_capital_commodity_output_modifier(commodity) + change);
 	}
 
 	int get_throughput_modifier() const
@@ -2042,6 +1989,26 @@ public:
 	}
 
 	void change_commodity_bonus_per_population(const commodity *commodity, const centesimal_int &change);
+
+	const commodity_map<centesimal_int> &get_settlement_commodity_bonuses() const
+	{
+		return this->settlement_commodity_bonuses;
+	}
+
+	const centesimal_int &get_settlement_commodity_bonus(const commodity *commodity) const
+	{
+		const auto find_iterator = this->settlement_commodity_bonuses.find(commodity);
+
+		if (find_iterator != this->settlement_commodity_bonuses.end()) {
+			return find_iterator->second;
+		}
+
+		static const centesimal_int zero;
+
+		return zero;
+	}
+
+	void change_settlement_commodity_bonus(const commodity *commodity, const centesimal_int &change);
 
 	const commodity_map<centesimal_int> &get_capital_commodity_bonuses() const
 	{
@@ -2642,12 +2609,6 @@ private:
 	std::vector<qunique_ptr<army>> armies;
 	std::vector<qunique_ptr<transporter>> transporters;
 	int deployment_limit = country_game_data::base_deployment_limit;
-	int land_damage_modifier = 0;
-	int land_recovery_modifier = 0; //the speed at which land units recover strength
-	int land_morale_recovery_modifier = 0;
-	int land_discipline_modifier = 0;
-	int naval_discipline_modifier = 0;
-	int air_discipline_modifier = 0;
 	int entrenchment_bonus_modifier = 0;
 	military_unit_type_map<std::map<military_unit_stat, centesimal_int>> military_unit_type_stat_modifiers;
 	transporter_type_map<std::map<transporter_stat, centesimal_int>> transporter_type_stat_modifiers;
@@ -2656,11 +2617,11 @@ private:
 	int artillery_cost_modifier = 0;
 	int warship_cost_modifier = 0;
 	int unit_upgrade_cost_modifier = 0;
-	int output_modifier = 0;
+	centesimal_int output_modifier;
 	int resource_output_modifier = 0;
 	int industrial_output_modifier = 0;
-	commodity_map<int> commodity_output_modifiers;
-	commodity_map<int> capital_commodity_output_modifiers;
+	commodity_map<centesimal_int> commodity_output_modifiers;
+	commodity_map<centesimal_int> capital_commodity_output_modifiers;
 	int throughput_modifier = 0;
 	commodity_map<int> commodity_throughput_modifiers;
 	resource_map<commodity_map<int>> improved_resource_commodity_bonuses;
@@ -2669,6 +2630,7 @@ private:
 	profession_map<commodity_map<decimillesimal_int>> profession_commodity_bonuses;
 	commodity_map<std::map<int, int>> commodity_bonuses_for_tile_thresholds;
 	commodity_map<centesimal_int> commodity_bonuses_per_population;
+	commodity_map<centesimal_int> settlement_commodity_bonuses;
 	commodity_map<centesimal_int> capital_commodity_bonuses;
 	commodity_map<centesimal_int> capital_commodity_bonuses_per_population;
 	std::map<technology_category, int> category_research_modifiers;

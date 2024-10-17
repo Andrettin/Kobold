@@ -247,17 +247,21 @@ void site_game_data::set_owner(const country *owner)
 	const country *old_owner = this->get_owner();
 
 	if (old_owner != nullptr) {
+		for (const auto &[improvement, commodity_bonuses] : old_owner->get_game_data()->get_improvement_commodity_bonuses()) {
+			if (!this->has_improvement(improvement)) {
+				continue;
+			}
+
+			for (const auto &[commodity, bonus] : commodity_bonuses) {
+				this->change_base_commodity_output(commodity, -bonus);
+			}
+		}
+
 		if (this->site->is_settlement()) {
 			this->population->remove_upper_population(old_owner->get_game_data()->get_population());
 
-			for (const auto &[improvement, commodity_bonuses] : old_owner->get_game_data()->get_improvement_commodity_bonuses()) {
-				if (!this->has_improvement(improvement)) {
-					continue;
-				}
-
-				for (const auto &[commodity, bonus] : commodity_bonuses) {
-					this->change_base_commodity_output(commodity, -bonus);
-				}
+			for (const auto &[commodity, bonus] : old_owner->get_game_data()->get_settlement_commodity_bonuses()) {
+				this->change_base_commodity_output(commodity, -bonus);
 			}
 
 			for (const auto &[building, commodity_bonuses] : old_owner->get_game_data()->get_building_commodity_bonuses()) {
@@ -297,17 +301,21 @@ void site_game_data::set_owner(const country *owner)
 			this->get_owner()->get_game_data()->change_transportable_commodity_output(commodity, this->get_transportable_commodity_output(commodity));
 		}
 
+		for (const auto &[improvement, commodity_bonuses] : this->get_owner()->get_game_data()->get_improvement_commodity_bonuses()) {
+			if (!this->has_improvement(improvement)) {
+				continue;
+			}
+
+			for (const auto &[commodity, bonus] : commodity_bonuses) {
+				this->change_base_commodity_output(commodity, bonus);
+			}
+		}
+
 		if (this->site->is_settlement()) {
 			this->population->add_upper_population(this->get_owner()->get_game_data()->get_population());
 
-			for (const auto &[improvement, commodity_bonuses] : this->get_owner()->get_game_data()->get_improvement_commodity_bonuses()) {
-				if (!this->has_improvement(improvement)) {
-					continue;
-				}
-
-				for (const auto &[commodity, bonus] : commodity_bonuses) {
-					this->change_base_commodity_output(commodity, bonus);
-				}
+			for (const auto &[commodity, bonus] : this->get_owner()->get_game_data()->get_settlement_commodity_bonuses()) {
+				this->change_base_commodity_output(commodity, bonus);
 			}
 
 			for (const auto &[building, commodity_bonuses] : this->get_owner()->get_game_data()->get_building_commodity_bonuses()) {
@@ -891,7 +899,7 @@ void site_game_data::on_settlement_built(const int multiplier)
 		this->get_owner()->get_game_data()->change_settlement_count(multiplier);
 	}
 
-	if (this->get_province() != nullptr && this->get_resource() != nullptr) {
+	if (this->get_province() != nullptr) {
 		for (const auto &[commodity, bonus] : defines::get()->get_settlement_commodity_bonuses()) {
 			this->change_base_commodity_output(commodity, centesimal_int(bonus));
 		}
@@ -900,6 +908,12 @@ void site_game_data::on_settlement_built(const int multiplier)
 		if (tile != nullptr && tile->has_river()) {
 			for (const auto &[commodity, bonus] : defines::get()->get_river_settlement_commodity_bonuses()) {
 				this->change_base_commodity_output(commodity, centesimal_int(bonus));
+			}
+		}
+
+		if (this->get_owner() != nullptr) {
+			for (const auto &[commodity, bonus] : this->get_owner()->get_game_data()->get_settlement_commodity_bonuses()) {
+				this->change_base_commodity_output(commodity, bonus);
 			}
 		}
 	}
@@ -1220,8 +1234,8 @@ void site_game_data::calculate_commodity_outputs()
 		outputs[commodity];
 	}
 
-	int output_modifier = this->get_output_modifier();
-	commodity_map<int> commodity_output_modifiers = this->get_commodity_output_modifiers();
+	centesimal_int output_modifier = this->get_output_modifier();
+	commodity_map<centesimal_int> commodity_output_modifiers = this->get_commodity_output_modifiers();
 
 	if (this->get_owner() != nullptr) {
 		for (const auto &[commodity, value] : this->get_owner()->get_game_data()->get_commodity_bonuses_per_population()) {
@@ -1272,10 +1286,10 @@ void site_game_data::calculate_commodity_outputs()
 	}
 
 	for (auto &[commodity, output] : outputs) {
-		const int modifier = output_modifier + commodity_output_modifiers[commodity];
+		const centesimal_int modifier = output_modifier + commodity_output_modifiers[commodity];
 
 		if (modifier != 0) {
-			output *= 100 + modifier;
+			output *= centesimal_int(100) + modifier;
 			output /= 100;
 		}
 

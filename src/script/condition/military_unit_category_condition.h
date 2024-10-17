@@ -1,5 +1,6 @@
 #pragma once
 
+#include "character/character_role.h"
 #include "script/condition/condition.h"
 #include "unit/military_unit.h"
 #include "unit/military_unit_category.h"
@@ -7,11 +8,12 @@
 
 namespace metternich {
 
-class military_unit_category_condition final : public condition<military_unit>
+template <typename scope_type>
+class military_unit_category_condition final : public condition<scope_type>
 {
 public:
 	explicit military_unit_category_condition(const std::string &value, const gsml_operator condition_operator)
-		: condition<military_unit>(condition_operator)
+		: condition<scope_type>(condition_operator)
 	{
 		this->military_unit_category = enum_converter<metternich::military_unit_category>::to_enum(value);
 	}
@@ -22,11 +24,21 @@ public:
 		return class_identifier;
 	}
 
-	virtual bool check_assignment(const military_unit *scope, const read_only_context &ctx) const override
+	virtual bool check_assignment(const scope_type *scope, const read_only_context &ctx) const override
 	{
 		Q_UNUSED(ctx);
 
-		return scope->get_category() == this->military_unit_category;
+		if constexpr (std::is_same_v<scope_type, military_unit>) {
+			return scope->get_category() == this->military_unit_category;
+		} else {
+			if constexpr (std::is_same_v<scope_type, character>) {
+				if (scope->get_role() != character_role::leader) {
+					return false;
+				}
+			}
+
+			return scope->get_military_unit_category() == this->military_unit_category;
+		}
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override
