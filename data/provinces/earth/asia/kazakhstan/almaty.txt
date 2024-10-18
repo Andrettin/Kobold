@@ -1,0 +1,14 @@
+almaty = {
+	name = "Almaty"
+	color = { 132 135 22 }
+	provincial_capital = almaty
+	regions = {
+		kazakhstan
+	}
+	
+	history = {
+		owner = mongolia
+		culture = mongol
+		religion = pagan
+	}
+}

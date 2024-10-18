@@ -1,0 +1,141 @@
+wood_plow = {
+	name = "Wood Plow"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = copper_age
+	modifier = {
+		commodity_bonus_per_improvement = {
+			commodity = grain
+			improvement = grain_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = potatoes
+			improvement = potato_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = fruit
+			improvement = orchard
+			value = 0.25
+		}
+	}
+}
+
+iron_tipped_wood_plow = {
+	name = "Iron-Tipped Wood Plow"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = iron_age
+	prerequisites = {
+		wood_plow
+		ironworking
+	}
+	modifier = {
+		commodity_bonus_per_improvement = {
+			commodity = grain
+			improvement = grain_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = potatoes
+			improvement = potato_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = fruit
+			improvement = orchard
+			value = 0.25
+		}
+	}
+}
+
+iron_plow = {
+	name = "Iron Plow"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = 1_500
+	prerequisites = {
+		iron_tipped_wood_plow
+	}
+	modifier = {
+		commodity_bonus_per_improvement = {
+			commodity = grain
+			improvement = grain_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = potatoes
+			improvement = potato_farm
+			value = 0.25
+		}
+		commodity_bonus_per_improvement = {
+			commodity = fruit
+			improvement = orchard
+			value = 0.25
+		}
+	}
+}
+
+land_enclosure = {
+	name = "Land Enclosure"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = 1500_1550
+	prerequisites = {
+		rooting_out
+		
+		iron_plow
+	}
+}
+
+seed_drill = {
+	name = "Seed Drill"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = 1550_1600
+	prerequisites = {
+		land_enclosure
+	}
+}
+
+moldboard_plow = {
+	name = "Moldboard Plow"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = 1825_1850
+	prerequisites = {
+		seed_drill
+		
+		high_grade_steel
+	}
+	modifier = {
+		commodity_bonus_per_improvement = {
+			commodity = grain
+			improvement = mechanized_grain_estate
+			value = 0.5
+		}
+		commodity_bonus_per_improvement = {
+			commodity = potatoes
+			improvement = mechanized_potato_estate
+			value = 0.5
+		}
+	}
+}
+
+mechanical_reaper = {
+	name = "Mechanical Reaper"
+	category = gathering
+	portrait = engineering
+	icon = grain
+	period = 1850_1875
+	prerequisites = {
+		moldboard_plow
+	}
+}

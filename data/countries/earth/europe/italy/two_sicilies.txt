@@ -1,0 +1,22 @@
+two_sicilies = {
+	name = "Two Sicilies"
+	type = minor_nation
+	culture = italian
+	default_religion = catholic
+	default_tier = kingdom
+	default_capital = naples
+	definite_article = true
+	eras = {
+		industrial_era
+	}
+	core_provinces = {
+		naples
+		cosenza
+		taranto
+		sicily
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

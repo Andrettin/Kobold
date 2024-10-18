@@ -1,0 +1,19 @@
+albania = {
+	name = "Albania"
+	type = minor_nation
+	culture = albanian
+	default_religion = orthodox
+	default_tier = kingdom
+	default_capital = tirana
+	eras = {
+		medieval_era
+		industrial_era
+	}
+	core_provinces = {
+		albania
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

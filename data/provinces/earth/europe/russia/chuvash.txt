@@ -1,0 +1,19 @@
+chuvash = {
+	name = "Chuvash"
+	color = { 143 236 113 }
+	provincial_capital = cheboksary
+	regions = {
+		european_russia
+	}
+	
+	history = {
+		culture = slavic
+		religion = pagan
+		
+		1360 = {
+			owner = russia #part of the Russian States in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
+			culture = russian
+			religion = orthodox
+		}
+	}
+}

@@ -1,0 +1,43 @@
+precious_metals = {
+	name = "Precious Metals"
+	category = gathering
+	portrait = coinage
+	icon = gold_ore
+	discovery = true
+	period = copper_age
+}
+
+precious_metal_mining = {
+	name = "Precious Metal Mining"
+	category = gathering
+	portrait = coinage
+	icon = gold_ore
+	period = bronze_age
+	prerequisites = {
+		precious_metals
+	}
+}
+
+extraction_of_precious_metals = {
+	name = "Extraction of Precious Metals"
+	category = gathering
+	portrait = coinage
+	icon = gold_ore
+	period = 1650_1700
+	prerequisites = {
+		precious_metal_mining
+		scientific_method
+	}
+}
+
+amalgamation_process = {
+	name = "Amalgamation Process"
+	category = gathering
+	portrait = coinage
+	icon = silver
+	period = 1800_1825
+	prerequisites = {
+		extraction_of_precious_metals
+		dynamite
+	}
+}

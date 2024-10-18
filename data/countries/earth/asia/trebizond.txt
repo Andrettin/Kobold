@@ -1,0 +1,18 @@
+trebizond = {
+	name = "Trebizond"
+	type = minor_nation
+	culture = greek
+	default_religion = orthodox
+	default_tier = empire
+	default_capital = trebizond
+	eras = {
+		medieval_era
+	}
+	core_provinces = {
+		trebizond
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

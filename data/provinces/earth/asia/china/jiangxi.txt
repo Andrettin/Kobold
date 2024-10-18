@@ -1,0 +1,14 @@
+jiangxi = {
+	name = "Jiangxi"
+	color = { 92 52 181 }
+	provincial_capital = nanchang
+	regions = {
+		asia
+	}
+	
+	history = {
+		owner = china
+		culture = chinese
+		religion = pagan
+	}
+}

@@ -1,0 +1,29 @@
+elizabeth_i_of_england = {
+	filepath = "portraits/characters/elizabeth_i_of_england.png"
+	character_conditions = {
+		gender = female
+		not = {
+			cultural_group = african
+		}
+		is_ruler = true
+	}
+}
+
+francis_drake = {
+	filepath = "portraits/characters/francis_drake.png"
+	character_conditions = {
+		gender = male
+		not = {
+			cultural_group = african
+		}
+		is_ruler = false
+		or = {
+			character_type = grand_admiral
+			character_type = naval_reformer
+			character_type = navigator
+			character_type = privateer
+			character_type = giovanni_da_verrazano
+			character_type = juan_de_bermudez
+		}
+	}
+}

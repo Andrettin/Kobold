@@ -1,0 +1,9 @@
+tin = {
+	name = "Tin"
+	commodity = tin
+	tiny_icon = trade_consulate
+	prospectable = true
+	terrain_types = {
+		swamp
+	}
+}

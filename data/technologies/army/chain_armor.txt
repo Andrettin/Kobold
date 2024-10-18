@@ -1,0 +1,95 @@
+chained_leather_armor = {
+	name = "Chained Leather Armor"
+	category = army
+	portrait = helmet
+	icon = heater_shield
+	period = 1000_1100
+	prerequisites = {
+		feudalism
+		ironworking
+	}
+	modifier = {
+		clubmen_defense_modifier = 0.2
+		macemen_defense_modifier = 0.2
+		spearmen_defense_modifier = 0.2
+		pikemen_defense_modifier = 0.2
+		axemen_defense_modifier = 0.2
+		squires_defense_modifier = 0.2
+	}
+}
+
+light_chainmail = {
+	name = "Light Chainmail"
+	category = army
+	portrait = helmet
+	icon = heater_shield
+	period = 1100_1200
+	prerequisites = {
+		chained_leather_armor
+	}
+	modifier = {
+		clubmen_defense_modifier = 0.2
+		macemen_defense_modifier = 0.2
+		spearmen_defense_modifier = 0.2
+		pikemen_defense_modifier = 0.2
+		axemen_defense_modifier = 0.2
+		squires_defense_modifier = 0.2
+	}
+}
+
+chainmail = {
+	name = "Chainmail"
+	category = army
+	portrait = helmet
+	icon = heater_shield
+	period = 1200_1300
+	prerequisites = {
+		light_chainmail
+	}
+	modifier = {
+		clubmen_defense_modifier = 0.2
+		macemen_defense_modifier = 0.2
+		spearmen_defense_modifier = 0.2
+		pikemen_defense_modifier = 0.2
+		axemen_defense_modifier = 0.2
+		squires_defense_modifier = 0.2
+	}
+}
+
+full_chainmail = {
+	name = "Full Chainmail"
+	category = army
+	portrait = helmet
+	icon = heater_shield
+	period = 1300_1400
+	prerequisites = {
+		chainmail
+	}
+	modifier = {
+		clubmen_defense_modifier = 0.2
+		macemen_defense_modifier = 0.2
+		spearmen_defense_modifier = 0.2
+		pikemen_defense_modifier = 0.2
+		axemen_defense_modifier = 0.2
+		squires_defense_modifier = 0.2
+	}
+}
+
+plated_chainmail = {
+	name = "Plated Chainmail"
+	category = army
+	portrait = helmet
+	icon = heater_shield
+	period = 1400_1500
+	prerequisites = {
+		full_chainmail
+	}
+	modifier = {
+		clubmen_defense_modifier = 0.2
+		macemen_defense_modifier = 0.2
+		spearmen_defense_modifier = 0.2
+		pikemen_defense_modifier = 0.2
+		axemen_defense_modifier = 0.2
+		squires_defense_modifier = 0.2
+	}
+}

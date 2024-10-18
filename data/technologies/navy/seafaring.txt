@@ -1,0 +1,71 @@
+seafaring = {
+	name = "Seafaring"
+	category = navy
+	portrait = unload
+	icon = anchor
+	period = bronze_age
+	prerequisites = {
+		pottery
+	}
+}
+
+cartography = {
+	name = "Cartography"
+	category = navy
+	portrait = unload
+	icon = globe
+	period = iron_age
+	prerequisites = {
+		seafaring
+		writing
+	}
+}
+
+convoying = {
+	name = "Convoying"
+	category = navy
+	portrait = unload
+	icon = anchor
+	period = 1550_1600
+	prerequisites = {
+		merchant_companies
+		improved_sea_routes
+	}
+}
+
+navigation = {
+	name = "Navigation"
+	category = navy
+	portrait = unload
+	icon = compass
+	period = 1550_1600
+	prerequisites = {
+		superior_hull_design
+		improved_sea_routes
+		astronomy
+	}
+}
+
+magnetism = {
+	name = "Magnetism"
+	category = navy
+	portrait = engineering
+	icon = compass
+	period = 1650_1700
+	prerequisites = {
+		physics
+		ironworking
+	}
+}
+
+privateering_companies = {
+	name = "Privateering Companies"
+	category = navy
+	portrait = unload
+	icon = skull
+	period = 1600_1650
+	prerequisites = {
+		navigation
+		diplomatic_expertise
+	}
+}

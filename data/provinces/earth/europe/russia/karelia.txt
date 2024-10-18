@@ -1,0 +1,24 @@
+karelia = {
+	name = "Karelia"
+	color = { 172 130 218 }
+	provincial_capital = petrozavodsk
+	regions = {
+		european_russia
+	}
+	
+	history = {
+		culture = russian
+		religion = pagan
+		
+		1721 = {
+			owner = russia #became part of the Russian Empire in 1721; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 130-131.
+			religion = orthodox
+		}
+		
+		germanys_future = {
+			1918 = {
+				owner = germany #Source: "The British Dominions Year Book 1918", 1918, Map 11.
+			}
+		}
+	}
+}

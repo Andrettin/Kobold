@@ -1,0 +1,8 @@
+celtiberian = {
+	name = "Celtiberian"
+	rank = subgroup
+	upper_group = celtic
+	ruler_title_names = {
+		theocracy = "Druid"
+	}
+}

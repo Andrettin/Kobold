@@ -1,0 +1,24 @@
+republic = {
+	name = "Republic"
+	category = tradition
+	group = tradition
+	portrait = city
+	icon = philosophy
+	required_technology = republic
+	prerequisites = {
+		liberty
+	}
+	incompatible_traditions = {
+		communism
+		monarchy
+		theocracy
+	}
+	preconditions = {
+		not = {
+			country_type = tribe
+		}
+	}
+	modifier = {
+		trade_bonus_for_tile_threshold = 1
+	}
+}

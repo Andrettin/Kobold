@@ -1,0 +1,19 @@
+wurzburg = {
+	name = "Wurzburg" #"Würzburg"
+	type = minor_nation
+	culture = german
+	default_religion = catholic
+	default_tier = county #bishopric
+	default_capital = nuremberg #Wurzburg
+	eras = {
+		medieval_era
+		renaissance_era
+	}
+	core_provinces = {
+		franconia
+	}
+	
+	history = {
+		traditions += theocracy
+	}
+}

@@ -1,0 +1,14 @@
+lesotho = {
+	name = "Lesotho"
+	color = { 133 226 62 }
+	provincial_capital = maseru
+	regions = {
+		africa
+	}
+	
+	history = {
+		owner = zululand
+		culture = zulu
+		religion = pagan
+	}
+}

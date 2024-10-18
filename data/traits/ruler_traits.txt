@@ -1,0 +1,136 @@
+aggressive = {
+	name = "Aggressive"
+	type = ruler
+	icon = crossed_sabers
+	ruler_modifier = {
+		free_infantry_promotion = veteran_1
+	}
+}
+
+charismatic = {
+	name = "Charismatic"
+	type = ruler
+	icon = music
+	ruler_modifier = {
+		commodity_bonus_per_settlement = {
+			commodity = luxuries
+			value = 1
+		}
+		
+		luxuries_per_monument = 1
+	}
+}
+
+creative = {
+	name = "Creative"
+	type = ruler
+	icon = music
+	ruler_modifier = {
+		commodity_bonus_per_settlement = {
+			commodity = culture
+			value = 2
+		}
+	}
+}
+
+expansive = {
+	name = "Expansive"
+	type = ruler
+	icon = settlement
+	ruler_modifier = {
+		commodity_bonus_per_settlement = {
+			commodity = health
+			value = 2
+		}
+	}
+}
+
+financial = {
+	name = "Financial"
+	type = ruler
+	icon = chest
+	ruler_modifier = {
+		trade_bonus_for_tile_threshold = 2
+	}
+}
+
+impressionable = {
+	name = "Impressionable"
+	type = ruler
+	icon = painting
+	ruler_modifier = {
+		free_infantry_promotion = grenadier_1
+	}
+}
+
+indulgent = {
+	name = "Indulgent"
+	type = ruler
+	icon = treaty
+	ruler_modifier = {
+		free_infantry_promotion = formation
+	}
+}
+
+industrious = {
+	name = "Industrious"
+	type = ruler
+	icon = cog
+	ruler_modifier = {
+		throughput_modifier = 10
+	}
+}
+
+militaristic = {
+	name = "Militaristic"
+	type = ruler
+	icon = crossed_sabers
+	ruler_modifier = {
+		free_infantry_promotion = grenadier_1
+	}
+}
+
+organized = {
+	name = "Organized"
+	type = ruler
+	icon = philosophy
+	ruler_modifier = {
+		law_cost_modifier = -50
+	}
+}
+
+philosophical = {
+	name = "Philosophical"
+	type = ruler
+	icon = philosophy
+	ruler_modifier = {
+		statesmanship_output_modifier = 25
+	}
+}
+
+prosperous = {
+	name = "Prosperous"
+	type = ruler
+	icon = wealth
+	ruler_modifier = {
+		free_infantry_promotion = minuteman_1
+	}
+}
+
+protective = {
+	name = "Protective"
+	type = ruler
+	icon = heater_shield
+	ruler_modifier = {
+		free_infantry_promotion = city_garrison_1
+	}
+}
+
+well_connected = {
+	name = "Well-Connected"
+	type = ruler
+	icon = music
+	ruler_modifier = {
+		advisor_cost_modifier = -20
+	}
+}

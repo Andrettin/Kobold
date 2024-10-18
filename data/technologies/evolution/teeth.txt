@@ -1,0 +1,55 @@
+teeth = {
+	name = "Teeth"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = permian
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		beaks
+	}
+}
+
+curved_teeth = {
+	name = "Curved Teeth"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = jurassic
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		omophagia
+	}
+}
+
+ridged_teeth = {
+	name = "Ridged Teeth"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = cretaceous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		curved_teeth
+	}
+}
+
+serrated_teeth = {
+	name = "Serrated Teeth"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = paleogene
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		ridged_teeth
+	}
+}

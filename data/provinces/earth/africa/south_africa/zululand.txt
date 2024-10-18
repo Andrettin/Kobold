@@ -1,0 +1,14 @@
+zululand = {
+	name = "Zululand"
+	color = { 118 41 204 }
+	provincial_capital = ulundi
+	regions = {
+		africa
+	}
+	
+	history = {
+		owner = zululand
+		culture = zulu
+		religion = pagan
+	}
+}

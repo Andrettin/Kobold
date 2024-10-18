@@ -1,0 +1,33 @@
+sun_god = {
+	name = "Sun God"
+	category = belief
+	group = piety
+	portrait = temple
+	icon = wooden_cross
+	required_technology = polytheism
+	prerequisites = {
+		piety
+	}
+	preconditions = {
+		religion = pagan
+	}
+	conditions = {
+		or = {
+			has_resource = fruit
+			has_resource = grain
+		}
+	}
+	modifier = {
+		profession_commodity_bonus = {
+			profession = fruit_grower
+			commodity = fruit
+			value = 1
+		}
+		
+		profession_commodity_bonus = {
+			profession = grain_farmer
+			commodity = grain
+			value = 1
+		}
+	}
+}

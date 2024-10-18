@@ -1,0 +1,7 @@
+recife = {
+	name = "Recife"
+	world = earth
+	geocoordinate = { -34.91560551100 -8.07564532586 } #from Natural Earth
+	type = settlement
+	resource = coffee
+}

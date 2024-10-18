@@ -1,0 +1,20 @@
+valencia = {
+	name = "Valencia"
+	type = minor_nation
+	culture = catalan
+	default_religion = catholic
+	default_tier = kingdom
+	default_capital = valencia
+	eras = {
+		medieval_era
+		renaissance_era
+		industrial_era
+	}
+	core_provinces = {
+		valencia
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

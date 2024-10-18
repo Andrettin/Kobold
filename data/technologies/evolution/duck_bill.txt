@@ -1,0 +1,13 @@
+duck_bill = {
+	name = "Duck Bill"
+	category = culture
+	portrait = building_slot
+	icon = lion
+	period = carboniferous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		phytophagia
+	}
+}

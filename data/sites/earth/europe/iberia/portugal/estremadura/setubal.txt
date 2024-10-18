@@ -1,0 +1,8 @@
+setubal = {
+	name = "Setubal" #"Setúbal"
+	world = earth
+	geocoordinate = { -8.90001001122 38.52995953270 } #from Natural Earth
+	type = resource
+	resource = grain
+	province = alentejo #Estremadura in reality, but it works better in the game for it to be in Alentejo
+}

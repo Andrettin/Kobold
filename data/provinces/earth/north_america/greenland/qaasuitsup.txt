@@ -1,0 +1,8 @@
+qaasuitsup = {
+	name = "Qaasuitsup"
+	color = { 144 97 236 }
+	provincial_capital = ilulissat
+	regions = {
+		greenland
+	}
+}

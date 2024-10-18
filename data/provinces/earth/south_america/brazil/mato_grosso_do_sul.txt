@@ -1,0 +1,25 @@
+mato_grosso_do_sul = {
+	name = "Mato Grosso do Sul"
+	color = { 242 4 215 }
+	provincial_capital = campo_grande
+	regions = {
+		brazil
+	}
+	
+	history = {
+		owner = gondwana
+		culture = dinosaur
+		religion = pagan
+		
+		-4000 = {
+			owner = tupi
+			culture = tupi
+		}
+		
+		1790 = {
+			owner = brazil #part of Brazil c. 1790; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 214-215.
+			culture = portuguese
+			religion = catholic
+		}
+	}
+}

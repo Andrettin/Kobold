@@ -1,0 +1,20 @@
+galicia = {
+	name = "Galicia"
+	type = minor_nation
+	culture = galician
+	default_religion = catholic
+	default_tier = duchy
+	default_capital = santiago_de_compostela
+	eras = {
+		medieval_era
+		renaissance_era
+		industrial_era
+	}
+	core_provinces = {
+		galicia
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

@@ -1,0 +1,29 @@
+perseus = {
+	name = "Perseus"
+	role = advisor
+	character_type = navigator
+	culture = greek
+	religion = pagan
+	home_site = mycenae
+	gender = male
+	start_date = -1550 #possible year of the foundation of Mycenae
+	required_technology = seafaring
+	conditions = {
+		culture = greek
+	}
+}
+
+archimedes = {
+	name = "Archimedes"
+	role = advisor
+	character_type = inventor
+	culture = greek
+	religion = pagan
+	home_site = syracuse
+	gender = male
+	birth_date = -287
+	death_date = -212
+	conditions = {
+		culture = greek
+	}
+}

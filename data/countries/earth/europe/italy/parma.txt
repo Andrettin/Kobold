@@ -1,0 +1,18 @@
+parma = {
+	name = "Parma"
+	type = minor_nation
+	culture = italian
+	default_religion = catholic
+	default_tier = duchy
+	default_capital = parma
+	eras = {
+		industrial_era
+	}
+	core_provinces = {
+		parma
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

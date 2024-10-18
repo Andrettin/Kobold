@@ -1,0 +1,14 @@
+guizhou = {
+	name = "Guizhou"
+	color = { 203 129 125 }
+	provincial_capital = guiyang
+	regions = {
+		asia
+	}
+	
+	history = {
+		owner = china
+		culture = chinese
+		religion = pagan
+	}
+}

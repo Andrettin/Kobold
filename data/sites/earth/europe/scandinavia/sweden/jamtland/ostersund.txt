@@ -1,0 +1,7 @@
+ostersund = {
+	name = "Ostersund" #"Östersund"
+	world = earth
+	geocoordinate = { 14.64999955110 63.18331260090 } #from Natural Earth
+	type = settlement
+	resource = cattle #Principally meadow and pasture; Source: Map No. 500866 of the Perry-Castañeda Library Map Collection, 1973.
+}

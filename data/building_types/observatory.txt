@@ -1,0 +1,21 @@
+observatory = {
+	name = "Observatory"
+	building_class = observatory
+	portrait = university
+	icon = research
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 1
+	required_technology = astronomy
+	settlement_types = {
+		city
+		metropolis
+		campus
+	}
+	settlement_conditions = {
+		or = {
+			terrain = mountains
+			adjacent_terrain = mountains
+		}
+	}
+}

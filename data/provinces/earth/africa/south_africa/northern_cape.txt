@@ -1,0 +1,14 @@
+northern_cape = {
+	name = "Northern Cape"
+	color = { 203 77 40 }
+	provincial_capital = kimberley
+	regions = {
+		africa
+	}
+	
+	history = {
+		owner = zululand
+		culture = zulu
+		religion = pagan
+	}
+}

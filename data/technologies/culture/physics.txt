@@ -1,0 +1,36 @@
+physics = {
+	name = "Physics"
+	category = culture
+	portrait = engineering
+	icon = research
+	period = 1600_1650
+	prerequisites = {
+		astronomy
+		literature
+		navigation
+	}
+}
+
+theory_of_gravity = {
+	name = "Theory of Gravity"
+	category = culture
+	portrait = engineering
+	icon = research
+	period = 1650_1700
+	prerequisites = {
+		physics
+		
+		scientific_method
+	}
+}
+
+atomic_theory = {
+	name = "Atomic Theory"
+	category = culture
+	portrait = engineering
+	icon = research
+	period = 1700_1750
+	prerequisites = {
+		theory_of_gravity
+	}
+}

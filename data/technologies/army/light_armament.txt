@@ -1,0 +1,135 @@
+gunpowder = {
+	name = "Gunpowder"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1300_1400
+	prerequisites = {
+		alchemy
+		invention
+		
+		cathedral_school
+	}
+}
+
+arquebus = {
+	name = "Arquebus"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1400_1500
+	prerequisites = {
+		gunpowder
+	}
+}
+
+weapon_craftsmanship = {
+	name = "Weapon Craftsmanship"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1600_1650
+	prerequisites = {
+		arquebus
+		organized_regiments
+		copper_and_tin_mining
+	}
+}
+
+flintlock_rifle = {
+	name = "Flintlock Rifle"
+	category = army
+	portrait = engineering
+	icon = rifle
+	period = 1700_1750
+	prerequisites = {
+		improved_infantry_tactics
+		crucible_process
+	}
+}
+
+bayonet = {
+	name = "Bayonet"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1700_1750
+	prerequisites = {
+		halberd
+		crucible_process
+	}
+}
+
+explosives = {
+	name = "Explosives"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1700_1750
+	prerequisites = {
+		weapon_craftsmanship
+		industrial_machinery
+	}
+}
+
+improved_cavalry_weapons = {
+	name = "Improved Cavalry Weapons"
+	category = army
+	portrait = engineering
+	icon = musket
+	period = 1700_1750
+	prerequisites = {
+		improved_cavalry_tactics
+		crucible_process
+		industrial_machinery
+	}
+}
+
+long_range_rifle = {
+	name = "Long Range Rifle"
+	category = army
+	portrait = engineering
+	icon = rifle
+	period = 1800_1825
+	prerequisites = {
+		flintlock_rifle
+		modern_military_funding
+		bessemer_converter
+	}
+}
+
+needle_gun = {
+	name = "Needle Gun"
+	category = army
+	portrait = engineering
+	icon = rifle
+	period = 1750_1800
+	prerequisites = {
+		bayonet
+		flintlock_rifle
+		industrial_funding_of_research
+	}
+}
+
+repeating_cavalry_carbine = {
+	name = "Repeating Cavalry Carbine"
+	category = army
+	portrait = engineering
+	icon = rifle
+	period = 1750_1800
+	prerequisites = {
+		improved_cavalry_weapons
+		industrial_funding_of_research
+	}
+}
+
+machine_gun = {
+	name = "Machine Gun"
+	category = army
+	portrait = engineering
+	icon = rifle
+	period = 1875_1900
+	prerequisites = {
+		needle_gun
+	}
+}

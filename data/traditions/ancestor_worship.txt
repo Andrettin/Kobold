@@ -1,0 +1,18 @@
+ancestor_worship = {
+	name = "Ancestor Worship"
+	category = belief
+	group = piety
+	portrait = temple
+	icon = wooden_cross
+	required_technology = ceremonial_burial
+	prerequisites = {
+		piety
+	}
+	modifier = {
+		profession_commodity_bonus = {
+			profession = preacher
+			commodity = culture
+			value = 0.0625
+		}
+	}
+}

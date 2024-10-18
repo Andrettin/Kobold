@@ -1,0 +1,6 @@
+spymaster = {
+	name = "Spymaster"
+	advisor_category = political
+	attribute = intrigue
+	civilian_unit_class = spy
+}

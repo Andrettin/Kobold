@@ -1,0 +1,20 @@
+masonry = {
+	name = "Masonry"
+	category = industry
+	portrait = engineering
+	icon = wall
+	period = copper_age
+}
+
+architecture = {
+	name = "Architecture"
+	category = industry
+	portrait = engineering
+	icon = architecture
+	period = iron_age
+	prerequisites = {
+		masonry
+		ironworking
+		mathematics
+	}
+}

@@ -1,0 +1,8 @@
+qeqqata = {
+	name = "Qeqqata"
+	color = { 193 16 80 }
+	provincial_capital = sisimiut
+	regions = {
+		greenland
+	}
+}

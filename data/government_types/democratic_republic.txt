@@ -1,0 +1,17 @@
+democratic_republic = {
+	name = "Democratic Republic"
+	group = republic
+	icon = philosophy
+	#required_technology = democracy
+	conditions = {
+		tradition = republic
+		not = {
+			subject_type = colony
+		}
+	}
+	ruler_title_names = {
+		duchy = "President"
+		kingdom = "President"
+		empire = "President"
+	}
+}

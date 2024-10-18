@@ -1,0 +1,14 @@
+tindouf = {
+	name = "Tindouf"
+	color = { 106 244 126 }
+	provincial_capital = tindouf
+	regions = {
+		algeria
+	}
+	
+	history = {
+		owner = carthage
+		culture = carthaginian
+		religion = pagan
+	}
+}

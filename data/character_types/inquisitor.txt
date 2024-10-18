@@ -1,0 +1,6 @@
+inquisitor = {
+	name = "Inquisitor"
+	advisor_category = religious
+	attribute = learning
+	military_unit_category = cleric
+}

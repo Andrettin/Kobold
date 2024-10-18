@@ -1,0 +1,19 @@
+babylonia = {
+	name = "Babylonia"
+	type = great_power
+	color = { 27 73 157 }
+	culture = babylonian
+	default_religion = pagan
+	default_tier = kingdom
+	default_capital = babylon
+	eras = {
+		ancient_era
+	}
+	core_provinces = {
+		babylon
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

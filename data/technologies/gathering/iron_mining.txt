@@ -1,0 +1,33 @@
+iron_mining = {
+	name = "Iron Mining"
+	category = gathering
+	portrait = factory
+	icon = iron_ore
+	period = 1550_1600
+	prerequisites = {
+		mine_engineering
+	}
+}
+
+steam_in_mining = {
+	name = "Steam in Mining"
+	category = gathering
+	portrait = factory
+	icon = iron_ore
+	period = 1600_1650
+	prerequisites = {
+		iron_mining
+	}
+}
+
+industrial_iron_mining = {
+	name = "Industrial Iron Mining"
+	category = gathering
+	portrait = factory
+	icon = iron_ore
+	period = 1800_1825
+	prerequisites = {
+		steam_in_mining
+		dynamite
+	}
+}

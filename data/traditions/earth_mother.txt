@@ -1,0 +1,40 @@
+earth_mother = {
+	name = "Earth Mother"
+	category = belief
+	group = piety
+	portrait = temple
+	icon = wooden_cross
+	required_technology = polytheism
+	prerequisites = {
+		piety
+	}
+	preconditions = {
+		religion = pagan
+	}
+	conditions = {
+		or = {
+			has_resource = copper
+			has_resource = iron_ore
+			has_resource = salt
+		}
+	}
+	modifier = {
+		profession_commodity_bonus = {
+			profession = copper_miner
+			commodity = piety
+			value = 1
+		}
+		
+		profession_commodity_bonus = {
+			profession = iron_miner
+			commodity = piety
+			value = 1
+		}
+		
+		profession_commodity_bonus = {
+			profession = salt_miner
+			commodity = piety
+			value = 1
+		}
+	}
+}

@@ -1,0 +1,12 @@
+wahlwies = {
+	name = "Wahlwies"
+	world = earth
+	#geocoordinate = { 8.9673 47.8168 }
+	province = baden
+	
+	history = {
+		919 = {
+			#existed in the 919-1125 period; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 62-63.
+		}
+	}
+}

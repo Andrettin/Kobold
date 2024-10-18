@@ -1,0 +1,12 @@
+industrial_machinery = {
+	name = "Industrial Machinery"
+	category = finance
+	portrait = factory
+	icon = cog
+	period = 1650_1700
+	prerequisites = {
+		steam_in_mining
+		scientific_method
+		trained_journeymen
+	}
+}

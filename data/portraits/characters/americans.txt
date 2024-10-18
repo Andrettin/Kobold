@@ -1,0 +1,30 @@
+george_washington = {
+	filepath = "portraits/characters/george_washington.png"
+	character_conditions = {
+		gender = male
+		culture = english #American
+		is_ruler = true
+		birth_year >= 1700
+	}
+}
+
+jp_morgan = {
+	filepath = "portraits/characters/jp_morgan.png"
+	character_conditions = {
+		gender = male
+		not = {
+			cultural_group = african
+		}
+		is_ruler = false
+		or = {
+			character_type = banker
+			character_type = cotton_planter
+			character_type = master_of_mint
+			character_type = merchant
+			character_type = pioneer
+			character_type = tobacco_planter
+			character_type = treasurer
+		}
+		birth_year >= 1800
+	}
+}

@@ -1,0 +1,11 @@
+henry_the_navigator = {
+	filepath = "portraits/characters/henry_the_navigator.png"
+	character_conditions = {
+		gender = male
+		or = {
+			culture = portuguese
+			culture = turkish
+		}
+		is_ruler = true
+	}
+}

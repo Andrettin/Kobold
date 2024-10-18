@@ -1,0 +1,29 @@
+highlands = {
+	name = "Highlands"
+	color = { 245 141 27 }
+	provincial_capital = inverness
+	regions = {
+		scotland
+	}
+	
+	history = {
+		owner = pictland
+		culture = pictish
+		religion = pagan
+		
+		526 = {
+			owner = pictland #territory of the Picts in 526; Source: William R. Shepherd, "Historical Atlas", 1911, p. 52.
+			culture = pictish
+		}
+		
+		802 = {
+			owner = pictland #part of Pictland c. 802 AD; Source: William R. Shepherd, "Historical Atlas", 1911, p. 60.
+		}
+		
+		843 = {
+			owner = alba #became part of Scotland in 843; Source: William R. Shepherd, "Historical Atlas", 1911, p. 60.
+			culture = highlander
+			religion = catholic
+		}
+	}
+}

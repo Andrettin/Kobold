@@ -1,0 +1,14 @@
+bophuthatswana = {
+	name = "Bophuthatswana"
+	color = { 224 72 169 }
+	provincial_capital = mmabatho
+	regions = {
+		africa
+	}
+	
+	history = {
+		owner = zululand
+		culture = zulu
+		religion = pagan
+	}
+}

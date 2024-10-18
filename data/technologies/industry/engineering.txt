@@ -1,0 +1,11 @@
+engineering = {
+	name = "Engineering"
+	category = industry
+	portrait = engineering
+	icon = cog
+	period = 1_500
+	prerequisites = {
+		wheel
+		architecture
+	}
+}

@@ -1,0 +1,35 @@
+oil_drilling = {
+	name = "Oil Drilling"
+	category = gathering
+	portrait = factory
+	icon = oil
+	period = 1850_1875
+	prerequisites = {
+		geological_prospecting #to place it later in the tech tree
+	}
+}
+
+chemistry = {
+	name = "Chemistry"
+	category = gathering
+	portrait = factory
+	icon = fuel
+	period = 1875_1900
+	prerequisites = {
+		oil_drilling
+		barbed_wire
+		
+		alchemy
+	}
+}
+
+internal_combustion = {
+	name = "Internal Combustion"
+	category = gathering
+	portrait = factory
+	icon = fuel
+	period = 1900_1925
+	prerequisites = {
+		chemistry
+	}
+}

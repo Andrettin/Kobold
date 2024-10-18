@@ -1,0 +1,14 @@
+omophagia = {
+	name = "Omophagia"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = triassic
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		teeth
+		phytophagia
+	}
+}

@@ -1,0 +1,14 @@
+kashkadarya = {
+	name = "Kashkadarya"
+	color = { 31 108 88 }
+	provincial_capital = qarshi
+	regions = {
+		uzbekistan
+	}
+	
+	history = {
+		owner = mongolia
+		culture = mongol
+		religion = pagan
+	}
+}

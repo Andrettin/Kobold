@@ -1,0 +1,15 @@
+antioch = {
+	name = "Antioch"
+	world = earth
+	geocoordinate = { 36.11667655840 36.23333409290 } #from Natural Earth
+	type = settlement
+	resource = cotton #Source: Map No. 501871 of the Perry-Castañeda Library Map Collection, 1974.
+	#resource = fruit #Olives; Source: Map No. 501871 of the Perry-Castañeda Library Map Collection, 1974.
+	#resource = fruit #Citrus fruits; Source: Map No. 501871 of the Perry-Castañeda Library Map Collection, 1974.
+	
+	history = {
+		1360 = {
+			settlement_type = town #existed in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
+		}
+	}
+}

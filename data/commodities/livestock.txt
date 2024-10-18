@@ -1,0 +1,6 @@
+livestock = {
+	name = "Livestock"
+	icon = cattle
+	food_type = meat
+	base_price = 100
+}

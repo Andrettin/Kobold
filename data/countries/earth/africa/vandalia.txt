@@ -1,0 +1,24 @@
+vandalia = {
+	name = "Vandalia"
+	type = great_power
+	color = { 21 190 219 }
+	culture = vandal
+	default_religion = catholic #Arianism
+	default_tier = kingdom
+	default_capital = tunis #Carthage
+	eras = {
+		medieval_era
+	}
+	core_provinces = {
+		tunisia
+		algeria
+		constantine
+		corsica
+		sardinia
+		tripolitania
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

@@ -1,0 +1,8 @@
+persian = {
+	name = "Persian"
+	group = iranian
+	color = { 144 88 81 }
+	ruler_title_names = {
+		monarchy = "Shah"
+	}
+}

@@ -1,0 +1,14 @@
+fezzan = {
+	name = "Fezzan"
+	color = { 150 253 100 }
+	provincial_capital = sabha
+	regions = {
+		libya
+	}
+	
+	history = {
+		owner = carthage
+		culture = carthaginian
+		religion = pagan
+	}
+}

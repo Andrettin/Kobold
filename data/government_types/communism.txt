@@ -1,0 +1,15 @@
+communism = {
+	name = "Communism"
+	group = republic
+	icon = labor
+	conditions = {
+		tradition = communism
+	}
+	ruler_title_names = {
+		barony = "Comrade"
+		county = "Comrade"
+		duchy = "Comrade"
+		kingdom = "Comrade"
+		empire = "Comrade"
+	}
+}

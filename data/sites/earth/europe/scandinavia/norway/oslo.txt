@@ -1,0 +1,13 @@
+oslo = {
+	name = "Oslo" #also known as Christiania
+	world = earth
+	geocoordinate = { 10.74997920600 59.91669028640 } #from Natural Earth
+	type = settlement
+	resource = fish
+	
+	history = {
+		1360 = {
+			settlement_type = town #existed in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
+		}
+	}
+}

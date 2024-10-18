@@ -1,0 +1,20 @@
+monarchy = {
+	name = "Monarchy"
+	group = monarchy
+	icon = crown_royal
+	conditions = {
+		tradition = monarchy
+		not = {
+			tradition = aristocracy #Feudal Monarchy
+			tradition = free_thought #Enlightened Despotism
+			subject_type = colony
+		}
+	}
+	min_policy_values = {
+		centralization_decentralization = -2
+	}
+	max_policy_values = {
+		aristocracy_plutocracy = 2
+		serfdom_free_subjects = 2
+	}
+}

@@ -1,0 +1,13 @@
+fish = {
+	name = "Fish"
+	commodity = fish
+	tiny_icon = garrison
+	near_water = true
+	terrain_types = {
+		desert
+		plains
+		savannah
+		swamp
+		tundra
+	}
+}

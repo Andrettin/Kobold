@@ -1,0 +1,23 @@
+courthouse = {
+	name = "Courthouse"
+	building_class = courthouse
+	portrait = trading_post
+	icon = courthouse
+	provincial = true
+	required_technology = code_of_laws
+	settlement_types = {
+		city
+		metropolis
+	}
+	cost_factor = {
+		modifier = {
+			factor = 0.5
+			ruler = {
+				trait = organized
+			}
+		}
+	}
+	settlement_modifier = {
+		statesmanship_output_modifier = 50
+	}
+}

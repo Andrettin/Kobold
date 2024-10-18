@@ -1,0 +1,86 @@
+school = {
+	name = "School"
+	building_class = school
+	portrait = university
+	icon = university
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 1
+	settlement_types = {
+		campus
+		town
+		city
+		metropolis
+	}
+}
+
+college = {
+	name = "College"
+	building_class = college
+	portrait = university
+	icon = university
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 2
+	required_building = school
+	settlement_types = {
+		campus
+		city
+		metropolis
+	}
+}
+
+university = {
+	name = "University"
+	building_class = university
+	portrait = university
+	icon = university
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 3
+	required_building = college
+	required_technology = university
+	settlement_types = {
+		campus
+		city
+		metropolis
+	}
+	cost_factor = {
+		modifier = {
+			factor = 0.5
+			ruler = {
+				trait = philosophical
+			}
+		}
+	}
+}
+
+monastic_school = {
+	name = "Monastic School"
+	building_class = monastic_school
+	portrait = university
+	icon = university
+	free_in_capital = true
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 1
+	required_technology = monastic_school
+	settlement_types = {
+		monastery
+	}
+}
+
+cathedral_school = {
+	name = "Cathedral School"
+	building_class = cathedral_school
+	portrait = university
+	icon = university
+	provincial = true
+	employment_profession = researcher
+	employment_capacity = 2
+	required_building = monastic_school
+	required_technology = cathedral_school
+	settlement_types = {
+		monastery
+	}
+}

@@ -1,0 +1,13 @@
+immensity = {
+	name = "Immensity"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = paleogene
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		saurian_proportions
+	}
+}

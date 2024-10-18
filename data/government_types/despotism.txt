@@ -1,0 +1,18 @@
+despotism = {
+	name = "Despotism"
+	group = tribe
+	icon = bow
+	conditions = {
+		not = {
+			tradition = communism
+			tradition = monarchy
+			tradition = republic
+			tradition = theocracy
+			subject_type = colony
+		}
+	}
+	min_policy_values = {
+		centralization_decentralization = 2
+		innovative_narrowminded = 1
+	}
+}

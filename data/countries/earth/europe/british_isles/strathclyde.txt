@@ -1,0 +1,18 @@
+strathclyde = {
+	name = "Strathclyde"
+	type = minor_nation
+	culture = cumbrian
+	default_religion = pagan
+	default_tier = kingdom
+	default_capital = ayr
+	eras = {
+		medieval_era
+	}
+	core_provinces = {
+		ayrshire
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

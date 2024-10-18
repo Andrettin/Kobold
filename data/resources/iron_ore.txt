@@ -1,0 +1,10 @@
+iron_ore = {
+	name = "Iron Ore"
+	commodity = iron_ore
+	tiny_icon = trade_consulate
+	prospectable = true
+	terrain_types = {
+		barren_hills
+		mountains
+	}
+}

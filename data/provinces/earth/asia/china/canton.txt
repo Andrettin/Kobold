@@ -1,0 +1,14 @@
+canton = {
+	name = "Canton"
+	color = { 179 192 48 }
+	provincial_capital = canton
+	regions = {
+		asia
+	}
+	
+	history = {
+		owner = china
+		culture = chinese
+		religion = pagan
+	}
+}

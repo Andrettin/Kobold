@@ -1,0 +1,14 @@
+plesiosaurs = {
+	name = "Plesiosaurs"
+	category = navy
+	portrait = building_slot
+	icon = lion
+	period = cretaceous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		marine_reptiles
+		long_necks
+	}
+}

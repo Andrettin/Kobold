@@ -1,0 +1,14 @@
+bony_neck_frill = {
+	name = "Bony Neck Frill"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = triassic
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		bony_knobs
+		beaks
+	}
+}

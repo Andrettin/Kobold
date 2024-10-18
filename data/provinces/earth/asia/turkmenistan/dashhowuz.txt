@@ -1,0 +1,14 @@
+dashhowuz = {
+	name = "Dashhowuz"
+	color = { 206 189 140 }
+	provincial_capital = dashhowuz
+	regions = {
+		turkmenistan
+	}
+	
+	history = {
+		owner = mongolia
+		culture = mongol
+		religion = pagan
+	}
+}

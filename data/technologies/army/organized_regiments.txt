@@ -1,0 +1,12 @@
+organized_regiments = {
+	name = "Organized Regiments"
+	category = army
+	portrait = helmet
+	icon = saber
+	period = 1550_1600
+	prerequisites = {
+		chivalry
+		
+		land_enclosure
+	}
+}

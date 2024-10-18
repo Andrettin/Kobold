@@ -1,0 +1,18 @@
+new_mexico = {
+	name = "New Mexico"
+	type = minor_nation
+	culture = english
+	default_religion = protestant
+	default_tier = duchy
+	default_capital = santa_fe
+	eras = {
+		industrial_era
+	}
+	core_provinces = {
+		new_mexico
+	}
+	
+	history = {
+		traditions += republic
+	}
+}

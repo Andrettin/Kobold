@@ -1,0 +1,10 @@
+rancher = {
+	name = "Rancher"
+	unit_class = rancher
+	icon = craftsmen_light
+	improvable_resources = {
+		cattle
+		horses
+		sheep
+	}
+}

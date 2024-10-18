@@ -1,0 +1,20 @@
+mercia = {
+	name = "Mercia"
+	type = minor_nation
+	culture = anglo_saxon
+	default_religion = catholic
+	default_tier = kingdom
+	default_capital = coventry #Tamworth
+	eras = {
+		medieval_era
+	}
+	core_provinces = {
+		warwickshire
+		derbyshire
+		lancashire
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

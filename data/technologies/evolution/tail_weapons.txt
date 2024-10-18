@@ -1,0 +1,70 @@
+tail_weapons = {
+	name = "Tail Weapons"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = devonian
+	cultures = {
+		dinosaur
+	}
+}
+
+tail_spikes = {
+	name = "Tail Spikes"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = triassic
+	year = -155000000 #Stegosaurus
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		spikes
+		tail_weapons
+	}
+}
+
+tail_crest = {
+	name = "Tail Crest"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = cretaceous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		crested_back
+	}
+}
+
+tail_club = {
+	name = "Tail Club"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = triassic
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		bony_knobs
+		tail_weapons
+	}
+}
+
+whipping_tail = {
+	name = "Whipping Tail"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = cretaceous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		tail_weapons
+		long_necks
+	}
+}

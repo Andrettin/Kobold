@@ -1,0 +1,11 @@
+norwegian = {
+	name = "Norwegian"
+	group = scandinavian
+	color = { 140 20 140 }
+	derivation_conditions = {
+		technology = feudalism
+		province = {
+			core = norway
+		}
+	}
+}

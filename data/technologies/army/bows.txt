@@ -1,0 +1,69 @@
+shortbow = {
+	name = "Shortbow"
+	category = army
+	portrait = helmet
+	icon = bow
+	period = bronze_age
+	prerequisites = {
+		warrior_code
+	}
+}
+
+composite_bow = {
+	name = "Composite Bow"
+	category = army
+	portrait = helmet
+	icon = bow
+	period = iron_age
+	prerequisites = {
+		shortbow
+	}
+	modifier = {
+		archers_firepower_modifier = 0.25
+	}
+}
+
+longbow = {
+	name = "Longbow"
+	category = army
+	portrait = helmet
+	icon = bow
+	period = 1000_1100
+	prerequisites = {
+		composite_bow
+		feudalism
+	}
+	modifier = {
+		archers_firepower_modifier = 0.25
+	}
+}
+
+reinforced_longbow = {
+	name = "Reinforced Longbow"
+	category = army
+	portrait = helmet
+	icon = bow
+	period = 1300_1400
+	prerequisites = {
+		longbow
+		
+		missile_barrage
+	}
+	modifier = {
+		archers_firepower_modifier = 0.25
+	}
+}
+
+marksman_longbow = {
+	name = "Marksman Longbow"
+	category = army
+	portrait = helmet
+	icon = bow
+	period = 1400_1500
+	prerequisites = {
+		reinforced_longbow
+	}
+	modifier = {
+		archers_firepower_modifier = 0.25
+	}
+}

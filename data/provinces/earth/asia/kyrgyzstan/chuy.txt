@@ -1,0 +1,14 @@
+chuy = {
+	name = "Chuy"
+	color = { 76 53 92 }
+	provincial_capital = bishkek
+	regions = {
+		kyrgyzstan
+	}
+	
+	history = {
+		owner = mongolia
+		culture = mongol
+		religion = pagan
+	}
+}

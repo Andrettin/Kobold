@@ -1,0 +1,4 @@
+earth = {
+	name = "Earth"
+	province_image_filepath = "earth/provinces_geopolygons.png"
+}

@@ -1,0 +1,13 @@
+whales = {
+	name = "Whales"
+	commodity = fish
+	tiny_icon = garrison
+	coastal = true
+	terrain_types = {
+		desert
+		plains
+		savannah
+		swamp
+		tundra
+	}
+}

@@ -1,0 +1,8 @@
+horses = {
+	name = "Horses"
+	commodity = horses
+	tiny_icon = garrison
+	terrain_types = {
+		plains
+	}
+}

@@ -1,0 +1,141 @@
+beaver_camp = {
+	name = "Beaver Camp"
+	slot = resource
+	resource = beavers
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 1
+	required_technology = furs
+	wealth_cost = 100
+	commodity_costs = {
+		lumber = 1
+		cast_iron = 1
+	}
+}
+
+improved_beaver_camp = {
+	name = "Improved Beaver Camp"
+	slot = resource
+	resource = beavers
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 2
+	required_improvement = beaver_camp
+	required_technology = improved_trapping_techniques
+	wealth_cost = 100
+	commodity_costs = {
+		lumber = 4
+		cast_iron = 4
+	}
+}
+
+advanced_beaver_camp = {
+	name = "Advanced Beaver Camp"
+	slot = resource
+	resource = beavers
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 3
+	required_improvement = improved_beaver_camp
+	required_technology = riverboats
+	wealth_cost = 1000
+	commodity_costs = {
+		lumber = 8
+		cast_iron = 8
+	}
+}
+
+industrial_beaver_camp = {
+	name = "Industrial Beaver Camp"
+	slot = resource
+	resource = beavers
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 4
+	required_improvement = advanced_beaver_camp
+	required_technology = excessive_fur_harvesting
+	wealth_cost = 5000
+	commodity_costs = {
+		lumber = 16
+		cast_iron = 16
+	}
+}
+
+deer_camp = {
+	name = "Deer Camp"
+	slot = resource
+	resource = deer
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 1
+	required_technology = furs
+	wealth_cost = 100
+	commodity_costs = {
+		lumber = 1
+		cast_iron = 1
+	}
+}
+
+improved_deer_camp = {
+	name = "Improved Deer Camp"
+	slot = resource
+	resource = deer
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 2
+	required_improvement = deer_camp
+	required_technology = improved_trapping_techniques
+	wealth_cost = 100
+	commodity_costs = {
+		lumber = 4
+		cast_iron = 4
+	}
+}
+
+advanced_deer_camp = {
+	name = "Advanced Deer Camp"
+	slot = resource
+	resource = deer
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 3
+	required_improvement = improved_deer_camp
+	required_technology = riverboats
+	wealth_cost = 1000
+	commodity_costs = {
+		lumber = 8
+		cast_iron = 8
+	}
+}
+
+industrial_deer_camp = {
+	name = "Industrial Deer Camp"
+	slot = resource
+	resource = deer
+	icon = garrison
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	employment_profession = fur_trapper
+	employment_capacity = 1
+	output_multiplier = 4
+	required_improvement = advanced_deer_camp
+	required_technology = excessive_fur_harvesting
+	wealth_cost = 5000
+	commodity_costs = {
+		lumber = 16
+		cast_iron = 16
+	}
+}

@@ -1,0 +1,20 @@
+alberta = {
+	name = "Alberta"
+	color = { 204 179 161 }
+	provincial_capital = edmonton
+	regions = {
+		canada
+	}
+	
+	history = {
+		owner = sioux
+		culture = sioux
+		religion = pagan
+		
+		1670 = {
+			owner = ruperts_land #became part of Rupert's Land in 1670; Source: William R. Shepherd, "Historical Atlas", 1911, p. 128.
+			culture = english
+			religion = protestant
+		}
+	}
+}

@@ -1,0 +1,10 @@
+stone = {
+	name = "Stone"
+	commodity = stone
+	tiny_icon = trade_consulate
+	prospectable = true
+	terrain_types = {
+		barren_hills
+		desert
+	}
+}

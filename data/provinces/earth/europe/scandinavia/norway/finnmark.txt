@@ -1,0 +1,13 @@
+finnmark = {
+	name = "Finnmark"
+	color = { 97 128 128 }
+	provincial_capital = hammerfest
+	regions = {
+		norway
+	}
+	
+	history = {
+		culture = norse
+		religion = pagan
+	}
+}

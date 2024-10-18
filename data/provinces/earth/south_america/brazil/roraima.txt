@@ -1,0 +1,19 @@
+roraima = {
+	name = "Roraima"
+	color = { 110 75 109 }
+	provincial_capital = boa_vista
+	regions = {
+		brazil
+	}
+	
+	history = {
+		owner = gondwana
+		culture = dinosaur
+		religion = pagan
+		
+		-4000 = {
+			owner = arawaks
+			culture = arawak
+		}
+	}
+}

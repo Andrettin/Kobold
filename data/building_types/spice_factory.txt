@@ -1,0 +1,25 @@
+spice_factory = {
+	name = "Spice Factory"
+	building_class = spice_factory
+	portrait = trading_post
+	icon = spices
+	provincial = true
+	required_technology = colonization
+	settlement_types = {
+		town
+		city
+		metropolis
+	}
+	settlement_conditions = {
+		province = {
+			produces_commodity = spices
+		}
+		or = {
+			near_water = true
+			has_route = true
+		}
+	}
+	settlement_modifier = {
+		trade_bonus = 1
+	}
+}

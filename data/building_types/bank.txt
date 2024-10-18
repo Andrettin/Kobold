@@ -1,0 +1,31 @@
+bank = {
+	name = "Bank"
+	building_class = bank
+	portrait = trading_post
+	icon = wealth
+	provincial = true
+	required_technology = banking
+	settlement_types = {
+		city
+		metropolis
+	}
+	build_conditions = {
+		has_building_class = market
+	}
+	cost_factor = {
+		modifier = {
+			factor = 0.5
+			ruler = {
+				trait = financial
+			}
+		}
+	}
+	settlement_conditions = {
+		province = {
+			produces_commodity = trade
+		}
+	}
+	settlement_modifier = {
+		trade_output_modifier = 50
+	}
+}

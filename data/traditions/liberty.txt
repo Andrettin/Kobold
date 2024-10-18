@@ -1,0 +1,15 @@
+liberty = {
+	name = "Liberty"
+	category = tradition
+	group = liberty
+	portrait = city
+	icon = bell
+	required_technology = code_of_laws
+	modifier = {
+		profession_commodity_bonus = {
+			profession = statesman
+			commodity = culture
+			value = 0.0625
+		}
+	}
+}

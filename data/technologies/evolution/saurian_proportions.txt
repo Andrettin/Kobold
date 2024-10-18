@@ -1,0 +1,14 @@
+saurian_proportions = {
+	name = "Saurian Proportions"
+	category = army
+	portrait = building_slot
+	icon = lion
+	period = cretaceous
+	cultures = {
+		dinosaur
+	}
+	prerequisites = {
+		long_necks
+		phytophagia
+	}
+}

@@ -1,0 +1,8 @@
+shiite = {
+	name = "Shiite"
+	group = muslim
+	color = { 148 116 108 }
+	ruler_title_names = {
+		theocracy = "Ayatollah"
+	}
+}

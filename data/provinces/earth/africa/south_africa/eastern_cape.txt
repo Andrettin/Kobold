@@ -1,0 +1,18 @@
+eastern_cape = {
+	name = "Eastern Cape"
+	color = { 179 58 142 }
+	provincial_capital = bhisho
+	regions = {
+		africa
+	}
+	
+	history = {
+		owner = zululand
+		culture = zulu
+		religion = pagan
+		
+		1795 = {
+			owner = great_britain #became a British possession in 1795-1806; Source: William R. Shepherd, "Historical Atlas", 1911, p. 152.
+		}
+	}
+}

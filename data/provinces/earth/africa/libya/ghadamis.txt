@@ -1,0 +1,14 @@
+ghadamis = {
+	name = "Ghadamis"
+	color = { 0 213 8 }
+	provincial_capital = ghadamis
+	regions = {
+		libya
+	}
+	
+	history = {
+		owner = carthage
+		culture = carthaginian
+		religion = pagan
+	}
+}

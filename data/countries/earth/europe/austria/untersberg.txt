@@ -1,0 +1,21 @@
+untersberg = {
+	name = "Untersberg"
+	type = minor_nation
+	culture = gnomish
+	default_religion = pagan
+	default_tier = kingdom
+	default_capital = salzburg
+	eras = {
+		ancient_era
+		medieval_era
+		renaissance_era
+		industrial_era
+	}
+	core_provinces = {
+		salzburg
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

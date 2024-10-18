@@ -1,0 +1,32 @@
+assyria = {
+	name = "Assyria"
+	type = great_power
+	color = { 31 198 35 }
+	culture = assyrian
+	default_religion = pagan
+	default_tier = kingdom
+	default_capital = nineveh
+	eras = {
+		ancient_era
+	}
+	core_provinces = {
+		assyria
+		al_hasakah
+		amida
+		deir_ez_zor
+		saladin
+	}
+	
+	history = {
+		traditions += monarchy
+		
+		-720 = {
+			#ruler = sargon_ii_of_assyria #Source: William R. Shepherd, "Historical Atlas", 1911, p. 5.
+			traditions += monarchy
+		}
+		
+		-640 = {
+			#ruler = assurbanipal_of_assyria #Source: William R. Shepherd, "Historical Atlas", 1911, p. 5.
+		}
+	}
+}

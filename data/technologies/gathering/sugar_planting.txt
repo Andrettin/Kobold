@@ -1,0 +1,43 @@
+sugar_cane = {
+	name = "Sugar Cane"
+	category = gathering
+	portrait = engineering
+	icon = sugar_cane
+	discovery = true
+	period = copper_age
+}
+
+sugar_planting = {
+	name = "Sugar Planting"
+	category = gathering
+	portrait = engineering
+	icon = sugar_cane
+	period = bronze_age
+	prerequisites = {
+		sugar_cane
+	}
+}
+
+large_sugar_plantations = {
+	name = "Large Sugar Plantations"
+	category = gathering
+	portrait = engineering
+	icon = sugar_cane
+	period = 1550_1600
+	prerequisites = {
+		sugar_planting
+		
+		colonization
+	}
+}
+
+sugar_industry = {
+	name = "Sugar Industry"
+	category = gathering
+	portrait = engineering
+	icon = sugar_cane
+	period = 1600_1650
+	prerequisites = {
+		large_sugar_plantations
+	}
+}

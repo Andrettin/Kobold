@@ -1,0 +1,10 @@
+cigar_production = {
+	name = "Cigar Production"
+	category = industry
+	portrait = engineering
+	icon = tobacco
+	period = bronze_age
+	prerequisites = {
+		tobacco
+	}
+}

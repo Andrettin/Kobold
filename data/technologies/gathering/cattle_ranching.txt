@@ -1,0 +1,71 @@
+crop_rotation = {
+	name = "Crop Rotation"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1500_1550
+	prerequisites = {
+		rooting_out
+	}
+}
+
+animal_husbandry = {
+	name = "Animal Husbandry"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1550_1600
+	prerequisites = {
+		crop_rotation
+	}
+}
+
+scientific_cattle_breeding = {
+	name = "Scientific Cattle Breeding"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1650_1700
+	prerequisites = {
+		animal_husbandry
+		scientific_method
+	}
+}
+
+feed_grasses = {
+	name = "Feed Grasses"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1800_1825
+	prerequisites = {
+		scientific_cattle_breeding
+		scientific_sheep_breeding
+	}
+}
+
+mechanized_slaughtering_block = {
+	name = "Mechanized Slaughtering-Block"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1800_1825
+	prerequisites = {
+		scientific_cattle_breeding
+		putting_out_system
+	}
+	modifier = {
+		livestock_output_modifier = 20
+	}
+}
+
+barbed_wire = {
+	name = "Barbed Wire"
+	category = gathering
+	portrait = engineering
+	icon = cattle
+	period = 1850_1875
+	prerequisites = {
+		feed_grasses
+	}
+}

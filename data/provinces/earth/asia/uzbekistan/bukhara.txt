@@ -1,0 +1,14 @@
+bukhara = {
+	name = "Bukhara"
+	color = { 180 203 183 }
+	provincial_capital = bukhara
+	regions = {
+		uzbekistan
+	}
+	
+	history = {
+		owner = mongolia
+		culture = mongol
+		religion = pagan
+	}
+}

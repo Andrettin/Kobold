@@ -1,0 +1,18 @@
+judah = {
+	name = "Judah"
+	type = minor_nation
+	culture = hebrew
+	default_religion = jewish
+	default_tier = kingdom
+	default_capital = jerusalem
+	eras = {
+		ancient_era
+	}
+	core_provinces = {
+		hadarom
+	}
+	
+	history = {
+		traditions += monarchy
+	}
+}

@@ -1,0 +1,15 @@
+scholar = {
+	filepath = "portraits/characters/scholar.png"
+	character_conditions = {
+		gender = male
+		not = {
+			cultural_group = african
+		}
+		is_ruler = false
+		or = {
+			character_type = artist
+			character_type = philosopher
+			character_type = johann_sebastian_bach
+		}
+	}
+}
