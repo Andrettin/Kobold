@@ -5,7 +5,6 @@
 #include "economy/commodity_container.h"
 
 Q_MOC_INCLUDE("economy/resource.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
@@ -13,7 +12,6 @@ namespace kobold {
 class commodity;
 class icon;
 class resource;
-class technology;
 class terrain_type;
 class tile;
 enum class improvement_slot;
@@ -34,7 +32,6 @@ class improvement final : public named_data_entry, public data_type<improvement>
 	Q_PROPERTY(int output_multiplier MEMBER output_multiplier READ get_output_multiplier NOTIFY changed)
 	Q_PROPERTY(int variation_count MEMBER variation_count READ get_variation_count)
 	Q_PROPERTY(kobold::improvement* required_improvement MEMBER required_improvement NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
@@ -120,11 +117,6 @@ public:
 		return this->required_improvement;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 	int get_wealth_cost() const
 	{
 		return this->wealth_cost;
@@ -157,7 +149,6 @@ private:
 	std::vector<const terrain_type *> terrain_types; //the terrain types where the improvement can be built
 	int variation_count = 1;
 	improvement *required_improvement = nullptr;
-	technology *required_technology = nullptr;
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<modifier<const site>> modifier;

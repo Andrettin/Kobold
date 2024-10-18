@@ -3,12 +3,9 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-Q_MOC_INCLUDE("technology/technology.h")
-
 namespace kobold {
 
 class icon;
-class technology;
 enum class food_type;
 
 class commodity final : public named_data_entry, public data_type<commodity>
@@ -25,7 +22,6 @@ class commodity final : public named_data_entry, public data_type<commodity>
 	Q_PROPERTY(bool health MEMBER health READ is_health NOTIFY changed)
 	Q_PROPERTY(int wealth_value MEMBER wealth_value READ get_wealth_value NOTIFY changed)
 	Q_PROPERTY(int base_price MEMBER base_price READ get_base_price NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "commodity";
@@ -36,7 +32,6 @@ public:
 
 	explicit commodity(const std::string &identifier);
 
-	virtual void initialize() override;
 	virtual void check() const override;
 
 	const kobold::icon *get_icon() const
@@ -101,11 +96,6 @@ public:
 		return !this->is_abstract() && this->is_storable() && !this->is_convertible_to_wealth();
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 signals:
 	void changed();
 
@@ -120,7 +110,6 @@ private:
 	bool health = false;
 	int wealth_value = 0;
 	int base_price = 0;
-	technology *required_technology = nullptr;
 };
 
 }

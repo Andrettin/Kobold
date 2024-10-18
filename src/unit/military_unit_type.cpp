@@ -7,7 +7,6 @@
 #include "country/cultural_group.h"
 #include "country/culture.h"
 #include "economy/commodity.h"
-#include "technology/technology.h"
 #include "unit/military_unit_category.h"
 #include "unit/military_unit_class.h"
 #include "unit/military_unit_domain.h"
@@ -61,11 +60,6 @@ void military_unit_type::initialize()
 		} else {
 			this->unit_class->set_default_unit_type(this);
 		}
-	}
-
-	if (this->required_technology != nullptr) {
-		assert_throw(this->get_unit_class() != nullptr);
-		this->required_technology->add_enabled_military_unit(this);
 	}
 
 	named_data_entry::initialize();

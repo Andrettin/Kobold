@@ -400,14 +400,6 @@ void game::apply_history(const kobold::scenario *scenario)
 				}
 
 				country_game_data->set_ruler(ruler);
-
-				if (ruler->get_required_technology() != nullptr) {
-					country_game_data->add_technology_with_prerequisites(ruler->get_required_technology());
-				}
-			}
-
-			for (const technology *technology : country_history->get_technologies()) {
-				country_game_data->add_technology_with_prerequisites(technology);
 			}
 
 			for (const tradition *tradition : country_history->get_traditions()) {
@@ -474,26 +466,10 @@ void game::apply_history(const kobold::scenario *scenario)
 
 						if (direction_pathway != nullptr && direction_pathway->get_transport_level() < route_pathway->get_transport_level()) {
 							tile->set_direction_pathway(direction, route_pathway);
-
-							if (tile->has_river() && tile->get_owner() != nullptr && route_pathway->get_river_crossing_required_technology() != nullptr && tile->is_river_crossing_direction(direction)) {
-								tile->get_owner()->get_game_data()->add_technology_with_prerequisites(route_pathway->get_river_crossing_required_technology());
-							}
 						}
 					}
 
 					tile->calculate_pathway_frames();
-
-					//add prerequisites for the tile's pathway to its owner's researched technologies
-					if (tile->get_owner() != nullptr) {
-						if (route_pathway->get_required_technology() != nullptr) {
-							tile->get_owner()->get_game_data()->add_technology_with_prerequisites(route_pathway->get_required_technology());
-						}
-
-						const technology *terrain_required_technology = route_pathway->get_terrain_required_technology(tile->get_terrain());
-						if (terrain_required_technology != nullptr) {
-							tile->get_owner()->get_game_data()->add_technology_with_prerequisites(terrain_required_technology);
-						}
-					}
 				}
 			}
 		}
@@ -527,71 +503,57 @@ void game::apply_history(const kobold::scenario *scenario)
 
 			if ((character->get_role() == character_role::advisor || character->get_role() == character_role::leader || character->get_role() == character_role::civilian) && country != nullptr && !country->get_game_data()->is_under_anarchy()) {
 				country_game_data *country_game_data = country->get_game_data();
-				const technology *obsolescence_technology = character->get_obsolescence_technology();
-
-				if (character->get_required_technology() != nullptr) {
-					country_game_data->add_technology_with_prerequisites(character->get_required_technology());
-				}
-
-				if (obsolescence_technology != nullptr && country_game_data->has_technology(obsolescence_technology)) {
-					character_game_data->set_dead(true);
-				} else {
-					if (character->get_role() == character_role::advisor) {
-						if (country_game_data->can_have_advisors() && !country_game_data->has_incompatible_advisor_to(character)) {
-							country_game_data->add_advisor(character);
-						}
-					} else if (character->get_role() == character_role::leader) {
-						const province *deployment_province = character_history->get_deployment_province();
-						if (deployment_province == nullptr && country_game_data->get_capital_province() != nullptr) {
-							deployment_province = country_game_data->get_capital_province();
-						}
-
-						assert_throw(deployment_province != nullptr);
-
-						if (deployment_province->is_water_zone() || deployment_province->get_game_data()->get_owner() == country) {
-							country_game_data->add_leader(character);
-
-							assert_throw(character_game_data->get_country() != nullptr);
-							character_game_data->deploy_to_province(deployment_province);
-						}
-					} else if (character->get_role() == character_role::civilian) {
-						const site *deployment_site = character_history->get_deployment_site();
-						if (deployment_site == nullptr && country_game_data->get_capital() != nullptr) {
-							deployment_site = country_game_data->get_capital();
-						}
-
-						assert_throw(deployment_site != nullptr);
-
-						if (!deployment_site->get_game_data()->is_on_map()) {
-							continue;
-						}
-
-						if (deployment_site->get_game_data()->get_owner() != country) {
-							country_game_data->add_leader(character);
-
-							assert_throw(character_game_data->get_country() != nullptr);
-							character_game_data->deploy_to_province(character_history->get_deployment_province());
-						}
-
-						const civilian_unit_type *type = character->get_civilian_unit_type();
-						assert_throw(type != nullptr);
-
-						if (type->get_required_technology() != nullptr) {
-							country_game_data->add_technology_with_prerequisites(type->get_required_technology());
-						}
-
-						const QPoint tile_pos = deployment_site->get_game_data()->get_tile_pos();
-
-						if (map::get()->get_tile(tile_pos)->get_civilian_unit() != nullptr) {
-							log::log_error(std::format("Cannot deploy civilian character \"{}\" to site \"{}\", since that site's tile is already occupied by another civilian unit.", character->get_identifier(), deployment_site->get_identifier()));
-							continue;
-						}
-
-						auto civilian_unit = make_qunique<kobold::civilian_unit>(character, country);
-						civilian_unit->set_tile_pos(tile_pos);
-
-						country_game_data->add_civilian_unit(std::move(civilian_unit));
+				if (character->get_role() == character_role::advisor) {
+					if (country_game_data->can_have_advisors() && !country_game_data->has_incompatible_advisor_to(character)) {
+						country_game_data->add_advisor(character);
 					}
+				} else if (character->get_role() == character_role::leader) {
+					const province *deployment_province = character_history->get_deployment_province();
+					if (deployment_province == nullptr && country_game_data->get_capital_province() != nullptr) {
+						deployment_province = country_game_data->get_capital_province();
+					}
+
+					assert_throw(deployment_province != nullptr);
+
+					if (deployment_province->is_water_zone() || deployment_province->get_game_data()->get_owner() == country) {
+						country_game_data->add_leader(character);
+
+						assert_throw(character_game_data->get_country() != nullptr);
+						character_game_data->deploy_to_province(deployment_province);
+					}
+				} else if (character->get_role() == character_role::civilian) {
+					const site *deployment_site = character_history->get_deployment_site();
+					if (deployment_site == nullptr && country_game_data->get_capital() != nullptr) {
+						deployment_site = country_game_data->get_capital();
+					}
+
+					assert_throw(deployment_site != nullptr);
+
+					if (!deployment_site->get_game_data()->is_on_map()) {
+						continue;
+					}
+
+					if (deployment_site->get_game_data()->get_owner() != country) {
+						country_game_data->add_leader(character);
+
+						assert_throw(character_game_data->get_country() != nullptr);
+						character_game_data->deploy_to_province(character_history->get_deployment_province());
+					}
+
+					const civilian_unit_type *type = character->get_civilian_unit_type();
+					assert_throw(type != nullptr);
+
+					const QPoint tile_pos = deployment_site->get_game_data()->get_tile_pos();
+
+					if (map::get()->get_tile(tile_pos)->get_civilian_unit() != nullptr) {
+						log::log_error(std::format("Cannot deploy civilian character \"{}\" to site \"{}\", since that site's tile is already occupied by another civilian unit.", character->get_identifier(), deployment_site->get_identifier()));
+						continue;
+					}
+
+					auto civilian_unit = make_qunique<kobold::civilian_unit>(character, country);
+					civilian_unit->set_tile_pos(tile_pos);
+
+					country_game_data->add_civilian_unit(std::move(civilian_unit));
 				}
 			}
 		}
@@ -625,10 +587,6 @@ void game::apply_history(const kobold::scenario *scenario)
 
 			const civilian_unit_type *type = historical_civilian_unit->get_type();
 			assert_throw(type != nullptr);
-
-			if (type->get_required_technology() != nullptr) {
-				owner_game_data->add_technology_with_prerequisites(type->get_required_technology());
-			}
 
 			const kobold::site *home_settlement = historical_civilian_unit->get_home_settlement();
 			if (home_settlement == nullptr) {
@@ -711,10 +669,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			const military_unit_type *type = historical_military_unit->get_type();
 			assert_throw(type != nullptr);
 
-			if (type->get_required_technology() != nullptr) {
-				country_game_data->add_technology_with_prerequisites(type->get_required_technology());
-			}
-
 			const site *home_settlement = historical_military_unit->get_home_settlement();
 			if (home_settlement == nullptr) {
 				if (province->get_game_data()->get_owner() == country) {
@@ -783,10 +737,6 @@ void game::apply_history(const kobold::scenario *scenario)
 
 			const transporter_type *type = historical_transporter->get_type();
 			assert_throw(type != nullptr);
-
-			if (type->get_required_technology() != nullptr) {
-				country_game_data->add_technology_with_prerequisites(type->get_required_technology());
-			}
 
 			const site *home_settlement = historical_transporter->get_home_settlement();
 			if (home_settlement == nullptr) {
@@ -953,11 +903,6 @@ void game::apply_sites()
 					}
 
 					site_game_data->set_improvement(improvement->get_slot(), improvement);
-
-					//add prerequisites for the tile's improvement to its owner's researched technologies
-					if (improvement->get_required_technology() != nullptr && tile->get_owner() != nullptr) {
-						tile->get_owner()->get_game_data()->add_technology_with_prerequisites(improvement->get_required_technology());
-					}
 				}
 			}
 
@@ -1054,10 +999,6 @@ void game::apply_site_buildings(const site *site)
 				owner_game_data->set_slot_building(building_slot_type, building);
 			}
 		}
-
-		if (building->get_required_technology() != nullptr && owner_game_data != nullptr) {
-			owner_game_data->add_technology_with_prerequisites(building->get_required_technology());
-		}
 	}
 
 	for (auto [building_slot_type, wonder] : site_history->get_wonders()) {
@@ -1080,10 +1021,6 @@ void game::apply_site_buildings(const site *site)
 		}
 
 		building_slot->set_wonder(wonder);
-
-		if (wonder->get_required_technology() != nullptr && owner_game_data != nullptr) {
-			owner_game_data->add_technology_with_prerequisites(wonder->get_required_technology());
-		}
 	}
 }
 

@@ -5,13 +5,11 @@
 #include "economy/commodity_container.h"
 
 Q_MOC_INCLUDE("country/law_group.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
 class law_group;
-class technology;
 
 template <typename scope_type>
 class condition;
@@ -25,7 +23,6 @@ class law final : public named_data_entry, public data_type<law>
 
 	Q_PROPERTY(kobold::law_group * group MEMBER group NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(QVariantList commodity_costs READ get_commodity_costs_qvariant_list NOTIFY changed)
 
 public:
@@ -48,11 +45,6 @@ public:
 	const icon *get_icon() const
 	{
 		return this->icon;
-	}
-
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
 	}
 
 	const commodity_map<int> &get_commodity_costs() const
@@ -80,7 +72,6 @@ signals:
 private:
 	law_group *group = nullptr;
 	const icon *icon = nullptr;
-	technology *required_technology = nullptr;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const condition<country>> conditions;
 	std::unique_ptr<const modifier<const country>> modifier;

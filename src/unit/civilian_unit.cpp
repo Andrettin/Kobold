@@ -41,11 +41,9 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 
 	connect(this->get_owner()->get_game_data(), &country_game_data::provinces_changed, this, &civilian_unit::improvable_resources_changed);
 	connect(this->get_owner()->get_game_data(), &country_game_data::commodity_outputs_changed, this, &civilian_unit::improvable_resources_changed);
-	connect(this->get_owner()->get_game_data(), &country_game_data::technologies_changed, this, &civilian_unit::improvable_resources_changed);
 
 	connect(this->get_owner()->get_game_data(), &country_game_data::provinces_changed, this, &civilian_unit::prospectable_tiles_changed);
 	connect(this->get_owner()->get_game_data(), &country_game_data::prospected_tiles_changed, this, &civilian_unit::prospectable_tiles_changed);
-	connect(this->get_owner()->get_game_data(), &country_game_data::technologies_changed, this, &civilian_unit::prospectable_tiles_changed);
 }
 
 civilian_unit::civilian_unit(const kobold::character *character, const country *owner)
@@ -236,14 +234,11 @@ void civilian_unit::build_on_tile()
 
 bool civilian_unit::can_build_improvement(const improvement *improvement) const
 {
-	const country_game_data *country_game_data = this->get_owner()->get_game_data();
-	if (improvement->get_required_technology() != nullptr && !country_game_data->has_technology(improvement->get_required_technology())) {
-		return false;
-	}
-
 	if (improvement->get_resource() != nullptr && !this->get_type()->can_improve_resource(improvement->get_resource())) {
 		return false;
 	}
+
+	const country_game_data *country_game_data = this->get_owner()->get_game_data();
 
 	if (improvement->get_wealth_cost() > 0 && improvement->get_wealth_cost() > country_game_data->get_wealth_with_credit()) {
 		return false;
@@ -421,10 +416,6 @@ bool civilian_unit::can_prospect_tile(const QPoint &tile_pos) const
 			continue;
 		}
 
-		if (resource->get_required_technology() != nullptr && !this->get_owner()->get_game_data()->has_technology(resource->get_required_technology())) {
-			continue;
-		}
-
 		return true;
 	}
 
@@ -443,10 +434,6 @@ terrain_type_map<std::vector<QPoint>> civilian_unit::get_prospectable_tiles() co
 
 	for (const resource *resource : resource::get_all()) {
 		if (!resource->is_prospectable()) {
-			continue;
-		}
-
-		if (resource->get_required_technology() != nullptr && !this->get_owner()->get_game_data()->has_technology(resource->get_required_technology())) {
 			continue;
 		}
 

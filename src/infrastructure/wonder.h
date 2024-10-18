@@ -4,7 +4,6 @@
 #include "database/named_data_entry.h"
 
 Q_MOC_INCLUDE("infrastructure/building_type.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
 namespace kobold {
@@ -13,7 +12,6 @@ class building_type;
 class country;
 class portrait;
 class province;
-class technology;
 
 template <typename scope_type>
 class condition;
@@ -30,8 +28,6 @@ class wonder final : public named_data_entry, public data_type<wonder>
 
 	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(kobold::building_type* building MEMBER building NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(kobold::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
@@ -54,16 +50,6 @@ public:
 	const building_type *get_building() const
 	{
 		return this->building;
-	}
-
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
-	const technology *get_obsolescence_technology() const
-	{
-		return this->obsolescence_technology;
 	}
 
 	int get_wealth_cost() const
@@ -111,8 +97,6 @@ signals:
 private:
 	kobold::portrait *portrait = nullptr;
 	building_type *building = nullptr;
-	technology *required_technology = nullptr;
-	technology *obsolescence_technology = nullptr;
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;

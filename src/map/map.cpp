@@ -25,7 +25,6 @@
 #include "map/terrain_adjacency_type.h"
 #include "map/terrain_type.h"
 #include "map/tile.h"
-#include "technology/technology.h"
 #include "util/assert_util.h"
 #include "util/container_util.h"
 #include "util/exception_util.h"
@@ -590,24 +589,6 @@ void map::set_tile_resource_discovered(const QPoint &tile_pos, const bool discov
 	assert_throw(resource != nullptr);
 	assert_throw(tile->get_site() != nullptr);
 	tile->get_site()->get_game_data()->set_resource_discovered(discovered);
-
-	if (discovered && resource->get_discovery_technology() != nullptr && tile->get_owner() != nullptr) {
-		for (const country *country : game::get()->get_countries()) {
-			country_game_data *country_game_data = country->get_game_data();
-
-			if (!country_game_data->is_tile_explored(tile_pos)) {
-				continue;
-			}
-
-			if (country_game_data->can_gain_technology(resource->get_discovery_technology())) {
-				country_game_data->add_technology(resource->get_discovery_technology());
-
-				if (game::get()->is_running()) {
-					emit country_game_data->technology_researched(resource->get_discovery_technology());
-				}
-			}
-		}
-	}
 
 	emit tile_resource_changed(tile_pos);
 }

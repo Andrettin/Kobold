@@ -12,7 +12,6 @@ Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("population/phenotype.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("time/calendar.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
@@ -35,7 +34,6 @@ class phenotype;
 class portrait;
 class religion;
 class site;
-class technology;
 class trait;
 enum class character_attribute;
 enum class character_role;
@@ -78,8 +76,6 @@ class character final : public named_data_entry, public data_type<character>
 	Q_PROPERTY(archimedes::calendar* vital_date_calendar MEMBER vital_date_calendar)
 	Q_PROPERTY(int skill MEMBER skill READ get_skill NOTIFY changed)
 	Q_PROPERTY(archimedes::centesimal_int skill_multiplier READ get_skill_multiplier WRITE set_skill_multiplier NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(kobold::technology* obsolescence_technology MEMBER obsolescence_technology NOTIFY changed)
 	Q_PROPERTY(QString leader_type_name READ get_leader_type_name_qstring NOTIFY changed)
 	Q_PROPERTY(kobold::character_game_data* game_data READ get_game_data NOTIFY game_data_changed)
 
@@ -261,16 +257,6 @@ public:
 		return this->traits;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
-	const technology *get_obsolescence_technology() const
-	{
-		return this->obsolescence_technology;
-	}
-
 	const condition<country> *get_conditions() const
 	{
 		return this->conditions.get();
@@ -331,8 +317,6 @@ private:
 	int skill = 0;
 	std::vector<const country *> rulable_countries;
 	std::vector<const trait *> traits;
-	technology *required_technology = nullptr;
-	technology *obsolescence_technology = nullptr;
 	std::unique_ptr<const condition<country>> conditions;
 	std::unique_ptr<const modifier<const country>> advisor_modifier;
 	std::unique_ptr<const effect_list<const country>> advisor_effects;

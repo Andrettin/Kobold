@@ -7,7 +7,6 @@
 #include "country/cultural_group.h"
 #include "country/culture.h"
 #include "economy/commodity.h"
-#include "technology/technology.h"
 #include "unit/transporter_category.h"
 #include "unit/transporter_class.h"
 #include "unit/transporter_stat.h"
@@ -54,11 +53,6 @@ void transporter_type::initialize()
 		this->cultural_group->set_transporter_class_type(this->get_transporter_class(), this);
 	} else {
 		this->transporter_class->set_default_transporter_type(this);
-	}
-
-	if (this->required_technology != nullptr) {
-		assert_throw(this->get_transporter_class() != nullptr);
-		this->required_technology->add_enabled_transporter(this);
 	}
 
 	named_data_entry::initialize();

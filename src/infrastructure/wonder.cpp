@@ -11,7 +11,6 @@
 #include "script/condition/and_condition.h"
 #include "script/factor.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 
 namespace kobold {
 
@@ -58,14 +57,6 @@ void wonder::process_gsml_scope(const gsml_data &scope)
 void wonder::initialize()
 {
 	this->get_building()->get_building_class()->get_slot_type()->add_wonder(this);
-
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_wonder(this);
-	}
-
-	if (this->obsolescence_technology != nullptr) {
-		this->obsolescence_technology->add_disabled_wonder(this);
-	}
 
 	named_data_entry::initialize();
 }

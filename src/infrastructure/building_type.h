@@ -8,7 +8,6 @@
 Q_MOC_INCLUDE("country/cultural_group.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("infrastructure/building_class.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
@@ -25,7 +24,6 @@ class production_type;
 class province;
 class settlement_type;
 class site;
-class technology;
 
 template <typename scope_type>
 class and_condition;
@@ -67,7 +65,6 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(int max_level MEMBER max_level READ get_max_level NOTIFY changed)
 	Q_PROPERTY(int fort_level MEMBER fort_level READ get_fort_level NOTIFY changed)
 	Q_PROPERTY(kobold::building_type* required_building MEMBER required_building NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
@@ -226,11 +223,6 @@ public:
 		return this->requiring_buildings;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 	int get_wealth_cost() const
 	{
 		return this->wealth_cost;
@@ -325,7 +317,6 @@ private:
 	int fort_level = 0;
 	building_type *required_building = nullptr;
 	std::vector<const building_type *> requiring_buildings; //buildings which require this one
-	technology *required_technology = nullptr;
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;

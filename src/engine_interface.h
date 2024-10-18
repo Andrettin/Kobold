@@ -75,7 +75,6 @@ public:
 	Q_INVOKABLE QVariantList get_eras() const;
 	Q_INVOKABLE QVariantList get_law_groups() const;
 	Q_INVOKABLE QVariantList get_policies() const;
-	Q_INVOKABLE QVariantList get_technologies() const;
 	Q_INVOKABLE const kobold::country_tier_data *get_country_tier_data(const kobold::country_tier tier) const;
 	Q_INVOKABLE const consulate *get_consulate(const QString &identifier) const;
 
@@ -130,8 +129,6 @@ signals:
 	void notification_added(const QString &title, const QObject *portrait_object, const QString &text);
 	void event_fired(const event_instance *event_instance);
 	void event_closed(const event_instance *event_instance);
-	void current_research_choosable(const QVariantList &potential_technologies);
-	void free_technology_choosable(const QVariantList &potential_technologies);
 	void next_tradition_choosable(const QVariantList &potential_traditions);
 	void next_belief_choosable(const QVariantList &potential_beliefs);
 	void next_advisor_choosable(const QVariantList &potential_advisors);

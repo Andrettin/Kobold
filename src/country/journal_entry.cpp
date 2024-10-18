@@ -17,7 +17,6 @@
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 #include "unit/civilian_unit_type.h"
 #include "util/assert_util.h"
 #include "util/random.h"
@@ -95,10 +94,6 @@ void journal_entry::process_gsml_scope(const gsml_data &scope)
 				this->built_settlement_buildings[settlement].push_back(building_type::get(value));
 			}
 		});
-	} else if (tag == "researched_technologies") {
-		for (const std::string &value : values) {
-			this->researched_technologies.push_back(technology::get(value));
-		}
 	} else if (tag == "adopted_traditions") {
 		for (const std::string &value : values) {
 			this->adopted_traditions.push_back(tradition::get(value));
@@ -188,12 +183,6 @@ bool journal_entry::check_conditions(const country *country) const
 
 	const country_game_data *country_game_data = country->get_game_data();
 
-	for (const technology *technology : this->get_researched_technologies()) {
-		if (!technology->is_discovery() && !country_game_data->is_technology_available(technology) && !country_game_data->has_technology(technology)) {
-			return false;
-		}
-	}
-
 	for (const tradition *tradition : this->get_adopted_traditions()) {
 		if (!country_game_data->can_have_tradition(tradition)) {
 			return false;
@@ -205,7 +194,7 @@ bool journal_entry::check_conditions(const country *country) const
 
 bool journal_entry::check_completion_conditions(const country *country, const bool ignore_random_chance) const
 {
-	if (this->completion_conditions == nullptr && this->owned_provinces.empty() && this->owned_sites.empty() && this->get_built_buildings().empty() && this->get_built_settlement_buildings().empty() && this->get_researched_technologies().empty() && this->get_adopted_traditions().empty() && this->get_recruited_characters().empty() && this->get_completion_random_chance() == 0) {
+	if (this->completion_conditions == nullptr && this->owned_provinces.empty() && this->owned_sites.empty() && this->get_built_buildings().empty() && this->get_built_settlement_buildings().empty() && this->get_adopted_traditions().empty() && this->get_recruited_characters().empty() && this->get_completion_random_chance() == 0) {
 		//no completion conditions at all, so the entry can't be completed normally
 		return false;
 	}
@@ -251,12 +240,6 @@ bool journal_entry::check_completion_conditions(const country *country, const bo
 			if (!settlement->get_game_data()->has_building_or_better(building)) {
 				return false;
 			}
-		}
-	}
-
-	for (const technology *technology : this->get_researched_technologies()) {
-		if (!country_game_data->has_technology(technology)) {
-			return false;
 		}
 	}
 
@@ -340,14 +323,6 @@ QString journal_entry::get_completion_conditions_string() const
 
 			str += std::format("Build {} {} in {}", string::get_indefinite_article(building->get_name()), building->get_name(), settlement->get_game_data()->get_current_cultural_name());
 		}
-	}
-
-	for (const technology *technology : this->get_researched_technologies()) {
-		if (!str.empty()) {
-			str += "\n";
-		}
-
-		str += std::format("Research {}", technology->get_name());
 	}
 
 	for (const tradition *tradition : this->get_adopted_traditions()) {

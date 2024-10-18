@@ -22,7 +22,6 @@
 #include "map/site_game_data.h"
 #include "map/tile.h"
 #include "map/world.h"
-#include "technology/technology.h"
 #include "time/era.h"
 #include "unit/army.h"
 #include "unit/military_unit.h"
@@ -129,11 +128,6 @@ QVariantList engine_interface::get_law_groups() const
 QVariantList engine_interface::get_policies() const
 {
 	return container::to_qvariant_list(policy::get_all());
-}
-
-QVariantList engine_interface::get_technologies() const
-{
-	return container::to_qvariant_list(technology::get_all());
 }
 
 const country_tier_data *engine_interface::get_country_tier_data(const kobold::country_tier tier) const

@@ -65,7 +65,6 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/opinion_modifier.h"
-#include "technology/technology.h"
 #include "ui/icon.h"
 #include "ui/icon_container.h"
 #include "ui/portrait.h"
@@ -108,10 +107,6 @@ country_game_data::country_game_data(kobold::country *country)
 	connect(this, &country_game_data::rank_changed, this, &country_game_data::type_name_changed);
 
 	for (const commodity *commodity : commodity::get_all()) {
-		if (commodity->get_required_technology() != nullptr) {
-			continue;
-		}
-
 		this->add_available_commodity(commodity);
 
 		if (commodity->is_tradeable()) {
@@ -132,7 +127,6 @@ void country_game_data::do_turn()
 		}
 
 		this->do_production();
-		this->do_research();
 		this->do_construction();
 
 		for (const qunique_ptr<civilian_unit> &civilian_unit : this->civilian_units) {
@@ -179,14 +173,7 @@ void country_game_data::do_production()
 				continue;
 			}
 
-			centesimal_int final_output = output;
-
-			if (commodity == defines::get()->get_research_commodity() && this->get_current_research() != nullptr) {
-				final_output *= 100 + this->get_category_research_modifier(this->get_current_research()->get_category());
-				final_output /= 100;
-			}
-
-			this->change_stored_commodity(commodity, final_output.to_int());
+			this->change_stored_commodity(commodity, output.to_int());
 		}
 
 		//decrease consumption of commodities for which we no longer have enough in storage
@@ -228,64 +215,6 @@ void country_game_data::do_production()
 		}
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error("Error doing production for country \"" + this->country->get_identifier() + "\"."));
-	}
-}
-
-void country_game_data::do_research()
-{
-	try {
-		if (this->get_gain_technologies_known_by_others_count() > 0) {
-			this->gain_technologies_known_by_others();
-		}
-
-		assert_throw(this->free_technology_count >= 0);
-
-		const technology *researched_technology = this->get_current_research();
-
-		if (researched_technology == nullptr) {
-			if (this->free_technology_count > 0) {
-				this->gain_free_technology();
-			} else {
-				if (this->get_commodity_output(defines::get()->get_research_commodity()).to_int() > 0 || this->get_stored_commodity(defines::get()->get_research_commodity()) > 0) {
-					this->choose_current_research();
-				}
-			}
-			return;
-		}
-
-		const int technology_cost = researched_technology->get_cost_for_country(this->country);
-		if (this->get_stored_commodity(defines::get()->get_research_commodity()) >= technology_cost || this->free_technology_count > 0) {
-			if (this->free_technology_count > 0) {
-				--this->free_technology_count;
-			} else {
-				this->change_stored_commodity(defines::get()->get_research_commodity(), -technology_cost);
-			}
-
-			this->on_technology_researched(researched_technology);
-		}
-	} catch (...) {
-		std::throw_with_nested(std::runtime_error("Error doing research for country \"" + this->country->get_identifier() + "\"."));
-	}
-}
-
-void country_game_data::do_food_consumption(const int food_consumption)
-{
-	int remaining_food_consumption = food_consumption;
-
-	//this is a copy because we may need to erase elements from the map in the subsequent code
-	const commodity_map<int> stored_commodities = this->get_stored_commodities();
-
-	for (const auto &[commodity, quantity] : stored_commodities) {
-		if (commodity->is_food()) {
-			const int consumed_food = std::min(remaining_food_consumption, quantity);
-			this->change_stored_commodity(commodity, -consumed_food);
-
-			remaining_food_consumption -= consumed_food;
-
-			if (remaining_food_consumption == 0) {
-				break;
-			}
-		}
 	}
 }
 
@@ -681,21 +610,6 @@ void country_game_data::add_province(const province *province)
 
 	map *map = map::get();
 	const province_game_data *province_game_data = province->get_game_data();
-
-	for (const QPoint &tile_pos : province_game_data->get_resource_tiles()) {
-		const tile *tile = map::get()->get_tile(tile_pos);
-		const resource *resource = tile->get_resource();
-
-		if (resource != nullptr) {
-			if (!tile->is_resource_discovered() && !resource->is_prospectable()) {
-				assert_throw(resource->get_required_technology() != nullptr);
-
-				if (this->has_technology(resource->get_required_technology())) {
-					map::get()->set_tile_resource_discovered(tile_pos, true);
-				}
-			}
-		}
-	}
 
 	if (province_game_data->is_country_border_province()) {
 		this->border_provinces.push_back(province);
@@ -1235,10 +1149,6 @@ void country_game_data::add_known_country(const kobold::country *other_country)
 
 	if (best_free_consulate != nullptr && (current_consulate == nullptr || current_consulate->get_level() < best_free_consulate->get_level())) {
 		this->set_consulate(other_country, best_free_consulate);
-	}
-
-	if (this->get_gain_technologies_known_by_others_count() > 0) {
-		this->gain_technologies_known_by_others();
 	}
 }
 
@@ -2579,410 +2489,6 @@ bool country_game_data::can_declare_war_on(const kobold::country *other_country)
 	return true;
 }
 
-QVariantList country_game_data::get_technologies_qvariant_list() const
-{
-	return container::to_qvariant_list(this->get_technologies());
-}
-
-void country_game_data::add_technology(const technology *technology)
-{
-	if (this->has_technology(technology)) {
-		return;
-	}
-
-	this->technologies.insert(technology);
-
-	if (technology->get_modifier() != nullptr) {
-		technology->get_modifier()->apply(this->country, 1);
-	}
-
-	for (const commodity *enabled_commodity : technology->get_enabled_commodities()) {
-		this->add_available_commodity(enabled_commodity);
-
-		if (enabled_commodity->is_tradeable()) {
-			this->add_tradeable_commodity(enabled_commodity);
-		}
-	}
-
-	for (const resource *discovered_resource : technology->get_enabled_resources()) {
-		if (discovered_resource->is_prospectable()) {
-			const point_set prospected_tiles = this->prospected_tiles;
-			for (const QPoint &tile_pos : prospected_tiles) {
-				const tile *tile = map::get()->get_tile(tile_pos);
-
-				if (tile->is_resource_discovered()) {
-					continue;
-				}
-
-				if (!vector::contains(discovered_resource->get_terrain_types(), tile->get_terrain())) {
-					continue;
-				}
-
-				this->reset_tile_prospection(tile_pos);
-			}
-		} else {
-			for (const province *province : this->get_provinces()) {
-				const province_game_data *province_game_data = province->get_game_data();
-
-				if (!province_game_data->get_resource_counts().contains(discovered_resource)) {
-					continue;
-				}
-
-				for (const QPoint &tile_pos : province_game_data->get_resource_tiles()) {
-					const tile *tile = map::get()->get_tile(tile_pos);
-					const resource *tile_resource = tile->get_resource();
-
-					if (tile_resource != discovered_resource) {
-						continue;
-					}
-
-					if (!tile->is_resource_discovered()) {
-						map::get()->set_tile_resource_discovered(tile_pos, true);
-					}
-				}
-			}
-		}
-	}
-
-	//check if any discoveries can now be triggered, if they required this technology
-	bool leads_to_discovery = false;
-	for (const kobold::technology *requiring_technology : technology->get_leads_to()) {
-		if (requiring_technology->is_discovery()) {
-			leads_to_discovery = true;
-			break;
-		}
-	}
-
-	if (leads_to_discovery) {
-		for (const province *province : this->explored_provinces) {
-			const province_game_data *province_game_data = province->get_game_data();
-
-			for (const QPoint &tile_pos : province_game_data->get_resource_tiles()) {
-				const tile *tile = map::get()->get_tile(tile_pos);
-				const resource *tile_resource = tile->get_resource();
-
-				if (!tile->is_resource_discovered()) {
-					continue;
-				}
-
-				if (tile_resource->get_discovery_technology() == nullptr) {
-					continue;
-				}
-
-				if (this->can_gain_technology(tile_resource->get_discovery_technology())) {
-					this->add_technology(tile_resource->get_discovery_technology());
-
-					if (game::get()->is_running()) {
-						emit technology_researched(tile_resource->get_discovery_technology());
-					}
-				}
-			}
-		}
-
-		for (const QPoint &tile_pos : this->explored_tiles) {
-			const tile *tile = map::get()->get_tile(tile_pos);
-			const resource *tile_resource = tile->get_resource();
-
-			if (tile_resource == nullptr) {
-				continue;
-			}
-
-			if (!tile->is_resource_discovered()) {
-				continue;
-			}
-
-			if (tile_resource->get_discovery_technology() == nullptr) {
-				continue;
-			}
-
-			if (this->can_gain_technology(tile_resource->get_discovery_technology())) {
-				this->add_technology(tile_resource->get_discovery_technology());
-
-				if (game::get()->is_running()) {
-					emit technology_researched(tile_resource->get_discovery_technology());
-				}
-			}
-		}
-	}
-
-	if (game::get()->is_running()) {
-		if (!technology->get_enabled_laws().empty()) {
-			this->check_laws();
-		}
-
-		emit technologies_changed();
-	}
-}
-
-void country_game_data::add_technology_with_prerequisites(const technology *technology)
-{
-	this->add_technology(technology);
-
-	for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
-		this->add_technology_with_prerequisites(prerequisite);
-	}
-}
-
-bool country_game_data::can_gain_technology(const technology *technology) const
-{
-	assert_throw(technology != nullptr);
-
-	if (!technology->is_available_for_country(this->country)) {
-		return false;
-	}
-
-	if (this->has_technology(technology)) {
-		return false;
-	}
-
-	for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
-		if (!this->has_technology(prerequisite)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-std::vector<const technology *> country_game_data::get_available_technologies() const
-{
-	std::vector<const technology *> available_technologies;
-
-	for (const technology *technology : this->country->get_available_technologies()) {
-		if (!this->is_technology_available(technology)) {
-			continue;
-		}
-
-		available_technologies.push_back(technology);
-	}
-
-	std::sort(available_technologies.begin(), available_technologies.end(), technology_compare());
-
-	return available_technologies;
-}
-
-QVariantList country_game_data::get_available_technologies_qvariant_list() const
-{
-	return container::to_qvariant_list(this->get_available_technologies());
-}
-
-bool country_game_data::is_technology_available(const technology *technology) const
-{
-	if (technology->is_discovery()) {
-		return false;
-	}
-
-	return this->can_gain_technology(technology);
-}
-
-QVariantList country_game_data::get_future_technologies_qvariant_list() const
-{
-	std::vector<const technology *> future_technologies = this->country->get_available_technologies();
-	std::erase_if(future_technologies, [this](const technology *technology) {
-		if (this->has_technology(technology)) {
-			return true;
-		}
-
-		bool has_all_prerequisites = true;
-		for (const kobold::technology *prerequisite : technology->get_prerequisites()) {
-			if (!this->has_technology(prerequisite)) {
-				has_all_prerequisites = false;
-			}
-		}
-		if (has_all_prerequisites) {
-			return true;
-		}
-
-		return false;
-	});
-
-	std::sort(future_technologies.begin(), future_technologies.end(), technology_compare());
-
-	return container::to_qvariant_list(future_technologies);
-}
-
-void country_game_data::set_current_research(const technology *technology)
-{
-	if (technology == this->get_current_research()) {
-		return;
-	}
-
-	this->current_research = technology;
-
-	emit current_research_changed();
-}
-
-void country_game_data::choose_current_research()
-{
-	const std::map<technology_category, const technology *> research_choice_map = this->get_research_choice_map();
-
-	if (research_choice_map.empty()) {
-		return;
-	}
-
-	if (this->is_ai()) {
-		const technology *chosen_technology = this->get_ai_research_choice(research_choice_map);
-		this->set_current_research(chosen_technology);
-	} else {
-		const std::vector<const technology *> potential_technologies = archimedes::map::get_values(research_choice_map);
-		emit engine_interface::get()->current_research_choosable(container::to_qvariant_list(potential_technologies));
-	}
-}
-
-void country_game_data::on_technology_researched(const technology *technology)
-{
-	if (technology == this->get_current_research()) {
-		this->set_current_research(nullptr);
-	}
-
-	this->add_technology(technology);
-
-	if (technology->grants_free_technology()) {
-		bool first_to_research = true;
-
-		//technology grants a free technology for the first one to research it
-		for (const kobold::country *country : game::get()->get_countries()) {
-			if (country == this->country) {
-				continue;
-			}
-
-			if (country->get_game_data()->has_technology(technology)) {
-				first_to_research = false;
-				break;
-			}
-		}
-
-		if (first_to_research) {
-			this->gain_free_technologies(1);
-		}
-	}
-
-	if (technology->get_shared_prestige() > 0) {
-		this->change_stored_commodity(defines::get()->get_prestige_commodity(), technology->get_shared_prestige_for_country(this->country));
-	}
-
-	emit technology_researched(technology);
-}
-
-std::map<technology_category, const technology *> country_game_data::get_research_choice_map() const
-{
-	const std::vector<const technology *> available_technologies = this->get_available_technologies();
-
-	if (available_technologies.empty()) {
-		return {};
-	}
-
-	std::map<technology_category, std::vector<const technology *>> potential_technologies_per_category;
-
-	for (const technology *technology : available_technologies) {
-		std::vector<const kobold::technology *> &category_technologies = potential_technologies_per_category[technology->get_category()];
-
-		const int weight = 1;
-		for (int i = 0; i < weight; ++i) {
-			category_technologies.push_back(technology);
-		}
-	}
-
-	assert_throw(!potential_technologies_per_category.empty());
-
-	std::map<technology_category, const technology *> research_choice_map;
-	const std::vector<technology_category> potential_categories = archimedes::map::get_keys(potential_technologies_per_category);
-
-	for (const technology_category category : potential_categories) {
-		research_choice_map[category] = vector::get_random(potential_technologies_per_category[category]);
-	}
-
-	return research_choice_map;
-}
-
-const technology *country_game_data::get_ai_research_choice(const std::map<technology_category, const technology *> &research_choice_map) const
-{
-	assert_throw(this->is_ai());
-
-	std::vector<const technology *> preferred_technologies;
-
-	int best_desire = 0;
-	for (const auto &[category, technology] : research_choice_map) {
-		int desire = 100 / (technology->get_total_prerequisite_depth() + 1);
-
-		for (const journal_entry *journal_entry : this->get_active_journal_entries()) {
-			if (vector::contains(journal_entry->get_researched_technologies(), technology)) {
-				desire += journal_entry::ai_technology_desire_modifier;
-			}
-		}
-
-		assert_throw(desire > 0);
-
-		if (desire > best_desire) {
-			preferred_technologies.clear();
-			best_desire = desire;
-		}
-
-		if (desire >= best_desire) {
-			preferred_technologies.push_back(technology);
-		}
-	}
-
-	assert_throw(!preferred_technologies.empty());
-
-	const technology *chosen_technology = vector::get_random(preferred_technologies);
-	return chosen_technology;
-}
-
-void country_game_data::gain_free_technology()
-{
-	const std::map<technology_category, const technology *> research_choice_map = this->get_research_choice_map();
-
-	if (research_choice_map.empty()) {
-		return;
-	}
-
-	if (this->is_ai()) {
-		const technology *chosen_technology = this->get_ai_research_choice(research_choice_map);
-		this->gain_free_technology(chosen_technology);
-	} else {
-		if (this->get_current_research() != nullptr) {
-			this->gain_free_technology(this->get_current_research());
-		} else {
-			const std::vector<const technology *> potential_technologies = archimedes::map::get_values(research_choice_map);
-			emit engine_interface::get()->free_technology_choosable(container::to_qvariant_list(potential_technologies));
-		}
-	}
-}
-
-void country_game_data::gain_free_technologies(const int count)
-{
-	assert_throw(count > 0);
-
-	this->free_technology_count += count;
-	this->gain_free_technology();
-}
-
-void country_game_data::gain_technologies_known_by_others()
-{
-	static constexpr int min_countries = 2;
-
-	technology_map<int> technology_known_counts;
-
-	for (const kobold::country *known_country : this->get_known_countries()) {
-		for (const technology *technology : known_country->get_game_data()->get_technologies()) {
-			++technology_known_counts[technology];
-		}
-	}
-
-	for (const auto &[technology, known_count] : technology_known_counts) {
-		if (known_count < min_countries) {
-			continue;
-		}
-
-		if (this->has_technology(technology)) {
-			continue;
-		}
-
-		this->on_technology_researched(technology);
-	}
-}
-
 void country_game_data::set_government_type(const kobold::government_type *government_type)
 {
 	if (government_type == this->get_government_type()) {
@@ -3071,10 +2577,6 @@ bool country_game_data::has_law(const law *law) const
 
 bool country_game_data::can_have_law(const kobold::law *law) const
 {
-	if (law->get_required_technology() != nullptr && !this->has_technology(law->get_required_technology())) {
-		return false;
-	}
-
 	if (law->get_conditions() != nullptr && !law->get_conditions()->check(this->country, read_only_context(this->country))) {
 		return false;
 	}
@@ -3225,10 +2727,6 @@ bool country_game_data::can_have_tradition(const tradition *tradition) const
 		return false;
 	}
 
-	if (tradition->get_required_technology() != nullptr && !this->has_technology(tradition->get_required_technology())) {
-		return false;
-	}
-
 	for (const kobold::tradition *prerequisite : tradition->get_prerequisites()) {
 		if (!this->has_tradition(prerequisite)) {
 			return false;
@@ -3291,10 +2789,6 @@ void country_game_data::gain_tradition_with_prerequisites(const tradition *tradi
 {
 	for (const kobold::tradition *prerequisite : tradition->get_prerequisites()) {
 		this->gain_tradition_with_prerequisites(prerequisite);
-	}
-
-	if (tradition->get_required_technology() != nullptr) {
-		this->add_technology_with_prerequisites(tradition->get_required_technology());
 	}
 
 	this->gain_tradition(tradition, 1);
@@ -3545,7 +3039,6 @@ void country_game_data::check_characters()
 	this->check_ruler();
 	this->check_advisors();
 	this->check_leaders();
-	this->check_civilian_characters();
 }
 
 void country_game_data::set_ruler(const character *ruler)
@@ -3588,24 +3081,6 @@ void country_game_data::check_ruler()
 		return;
 	}
 
-	//remove the ruler if they have become obsolete
-	if (this->get_ruler() != nullptr && this->get_ruler()->get_obsolescence_technology() != nullptr && this->has_technology(this->get_ruler()->get_obsolescence_technology())) {
-		if (game::get()->is_running()) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-				engine_interface::get()->add_notification("Ruler Died", interior_minister_portrait, std::format("Our ruler, {}, has died!", this->get_ruler()->get_full_name()));
-			}
-
-			context ctx(this->country);
-			ctx.source_scope = this->get_ruler();
-			country_event::check_events_for_scope(this->country, event_trigger::ruler_death, ctx);
-		}
-
-		this->set_ruler(nullptr);
-		this->get_ruler()->get_game_data()->set_dead(true);
-	}
-
 	//if the country has no ruler, see if there is any character which can become its ruler
 	if (this->get_ruler() == nullptr) {
 		std::vector<const character *> potential_rulers;
@@ -3619,14 +3094,6 @@ void country_game_data::check_ruler()
 			}
 
 			if (character_game_data->is_dead()) {
-				continue;
-			}
-
-			if (character->get_required_technology() != nullptr && !this->has_technology(character->get_required_technology())) {
-				continue;
-			}
-
-			if (character->get_obsolescence_technology() != nullptr && this->has_technology(character->get_obsolescence_technology())) {
 				continue;
 			}
 
@@ -3656,21 +3123,6 @@ QVariantList country_game_data::get_advisors_qvariant_list() const
 
 void country_game_data::check_advisors()
 {
-	//remove obsolete advisors
-	const std::vector<const character *> advisors = this->get_advisors();
-	for (const character *advisor : advisors) {
-		if (advisor->get_obsolescence_technology() != nullptr && this->has_technology(advisor->get_obsolescence_technology())) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-				engine_interface::get()->add_notification("Advisor Retired", interior_minister_portrait, std::format("Your Excellency, after a distinguished career in our service, the advisor {} has decided to retire.", advisor->get_full_name()));
-			}
-
-			this->remove_advisor(advisor);
-			advisor->get_game_data()->set_dead(true);
-		}
-	}
-
 	if (this->is_under_anarchy()) {
 		if (this->get_next_advisor() != nullptr) {
 			this->set_next_advisor(nullptr);
@@ -3685,14 +3137,6 @@ void country_game_data::check_advisors()
 				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
 
 				engine_interface::get()->add_notification("Advisor Unavailable", interior_minister_portrait, std::format("Your Excellency, the advisor {} has unfortunately decided to join {}, and is no longer available for recruitment.", this->get_next_advisor()->get_full_name(), this->get_next_advisor()->get_game_data()->get_country()->get_game_data()->get_name()));
-			}
-
-			this->set_next_advisor(nullptr);
-		} else if (this->get_next_advisor()->get_obsolescence_technology() != nullptr && this->has_technology(this->get_next_advisor()->get_obsolescence_technology())) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-				engine_interface::get()->add_notification("Advisor Unavailable", interior_minister_portrait, std::format("Your Excellency, the advisor {} is no longer available for recruitment.", this->get_next_advisor()->get_full_name()));
 			}
 
 			this->set_next_advisor(nullptr);
@@ -3856,14 +3300,6 @@ bool country_game_data::can_recruit_advisor(const character *advisor) const
 		return false;
 	}
 
-	if (advisor->get_required_technology() != nullptr && !this->has_technology(advisor->get_required_technology())) {
-		return false;
-	}
-
-	if (advisor->get_obsolescence_technology() != nullptr && this->has_technology(advisor->get_obsolescence_technology())) {
-		return false;
-	}
-
 	if (advisor->get_conditions() != nullptr && !advisor->get_conditions()->check(this->country, read_only_context(this->country))) {
 		return false;
 	}
@@ -3930,22 +3366,6 @@ QVariantList country_game_data::get_leaders_qvariant_list() const
 
 void country_game_data::check_leaders()
 {
-	//remove obsolete leaders
-	const std::vector<const character *> leaders = this->get_leaders();
-	for (const character *leader : leaders) {
-		if (leader->get_obsolescence_technology() != nullptr && this->has_technology(leader->get_obsolescence_technology())) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *war_minister_portrait = defines::get()->get_war_minister_portrait();
-
-				const std::string_view leader_type_name = leader->get_leader_type_name();
-
-				engine_interface::get()->add_notification(std::format("{} Retired", leader_type_name), war_minister_portrait, std::format("Your Excellency, after a distinguished career in our service, the {} {} has decided to retire.", string::lowered(leader_type_name), leader->get_full_name()));
-			}
-
-			leader->get_game_data()->get_military_unit()->disband(true);
-		}
-	}
-
 	if (this->is_under_anarchy()) {
 		if (this->get_next_leader() != nullptr) {
 			this->set_next_leader(nullptr);
@@ -3962,19 +3382,6 @@ void country_game_data::check_leaders()
 				const std::string_view leader_type_name = this->get_next_leader()->get_leader_type_name();
 
 				engine_interface::get()->add_notification(std::format("{} Unavailable", leader_type_name), war_minister_portrait, std::format("Your Excellency, the {} {} has unfortunately decided to join {}, and is no longer available for recruitment.", string::lowered(leader_type_name), this->get_next_leader()->get_full_name(), this->get_next_leader()->get_game_data()->get_country()->get_game_data()->get_name()));
-			}
-
-			this->set_next_leader(nullptr);
-		} else if (
-			(this->get_next_leader()->get_obsolescence_technology() != nullptr && this->has_technology(this->get_next_leader()->get_obsolescence_technology()))
-			|| this->get_best_military_unit_category_type(this->get_next_leader()->get_military_unit_category(), this->get_next_leader()->get_culture()) == nullptr
-		) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *war_minister_portrait = defines::get()->get_war_minister_portrait();
-
-				const std::string_view leader_type_name = this->get_next_leader()->get_leader_type_name();
-
-				engine_interface::get()->add_notification(std::format("{} Unavailable", leader_type_name), war_minister_portrait, std::format("Your Excellency, the {} {} is no longer available for recruitment.", string::lowered(leader_type_name), this->get_next_leader()->get_full_name()));
 			}
 
 			this->set_next_leader(nullptr);
@@ -4047,14 +3454,6 @@ void country_game_data::choose_next_leader()
 
 		const military_unit_type *military_unit_type = this->get_best_military_unit_category_type(character->get_military_unit_category(), character->get_culture());
 		if (military_unit_type == nullptr) {
-			continue;
-		}
-
-		if (character->get_required_technology() != nullptr && !this->has_technology(character->get_required_technology())) {
-			continue;
-		}
-
-		if (character->get_obsolescence_technology() != nullptr && this->has_technology(character->get_obsolescence_technology())) {
 			continue;
 		}
 
@@ -4152,26 +3551,6 @@ std::vector<const character *> country_game_data::get_civilian_characters() cons
 	}
 
 	return civilian_characters;
-}
-
-void country_game_data::check_civilian_characters()
-{
-	//remove obsolete civilian characters
-	const std::vector<const character *> civilian_characters = this->get_civilian_characters();
-	for (const character *character : civilian_characters) {
-		if (character->get_obsolescence_technology() != nullptr && this->has_technology(character->get_obsolescence_technology())) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-				const std::string &civilian_unit_type_name = character->get_civilian_unit_type()->get_name();
-
-				engine_interface::get()->add_notification(std::format("{} Retired", civilian_unit_type_name), interior_minister_portrait, std::format("Your Excellency, after a distinguished career in our service, the {} {} has decided to retire.", string::lowered(civilian_unit_type_name), character->get_full_name()));
-			}
-
-			assert_throw(character->get_game_data()->get_civilian_unit() != nullptr);
-			character->get_game_data()->get_civilian_unit()->disband(true);
-		}
-	}
 }
 
 QVariantList country_game_data::get_bids_qvariant_list() const
@@ -4401,17 +3780,9 @@ const military_unit_type *country_game_data::get_best_military_unit_category_typ
 			continue;
 		}
 
-		if (type->get_required_technology() != nullptr && !this->has_technology(type->get_required_technology())) {
-			continue;
-		}
-
 		bool upgrade_is_available = false;
 		for (const military_unit_type *upgrade : type->get_upgrades()) {
 			if (culture->get_military_class_unit_type(upgrade->get_unit_class()) != upgrade) {
-				continue;
-			}
-
-			if (upgrade->get_required_technology() != nullptr && !this->has_technology(upgrade->get_required_technology())) {
 				continue;
 			}
 
@@ -4454,17 +3825,9 @@ const transporter_type *country_game_data::get_best_transporter_category_type(co
 			continue;
 		}
 
-		if (type->get_required_technology() != nullptr && !this->has_technology(type->get_required_technology())) {
-			continue;
-		}
-
 		bool upgrade_is_available = false;
 		for (const transporter_type *upgrade : type->get_upgrades()) {
 			if (culture->get_transporter_class_type(upgrade->get_transporter_class()) != upgrade) {
-				continue;
-			}
-
-			if (upgrade->get_required_technology() != nullptr && !this->has_technology(upgrade->get_required_technology())) {
 				continue;
 			}
 
@@ -4907,19 +4270,6 @@ void country_game_data::change_capital_commodity_bonus(const commodity *commodit
 	}
 }
 
-void country_game_data::set_category_research_modifier(const technology_category category, const int value)
-{
-	if (value == this->get_category_research_modifier(category)) {
-		return;
-	}
-
-	if (value == 0) {
-		this->category_research_modifiers.erase(category);
-	} else {
-		this->category_research_modifiers[category] = value;
-	}
-}
-
 void country_game_data::decrement_scripted_modifiers()
 {
 	//decrement opinion modifiers
@@ -5021,20 +4371,9 @@ void country_game_data::explore_tile(const QPoint &tile_pos)
 
 	const tile *tile = map::get()->get_tile(tile_pos);
 	const kobold::country *tile_owner = tile->get_owner();
-	const resource *tile_resource = tile->get_resource();
 
 	if (tile_owner != nullptr && tile_owner != this->country && !this->is_country_known(tile_owner)) {
 		this->add_known_country(tile_owner);
-	}
-
-	if (tile_resource != nullptr && tile->is_resource_discovered() && tile_resource->get_discovery_technology() != nullptr) {
-		if (this->can_gain_technology(tile_resource->get_discovery_technology())) {
-			this->add_technology(tile_resource->get_discovery_technology());
-
-			if (game::get()->is_running()) {
-				emit technology_researched(tile_resource->get_discovery_technology());
-			}
-		}
 	}
 
 	if (tile->get_province() != nullptr) {
@@ -5088,35 +4427,11 @@ void country_game_data::explore_province(const province *province)
 			emit map::get()->tile_exploration_changed(tile_pos);
 		}
 	}
-
-	for (const QPoint &tile_pos : province_map_data->get_resource_tiles()) {
-		const tile *tile = map::get()->get_tile(tile_pos);
-		const resource *tile_resource = tile->get_resource();
-
-		if (tile_resource != nullptr && tile->is_resource_discovered() && tile_resource->get_discovery_technology() != nullptr) {
-			if (this->can_gain_technology(tile_resource->get_discovery_technology())) {
-				this->add_technology(tile_resource->get_discovery_technology());
-
-				if (game::get()->is_running()) {
-					emit technology_researched(tile_resource->get_discovery_technology());
-				}
-			}
-		}
-	}
 }
 
 void country_game_data::prospect_tile(const QPoint &tile_pos)
 {
 	this->prospected_tiles.insert(tile_pos);
-
-	const tile *tile = map::get()->get_tile(tile_pos);
-	const resource *tile_resource = tile->get_resource();
-
-	if (tile_resource != nullptr) {
-		if (!tile->is_resource_discovered() && (tile_resource->get_required_technology() == nullptr || this->has_technology(tile_resource->get_required_technology()))) {
-			map::get()->set_tile_resource_discovered(tile_pos, true);
-		}
-	}
 
 	emit prospected_tiles_changed();
 
@@ -5323,22 +4638,6 @@ bool country_game_data::check_active_journal_entries(const read_only_context &ct
 	}
 
 	return changed;
-}
-
-void country_game_data::set_gain_technologies_known_by_others_count(const int value)
-{
-	const int old_value = this->get_gain_technologies_known_by_others_count();
-	if (value == old_value) {
-		return;
-	}
-
-	assert_throw(value >= 0);
-
-	this->gain_technologies_known_by_others_count = value;
-
-	if (old_value == 0) {
-		this->gain_technologies_known_by_others();
-	}
 }
 
 void country_game_data::set_free_building_class_count(const building_class *building_class, const int value)

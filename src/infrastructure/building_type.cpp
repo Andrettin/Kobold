@@ -21,7 +21,6 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/modifier_effect/commodity_bonus_modifier_effect.h"
-#include "technology/technology.h"
 #include "util/assert_util.h"
 #include "util/container_util.h"
 #include "util/vector_util.h"
@@ -115,10 +114,6 @@ void building_type::initialize()
 
 	if (this->required_building != nullptr) {
 		this->required_building->requiring_buildings.push_back(this);
-	}
-
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_building(this);
 	}
 
 	if (this->is_capital_only()) {

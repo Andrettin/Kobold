@@ -11,7 +11,6 @@
 #include "map/tile.h"
 #include "map/tile_image_provider.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
@@ -56,10 +55,6 @@ void improvement::process_gsml_scope(const gsml_data &scope)
 
 void improvement::initialize()
 {
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_improvement(this);
-	}
-
 	if (this->get_resource() != nullptr) {
 		this->resource->add_improvement(this);
 	}

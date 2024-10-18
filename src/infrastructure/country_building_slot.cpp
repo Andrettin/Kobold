@@ -190,17 +190,7 @@ std::vector<const production_type *> country_building_slot::get_available_produc
 		return {};
 	}
 
-	std::vector<const production_type *> production_types;
-
-	for (const production_type *production_type : this->get_building()->get_production_types()) {
-		if (production_type->get_required_technology() != nullptr && !this->country->get_game_data()->has_technology(production_type->get_required_technology())) {
-			continue;
-		}
-
-		production_types.push_back(production_type);
-	}
-
-	return production_types;
+	return this->get_building()->get_production_types();
 }
 
 QVariantList country_building_slot::get_available_production_types_qvariant_list() const

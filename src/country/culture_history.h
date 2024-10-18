@@ -7,32 +7,15 @@ namespace kobold {
 class country;
 class province;
 class region;
-class technology;
 
 class culture_history final : public data_entry_history
 {
 	Q_OBJECT
 
-	Q_PROPERTY(std::vector<kobold::technology *> technologies READ get_technologies)
 	Q_PROPERTY(std::vector<const kobold::province *> explored_provinces READ get_explored_provinces)
 	Q_PROPERTY(std::vector<const kobold::region *> explored_regions READ get_explored_regions)
 
 public:
-	const std::vector<technology *> &get_technologies() const
-	{
-		return this->technologies;
-	}
-
-	Q_INVOKABLE void add_technology(technology *technology)
-	{
-		this->technologies.push_back(technology);
-	}
-
-	Q_INVOKABLE void remove_technology(technology *technology)
-	{
-		std::erase(this->technologies, technology);
-	}
-
 	const std::vector<const province *> &get_explored_provinces() const
 	{
 		return this->explored_provinces;
@@ -66,7 +49,6 @@ public:
 	void apply_to_country(const country *country) const;
 
 private:
-	std::vector<technology *> technologies;
 	std::vector<const province *> explored_provinces;
 	std::vector<const region *> explored_regions;
 };

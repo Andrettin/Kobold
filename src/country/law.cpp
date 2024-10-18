@@ -6,7 +6,6 @@
 #include "economy/commodity.h"
 #include "script/condition/and_condition.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 #include "util/map_util.h"
 
 namespace kobold {
@@ -45,10 +44,6 @@ void law::initialize()
 {
 	if (this->group != nullptr) {
 		this->group->add_law(this);
-	}
-
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_law(this);
 	}
 
 	named_data_entry::initialize();

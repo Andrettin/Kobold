@@ -43,7 +43,6 @@ namespace kobold {
 	class settlement_type;
 	class site;
 	class site_game_data;
-	class technology;
 	class terrain_type;
 	class trait;
 	class transporter_class;

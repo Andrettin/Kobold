@@ -7,7 +7,6 @@
 #include "map/terrain_type.h"
 #include "map/tile.h"
 #include "map/tile_image_provider.h"
-#include "technology/technology.h"
 #include "util/assert_util.h"
 #include "util/vector_util.h"
 
@@ -17,18 +16,7 @@ void pathway::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
 
-	if (tag == "terrain_required_technologies") {
-		scope.for_each_property([&](const gsml_property &property) {
-			const std::string &key = property.get_key();
-			const std::string &value = property.get_value();
-			const terrain_type *terrain = terrain_type::get(key);
-			technology *technology = technology::get(value);
-
-			this->terrain_required_technologies[terrain] = technology;
-
-			technology->add_enabled_pathway_terrain(this, terrain);
-		});
-	} else if (tag == "commodity_costs") {
+	if (tag == "commodity_costs") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const commodity *commodity = commodity::get(property.get_key());
 			this->commodity_costs[commodity] = std::stoi(property.get_value());
@@ -40,14 +28,6 @@ void pathway::process_gsml_scope(const gsml_data &scope)
 
 void pathway::initialize()
 {
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_pathway(this);
-	}
-
-	if (this->river_crossing_required_technology != nullptr) {
-		this->river_crossing_required_technology->add_enabled_river_crossing_pathway(this);
-	}
-
 	tile_image_provider::get()->load_image("pathway/" + this->get_identifier() + "/0");
 
 	named_data_entry::initialize();

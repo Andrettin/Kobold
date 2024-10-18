@@ -16,7 +16,6 @@ class consulate;
 class country;
 class religion;
 class subject_type;
-class technology;
 class tradition;
 enum class country_tier;
 enum class diplomacy_state;
@@ -28,7 +27,6 @@ class country_history final : public data_entry_history
 	Q_PROPERTY(kobold::country_tier tier MEMBER tier)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(kobold::character* ruler MEMBER ruler)
-	Q_PROPERTY(std::vector<const kobold::technology *> technologies READ get_technologies)
 	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
 
@@ -55,21 +53,6 @@ public:
 	const kobold::subject_type *get_subject_type() const
 	{
 		return this->subject_type;
-	}
-
-	const std::vector<const technology *> &get_technologies() const
-	{
-		return this->technologies;
-	}
-
-	Q_INVOKABLE void add_technology(const technology *technology)
-	{
-		this->technologies.push_back(technology);
-	}
-
-	Q_INVOKABLE void remove_technology(const technology *technology)
-	{
-		std::erase(this->technologies, technology);
 	}
 
 	const std::vector<const tradition *> &get_traditions() const
@@ -115,7 +98,6 @@ private:
 	kobold::religion *religion = nullptr;
 	character *ruler = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
-	std::vector<const technology *> technologies;
 	std::vector<const tradition *> traditions;
 	int wealth = 0;
 	commodity_map<int> commodities;

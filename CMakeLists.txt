@@ -232,15 +232,6 @@ set(spell_SRCS
 source_group(spell FILES ${spell_SRCS})
 set_source_files_properties(${spell_SRCS} PROPERTIES UNITY_GROUP "spell")
 
-set(technology_SRCS
-	src/technology/technological_period.cpp
-	src/technology/technology.cpp
-	src/technology/technology_category.cpp
-	src/technology/technology_container.cpp
-)
-source_group(technology FILES ${technology_SRCS})
-set_source_files_properties(${technology_SRCS} PROPERTIES UNITY_GROUP "technology")
-
 set(time_SRCS
 	src/time/era.cpp
 )
@@ -317,7 +308,6 @@ set(kobold_SRCS
 	${script_effect_SRCS}
 	${script_modifier_effect_SRCS}
 	${spell_SRCS}
-	${technology_SRCS}
 	${time_SRCS}
 	${ui_SRCS}
 	${unit_SRCS}
@@ -600,7 +590,6 @@ set(script_condition_HDRS
 	src/script/condition/source_site_condition.h
 	src/script/condition/source_site_scope_condition.h
 	src/script/condition/subject_type_condition.h
-	src/script/condition/technology_condition.h
 	src/script/condition/terrain_condition.h
 	src/script/condition/tooltip_condition.h
 	src/script/condition/tradition_condition.h
@@ -631,7 +620,6 @@ set(script_effect_HDRS
 	src/script/effect/effect.h
 	src/script/effect/effect_list.h
 	src/script/effect/event_effect.h
-	src/script/effect/free_technologies_effect.h
 	src/script/effect/gain_spell_scroll_effect.h
 	src/script/effect/hidden_effect.h
 	src/script/effect/if_effect.h
@@ -668,7 +656,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/building_cost_efficiency_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_bonus_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_output_modifier_effect.h
-	src/script/modifier_effect/category_research_modifier_effect.h
 	src/script/modifier_effect/cavalry_cost_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_for_tile_threshold_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_modifier_effect.h
@@ -689,7 +676,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/free_consulate_modifier_effect.h
 	src/script/modifier_effect/free_infantry_promotion_modifier_effect.h
 	src/script/modifier_effect/free_warship_promotion_modifier_effect.h
-	src/script/modifier_effect/gain_technologies_known_by_others_modifier_effect.h
 	src/script/modifier_effect/industrial_output_modifier_effect.h
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
 	src/script/modifier_effect/inflation_change_modifier_effect.h
@@ -722,14 +708,6 @@ set(spell_HDRS
 	src/spell/spell_target.h
 )
 source_group(spell FILES ${spell_HDRS})
-
-set(technology_HDRS
-	src/technology/technological_period.h
-	src/technology/technology.h
-	src/technology/technology_category.h
-	src/technology/technology_container.h
-)
-source_group(technology FILES ${technology_HDRS})
 
 set(time_HDRS
 	src/time/era.h
@@ -807,7 +785,6 @@ set(kobold_HDRS
 	${script_effect_HDRS}
 	${script_modifier_effect_HDRS}
 	${spell_HDRS}
-	${technology_HDRS}
 	${time_HDRS}
 	${ui_HDRS}
 	${unit_HDRS}

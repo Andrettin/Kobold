@@ -4,7 +4,6 @@
 #include "database/named_data_entry.h"
 
 Q_MOC_INCLUDE("country/tradition_group.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
@@ -12,7 +11,6 @@ namespace kobold {
 
 class icon;
 class portrait;
-class technology;
 class tradition_group;
 enum class tradition_category;
 
@@ -34,7 +32,6 @@ class tradition final : public named_data_entry, public data_type<tradition>
 	Q_PROPERTY(kobold::tradition_group* group MEMBER group NOTIFY changed)
 	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait READ get_portrait NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(const QObject* tree_parent READ get_tree_parent CONSTANT)
 	Q_PROPERTY(QVariantList secondary_tree_parents READ get_secondary_tree_parents CONSTANT)
 
@@ -70,11 +67,6 @@ public:
 	const icon *get_icon() const
 	{
 		return this->icon;
-	}
-
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
 	}
 
 	const std::vector<tradition *> &get_prerequisites() const
@@ -175,7 +167,6 @@ private:
 	tradition_group *group = nullptr;
 	const portrait *portrait = nullptr;
 	const icon *icon = nullptr;
-	technology *required_technology = nullptr;
 	std::vector<tradition *> prerequisites;
 	std::vector<const tradition *> requiring_traditions;
 	int total_prerequisite_depth = 0;

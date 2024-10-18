@@ -10,7 +10,6 @@
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 
 namespace kobold {
 
@@ -66,10 +65,6 @@ void tradition::initialize()
 
 	for (tradition *tradition : this->get_prerequisites()) {
 		tradition->requiring_traditions.push_back(this);
-	}
-
-	if (this->required_technology != nullptr) {
-		this->required_technology->add_enabled_tradition(this);
 	}
 
 	named_data_entry::initialize();
@@ -136,14 +131,6 @@ QString tradition::get_requirements_string(const kobold::country *country) const
 	std::string str;
 
 	if (!country->get_game_data()->has_tradition(this)) {
-		if (this->get_required_technology() != nullptr && !country->get_game_data()->has_technology(this->get_required_technology())) {
-			if (!str.empty()) {
-				str += "\n\n";
-			}
-
-			str += std::format("Required Technology: {}", this->get_required_technology()->get_name());
-		}
-
 		if (this->get_conditions() != nullptr && !this->get_conditions()->check(country, read_only_context(country))) {
 			if (!str.empty()) {
 				str += "\n\n";

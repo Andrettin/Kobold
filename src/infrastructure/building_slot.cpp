@@ -185,16 +185,6 @@ void building_slot::cancel_construction()
 const building_type *building_slot::get_buildable_building() const
 {
 	for (const building_type *building : this->get_type()->get_building_types()) {
-		if (building->get_required_technology() != nullptr) {
-			if (this->get_country() == nullptr) {
-				continue;
-			}
-
-			if (!this->get_country()->get_game_data()->has_technology(building->get_required_technology())) {
-				continue;
-			}
-		}
-
 		if (!this->can_build_building(building)) {
 			continue;
 		}
@@ -225,10 +215,6 @@ bool building_slot::is_available() const
 
 			for (const wonder *wonder : this->get_type()->get_wonders()) {
 				if (wonder->get_building() != building) {
-					continue;
-				}
-
-				if (wonder->get_obsolescence_technology() != nullptr && this->get_country() != nullptr && this->get_country()->get_game_data()->has_technology(wonder->get_obsolescence_technology())) {
 					continue;
 				}
 

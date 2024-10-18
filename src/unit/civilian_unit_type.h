@@ -7,7 +7,6 @@
 
 Q_MOC_INCLUDE("country/cultural_group.h")
 Q_MOC_INCLUDE("country/culture.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/civilian_unit_class.h")
 
@@ -17,7 +16,6 @@ class civilian_unit_class;
 class cultural_group;
 class culture;
 class icon;
-class technology;
 
 class civilian_unit_type final : public named_data_entry, public data_type<civilian_unit_type>
 {
@@ -31,7 +29,6 @@ class civilian_unit_type final : public named_data_entry, public data_type<civil
 	Q_PROPERTY(bool prospector MEMBER prospector READ is_prospector NOTIFY changed)
 	Q_PROPERTY(bool developer MEMBER developer READ is_developer NOTIFY changed)
 	Q_PROPERTY(bool spy MEMBER spy READ is_spy NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "civilian_unit_type";
@@ -87,11 +84,6 @@ public:
 		return this->spy;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 	const resource_set &get_improvable_resources() const
 	{
 		return this->improvable_resources;
@@ -124,7 +116,6 @@ private:
 	bool prospector = false;
 	bool developer = false;
 	bool spy = false;
-	technology *required_technology = nullptr;
 	resource_set improvable_resources;
 	pathway_set buildable_pathways;
 };

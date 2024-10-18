@@ -15,7 +15,6 @@ class country;
 class portrait;
 class province;
 class site;
-class technology;
 class tradition;
 
 template <typename scope_type>
@@ -43,7 +42,6 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::journal_entry*";
 	static constexpr const char database_folder[] = "journal_entries";
 	static constexpr int ai_building_desire_modifier = 100;
-	static constexpr int ai_technology_desire_modifier = 100;
 	static constexpr int ai_advisor_desire_modifier = 1000;
 	static constexpr int ai_leader_desire_modifier = 1000;
 	static constexpr int ai_tradition_desire_modifier = 100;
@@ -129,11 +127,6 @@ public:
 
 	site_map<std::vector<const building_type *>> get_built_settlement_buildings_with_requirements() const;
 
-	const std::vector<const technology *> &get_researched_technologies() const
-	{
-		return this->researched_technologies;
-	}
-
 	const std::vector<const tradition *> &get_adopted_traditions() const
 	{
 		return this->adopted_traditions;
@@ -163,7 +156,6 @@ private:
 	std::vector<const site *> owned_sites;
 	std::vector<const building_type *> built_buildings;
 	site_map<std::vector<const building_type *>> built_settlement_buildings;
-	std::vector<const technology *> researched_technologies;
 	std::vector<const tradition *> adopted_traditions;
 	std::vector<const character *> recruited_characters;
 };

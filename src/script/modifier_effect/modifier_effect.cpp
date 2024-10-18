@@ -13,7 +13,6 @@
 #include "script/modifier_effect/building_cost_efficiency_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_output_modifier_effect.h"
-#include "script/modifier_effect/category_research_modifier_effect.h"
 #include "script/modifier_effect/cavalry_cost_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_for_tile_threshold_modifier_effect.h"
@@ -34,7 +33,6 @@
 #include "script/modifier_effect/free_consulate_modifier_effect.h"
 #include "script/modifier_effect/free_infantry_promotion_modifier_effect.h"
 #include "script/modifier_effect/free_warship_promotion_modifier_effect.h"
-#include "script/modifier_effect/gain_technologies_known_by_others_modifier_effect.h"
 #include "script/modifier_effect/industrial_output_modifier_effect.h"
 #include "script/modifier_effect/infantry_cost_modifier_effect.h"
 #include "script/modifier_effect/inflation_change_modifier_effect.h"
@@ -106,8 +104,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<free_infantry_promotion_modifier_effect>(value);
 		} else if (key == "free_warship_promotion") {
 			return std::make_unique<free_warship_promotion_modifier_effect>(value);
-		} else if (key == "gain_technologies_known_by_others") {
-			return std::make_unique<gain_technologies_known_by_others_modifier_effect>(value);
 		} else if (key == "industrial_output_modifier") {
 			return std::make_unique<industrial_output_modifier_effect<scope_type>>(value);
 		} else if (key == "infantry_cost_modifier") {
@@ -142,9 +138,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 		} else if (key.ends_with(throughput_modifier_suffix) && commodity::try_get(key.substr(0, key.size() - throughput_modifier_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - throughput_modifier_suffix.size()));
 			return std::make_unique<commodity_throughput_modifier_effect<scope_type>>(commodity, value);
-		} else if (key.ends_with(research_modifier_suffix) && enum_converter<technology_category>::has_value(key.substr(0, key.size() - research_modifier_suffix.size()))) {
-			const technology_category category = enum_converter<technology_category>::to_enum(key.substr(0, key.size() - research_modifier_suffix.size()));
-			return std::make_unique<category_research_modifier_effect<scope_type>>(category, value);
 		}
 		
 		size_t infix_pos = key.find(commodity_per_building_infix);

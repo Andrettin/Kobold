@@ -5,12 +5,10 @@
 #include "economy/commodity_container.h"
 
 Q_MOC_INCLUDE("economy/commodity.h")
-Q_MOC_INCLUDE("technology/technology.h")
 
 namespace kobold {
 
 class commodity;
-class technology;
 
 class production_type final : public named_data_entry, public data_type<production_type>
 {
@@ -20,7 +18,6 @@ class production_type final : public named_data_entry, public data_type<producti
 	Q_PROPERTY(int input_wealth MEMBER input_wealth READ get_input_wealth NOTIFY changed)
 	Q_PROPERTY(kobold::commodity* output_commodity MEMBER output_commodity NOTIFY changed)
 	Q_PROPERTY(int output_value MEMBER output_value READ get_output_value NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(bool industrial READ is_industrial CONSTANT)
 
 public:
@@ -58,11 +55,6 @@ public:
 		return this->output_value;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 	bool is_industrial() const
 	{
 		return this->industrial;
@@ -76,7 +68,6 @@ private:
 	int input_wealth = 0;
 	commodity *output_commodity = nullptr;
 	int output_value = 1;
-	technology *required_technology = nullptr;
 	bool industrial = false;
 };
 

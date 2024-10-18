@@ -5,15 +5,12 @@
 #include "economy/commodity_container.h"
 #include "map/terrain_type_container.h"
 
-Q_MOC_INCLUDE("technology/technology.h")
-
 namespace archimedes {
 	enum class direction;
 }
 
 namespace kobold {
 
-class technology;
 class tile;
 
 class pathway final : public named_data_entry, public data_type<pathway>
@@ -23,8 +20,6 @@ class pathway final : public named_data_entry, public data_type<pathway>
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(int transport_level MEMBER transport_level READ get_transport_level NOTIFY changed)
 	Q_PROPERTY(kobold::pathway* required_pathway MEMBER required_pathway NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
-	Q_PROPERTY(kobold::technology* river_crossing_required_technology MEMBER river_crossing_required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
@@ -57,26 +52,6 @@ public:
 		return this->required_pathway;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
-	const technology *get_river_crossing_required_technology() const
-	{
-		return this->river_crossing_required_technology;
-	}
-
-	const technology *get_terrain_required_technology(const terrain_type *terrain) const
-	{
-		const auto find_iterator = this->terrain_required_technologies.find(terrain);
-		if (find_iterator != this->terrain_required_technologies.end()) {
-			return find_iterator->second;
-		}
-
-		return nullptr;
-	}
-
 	int get_wealth_cost() const
 	{
 		return this->wealth_cost;
@@ -96,9 +71,6 @@ private:
 	std::filesystem::path image_filepath;
 	int transport_level = 0;
 	pathway *required_pathway = nullptr;
-	technology *required_technology = nullptr;
-	technology *river_crossing_required_technology = nullptr;
-	terrain_type_map<const technology *> terrain_required_technologies;
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 };

@@ -21,7 +21,6 @@
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
-#include "technology/technology.h"
 #include "time/calendar.h"
 #include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
@@ -188,26 +187,6 @@ void character::initialize()
 				this->death_date = this->get_birth_date().addYears(60);
 				date_changed = true;
 			}
-		}
-	}
-
-	if (this->get_character_type() != nullptr) {
-		if (this->get_required_technology() == nullptr) {
-			this->required_technology = this->get_character_type()->get_required_technology();
-
-			if (this->get_obsolescence_technology() == nullptr) {
-				this->obsolescence_technology = this->get_character_type()->get_obsolescence_technology();
-			}
-		}
-	}
-
-	if (this->get_role() != character_role::none) {
-		if (this->required_technology != nullptr) {
-			this->required_technology->add_enabled_character(this->get_role(), this);
-		}
-
-		if (this->obsolescence_technology != nullptr) {
-			this->obsolescence_technology->add_retired_character(this->get_role(), this);
 		}
 	}
 

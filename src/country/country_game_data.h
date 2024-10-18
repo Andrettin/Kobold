@@ -15,7 +15,6 @@
 #include "map/site_container.h"
 #include "map/terrain_type_container.h"
 #include "script/opinion_modifier_container.h"
-#include "technology/technology_container.h"
 #include "unit/military_unit_type_container.h"
 #include "unit/promotion_container.h"
 #include "unit/transporter_type_container.h"
@@ -34,7 +33,6 @@ Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("country/subject_type.h")
 Q_MOC_INCLUDE("country/tradition.h")
 Q_MOC_INCLUDE("map/site.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
 
@@ -74,7 +72,6 @@ enum class event_trigger;
 enum class income_transaction_type;
 enum class military_unit_category;
 enum class military_unit_stat;
-enum class technology_category;
 enum class transporter_category;
 enum class transporter_stat;
 struct read_only_context;
@@ -128,11 +125,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList luxury_consumption READ get_luxury_consumption_qvariant_list NOTIFY luxury_consumption_changed)
 	Q_PROPERTY(int land_transport_capacity READ get_land_transport_capacity NOTIFY land_transport_capacity_changed)
 	Q_PROPERTY(int sea_transport_capacity READ get_sea_transport_capacity NOTIFY sea_transport_capacity_changed)
-	Q_PROPERTY(QVariantList technologies READ get_technologies_qvariant_list NOTIFY technologies_changed)
-	Q_PROPERTY(QVariantList available_technologies READ get_available_technologies_qvariant_list NOTIFY technologies_changed)
-	Q_PROPERTY(QVariantList future_technologies READ get_future_technologies_qvariant_list NOTIFY technologies_changed)
-	Q_PROPERTY(const kobold::technology* current_research READ get_current_research WRITE set_current_research NOTIFY current_research_changed)
-	Q_PROPERTY(int research_cost_modifier READ get_research_cost_modifier NOTIFY provinces_changed)
 	Q_PROPERTY(QColor diplomatic_map_color READ get_diplomatic_map_color NOTIFY overlord_changed)
 	Q_PROPERTY(const kobold::government_type* government_type READ get_government_type NOTIFY government_type_changed)
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY laws_changed)
@@ -170,8 +162,6 @@ public:
 
 	void do_turn();
 	void do_production();
-	void do_research();
-	void do_food_consumption(const int food_consumption);
 	void do_construction();
 	void do_trade(country_map<commodity_map<int>> &country_luxury_demands);
 	void do_inflation();
@@ -1088,79 +1078,6 @@ public:
 
 	bool can_declare_war_on(const kobold::country *other_country) const;
 
-	const technology_set &get_technologies() const
-	{
-		return this->technologies;
-	}
-
-	QVariantList get_technologies_qvariant_list() const;
-
-	bool has_technology(const technology *technology) const
-	{
-		return this->get_technologies().contains(technology);
-	}
-
-	Q_INVOKABLE bool has_technology(kobold::technology *technology) const
-	{
-		const kobold::technology *const_technology = technology;
-		return this->has_technology(const_technology);
-	}
-
-	void add_technology(const technology *technology);
-	void add_technology_with_prerequisites(const technology *technology);
-
-	bool can_gain_technology(const technology *technology) const;
-
-	std::vector<const technology *> get_available_technologies() const;
-	QVariantList get_available_technologies_qvariant_list() const;
-	bool is_technology_available(const technology *technology) const;
-
-	Q_INVOKABLE bool is_technology_available(kobold::technology *technology) const
-	{
-		const kobold::technology *const_technology = technology;
-		return this->is_technology_available(const_technology);
-	}
-
-	QVariantList get_future_technologies_qvariant_list() const;
-
-	const technology *get_current_research() const
-	{
-		return this->current_research;
-	}
-
-	void set_current_research(const technology *technology);
-	void choose_current_research();
-	void on_technology_researched(const technology *technology);
-
-	int get_research_cost_modifier() const
-	{
-		return 100;
-	}
-
-	std::map<technology_category, const technology *> get_research_choice_map() const;
-	const technology *get_ai_research_choice(const std::map<technology_category, const technology *> &research_choice_map) const;
-
-	void gain_free_technology();
-
-	void gain_free_technology(const technology *technology)
-	{
-		this->on_technology_researched(technology);
-		--this->free_technology_count;
-
-		if (this->free_technology_count > 0) {
-			this->gain_free_technology();
-		}
-	}
-
-	Q_INVOKABLE void gain_free_technology(kobold::technology *technology)
-	{
-		const kobold::technology *const_technology = technology;
-		return this->gain_free_technology(const_technology);
-	}
-
-	void gain_free_technologies(const int count);
-	void gain_technologies_known_by_others();
-
 	const kobold::government_type *get_government_type() const
 	{
 		return this->government_type;
@@ -1409,7 +1326,6 @@ public:
 
 	bool has_civilian_character(const character *character) const;
 	std::vector<const character *> get_civilian_characters() const;
-	void check_civilian_characters();
 
 	const commodity_map<int> &get_bids() const
 	{
@@ -1914,24 +1830,6 @@ public:
 
 	void change_capital_commodity_bonus(const commodity *commodity, const centesimal_int &change);
 
-	Q_INVOKABLE int get_category_research_modifier(kobold::technology_category category) const
-	{
-		const auto find_iterator = this->category_research_modifiers.find(category);
-
-		if (find_iterator != this->category_research_modifiers.end()) {
-			return find_iterator->second;
-		}
-
-		return 0;
-	}
-
-	void set_category_research_modifier(const technology_category category, const int value);
-
-	void change_category_research_modifier(const technology_category category, const int value)
-	{
-		this->set_category_research_modifier(category, this->get_category_research_modifier(category) + value);
-	}
-
 	int get_law_cost_modifier() const
 	{
 		return this->law_cost_modifier;
@@ -2052,18 +1950,6 @@ public:
 	bool check_potential_journal_entries();
 	bool check_inactive_journal_entries();
 	bool check_active_journal_entries(const read_only_context &ctx, const bool ignore_effects, const bool ignore_random_chance);
-
-	int get_gain_technologies_known_by_others_count() const
-	{
-		return this->gain_technologies_known_by_others_count;
-	}
-
-	void set_gain_technologies_known_by_others_count(const int value);
-
-	void change_gain_technologies_known_by_others_count(const int value)
-	{
-		this->set_gain_technologies_known_by_others_count(this->get_gain_technologies_known_by_others_count()  + value);
-	}
 
 	const building_class_map<int> &get_free_building_class_counts() const
 	{
@@ -2318,9 +2204,6 @@ signals:
 	void luxury_consumption_changed();
 	void land_transport_capacity_changed();
 	void sea_transport_capacity_changed();
-	void technologies_changed();
-	void current_research_changed();
-	void technology_researched(const technology *technology);
 	void government_type_changed();
 	void laws_changed();
 	void policy_values_changed();
@@ -2407,9 +2290,6 @@ private:
 	commodity_map<centesimal_int> commodity_demands;
 	int land_transport_capacity = 0;
 	int sea_transport_capacity = 0;
-	technology_set technologies;
-	const technology *current_research = nullptr;
-	int free_technology_count = 0;
 	const kobold::government_type *government_type = nullptr;
 	law_group_map<const law *> laws;
 	policy_map<int> policy_values;
@@ -2451,7 +2331,6 @@ private:
 	commodity_map<std::map<int, int>> commodity_bonuses_for_tile_thresholds;
 	commodity_map<centesimal_int> settlement_commodity_bonuses;
 	commodity_map<centesimal_int> capital_commodity_bonuses;
-	std::map<technology_category, int> category_research_modifiers;
 	int law_cost_modifier = 0;
 	int tradition_cost_modifier = 0;
 	int advisor_cost_modifier = 0;
@@ -2465,7 +2344,6 @@ private:
 	std::vector<const journal_entry *> active_journal_entries;
 	std::vector<const journal_entry *> inactive_journal_entries;
 	std::vector<const journal_entry *> finished_journal_entries;
-	int gain_technologies_known_by_others_count = 0;
 	building_class_map<int> free_building_class_counts;
 	promotion_map<int> free_infantry_promotion_counts;
 	promotion_map<int> free_cavalry_promotion_counts;

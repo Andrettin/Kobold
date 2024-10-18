@@ -7,7 +7,6 @@
 
 Q_MOC_INCLUDE("country/cultural_group.h")
 Q_MOC_INCLUDE("country/culture.h")
-Q_MOC_INCLUDE("technology/technology.h")
 Q_MOC_INCLUDE("ui/icon.h")
 Q_MOC_INCLUDE("unit/transporter_class.h")
 
@@ -16,7 +15,6 @@ namespace kobold {
 class cultural_group;
 class culture;
 class icon;
-class technology;
 class transporter_class;
 enum class transporter_category;
 enum class transporter_stat;
@@ -31,7 +29,6 @@ class transporter_type final : public named_data_entry, public data_type<transpo
 	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(int hit_points MEMBER hit_points READ get_hit_points NOTIFY changed)
 	Q_PROPERTY(int cargo MEMBER cargo READ get_cargo NOTIFY changed)
-	Q_PROPERTY(kobold::technology* required_technology MEMBER required_technology NOTIFY changed)
 	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
@@ -99,11 +96,6 @@ public:
 		return this->cargo;
 	}
 
-	const technology *get_required_technology() const
-	{
-		return this->required_technology;
-	}
-
 	int get_wealth_cost() const
 	{
 		return this->wealth_cost;
@@ -132,7 +124,6 @@ private:
 	std::map<transporter_stat, centesimal_int> stats;
 	int hit_points = 25;
 	int cargo = 0;
-	technology *required_technology = nullptr;
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::vector<const transporter_type *> upgrades;

@@ -49,12 +49,7 @@ site_game_data::site_game_data(const kobold::site *site) : site(site)
 
 	this->free_food_consumption = site_game_data::base_free_food_consumption;
 
-	const resource *resource = site->get_map_data()->get_resource();
-	if (resource == nullptr || resource->get_required_technology() != nullptr || resource->is_prospectable()) {
-		this->set_resource_discovered(false);
-	} else {
-		this->set_resource_discovered(true);
-	}
+	this->set_resource_discovered(true);
 }
 
 void site_game_data::do_turn()
@@ -732,20 +727,12 @@ bool site_game_data::check_free_building(const building_type *building)
 		return false;
 	}
 
-	if (building->get_required_technology() != nullptr && (this->get_owner() == nullptr || !this->get_owner()->get_game_data()->has_technology(building->get_required_technology()))) {
-		return false;
-	}
-
 	building_slot->set_building(building);
 	return true;
 }
 
 bool site_game_data::check_free_improvement(const improvement *improvement)
 {
-	if (improvement->get_required_technology() != nullptr && (this->get_owner() == nullptr || !this->get_owner()->get_game_data()->has_technology(improvement->get_required_technology()))) {
-		return false;
-	}
-
 	if (!improvement->is_buildable_on_site(this->site)) {
 		return false;
 	}

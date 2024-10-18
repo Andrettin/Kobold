@@ -187,10 +187,6 @@ bool settlement_building_slot::can_gain_wonder(const kobold::wonder *wonder) con
 		return false;
 	}
 
-	if (wonder->get_obsolescence_technology() != nullptr && this->get_country() != nullptr && this->get_country()->get_game_data()->has_technology(wonder->get_obsolescence_technology())) {
-		return false;
-	}
-
 	if (game::get()->get_wonder_country(wonder) != nullptr) {
 		return false;
 	}
@@ -261,16 +257,6 @@ void settlement_building_slot::cancel_construction()
 const wonder *settlement_building_slot::get_buildable_wonder() const
 {
 	for (const kobold::wonder *wonder : this->get_type()->get_wonders()) {
-		if (wonder->get_required_technology() != nullptr) {
-			if (this->get_country() == nullptr) {
-				continue;
-			}
-
-			if (!this->get_country()->get_game_data()->has_technology(wonder->get_required_technology())) {
-				continue;
-			}
-		}
-
 		if (!this->can_build_wonder(wonder)) {
 			continue;
 		}
