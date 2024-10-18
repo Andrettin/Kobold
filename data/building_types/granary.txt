@@ -4,7 +4,6 @@ granary = {
 	portrait = trading_post
 	icon = grain
 	provincial = true
-	required_technology = pottery
 	settlement_types = {
 		camp
 		hamlet

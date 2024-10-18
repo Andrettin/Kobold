@@ -9,7 +9,6 @@ harquebusiers = {
 		defense = 5
 		movement = 6
 	}
-	required_technology = improved_cavalry_tactics
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -32,7 +31,6 @@ cuirassiers = {
 		defense = 5
 		movement = 9
 	}
-	required_technology = improved_cavalry_weapons
 	wealth_cost = 500
 	upkeep = 25
 	commodity_costs = {
@@ -56,7 +54,6 @@ carbine_cavalry = {
 		defense = 5
 		movement = 9
 	}
-	required_technology = repeating_cavalry_carbine
 	wealth_cost = 3500
 	upkeep = 50
 	commodity_costs = {
@@ -81,7 +78,6 @@ armor = {
 		movement = 9
 	}
 	entrenchment_bonus = 5
-	required_technology = mobile_warfare
 	wealth_cost = 9000
 	upkeep = 250
 	commodity_costs = {

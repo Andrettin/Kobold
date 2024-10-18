@@ -4,7 +4,6 @@ piety = {
 	group = piety
 	portrait = temple
 	icon = wooden_cross
-	required_technology = ceremonial_burial
 	modifier = {
 	}
 }

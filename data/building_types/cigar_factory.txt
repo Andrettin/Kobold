@@ -7,7 +7,6 @@ tobacconists_house = {
 		cigar_production
 	}
 	base_capacity = 2
-	required_technology = cigar_production
 }
 
 tobacconists_shop = {
@@ -20,7 +19,6 @@ tobacconists_shop = {
 	}
 	base_capacity = 4
 	required_building = tobacconists_house
-	required_technology = cigar_production
 }
 
 cigar_factory = {
@@ -35,5 +33,4 @@ cigar_factory = {
 	capacity_increment = 8
 	expandable = true
 	required_building = tobacconists_shop
-	required_technology = cigar_production
 }

@@ -4,7 +4,6 @@ bank = {
 	portrait = trading_post
 	icon = wealth
 	provincial = true
-	required_technology = banking
 	settlement_types = {
 		city
 		metropolis

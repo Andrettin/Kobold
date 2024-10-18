@@ -9,7 +9,6 @@ griphognathus = {
 		movement = 3
 	}
 	cargo = 3
-	required_technology = egg_laying
 	upgrades = {
 		hemicyclaspis
 	}
@@ -26,5 +25,4 @@ hemicyclaspis = {
 		movement = 4
 	}
 	cargo = 4
-	required_technology = armored_fish
 }

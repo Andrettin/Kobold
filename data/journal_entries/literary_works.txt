@@ -4,9 +4,6 @@ de_corporis_humani_fabrica = {
 	recruited_characters = {
 		andreas_vesalius
 	}
-	researched_technologies = {
-		medicine
-	}
 	completion_effects = {
 		research += 1
 	}
@@ -18,9 +15,6 @@ de_revolutionibus_orbium_coelestium = { #Source: Isaac Asimov, "Cronologia das C
 	description = "In 1543 Nicolaus Copernicus published a book called \"De Revolutionibus Orbium Coelestium\", in which he described a new model for planetary movement, with the Sun, rather than the Earth, at the center."
 	recruited_characters = {
 		nicolaus_copernicus
-	}
-	researched_technologies = {
-		astronomy
 	}
 	completion_effects = {
 		research += 5
@@ -35,9 +29,6 @@ epitome_in_cl__ptolemaei_magnam_compositionem = { #Source: "Encyclopædia Britan
 	recruited_characters = {
 		georg_peurbach
 	}
-	researched_technologies = {
-		astronomy
-	}
 	completion_effects = {
 		research += 1
 	}
@@ -50,9 +41,6 @@ theoricae_planetarum_novae = { #Source: "Encyclopædia Britannica", 1911, vol. 2
 	completion_random_chance = 25
 	recruited_characters = {
 		georg_peurbach
-	}
-	researched_technologies = {
-		astronomy
 	}
 	completion_effects = {
 		research += 1

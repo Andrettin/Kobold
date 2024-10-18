@@ -2,5 +2,4 @@ tobacco = {
 	name = "Tobacco"
 	icon = tobacco
 	base_price = 100
-	required_technology = tobacco
 }

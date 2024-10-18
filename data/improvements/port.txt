@@ -2,7 +2,6 @@ port = {
 	name = "Port"
 	slot = port
 	icon = trade_consulate
-	required_technology = seafaring
 	wealth_cost = 3000
 	commodity_costs = {
 		lumber = 5

@@ -5,7 +5,6 @@ hatchery = {
 	portrait = building_slot
 	icon = heart
 	provincial = true
-	required_technology = egg_laying
 	settlement_types = {
 		village
 		town

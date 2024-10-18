@@ -4,7 +4,6 @@ monarchy = {
 	group = tradition
 	portrait = grand_ducal_crown
 	icon = crown_royal
-	required_technology = monarchy
 	prerequisites = {
 		tradition
 	}

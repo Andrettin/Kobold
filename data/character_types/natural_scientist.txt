@@ -3,8 +3,6 @@ natural_scientist = {
 	advisor_category = trade
 	attribute = learning
 	scaled_advisor_modifier = {
-		gathering_research_modifier = 5
-		industry_research_modifier = 5
 	}
 }
 
@@ -12,9 +10,7 @@ charles_darwin = {
 	name = "Charles Darwin"
 	advisor_category = trade
 	attribute = learning
-	required_technology = merchant_steamships
 	advisor_effects = {
-		free_technologies = 2
 	}
 }
 
@@ -22,7 +18,6 @@ isaac_newton = {
 	name = "Isaac Newton"
 	advisor_category = trade
 	attribute = learning
-	required_technology = theory_of_gravity
 	advisor_modifier = {
 		capital_research_output_modifier = 100
 	}

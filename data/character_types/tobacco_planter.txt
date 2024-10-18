@@ -3,7 +3,6 @@ tobacco_planter = {
 	advisor_category = trade
 	attribute = stewardship
 	civilian_unit_class = farmer
-	required_technology = tobacco_planting
 	scaled_ruler_modifier = {
 		tobacco_output_modifier = 5
 	}

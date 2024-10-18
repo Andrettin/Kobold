@@ -10,7 +10,6 @@ trireme = {
 		movement = 4
 	}
 	hit_points = 25
-	required_technology = cartography
 	upgrades = {
 		sloop
 	}
@@ -28,7 +27,6 @@ sloop = {
 		movement = 4
 	}
 	hit_points = 25
-	required_technology = navigation
 	commodity_costs = {
 		lumber = 3
 		bronze = 2
@@ -51,7 +49,6 @@ frigate = {
 		movement = 4
 	}
 	hit_points = 35
-	required_technology = advanced_hull_design
 	upkeep = 50
 	commodity_costs = {
 		fabric = 2
@@ -75,7 +72,6 @@ raider = {
 		movement = 7
 	}
 	hit_points = 30
-	required_technology = paddlewheels
 	upkeep = 75
 	commodity_costs = {
 		lumber = 6
@@ -99,7 +95,6 @@ armored_cruiser = {
 		movement = 8
 	}
 	hit_points = 40
-	required_technology = marine_engineering
 	upkeep = 200
 	commodity_costs = {
 		lumber = 2
@@ -124,7 +119,6 @@ battlecruiser = {
 		movement = 9
 	}
 	hit_points = 90
-	required_technology = improved_range_finding
 	upkeep = 450
 	commodity_costs = {
 		armament = 18

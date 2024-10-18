@@ -13,7 +13,6 @@ rail_depot = {
 	slot = depot
 	icon = trade_consulate
 	required_improvement = caravansary
-	required_technology = high_pressure_steam_engine
 	wealth_cost = 2000
 	modifier = {
 		depot_level = 4

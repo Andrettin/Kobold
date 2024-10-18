@@ -24,7 +24,6 @@ george_washington = {
 	birth_date = 1732
 	death_date = 1799
 	skill = 10 #Disciplined: -50% Infantry Cost
-	obsolescence_technology = individualism
 	rulable_countries = {
 		united_states
 	}
@@ -45,7 +44,6 @@ john_adams = {
 	gender = male
 	birth_date = 1735
 	death_date = 1826
-	required_technology = individualism
 	rulable_countries = {
 		united_states
 	}
@@ -79,7 +77,6 @@ thomas_jefferson = {
 	birth_date = 1743
 	death_date = 1826
 	skill = 10 #+50% Statesmanship
-	required_technology = constitutionalism
 }
 
 john_jay = {
@@ -94,7 +91,6 @@ john_jay = {
 	birth_date = 1745
 	death_date = 1829
 	skill = 5 #+25% Statesmanship
-	required_technology = constitutionalism
 }
 
 john_paul_jones = {
@@ -108,7 +104,6 @@ john_paul_jones = {
 	gender = male
 	birth_date = 1747
 	death_date = 1792
-	required_technology = advanced_hull_design
 	advisor_effects = {
 		create_military_unit = frigate
 	}
@@ -125,7 +120,6 @@ john_jacob_astor = {
 	gender = male
 	birth_date = 1763
 	death_date = 1848
-	required_technology = excessive_fur_harvesting
 	advisor_modifier = {
 		furs_output_modifier = 50
 	}
@@ -143,7 +137,6 @@ eli_whitney = {
 	birth_date = 1765
 	death_date = 1825
 	skill = 10 #+50% Cotton
-	required_technology = cotton_gin
 }
 
 washington_irving = {
@@ -170,7 +163,6 @@ abraham_lincoln = {
 	gender = male
 	birth_date = 1809
 	death_date = 1865
-	required_technology = individualism
 	rulable_countries = {
 		united_states
 	}
@@ -191,7 +183,6 @@ cyrus_mccormick = {
 	gender = male
 	birth_date = 1809
 	death_date = 1884
-	required_technology = mechanical_reaper
 	advisor_modifier = {
 		grain_bonus_for_tile_threshold = 2
 		potatoes_bonus_for_tile_threshold = 2

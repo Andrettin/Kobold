@@ -26,7 +26,6 @@ steam_pumped_salt_mine = {
 	}
 	output_multiplier = 3
 	required_improvement = salt_mine
-	required_technology = steam_in_mining
 	wealth_cost = 1000
 	commodity_costs = {
 		lumber = 8

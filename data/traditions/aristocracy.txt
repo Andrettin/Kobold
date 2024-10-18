@@ -4,7 +4,6 @@ aristocracy = {
 	group = tradition
 	portrait = baronial_crown
 	icon = crown_baronial
-	required_technology = code_of_laws
 	prerequisites = {
 		tradition
 	}

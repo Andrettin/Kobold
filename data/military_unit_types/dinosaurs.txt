@@ -10,7 +10,6 @@ triceratops = {
 		movement = 4
 		bonus_vs_cavalry = 100
 	}
-	required_technology = horns
 	commodity_costs = {
 		manpower = 1
 	}
@@ -26,7 +25,6 @@ coelophysis = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = scaly_skin
 }
 
 acanthopholis = {
@@ -39,7 +37,6 @@ acanthopholis = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = spikes
 }
 
 baryonyxes = {
@@ -52,7 +49,6 @@ baryonyxes = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = claws
 }
 
 stegosaurus = {
@@ -65,7 +61,6 @@ stegosaurus = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = tail_spikes
 }
 
 velociraptors = {
@@ -78,7 +73,6 @@ velociraptors = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = tearing_claw
 }
 
 tyrannosaurus = {
@@ -91,7 +85,6 @@ tyrannosaurus = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = archosaurs
 }
 
 pterodactyls = {
@@ -104,7 +97,6 @@ pterodactyls = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = pterosaurs
 }
 
 quetzalcoatlus = {
@@ -117,5 +109,4 @@ quetzalcoatlus = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = advanced_pterosaurs
 }

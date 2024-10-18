@@ -30,7 +30,6 @@ minutemen = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = conscription
 	free_promotions = {
 		minuteman_1
 	}
@@ -51,7 +50,6 @@ militia = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = needle_gun
 	upgrades = {
 		conscripts
 	}
@@ -70,5 +68,4 @@ conscripts = {
 	}
 	entrench = true
 	entrenchment_bonus = 2
-	required_technology = machine_gun
 }

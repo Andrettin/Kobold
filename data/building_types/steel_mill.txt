@@ -6,7 +6,6 @@ steel_mill = {
 	base_capacity = 8
 	capacity_increment = 8
 	expandable = true
-	required_technology = crucible_process
 	commodity_costs = {
 		lumber = 8
 		steel = 8

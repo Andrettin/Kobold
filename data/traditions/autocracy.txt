@@ -4,7 +4,6 @@ autocracy = {
 	group = autocracy
 	portrait = grand_ducal_crown
 	icon = crown_imperial
-	required_technology = nationalism
 	modifier = {
 	}
 }

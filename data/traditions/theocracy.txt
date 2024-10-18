@@ -4,7 +4,6 @@ theocracy = {
 	group = piety
 	portrait = temple
 	icon = wooden_cross
-	required_technology = fundamentalism
 	prerequisites = {
 		piety
 	}

@@ -4,7 +4,6 @@ republic = {
 	group = tradition
 	portrait = city
 	icon = philosophy
-	required_technology = republic
 	prerequisites = {
 		liberty
 	}

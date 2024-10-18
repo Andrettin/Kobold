@@ -9,7 +9,6 @@ horse_artillery = {
 		defense = 2
 		movement = 3
 	}
-	required_technology = horse_artillery
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -32,7 +31,6 @@ light_artillery = {
 		defense = 3
 		movement = 5
 	}
-	required_technology = light_artillery_tactics
 	wealth_cost = 1000
 	upkeep = 50
 	commodity_costs = {
@@ -56,7 +54,6 @@ field_artillery = {
 		defense = 3
 		movement = 6
 	}
-	required_technology = field_artillery_tactics
 	wealth_cost = 5000
 	upkeep = 100
 	commodity_costs = {
@@ -81,7 +78,6 @@ mobile_artillery = {
 		movement = 8
 	}
 	entrenchment_bonus = 5
-	required_technology = large_artillery
 	wealth_cost = 5000
 	upkeep = 150
 	commodity_costs = {

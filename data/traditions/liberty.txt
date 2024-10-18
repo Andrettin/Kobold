@@ -4,7 +4,6 @@ liberty = {
 	group = liberty
 	portrait = city
 	icon = bell
-	required_technology = code_of_laws
 	modifier = {
 	}
 }

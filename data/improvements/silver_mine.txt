@@ -8,7 +8,6 @@ silver_mine = {
 		mountains = "tiles/improvements/quarry_mountains.png"
 	}
 	output_multiplier = 1
-	required_technology = precious_metal_mining
 	wealth_cost = 100
 	commodity_costs = {
 		lumber = 1
@@ -27,7 +26,6 @@ large_silver_mine = {
 	}
 	output_multiplier = 2
 	required_improvement = silver_mine
-	required_technology = extraction_of_precious_metals
 	wealth_cost = 100
 	commodity_costs = {
 		lumber = 4
@@ -46,7 +44,6 @@ steam_pumped_silver_mine = {
 	}
 	output_multiplier = 3
 	required_improvement = large_silver_mine
-	required_technology = amalgamation_process
 	wealth_cost = 1000
 	commodity_costs = {
 		lumber = 8
@@ -65,7 +62,6 @@ industrial_silver_mine = {
 	}
 	output_multiplier = 4
 	required_improvement = steam_pumped_silver_mine
-	required_technology = amalgamation_process
 	wealth_cost = 5000
 	commodity_costs = {
 		lumber = 16

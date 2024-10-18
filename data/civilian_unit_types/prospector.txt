@@ -3,5 +3,4 @@ prospector = {
 	unit_class = prospector
 	icon = craftsmen_light
 	prospector = true
-	required_technology = geological_prospecting
 }

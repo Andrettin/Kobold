@@ -36,5 +36,4 @@ lumber_mill = {
 	capacity_increment = 8
 	expandable = true
 	required_building = sawyers_shop
-	required_technology = saw_mill
 }

@@ -4,7 +4,6 @@ supermarket = {
 	portrait = trading_post
 	icon = canned_food
 	provincial = true
-	required_technology = refrigeration
 	settlement_types = {
 		city
 		metropolis

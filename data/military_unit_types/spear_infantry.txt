@@ -10,7 +10,6 @@ spearmen = {
 		bonus_vs_cavalry = 100
 	}
 	entrench = true
-	required_technology = warrior_code
 	commodity_costs = {
 		manpower = 1
 	}
@@ -31,7 +30,6 @@ pikemen = {
 		bonus_vs_cavalry = 100
 	}
 	entrench = true
-	required_technology = pike
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -54,7 +52,6 @@ halberdiers = {
 		bonus_vs_cavalry = 100
 	}
 	entrench = true
-	required_technology = halberd
 	commodity_costs = {
 		manpower = 1
 		fabric = 1

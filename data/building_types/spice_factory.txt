@@ -4,7 +4,6 @@ spice_factory = {
 	portrait = trading_post
 	icon = spices
 	provincial = true
-	required_technology = colonization
 	settlement_types = {
 		town
 		city

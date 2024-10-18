@@ -7,7 +7,6 @@ novum_organum = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 	random_weight = 1000
 	conditions = {
 		advisor = francis_bacon
-		technology = scientific_method
 	}
 	option = {
 		effects = {

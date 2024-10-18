@@ -10,7 +10,6 @@ arquebusiers = {
 		movement = 2
 	}
 	entrench = true
-	required_technology = arquebus
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -33,7 +32,6 @@ musketeers = {
 		movement = 3
 	}
 	entrench = true
-	required_technology = weapon_craftsmanship
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -56,7 +54,6 @@ grenadiers = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = explosives
 	wealth_cost = 1000
 	upkeep = 25
 	commodity_costs = {
@@ -83,7 +80,6 @@ guards = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = elite_military_training
 	wealth_cost = 4000
 	upkeep = 50
 	commodity_costs = {
@@ -108,7 +104,6 @@ machine_gunners = {
 	}
 	entrench = true
 	entrenchment_bonus = 5
-	required_technology = machine_gun
 	wealth_cost = 7000
 	upkeep = 100
 	commodity_costs = {

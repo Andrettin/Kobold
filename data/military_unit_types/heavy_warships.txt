@@ -10,7 +10,6 @@ galleon = {
 		movement = 2
 	}
 	hit_points = 50
-	required_technology = convoying
 	commodity_costs = {
 		lumber = 8
 		bronze = 4
@@ -33,7 +32,6 @@ ship_of_the_line = {
 		movement = 3
 	}
 	hit_points = 65
-	required_technology = ship_of_the_line
 	upkeep = 125
 	commodity_costs = {
 		fabric = 3
@@ -57,7 +55,6 @@ ironclad = {
 		movement = 5
 	}
 	hit_points = 50
-	required_technology = advanced_iron_working
 	upkeep = 150
 	commodity_costs = {
 		lumber = 4
@@ -82,7 +79,6 @@ advanced_ironclad = {
 		movement = 6
 	}
 	hit_points = 70
-	required_technology = steel_armor_plate
 	upkeep = 375
 	commodity_costs = {
 		lumber = 8
@@ -107,7 +103,6 @@ dreadnought = {
 		movement = 7
 	}
 	hit_points = 115
-	required_technology = improved_range_finding
 	upkeep = 600
 	commodity_costs = {
 		armament = 24

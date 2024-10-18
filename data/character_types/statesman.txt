@@ -14,7 +14,6 @@ benjamin_franklin = {
 	name = "Benjamin Franklin"
 	advisor_category = political
 	attribute = diplomacy
-	required_technology = constitutionalism
 	advisor_modifier = {
 		statesmanship_per_printing_press = 3
 		statesmanship_per_newspaper = 3
@@ -25,7 +24,6 @@ patrick_henry = {
 	name = "Patrick Henry"
 	advisor_category = political
 	attribute = diplomacy
-	required_technology = rights_of_man
 	advisor_modifier = {
 	}
 }
@@ -34,7 +32,6 @@ washington_irving = {
 	name = "Washington Irving"
 	advisor_category = political
 	attribute = diplomacy
-	required_technology = romanticism
 	advisor_modifier = {
 		statesmanship_per_school = 1
 		statesmanship_per_college = 2

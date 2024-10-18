@@ -24,7 +24,6 @@ fort = {
 	provincial = true
 	fort_level = 2
 	required_building = stockade
-	required_technology = mine_engineering
 	settlement_types = {
 		town
 		city
@@ -41,7 +40,6 @@ fortress = {
 	provincial = true
 	fort_level = 3
 	required_building = fort
-	required_technology = modern_fortifications
 	settlement_types = {
 		city
 		metropolis

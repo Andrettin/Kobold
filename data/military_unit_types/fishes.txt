@@ -8,7 +8,6 @@ climatius = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = spiny_fins
 }
 
 gyroptychius = {
@@ -21,5 +20,4 @@ gyroptychius = {
 		defense = 3
 		movement = 4
 	}
-	required_technology = egg_laying
 }

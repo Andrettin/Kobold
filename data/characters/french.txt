@@ -9,7 +9,6 @@ philip_the_fair = {
 	gender = male
 	birth_date = 1268.6.8
 	death_date = 1314.11.29
-	obsolescence_technology = national_bureaucracy
 	rulable_countries = {
 		france
 	}
@@ -59,7 +58,6 @@ ambroise_pare = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 	gender = male
 	birth_date = 1510
 	death_date = 1590
-	required_technology = medicine
 	skill_multiplier = 0.67
 	
 	#considered the father of rational surgery
@@ -139,7 +137,6 @@ louis_xiv_of_france = {
 	gender = male
 	birth_date = 1638
 	death_date = 1715
-	required_technology = national_bureaucracy
 	rulable_countries = {
 		france
 	}

@@ -9,7 +9,6 @@ catapult = {
 		defense = 2
 		movement = 2
 	}
-	required_technology = mathematics
 	commodity_costs = {
 		manpower = 1
 	}
@@ -29,7 +28,6 @@ culverin = {
 		defense = 2
 		movement = 2
 	}
-	required_technology = gunpowder
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -51,7 +49,6 @@ royal_artillery = {
 		defense = 2
 		movement = 2
 	}
-	required_technology = siege_engineering
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -73,7 +70,6 @@ artillery = {
 		defense = 2
 		movement = 3
 	}
-	required_technology = heavy_artillery
 	wealth_cost = 1000
 	upkeep = 50
 	commodity_costs = {
@@ -96,7 +92,6 @@ siege_artillery = {
 		defense = 3
 		movement = 3
 	}
-	required_technology = rifled_artillery
 	wealth_cost = 5000
 	upkeep = 100
 	commodity_costs = {
@@ -120,7 +115,6 @@ railroad_guns = {
 		movement = 3
 	}
 	entrenchment_bonus = 5
-	required_technology = large_artillery
 	wealth_cost = 9000
 	upkeep = 200
 	commodity_costs = {

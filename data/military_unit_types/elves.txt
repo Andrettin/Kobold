@@ -11,7 +11,6 @@ elven_archers = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = shortbow
 	commodity_costs = {
 		manpower = 1
 	}
@@ -33,7 +32,6 @@ elven_marksmen = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = longbow
 	commodity_costs = {
 		manpower = 1
 		fabric = 1

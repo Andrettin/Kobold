@@ -4,7 +4,6 @@ order = {
 	group = order
 	portrait = grand_ducal_crown
 	icon = crown_imperial
-	required_technology = communism
 	modifier = {
 	}
 }

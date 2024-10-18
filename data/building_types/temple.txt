@@ -4,7 +4,6 @@ shrine = {
 	portrait = temple
 	icon = wooden_cross
 	provincial = true
-	required_technology = ceremonial_burial
 	settlement_types = {
 		village
 		campus
@@ -23,7 +22,6 @@ temple = {
 	icon = wooden_cross
 	provincial = true
 	required_building = shrine
-	required_technology = ceremonial_burial
 	settlement_types = {
 		monastery
 		city
@@ -41,7 +39,6 @@ cathedral = {
 	icon = golden_cross_detailed
 	provincial = true
 	required_building = temple
-	required_technology = monotheism
 	settlement_types = {
 		monastery
 		city

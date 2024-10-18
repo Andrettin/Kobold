@@ -8,7 +8,6 @@ sappers = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = explosives
 	wealth_cost = 5000
 	upkeep = 50
 	commodity_costs = {
@@ -30,7 +29,6 @@ combat_engineers = {
 		movement = 4
 	}
 	entrench = true
-	required_technology = bessemer_converter
 	wealth_cost = 7000
 	upkeep = 50
 	commodity_costs = {
@@ -53,7 +51,6 @@ saboteurs = {
 	}
 	entrench = true
 	entrenchment_bonus = 2
-	required_technology = machine_gun
 	wealth_cost = 9000
 	upkeep = 75
 	commodity_costs = {

@@ -8,7 +8,6 @@ squires = {
 		defense = 4
 		movement = 6
 	}
-	required_technology = chivalry
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -30,7 +29,6 @@ cossacks = {
 		defense = 5
 		movement = 8
 	}
-	required_technology = recruit_steppe_horsemen
 	commodity_costs = {
 		manpower = 1
 		fabric = 1
@@ -53,7 +51,6 @@ hussars = {
 		defense = 7
 		movement = 11
 	}
-	required_technology = hussars
 	wealth_cost = 100
 	upkeep = 25
 	commodity_costs = {
@@ -77,7 +74,6 @@ scouts = {
 		defense = 7
 		movement = 11
 	}
-	required_technology = scouting
 	wealth_cost = 2000
 	upkeep = 50
 	commodity_costs = {
@@ -102,7 +98,6 @@ mechanized_infantry = {
 		movement = 11
 	}
 	entrenchment_bonus = 2
-	required_technology = internal_combustion
 	wealth_cost = 5000
 	upkeep = 100
 	commodity_costs = {

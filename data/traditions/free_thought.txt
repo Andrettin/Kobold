@@ -4,7 +4,6 @@ free_thought = {
 	group = rationalism
 	portrait = university
 	icon = research
-	required_technology = scientific_method
 	prerequisites = {
 		rationalism
 	}

@@ -6,7 +6,6 @@ food_processing_center = {
 	base_capacity = 8
 	capacity_increment = 8
 	expandable = true
-	required_technology = improved_food_preservation
 	commodity_costs = {
 		lumber = 8
 		steel = 8
