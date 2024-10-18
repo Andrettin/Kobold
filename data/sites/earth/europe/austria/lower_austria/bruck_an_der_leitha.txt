@@ -6,7 +6,7 @@ bruck_an_der_leitha = {
 	
 	history = {
 		1900 = {
-			population = 5134 #Bruck on the Leitha had a population of 5134 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 5134 #Bruck on the Leitha had a population of 5134 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

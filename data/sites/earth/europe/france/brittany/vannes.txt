@@ -5,12 +5,4 @@ vannes = {
 	type = resource
 	resource = fish
 	province = brittany
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 4400
-			}
-		}
-	}
 }

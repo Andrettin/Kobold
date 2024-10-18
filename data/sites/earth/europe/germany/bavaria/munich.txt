@@ -10,7 +10,7 @@ munich = {
 		}
 		
 		1815 = {
-			population = 66000 #Munich had a population of 66,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 87.
+			#population = 66000 #Munich had a population of 66,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 87.
 		}
 	}
 }

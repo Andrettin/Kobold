@@ -7,11 +7,6 @@ jongleurs = {
 	prerequisites = {
 		divine_duty
 	}
-	modifier = {
-		untrained_workers_militancy_modifier = -0.01
-		trained_workers_militancy_modifier = -0.01
-		expert_workers_militancy_modifier = -0.01
-	}
 }
 
 music_notation_system = {
@@ -22,10 +17,6 @@ music_notation_system = {
 	period = 1100_1200
 	prerequisites = {
 		relics
-	}
-	modifier = {
-		clergymen_militancy_modifier = -0.01
-		firebrand_preachers_militancy_modifier = -0.01
 	}
 }
 
@@ -38,12 +29,6 @@ ballads = {
 	prerequisites = {
 		music_notation_system
 	}
-	modifier = {
-		bureaucrats_militancy_modifier = -0.01
-		elder_statesmen_militancy_modifier = -0.01
-		academics_militancy_modifier = -0.01
-		capitalists_militancy_modifier = -0.01
-	}
 }
 
 choir_songs = {
@@ -54,10 +39,6 @@ choir_songs = {
 	period = 1200_1300
 	prerequisites = {
 		music_notation_system
-	}
-	modifier = {
-		clergymen_militancy_modifier = -0.01
-		firebrand_preachers_militancy_modifier = -0.01
 	}
 }
 
@@ -71,11 +52,6 @@ troubadours = {
 		jongleurs
 		music_notation_system
 	}
-	modifier = {
-		untrained_workers_militancy_modifier = -0.01
-		trained_workers_militancy_modifier = -0.01
-		expert_workers_militancy_modifier = -0.01
-	}
 }
 
 tapestries = {
@@ -86,11 +62,6 @@ tapestries = {
 	period = 1300_1400
 	prerequisites = {
 		choir_songs
-	}
-	modifier = {
-		clergymen_militancy_modifier = -0.01
-		firebrand_preachers_militancy_modifier = -0.01
-		piety_output_modifier = 5
 	}
 }
 

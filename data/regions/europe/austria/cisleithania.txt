@@ -5,11 +5,11 @@ cisleithania = {
 	
 	history = {
 		1851 = {
-			population = 17534948 #Source: Waltraud Heindl, "Josephinische Mandarine", 2013, p. 33.
+			#population = 17534948 #Source: Waltraud Heindl, "Josephinische Mandarine", 2013, p. 33.
 		}
 		
 		1910 = {
-			population = 27963872  #Source: Waltraud Heindl, "Josephinische Mandarine", 2013, p. 33.
+			#population = 27963872  #Source: Waltraud Heindl, "Josephinische Mandarine", 2013, p. 33.
 		}
 	}
 }

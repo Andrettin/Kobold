@@ -8,9 +8,9 @@ freiberg = {
 	
 	history = {
 		1629 = {
-			population_groups = {
-				czech = 528 #Source: Henry Kamen, "The Iron Century", p. 425.
-			}
+			#population_groups = {
+			#	czech = 528 #Source: Henry Kamen, "The Iron Century", p. 425.
+			#}
 		}
 	}
 }

@@ -21,13 +21,5 @@ troyes = {
 		1360 = {
 			#existed in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
 		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 3000
-				clergymen.french.catholic = 3000
-				officers.french.catholic = 1200
-			}
-		}
 	}
 }

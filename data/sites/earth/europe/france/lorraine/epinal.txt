@@ -3,13 +3,4 @@ epinal = {
 	world = earth
 	geocoordinate = { 6.4516666666667 48.173611111111 }
 	province = lorraine
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 4400
-				clergymen.german.catholic = 200
-			}
-		}
-	}
 }

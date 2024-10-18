@@ -5,12 +5,4 @@ charleville_mezieres = {
 	type = resource
 	resource = coal
 	province = champagne
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 3000
-			}
-		}
-	}
 }

@@ -35,11 +35,11 @@ corsica = {
 		}
 		
 		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 400
-				clergymen.french.catholic = 2000
-				officers.french.catholic = 200
-			}
+			#population_groups = {
+			#	bureaucrats.french.catholic = 400
+			#	clergymen.french.catholic = 2000
+			#	officers.french.catholic = 200
+			#}
 		}
 	}
 }

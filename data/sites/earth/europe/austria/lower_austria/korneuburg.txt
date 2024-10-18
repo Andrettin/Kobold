@@ -6,7 +6,7 @@ korneuburg = {
 	
 	history = {
 		1900 = {
-			population = 8298 #Korneuburg had a population of 8298 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 8298 #Korneuburg had a population of 8298 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

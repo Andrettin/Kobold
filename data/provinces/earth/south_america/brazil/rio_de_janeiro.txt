@@ -27,9 +27,9 @@ rio_de_janeiro = {
 			culture = french
 			religion = catholic
 			
-			population_groups = {
-				tribesmen.tupi.pagan = 500 #over 500 Tamoio Indians lived in France Antarctique in 1555; Source: Ronaldo Vainfas, "Dicionário do Brasil Colonial (1500-1808)", p. 584.
-			}
+			#population_groups = {
+			#	tribesmen.tupi.pagan = 500 #over 500 Tamoio Indians lived in France Antarctique in 1555; Source: Ronaldo Vainfas, "Dicionário do Brasil Colonial (1500-1808)", p. 584.
+			#}
 		}
 		
 		1567 = {

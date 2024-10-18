@@ -5,12 +5,4 @@ moulins = {
 	type = resource
 	resource = coal
 	province = berry
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 5900
-			}
-		}
-	}	
 }

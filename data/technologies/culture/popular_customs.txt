@@ -7,11 +7,6 @@ divine_duty = {
 	prerequisites = {
 		feudalism
 	}
-	modifier = {
-		untrained_workers_militancy_modifier = -0.01
-		trained_workers_militancy_modifier = -0.01
-		expert_workers_militancy_modifier = -0.01
-	}
 }
 
 miracle_plays = {
@@ -23,11 +18,6 @@ miracle_plays = {
 	prerequisites = {
 		troubadours
 	}
-	modifier = {
-		untrained_workers_militancy_modifier = -0.02
-		trained_workers_militancy_modifier = -0.02
-		expert_workers_militancy_modifier = -0.02
-	}
 }
 
 carnivals = {
@@ -38,10 +28,5 @@ carnivals = {
 	period = 1400_1500
 	prerequisites = {
 		miracle_plays
-	}
-	modifier = {
-		untrained_workers_militancy_modifier = -0.02
-		trained_workers_militancy_modifier = -0.02
-		expert_workers_militancy_modifier = -0.02
 	}
 }

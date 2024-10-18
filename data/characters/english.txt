@@ -194,13 +194,6 @@ john_winthrop = {
 	birth_date = 1587
 	death_date = 1649
 	required_technology = propaganda
-	advisor_modifier = {
-		profession_commodity_bonus = {
-			profession = statesman
-			commodity = piety
-			value = 0.0625
-		}
-	}
 }
 
 john_harvard = {

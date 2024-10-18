@@ -8,9 +8,6 @@ economics = {
 		banking
 		university
 	}
-	modifier = {
-		capitalist_bonus = 2
-	}
 }
 
 collectivist_theory = {
@@ -23,9 +20,6 @@ collectivist_theory = {
 		economics
 		collectivism
 	}
-	modifier = {
-		capitalist_bonus = 2
-	}
 }
 
 historical_theory = {
@@ -36,9 +30,6 @@ historical_theory = {
 	period = 1850_1875
 	prerequisites = {
 		collectivist_theory
-	}
-	modifier = {
-		capitalist_bonus = 2
 	}
 }
 
@@ -51,9 +42,6 @@ neoclassical_theory = {
 	prerequisites = {
 		historical_theory
 	}
-	modifier = {
-		capitalist_bonus = 2
-	}
 }
 
 keynesian_economics = {
@@ -64,8 +52,5 @@ keynesian_economics = {
 	period = 1900_1925
 	prerequisites = {
 		neoclassical_theory
-	}
-	modifier = {
-		capitalist_bonus = 2
 	}
 }

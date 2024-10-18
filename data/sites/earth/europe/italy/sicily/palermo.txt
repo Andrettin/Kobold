@@ -19,7 +19,7 @@ palermo = {
 		}
 		
 		1600 = {
-			population = 100000 #Palermo had a population of 100,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 100000 #Palermo had a population of 100,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 	}
 }

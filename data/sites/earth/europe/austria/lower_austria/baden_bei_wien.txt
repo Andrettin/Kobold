@@ -6,7 +6,7 @@ baden_bei_wien = {
 	
 	history = {
 		1900 = {
-			population = 12447 #Baden had a population of 12,447 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 12447 #Baden had a population of 12,447 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

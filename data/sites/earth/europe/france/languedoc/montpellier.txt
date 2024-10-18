@@ -10,13 +10,5 @@ montpellier = {
 			buildings += university #University existent in Montpellier in 1250; Source: "Atlas de História Mundial", 2001, p. 144.
 			settlement_type = campus
 		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 4400
-				clergymen.french.catholic = 7200
-				officers.french.catholic = 1800
-			}
-		}
 	}
 }

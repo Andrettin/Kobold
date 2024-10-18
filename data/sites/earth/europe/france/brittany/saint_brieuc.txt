@@ -5,12 +5,4 @@ saint_brieuc = {
 	type = resource
 	resource = grain
 	province = brittany
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 6000
-			}
-		}
-	}
 }

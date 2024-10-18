@@ -6,7 +6,7 @@ neunkirchen = {
 	
 	history = {
 		1900 = {
-			population = 10831 #Neunkirchen had a population of 10,831 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 10831 #Neunkirchen had a population of 10,831 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

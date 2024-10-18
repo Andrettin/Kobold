@@ -5,12 +5,4 @@ chateauroux = {
 	type = settlement
 	resource = grain
 	province = berry
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 5000
-			}
-		}
-	}
 }

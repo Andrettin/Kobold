@@ -6,7 +6,7 @@ klosterneuburg = {
 	
 	history = {
 		1900 = {
-			population = 11595 #Klosterneuburg had a population of 11,595 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 11595 #Klosterneuburg had a population of 11,595 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

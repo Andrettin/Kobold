@@ -15,13 +15,5 @@ brest = {
 		1360 = {
 			developed = true #existed in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
 		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 6200
-				clergymen.french.catholic = 5400
-				officers.french.catholic = 3000
-			}
-		}
 	}
 }

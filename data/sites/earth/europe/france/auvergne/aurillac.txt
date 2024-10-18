@@ -5,12 +5,4 @@ aurillac = {
 	type = resource
 	resource = cattle
 	province = auvergne
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 4200
-			}
-		}
-	}
 }

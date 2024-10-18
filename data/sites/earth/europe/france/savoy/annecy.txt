@@ -6,14 +6,4 @@ annecy = {
 	type = resource
 	resource = coal
 	province = savoy
-	
-	history = {
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 800
-				clergymen.french.catholic = 2600
-				officers.french.catholic = 400
-			}
-		}
-	}
 }

@@ -6,7 +6,7 @@ waidhofen_an_der_ybbs = {
 	
 	history = {
 		1900 = {
-			population = 4447 #Waidhofen on the Ybbs had a population of 4447 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 4447 #Waidhofen on the Ybbs had a population of 4447 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

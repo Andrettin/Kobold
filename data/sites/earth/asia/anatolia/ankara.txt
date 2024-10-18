@@ -19,7 +19,7 @@ ankara = {
 		}
 		
 		1815 = {
-			population = 50000 #Angora had a population of 50,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 81.
+			#population = 50000 #Angora had a population of 50,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 81.
 		}
 	}
 }

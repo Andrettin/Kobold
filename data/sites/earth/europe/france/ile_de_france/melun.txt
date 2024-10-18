@@ -5,12 +5,4 @@ melun = {
 	type = resource
 	resource = grain
 	province = ile_de_france
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 3200
-			}
-		}
-	}
 }

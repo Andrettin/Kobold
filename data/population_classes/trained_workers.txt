@@ -1,3 +1,0 @@
-trained_workers = {
-	name = "Trained Workers"
-}

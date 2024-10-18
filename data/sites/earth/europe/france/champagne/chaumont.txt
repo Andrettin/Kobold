@@ -5,12 +5,4 @@ chaumont_en_bassigny = {
 	type = resource
 	resource = iron_ore
 	province = champagne
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 2400
-			}
-		}
-	}
 }

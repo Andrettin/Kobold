@@ -15,13 +15,5 @@ lille = {
 		1789 = {
 			buildings += courthouse #Prévôt des maréchaux existent in Lille in 1789; Source: William R. Shepherd, "Historical Atlas", 1911, p. 147.
 		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 7000
-				clergymen.french.catholic = 8000
-				officers.french.catholic = 3000
-			}
-		}
 	}
 }

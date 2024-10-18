@@ -25,11 +25,11 @@ paris = {
 		}
 		
 		1500 = {
-			population = 100000 #Paris had a population of 100,000+ in 1500; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 100000 #Paris had a population of 100,000+ in 1500; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 		
 		1600 = {
-			population = 200000 #Paris had a population of 200,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 200000 #Paris had a population of 200,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 		
 		1631 = {
@@ -37,26 +37,17 @@ paris = {
 		}
 		
 		1700 = {
-			population = 500000 #Paris had a population of 500,000 in 1700; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 500000 #Paris had a population of 500,000 in 1700; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 		
 		1789 = {
-			population = 500000 #Paris had a population of 500,000 in 1789; Source: Eric J. Hobsbawm, "The Age of Revolution, Europe 1789-1848", p. 28.
+			#population = 500000 #Paris had a population of 500,000 in 1789; Source: Eric J. Hobsbawm, "The Age of Revolution, Europe 1789-1848", p. 28.
 			
 			buildings += courthouse #Parlement or conseil souverain, cour des aides, cambre des comptes, court of admiralty, cour des monnaies, prévôt des maréchaux and chief court of the salt tax existent in Paris in 1789; Source: William R. Shepherd, "Historical Atlas", 1911, p. 147.
 		}
 		
 		1815 = {
-			population = 649412 #Paris had a population of 649,412 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 88.
-		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 6000
-				clergymen.french.catholic = 16000
-				clergymen.french.jewish = 200
-				officers.french.catholic = 3200
-			}
+			#population = 649412 #Paris had a population of 649,412 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 88.
 		}
 	}
 }

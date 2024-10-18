@@ -5,12 +5,4 @@ toulon = {
 	type = resource
 	resource = silk
 	province = provence
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 2200
-			}
-		}
-	}
 }

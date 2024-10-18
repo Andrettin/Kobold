@@ -8,9 +8,9 @@ pirna = {
 	
 	history = {
 		1629 = {
-			population_groups = {
-				czech = 2000 #over 2,000 Czechs; Source: Henry Kamen, "The Iron Century", p. 425.
-			}
+			#population_groups = {
+			#	czech = 2000 #over 2,000 Czechs; Source: Henry Kamen, "The Iron Century", p. 425.
+			#}
 		}
 	}
 }

@@ -6,7 +6,7 @@ reichenau_an_der_rax = {
 	
 	history = {
 		1900 = {
-			population = 7457 #Reichenau had a population of 7457 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 7457 #Reichenau had a population of 7457 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

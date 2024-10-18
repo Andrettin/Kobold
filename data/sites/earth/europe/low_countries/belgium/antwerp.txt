@@ -12,19 +12,11 @@ antwerp = {
 		}
 		
 		1600 = {
-			population = 100000 #Antwerp had a population of 100,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 100000 #Antwerp had a population of 100,000+ in 1600; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 		
 		1815 = {
-			population = 56318 #Antwerp had a population of 56,318 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 82.
-		}
-		
-		1836 = {
-			population_groups = {
-				clergymen.ashkenazi.jewish = 100
-				clergymen.flemish.catholic = 3500
-				clergymen.walloon.catholic = 200
-			}
+			#population = 56318 #Antwerp had a population of 56,318 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 82.
 		}
 	}
 }

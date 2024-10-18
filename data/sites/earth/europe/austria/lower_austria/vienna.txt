@@ -29,7 +29,7 @@ vienna = {
 		}
 		
 		1700 = {
-			population = 100000 #Vienna had a population of 100,000+ in 1700; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
+			#population = 100000 #Vienna had a population of 100,000+ in 1700; Source: Henry Kamen, "Early Modern European Society", 2021, p. 34.
 		}
 
 		1720.9 = {
@@ -37,7 +37,7 @@ vienna = {
 		}
 		
 		1815 = {
-			population = 237743 #Vienna had a population of 237,743 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p.
+			#population = 237743 #Vienna had a population of 237,743 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p.
 		}
 		
 		1839.7.7 = {
@@ -46,11 +46,11 @@ vienna = {
 		}
 		
 		1844 = {
-			population = 374378 #the Austrian Kreis of "Haupt- und Residenstadt Wien" had 374,378 inhabitants in 1844 (excluding military personnel); Source: "Tafeln zur Statistik der österreichischen Monarchie für das Jahr 1844", 1848, Tafel 50.
+			#population = 374378 #the Austrian Kreis of "Haupt- und Residenstadt Wien" had 374,378 inhabitants in 1844 (excluding military personnel); Source: "Tafeln zur Statistik der österreichischen Monarchie für das Jahr 1844", 1848, Tafel 50.
 		}
 		
 		1900 = {
-			population = 1662269 #Vienna had a population of 1,662,269 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 1662269 #Vienna had a population of 1,662,269 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 			
 			#Floridsdorf had a population of 36,599 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}

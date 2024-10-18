@@ -5,12 +5,4 @@ dunkirk = {
 	type = settlement
 	resource = fish
 	province = picardy
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 4200
-			}
-		}
-	}
 }

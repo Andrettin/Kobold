@@ -10,7 +10,7 @@ schwechat = {
 		}
 		
 		1900 = {
-			population = 8241 #Schwechat had a population of 8241 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
+			#population = 8241 #Schwechat had a population of 8241 in 1900; Source: "Encyclopædia Britannica", 1911, vol. 3, p. 2.
 		}
 	}
 }

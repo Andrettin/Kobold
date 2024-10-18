@@ -6,7 +6,7 @@ theocracy = {
 	icon = wooden_cross
 	required_technology = fundamentalism
 	prerequisites = {
-		organized_religion
+		piety
 	}
 	incompatible_traditions = {
 		communism
@@ -20,10 +20,5 @@ theocracy = {
 		}
 	}
 	modifier = {
-		profession_commodity_bonus = {
-			profession = preacher
-			commodity = trade
-			value = 0.0625
-		}
 	}
 }

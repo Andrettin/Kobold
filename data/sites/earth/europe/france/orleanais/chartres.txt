@@ -5,12 +5,4 @@ chartres = {
 	type = resource
 	resource = grain
 	province = orleanais
-	
-	history = {
-		1836 = {
-			population_groups = {
-				clergymen.french.catholic = 2900
-			}
-		}
-	}
 }

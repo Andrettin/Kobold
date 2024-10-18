@@ -6,7 +6,6 @@ monastery = {
 		village
 	}
 	build_conditions = {
-		population_unit_count = 6
 		has_building_class = temple
 	}
 }

@@ -11,7 +11,7 @@ gorizia = {
 	
 	history = {
 		1815 = {
-			population = 12000 #Görz had a population of 12,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 85.
+			#population = 12000 #Görz had a population of 12,000 in 1815; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, vol. 2, p. 85.
 		}
 	}
 }

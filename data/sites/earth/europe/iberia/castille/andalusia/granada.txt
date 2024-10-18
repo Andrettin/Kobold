@@ -15,7 +15,7 @@ granada = {
 		}
 		
 		1679 = {
-			population = 100000 #Granada had a population of c. 100,000 in 1679; Source: Henry Kamen, "Early Modern European Society", 2021, p. 248.
+			#population = 100000 #Granada had a population of c. 100,000 in 1679; Source: Henry Kamen, "Early Modern European Society", 2021, p. 248.
 		}
 	}
 }

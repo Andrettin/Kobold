@@ -24,13 +24,5 @@ toulouse = {
 		1360 = {
 			#settlement_type = town #existed in 1360; Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.
 		}
-		
-		1836 = {
-			population_groups = {
-				bureaucrats.french.catholic = 3200
-				clergymen.french.catholic = 6800
-				officers.french.catholic = 1400
-			}
-		}
 	}
 }

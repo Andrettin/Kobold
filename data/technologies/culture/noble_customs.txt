@@ -7,9 +7,6 @@ divine_right = {
 	prerequisites = {
 		feudalism
 	}
-	modifier = {
-		aristocrats_militancy_modifier = -0.01
-	}
 }
 
 chronicle_writing = {
@@ -21,9 +18,6 @@ chronicle_writing = {
 	prerequisites = {
 		divine_right
 	}
-	modifier = {
-		aristocrats_militancy_modifier = -0.01
-	}
 }
 
 romantic_poetry = {
@@ -34,9 +28,6 @@ romantic_poetry = {
 	period = 1200_1300
 	prerequisites = {
 		chronicle_writing
-	}
-	modifier = {
-		aristocrats_militancy_modifier = -0.01
 	}
 }
 
@@ -50,10 +41,6 @@ heraldry = {
 		romantic_poetry
 		tower_shield
 	}
-	modifier = {
-		aristocrats_militancy_modifier = -0.01
-		prestige_output_modifier = 5
-	}
 }
 
 noblesse_oblige = {
@@ -64,9 +51,5 @@ noblesse_oblige = {
 	period = 1400_1500
 	prerequisites = {
 		heraldry
-	}
-	modifier = {
-		aristocrats_militancy_modifier = -0.01
-		prestige_output_modifier = 5
 	}
 }
