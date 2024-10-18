@@ -900,6 +900,16 @@ target_link_libraries(kobold PUBLIC archimedes)
 target_precompile_headers(kobold_main REUSE_FROM archimedes)
 target_precompile_headers(kobold_test REUSE_FROM archimedes)
 
+if(WIN32)
+	set_target_properties(kobold_main 
+		PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${Qt6_DIR}/../../../bin;"
+	)
+	
+	set_target_properties(kobold_main 
+		PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "$(ProjectDir).."
+	)
+endif()
+
 set_target_properties(kobold_main PROPERTIES OUTPUT_NAME "kobold")
 
 target_link_libraries(kobold_main PUBLIC kobold Qt6::Charts)
