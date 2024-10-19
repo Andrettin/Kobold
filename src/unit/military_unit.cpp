@@ -91,7 +91,7 @@ military_unit::military_unit(const military_unit_type *type, const kobold::chara
 
 	character->get_game_data()->apply_military_unit_modifier(this, 1);
 
-	//character military units do not have any province set as their home province, since they don't consume food
+	//character military units do not have any province set as their home province
 }
 
 void military_unit::do_turn()

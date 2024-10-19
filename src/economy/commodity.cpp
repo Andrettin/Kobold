@@ -2,13 +2,12 @@
 
 #include "economy/commodity.h"
 
-#include "economy/food_type.h"
 #include "util/assert_util.h"
 
 namespace kobold {
 
 commodity::commodity(const std::string &identifier)
-	: named_data_entry(identifier), food_type(food_type::none)
+	: named_data_entry(identifier)
 {
 }
 
@@ -34,11 +33,6 @@ void commodity::check() const
 	if (this->get_base_price() != 0 && this->get_wealth_value() != 0) {
 		throw std::runtime_error(std::format("Commodity \"{}\" has both a base price and a wealth value.", this->get_identifier()));
 	}
-}
-
-bool commodity::is_food() const
-{
-	return this->get_food_type() != food_type::none;
 }
 
 }

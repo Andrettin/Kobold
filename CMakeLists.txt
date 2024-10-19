@@ -61,8 +61,6 @@ set(country_SRCS
 	src/country/law.cpp
 	src/country/law_group.cpp
 	src/country/law_group_container.cpp
-	src/country/policy.cpp
-	src/country/policy_container.cpp
 	src/country/religion.cpp
 	src/country/religion_base.cpp
 	src/country/religion_container.cpp
@@ -87,7 +85,6 @@ set(economy_SRCS
 	src/economy/commodity.cpp
 	src/economy/commodity_container.cpp
 	src/economy/expense_transaction.cpp
-	src/economy/food_type.cpp
 	src/economy/income_transaction.cpp
 	src/economy/production_type.cpp
 	src/economy/resource.cpp
@@ -347,8 +344,6 @@ set(country_HDRS
 	src/country/law.h
 	src/country/law_group.h
 	src/country/law_group_container.h
-	src/country/policy.h
-	src/country/policy_container.h
 	src/country/religion.h
 	src/country/religion_base.h
 	src/country/religion_container.h
@@ -373,7 +368,6 @@ set(economy_HDRS
 	src/economy/commodity_container.h
 	src/economy/expense_transaction.h
 	src/economy/expense_transaction_type.h
-	src/economy/food_type.h
 	src/economy/income_transaction.h
 	src/economy/income_transaction_type.h
 	src/economy/production_type.h
@@ -501,7 +495,6 @@ set(script_condition_HDRS
 	src/script/condition/any_settlement_condition.h
 	src/script/condition/artillery_condition.h
 	src/script/condition/attacking_commander_condition.h
-	src/script/condition/available_food_condition.h
 	src/script/condition/birth_year_condition.h
 	src/script/condition/can_gain_building_class_condition.h
 	src/script/condition/can_have_trait_condition.h
@@ -531,7 +524,6 @@ set(script_condition_HDRS
 	src/script/condition/has_resource_condition.h
 	src/script/condition/has_route_condition.h
 	src/script/condition/has_terrain_condition.h
-	src/script/condition/health_condition.h
 	src/script/condition/improvement_condition.h
 	src/script/condition/independent_condition.h
 	src/script/condition/infantry_condition.h
@@ -601,7 +593,6 @@ set(script_effect_HDRS
 	src/script/effect/inflation_effect.h
 	src/script/effect/location_effect.h
 	src/script/effect/opinion_modifiers_effect.h
-	src/script/effect/policy_effect.h
 	src/script/effect/random_effect.h
 	src/script/effect/random_known_country_effect.h
 	src/script/effect/random_list_effect.h

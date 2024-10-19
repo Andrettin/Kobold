@@ -9,7 +9,4 @@ aqueduct = {
 		city
 		metropolis
 	}
-	settlement_modifier = {
-		health_bonus = 2
-	}
 }

@@ -19,11 +19,9 @@
 #include "country/journal_entry.h"
 #include "country/law.h"
 #include "country/law_group.h"
-#include "country/policy.h"
 #include "database/database.h"
 #include "database/defines.h"
 #include "database/preferences.h"
-#include "economy/food_type.h"
 #include "economy/production_type.h"
 #include "engine_interface.h"
 #include "game/event.h"
@@ -137,7 +135,6 @@ int main(int argc, char **argv)
 		enum_converter<diplomacy_state>();
 		enum_converter<elevation_type>();
 		enum_converter<event_trigger>();
-		enum_converter<food_type>();
 		enum_converter<forestation_type>();
 		enum_converter<gender>();
 		enum_converter<improvement_slot>();
@@ -174,7 +171,6 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<law_group>("", 1);
 		qmlRegisterAnonymousType<map>("", 1);
 		qmlRegisterAnonymousType<map_template>("", 1);
-		qmlRegisterAnonymousType<policy>("", 1);
 		qmlRegisterAnonymousType<portrait>("", 1);
 		qmlRegisterAnonymousType<preferences>("", 1);
 		qmlRegisterAnonymousType<production_type>("", 1);

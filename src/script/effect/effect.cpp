@@ -6,7 +6,6 @@
 #include "character/character_game_data.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
-#include "country/policy.h"
 #include "database/database.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
@@ -33,7 +32,6 @@
 #include "script/effect/inflation_effect.h"
 #include "script/effect/location_effect.h"
 #include "script/effect/opinion_modifiers_effect.h"
-#include "script/effect/policy_effect.h"
 #include "script/effect/random_effect.h"
 #include "script/effect/random_known_country_effect.h"
 #include "script/effect/random_list_effect.h"
@@ -85,8 +83,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 			return std::make_unique<wealth_inflated_effect>(value, effect_operator);
 		} else if (commodity::try_get(key) != nullptr) {
 			return std::make_unique<commodity_effect>(commodity::get(key), value, effect_operator);
-		} else if (policy::try_get(key) != nullptr) {
-			return std::make_unique<policy_effect>(policy::get(key), value, effect_operator);
 		} else if (key.ends_with(percent_suffix) && commodity::try_get(key.substr(0, key.size() - percent_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - percent_suffix.size()));
 			return std::make_unique<commodity_percent_effect>(commodity, value, effect_operator);

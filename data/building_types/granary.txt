@@ -17,6 +17,5 @@ granary = {
 	}
 	province_modifier = {
 		grain_per_improved_grain = 1
-		health_per_improved_grain = 1
 	}
 }

@@ -47,8 +47,6 @@ site_game_data::site_game_data(const kobold::site *site) : site(site)
 		this->initialize_building_slots();
 	}
 
-	this->free_food_consumption = site_game_data::base_free_food_consumption;
-
 	this->set_resource_discovered(true);
 }
 
@@ -894,21 +892,6 @@ void site_game_data::decrement_scripted_modifiers()
 	for (const scripted_site_modifier *modifier : modifiers_to_remove) {
 		this->remove_scripted_modifier(modifier);
 	}
-}
-
-void site_game_data::change_health(const centesimal_int &change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	this->health += change;
-
-	if (this->get_owner() != nullptr) {
-		this->get_owner()->get_game_data()->change_health(change);
-	}
-
-	emit health_changed();
 }
 
 void site_game_data::change_base_commodity_output(const commodity *commodity, const centesimal_int &change)

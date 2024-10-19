@@ -24,10 +24,8 @@ months_per_turn_from_year = { #months per turn after a certain year has been rea
 }
 
 settlement_commodity_bonuses = {
-	health = 4
 }
 river_settlement_commodity_bonuses = {
-	health = 2
 }
 
 research_commodity = research

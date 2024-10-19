@@ -3,7 +3,6 @@
 #include "country/consulate_container.h"
 #include "country/country_container.h"
 #include "country/law_group_container.h"
-#include "country/policy_container.h"
 #include "country/tradition_container.h"
 #include "economy/commodity_container.h"
 #include "economy/resource_container.h"
@@ -28,7 +27,6 @@ Q_MOC_INCLUDE("country/government_type.h")
 Q_MOC_INCLUDE("country/journal_entry.h")
 Q_MOC_INCLUDE("country/law.h")
 Q_MOC_INCLUDE("country/law_group.h")
-Q_MOC_INCLUDE("country/policy.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("country/subject_type.h")
 Q_MOC_INCLUDE("country/tradition.h")
@@ -107,7 +105,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QRect diplomatic_map_image_rect READ get_diplomatic_map_image_rect NOTIFY diplomatic_map_image_changed)
 	Q_PROPERTY(int score READ get_score NOTIFY score_changed)
 	Q_PROPERTY(int score_rank READ get_score_rank NOTIFY score_rank_changed)
-	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(int wealth READ get_wealth NOTIFY wealth_changed)
 	Q_PROPERTY(int wealth_income READ get_wealth_income NOTIFY wealth_income_changed)
@@ -128,7 +125,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QColor diplomatic_map_color READ get_diplomatic_map_color NOTIFY overlord_changed)
 	Q_PROPERTY(const kobold::government_type* government_type READ get_government_type NOTIFY government_type_changed)
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY laws_changed)
-	Q_PROPERTY(QVariantList policy_values READ get_policy_values_qvariant_list NOTIFY policy_values_changed)
 	Q_PROPERTY(QVariantList available_traditions READ get_available_traditions_qvariant_list NOTIFY traditions_changed)
 	Q_PROPERTY(int tradition_cost READ get_tradition_cost NOTIFY traditions_changed)
 	Q_PROPERTY(const kobold::tradition* next_tradition READ get_next_tradition WRITE set_next_tradition NOTIFY next_tradition_changed)
@@ -606,44 +602,6 @@ public:
 		return static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size()) + static_cast<int>(this->transporters.size());
 	}
 
-	const centesimal_int &get_health() const
-	{
-		return this->health;
-	}
-
-	int get_health_int() const
-	{
-		return this->get_health().to_int();
-	}
-
-	void change_health(const centesimal_int &change)
-	{
-		if (change == 0) {
-			return;
-		}
-
-		this->health += change;
-
-		emit health_changed();
-	}
-
-	int get_food_consumption() const
-	{
-		return this->food_consumption;
-	}
-
-	void change_food_consumption(const int change)
-	{
-		this->food_consumption += change;
-	}
-
-	int get_net_food_consumption() const;
-
-	int get_available_food() const
-	{
-		return this->get_stored_food() - this->get_net_food_consumption();
-	}
-
 	QVariantList get_building_slots_qvariant_list() const;
 	void initialize_building_slots();
 
@@ -852,8 +810,6 @@ public:
 	{
 		this->set_stored_commodity(commodity, this->get_stored_commodity(commodity) + value);
 	}
-
-	int get_stored_food() const;
 
 	int get_storage_capacity() const
 	{
@@ -1115,42 +1071,6 @@ public:
 	}
 
 	void check_laws();
-
-	const policy_map<int> &get_policy_values() const
-	{
-		return this->policy_values;
-	}
-
-	QVariantList get_policy_values_qvariant_list() const;
-
-	Q_INVOKABLE int get_policy_value(const kobold::policy *policy) const
-	{
-		const auto find_iterator = this->get_policy_values().find(policy);
-
-		if (find_iterator != this->get_policy_values().end()) {
-			return find_iterator->second;
-		}
-
-		return 0;
-	}
-
-	void set_policy_value(const policy *policy, const int value);
-	
-	void change_policy_value(const policy *policy, const int change)
-	{
-		this->set_policy_value(policy, this->get_policy_value(policy) + change);
-	}
-
-	Q_INVOKABLE int get_min_policy_value(const kobold::policy *policy) const;
-	Q_INVOKABLE int get_max_policy_value(const kobold::policy *policy) const;
-
-	Q_INVOKABLE bool can_change_policy_value(const kobold::policy *policy, const int change) const;
-	Q_INVOKABLE void do_policy_value_change(const kobold::policy *policy, const int change);
-
-	Q_INVOKABLE int get_policy_value_change_cost_modifier() const
-	{
-		return 100;
-	}
 
 	const tradition_set &get_traditions() const
 	{
@@ -2123,7 +2043,6 @@ signals:
 	void score_changed();
 	void score_rank_changed();
 	void rank_changed();
-	void health_changed();
 	void settlement_building_counts_changed();
 	void wealth_changed();
 	void wealth_income_changed();
@@ -2144,7 +2063,6 @@ signals:
 	void sea_transport_capacity_changed();
 	void government_type_changed();
 	void laws_changed();
-	void policy_values_changed();
 	void traditions_changed();
 	void next_tradition_changed();
 	void tradition_adopted(const tradition *tradition);
@@ -2201,8 +2119,6 @@ private:
 	int score_rank = 0;
 	int economic_score = 0;
 	int military_score = 0;
-	centesimal_int health;
-	int food_consumption = 0;
 	std::vector<qunique_ptr<country_building_slot>> building_slots;
 	building_slot_type_map<country_building_slot *> building_slot_map;
 	building_type_map<int> settlement_building_counts;
@@ -2227,7 +2143,6 @@ private:
 	int sea_transport_capacity = 0;
 	const kobold::government_type *government_type = nullptr;
 	law_group_map<const law *> laws;
-	policy_map<int> policy_values;
 	tradition_set traditions;
 	const tradition *next_tradition = nullptr;
 	const tradition *next_belief = nullptr;

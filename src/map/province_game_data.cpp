@@ -596,10 +596,6 @@ void province_game_data::change_local_commodity_output(const commodity *commodit
 	if (output == 0) {
 		this->local_commodity_outputs.erase(commodity);
 	}
-
-	if (commodity->is_health()) {
-		this->province->get_provincial_capital()->get_game_data()->change_health(change);
-	}
 }
 
 void province_game_data::change_improved_resource_commodity_bonus(const resource *resource, const commodity *commodity, const int change)

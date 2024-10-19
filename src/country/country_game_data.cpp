@@ -21,7 +21,6 @@
 #include "country/journal_entry.h"
 #include "country/law.h"
 #include "country/law_group.h"
-#include "country/policy.h"
 #include "country/religion.h"
 #include "country/tradition.h"
 #include "country/tradition_category.h"
@@ -803,8 +802,6 @@ void country_game_data::on_site_gained(const site *site, const int multiplier)
 				this->on_wonder_gained(wonder, multiplier);
 			}
 		}
-
-		this->change_health(site_game_data->get_health() * multiplier);
 	}
 }
 
@@ -1726,23 +1723,6 @@ void country_game_data::change_military_score(const int change)
 	this->change_score(change);
 }
 
-int country_game_data::get_net_food_consumption() const
-{
-	int food_consumption = this->get_food_consumption();
-
-	for (const province *province : this->get_provinces()) {
-		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-			if (!settlement->get_game_data()->is_built()) {
-				continue;
-			}
-
-			food_consumption -= settlement->get_game_data()->get_free_food_consumption();
-		}
-	}
-
-	return food_consumption;
-}
-
 QVariantList country_game_data::get_building_slots_qvariant_list() const
 {
 	std::vector<const country_building_slot *> available_building_slots;
@@ -2039,19 +2019,6 @@ void country_game_data::set_stored_commodity(const commodity *commodity, const i
 	if (game::get()->is_running()) {
 		emit stored_commodities_changed();
 	}
-}
-
-int country_game_data::get_stored_food() const
-{
-	int stored_food = 0;
-
-	for (const auto &[commodity, quantity] : this->get_stored_commodities()) {
-		if (commodity->is_food()) {
-			stored_food += quantity;
-		}
-	}
-
-	return stored_food;
 }
 
 void country_game_data::set_storage_capacity(const int capacity)
@@ -2622,78 +2589,6 @@ void country_game_data::check_laws()
 			}
 		}
 	}
-}
-
-QVariantList country_game_data::get_policy_values_qvariant_list() const
-{
-	return archimedes::map::to_qvariant_list(this->get_policy_values());
-}
-
-void country_game_data::set_policy_value(const policy *policy, const int value)
-{
-	if (value == this->get_policy_value(policy)) {
-		return;
-	}
-
-	if (value < this->get_min_policy_value(policy)) {
-		this->set_policy_value(policy, this->get_min_policy_value(policy));
-		return;
-	} else if (value > this->get_max_policy_value(policy)) {
-		this->set_policy_value(policy, this->get_max_policy_value(policy));
-		return;
-	}
-
-	const int old_value = this->get_policy_value(policy);
-	policy->apply_modifier(this->country, old_value, -1);
-
-	if (value == 0) {
-		this->policy_values.erase(policy);
-	} else {
-		this->policy_values[policy] = value;
-	}
-
-	policy->apply_modifier(this->country, value, 1);
-
-	if (game::get()->is_running()) {
-		emit policy_values_changed();
-	}
-}
-
-int country_game_data::get_min_policy_value(const kobold::policy *policy) const
-{
-	return this->get_government_type()->get_min_policy_value(policy);
-}
-
-int country_game_data::get_max_policy_value(const kobold::policy *policy) const
-{
-	return this->get_government_type()->get_max_policy_value(policy);
-}
-
-bool country_game_data::can_change_policy_value(const kobold::policy *policy, const int change) const
-{
-	const int new_value = this->get_policy_value(policy) + change;
-	if (new_value < this->get_min_policy_value(policy)) {
-		return false;
-	} else if (new_value > this->get_max_policy_value(policy)) {
-		return false;
-	}
-
-	for (const auto &[commodity, cost] : policy->get_change_commodity_costs()) {
-		if (this->get_stored_commodity(commodity) < (cost * this->get_policy_value_change_cost_modifier() / 100)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-void country_game_data::do_policy_value_change(const policy *policy, const int change)
-{
-	for (const auto &[commodity, cost] : policy->get_change_commodity_costs()) {
-		this->change_stored_commodity(commodity, -cost * this->get_policy_value_change_cost_modifier() / 100);
-	}
-
-	this->change_policy_value(policy, change);
 }
 
 std::vector<const tradition *> country_game_data::get_available_traditions() const
@@ -3421,8 +3316,6 @@ void country_game_data::add_civilian_unit(qunique_ptr<civilian_unit> &&civilian_
 {
 	if (civilian_unit->get_character() != nullptr) {
 		civilian_unit->get_character()->get_game_data()->set_country(this->country);
-	} else {
-		this->change_food_consumption(1);
 	}
 
 	this->civilian_units.push_back(std::move(civilian_unit));
@@ -3435,8 +3328,6 @@ void country_game_data::remove_civilian_unit(civilian_unit *civilian_unit)
 	if (civilian_unit->get_character() != nullptr) {
 		assert_throw(civilian_unit->get_character()->get_game_data()->get_country() == this->country);
 		civilian_unit->get_character()->get_game_data()->set_country(nullptr);
-	} else {
-		this->change_food_consumption(-1);
 	}
 
 	for (size_t i = 0; i < this->civilian_units.size(); ++i) {
@@ -3449,20 +3340,12 @@ void country_game_data::remove_civilian_unit(civilian_unit *civilian_unit)
 
 void country_game_data::add_military_unit(qunique_ptr<military_unit> &&military_unit)
 {
-	if (military_unit->get_character() == nullptr) {
-		this->change_food_consumption(1);
-	}
-
 	this->military_unit_names.insert(military_unit->get_name());
 	this->military_units.push_back(std::move(military_unit));
 }
 
 void country_game_data::remove_military_unit(military_unit *military_unit)
 {
-	if (military_unit->get_character() == nullptr) {
-		this->change_food_consumption(-1);
-	}
-
 	this->military_unit_names.erase(military_unit->get_name());
 
 	for (size_t i = 0; i < this->military_units.size(); ++i) {
@@ -3490,8 +3373,6 @@ void country_game_data::remove_army(army *army)
 
 void country_game_data::add_transporter(qunique_ptr<transporter> &&transporter)
 {
-	this->change_food_consumption(1);
-
 	if (transporter->is_ship()) {
 		this->change_sea_transport_capacity(transporter->get_cargo());
 	} else {
@@ -3503,8 +3384,6 @@ void country_game_data::add_transporter(qunique_ptr<transporter> &&transporter)
 
 void country_game_data::remove_transporter(transporter *transporter)
 {
-	this->change_food_consumption(-1);
-
 	if (transporter->is_ship()) {
 		this->change_sea_transport_capacity(-transporter->get_cargo());
 	} else {

@@ -44,14 +44,11 @@ class site_game_data final : public QObject
 	Q_PROPERTY(const kobold::improvement* port_improvement READ get_port_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(int health READ get_health_int NOTIFY health_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
 	Q_PROPERTY(int transport_level READ get_best_transport_level NOTIFY transport_level_changed)
 	Q_PROPERTY(QVariantList visiting_armies READ get_visiting_armies_qvariant_list NOTIFY visiting_armies_changed)
 
 public:
-	static constexpr int base_free_food_consumption = 1;
-
 	explicit site_game_data(const kobold::site *site);
 
 	void do_turn();
@@ -191,28 +188,6 @@ public:
 	void add_scripted_modifier(const scripted_site_modifier *modifier, const int duration);
 	void remove_scripted_modifier(const scripted_site_modifier *modifier);
 	void decrement_scripted_modifiers();
-
-	const centesimal_int &get_health() const
-	{
-		return this->health;
-	}
-
-	int get_health_int() const
-	{
-		return this->get_health().to_int();
-	}
-
-	void change_health(const centesimal_int &change);
-
-	int get_free_food_consumption() const
-	{
-		return this->free_food_consumption;
-	}
-
-	void change_free_food_consumption(const int change)
-	{
-		this->free_food_consumption += change;
-	}
 
 	const commodity_map<centesimal_int> &get_base_commodity_outputs() const
 	{
@@ -412,7 +387,6 @@ signals:
 	void improvements_changed();
 	void settlement_type_changed();
 	void scripted_modifiers_changed();
-	void health_changed();
 	void commodity_outputs_changed();
 	void transport_level_changed();
 	void visiting_armies_changed();
@@ -428,8 +402,6 @@ private:
 	std::vector<qunique_ptr<settlement_building_slot>> building_slots;
 	building_slot_type_map<settlement_building_slot *> building_slot_map;
 	scripted_site_modifier_map<int> scripted_modifiers;
-	centesimal_int health;
-	int free_food_consumption = 0;
 	commodity_map<centesimal_int> base_commodity_outputs;
 	commodity_map<centesimal_int> commodity_outputs;
 	commodity_map<centesimal_int> local_everyday_consumption;
