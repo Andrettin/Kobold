@@ -40,7 +40,7 @@ enum class character_role;
 enum class military_unit_category;
 
 template <typename scope_type>
-class condition;
+class and_condition;
 
 template <typename scope_type>
 class effect_list;
@@ -257,7 +257,7 @@ public:
 		return this->traits;
 	}
 
-	const condition<country> *get_conditions() const
+	const and_condition<country> *get_conditions() const
 	{
 		return this->conditions.get();
 	}
@@ -307,7 +307,7 @@ private:
 	int skill = 0;
 	std::vector<const country *> rulable_countries;
 	std::vector<const trait *> traits;
-	std::unique_ptr<const condition<country>> conditions;
+	std::unique_ptr<const and_condition<country>> conditions;
 	qunique_ptr<character_history> history;
 	qunique_ptr<character_game_data> game_data;
 };

@@ -14,7 +14,7 @@ class portrait;
 class province;
 
 template <typename scope_type>
-class condition;
+class and_condition;
 
 template <typename scope_type>
 class factor;
@@ -71,12 +71,12 @@ public:
 		return this->cost_factor.get();
 	}
 
-	const condition<country> *get_conditions() const
+	const and_condition<country> *get_conditions() const
 	{
 		return this->conditions.get();
 	}
 
-	const condition<province> *get_province_conditions() const
+	const and_condition<province> *get_province_conditions() const
 	{
 		return this->province_conditions.get();
 	}
@@ -100,8 +100,8 @@ private:
 	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;
-	std::unique_ptr<const condition<country>> conditions;
-	std::unique_ptr<const condition<province>> province_conditions;
+	std::unique_ptr<const and_condition<country>> conditions;
+	std::unique_ptr<const and_condition<province>> province_conditions;
 	std::unique_ptr<modifier<const province>> province_modifier;
 	std::unique_ptr<modifier<const country>> country_modifier;
 };

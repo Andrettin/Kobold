@@ -200,9 +200,6 @@ set_source_files_properties(${script_SRCS} PROPERTIES UNITY_GROUP "script")
 set(script_condition_SRCS
 	src/script/condition/and_condition.cpp
 	src/script/condition/condition.cpp
-	src/script/condition/not_condition.cpp
-	src/script/condition/or_condition.cpp
-	src/script/condition/scripted_condition.cpp
 )
 source_group(script\\condition FILES ${script_condition_SRCS})
 set_source_files_properties(${script_condition_SRCS} PROPERTIES UNITY_GROUP "script_condition")
@@ -546,9 +543,6 @@ set(script_condition_HDRS
 	src/script/condition/military_unit_domain_condition.h
 	src/script/condition/military_unit_type_condition.h
 	src/script/condition/near_water_condition.h
-	src/script/condition/not_condition.h
-	src/script/condition/numerical_condition.h
-	src/script/condition/or_condition.h
 	src/script/condition/owns_province_condition.h
 	src/script/condition/owns_site_condition.h
 	src/script/condition/primary_attribute_condition.h
@@ -564,19 +558,15 @@ set(script_condition_HDRS
 	src/script/condition/root_character_condition.h
 	src/script/condition/ruler_condition.h
 	src/script/condition/ruler_scope_condition.h
-	src/script/condition/saved_scope_condition.h
-	src/script/condition/scripted_modifier_condition.h
-	src/script/condition/scope_condition.h
-	src/script/condition/scope_condition_base.h
 	src/script/condition/scripted_condition.h
 	src/script/condition/scripted_condition_condition.h
+	src/script/condition/scripted_modifier_condition.h
 	src/script/condition/settlement_type_condition.h
 	src/script/condition/source_character_condition.h
 	src/script/condition/source_site_condition.h
 	src/script/condition/source_site_scope_condition.h
 	src/script/condition/subject_type_condition.h
 	src/script/condition/terrain_condition.h
-	src/script/condition/tooltip_condition.h
 	src/script/condition/tradition_condition.h
 	src/script/condition/trait_condition.h
 	src/script/condition/war_condition.h

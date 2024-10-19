@@ -11,7 +11,7 @@ class icon;
 class military_unit;
 
 template <typename scope_type>
-class condition;
+class and_condition;
 
 template <typename scope_type>
 class modifier;
@@ -39,7 +39,7 @@ public:
 		return this->icon;
 	}
 
-	const condition<military_unit> *get_conditions() const
+	const and_condition<military_unit> *get_conditions() const
 	{
 		return this->conditions.get();
 	}
@@ -56,7 +56,7 @@ signals:
 
 private:
 	kobold::icon *icon = nullptr;
-	std::unique_ptr<const condition<military_unit>> conditions;
+	std::unique_ptr<const and_condition<military_unit>> conditions;
 	std::unique_ptr<const kobold::modifier<military_unit>> modifier;
 };
 

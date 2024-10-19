@@ -1,6 +1,6 @@
 #pragma once
 
-#include "script/effect_base.h"
+#include "script/effect/effect_base.h"
 
 namespace archimedes {
 	class gsml_data;
