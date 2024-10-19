@@ -533,7 +533,8 @@ void game::apply_history(const kobold::scenario *scenario)
 						country_game_data->add_leader(character);
 
 						assert_throw(character_game_data->get_country() != nullptr);
-						character_game_data->deploy_to_province(character_history->get_deployment_province());
+						//FIXME: should deploy to site
+						//character_game_data->deploy_to_province(character_history->get_deployment_province());
 					}
 
 					const civilian_unit_type *type = character->get_civilian_unit_type();
