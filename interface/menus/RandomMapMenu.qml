@@ -104,7 +104,6 @@ MenuBase {
 			+ "\n" + selected_country.game_data.title_name
 			+ (selected_country.game_data.anarchy ? "\nAnarchy" : "")
 			+ (selected_country.great_power && !selected_country.game_data.anarchy ? ("\nScore: " + number_string(selected_country.game_data.score) + " (#" + (selected_country.game_data.score_rank + 1) + ")") : "")
-			+ "\nPopulation: " + number_string(selected_country.game_data.population.size)
 			+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 			+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
 			+ get_resource_counts_string(selected_country.game_data.resource_counts)
@@ -138,75 +137,6 @@ MenuBase {
 			
 			return str
 		}
-	}
-	
-	SmallText {
-		id: population_type_chart_label
-		anchors.top: country_text.top
-		anchors.horizontalCenter: population_type_chart.horizontalCenter
-		text: "Population Type"
-		visible: population_type_chart.visible
-	}
-	
-	PopulationTypeChart {
-		id: population_type_chart
-		anchors.top: culture_chart.top
-		anchors.right: culture_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-		data_source: selected_country ? selected_country.game_data.population : null
-	}
-	
-	SmallText {
-		id: culture_chart_label
-		anchors.top: country_text.top
-		anchors.horizontalCenter: culture_chart.horizontalCenter
-		text: "Culture"
-		visible: culture_chart.visible
-	}
-	
-	CultureChart {
-		id: culture_chart
-		anchors.top: culture_chart_label.bottom
-		anchors.topMargin: 4 * scale_factor
-		anchors.right: religion_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-		data_source: selected_country ? selected_country.game_data.population : null
-	}
-	
-	SmallText {
-		id: religion_chart_label
-		anchors.top: country_text.top
-		anchors.horizontalCenter: religion_chart.horizontalCenter
-		text: "Religion"
-		visible: religion_chart.visible
-	}
-	
-	ReligionChart {
-		id: religion_chart
-		anchors.top: population_type_chart.top
-		anchors.right: phenotype_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-		data_source: selected_country ? selected_country.game_data.population : null
-	}
-	
-	SmallText {
-		id: phenotype_chart_label
-		anchors.top: country_text.top
-		anchors.horizontalCenter: phenotype_chart.horizontalCenter
-		text: "Phenotype"
-		visible: phenotype_chart.visible
-	}
-	
-	PhenotypeChart {
-		id: phenotype_chart
-		anchors.top: population_type_chart.top
-		anchors.right: diplomatic_map_background.right
-		anchors.rightMargin: 4 * scale_factor
-		visible: selected_country !== null
-		data_source: selected_country ? selected_country.game_data.population : null
 	}
 	
 	Rectangle {

@@ -142,9 +142,9 @@ MenuBase {
 		id: country_text_area
 		anchors.left: diplomatic_map.left
 		anchors.leftMargin: 4 * scale_factor
-		anchors.right: population_type_chart_label.left
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: 4 * scale_factor
+		width: 128 * scale_factor
 		height: 128 * scale_factor
 		contentWidth: contentItem.childrenRect.width
 		contentHeight: contentItem.childrenRect.height
@@ -163,7 +163,6 @@ MenuBase {
 				+ "\n" + selected_country.game_data.title_name
 				+ (selected_country.game_data.anarchy ? "\nAnarchy" : "")
 				+ (selected_country.great_power && !selected_country.game_data.anarchy ? ("\nScore: " + number_string(selected_country.game_data.score) + " (#" + (selected_country.game_data.score_rank + 1) + ")") : "")
-				+ "\nPopulation: " + number_string(selected_country.game_data.population.size)
 				+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 				+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
 				+ get_resource_counts_string(selected_country.game_data.resource_counts)
@@ -197,7 +196,7 @@ MenuBase {
 	
 	SmallText {
 		id: ruler_label
-		anchors.top: population_type_chart_label.top
+		anchors.top: country_text_area.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
 		text: "Ruler"
 		visible: ruler_portrait.visible
@@ -205,10 +204,10 @@ MenuBase {
 	
 	PortraitButton {
 		id: ruler_portrait
-		anchors.top: population_type_chart.top
-		anchors.topMargin: 8 * scale_factor
-		anchors.right: population_type_chart.left
-		anchors.rightMargin: 32 * scale_factor
+		anchors.top: ruler_label.bottom
+		anchors.topMargin: 12 * scale_factor
+		anchors.left: country_text_area.right
+		anchors.leftMargin: 32 * scale_factor
 		portrait_identifier: portrait ? portrait.identifier : ""
 		visible: ruler !== null
 		tooltip: ruler && selected_country ? (selected_country.game_data.ruler_title_name + " " + ruler.full_name) : ""
@@ -216,71 +215,6 @@ MenuBase {
 		
 		property var ruler: null
 		property var portrait: null
-	}
-	
-	SmallText {
-		id: population_type_chart_label
-		anchors.top: country_text_area.top
-		anchors.horizontalCenter: population_type_chart.horizontalCenter
-		text: "Population Type"
-		visible: population_type_chart.visible
-	}
-	
-	PopulationTypeChart {
-		id: population_type_chart
-		anchors.top: culture_chart.top
-		anchors.right: culture_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-	}
-	
-	SmallText {
-		id: culture_chart_label
-		anchors.top: country_text_area.top
-		anchors.horizontalCenter: culture_chart.horizontalCenter
-		text: "Culture"
-		visible: culture_chart.visible
-	}
-	
-	CultureChart {
-		id: culture_chart
-		anchors.top: culture_chart_label.bottom
-		anchors.topMargin: 4 * scale_factor
-		anchors.right: religion_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-	}
-	
-	SmallText {
-		id: religion_chart_label
-		anchors.top: country_text_area.top
-		anchors.horizontalCenter: religion_chart.horizontalCenter
-		text: "Religion"
-		visible: religion_chart.visible
-	}
-	
-	ReligionChart {
-		id: religion_chart
-		anchors.top: population_type_chart.top
-		anchors.right: phenotype_chart.left
-		anchors.rightMargin: 16 * scale_factor
-		visible: selected_country !== null
-	}
-	
-	SmallText {
-		id: phenotype_chart_label
-		anchors.top: country_text_area.top
-		anchors.horizontalCenter: phenotype_chart.horizontalCenter
-		text: "Phenotype"
-		visible: phenotype_chart.visible
-	}
-	
-	PhenotypeChart {
-		id: phenotype_chart
-		anchors.top: population_type_chart.top
-		anchors.right: diplomatic_map_background.right
-		anchors.rightMargin: 4 * scale_factor
-		visible: selected_country !== null
 	}
 	
 	Rectangle {
@@ -469,11 +403,6 @@ MenuBase {
 		if (ruler_portrait.ruler !== null) {
 			ruler_portrait.portrait = ruler_portrait.ruler.game_data.portrait
 		}
-		
-		population_type_chart.population_data = country ? country.game_data.population.type_counts : null
-		culture_chart.population_data = country ? country.game_data.population.culture_counts : null
-		religion_chart.population_data = country ? country.game_data.population.religion_counts : null
-		phenotype_chart.population_data = country ? country.game_data.population.phenotype_counts : null
 	}
 	
 	onSelected_countryChanged: {

@@ -40,29 +40,9 @@ Rectangle {
 	}
 	
 	IconButton {
-		id: technology_button
-		anchors.top: politics_button.top
-		anchors.left: politics_button.right
-		anchors.leftMargin: 4 * scale_factor
-		icon_identifier: "cog"
-		
-		onReleased: {
-			menu_stack.push("TechnologyView.qml")
-		}
-		
-		onHoveredChanged: {
-			if (hovered) {
-				status_text = "View Technologies"
-			} else {
-				status_text = ""
-			}
-		}
-	}
-	
-	IconButton {
 		id: journal_button
 		anchors.top: politics_button.top
-		anchors.left: technology_button.right
+		anchors.left: politics_button.right
 		anchors.leftMargin: 4 * scale_factor
 		icon_identifier: "newspaper"
 		

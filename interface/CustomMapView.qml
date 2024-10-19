@@ -155,10 +155,6 @@ Item {
 		anchors.left: parent.left
 	}
 	
-	ResearchChoiceDialog {
-		id: research_choice_dialog
-	}
-	
 	TraditionChoiceDialog {
 		id: tradition_choice_dialog
 	}
@@ -242,33 +238,6 @@ Item {
 			event_dialog.open()
 		}
 		
-		function onCurrent_research_choosable(potential_technologies) {
-			research_choice_dialog.potential_technologies = potential_technologies
-			research_choice_dialog.free_technology = false
-			research_choice_dialog.open()
-		}
-		
-		function onFree_technology_choosable(potential_technologies) {
-			research_choice_dialog.potential_technologies = potential_technologies
-			research_choice_dialog.free_technology = true
-			research_choice_dialog.open()
-		}
-		
-		function onNext_tradition_choosable(potential_traditions) {
-			tradition_choice_dialog.potential_traditions = potential_traditions
-			tradition_choice_dialog.open()
-		}
-		
-		function onNext_belief_choosable(potential_beliefs) {
-			belief_choice_dialog.potential_beliefs = potential_beliefs
-			belief_choice_dialog.open()
-		}
-		
-		function onNext_advisor_choosable(potential_advisors) {
-			advisor_choice_dialog.potential_advisors = potential_advisors
-			advisor_choice_dialog.open()
-		}
-		
 		function onNext_leader_choosable(potential_leaders) {
 			leader_choice_dialog.potential_leaders = potential_leaders
 			leader_choice_dialog.open()
@@ -277,99 +246,6 @@ Item {
 	
 	Connections {
 		target: kobold.game.player_country.game_data
-		
-		function onTechnology_researched(technology) {
-			if (notification_dialog_component.status == Component.Error) {
-				console.error(notification_dialog_component.errorString())
-				return
-			}
-			
-			var dialog = notification_dialog_component.createObject(map_view, {
-				title: technology.discovery ? "Discovery" : "Technology Researched",
-				portrait_object: kobold.defines.interior_minister_portrait,
-				text: technology.discovery ? ("Your Excellency, we have discovered " + technology.name + "!") : ("Your Excellency, our scholars have made a breakthrough in the research of the " + technology.name + " technology!"),
-				second_button_text: "View Technologies",
-				second_button_effects: () => {
-					if (!technology.discovery && !(menu_stack.currentItem instanceof TechnologyView)) {
-						menu_stack.push("TechnologyView.qml")
-					}
-				}
-			})
-			
-			dialog.open()
-		}
-		
-		function onTradition_adopted(tradition) {
-			if (notification_dialog_component.status == Component.Error) {
-				console.error(notification_dialog_component.errorString())
-				return
-			}
-			
-			var dialog = notification_dialog_component.createObject(map_view, {
-				title: "Tradition Adopted",
-				portrait_object: kobold.defines.interior_minister_portrait,
-				text: "Your Excellency, we have adopted the " + tradition.name  + " tradition!",
-				second_button_text: "View Traditions",
-				second_button_effects: () => {
-					politics_view_mode = PoliticsView.Mode.Traditions
-					
-					menu_stack.push("PoliticsView.qml", {
-						country: kobold.game.player_country,
-						new_tradition: tradition
-					})
-				}
-			})
-			
-			dialog.open()
-		}
-		
-		function onBelief_adopted(belief) {
-			if (notification_dialog_component.status == Component.Error) {
-				console.error(notification_dialog_component.errorString())
-				return
-			}
-			
-			var dialog = notification_dialog_component.createObject(map_view, {
-				title: "Belief Adopted",
-				portrait_object: kobold.defines.interior_minister_portrait,
-				text: "Your Excellency, we have adopted the " + belief.name  + " belief!",
-				second_button_text: "View Traditions",
-				second_button_effects: () => {
-					politics_view_mode = PoliticsView.Mode.Traditions
-					
-					menu_stack.push("PoliticsView.qml", {
-						country: kobold.game.player_country,
-						new_tradition: belief
-					})
-				}
-			})
-			
-			dialog.open()
-		}
-		
-		function onAdvisor_recruited(advisor) {
-			if (notification_dialog_component.status == Component.Error) {
-				console.error(notification_dialog_component.errorString())
-				return
-			}
-			
-			var dialog = notification_dialog_component.createObject(map_view, {
-				title: "Advisor Recruited",
-				portrait_object: kobold.defines.interior_minister_portrait,
-				text: "Your Excellency, " + advisor.full_name  + " has joined our nation as an advisor!",
-				second_button_text: "View Advisors",
-				second_button_effects: () => {
-					politics_view_mode = PoliticsView.Mode.Advisors
-					
-					menu_stack.push("PoliticsView.qml", {
-						country: kobold.game.player_country,
-						new_advisor: advisor
-					})
-				}
-			})
-			
-			dialog.open()
-		}
 		
 		function onLeader_recruited(leader) {
 			if (notification_dialog_component.status == Component.Error) {
