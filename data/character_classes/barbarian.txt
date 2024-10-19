@@ -1,0 +1,4 @@
+barbarian = {
+	name = "Barbarian"
+	attribute = martial
+}

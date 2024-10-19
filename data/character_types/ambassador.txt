@@ -1,4 +1,0 @@
-ambassador = {
-	name = "Ambassador"
-	attribute = diplomacy
-}

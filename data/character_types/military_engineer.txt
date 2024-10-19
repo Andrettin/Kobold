@@ -1,8 +1,0 @@
-military_engineer = {
-	name = "Military Engineer"
-	attribute = martial
-	military_unit_category = general
-	scaled_ruler_modifier = {
-		entrenchment_bonus_modifier = 5
-	}
-}

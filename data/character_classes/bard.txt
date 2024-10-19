@@ -1,0 +1,4 @@
+bard = {
+	name = "Bard"
+	attribute = diplomacy
+}

@@ -1,27 +1,7 @@
-philip_the_fair = {
-	name = "Philip"
-	epithet = "the Fair"
-	role = ruler
-	character_type = statesman
-	culture = french
-	religion = catholic
-	home_settlement = paris
-	gender = male
-	birth_date = 1268.6.8
-	death_date = 1314.11.29
-	rulable_countries = {
-		france
-	}
-	traits = {
-		dutiful_cleric
-		temperate
-	}
-}
-
 jacques_cartier = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 207.
 	name = "Jacques"
 	surname = "Cartier"
-	#character_type = navigator
+	character_class = expert #navigator
 	culture = french
 	religion = catholic
 	home_settlement = paris
@@ -36,7 +16,7 @@ jacques_cartier = { #Source: Isaac Asimov, "Cronologia das Ciências e das Desco
 jean_calvin = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 208.
 	name = "Jean"
 	surname = "Calvin"
-	character_type = theologian
+	character_class = cleric #theologian
 	culture = french
 	religion = protestant
 	home_settlement = geneva
@@ -49,7 +29,7 @@ jean_calvin = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobert
 ambroise_pare = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 212-213.
 	name = "Ambroise"
 	surname = "Pare" #"Paré"
-	character_type = natural_scientist #barber-surgeon
+	character_class = expert #barber-surgeon
 	culture = french
 	religion = catholic
 	home_settlement = paris
@@ -65,6 +45,7 @@ ambroise_pare = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 henri_ii_of_france = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 212.
 	name = "Henri"
 	epithet = "II"
+	character_class = aristocrat
 	culture = french
 	religion = catholic
 	home_settlement = paris
@@ -73,40 +54,10 @@ henri_ii_of_france = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 	death_date = 1559
 }
 
-jean_de_brebeuf = {
-	name = "Jean"
-	surname = "de Brebeuf"
-	#character_type = theologian
-	culture = french
-	religion = catholic
-	home_settlement = quebec
-	gender = male
-	birth_date = 1593
-	death_date = 1649
-}
-
-jacques_marquette = {
-	name = "Jacques"
-	surname = "Marquette"
-	character_type = jacques_marquette
-	culture = french
-	religion = catholic
-	home_site = laon
-	gender = male
-	birth_date = 1637
-	death_date = 1675
-	
-	history = {
-		1673 = {
-			country = new_france
-		}
-	}
-}
-
 sieur_de_la_salle = {
 	name = "Sieur"
 	surname = "de La Salle"
-	character_type = sieur_de_la_salle
+	character_class = aristocrat
 	culture = french
 	religion = catholic
 	home_site = montreal
@@ -118,26 +69,5 @@ sieur_de_la_salle = {
 		1682 = {
 			country = new_france #acquired new territories for New France in 1682; Source: William R. Shepherd, "Historical Atlas", 1911, p. 128.
 		}
-	}
-}
-
-louis_xiv_of_france = {
-	name = "Louis"
-	epithet = "XIV"
-	role = ruler
-	character_type = statesman
-	culture = french
-	religion = catholic
-	portrait = louis_xiv
-	home_settlement = paris
-	gender = male
-	birth_date = 1638
-	death_date = 1715
-	rulable_countries = {
-		france
-	}
-	traits = {
-		creative
-		industrious
 	}
 }

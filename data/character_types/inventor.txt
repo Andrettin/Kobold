@@ -1,4 +1,0 @@
-inventor = {
-	name = "Inventor"
-	attribute = learning
-}

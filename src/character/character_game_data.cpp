@@ -4,8 +4,8 @@
 
 #include "character/character.h"
 #include "character/character_attribute.h"
+#include "character/character_class.h"
 #include "character/character_role.h"
-#include "character/character_type.h"
 #include "character/trait.h"
 #include "character/trait_type.h"
 #include "country/country.h"
@@ -76,7 +76,7 @@ void character_game_data::on_setup_finished()
 		}
 	}
 
-	if (this->character->get_role() == character_role::ruler && this->get_primary_attribute_value() == 0 && this->character->get_character_type()->get_ruler_modifier() == nullptr && this->character->get_character_type()->get_scaled_ruler_modifier() != nullptr) {
+	if (this->character->get_role() == character_role::ruler && this->get_primary_attribute_value() == 0 && this->character->get_character_class()->get_ruler_modifier() == nullptr && this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
 		throw std::runtime_error(std::format("Character \"{}\" is a ruler with a scaled modifier, but has an initial ruler skill of zero.", this->character->get_identifier()));
 	}
 
@@ -220,7 +220,7 @@ void character_game_data::change_attribute_value(const character_attribute attri
 
 int character_game_data::get_primary_attribute_value() const
 {
-	assert_throw(this->character->get_character_type() != nullptr);
+	assert_throw(this->character->get_character_class() != nullptr);
 
 	return this->get_attribute_value(this->character->get_primary_attribute());
 }
@@ -472,13 +472,13 @@ std::string character_game_data::get_ruler_modifier_string(const kobold::country
 {
 	assert_throw(this->character->get_role() == character_role::ruler);
 
-	std::string str = string::highlight(this->character->get_character_type()->get_name());
+	std::string str = string::highlight(this->character->get_character_class()->get_name());
 
-	if (this->character->get_character_type()->get_ruler_modifier() != nullptr) {
-		str += "\n" + this->character->get_character_type()->get_ruler_modifier()->get_string(country, 1, 1);
+	if (this->character->get_character_class()->get_ruler_modifier() != nullptr) {
+		str += "\n" + this->character->get_character_class()->get_ruler_modifier()->get_string(country, 1, 1);
 	}
-	if (this->character->get_character_type()->get_scaled_ruler_modifier() != nullptr) {
-		str += "\n" + this->character->get_character_type()->get_scaled_ruler_modifier()->get_string(country, this->get_primary_attribute_value(), 1);
+	if (this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
+		str += "\n" + this->character->get_character_class()->get_scaled_ruler_modifier()->get_string(country, this->get_primary_attribute_value(), 1);
 	}
 
 	for (const trait *trait : this->get_traits()) {
@@ -507,11 +507,11 @@ void character_game_data::apply_ruler_modifier(const kobold::country *country, c
 	assert_throw(this->character->get_role() == character_role::ruler);
 	assert_throw(country != nullptr);
 
-	if (this->character->get_character_type()->get_ruler_modifier() != nullptr) {
-		this->character->get_character_type()->get_ruler_modifier()->apply(country, multiplier);
+	if (this->character->get_character_class()->get_ruler_modifier() != nullptr) {
+		this->character->get_character_class()->get_ruler_modifier()->apply(country, multiplier);
 	}
-	if (this->character->get_character_type()->get_scaled_ruler_modifier() != nullptr) {
-		this->character->get_character_type()->get_scaled_ruler_modifier()->apply(country, this->get_primary_attribute_value() * multiplier);
+	if (this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
+		this->character->get_character_class()->get_scaled_ruler_modifier()->apply(country, this->get_primary_attribute_value() * multiplier);
 	}
 
 	for (const trait *trait : this->get_traits()) {

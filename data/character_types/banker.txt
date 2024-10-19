@@ -1,5 +1,0 @@
-banker = {
-	name = "Banker"
-	attribute = stewardship
-	civilian_unit_class = developer
-}

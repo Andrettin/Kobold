@@ -1,4 +1,0 @@
-johann_sebastian_bach = {
-	name = "Johann Sebastian Bach"
-	attribute = learning
-}

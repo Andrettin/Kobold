@@ -1,6 +1,7 @@
 henry_viii_of_england = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 207-209, 211.
 	name = "Henry"
 	epithet = "VIII"
+	character_class = aristocrat
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -20,6 +21,7 @@ henry_viii_of_england = { #Source: Isaac Asimov, "Cronologia das Ciências e das
 anne_boleyn = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 207.
 	name = "Anne"
 	surname = "Boleyn"
+	character_class = aristocrat
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -32,6 +34,7 @@ anne_boleyn = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobert
 jane_seymour = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 208.
 	name = "Jane"
 	surname = "Seymour"
+	character_class = aristocrat
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -44,6 +47,7 @@ jane_seymour = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descober
 catherine_parr = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 211.
 	name = "Catherine"
 	surname = "Parr"
+	character_class = aristocrat
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -55,6 +59,7 @@ catherine_parr = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descob
 catherine_howard = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 209.
 	name = "Catherine"
 	surname = "Howard"
+	character_class = aristocrat
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -64,45 +69,10 @@ catherine_howard = { #Source: Isaac Asimov, "Cronologia das Ciências e das Desc
 	death_date = 1542
 }
 
-elizabeth_i_of_england = {
-	name = "Elizabeth"
-	epithet = "I"
-	role = ruler
-	character_type = treasurer
-	culture = english
-	religion = protestant
-	portrait = elizabeth_i_of_england
-	home_settlement = london
-	gender = female
-	birth_date = 1533
-	death_date = 1603
-	rulable_countries = {
-		england
-		great_britain
-	}
-	traits = {
-		financial
-		philosophical
-	}
-}
-
-edward_kelley = {
-	name = "Edward"
-	surname = "Kelley"
-	character_type = merchant
-	culture = english
-	religion = protestant
-	home_settlement = prague
-	gender = male
-	birth_date = 1552
-	death_date = 1597
-	skill_multiplier = 0.17
-}
-
 francis_bacon = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 252.
 	name = "Francis"
 	surname = "Bacon"
-	character_type = philosopher
+	character_class = expert #philosopher
 	culture = english
 	religion = protestant
 	home_settlement = london
@@ -117,138 +87,5 @@ francis_bacon = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 		1620 = {
 			country = england #published his "Novum Organum" in 1620
 		}
-	}
-}
-
-henry_hudson = {
-	name = "Henry"
-	surname = "Hudson"
-	character_type = navigator
-	culture = english
-	religion = protestant
-	home_settlement = london
-	gender = male
-	birth_date = 1565
-	death_date = 1611
-}
-
-francis_drake = {
-	name = "Francis"
-	surname = "Drake"
-	character_type = privateer
-	culture = english
-	religion = protestant
-	portrait = francis_drake
-	home_site = exeter #Tavistock
-	gender = male
-	birth_date = 1540
-	death_date = 1596
-	skill = 10 #+50% Light Warship Damage Bonus
-}
-
-william_brewster = {
-	name = "William"
-	surname = "Brewster"
-	#character_type = theologian
-	culture = english
-	religion = protestant
-	home_site = new_bedford #Plymouth, Massachusetts
-	gender = male
-	birth_date = 1567
-	death_date = 1644
-}
-
-john_rolfe = {
-	name = "John"
-	surname = "Rolfe"
-	character_type = tobacco_planter
-	culture = english
-	religion = protestant
-	home_site = norfolk #Jamestown, Virginia
-	gender = male
-	birth_date = 1585
-	death_date = 1622
-	skill = 5 #+25% Tobacco
-}
-
-john_winthrop = {
-	name = "John"
-	surname = "Winthrop"
-	character_type = statesman
-	culture = english
-	religion = protestant
-	home_settlement = boston
-	gender = male
-	birth_date = 1587
-	death_date = 1649
-}
-
-john_harvard = {
-	name = "John"
-	surname = "Harvard"
-	character_type = theologian
-	culture = english
-	religion = protestant
-	home_settlement = boston #Cambridge, Massachusetts
-	gender = male
-	birth_date = 1607
-	death_date = 1638
-}
-
-william_penn = {
-	name = "William"
-	surname = "Penn"
-	character_type = theologian
-	culture = english
-	religion = protestant #Quaker
-	home_settlement = philadelphia
-	gender = male
-	birth_date = 1644
-	death_date = 1718
-	skill = 10 #+50% Piety
-}
-
-isaac_newton = {
-	name = "Isaac"
-	surname = "Newton"
-	character_type = isaac_newton
-	culture = english
-	religion = protestant
-	home_site = lincoln_england #Grantham, Lincolnshire
-	gender = male
-	birth_date = 1669
-	death_date = 1727.3.31
-}
-
-charles_darwin = {
-	name = "Charles"
-	surname = "Darwin"
-	character_type = charles_darwin
-	culture = english
-	religion = protestant
-	home_site = shrewsbury
-	gender = male
-	birth_date = 1809
-	death_date = 1882
-}
-
-victoria_i_of_great_britain = {
-	name = "Victoria"
-	epithet = "I"
-	role = ruler
-	character_type = treasurer
-	culture = english
-	religion = protestant
-	home_settlement = london
-	gender = female
-	birth_date = 1819
-	death_date = 1901
-	rulable_countries = {
-		england
-		great_britain
-	}
-	traits = {
-		financial
-		imperialistic
 	}
 }

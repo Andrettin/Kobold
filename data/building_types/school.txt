@@ -38,14 +38,6 @@ university = {
 		city
 		metropolis
 	}
-	cost_factor = {
-		modifier = {
-			factor = 0.5
-			ruler = {
-				trait = philosophical
-			}
-		}
-	}
 }
 
 monastic_school = {

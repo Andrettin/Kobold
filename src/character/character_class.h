@@ -18,7 +18,7 @@ class effect_list;
 template <typename scope_type>
 class modifier;
 
-class character_type final : public named_data_entry, public data_type<character_type>
+class character_class final : public named_data_entry, public data_type<character_class>
 {
 	Q_OBJECT
 
@@ -27,12 +27,12 @@ class character_type final : public named_data_entry, public data_type<character
 	Q_PROPERTY(const kobold::civilian_unit_class* civilian_unit_class MEMBER civilian_unit_class READ get_civilian_unit_class NOTIFY changed)
 
 public:
-	static constexpr const char class_identifier[] = "character_type";
-	static constexpr const char property_class_identifier[] = "kobold::character_type*";
-	static constexpr const char database_folder[] = "character_types";
+	static constexpr const char class_identifier[] = "character_class";
+	static constexpr const char property_class_identifier[] = "kobold::character_class*";
+	static constexpr const char database_folder[] = "character_classes";
 
-	explicit character_type(const std::string &identifier);
-	~character_type();
+	explicit character_class(const std::string &identifier);
+	~character_class();
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;

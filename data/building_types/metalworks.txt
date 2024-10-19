@@ -8,14 +8,6 @@ blacksmiths_house = {
 		lumber = 1
 		steel = 1
 	}
-	cost_factor = {
-		modifier = {
-			factor = 0.5
-			ruler = {
-				trait = industrious
-			}
-		}
-	}
 	production_types = {
 		armament_production
 		tool_making
@@ -32,14 +24,6 @@ blacksmiths_shop = {
 	commodity_costs = {
 		lumber = 2
 		steel = 2
-	}
-	cost_factor = {
-		modifier = {
-			factor = 0.5
-			ruler = {
-				trait = industrious
-			}
-		}
 	}
 	production_types = {
 		armament_production
@@ -59,14 +43,6 @@ metalworks = {
 	commodity_costs = {
 		lumber = 4
 		steel = 4
-	}
-	cost_factor = {
-		modifier = {
-			factor = 0.5
-			ruler = {
-				trait = industrious
-			}
-		}
 	}
 	production_types = {
 		armament_production

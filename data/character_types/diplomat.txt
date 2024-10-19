@@ -1,7 +1,0 @@
-diplomat = {
-	name = "Diplomat"
-	attribute = diplomacy
-	scaled_ruler_modifier = {
-		diplomatic_penalty_for_expansion_modifier = -1
-	}
-}

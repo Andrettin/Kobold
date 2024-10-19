@@ -1,7 +1,0 @@
-naval_reformer = {
-	name = "Naval Reformer"
-	attribute = martial
-	military_unit_category = heavy_warship
-	scaled_ruler_modifier = {
-	}
-}

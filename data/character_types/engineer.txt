@@ -1,5 +1,0 @@
-engineer = {
-	name = "Engineer"
-	attribute = learning
-	civilian_unit_class = engineer
-}

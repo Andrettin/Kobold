@@ -1,18 +1,7 @@
-marco_polo = {
-	name = "Marco"
-	surname = "Polo"
-	character_type = ambassador
-	culture = italian
-	religion = catholic
-	home_settlement = venice
-	gender = male
-	birth_date = 1254.9.15
-	death_date = 1324.1.9
-}
-
 viridis_visconti = { #Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 	name = "Viridis"
 	dynasty = visconti
+	character_class = aristocrat
 	culture = italian
 	religion = catholic
 	home_settlement = milan #correct?
@@ -20,40 +9,10 @@ viridis_visconti = { #Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 	start_date = 1377 #married Leopold III of Austria, and had her son Ernst with him in 1377; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 }
 
-antonio_bonfini = {
-	name = "Antonio"
-	surname = "Bonfini"
-	character_type = philosopher
-	culture = italian
-	religion = catholic
-	home_site = pecs
-	gender = male
-	birth_date = 1428
-	death_date = 1503.6.6
-	skill_multiplier = 0.5
-}
-
-leonardo_da_vinci = {
-	name = "Leonardo"
-	surname = "da Vinci"
-	character_type = inventor
-	culture = italian
-	religion = catholic
-	home_settlement = florence
-	gender = male
-	birth_date = 1450.4.15
-	death_date = 1519.5.2
-	conditions = {
-		not = {
-			culture = greek
-		}
-	}
-}
-
 amerigo_vespucci = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 199.
 	name = "Amerigo"
 	surname = "Vespucci"
-	#character_type = navigator
+	character_class = expert #navigator
 	culture = italian
 	religion = catholic
 	home_settlement = florence
@@ -64,36 +23,22 @@ amerigo_vespucci = { #Source: Isaac Asimov, "Cronologia das Ciências e das Desc
 	#went on an expedition to explore the coast of South America in 1497
 }
 
-mercurino_gattinara = {
-	name = "Mercurino"
-	surname = "Gattinara"
-	character_type = statesman
-	culture = italian
-	religion = catholic
-	home_settlement = vienna
-	gender = male
-	birth_date = 1465
-	death_date = 1530
-	skill_multiplier = 0.83
-}
-
 pope_paul_iii = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 210.
 	name = "Paul"
 	epithet = "II"
+	character_class = cleric #pope
 	culture = italian
 	religion = catholic
 	home_settlement = rome
 	gender = male
 	birth_date = 1468
 	death_date = 1549
-	
-	#pope
 }
 
 giovanni_da_verrazano = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
 	name = "Giovanni"
 	surname = "da Verrazano"
-	character_type = giovanni_da_verrazano
+	character_class = expert #navigator
 	culture = italian
 	religion = catholic
 	home_settlement = florence
@@ -107,7 +52,7 @@ giovanni_da_verrazano = { #Source: Isaac Asimov, "Cronologia das Ciências e das
 niccolo_tartaglia = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 206.
 	name = "Niccolo" #"Niccolò"
 	surname = "Tartaglia"
-	character_type = philosopher #mathematician
+	character_class = expert #mathematician
 	culture = italian
 	religion = catholic
 	home_site = brescia
@@ -122,7 +67,7 @@ niccolo_tartaglia = { #Source: Isaac Asimov, "Cronologia das Ciências e das Des
 geronimo_cardano = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 206, 212.
 	name = "Geronimo"
 	surname = "Cardano"
-	character_type = philosopher #mathematician
+	character_class = expert #mathematician
 	culture = italian
 	religion = catholic
 	home_settlement = milan #Pavia

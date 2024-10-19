@@ -1,4 +1,0 @@
-high_judge = {
-	name = "High Judge"
-	attribute = diplomacy
-}

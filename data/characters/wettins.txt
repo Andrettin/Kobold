@@ -1,47 +1,7 @@
-friedrich_ii_of_saxony = {
-	name = "Friedrich"
-	epithet = "II"
-	dynasty = wettin
-	role = ruler
-	character_type = statesman
-	culture = german #Thuringian
-	religion = catholic
-	home_settlement = dresden
-	gender = male
-	birth_date = 1412.8.22
-	death_date = 1464.9.7
-	rulable_countries = {
-		saxe_wittenberg
-	}
-	traits = {
-		industrious
-	}
-}
-
-august_iii_of_poland = {
-	name = "August"
-	epithet = "III"
-	dynasty = wettin
-	role = ruler
-	character_type = statesman
-	culture = german #Thuringian
-	religion = catholic
-	home_settlement = dresden
-	gender = male
-	birth_date = 1696.10.17
-	death_date = 1763.10.5
-	rulable_countries = {
-		poland
-		saxe_wittenberg
-	}
-	traits = {
-		industrious
-	}
-}
-
 friedrich_christian_von_wettin = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, p. 4.
 	name = "Friedrich Christian"
 	dynasty = wettin
+	character_class = aristocrat
 	culture = german #Thuringian
 	religion = catholic
 	home_settlement = dresden
@@ -54,6 +14,7 @@ friedrich_christian_von_wettin = { #Source: "Gothaischer Hofkalender zum Nutzen 
 albert_von_wettin = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, pp. 4-5.
 	name = "Albert"
 	dynasty = wettin
+	character_class = aristocrat
 	culture = german #Thuringian
 	religion = catholic
 	home_settlement = dresden
@@ -74,6 +35,7 @@ albert_von_wettin = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnüge
 friedrich_august_von_wettin = { #Source: "Almanach de Gotha pour l'année 1847", 1847, pp. 6-7.
 	name = "Friedrich August"
 	dynasty = wettin
+	character_class = aristocrat
 	culture = german #Thuringian
 	religion = catholic
 	home_settlement = dresden

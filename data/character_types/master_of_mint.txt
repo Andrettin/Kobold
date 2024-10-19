@@ -1,7 +1,0 @@
-master_of_mint = {
-	name = "Master of Mint"
-	attribute = stewardship
-	scaled_ruler_modifier = {
-		inflation_change = -0.01
-	}
-}

@@ -1,6 +1,7 @@
 selim_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 204.
 	name = "Selim"
 	epithet = "I"
+	character_class = aristocrat
 	culture = turkish
 	religion = sunni
 	home_site = amasia
@@ -14,7 +15,7 @@ suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciê
 	name = "Suleiman" #"Süleyman"
 	epithet = "I"
 	role = ruler
-	character_type = statesman
+	character_class = aristocrat
 	culture = turkish
 	religion = sunni
 	home_settlement = trebizond
@@ -23,10 +24,6 @@ suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciê
 	death_date = 1566
 	rulable_countries = {
 		ottoman_empire
-	}
-	traits = {
-		philosophical
-		imperialistic
 	}
 	
 	#known as the Magnificent

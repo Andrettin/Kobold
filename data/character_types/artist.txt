@@ -1,4 +1,0 @@
-artist = {
-	name = "Artist"
-	attribute = learning
-}

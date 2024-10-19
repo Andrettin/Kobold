@@ -1,5 +1,0 @@
-general = {
-	name = "General"
-	attribute = martial
-	military_unit_category = general
-}

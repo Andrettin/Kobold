@@ -1,6 +1,6 @@
 #include "kobold.h"
 
-#include "character/character_type.h"
+#include "character/character_class.h"
 
 #include "character/character_attribute.h"
 #include "script/condition/and_condition.h"
@@ -12,16 +12,16 @@
 
 namespace kobold {
 
-character_type::character_type(const std::string &identifier)
+character_class::character_class(const std::string &identifier)
 	: named_data_entry(identifier), attribute(character_attribute::none), military_unit_category(military_unit_category::none)
 {
 }
 
-character_type::~character_type()
+character_class::~character_class()
 {
 }
 
-void character_type::process_gsml_scope(const gsml_data &scope)
+void character_class::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
 
@@ -36,10 +36,10 @@ void character_type::process_gsml_scope(const gsml_data &scope)
 	}
 }
 
-void character_type::check() const
+void character_class::check() const
 {
 	if (this->get_attribute() == character_attribute::none) {
-		throw std::runtime_error(std::format("Character type \"{}\" has no attribute.", this->get_identifier()));
+		throw std::runtime_error(std::format("Character class \"{}\" has no attribute.", this->get_identifier()));
 	}
 }
 

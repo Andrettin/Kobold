@@ -21,11 +21,11 @@ include_directories(
 set(character_SRCS
 	src/character/character.cpp
 	src/character/character_attribute.cpp
+	src/character/character_class.cpp
+	src/character/character_class_container.cpp
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_role.cpp
-	src/character/character_type.cpp
-	src/character/character_type_container.cpp
 	src/character/dynasty.cpp
 	src/character/trait.cpp
 	src/character/trait_type.cpp
@@ -307,12 +307,12 @@ set(kobold_SRCS
 set(character_HDRS
 	src/character/character.h
 	src/character/character_attribute.h
+	src/character/character_class.h
+	src/character/character_class_container.h
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
 	src/character/character_role.h
-	src/character/character_type.h
-	src/character/character_type_container.h
 	src/character/dynasty.h
 	src/character/trait.h
 	src/character/trait_type.h
@@ -507,8 +507,8 @@ set(script_condition_HDRS
 	src/script/condition/can_have_trait_condition.h
 	src/script/condition/capital_condition.h
 	src/script/condition/cavalry_condition.h
+	src/script/condition/character_class_condition.h
 	src/script/condition/character_role_condition.h
-	src/script/condition/character_type_condition.h
 	src/script/condition/coastal_condition.h
 	src/script/condition/commodity_condition.h
 	src/script/condition/condition.h

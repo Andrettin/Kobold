@@ -1,19 +1,7 @@
-juan_de_bermudez = {
-	name = "Juan"
-	surname = "de Bermudez"
-	character_type = juan_de_bermudez
-	culture = castillian
-	religion = catholic
-	home_site = huelva #Palos de la Frontera
-	gender = male
-	birth_date = 1450
-	death_date = 1520
-}
-
 juan_ponce_de_leon = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 201.
 	name = "Juan Ponce"
 	surname = "de Leon" #"de León"
-	#conquistador
+	character_class = warrior #conquistador
 	culture = castillian
 	religion = catholic
 	home_settlement = valladolid
@@ -26,7 +14,7 @@ juan_ponce_de_leon = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 vasco_nunez_de_balboa = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 201.
 	name = "Vasco Nunez" #"Vasco Nuñez"
 	surname = "de Balboa"
-	#character_type = navigator
+	character_class = expert #navigator
 	culture = castillian
 	religion = catholic
 	home_site = badajoz
@@ -38,7 +26,7 @@ vasco_nunez_de_balboa = { #Source: Isaac Asimov, "Cronologia das Ciências e das
 francisco_fernandez_de_cordoba = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 202.
 	name = "Francisco Fernandez" #"Francisco Fernández"
 	surname = "de Cordoba" #"de Córdoba"
-	#character_type = navigator
+	character_class = expert #navigator
 	culture = castillian
 	religion = catholic
 	home_site = cordoba
@@ -50,7 +38,7 @@ francisco_fernandez_de_cordoba = { #Source: Isaac Asimov, "Cronologia das Ciênc
 francisco_pizarro = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
 	name = "Francisco"
 	surname = "Pizarro"
-	#conquistador
+	character_class = warrior #conquistador
 	culture = castillian
 	religion = catholic
 	home_site = caceres
@@ -62,7 +50,7 @@ francisco_pizarro = { #Source: Isaac Asimov, "Cronologia das Ciências e das Des
 juan_sebastian_de_elcano = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 203.
 	name = "Juan Sebastian" #"Juan Sebastián"
 	surname = "de Elcano"
-	#character_type = navigator
+	character_class = expert #navigator
 	culture = castillian
 	religion = catholic
 	home_site = bilbao
@@ -71,26 +59,10 @@ juan_sebastian_de_elcano = { #Source: Isaac Asimov, "Cronologia das Ciências e 
 	death_date = 1526
 }
 
-bartolome_de_las_casas = {
-	name = "Bartolome"
-	surname = "de las Casas"
-	character_type = theologian
-	culture = castillian
-	religion = catholic
-	home_settlement = seville
-	gender = male
-	birth_date = 1484
-	death_date = 1566
-	skill_multiplier = 0.5
-	traits = {
-		compassionate
-	}
-}
-
 hernan_cortes = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 202.
 	name = "Hernan" #"Hernán"
 	surname = "Cortes" #"Cortés"
-	#conquistador
+	character_class = warrior #conquistador
 	culture = castillian
 	religion = catholic
 	home_site = almendralejo
@@ -102,7 +74,7 @@ hernan_cortes = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 francisco_de_orellana = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 209.
 	name = "Francisco"
 	surname = "de Orellana"
-	#conquistador
+	character_class = warrior #conquistador
 	culture = castillian
 	religion = catholic
 	home_site = caceres
@@ -111,23 +83,10 @@ francisco_de_orellana = { #Source: Isaac Asimov, "Cronologia das Ciências e das
 	death_date = 1546
 }
 
-juan_de_sepulveda = {
-	name = "Juan"
-	surname = "de Sepulveda"
-	character_type = theologian
-	culture = castillian
-	religion = catholic
-	home_site = cordoba
-	gender = male
-	birth_date = 1494
-	death_date = 1573
-	skill_multiplier = 0.5
-}
-
 gonzalo_jimenez_de_quesada = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 205-206.
 	name = "Gonzalo Jimenez" #"Gonzalo Jiménez"
 	surname = "de Quesada"
-	#explorer
+	character_class = expert #explorer
 	culture = castillian
 	religion = catholic
 	home_settlement = granada
@@ -142,7 +101,7 @@ gonzalo_jimenez_de_quesada = { #Source: Isaac Asimov, "Cronologia das Ciências 
 hernando_de_soto = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 208.
 	name = "Hernando"
 	surname = "de Soto"
-	#explorer
+	character_class = expert #explorer
 	culture = castillian
 	religion = catholic
 	home_site = badajoz
@@ -152,16 +111,4 @@ hernando_de_soto = { #Source: Isaac Asimov, "Cronologia das Ciências e das Desc
 	
 	#hired by Charles V in 1539 to acquire Florida for Spain
 	#discovered the Mississippi River in 1541
-}
-
-francisco_de_coronado = {
-	name = "Francisco"
-	surname = "de Coronado"
-	character_type = francisco_de_coronado
-	culture = castillian
-	religion = catholic
-	home_site = salamanca
-	gender = male
-	birth_date = 1510
-	death_date = 1544
 }

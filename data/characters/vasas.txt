@@ -3,7 +3,7 @@ gustav_i_of_sweden = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 	epithet = "I"
 	dynasty = vasa
 	role = ruler
-	character_type = army_reformer
+	character_class = aristocrat
 	culture = swedish
 	religion = protestant
 	home_settlement = stockholm
@@ -12,8 +12,5 @@ gustav_i_of_sweden = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 	death_date = 1560
 	rulable_countries = {
 		sweden
-	}
-	traits = {
-		industrious
 	}
 }

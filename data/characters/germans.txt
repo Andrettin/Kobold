@@ -1,7 +1,7 @@
 nikolaus_von_kues = { #Source: "Encyclopædia Britannica", 1911, vol. 7, pp. 665-666.
 	name = "Nikolaus"
 	surname = "von Kues"
-	character_type = natural_scientist #scholar, cardinal and theologian
+	character_class = cleric #scholar, cardinal and theologian
 	culture = german
 	religion = catholic
 	home_site = trier #born in Kues, in the Archbishopric of Trier
@@ -28,23 +28,10 @@ nikolaus_von_kues = { #Source: "Encyclopædia Britannica", 1911, vol. 7, pp. 665
 	}
 }
 
-johann_widman = {
-	name = "Johann"
-	surname = "Widman"
-	character_type = natural_scientist
-	culture = german
-	religion = catholic
-	home_settlement = prague
-	gender = male
-	birth_date = 1460
-	death_date = 1498
-	skill_multiplier = 0.17
-}
-
 martin_waldseemuller = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 199.
 	name = "Martin"
 	surname = "Waldseemuller" #"Waldseemüller"
-	#character_type = navigator #geographer
+	character_class = expert #geographer
 	culture = german
 	religion = catholic
 	home_site = freiburg
@@ -58,7 +45,7 @@ martin_waldseemuller = { #Source: Isaac Asimov, "Cronologia das Ciências e das 
 martin_luther = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 204.
 	name = "Martin"
 	surname = "Luther"
-	character_type = theologian
+	character_class = cleric #theologian
 	culture = german
 	religion = protestant
 	home_site = wittenberg #where he presented his 95 theses
@@ -71,23 +58,10 @@ martin_luther = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 	#presented his 95 theses in Wittenberg on 1517.10.31, starting the protestant reformation
 }
 
-anton_fugger = {
-	name = "Anton"
-	surname = "Fugger"
-	character_type = treasurer
-	culture = german
-	religion = catholic
-	home_settlement = vienna
-	gender = male
-	birth_date = 1493
-	death_date = 1560.9.14
-	skill_multiplier = 0.67
-}
-
 peter_bennewitz = { #also known as Petrus Apianus; Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 207.
 	name = "Peter"
 	surname = "Bennewitz"
-	#character_type = natural_scientist #astronomer
+	character_class = expert #astronomer
 	culture = german
 	religion = protestant
 	home_site = leipzig
@@ -101,73 +75,11 @@ peter_bennewitz = { #also known as Petrus Apianus; Source: Isaac Asimov, "Cronol
 anne_of_cleves = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 209.
 	name = "Anne"
 	surname = "of Cleves"
+	character_class = aristocrat
 	culture = german
 	religion = protestant
 	home_site = cleves
 	gender = female
 	birth_date = 1515
 	death_date = 1577
-}
-
-franz_dietrichstein = {
-	name = "Franz"
-	surname = "Dietrichstein"
-	character_type = treasurer
-	culture = german
-	religion = catholic
-	home_settlement = olmutz
-	gender = male
-	birth_date = 1570
-	death_date = 1636.9.19
-	skill_multiplier = 0.33
-}
-
-johann_sebastian_bach = {
-	name = "Johann Sebastian"
-	surname = "Bach"
-	character_type = johann_sebastian_bach
-	culture = german
-	religion = protestant
-	home_site = erfurt #Eisenach
-	gender = male
-	birth_date = 1685
-	death_date = 1750
-}
-
-maximilian_hell = {
-	name = "Maximilian"
-	surname = "Hell"
-	character_type = natural_scientist
-	culture = german
-	religion = catholic
-	home_settlement = pressburg
-	gender = male
-	birth_date = 1720.5.15
-	death_date = 1792.4.14
-	skill_multiplier = 0.5
-}
-
-franz_joseph_gall = {
-	name = "Franz Joseph"
-	surname = "Gall"
-	character_type = natural_scientist
-	culture = german
-	religion = catholic
-	home_settlement = vienna
-	gender = male
-	death_date = 1828.8.22
-	skill_multiplier = 0.67
-}
-
-johann_spurzheim = {
-	name = "Johann"
-	surname = "Spurzheim"
-	character_type = natural_scientist
-	culture = german
-	religion = catholic
-	home_settlement = vienna
-	gender = male
-	birth_date = 1776.12.3
-	death_date = 1832
-	skill_multiplier = 0.33
 }

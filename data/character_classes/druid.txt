@@ -1,0 +1,4 @@
+druid = {
+	name = "Druid"
+	attribute = learning
+}

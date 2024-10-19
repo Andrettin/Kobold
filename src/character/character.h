@@ -5,8 +5,8 @@
 #include "util/fractional_int.h"
 #include "util/qunique_ptr.h"
 
+Q_MOC_INCLUDE("character/character_class.h")
 Q_MOC_INCLUDE("character/character_game_data.h")
-Q_MOC_INCLUDE("character/character_type.h")
 Q_MOC_INCLUDE("character/dynasty.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
@@ -22,9 +22,9 @@ namespace archimedes {
 
 namespace kobold {
 
+class character_class;
 class character_game_data;
 class character_history;
-class character_type;
 class civilian_unit_class;
 class civilian_unit_type;
 class country;
@@ -59,7 +59,7 @@ class character final : public named_data_entry, public data_type<character>
 	Q_PROPERTY(QString full_name READ get_full_name_qstring NOTIFY changed)
 	Q_PROPERTY(QString description READ get_description_qstring NOTIFY changed)
 	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
-	Q_PROPERTY(const kobold::character_type* character_type MEMBER character_type READ get_character_type NOTIFY changed)
+	Q_PROPERTY(const kobold::character_class* character_class MEMBER character_class READ get_character_class NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion NOTIFY changed)
 	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
@@ -173,9 +173,9 @@ public:
 		return this->role;
 	}
 
-	const kobold::character_type *get_character_type() const
+	const kobold::character_class *get_character_class() const
 	{
-		return this->character_type;
+		return this->character_class;
 	}
 
 	const military_unit_category get_military_unit_category() const;
@@ -289,7 +289,7 @@ private:
 	std::string epithet;
 	std::string description;
 	kobold::character_role role;
-	const kobold::character_type *character_type = nullptr;
+	const kobold::character_class *character_class = nullptr;
 	kobold::culture *culture = nullptr;
 	kobold::religion *religion = nullptr;
 	kobold::phenotype *phenotype = nullptr;

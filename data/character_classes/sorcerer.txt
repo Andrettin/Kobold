@@ -1,0 +1,4 @@
+sorcerer = {
+	name = "Sorcerer"
+	attribute = learning
+}

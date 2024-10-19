@@ -1,4 +1,0 @@
-astronomer = {
-	name = "Astronomer"
-	attribute = learning
-}

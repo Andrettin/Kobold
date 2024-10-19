@@ -1,6 +1,0 @@
-treasurer = {
-	name = "Treasurer"
-	attribute = stewardship
-	scaled_ruler_modifier = {
-	}
-}

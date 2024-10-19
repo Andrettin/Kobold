@@ -1,8 +1,0 @@
-cotton_planter = {
-	name = "Cotton Planter"
-	attribute = stewardship
-	civilian_unit_class = farmer
-	scaled_ruler_modifier = {
-		cotton_output_modifier = 5
-	}
-}

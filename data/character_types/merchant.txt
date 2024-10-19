@@ -1,8 +1,0 @@
-merchant = {
-	name = "Merchant"
-	attribute = stewardship
-	civilian_unit_class = merchant
-	scaled_ruler_modifier = {
-		trade_output_modifier = 5
-	}
-}

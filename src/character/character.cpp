@@ -3,10 +3,10 @@
 #include "character/character.h"
 
 #include "character/character_attribute.h"
+#include "character/character_class.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
 #include "character/character_role.h"
-#include "character/character_type.h"
 #include "character/dynasty.h"
 #include "character/trait.h"
 #include "character/trait_type.h"
@@ -187,10 +187,8 @@ void character::initialize()
 
 void character::check() const
 {
-	if (this->get_role() == character_role::ruler) {
-		if (this->get_character_type() == nullptr) {
-			throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no character type.", this->get_identifier()));
-		}
+	if (this->get_character_class() == nullptr) {
+		throw std::runtime_error(std::format("Character \"{}\" has no character class.", this->get_identifier()));
 	}
 
 	switch (this->get_role()) {
@@ -199,8 +197,8 @@ void character::check() const
 				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no rulable countries.", this->get_identifier()));
 			}
 
-			if (this->get_character_type()->get_ruler_modifier() == nullptr && this->get_character_type()->get_scaled_ruler_modifier() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but its character type (\"{}\") has no ruler modifier.", this->get_identifier(), this->get_character_type()->get_identifier()));
+			if (this->get_character_class()->get_ruler_modifier() == nullptr && this->get_character_class()->get_scaled_ruler_modifier() == nullptr) {
+				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but its character class (\"{}\") has no ruler modifier.", this->get_identifier(), this->get_character_class()->get_identifier()));
 			}
 
 			std::vector<const trait *> ruler_traits = this->get_traits();
@@ -329,8 +327,8 @@ std::string character::get_full_name() const
 
 const military_unit_category character::get_military_unit_category() const
 {
-	if (this->get_character_type() != nullptr) {
-		return this->get_character_type()->get_military_unit_category();
+	if (this->get_character_class() != nullptr) {
+		return this->get_character_class()->get_military_unit_category();
 	}
 
 	return military_unit_category::none;
@@ -338,8 +336,8 @@ const military_unit_category character::get_military_unit_category() const
 
 const civilian_unit_class *character::get_civilian_unit_class() const
 {
-	if (this->get_character_type() != nullptr) {
-		return this->get_character_type()->get_civilian_unit_class();
+	if (this->get_character_class() != nullptr) {
+		return this->get_character_class()->get_civilian_unit_class();
 	}
 
 	return nullptr;
@@ -357,8 +355,8 @@ const civilian_unit_type *character::get_civilian_unit_type() const
 
 character_attribute character::get_primary_attribute() const
 {
-	if (this->get_character_type() != nullptr) {
-		return this->get_character_type()->get_attribute();
+	if (this->get_character_class() != nullptr) {
+		return this->get_character_class()->get_attribute();
 	}
 
 	return character_attribute::none;
