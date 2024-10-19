@@ -19,7 +19,6 @@ public:
 	static constexpr const char class_identifier[] = "region";
 	static constexpr const char property_class_identifier[] = "kobold::region*";
 	static constexpr const char database_folder[] = "regions";
-	static constexpr bool history_enabled = true;
 
 public:
 	explicit region(const std::string &identifier);
