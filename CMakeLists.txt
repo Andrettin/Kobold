@@ -12,9 +12,9 @@ add_subdirectory(archimedes)
 
 include_directories(
 	archimedes/src
+	archimedes/src/third_party/maskedmousearea
 	src
 	src/third_party
-	src/third_party/maskedmousearea
 	src/third_party/xbrz
 )
 
@@ -281,12 +281,6 @@ set(unit_SRCS
 source_group(unit FILES ${unit_SRCS})
 set_source_files_properties(${unit_SRCS} PROPERTIES UNITY_GROUP "unit")
 
-set(maskedmousearea_SRCS
-	src/third_party/maskedmousearea/maskedmousearea.cpp
-)
-source_group(maskedmousearea FILES ${maskedmousearea_SRCS})
-set_source_files_properties(${maskedmousearea_SRCS} PROPERTIES UNITY_GROUP "maskedmousearea")
-
 set(xbrz_SRCS
 	src/third_party/xbrz/xbrz.cpp
 )
@@ -311,7 +305,6 @@ set(kobold_SRCS
 	${time_SRCS}
 	${ui_SRCS}
 	${unit_SRCS}
-	${maskedmousearea_SRCS}
 	${xbrz_SRCS}
 	src/engine_interface.cpp
 )
@@ -758,11 +751,6 @@ set(unit_HDRS
 )
 source_group(unit FILES ${unit_HDRS})
 
-set(maskedmousearea_HDRS
-	src/third_party/maskedmousearea/maskedmousearea.h
-)
-source_group(maskedmousearea FILES ${maskedmousearea_HDRS})
-
 set(xbrz_HDRS
 	src/third_party/xbrz/xbrz.h
 	src/third_party/xbrz/xbrz_config.h
@@ -788,7 +776,6 @@ set(kobold_HDRS
 	${time_HDRS}
 	${ui_HDRS}
 	${unit_HDRS}
-	${maskedmousearea_HDRS}
 	${xbrz_HDRS}
 	src/engine_interface.h
 	src/kobold.h
