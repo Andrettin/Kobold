@@ -111,16 +111,6 @@ public:
 		return this->scaled_ruler_modifier.get();
 	}
 
-	const kobold::modifier<const country> *get_advisor_modifier() const
-	{
-		return this->advisor_modifier.get();
-	}
-
-	const kobold::modifier<const country> *get_scaled_advisor_modifier() const
-	{
-		return this->scaled_advisor_modifier.get();
-	}
-
 	const kobold::modifier<const province> *get_governor_modifier() const
 	{
 		return this->governor_modifier.get();
@@ -163,8 +153,6 @@ private:
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const kobold::modifier<const country>> ruler_modifier;
 	std::unique_ptr<const kobold::modifier<const country>> scaled_ruler_modifier;
-	std::unique_ptr<const kobold::modifier<const country>> advisor_modifier;
-	std::unique_ptr<const kobold::modifier<const country>> scaled_advisor_modifier;
 	std::unique_ptr<const kobold::modifier<const province>> governor_modifier;
 	std::unique_ptr<const kobold::modifier<const province>> scaled_governor_modifier;
 	std::unique_ptr<const kobold::modifier<const character>> leader_modifier;

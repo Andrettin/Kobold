@@ -42,7 +42,6 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::journal_entry*";
 	static constexpr const char database_folder[] = "journal_entries";
 	static constexpr int ai_building_desire_modifier = 100;
-	static constexpr int ai_advisor_desire_modifier = 1000;
 	static constexpr int ai_leader_desire_modifier = 1000;
 	static constexpr int ai_tradition_desire_modifier = 100;
 

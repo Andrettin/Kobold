@@ -163,10 +163,6 @@ Item {
 		id: belief_choice_dialog
 	}
 	
-	AdvisorChoiceDialog {
-		id: advisor_choice_dialog
-	}
-	
 	LeaderChoiceDialog {
 		id: leader_choice_dialog
 	}

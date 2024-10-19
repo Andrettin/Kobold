@@ -15,7 +15,7 @@ Window {
 	readonly property real scale_factor: kobold.scale_factor
 	readonly property color interface_background_color: Qt.rgba(48.0 / 255.0, 48.0 / 255.0, 48.0 / 255.0, 1)
 	
-	property int politics_view_mode: PoliticsView.Advisors
+	property int politics_view_mode: PoliticsView.Government
 	property int trade_view_mode: TradeView.TradeOrders
 	
 	FontLoader {

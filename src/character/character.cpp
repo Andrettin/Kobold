@@ -71,14 +71,6 @@ void character::process_gsml_scope(const gsml_data &scope)
 		auto conditions = std::make_unique<and_condition<country>>();
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
-	} else if (tag == "advisor_modifier") {
-		auto modifier = std::make_unique<kobold::modifier<const country>>();
-		database::process_gsml_data(modifier, scope);
-		this->advisor_modifier = std::move(modifier);
-	} else if (tag == "advisor_effects") {
-		auto effect_list = std::make_unique<kobold::effect_list<const country>>();
-		database::process_gsml_data(effect_list, scope);
-		this->advisor_effects = std::move(effect_list);
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
@@ -195,9 +187,9 @@ void character::initialize()
 
 void character::check() const
 {
-	if (this->get_role() == character_role::ruler || this->get_role() == character_role::advisor) {
+	if (this->get_role() == character_role::ruler) {
 		if (this->get_character_type() == nullptr) {
-			throw std::runtime_error(std::format("Character \"{}\" is a ruler or advisor, but has no character type.", this->get_identifier()));
+			throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no character type.", this->get_identifier()));
 		}
 	}
 
@@ -226,11 +218,6 @@ void character::check() const
 			}
 			break;
 		}
-		case character_role::advisor:
-			if (this->get_character_type()->get_advisor_modifier() == nullptr && this->get_character_type()->get_scaled_advisor_modifier() == nullptr && this->get_character_type()->get_advisor_effects() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is an advisor, but its character type (\"{}\") has no advisor modifier or effects.", this->get_identifier(), this->get_character_type()->get_identifier()));
-			}
-			break;
 		case character_role::leader:
 			if (this->get_military_unit_category() == military_unit_category::none) {
 				throw std::runtime_error(std::format("Character \"{}\" is a leader, but has no military unit category.", this->get_identifier()));
@@ -251,16 +238,6 @@ void character::check() const
 
 	if (this->get_role() != character_role::ruler && !this->get_rulable_countries().empty()) {
 		throw std::runtime_error(std::format("Character \"{}\" has rulable countries, but is not a ruler.", this->get_identifier()));
-	}
-
-	if (this->get_role() != character_role::advisor) {
-		if (this->advisor_modifier != nullptr) {
-			throw std::runtime_error(std::format("Character \"{}\" has an advisor modifier, but is not an advisor.", this->get_identifier()));
-		}
-
-		if (this->advisor_effects != nullptr) {
-			throw std::runtime_error(std::format("Character \"{}\" has advisor effects, but is not an advisor.", this->get_identifier()));
-		}
 	}
 
 	assert_throw(this->get_culture() != nullptr);

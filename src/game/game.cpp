@@ -501,13 +501,9 @@ void game::apply_history(const kobold::scenario *scenario)
 
 			const country *country = character_history->get_country();
 
-			if ((character->get_role() == character_role::advisor || character->get_role() == character_role::leader || character->get_role() == character_role::civilian) && country != nullptr && !country->get_game_data()->is_under_anarchy()) {
+			if ((character->get_role() == character_role::leader || character->get_role() == character_role::civilian) && country != nullptr && !country->get_game_data()->is_under_anarchy()) {
 				country_game_data *country_game_data = country->get_game_data();
-				if (character->get_role() == character_role::advisor) {
-					if (country_game_data->can_have_advisors() && !country_game_data->has_incompatible_advisor_to(character)) {
-						country_game_data->add_advisor(character);
-					}
-				} else if (character->get_role() == character_role::leader) {
+				if (character->get_role() == character_role::leader) {
 					const province *deployment_province = character_history->get_deployment_province();
 					if (deployment_province == nullptr && country_game_data->get_capital_province() != nullptr) {
 						deployment_province = country_game_data->get_capital_province();
@@ -1305,7 +1301,6 @@ void game::remove_country(country *country)
 		std::erase(this->great_powers, country);
 	}
 
-	country->get_game_data()->clear_advisors();
 	country->get_game_data()->clear_leaders();
 
 	for (const kobold::country *other_country : this->get_countries()) {

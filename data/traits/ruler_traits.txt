@@ -130,7 +130,4 @@ well_connected = {
 	name = "Well-Connected"
 	type = ruler
 	icon = music
-	ruler_modifier = {
-		advisor_cost_modifier = -20
-	}
 }

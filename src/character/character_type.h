@@ -9,7 +9,6 @@ namespace kobold {
 
 class civilian_unit_class;
 class country;
-enum class advisor_category;
 enum class character_attribute;
 enum class military_unit_category;
 
@@ -23,7 +22,6 @@ class character_type final : public named_data_entry, public data_type<character
 {
 	Q_OBJECT
 
-	Q_PROPERTY(kobold::advisor_category advisor_category MEMBER advisor_category NOTIFY changed)
 	Q_PROPERTY(kobold::character_attribute attribute MEMBER attribute NOTIFY changed)
 	Q_PROPERTY(kobold::military_unit_category military_unit_category MEMBER military_unit_category READ get_military_unit_category NOTIFY changed)
 	Q_PROPERTY(const kobold::civilian_unit_class* civilian_unit_class MEMBER civilian_unit_class READ get_civilian_unit_class NOTIFY changed)
@@ -38,11 +36,6 @@ public:
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
-
-	kobold::advisor_category get_advisor_category() const
-	{
-		return this->advisor_category;
-	}
 
 	character_attribute get_attribute() const
 	{
@@ -69,34 +62,15 @@ public:
 		return this->scaled_ruler_modifier.get();
 	}
 
-	const modifier<const country> *get_advisor_modifier() const
-	{
-		return this->advisor_modifier.get();
-	}
-
-	const modifier<const country> *get_scaled_advisor_modifier() const
-	{
-		return this->scaled_advisor_modifier.get();
-	}
-
-	const effect_list<const country> *get_advisor_effects() const
-	{
-		return this->advisor_effects.get();
-	}
-
 signals:
 	void changed();
 
 private:
-	kobold::advisor_category advisor_category;
 	character_attribute attribute;
 	kobold::military_unit_category military_unit_category;
 	const kobold::civilian_unit_class *civilian_unit_class = nullptr;
 	std::unique_ptr<modifier<const country>> ruler_modifier;
 	std::unique_ptr<modifier<const country>> scaled_ruler_modifier;
-	std::unique_ptr<modifier<const country>> advisor_modifier;
-	std::unique_ptr<modifier<const country>> scaled_advisor_modifier;
-	std::unique_ptr<const effect_list<const country>> advisor_effects;
 };
 
 }

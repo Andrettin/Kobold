@@ -13,7 +13,6 @@ template <>
 const std::map<std::string, kobold::character_role> enum_converter<kobold::character_role>::string_to_enum_map = {
 	{ "none", kobold::character_role::none },
 	{ "ruler", kobold::character_role::ruler },
-	{ "advisor", kobold::character_role::advisor },
 	{ "leader", kobold::character_role::leader },
 	{ "civilian", kobold::character_role::civilian }
 };

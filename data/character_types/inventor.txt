@@ -1,8 +1,4 @@
 inventor = {
 	name = "Inventor"
-	advisor_category = trade
 	attribute = learning
-	advisor_modifier = {
-		unit_upgrade_cost_modifier = -50
-	}
 }

@@ -269,16 +269,6 @@ public:
 
 	void add_rulable_country(country *country);
 
-	const modifier<const country> *get_advisor_modifier() const
-	{
-		return this->advisor_modifier.get();
-	}
-
-	const effect_list<const country> *get_advisor_effects() const
-	{
-		return this->advisor_effects.get();
-	}
-
 	bool is_admiral() const;
 	bool is_explorer() const;
 	std::string_view get_leader_type_name() const;
@@ -318,8 +308,6 @@ private:
 	std::vector<const country *> rulable_countries;
 	std::vector<const trait *> traits;
 	std::unique_ptr<const condition<country>> conditions;
-	std::unique_ptr<const modifier<const country>> advisor_modifier;
-	std::unique_ptr<const effect_list<const country>> advisor_effects;
 	qunique_ptr<character_history> history;
 	qunique_ptr<character_game_data> game_data;
 };

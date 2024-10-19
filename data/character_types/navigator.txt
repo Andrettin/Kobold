@@ -1,27 +1,15 @@
 navigator = {
 	name = "Navigator"
-	advisor_category = exploration
 	attribute = learning
 	military_unit_category = light_warship
-	advisor_modifier = {
-		ship_movement_modifier = 1
-	}
 }
 
 giovanni_da_verrazano = {
 	name = "Giovanni da Verrazano"
-	advisor_category = exploration
 	attribute = learning
-	advisor_effects = {
-		create_transporter = carrack #caravel
-	}
 }
 
 juan_de_bermudez = {
 	name = "Juan de Bermudez"
-	advisor_category = exploration
 	attribute = learning
-	advisor_modifier = {
-		merchant_ship_movement_modifier = 1
-	}
 }

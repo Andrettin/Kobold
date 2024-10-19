@@ -1,24 +1,14 @@
 natural_scientist = {
 	name = "Natural Scientist"
-	advisor_category = trade
 	attribute = learning
-	scaled_advisor_modifier = {
-	}
 }
 
 charles_darwin = {
 	name = "Charles Darwin"
-	advisor_category = trade
 	attribute = learning
-	advisor_effects = {
-	}
 }
 
 isaac_newton = {
 	name = "Isaac Newton"
-	advisor_category = trade
 	attribute = learning
-	advisor_modifier = {
-		capital_research_output_modifier = 100
-	}
 }

@@ -19,7 +19,6 @@ include_directories(
 )
 
 set(character_SRCS
-	src/character/advisor_category.cpp
 	src/character/character.cpp
 	src/character/character_attribute.cpp
 	src/character/character_container.cpp
@@ -310,7 +309,6 @@ set(kobold_SRCS
 )
 
 set(character_HDRS
-	src/character/advisor_category.h
 	src/character/character.h
 	src/character/character_attribute.h
 	src/character/character_container.h
@@ -501,8 +499,6 @@ source_group(script FILES ${script_HDRS})
 
 set(script_condition_HDRS
 	src/script/condition/adjacent_terrain_condition.h
-	src/script/condition/advisor_condition.h
-	src/script/condition/advisor_category_condition.h
 	src/script/condition/age_condition.h
 	src/script/condition/anarchy_condition.h
 	src/script/condition/and_condition.h
@@ -546,7 +542,6 @@ set(script_condition_HDRS
 	src/script/condition/independent_condition.h
 	src/script/condition/infantry_condition.h
 	src/script/condition/inflation_condition.h
-	src/script/condition/is_advisor_condition.h
 	src/script/condition/is_military_unit_category_available_condition.h
 	src/script/condition/is_ruler_condition.h
 	src/script/condition/law_condition.h
@@ -642,7 +637,6 @@ set(script_effect_HDRS
 source_group(script\\effect FILES ${script_effect_HDRS})
 
 set(script_modifier_effect_HDRS
-	src/script/modifier_effect/advisor_cost_modifier_effect.h
 	src/script/modifier_effect/ai_building_desire_modifier_effect.h
 	src/script/modifier_effect/artillery_cost_modifier_effect.h
 	src/script/modifier_effect/building_capacity_modifier_effect.h

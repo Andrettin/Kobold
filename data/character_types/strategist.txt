@@ -1,11 +1,5 @@
 strategist = {
 	name = "Strategist"
-	advisor_category = military
 	attribute = martial
 	military_unit_category = general
-	advisor_modifier = {
-		free_infantry_promotion = veteran_1
-		free_cavalry_promotion = veteran_1
-		free_artillery_promotion = veteran_1
-	}
 }

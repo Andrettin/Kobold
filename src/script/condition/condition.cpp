@@ -11,8 +11,6 @@
 #include "map/province.h"
 #include "map/province_game_data.h"
 #include "script/condition/adjacent_terrain_condition.h"
-#include "script/condition/advisor_condition.h"
-#include "script/condition/advisor_category_condition.h"
 #include "script/condition/age_condition.h"
 #include "script/condition/anarchy_condition.h"
 #include "script/condition/and_condition.h"
@@ -55,7 +53,6 @@
 #include "script/condition/independent_condition.h"
 #include "script/condition/infantry_condition.h"
 #include "script/condition/inflation_condition.h"
-#include "script/condition/is_advisor_condition.h"
 #include "script/condition/is_military_unit_category_available_condition.h"
 #include "script/condition/is_ruler_condition.h"
 #include "script/condition/law_condition.h"
@@ -109,9 +106,7 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 	const std::string &value = property.get_value();
 
 	if constexpr (std::is_same_v<scope_type, character>) {
-		if (key == "advisor_category") {
-			return std::make_unique<advisor_category_condition>(value, condition_operator);
-		} else if (key == "age") {
+		if (key == "age") {
 			return std::make_unique<age_condition>(value, condition_operator);
 		} else if (key == "birth_year") {
 			return std::make_unique<birth_year_condition>(value, condition_operator);
@@ -123,8 +118,6 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<character_type_condition>(value, condition_operator);
 		} else if (key == "gender") {
 			return std::make_unique<gender_condition>(value, condition_operator);
-		} else if (key == "is_advisor") {
-			return std::make_unique<is_advisor_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
 		} else if (key == "primary_attribute") {
@@ -133,9 +126,7 @@ std::unique_ptr<const condition<scope_type>> condition<scope_type>::from_gsml_pr
 			return std::make_unique<trait_condition>(value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, country>) {
-		if (key == "advisor") {
-			return std::make_unique<advisor_condition>(value, condition_operator);
-		} else if (key == "anarchy") {
+		if (key == "anarchy") {
 			return std::make_unique<anarchy_condition>(value, condition_operator);
 		} else if (key == "available_food") {
 			return std::make_unique<available_food_condition>(value, condition_operator);

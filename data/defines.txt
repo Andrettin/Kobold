@@ -34,7 +34,6 @@ research_commodity = research
 prestige_commodity = prestige
 piety_commodity = piety
 tradition_commodity = culture
-advisor_commodity = statesmanship
 leader_commodity = leadership
 
 tariff_icon = wealth

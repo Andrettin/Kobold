@@ -17,30 +17,9 @@ Rectangle {
 	}
 	
 	IconButton {
-		id: advisors_button
+		id: government_button
 		anchors.top: parent.top
 		anchors.topMargin: 16 * scale_factor
-		anchors.horizontalCenter: parent.horizontalCenter
-		icon_identifier: "rifle_infantry_light_small"
-		border_color: politics_view_mode === PoliticsView.Mode.Advisors ? "white" : "gray"
-		
-		onReleased: {
-			politics_view_mode = PoliticsView.Mode.Advisors
-		}
-		
-		onHoveredChanged: {
-			if (hovered) {
-				status_text = "View Advisors"
-			} else {
-				status_text = ""
-			}
-		}
-	}
-	
-	IconButton {
-		id: government_button
-		anchors.top: advisors_button.bottom
-		anchors.topMargin: 4 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		icon_identifier: "flag"
 		border_color: politics_view_mode === PoliticsView.Mode.Government ? "white" : "gray"

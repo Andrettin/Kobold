@@ -50,14 +50,6 @@ void trait::process_gsml_scope(const gsml_data &scope)
 		auto modifier = std::make_unique<kobold::modifier<const country>>();
 		database::process_gsml_data(modifier, scope);
 		this->scaled_ruler_modifier = std::move(modifier);
-	} else if (tag == "advisor_modifier") {
-		auto modifier = std::make_unique<kobold::modifier<const country>>();
-		database::process_gsml_data(modifier, scope);
-		this->advisor_modifier = std::move(modifier);
-	} else if (tag == "scaled_advisor_modifier") {
-		auto modifier = std::make_unique<kobold::modifier<const country>>();
-		database::process_gsml_data(modifier, scope);
-		this->scaled_advisor_modifier = std::move(modifier);
 	} else if (tag == "governor_modifier") {
 		auto modifier = std::make_unique<kobold::modifier<const province>>();
 		database::process_gsml_data(modifier, scope);
@@ -95,10 +87,6 @@ void trait::check() const
 
 	if (this->get_scaled_ruler_modifier() != nullptr && this->get_attribute() == character_attribute::none) {
 		throw std::runtime_error(std::format("Trait \"{}\" with scaled ruler modifier has no attribute.", this->get_identifier()));
-	}
-
-	if (this->get_scaled_advisor_modifier() != nullptr && this->get_attribute() == character_attribute::none) {
-		throw std::runtime_error(std::format("Trait \"{}\" with scaled advisor modifier has no attribute.", this->get_identifier()));
 	}
 
 	if (this->get_scaled_governor_modifier() != nullptr && this->get_attribute() == character_attribute::none) {

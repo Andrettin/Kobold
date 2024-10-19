@@ -6,7 +6,7 @@ de_concordantia_catholica = { #Source: "Encyclopædia Britannica", 1911, vol. 7,
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 	}
 	option = {
 		effects = {
@@ -23,7 +23,7 @@ crebratio_alcorani = { #Source: "Encyclopædia Britannica", 1911, vol. 7, p. 666
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 		country_exists = ottoman_empire
 	}
 	option = {
@@ -41,7 +41,7 @@ de_docta_ignorantia = { #Source: "Encyclopædia Britannica", 1911, vol. 7, p. 66
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 	}
 	option = {
 		effects = {
@@ -58,7 +58,7 @@ de_conjecturis_libri = { #Source: "Encyclopædia Britannica", 1911, vol. 7, p. 6
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 	}
 	option = {
 		effects = {
@@ -75,7 +75,7 @@ reparatio_calendarii = { #Source: "Encyclopædia Britannica", 1911, vol. 7, p. 6
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 	}
 	option = {
 		effects = {
@@ -92,7 +92,7 @@ de_quadratura_circuli = { #Source: "Encyclopædia Britannica", 1911, vol. 7, p. 
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 	}
 	option = {
 		effects = {
@@ -109,7 +109,7 @@ conjectura_de_novissimis_diebus = { #Source: "Encyclopædia Britannica", 1911, v
 	only_once = true
 	random_weight = 1000
 	conditions = {
-		advisor = nikolaus_von_kues
+		#advisor = nikolaus_von_kues
 		year <= 1734
 	}
 	option = {

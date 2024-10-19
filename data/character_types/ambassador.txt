@@ -1,8 +1,4 @@
 ambassador = {
 	name = "Ambassador"
-	advisor_category = political
 	attribute = diplomacy
-	advisor_modifier = {
-		free_consulate = embassy
-	}
 }

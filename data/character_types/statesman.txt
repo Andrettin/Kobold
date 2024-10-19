@@ -1,40 +1,22 @@
 statesman = {
 	name = "Statesman"
-	advisor_category = political
 	attribute = diplomacy
 	scaled_ruler_modifier = {
-		statesmanship_output_modifier = 5
-	}
-	scaled_advisor_modifier = {
 		statesmanship_output_modifier = 5
 	}
 }
 
 benjamin_franklin = {
 	name = "Benjamin Franklin"
-	advisor_category = political
 	attribute = diplomacy
-	advisor_modifier = {
-		statesmanship_per_printing_press = 3
-		statesmanship_per_newspaper = 3
-	}
 }
 
 patrick_henry = {
 	name = "Patrick Henry"
-	advisor_category = political
 	attribute = diplomacy
-	advisor_modifier = {
-	}
 }
 
 washington_irving = {
 	name = "Washington Irving"
-	advisor_category = political
 	attribute = diplomacy
-	advisor_modifier = {
-		statesmanship_per_school = 1
-		statesmanship_per_college = 2
-		statesmanship_per_university = 3
-	}
 }

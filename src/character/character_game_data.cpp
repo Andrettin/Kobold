@@ -78,8 +78,6 @@ void character_game_data::on_setup_finished()
 
 	if (this->character->get_role() == character_role::ruler && this->get_primary_attribute_value() == 0 && this->character->get_character_type()->get_ruler_modifier() == nullptr && this->character->get_character_type()->get_scaled_ruler_modifier() != nullptr) {
 		throw std::runtime_error(std::format("Character \"{}\" is a ruler with a scaled modifier, but has an initial ruler skill of zero.", this->character->get_identifier()));
-	} else if (this->character->get_role() == character_role::advisor && this->get_primary_attribute_value() == 0 && this->character->get_advisor_modifier() == nullptr && this->character->get_advisor_effects() == nullptr && this->character->get_character_type()->get_advisor_modifier() == nullptr && this->character->get_character_type()->get_scaled_advisor_modifier() != nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" is an advisor with a scaled modifier, but has an initial advisor skill of zero.", this->character->get_identifier()));
 	}
 
 	this->check_portrait();
@@ -107,8 +105,8 @@ bool character_game_data::is_current_portrait_valid() const
 
 void character_game_data::check_portrait()
 {
-	if (this->character->get_role() != character_role::ruler && this->character->get_role() != character_role::advisor) {
-		//only rulers and advisors need portraits
+	if (this->character->get_role() != character_role::ruler) {
+		//only rulers need portraits
 		return;
 	}
 
@@ -194,9 +192,6 @@ void character_game_data::change_attribute_value(const character_attribute attri
 	if (this->is_ruler()) {
 		this->apply_ruler_modifier(this->get_country(), -1);
 	}
-	if (this->is_advisor()) {
-		this->apply_advisor_modifier(this->get_country(), -1);
-	}
 	if (this->character->get_role() == character_role::leader) {
 		for (const trait *trait : this->get_traits()) {
 			if (trait->get_scaled_leader_modifier() != nullptr && attribute == trait->get_attribute()) {
@@ -213,9 +208,6 @@ void character_game_data::change_attribute_value(const character_attribute attri
 
 	if (this->is_ruler()) {
 		this->apply_ruler_modifier(this->get_country(), 1);
-	}
-	if (this->is_advisor()) {
-		this->apply_advisor_modifier(this->get_country(), 1);
 	}
 	if (this->character->get_role() == character_role::leader) {
 		for (const trait *trait : this->get_traits()) {
@@ -328,13 +320,6 @@ void character_game_data::on_trait_gained(const trait *trait, const int multipli
 
 		if (trait->get_ruler_modifier() != nullptr || trait->get_scaled_ruler_modifier() != nullptr) {
 			this->apply_trait_ruler_modifier(trait, this->get_country(), multiplier);
-		}
-	}
-	if (this->is_advisor()) {
-		assert_throw(this->get_country() != nullptr);
-
-		if (trait->get_advisor_modifier() != nullptr || trait->get_scaled_advisor_modifier() != nullptr) {
-			this->apply_trait_advisor_modifier(trait, this->get_country(), multiplier);
 		}
 	}
 
@@ -483,11 +468,6 @@ bool character_game_data::is_ruler() const
 	return this->get_country() != nullptr && this->get_country()->get_game_data()->get_ruler() == this->character;
 }
 
-bool character_game_data::is_advisor() const
-{
-	return this->get_country() != nullptr && vector::contains(this->get_country()->get_game_data()->get_advisors(), this->character);
-}
-
 std::string character_game_data::get_ruler_modifier_string(const kobold::country *country) const
 {
 	assert_throw(this->character->get_role() == character_role::ruler);
@@ -547,112 +527,6 @@ void character_game_data::apply_trait_ruler_modifier(const trait *trait, const k
 
 	if (trait->get_scaled_ruler_modifier() != nullptr) {
 		trait->get_scaled_ruler_modifier()->apply(country, std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()) * multiplier);
-	}
-}
-
-QString character_game_data::get_advisor_effects_string(const kobold::country *country) const
-{
-	assert_throw(this->character->get_role() == character_role::advisor);
-
-	std::string str;
-
-	if (this->character->get_advisor_modifier() != nullptr) {
-		str += this->character->get_advisor_modifier()->get_string(country);
-	}
-
-	if (this->character->get_advisor_effects() != nullptr) {
-		if (!str.empty()) {
-			str += '\n';
-		}
-
-		str += this->character->get_advisor_effects()->get_effects_string(country, read_only_context(country));
-	}
-
-	if (!str.empty()) {
-		return QString::fromStdString(str);
-	}
-
-	if (this->character->get_character_type()->get_advisor_modifier() != nullptr) {
-		str = this->character->get_character_type()->get_advisor_modifier()->get_string(country);
-	} else if (this->character->get_character_type()->get_scaled_advisor_modifier() != nullptr) {
-		str = this->character->get_character_type()->get_scaled_advisor_modifier()->get_string(country, this->get_primary_attribute_value());
-	}
-
-	if (this->character->get_character_type()->get_advisor_effects() != nullptr) {
-		if (!str.empty()) {
-			str += '\n';
-		}
-
-		str += this->character->get_character_type()->get_advisor_effects()->get_effects_string(country, read_only_context(country));
-	}
-
-	for (const trait *trait : this->get_traits()) {
-		if (trait->get_advisor_modifier() == nullptr && trait->get_scaled_advisor_modifier() == nullptr) {
-			continue;
-		}
-
-		if (trait->get_advisor_modifier() != nullptr) {
-			if (!str.empty()) {
-				str += "\n";
-			}
-
-			str += trait->get_advisor_modifier()->get_string(country);
-		}
-
-		if (trait->get_scaled_advisor_modifier() != nullptr) {
-			if (!str.empty()) {
-				str += "\n";
-			}
-
-			str += trait->get_scaled_advisor_modifier()->get_string(country, std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()));
-		}
-	}
-
-	if (this->get_country() != country) {
-		const kobold::character *replaced_advisor = country->get_game_data()->get_replaced_advisor_for(this->character);
-		if (replaced_advisor != nullptr) {
-			if (!str.empty()) {
-				str += '\n';
-			}
-
-			str += std::format("Replaces {}", replaced_advisor->get_full_name());
-		}
-	}
-
-	return QString::fromStdString(str);
-}
-
-void character_game_data::apply_advisor_modifier(const kobold::country *country, const int multiplier) const
-{
-	assert_throw(this->character->get_role() == character_role::advisor);
-	assert_throw(country != nullptr);
-
-	if (this->character->get_advisor_effects() != nullptr) {
-		return;
-	}
-
-	if (this->character->get_advisor_modifier() != nullptr) {
-		this->character->get_advisor_modifier()->apply(country, multiplier);
-	} else if (this->character->get_character_type()->get_advisor_modifier() != nullptr) {
-		this->character->get_character_type()->get_advisor_modifier()->apply(country, multiplier);
-	} else if (this->character->get_character_type()->get_scaled_advisor_modifier() != nullptr) {
-		this->character->get_character_type()->get_scaled_advisor_modifier()->apply(country, this->get_primary_attribute_value() * multiplier);
-	}
-
-	for (const trait *trait : this->get_traits()) {
-		this->apply_trait_advisor_modifier(trait, country, multiplier);
-	}
-}
-
-
-void character_game_data::apply_trait_advisor_modifier(const trait *trait, const kobold::country *country, const int multiplier) const
-{
-	if (trait->get_advisor_modifier() != nullptr) {
-		trait->get_advisor_modifier()->apply(country, multiplier);
-	}
-
-	if (trait->get_scaled_advisor_modifier() != nullptr) {
-		trait->get_scaled_advisor_modifier()->apply(country, std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()) * multiplier);
 	}
 }
 

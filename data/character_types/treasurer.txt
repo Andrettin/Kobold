@@ -1,9 +1,6 @@
 treasurer = {
 	name = "Treasurer"
-	advisor_category = trade
 	attribute = stewardship
 	scaled_ruler_modifier = {
-	}
-	scaled_advisor_modifier = {
 	}
 }

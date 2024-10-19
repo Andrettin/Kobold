@@ -116,7 +116,6 @@ karl_philipp_ii_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, 
 felix_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 390.
 	name = "Felix"
 	dynasty = schwarzenberg
-	role = advisor
 	character_type = statesman
 	culture = austrian
 	religion = catholic

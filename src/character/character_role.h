@@ -7,7 +7,6 @@ namespace kobold {
 enum class character_role {
 	none,
 	ruler,
-	advisor,
 	leader,
 	civilian
 };
@@ -17,8 +16,6 @@ inline std::string_view get_character_role_name(const character_role role)
 	switch (role) {
 		case character_role::ruler:
 			return "Ruler";
-		case character_role::advisor:
-			return "Advisor";
 		case character_role::leader:
 			return "Leader";
 		case character_role::civilian:

@@ -1,12 +1,8 @@
 tobacco_planter = {
 	name = "Tobacco Planter"
-	advisor_category = trade
 	attribute = stewardship
 	civilian_unit_class = farmer
 	scaled_ruler_modifier = {
-		tobacco_output_modifier = 5
-	}
-	scaled_advisor_modifier = {
 		tobacco_output_modifier = 5
 	}
 }

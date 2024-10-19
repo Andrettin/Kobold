@@ -1,10 +1,7 @@
 army_reformer = {
 	name = "Army Reformer"
-	advisor_category = military
 	attribute = martial
 	military_unit_category = general
 	scaled_ruler_modifier = {
-	}
-	scaled_advisor_modifier = {
 	}
 }

@@ -130,10 +130,6 @@ public:
 
 	void apply_ruler_modifier(const kobold::country *country, const int multiplier) const;
 	void apply_trait_ruler_modifier(const trait *trait, const kobold::country *country, const int multiplier) const;
-	bool is_advisor() const;
-	Q_INVOKABLE QString get_advisor_effects_string(const kobold::country *country) const;
-	void apply_advisor_modifier(const kobold::country *country, const int multiplier) const;
-	void apply_trait_advisor_modifier(const trait *trait, const kobold::country *country, const int multiplier) const;
 
 	kobold::military_unit *get_military_unit() const
 	{
