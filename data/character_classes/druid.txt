@@ -1,3 +1,4 @@
 druid = {
 	name = "Druid"
+	base_skill_points_per_level = 4
 }

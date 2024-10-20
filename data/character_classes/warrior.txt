@@ -1,3 +1,4 @@
 warrior = {
 	name = "Warrior"
+	base_skill_points_per_level = 2
 }
