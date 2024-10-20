@@ -83,17 +83,6 @@ military_unit::military_unit(const military_unit_type *type, const kobold::count
 	this->check_free_promotions();
 }
 
-military_unit::military_unit(const military_unit_type *type, const kobold::character *character)
-	: military_unit(type, character->get_game_data()->get_country(), character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
-{
-	this->character = character;
-	this->name = character->get_full_name();
-
-	character->get_game_data()->apply_military_unit_modifier(this, 1);
-
-	//character military units do not have any province set as their home province
-}
-
 void military_unit::do_turn()
 {
 	if (!this->is_moving()) {
@@ -634,19 +623,6 @@ void military_unit::heal(const int healing)
 
 void military_unit::disband(const bool dead)
 {
-	if (this->get_character() != nullptr) {
-		character_game_data *character_game_data = this->get_character()->get_game_data();
-		character_game_data->set_military_unit(nullptr);
-
-		if (character_game_data->get_country() != nullptr) {
-			character_game_data->get_country()->get_game_data()->remove_leader(this->get_character());
-		}
-
-		if (dead) {
-			character_game_data->set_dead(true);
-		}
-	}
-
 	if (this->get_army() != nullptr) {
 		this->army->remove_military_unit(this);
 	}

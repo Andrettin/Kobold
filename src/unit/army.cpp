@@ -167,14 +167,6 @@ int army::get_score() const
 
 const character *army::get_commander() const
 {
-	for (const military_unit *military_unit : this->get_military_units()) {
-		if (military_unit->get_character() == nullptr) {
-			continue;
-		}
-
-		return military_unit->get_character();
-	}
-
 	return nullptr;
 }
 

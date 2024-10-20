@@ -8,9 +8,9 @@ Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
+class character_class;
 class icon;
 class spell_effect;
-enum class military_unit_category;
 enum class spell_target;
 
 class spell final : public named_data_entry, public data_type<spell>
@@ -53,12 +53,12 @@ public:
 		return this->range;
 	}
 
-	const std::vector<military_unit_category> get_military_unit_categories() const
+	const std::vector<const character_class *> get_character_classes() const
 	{
-		return this->military_unit_categories;
+		return this->character_classes;
 	}
 
-	bool is_available_for_military_unit_category(const military_unit_category military_unit_category) const;
+	bool is_available_for_character_class(const character_class *character_class) const;
 
 signals:
 	void changed();
@@ -68,7 +68,7 @@ private:
 	kobold::icon *icon = nullptr;
 	int mana_cost = 0;
 	int range = 0;
-	std::vector<military_unit_category> military_unit_categories;
+	std::vector<const character_class *> character_classes;
 	std::vector<qunique_ptr<spell_effect>> effects;
 };
 

@@ -537,7 +537,6 @@ set(script_condition_HDRS
 	src/script/condition/near_water_condition.h
 	src/script/condition/owns_province_condition.h
 	src/script/condition/owns_site_condition.h
-	src/script/condition/primary_attribute_condition.h
 	src/script/condition/produces_commodity_condition.h
 	src/script/condition/promotion_condition.h
 	src/script/condition/province_condition.h
@@ -645,7 +644,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
 	src/script/modifier_effect/inflation_change_modifier_effect.h
 	src/script/modifier_effect/law_cost_modifier_effect.h
-	src/script/modifier_effect/leader_cost_modifier_effect.h
 	src/script/modifier_effect/merchant_ship_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_category_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_domain_stat_modifier_effect.h

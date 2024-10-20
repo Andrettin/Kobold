@@ -163,10 +163,6 @@ Item {
 		id: belief_choice_dialog
 	}
 	
-	LeaderChoiceDialog {
-		id: leader_choice_dialog
-	}
-	
 	ModifierDialog {
 		id: modifier_dialog
 	}
@@ -233,30 +229,10 @@ Item {
 			
 			event_dialog.open()
 		}
-		
-		function onNext_leader_choosable(potential_leaders) {
-			leader_choice_dialog.potential_leaders = potential_leaders
-			leader_choice_dialog.open()
-		}
 	}
 	
 	Connections {
 		target: kobold.game.player_country.game_data
-		
-		function onLeader_recruited(leader) {
-			if (notification_dialog_component.status == Component.Error) {
-				console.error(notification_dialog_component.errorString())
-				return
-			}
-			
-			var dialog = notification_dialog_component.createObject(map_view, {
-				title: leader.leader_type_name + " Recruited",
-				portrait_object: kobold.defines.war_minister_portrait,
-				text: "Your Excellency, the " + leader.leader_type_name.toLowerCase() + " " + leader.full_name  + " has joined our nation!"
-			})
-			
-			dialog.open()
-		}
 		
 		function onJournal_entry_completed(journal_entry) {
 			if (notification_dialog_component.status == Component.Error) {

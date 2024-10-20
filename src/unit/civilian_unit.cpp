@@ -2,8 +2,6 @@
 
 #include "unit/civilian_unit.h"
 
-#include "character/character.h"
-#include "character/character_game_data.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -44,15 +42,6 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 
 	connect(this->get_owner()->get_game_data(), &country_game_data::provinces_changed, this, &civilian_unit::prospectable_tiles_changed);
 	connect(this->get_owner()->get_game_data(), &country_game_data::prospected_tiles_changed, this, &civilian_unit::prospectable_tiles_changed);
-}
-
-civilian_unit::civilian_unit(const kobold::character *character, const country *owner)
-	: civilian_unit(character->get_civilian_unit_type(), owner, character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
-{
-	this->character = character;
-
-	character_game_data *character_game_data = this->get_character()->get_game_data();
-	character_game_data->set_civilian_unit(this);
 }
 
 void civilian_unit::do_turn()
@@ -472,19 +461,10 @@ QVariantList civilian_unit::get_prospectable_tiles_qvariant_list() const
 	return archimedes::map::to_qvariant_list(this->get_prospectable_tiles());
 }
 
-void civilian_unit::disband(const bool dead)
+void civilian_unit::disband()
 {
 	if (this->is_working()) {
 		this->cancel_work();
-	}
-
-	if (this->get_character() != nullptr) {
-		character_game_data *character_game_data = this->get_character()->get_game_data();
-		character_game_data->set_civilian_unit(nullptr);
-
-		if (dead) {
-			character_game_data->set_dead(true);
-		}
 	}
 
 	tile *tile = this->get_tile();
@@ -494,11 +474,6 @@ void civilian_unit::disband(const bool dead)
 	map::get()->set_tile_civilian_unit(this->get_tile_pos(), nullptr);
 
 	this->get_owner()->get_game_data()->remove_civilian_unit(this);
-}
-
-void civilian_unit::disband()
-{
-	this->disband(false);
 }
 
 }

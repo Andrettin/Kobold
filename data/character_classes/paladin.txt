@@ -1,4 +1,3 @@
 paladin = {
 	name = "Paladin"
-	attribute = martial
 }

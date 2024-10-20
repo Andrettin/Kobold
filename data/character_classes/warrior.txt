@@ -1,5 +1,3 @@
 warrior = {
 	name = "Warrior"
-	attribute = martial
-	military_unit_category = warrior
 }

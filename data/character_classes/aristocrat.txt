@@ -1,6 +1,3 @@
 aristocrat = {
 	name = "Aristocrat"
-	attribute = diplomacy
-	ruler_modifier = {
-	}
 }

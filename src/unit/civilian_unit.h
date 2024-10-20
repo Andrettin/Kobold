@@ -9,7 +9,6 @@ Q_MOC_INCLUDE("unit/civilian_unit_type.h")
 
 namespace kobold {
 
-class character;
 class civilian_unit_type;
 class country;
 class culture;
@@ -27,7 +26,6 @@ class civilian_unit final : public QObject
 	Q_PROPERTY(const kobold::civilian_unit_type* type READ get_type NOTIFY type_changed)
 	Q_PROPERTY(const kobold::icon* icon READ get_icon NOTIFY icon_changed)
 	Q_PROPERTY(const kobold::country* owner READ get_owner CONSTANT)
-	Q_PROPERTY(const kobold::character* character READ get_character CONSTANT)
 	Q_PROPERTY(QPoint tile_pos READ get_tile_pos NOTIFY tile_pos_changed)
 	Q_PROPERTY(bool moving READ is_moving NOTIFY original_tile_pos_changed)
 	Q_PROPERTY(bool working READ is_working NOTIFY task_completion_turns_changed)
@@ -40,7 +38,6 @@ public:
 	static constexpr int prospection_turns = 1;
 
 	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
-	explicit civilian_unit(const kobold::character *character, const country *owner);
 
 	void do_turn();
 	void do_ai_turn();
@@ -85,11 +82,6 @@ public:
 	const site *get_home_settlement() const
 	{
 		return this->home_settlement;
-	}
-
-	const kobold::character *get_character() const
-	{
-		return this->character;
 	}
 
 	const QPoint &get_tile_pos() const
@@ -158,7 +150,6 @@ public:
 		emit task_completion_turns_changed();
 	}
 
-	void disband(const bool dead);
 	Q_INVOKABLE void disband();
 
 signals:
@@ -177,7 +168,6 @@ private:
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;
 	const site *home_settlement = nullptr;
-	const kobold::character *character = nullptr;
 	QPoint tile_pos = QPoint(-1, -1);
 	QPoint original_tile_pos = QPoint(-1, -1); //the tile position before moving
 	const improvement *improvement_under_construction = nullptr;

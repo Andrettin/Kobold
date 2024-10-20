@@ -409,7 +409,7 @@ void country_game_data::do_ai_turn()
 			++i;
 		} else {
 			//if the civilian unit is idle, this means that nothing was found for it to do above; in that case, disband it
-			civilian_unit->disband(false);
+			civilian_unit->disband();
 		}
 	}
 
@@ -2931,7 +2931,6 @@ void country_game_data::choose_next_belief()
 void country_game_data::check_characters()
 {
 	this->check_ruler();
-	this->check_leaders();
 }
 
 void country_game_data::set_ruler(const character *ruler)
@@ -3007,200 +3006,6 @@ void country_game_data::check_ruler()
 			}
 		}
 	}
-}
-
-QVariantList country_game_data::get_leaders_qvariant_list() const
-{
-	return container::to_qvariant_list(this->get_leaders());
-}
-
-void country_game_data::check_leaders()
-{
-	if (this->is_under_anarchy()) {
-		if (this->get_next_leader() != nullptr) {
-			this->set_next_leader(nullptr);
-		}
-
-		return;
-	}
-
-	if (this->get_next_leader() != nullptr) {
-		if (this->get_next_leader()->get_game_data()->get_country() != nullptr) {
-			if (this->country == game::get()->get_player_country()) {
-				const portrait *war_minister_portrait = defines::get()->get_war_minister_portrait();
-
-				const std::string_view leader_type_name = this->get_next_leader()->get_leader_type_name();
-
-				engine_interface::get()->add_notification(std::format("{} Unavailable", leader_type_name), war_minister_portrait, std::format("Your Excellency, the {} {} has unfortunately decided to join {}, and is no longer available for recruitment.", string::lowered(leader_type_name), this->get_next_leader()->get_full_name(), this->get_next_leader()->get_game_data()->get_country()->get_game_data()->get_name()));
-			}
-
-			this->set_next_leader(nullptr);
-		} else {
-			if (this->get_stored_commodity(defines::get()->get_leader_commodity()) >= this->get_leader_cost()) {
-				this->change_stored_commodity(defines::get()->get_leader_commodity(), -this->get_leader_cost());
-
-				this->add_leader(this->get_next_leader());
-				this->get_next_leader()->get_game_data()->deploy_to_province(this->get_capital_province());
-
-				emit leader_recruited(this->get_next_leader());
-
-				this->set_next_leader(nullptr);
-			}
-		}
-	} else {
-		if (this->get_commodity_output(defines::get()->get_leader_commodity()).to_int() > 0 || this->get_stored_commodity(defines::get()->get_leader_commodity()) > 0) {
-			this->choose_next_leader();
-		}
-	}
-}
-
-void country_game_data::add_leader(const character *leader)
-{
-	this->leaders.push_back(leader);
-	leader->get_game_data()->set_country(this->country);
-
-	emit leaders_changed();
-}
-
-void country_game_data::remove_leader(const character *leader)
-{
-	assert_throw(leader->get_game_data()->get_country() == this->country);
-
-	std::erase(this->leaders, leader);
-	leader->get_game_data()->set_country(nullptr);
-
-	emit leaders_changed();
-}
-
-void country_game_data::clear_leaders()
-{
-	const std::vector<const character *> leaders = this->get_leaders();
-	for (const character *leader : leaders) {
-		this->remove_leader(leader);
-	}
-
-	assert_throw(this->get_leaders().empty());
-
-	emit leaders_changed();
-}
-
-void country_game_data::choose_next_leader()
-{
-	std::map<military_unit_category, std::vector<const character *>> potential_leaders_per_category;
-
-	for (const character *character : character::get_all()) {
-		if (character->get_role() != character_role::leader) {
-			continue;
-		}
-
-		const character_game_data *character_game_data = character->get_game_data();
-		if (character_game_data->get_country() != nullptr) {
-			continue;
-		}
-
-		if (character_game_data->is_dead()) {
-			continue;
-		}
-
-		const military_unit_type *military_unit_type = this->get_best_military_unit_category_type(character->get_military_unit_category(), character->get_culture());
-		if (military_unit_type == nullptr) {
-			continue;
-		}
-
-		if (character->get_conditions() != nullptr && !character->get_conditions()->check(this->country, read_only_context(this->country))) {
-			continue;
-		}
-
-		const military_unit_category leader_category = character->get_military_unit_category();
-
-		std::vector<const kobold::character *> &category_leaders = potential_leaders_per_category[leader_category];
-
-		category_leaders.push_back(character);
-	}
-
-	if (potential_leaders_per_category.empty()) {
-		return;
-	}
-
-	std::map<military_unit_category, const character *> potential_leader_map;
-	const std::vector<military_unit_category> potential_categories = archimedes::map::get_keys(potential_leaders_per_category);
-
-	for (const military_unit_category category : potential_categories) {
-		potential_leader_map[category] = vector::get_random(potential_leaders_per_category[category]);
-	}
-
-	if (this->is_ai()) {
-		std::vector<const character *> preferred_leaders;
-
-		int best_desire = -1;
-		for (const auto &[category, leader] : potential_leader_map) {
-			const military_unit_type *military_unit_type = this->get_best_military_unit_category_type(leader->get_military_unit_category(), leader->get_culture());
-			assert_throw(military_unit_type != nullptr);
-			const int leader_score = military_unit_type->get_score();
-
-			assert_throw(leader_score >= 0);
-
-			int desire = leader_score;
-
-			for (const journal_entry *journal_entry : this->get_active_journal_entries()) {
-				if (vector::contains(journal_entry->get_recruited_characters(), leader)) {
-					desire += journal_entry::ai_leader_desire_modifier;
-				}
-			}
-
-			assert_throw(desire >= 0);
-
-			if (desire > best_desire) {
-				preferred_leaders.clear();
-				best_desire = desire;
-			}
-
-			if (desire >= best_desire) {
-				preferred_leaders.push_back(leader);
-			}
-		}
-
-		assert_throw(!preferred_leaders.empty());
-
-		const character *chosen_leader = vector::get_random(preferred_leaders);
-		this->set_next_leader(chosen_leader);
-	} else {
-		const std::vector<const character *> potential_leaders = archimedes::map::get_values(potential_leader_map);
-		emit engine_interface::get()->next_leader_choosable(container::to_qvariant_list(potential_leaders));
-	}
-}
-
-const military_unit_type *country_game_data::get_next_leader_military_unit_type() const
-{
-	if (this->get_next_leader() == nullptr) {
-		return nullptr;
-	}
-
-	return this->get_best_military_unit_category_type(this->get_next_leader()->get_military_unit_category(), this->get_next_leader()->get_culture());
-}
-
-bool country_game_data::has_civilian_character(const character *character) const
-{
-	for (const qunique_ptr<civilian_unit> &civilian_unit : this->civilian_units) {
-		if (civilian_unit->get_character() == character) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-std::vector<const character *> country_game_data::get_civilian_characters() const
-{
-	std::vector<const character *> civilian_characters;
-
-	for (const qunique_ptr<civilian_unit> &civilian_unit : this->civilian_units) {
-		if (civilian_unit->get_character() != nullptr) {
-			civilian_characters.push_back(civilian_unit->get_character());
-		}
-	}
-
-	return civilian_characters;
 }
 
 QVariantList country_game_data::get_bids_qvariant_list() const
@@ -3314,21 +3119,12 @@ void country_game_data::assign_trade_orders()
 
 void country_game_data::add_civilian_unit(qunique_ptr<civilian_unit> &&civilian_unit)
 {
-	if (civilian_unit->get_character() != nullptr) {
-		civilian_unit->get_character()->get_game_data()->set_country(this->country);
-	}
-
 	this->civilian_units.push_back(std::move(civilian_unit));
 }
 
 void country_game_data::remove_civilian_unit(civilian_unit *civilian_unit)
 {
 	assert_throw(civilian_unit != nullptr);
-
-	if (civilian_unit->get_character() != nullptr) {
-		assert_throw(civilian_unit->get_character()->get_game_data()->get_country() == this->country);
-		civilian_unit->get_character()->get_game_data()->set_country(nullptr);
-	}
 
 	for (size_t i = 0; i < this->civilian_units.size(); ++i) {
 		if (this->civilian_units[i].get() == civilian_unit) {

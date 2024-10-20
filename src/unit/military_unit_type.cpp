@@ -157,10 +157,6 @@ int military_unit_type::get_score() const
 		score += cost * commodity->get_base_price();
 	}
 
-	if (this->get_category() != military_unit_category::none && is_leader_military_unit_category(this->get_category())) {
-		score += country_game_data::base_leader_cost * commodity::abstract_commodity_value;
-	}
-
 	return score;
 }
 

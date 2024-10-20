@@ -197,10 +197,6 @@ void character::check() const
 				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no rulable countries.", this->get_identifier()));
 			}
 
-			if (this->get_character_class()->get_ruler_modifier() == nullptr && this->get_character_class()->get_scaled_ruler_modifier() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but its character class (\"{}\") has no ruler modifier.", this->get_identifier(), this->get_character_class()->get_identifier()));
-			}
-
 			std::vector<const trait *> ruler_traits = this->get_traits();
 			std::erase_if(ruler_traits, [](const trait *trait) {
 				return trait->get_type() != trait_type::ruler;
@@ -216,20 +212,6 @@ void character::check() const
 			}
 			break;
 		}
-		case character_role::leader:
-			if (this->get_military_unit_category() == military_unit_category::none) {
-				throw std::runtime_error(std::format("Character \"{}\" is a leader, but has no military unit category.", this->get_identifier()));
-			}
-			break;
-		case character_role::civilian:
-			if (this->get_civilian_unit_class() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is a civilian, but has no civilian unit class.", this->get_identifier()));
-			}
-
-			if (this->get_civilian_unit_type() == nullptr) {
-				throw std::runtime_error(std::format("Character \"{}\" is a civilian, but its culture (\"{}\") has no civilian unit type for its civilian unit class (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_civilian_unit_class()->get_identifier()));
-			}
-			break;
 		default:
 			break;
 	}
@@ -325,43 +307,6 @@ std::string character::get_full_name() const
 	return full_name;
 }
 
-const military_unit_category character::get_military_unit_category() const
-{
-	if (this->get_character_class() != nullptr) {
-		return this->get_character_class()->get_military_unit_category();
-	}
-
-	return military_unit_category::none;
-}
-
-const civilian_unit_class *character::get_civilian_unit_class() const
-{
-	if (this->get_character_class() != nullptr) {
-		return this->get_character_class()->get_civilian_unit_class();
-	}
-
-	return nullptr;
-}
-
-const civilian_unit_type *character::get_civilian_unit_type() const
-{
-	const civilian_unit_class *civilian_unit_class = this->get_civilian_unit_class();
-	if (civilian_unit_class != nullptr) {
-		return this->get_culture()->get_civilian_class_unit_type(civilian_unit_class);
-	}
-
-	return nullptr;
-}
-
-character_attribute character::get_primary_attribute() const
-{
-	if (this->get_character_class() != nullptr) {
-		return this->get_character_class()->get_attribute();
-	}
-
-	return character_attribute::none;
-}
-
 centesimal_int character::get_skill_multiplier() const
 {
 	assert_throw(defines::get()->get_max_character_skill() > 0);
@@ -378,29 +323,6 @@ void character::add_rulable_country(country *country)
 {
 	this->rulable_countries.push_back(country);
 	country->add_ruler(this);
-}
-
-bool character::is_admiral() const
-{
-	return this->get_military_unit_category() == military_unit_category::heavy_warship;
-}
-
-bool character::is_explorer() const
-{
-	return this->get_military_unit_category() == military_unit_category::light_warship;
-}
-
-std::string_view character::get_leader_type_name() const
-{
-	assert_throw(this->get_role() == character_role::leader);
-
-	if (this->is_admiral()) {
-		return "Admiral";
-	} else if (this->is_explorer()) {
-		return "Explorer";
-	}
-
-	return get_military_unit_category_name(this->get_military_unit_category());
 }
 
 }

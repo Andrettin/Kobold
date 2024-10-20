@@ -76,7 +76,6 @@ class character final : public named_data_entry, public data_type<character>
 	Q_PROPERTY(archimedes::calendar* vital_date_calendar MEMBER vital_date_calendar)
 	Q_PROPERTY(int skill MEMBER skill READ get_skill NOTIFY changed)
 	Q_PROPERTY(archimedes::centesimal_int skill_multiplier READ get_skill_multiplier WRITE set_skill_multiplier NOTIFY changed)
-	Q_PROPERTY(QString leader_type_name READ get_leader_type_name_qstring NOTIFY changed)
 	Q_PROPERTY(kobold::character_game_data* game_data READ get_game_data NOTIFY game_data_changed)
 
 public:
@@ -178,10 +177,6 @@ public:
 		return this->character_class;
 	}
 
-	const military_unit_category get_military_unit_category() const;
-	const civilian_unit_class *get_civilian_unit_class() const;
-	const civilian_unit_type *get_civilian_unit_type() const;
-
 	const kobold::culture *get_culture() const
 	{
 		return this->culture;
@@ -242,8 +237,6 @@ public:
 		return this->death_date;
 	}
 
-	character_attribute get_primary_attribute() const;
-
 	int get_skill() const
 	{
 		return this->skill;
@@ -268,15 +261,6 @@ public:
 	}
 
 	void add_rulable_country(country *country);
-
-	bool is_admiral() const;
-	bool is_explorer() const;
-	std::string_view get_leader_type_name() const;
-
-	QString get_leader_type_name_qstring() const
-	{
-		return QString::fromStdString(std::string(this->get_leader_type_name()));
-	}
 
 signals:
 	void changed();

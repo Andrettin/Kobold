@@ -248,23 +248,6 @@ bool journal_entry::check_completion_conditions(const country *country, const bo
 		}
 	}
 
-	for (const character *character : this->get_recruited_characters()) {
-		switch (character->get_role()) {
-			case character_role::leader:
-				if (!vector::contains(country_game_data->get_leaders(), character)) {
-					return false;
-				}
-				break;
-			case character_role::civilian:
-				if (!country_game_data->has_civilian_character(character)) {
-					return false;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	if (this->get_completion_random_chance() != 0 && !ignore_random_chance) {
 		const int64_t random_number = random::get()->generate(decimillesimal_int::divisor * 100);
 		if (this->get_completion_random_chance().get_value() <= random_number) {
@@ -325,27 +308,6 @@ QString journal_entry::get_completion_conditions_string() const
 		}
 
 		str += std::format("Adopt {} ({})", tradition->get_name(), get_tradition_category_name(tradition->get_category()));
-	}
-
-	for (const character *character : this->get_recruited_characters()) {
-		if (!str.empty()) {
-			str += "\n";
-		}
-
-		std::string character_type_name;
-
-		switch (character->get_role()) {
-			case character_role::leader:
-				character_type_name = character->get_leader_type_name();
-				break;
-			case character_role::civilian:
-				character_type_name = character->get_civilian_unit_type()->get_name();
-				break;
-			default:
-				break;
-		}
-
-		str += std::format("Recruit {} ({})", character->get_full_name(), character_type_name);
 	}
 
 	if (this->get_completion_random_chance() != 0) {

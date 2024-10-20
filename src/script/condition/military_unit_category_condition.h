@@ -28,17 +28,7 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		if constexpr (std::is_same_v<scope_type, military_unit>) {
-			return scope->get_category() == this->military_unit_category;
-		} else {
-			if constexpr (std::is_same_v<scope_type, character>) {
-				if (scope->get_role() != character_role::leader) {
-					return false;
-				}
-			}
-
-			return scope->get_military_unit_category() == this->military_unit_category;
-		}
+		return scope->get_category() == this->military_unit_category;
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override

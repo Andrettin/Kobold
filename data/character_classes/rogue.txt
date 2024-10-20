@@ -1,5 +1,3 @@
 rogue = {
 	name = "Rogue"
-	attribute = intrigue
-	military_unit_category = rogue
 }

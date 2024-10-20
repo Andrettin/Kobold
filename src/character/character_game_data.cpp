@@ -15,7 +15,7 @@
 #include "game/event_trigger.h"
 #include "game/game.h"
 #include "map/province.h"
-#include "script/condition/condition.h"
+#include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "script/scripted_character_modifier.h"
@@ -54,30 +54,8 @@ void character_game_data::on_setup_finished()
 	for (const trait_type trait_type : generated_trait_types) {
 		success = true;
 		while (this->get_trait_count_for_type(trait_type) < defines::get()->get_min_traits_for_type(trait_type) && success) {
-			success = this->generate_initial_trait(trait_type);
+			success = this->generate_trait(trait_type);
 		}
-	}
-
-	success = true;
-	const character_attribute target_attribute = this->character->get_skill() != 0 ? this->character->get_primary_attribute() : character_attribute::none;
-	const int target_attribute_value = this->character->get_skill();
-	while (target_attribute != character_attribute::none && success) {
-		for (const trait_type trait_type : generated_trait_types) {
-			success = false;
-
-			const int target_attribute_bonus = target_attribute_value - this->get_attribute_value(target_attribute);
-			if (target_attribute_bonus == 0) {
-				break;
-			}
-
-			if (this->get_trait_count_for_type(trait_type) < defines::get()->get_max_traits_for_type(trait_type)) {
-				success = this->generate_initial_trait(trait_type);
-			}
-		}
-	}
-
-	if (this->character->get_role() == character_role::ruler && this->get_primary_attribute_value() == 0 && this->character->get_character_class()->get_ruler_modifier() == nullptr && this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" is a ruler with a scaled modifier, but has an initial ruler skill of zero.", this->character->get_identifier()));
 	}
 
 	this->check_portrait();
@@ -218,13 +196,6 @@ void character_game_data::change_attribute_value(const character_attribute attri
 	}
 }
 
-int character_game_data::get_primary_attribute_value() const
-{
-	assert_throw(this->character->get_character_class() != nullptr);
-
-	return this->get_attribute_value(this->character->get_primary_attribute());
-}
-
 QVariantList character_game_data::get_traits_qvariant_list() const
 {
 	return container::to_qvariant_list(this->get_traits());
@@ -255,15 +226,6 @@ bool character_game_data::can_have_trait(const trait *trait) const
 {
 	if (trait->get_conditions() != nullptr && !trait->get_conditions()->check(this->character, read_only_context(this->character))) {
 		return false;
-	}
-
-	// characters cannot gain a trait which would reduce their primary attribute below 1
-	const character_attribute primary_attribute = this->character->get_primary_attribute();
-	if (primary_attribute != character_attribute::none) {
-		const int trait_primary_attribute_bonus = trait->get_attribute_bonus(primary_attribute);
-		if (trait_primary_attribute_bonus < 0 && (this->get_primary_attribute_value() + trait_primary_attribute_bonus) <= 0) {
-			return false;
-		}
 	}
 
 	return true;
@@ -340,16 +302,11 @@ void character_game_data::on_trait_gained(const trait *trait, const int multipli
 			this->apply_modifier(trait->get_scaled_leader_modifier(), std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()) * multiplier);
 		}
 	}
-
-	if (trait->get_military_unit_modifier() != nullptr && this->get_military_unit() != nullptr) {
-		this->apply_military_unit_modifier(this->get_military_unit(), multiplier);
-	}
 }
 
-bool character_game_data::generate_trait(const trait_type trait_type, const character_attribute target_attribute, const int target_attribute_bonus)
+bool character_game_data::generate_trait(const trait_type trait_type)
 {
 	std::vector<const trait *> potential_traits;
-	int best_attribute_bonus = 0;
 
 	for (const trait *trait : trait::get_all()) {
 		if (trait->get_type() != trait_type) {
@@ -364,20 +321,6 @@ bool character_game_data::generate_trait(const trait_type trait_type, const char
 			continue;
 		}
 
-		if (target_attribute != character_attribute::none) {
-			const int trait_attribute_bonus = trait->get_attribute_bonus(target_attribute);
-			if (trait_attribute_bonus > target_attribute_bonus) {
-				continue;
-			}
-
-			if (trait_attribute_bonus < best_attribute_bonus) {
-				continue;
-			} else if (trait_attribute_bonus > best_attribute_bonus) {
-				potential_traits.clear();
-				best_attribute_bonus = trait_attribute_bonus;
-			}
-		}
-
 		potential_traits.push_back(trait);
 	}
 
@@ -387,15 +330,6 @@ bool character_game_data::generate_trait(const trait_type trait_type, const char
 
 	this->add_trait(vector::get_random(potential_traits));
 	return true;
-}
-
-bool character_game_data::generate_initial_trait(const trait_type trait_type)
-{
-	const character_attribute target_attribute = this->character->get_skill() != 0 ? this->character->get_primary_attribute() : character_attribute::none;
-	const int target_attribute_value = this->character->get_skill();
-	const int target_attribute_bonus = target_attribute_value - this->get_attribute_value(target_attribute);
-
-	return this->generate_trait(trait_type, target_attribute, target_attribute_bonus);
 }
 
 void character_game_data::sort_traits()
@@ -474,13 +408,6 @@ std::string character_game_data::get_ruler_modifier_string(const kobold::country
 
 	std::string str = string::highlight(this->character->get_character_class()->get_name());
 
-	if (this->character->get_character_class()->get_ruler_modifier() != nullptr) {
-		str += "\n" + this->character->get_character_class()->get_ruler_modifier()->get_string(country, 1, 1);
-	}
-	if (this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
-		str += "\n" + this->character->get_character_class()->get_scaled_ruler_modifier()->get_string(country, this->get_primary_attribute_value(), 1);
-	}
-
 	for (const trait *trait : this->get_traits()) {
 		if (trait->get_ruler_modifier() == nullptr && trait->get_scaled_ruler_modifier() == nullptr) {
 			continue;
@@ -507,13 +434,6 @@ void character_game_data::apply_ruler_modifier(const kobold::country *country, c
 	assert_throw(this->character->get_role() == character_role::ruler);
 	assert_throw(country != nullptr);
 
-	if (this->character->get_character_class()->get_ruler_modifier() != nullptr) {
-		this->character->get_character_class()->get_ruler_modifier()->apply(country, multiplier);
-	}
-	if (this->character->get_character_class()->get_scaled_ruler_modifier() != nullptr) {
-		this->character->get_character_class()->get_scaled_ruler_modifier()->apply(country, this->get_primary_attribute_value() * multiplier);
-	}
-
 	for (const trait *trait : this->get_traits()) {
 		this->apply_trait_ruler_modifier(trait, country, multiplier);
 	}
@@ -530,55 +450,11 @@ void character_game_data::apply_trait_ruler_modifier(const trait *trait, const k
 	}
 }
 
-bool character_game_data::is_deployable() const
-{
-	if (this->character->get_military_unit_category() == military_unit_category::none) {
-		return false;
-	}
-
-	return true;
-}
-
-void character_game_data::deploy_to_province(const province *province)
-{
-	assert_throw(province != nullptr);
-	assert_throw(this->get_country() != nullptr);
-	assert_throw(!this->is_deployed());
-	assert_throw(this->is_deployable());
-
-	const military_unit_type *military_unit_type = this->get_country()->get_game_data()->get_best_military_unit_category_type(this->character->get_military_unit_category(), this->character->get_culture());
-
-	auto military_unit = make_qunique<kobold::military_unit>(military_unit_type, this->character);
-
-	assert_throw(military_unit->can_move_to(province));
-
-	military_unit->set_province(province);
-	this->military_unit = military_unit.get();
-
-	this->get_country()->get_game_data()->add_military_unit(std::move(military_unit));
-}
-
-void character_game_data::undeploy()
-{
-	assert_throw(this->is_deployed());
-
-	this->military_unit->disband(false);
-}
-
 void character_game_data::apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier)
 {
 	assert_throw(modifier != nullptr);
 
 	modifier->apply(this->character, multiplier);
-}
-
-void character_game_data::apply_military_unit_modifier(kobold::military_unit *military_unit, const int multiplier)
-{
-	for (const trait *trait : this->get_traits()) {
-		if (trait->get_military_unit_modifier() != nullptr) {
-			trait->get_military_unit_modifier()->apply(military_unit, multiplier);
-		}
-	}
 }
 
 QVariantList character_game_data::get_spells_qvariant_list() const
@@ -588,7 +464,7 @@ QVariantList character_game_data::get_spells_qvariant_list() const
 
 bool character_game_data::can_learn_spell(const spell *spell) const
 {
-	if (!spell->is_available_for_military_unit_category(this->character->get_military_unit_category())) {
+	if (!spell->is_available_for_character_class(this->character->get_character_class())) {
 		return false;
 	}
 

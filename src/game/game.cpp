@@ -496,63 +496,7 @@ void game::apply_history(const kobold::scenario *scenario)
 		}
 
 		for (const character *character : character::get_all()) {
-			character_game_data *character_game_data = character->get_game_data();
-			const character_history *character_history = character->get_history();
-
-			const country *country = character_history->get_country();
-
-			if ((character->get_role() == character_role::leader || character->get_role() == character_role::civilian) && country != nullptr && !country->get_game_data()->is_under_anarchy()) {
-				country_game_data *country_game_data = country->get_game_data();
-				if (character->get_role() == character_role::leader) {
-					const province *deployment_province = character_history->get_deployment_province();
-					if (deployment_province == nullptr && country_game_data->get_capital_province() != nullptr) {
-						deployment_province = country_game_data->get_capital_province();
-					}
-
-					assert_throw(deployment_province != nullptr);
-
-					if (deployment_province->is_water_zone() || deployment_province->get_game_data()->get_owner() == country) {
-						country_game_data->add_leader(character);
-
-						assert_throw(character_game_data->get_country() != nullptr);
-						character_game_data->deploy_to_province(deployment_province);
-					}
-				} else if (character->get_role() == character_role::civilian) {
-					const site *deployment_site = character_history->get_deployment_site();
-					if (deployment_site == nullptr && country_game_data->get_capital() != nullptr) {
-						deployment_site = country_game_data->get_capital();
-					}
-
-					assert_throw(deployment_site != nullptr);
-
-					if (!deployment_site->get_game_data()->is_on_map()) {
-						continue;
-					}
-
-					if (deployment_site->get_game_data()->get_owner() != country) {
-						country_game_data->add_leader(character);
-
-						assert_throw(character_game_data->get_country() != nullptr);
-						//FIXME: should deploy to site
-						//character_game_data->deploy_to_province(character_history->get_deployment_province());
-					}
-
-					const civilian_unit_type *type = character->get_civilian_unit_type();
-					assert_throw(type != nullptr);
-
-					const QPoint tile_pos = deployment_site->get_game_data()->get_tile_pos();
-
-					if (map::get()->get_tile(tile_pos)->get_civilian_unit() != nullptr) {
-						log::log_error(std::format("Cannot deploy civilian character \"{}\" to site \"{}\", since that site's tile is already occupied by another civilian unit.", character->get_identifier(), deployment_site->get_identifier()));
-						continue;
-					}
-
-					auto civilian_unit = make_qunique<kobold::civilian_unit>(character, country);
-					civilian_unit->set_tile_pos(tile_pos);
-
-					country_game_data->add_civilian_unit(std::move(civilian_unit));
-				}
-			}
+			//FIXME: apply character
 		}
 
 		for (const historical_civilian_unit *historical_civilian_unit : historical_civilian_unit::get_all()) {
@@ -1301,8 +1245,6 @@ void game::remove_country(country *country)
 	if (country->is_great_power()) {
 		std::erase(this->great_powers, country);
 	}
-
-	country->get_game_data()->clear_leaders();
 
 	for (const kobold::country *other_country : this->get_countries()) {
 		country_game_data *other_country_game_data = other_country->get_game_data();

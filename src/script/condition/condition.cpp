@@ -62,7 +62,6 @@
 #include "script/condition/owns_province_condition.h"
 #include "script/condition/owns_site_condition.h"
 #include "script/condition/produces_commodity_condition.h"
-#include "script/condition/primary_attribute_condition.h"
 #include "script/condition/promotion_condition.h"
 #include "script/condition/province_condition.h"
 #include "script/condition/province_count_condition.h"
@@ -116,8 +115,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<gender_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
-		} else if (key == "primary_attribute") {
-			return std::make_unique<primary_attribute_condition>(value, condition_operator);
 		} else if (key == "trait") {
 			return std::make_unique<trait_condition>(value, condition_operator);
 		}
@@ -164,6 +161,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<cavalry_condition>(value, condition_operator);
 		} else if (key == "infantry") {
 			return std::make_unique<infantry_condition>(value, condition_operator);
+		} else if (key == "military_unit_category") {
+			return std::make_unique<military_unit_category_condition<scope_type>>(value, condition_operator);
 		} else if (key == "military_unit_domain") {
 			return std::make_unique<military_unit_domain_condition>(value, condition_operator);
 		} else if (key == "military_unit_type") {
@@ -198,12 +197,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 	if constexpr (std::is_same_v<scope_type, character> || std::is_same_v<scope_type, country>) {
 		if (key == "war") {
 			return std::make_unique<war_condition<scope_type>>(value, condition_operator);
-		}
-	}
-	
-	if constexpr (std::is_same_v<scope_type, character> || std::is_same_v<scope_type, military_unit>) {
-		if (key == "military_unit_category") {
-			return std::make_unique<military_unit_category_condition<scope_type>>(value, condition_operator);
 		}
 	}
 	

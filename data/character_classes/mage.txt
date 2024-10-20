@@ -1,5 +1,3 @@
 mage = {
 	name = "Mage"
-	attribute = learning
-	military_unit_category = mage
 }

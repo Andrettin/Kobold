@@ -44,7 +44,6 @@ public:
 
 	explicit military_unit(const military_unit_type *type);
 	explicit military_unit(const military_unit_type *type, const kobold::country *country, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const kobold::site *home_settlement);
-	explicit military_unit(const military_unit_type *type, const character *character);
 
 	void do_turn();
 	void do_ai_turn();
@@ -107,11 +106,6 @@ public:
 	const kobold::site *get_home_settlement() const
 	{
 		return this->home_settlement;
-	}
-
-	const kobold::character *get_character() const
-	{
-		return this->character;
 	}
 
 	const kobold::province *get_province() const
@@ -271,7 +265,6 @@ private:
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;
 	const kobold::site *home_settlement = nullptr;
-	const kobold::character *character = nullptr;
 	const kobold::province *province = nullptr; //the province the unit is in
 	kobold::army *army = nullptr; //the army to which the unit belongs
 	int hit_points = 0;

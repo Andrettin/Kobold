@@ -31,41 +31,12 @@ public:
 
 	const character *get_best_character(const country *scope, const read_only_context &ctx) const
 	{
+		Q_UNUSED(scope);
+		Q_UNUSED(ctx);
+
 		//get a suitable character from the ones participating in the adventure (if any)
 		//otherwise, try any of the country's characters
 		std::vector<const character *> potential_characters;
-
-		if (ctx.attacking_army != nullptr) {
-			for (const military_unit *military_unit : ctx.attacking_army->get_military_units()) {
-				if (military_unit->get_country() != scope) {
-					continue;
-				}
-
-				if (military_unit->get_character() == nullptr) {
-					continue;
-				}
-
-				if (military_unit->get_character()->get_game_data()->can_learn_spell(this->spell)) {
-					potential_characters.push_back(military_unit->get_character());
-				}
-			}
-		}
-
-		if (ctx.defending_army != nullptr) {
-			for (const military_unit *military_unit : ctx.defending_army->get_military_units()) {
-				if (military_unit->get_country() != scope) {
-					continue;
-				}
-
-				if (military_unit->get_character() == nullptr) {
-					continue;
-				}
-
-				if (military_unit->get_character()->get_game_data()->can_learn_spell(this->spell)) {
-					potential_characters.push_back(military_unit->get_character());
-				}
-			}
-		}
 
 		if (!potential_characters.empty()) {
 			std::sort(potential_characters.begin(), potential_characters.end(), character::skill_compare);
