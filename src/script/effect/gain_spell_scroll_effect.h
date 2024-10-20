@@ -39,12 +39,10 @@ public:
 		std::vector<const character *> potential_characters;
 
 		if (!potential_characters.empty()) {
-			std::sort(potential_characters.begin(), potential_characters.end(), character::skill_compare);
 			return potential_characters.front();
 		}
 
 		if (!potential_characters.empty()) {
-			std::sort(potential_characters.begin(), potential_characters.end(), character::skill_compare);
 			return potential_characters.front();
 		}
 

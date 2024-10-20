@@ -34,15 +34,6 @@ const std::set<std::string> character::database_dependencies = {
 	province::class_identifier
 };
 
-bool character::skill_compare(const character *lhs, const character *rhs)
-{
-	if (lhs->get_skill() != rhs->get_skill()) {
-		return lhs->get_skill() > rhs->get_skill();
-	}
-
-	return lhs->get_identifier() < rhs->get_identifier();
-}
-
 character::character(const std::string &identifier)
 	: character_base(identifier), role(character_role::none)
 {
@@ -190,18 +181,6 @@ void character::reset_game_data()
 {
 	this->game_data = make_qunique<character_game_data>(this);
 	emit game_data_changed();
-}
-
-centesimal_int character::get_skill_multiplier() const
-{
-	assert_throw(defines::get()->get_max_character_skill() > 0);
-	return centesimal_int(this->get_skill()) / defines::get()->get_max_character_skill();
-}
-
-void character::set_skill_multiplier(const centesimal_int &skill_multiplier)
-{
-	assert_throw(defines::get()->get_max_character_skill() > 0);
-	this->skill = (skill_multiplier * defines::get()->get_max_character_skill()).to_int();
 }
 
 void character::add_rulable_country(country *country)

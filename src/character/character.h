@@ -12,7 +12,6 @@ Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("population/phenotype.h")
-Q_MOC_INCLUDE("time/calendar.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
 namespace archimedes {
@@ -69,8 +68,6 @@ public:
 	static constexpr bool history_enabled = true;
 
 	static const std::set<std::string> database_dependencies;
-
-	static bool skill_compare(const character *lhs, const character *rhs);
 
 	explicit character(const std::string &identifier);
 	~character();
@@ -144,14 +141,6 @@ public:
 		return static_cast<const character *>(character_base::get_mother());
 	}
 
-	int get_skill() const
-	{
-		return this->skill;
-	}
-
-	centesimal_int get_skill_multiplier() const;
-	void set_skill_multiplier(const centesimal_int &skill_multiplier);
-
 	const std::vector<const trait *> &get_traits() const
 	{
 		return this->traits;
@@ -183,7 +172,6 @@ private:
 	kobold::portrait *portrait = nullptr;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
-	int skill = 0;
 	std::vector<const country *> rulable_countries;
 	std::vector<const trait *> traits;
 	std::unique_ptr<const and_condition<country>> conditions;
