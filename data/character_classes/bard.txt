@@ -1,4 +1,5 @@
 bard = {
 	name = "Bard"
+	hit_dice = 1d6
 	base_skill_points_per_level = 6
 }

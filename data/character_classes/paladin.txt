@@ -1,4 +1,5 @@
 paladin = {
 	name = "Paladin"
+	hit_dice = 1d10
 	base_skill_points_per_level = 2
 }
