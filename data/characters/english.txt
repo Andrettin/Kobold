@@ -79,7 +79,6 @@ francis_bacon = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 	gender = male
 	birth_date = 1561
 	death_date = 1626
-	skill_multiplier = 0.83
 	
 	#developed the scientific method
 	

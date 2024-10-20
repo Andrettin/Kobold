@@ -9,7 +9,6 @@ ulrich_von_cilli = { #Source: "Encyclopædia Britannica", 1911, vol. 6, p. 366.
 	#son of Frederick II, count of Cilli, and Elizabeth Frangepan
 	birth_date = 1406
 	death_date = 1456.11.9 #died at Belgrade on 1456.11.9
-	skill_multiplier = 0.5
 	
 	#count of Cilli
 	
@@ -39,7 +38,6 @@ georg_peurbach = { #Source: "Encyclopædia Britannica", 1911, vol. 23, p. 39.
 	gender = male
 	birth_date = 1423
 	death_date = 1461
-	skill_multiplier = 0.33
 	
 	#text based on that of the Encyclopædia Britannica, in the public domain
 	description = "Austrian astronomer, Regiomontanus was his pupil at Vienna from 1452, and they jointly undertook a reform of astronomy rendered necessary by the errors they detected in the Alphonsine Tables."
