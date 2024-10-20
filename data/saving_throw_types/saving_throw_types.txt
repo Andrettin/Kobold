@@ -1,0 +1,14 @@
+fortitude = {
+	name = "Fortitude"
+	attribute = constitution
+}
+
+reflex = {
+	name = "Reflex"
+	attribute = dexterity
+}
+
+will = {
+	name = "Will"
+	attribute = wisdom
+}

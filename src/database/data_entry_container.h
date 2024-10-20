@@ -16,8 +16,10 @@ using data_entry_map = std::map<const T *, U, data_entry_compare<T>>;
 
 class character_attribute;
 class character_class;
+class saving_throw_type;
 
 extern template struct data_entry_compare<character_attribute>;
 extern template struct data_entry_compare<character_class>;
+extern template struct data_entry_compare<saving_throw_type>;
 
 }
