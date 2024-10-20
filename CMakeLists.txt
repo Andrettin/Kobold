@@ -251,7 +251,6 @@ set(unit_SRCS
 	src/unit/civilian_unit_type.cpp
 	src/unit/historical_civilian_unit.cpp
 	src/unit/historical_military_unit.cpp
-	src/unit/historical_transporter.cpp
 	src/unit/military_unit.cpp
 	src/unit/military_unit_class.cpp
 	src/unit/military_unit_class_container.cpp
@@ -262,13 +261,6 @@ set(unit_SRCS
 	src/unit/military_unit_type_container.cpp
 	src/unit/promotion.cpp
 	src/unit/promotion_container.cpp
-	src/unit/transporter.cpp
-	src/unit/transporter_category.cpp
-	src/unit/transporter_class.cpp
-	src/unit/transporter_class_container.cpp
-	src/unit/transporter_stat.cpp
-	src/unit/transporter_type.cpp
-	src/unit/transporter_type_container.cpp
 )
 source_group(unit FILES ${unit_SRCS})
 set_source_files_properties(${unit_SRCS} PROPERTIES UNITY_GROUP "unit")
@@ -580,7 +572,6 @@ set(script_effect_HDRS
 	src/script/effect/commodity_percent_effect.h
 	src/script/effect/country_effect.h
 	src/script/effect/create_military_unit_effect.h
-	src/script/effect/create_transporter_effect.h
 	src/script/effect/delayed_effect.h
 	src/script/effect/delayed_effect_instance.h
 	src/script/effect/effect.h
@@ -631,7 +622,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/commodity_output_modifier_effect.h
 	src/script/modifier_effect/commodity_throughput_modifier_effect.h
 	src/script/modifier_effect/deployment_limit_modifier_effect.h
-	src/script/modifier_effect/depot_level_modifier_effect.h
 	src/script/modifier_effect/diplomatic_penalty_for_expansion_modifier_effect.h
 	src/script/modifier_effect/entrenchment_bonus_modifier_effect.h
 	src/script/modifier_effect/free_artillery_promotion_modifier_effect.h
@@ -644,14 +634,12 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
 	src/script/modifier_effect/inflation_change_modifier_effect.h
 	src/script/modifier_effect/law_cost_modifier_effect.h
-	src/script/modifier_effect/merchant_ship_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_category_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_domain_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_type_stat_modifier_effect.h
 	src/script/modifier_effect/modifier_effect.h
 	src/script/modifier_effect/output_modifier_effect.h
-	src/script/modifier_effect/port_level_modifier_effect.h
 	src/script/modifier_effect/resource_output_modifier_effect.h
 	src/script/modifier_effect/ship_stat_modifier_effect.h
 	src/script/modifier_effect/storage_capacity_modifier_effect.h
@@ -699,8 +687,6 @@ set(unit_HDRS
 	src/unit/historical_civilian_unit_history.h
 	src/unit/historical_military_unit.h
 	src/unit/historical_military_unit_history.h
-	src/unit/historical_transporter.h
-	src/unit/historical_transporter_history.h
 	src/unit/military_unit.h
 	src/unit/military_unit_class.h
 	src/unit/military_unit_class_container.h
@@ -711,13 +697,6 @@ set(unit_HDRS
 	src/unit/military_unit_type_container.h
 	src/unit/promotion.h
 	src/unit/promotion_container.h
-	src/unit/transporter.h
-	src/unit/transporter_category.h
-	src/unit/transporter_class.h
-	src/unit/transporter_class_container.h
-	src/unit/transporter_stat.h
-	src/unit/transporter_type.h
-	src/unit/transporter_type_container.h
 )
 source_group(unit FILES ${unit_HDRS})
 

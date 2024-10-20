@@ -7,9 +7,7 @@ namespace kobold {
 enum class improvement_slot {
 	none,
 	main,
-	resource,
-	depot,
-	port
+	resource
 };
 
 }

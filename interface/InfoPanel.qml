@@ -22,33 +22,11 @@ Rectangle {
 	}
 	
 	IconButton {
-		id: transport_button
-		anchors.top: industry_button.top
-		anchors.left: parent.left
-		anchors.leftMargin: 6 * scale_factor
-		icon_identifier: "railroad"
-		
-		onReleased: {
-			menu_stack.push("TransportView.qml", {
-				country: kobold.game.player_country
-			})
-		}
-		
-		onHoveredChanged: {
-			if (hovered) {
-				status_text = "View Transport"
-			} else {
-				status_text = ""
-			}
-		}
-	}
-	
-	IconButton {
 		id: industry_button
 		anchors.top: parent.top
 		anchors.topMargin: 6 * scale_factor
-		anchors.left: transport_button.right
-		anchors.leftMargin: 4 * scale_factor
+		anchors.left: parent.left
+		anchors.leftMargin: 6 * scale_factor
 		icon_identifier: "settlement"
 		
 		onReleased: {

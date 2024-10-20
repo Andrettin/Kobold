@@ -24,9 +24,6 @@ dock = {
 	settlement_conditions = {
 		near_water = true
 	}
-	effects = {
-		add_improvement = port
-	}
 }
 
 shipyard = {

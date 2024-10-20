@@ -16,7 +16,6 @@
 #include "script/opinion_modifier_container.h"
 #include "unit/military_unit_type_container.h"
 #include "unit/promotion_container.h"
-#include "unit/transporter_type_container.h"
 #include "util/fractional_int.h"
 #include "util/point_container.h"
 #include "util/qunique_ptr.h"
@@ -60,8 +59,6 @@ class religion;
 class site;
 class subject_type;
 class tradition;
-class transporter;
-class transporter_type;
 class wonder;
 enum class country_tier;
 enum class diplomacy_state;
@@ -70,8 +67,6 @@ enum class event_trigger;
 enum class income_transaction_type;
 enum class military_unit_category;
 enum class military_unit_stat;
-enum class transporter_category;
-enum class transporter_stat;
 struct read_only_context;
 
 class country_game_data final : public QObject
@@ -115,13 +110,9 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList stored_commodities READ get_stored_commodities_qvariant_list NOTIFY stored_commodities_changed)
 	Q_PROPERTY(int storage_capacity READ get_storage_capacity NOTIFY storage_capacity_changed)
 	Q_PROPERTY(QVariantList commodity_inputs READ get_commodity_inputs_qvariant_list NOTIFY commodity_inputs_changed)
-	Q_PROPERTY(QVariantList transportable_commodity_outputs READ get_transportable_commodity_outputs_qvariant_list NOTIFY transportable_commodity_outputs_changed)
-	Q_PROPERTY(QVariantList transported_commodity_outputs READ get_transported_commodity_outputs_qvariant_list NOTIFY transported_commodity_outputs_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
 	Q_PROPERTY(QVariantList everyday_consumption READ get_everyday_consumption_qvariant_list NOTIFY everyday_consumption_changed)
 	Q_PROPERTY(QVariantList luxury_consumption READ get_luxury_consumption_qvariant_list NOTIFY luxury_consumption_changed)
-	Q_PROPERTY(int land_transport_capacity READ get_land_transport_capacity NOTIFY land_transport_capacity_changed)
-	Q_PROPERTY(int sea_transport_capacity READ get_sea_transport_capacity NOTIFY sea_transport_capacity_changed)
 	Q_PROPERTY(QColor diplomatic_map_color READ get_diplomatic_map_color NOTIFY overlord_changed)
 	Q_PROPERTY(const kobold::government_type* government_type READ get_government_type NOTIFY government_type_changed)
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY laws_changed)
@@ -594,7 +585,7 @@ public:
 
 	int get_total_unit_count() const
 	{
-		return static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size()) + static_cast<int>(this->transporters.size());
+		return static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size());
 	}
 
 	QVariantList get_building_slots_qvariant_list() const;
@@ -839,48 +830,6 @@ public:
 	Q_INVOKABLE int get_commodity_input(const QString &commodity_identifier) const;
 	void change_commodity_input(const commodity *commodity, const int change);
 
-	const commodity_map<centesimal_int> &get_transportable_commodity_outputs() const
-	{
-		return this->transportable_commodity_outputs;
-	}
-
-	QVariantList get_transportable_commodity_outputs_qvariant_list() const;
-
-	const centesimal_int &get_transportable_commodity_output(const commodity *commodity) const
-	{
-		const auto find_iterator = this->transportable_commodity_outputs.find(commodity);
-
-		if (find_iterator != this->transportable_commodity_outputs.end()) {
-			return find_iterator->second;
-		}
-
-		static constexpr centesimal_int zero;
-		return zero;
-	}
-
-	Q_INVOKABLE int get_transportable_commodity_output(const QString &commodity_identifier) const;
-	void change_transportable_commodity_output(const commodity *commodity, const centesimal_int &change);
-
-	const commodity_map<int> &get_transported_commodity_outputs() const
-	{
-		return this->transported_commodity_outputs;
-	}
-
-	QVariantList get_transported_commodity_outputs_qvariant_list() const;
-
-	Q_INVOKABLE int get_transported_commodity_output(const kobold::commodity *commodity) const
-	{
-		const auto find_iterator = this->transported_commodity_outputs.find(commodity);
-
-		if (find_iterator != this->transported_commodity_outputs.end()) {
-			return find_iterator->second;
-		}
-
-		return 0;
-	}
-
-	Q_INVOKABLE void change_transported_commodity_output(const kobold::commodity *commodity, const int change);
-
 	const commodity_map<centesimal_int> &get_commodity_outputs() const
 	{
 		return this->commodity_outputs;
@@ -986,42 +935,6 @@ public:
 	void decrease_commodity_consumption(const commodity *commodity, const bool restore_inputs = true);
 
 	bool produces_commodity(const commodity *commodity) const;
-
-	int get_land_transport_capacity() const
-	{
-		return this->land_transport_capacity;
-	}
-
-	void set_land_transport_capacity(const int capacity);
-
-	void change_land_transport_capacity(const int change)
-	{
-		this->set_land_transport_capacity(this->get_land_transport_capacity() + change);
-	}
-
-	int get_sea_transport_capacity() const
-	{
-		return this->sea_transport_capacity;
-	}
-
-	void set_sea_transport_capacity(const int capacity);
-
-	void change_sea_transport_capacity(const int change)
-	{
-		this->set_sea_transport_capacity(this->get_sea_transport_capacity() + change);
-	}
-
-	int get_available_transport_capacity() const
-	{
-		const int total_capacity = this->get_land_transport_capacity() + this->get_sea_transport_capacity();
-		int available_capacity = total_capacity;
-		for (const auto &[commodity, transported_output] : this->get_transported_commodity_outputs()) {
-			available_capacity -= transported_output;
-		}
-		return available_capacity;
-	}
-
-	void assign_transport_orders();
 
 	bool can_declare_war_on(const kobold::country *other_country) const;
 
@@ -1241,14 +1154,8 @@ public:
 	void add_army(qunique_ptr<army> &&army);
 	void remove_army(army *army);
 
-	void add_transporter(qunique_ptr<transporter> &&transporter);
-	void remove_transporter(transporter *transporter);
-
 	const military_unit_type *get_best_military_unit_category_type(const military_unit_category category, const culture *culture) const;
 	const military_unit_type *get_best_military_unit_category_type(const military_unit_category category) const;
-
-	const transporter_type *get_best_transporter_category_type(const transporter_category category, const culture *culture) const;
-	const transporter_type *get_best_transporter_category_type(const transporter_category category) const;
 
 	int get_deployment_limit() const
 	{
@@ -1291,29 +1198,6 @@ public:
 	void change_military_unit_type_stat_modifier(const military_unit_type *type, const military_unit_stat stat, const centesimal_int &change)
 	{
 		this->set_military_unit_type_stat_modifier(type, stat, this->get_military_unit_type_stat_modifier(type, stat) + change);
-	}
-
-	const centesimal_int &get_transporter_type_stat_modifier(const transporter_type *type, const transporter_stat stat) const
-	{
-		const auto find_iterator = this->transporter_type_stat_modifiers.find(type);
-
-		if (find_iterator != this->transporter_type_stat_modifiers.end()) {
-			const auto sub_find_iterator = find_iterator->second.find(stat);
-
-			if (sub_find_iterator != find_iterator->second.end()) {
-				return sub_find_iterator->second;
-			}
-		}
-
-		static constexpr centesimal_int zero;
-		return zero;
-	}
-
-	void set_transporter_type_stat_modifier(const transporter_type *type, const transporter_stat stat, const centesimal_int &value);
-
-	void change_transporter_type_stat_modifier(const transporter_type *type, const transporter_stat stat, const centesimal_int &change)
-	{
-		this->set_transporter_type_stat_modifier(type, stat, this->get_transporter_type_stat_modifier(type, stat) + change);
 	}
 
 	int get_infantry_cost_modifier() const
@@ -1879,9 +1763,6 @@ public:
 		this->set_free_consulate_count(consulate, this->get_free_consulate_count(consulate) + value);
 	}
 
-	void calculate_tile_transport_levels();
-	void clear_tile_transport_levels();
-
 	bool has_flag(const flag *flag) const
 	{
 		return this->flags.contains(flag);
@@ -1990,14 +1871,10 @@ signals:
 	void stored_commodities_changed();
 	void storage_capacity_changed();
 	void commodity_inputs_changed();
-	void transportable_commodity_outputs_changed();
-	void transported_commodity_outputs_changed();
 	void commodity_outputs_changed();
 	void everyday_wealth_consumption_changed();
 	void everyday_consumption_changed();
 	void luxury_consumption_changed();
-	void land_transport_capacity_changed();
-	void sea_transport_capacity_changed();
 	void government_type_changed();
 	void laws_changed();
 	void traditions_changed();
@@ -2066,15 +1943,11 @@ private:
 	commodity_map<int> stored_commodities;
 	int storage_capacity = 0;
 	commodity_map<int> commodity_inputs;
-	commodity_map<centesimal_int> transportable_commodity_outputs;
-	commodity_map<int> transported_commodity_outputs;
 	commodity_map<centesimal_int> commodity_outputs;
 	int everyday_wealth_consumption = 0;
 	commodity_map<centesimal_int> everyday_consumption;
 	commodity_map<centesimal_int> luxury_consumption;
 	commodity_map<centesimal_int> commodity_demands;
-	int land_transport_capacity = 0;
-	int sea_transport_capacity = 0;
 	const kobold::government_type *government_type = nullptr;
 	law_group_map<const law *> laws;
 	tradition_set traditions;
@@ -2088,11 +1961,9 @@ private:
 	std::vector<qunique_ptr<military_unit>> military_units;
 	std::set<std::string> military_unit_names;
 	std::vector<qunique_ptr<army>> armies;
-	std::vector<qunique_ptr<transporter>> transporters;
 	int deployment_limit = country_game_data::base_deployment_limit;
 	int entrenchment_bonus_modifier = 0;
 	military_unit_type_map<std::map<military_unit_stat, centesimal_int>> military_unit_type_stat_modifiers;
-	transporter_type_map<std::map<transporter_stat, centesimal_int>> transporter_type_stat_modifiers;
 	int infantry_cost_modifier = 0;
 	int cavalry_cost_modifier = 0;
 	int artillery_cost_modifier = 0;

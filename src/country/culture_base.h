@@ -6,7 +6,6 @@
 #include "language/name_variant.h"
 #include "unit/civilian_unit_class_container.h"
 #include "unit/military_unit_class_container.h"
-#include "unit/transporter_class_container.h"
 #include "util/qunique_ptr.h"
 
 Q_MOC_INCLUDE("population/phenotype.h")
@@ -27,7 +26,6 @@ class government_group;
 class government_type;
 class military_unit_type;
 class phenotype;
-class transporter_type;
 enum class country_tier;
 
 class culture_base : public named_data_entry
@@ -108,20 +106,7 @@ public:
 		this->military_class_unit_types[unit_class] = unit_type;
 	}
 
-	const transporter_type *get_transporter_class_type(const transporter_class *transporter_class) const;
-
-	void set_transporter_class_type(const transporter_class *transporter_class, const transporter_type *transporter_type)
-	{
-		if (transporter_type == nullptr) {
-			this->transporter_class_types.erase(transporter_class);
-			return;
-		}
-
-		this->transporter_class_types[transporter_class] = transporter_type;
-	}
-
 	std::string generate_military_unit_name(const military_unit_type *type, const std::set<std::string> &used_names) const;
-	std::string generate_transporter_name(const transporter_type *type) const;
 
 	const name_generator *get_personal_name_generator(const gender gender) const;
 	void add_personal_name(const gender gender, const name_variant &name);
@@ -131,9 +116,6 @@ public:
 
 	const name_generator *get_military_unit_class_name_generator(const military_unit_class *unit_class) const;
 	void add_military_unit_class_name(const military_unit_class *unit_class, const name_variant &name);
-
-	const name_generator *get_transporter_class_name_generator(const transporter_class *transporter_class) const;
-	void add_transporter_class_name(const transporter_class *transporter_class, const name_variant &name);
 
 	void add_ship_name(const name_variant &ship_name);
 
@@ -150,11 +132,9 @@ private:
 	building_class_map<const building_type *> building_class_types;
 	civilian_unit_class_map<const civilian_unit_type *> civilian_class_unit_types;
 	military_unit_class_map<const military_unit_type *> military_class_unit_types;
-	transporter_class_map<const transporter_type *> transporter_class_types;
 	std::unique_ptr<gendered_name_generator> personal_name_generator;
 	std::unique_ptr<gendered_name_generator> surname_generator;
 	military_unit_class_map<std::unique_ptr<name_generator>> military_unit_class_name_generators;
-	transporter_class_map<std::unique_ptr<name_generator>> transporter_class_name_generators;
 	std::unique_ptr<name_generator> ship_name_generator;
 	qunique_ptr<culture_history> history;
 };

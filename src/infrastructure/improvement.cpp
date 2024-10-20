@@ -102,7 +102,7 @@ void improvement::check() const
 		assert_throw(vector::contains(this->get_terrain_types(), terrain) || vector::contains(this->get_resource()->get_terrain_types(), terrain));
 	}
 
-	if ((this->get_slot() == improvement_slot::resource || this->get_slot() == improvement_slot::depot || this->get_slot() == improvement_slot::port) && this->icon == nullptr) {
+	if ((this->get_slot() == improvement_slot::resource) && this->icon == nullptr) {
 		throw std::runtime_error(std::format("Non-main improvement \"{}\" has no icon.", this->get_identifier()));
 	}
 }
@@ -145,16 +145,6 @@ bool improvement::is_buildable_on_site(const site *site) const
 	switch (this->get_slot()) {
 		case improvement_slot::main:
 			if (site->is_settlement()) {
-				return false;
-			}
-			break;
-		case improvement_slot::depot:
-			if (!site_game_data->has_route()) {
-				return false;
-			}
-			break;
-		case improvement_slot::port:
-			if (!site_game_data->is_near_water()) {
 				return false;
 			}
 			break;

@@ -45,7 +45,6 @@ namespace kobold {
 	class site_game_data;
 	class terrain_type;
 	class trait;
-	class transporter_class;
 	class wonder;
 	class world;
 }

@@ -15,8 +15,6 @@
 #include "unit/civilian_unit_type.h"
 #include "unit/military_unit_class.h"
 #include "unit/military_unit_type.h"
-#include "unit/transporter_class.h"
-#include "unit/transporter_type.h"
 #include "util/assert_util.h"
 #include "util/gender.h"
 #include "util/string_util.h"
@@ -67,15 +65,6 @@ void culture_base::process_gsml_scope(const gsml_data &scope)
 			const military_unit_type *unit_type = military_unit_type::get(value);
 			this->set_military_class_unit_type(unit_class, unit_type);
 		});
-	} else if (tag == "transporter_class_types") {
-		scope.for_each_property([&](const gsml_property &property) {
-			const std::string &key = property.get_key();
-			const std::string &value = property.get_value();
-
-			const transporter_class *transporter_class = transporter_class::get(key);
-			const transporter_type *transporter_type = transporter_type::get(value);
-			this->set_transporter_class_type(transporter_class, transporter_type);
-		});
 	} else if (tag == "personal_names") {
 		if (this->personal_name_generator == nullptr) {
 			this->personal_name_generator = std::make_unique<gendered_name_generator>();
@@ -120,18 +109,6 @@ void culture_base::process_gsml_scope(const gsml_data &scope)
 
 			this->military_unit_class_name_generators[unit_class]->add_names(child_scope.get_values());
 		});
-	} else if (tag == "transporter_class_names") {
-		scope.for_each_child([&](const gsml_data &child_scope) {
-			const std::string &tag = child_scope.get_tag();
-
-			const transporter_class *unit_class = transporter_class::get(tag);
-
-			if (!this->transporter_class_name_generators.contains(unit_class)) {
-				this->transporter_class_name_generators[unit_class] = std::make_unique<name_generator>();
-			}
-
-			this->transporter_class_name_generators[unit_class]->add_names(child_scope.get_values());
-		});
 	} else if (tag == "ship_names") {
 		if (this->ship_name_generator == nullptr) {
 			this->ship_name_generator = std::make_unique<name_generator>();
@@ -165,9 +142,6 @@ void culture_base::initialize()
 
 	fallback_name_generator::get()->add_military_unit_class_names(this->military_unit_class_name_generators);
 	military_unit_class::propagate_names(this->military_unit_class_name_generators, this->ship_name_generator);
-
-	fallback_name_generator::get()->add_transporter_class_names(this->transporter_class_name_generators);
-	transporter_class::propagate_names(this->transporter_class_name_generators, this->ship_name_generator);
 
 	if (this->ship_name_generator != nullptr) {
 		fallback_name_generator::get()->add_ship_names(this->ship_name_generator->get_names());
@@ -331,21 +305,6 @@ const military_unit_type *culture_base::get_military_class_unit_type(const milit
 
 }
 
-const transporter_type *culture_base::get_transporter_class_type(const transporter_class *transporter_class) const
-{
-	const auto find_iterator = this->transporter_class_types.find(transporter_class);
-	if (find_iterator != this->transporter_class_types.end()) {
-		return find_iterator->second;
-	}
-
-	if (this->get_group() != nullptr) {
-		return this->get_group()->get_transporter_class_type(transporter_class);
-	}
-
-	return transporter_class->get_default_transporter_type();
-
-}
-
 std::string culture_base::generate_military_unit_name(const military_unit_type *type, const std::set<std::string> &used_names) const
 {
 	const military_unit_class *unit_class = type->get_unit_class();
@@ -375,19 +334,6 @@ std::string culture_base::generate_military_unit_name(const military_unit_type *
 		if (name_generator != nullptr) {
 			return name_generator->generate_name(used_names);
 		}
-	}
-
-	return std::string();
-}
-
-std::string culture_base::generate_transporter_name(const transporter_type *type) const
-{
-	const transporter_class *transporter_class = type->get_transporter_class();
-
-	const name_generator *name_generator = this->get_transporter_class_name_generator(transporter_class);
-
-	if (name_generator != nullptr) {
-		return name_generator->generate_name();
 	}
 
 	return std::string();
@@ -504,37 +450,6 @@ void culture_base::add_military_unit_class_name(const military_unit_class *unit_
 	}
 }
 
-const name_generator *culture_base::get_transporter_class_name_generator(const transporter_class *transporter_class) const
-{
-	const auto find_iterator = this->transporter_class_name_generators.find(transporter_class);
-	if (find_iterator != this->transporter_class_name_generators.end() && find_iterator->second->get_name_count() >= name_generator::minimum_name_count) {
-		return find_iterator->second.get();
-	}
-
-	if (transporter_class->is_ship() && this->ship_name_generator != nullptr && this->ship_name_generator->get_name_count() >= name_generator::minimum_name_count) {
-		return this->ship_name_generator.get();
-	}
-
-	if (this->get_group() != nullptr) {
-		return this->get_group()->get_transporter_class_name_generator(transporter_class);
-	}
-
-	return fallback_name_generator::get()->get_transporter_class_name_generator(transporter_class);
-}
-
-void culture_base::add_transporter_class_name(const transporter_class *transporter_class, const name_variant &name)
-{
-	if (!this->transporter_class_name_generators.contains(transporter_class)) {
-		this->transporter_class_name_generators[transporter_class] = std::make_unique<name_generator>();
-	}
-
-	this->transporter_class_name_generators[transporter_class]->add_name(name);
-
-	if (this->group != nullptr) {
-		this->group->add_transporter_class_name(transporter_class, name);
-	}
-}
-
 void culture_base::add_ship_name(const name_variant &ship_name)
 {
 	if (this->ship_name_generator == nullptr) {
@@ -575,16 +490,6 @@ void culture_base::add_names_from(const culture_base *other)
 	}
 
 	military_unit_class::propagate_names(other->military_unit_class_name_generators, this->ship_name_generator);
-
-	for (const auto &kv_pair : other->transporter_class_name_generators) {
-		if (!this->transporter_class_name_generators.contains(kv_pair.first)) {
-			this->transporter_class_name_generators[kv_pair.first] = std::make_unique<name_generator>();
-		}
-
-		this->transporter_class_name_generators[kv_pair.first]->add_names(kv_pair.second->get_names());
-	}
-
-	transporter_class::propagate_names(other->transporter_class_name_generators, this->ship_name_generator);
 
 	if (other->ship_name_generator != nullptr) {
 		if (this->ship_name_generator == nullptr) {

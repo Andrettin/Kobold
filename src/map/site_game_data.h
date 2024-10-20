@@ -40,12 +40,9 @@ class site_game_data final : public QObject
 	Q_PROPERTY(const kobold::settlement_type* settlement_type READ get_settlement_type NOTIFY settlement_type_changed)
 	Q_PROPERTY(const kobold::improvement* improvement READ get_main_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(const kobold::improvement* resource_improvement READ get_resource_improvement NOTIFY improvements_changed)
-	Q_PROPERTY(const kobold::improvement* depot_improvement READ get_depot_improvement NOTIFY improvements_changed)
-	Q_PROPERTY(const kobold::improvement* port_improvement READ get_port_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
-	Q_PROPERTY(int transport_level READ get_best_transport_level NOTIFY transport_level_changed)
 	Q_PROPERTY(QVariantList visiting_armies READ get_visiting_armies_qvariant_list NOTIFY visiting_armies_changed)
 
 public:
@@ -134,8 +131,6 @@ public:
 
 	const improvement *get_main_improvement() const;
 	const improvement *get_resource_improvement() const;
-	const improvement *get_depot_improvement() const;
-	const improvement *get_port_improvement() const;
 	bool has_improvement(const improvement *improvement) const;
 	void set_improvement(const improvement_slot slot, const improvement *improvement);
 
@@ -314,51 +309,6 @@ public:
 		return this->get_commodity_outputs().contains(commodity);
 	}
 
-	int get_depot_level() const
-	{
-		return this->depot_level;
-	}
-
-	void set_depot_level(const int level);
-
-	void change_depot_level(const int change)
-	{
-		this->set_depot_level(this->get_depot_level() + change);
-	}
-
-	int get_port_level() const
-	{
-		return this->port_level;
-	}
-
-	void set_port_level(const int level);
-
-	void change_port_level(const int change)
-	{
-		this->set_port_level(this->get_port_level() + change);
-	}
-
-	int get_transport_level() const
-	{
-		return this->transport_level;
-	}
-
-	void set_transport_level(const int level);
-
-	int get_sea_transport_level() const
-	{
-		return this->sea_transport_level;
-	}
-
-	void set_sea_transport_level(const int level);
-
-	int get_best_transport_level() const
-	{
-		return std::max(this->get_transport_level(), this->get_sea_transport_level());
-	}
-
-	centesimal_int get_transportable_commodity_output(const commodity *commodity) const;
-
 	bool can_be_visited() const;
 
 	const std::vector<army *> &get_visiting_armies() const
@@ -388,7 +338,6 @@ signals:
 	void settlement_type_changed();
 	void scripted_modifiers_changed();
 	void commodity_outputs_changed();
-	void transport_level_changed();
 	void visiting_armies_changed();
 
 private:
@@ -408,10 +357,6 @@ private:
 	commodity_map<centesimal_int> local_luxury_consumption;
 	centesimal_int output_modifier;
 	commodity_map<centesimal_int> commodity_output_modifiers;
-	int depot_level = 0;
-	int port_level = 0;
-	int transport_level = 0;
-	int sea_transport_level = 0;
 	std::vector<army *> visiting_armies; //armies visiting this site
 };
 

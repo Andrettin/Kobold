@@ -73,9 +73,6 @@
 #include "unit/military_unit_category.h"
 #include "unit/military_unit_class.h"
 #include "unit/military_unit_type.h"
-#include "unit/transporter.h"
-#include "unit/transporter_class.h"
-#include "unit/transporter_type.h"
 #include "util/assert_util.h"
 #include "util/container_util.h"
 #include "util/gender.h"
@@ -133,10 +130,6 @@ void country_game_data::do_turn()
 
 		for (const qunique_ptr<military_unit> &military_unit : this->military_units) {
 			military_unit->do_turn();
-		}
-
-		for (const qunique_ptr<transporter> &transporter : this->transporters) {
-			transporter->do_turn();
 		}
 
 		for (const qunique_ptr<army> &army : this->armies) {
@@ -413,7 +406,6 @@ void country_game_data::do_ai_turn()
 		}
 	}
 
-	this->assign_transport_orders();
 	this->assign_trade_orders();
 }
 
@@ -776,10 +768,6 @@ void country_game_data::on_province_gained(const province *province, const int m
 		for (const auto &[threshold, value] : threshold_map) {
 			province_game_data->change_commodity_bonus_for_tile_threshold(commodity, threshold, value * multiplier);
 		}
-	}
-
-	if (game::get()->is_running()) {
-		this->country->get_turn_data()->set_transport_level_recalculation_needed(true);
 	}
 }
 
@@ -2067,72 +2055,6 @@ void country_game_data::change_commodity_input(const commodity *commodity, const
 	}
 }
 
-QVariantList country_game_data::get_transportable_commodity_outputs_qvariant_list() const
-{
-	return archimedes::map::to_qvariant_list(this->get_transportable_commodity_outputs());
-}
-
-int country_game_data::get_transportable_commodity_output(const QString &commodity_identifier) const
-{
-	return this->get_transportable_commodity_output(commodity::get(commodity_identifier.toStdString())).to_int();
-}
-
-void country_game_data::change_transportable_commodity_output(const commodity *commodity, const centesimal_int &change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	if (commodity->is_abstract()) {
-		this->change_commodity_output(commodity, change);
-		return;
-	}
-
-	const centesimal_int &new_output = (this->transportable_commodity_outputs[commodity] += change);
-
-	assert_throw(new_output >= 0);
-
-	if (new_output == 0) {
-		this->transportable_commodity_outputs.erase(commodity);
-	}
-
-	const int transported_output = this->get_transported_commodity_output(commodity);
-	if (new_output < transported_output) {
-		this->change_transported_commodity_output(commodity, new_output.to_int() - transported_output);
-	}
-
-	if (game::get()->is_running()) {
-		emit transportable_commodity_outputs_changed();
-	}
-}
-
-QVariantList country_game_data::get_transported_commodity_outputs_qvariant_list() const
-{
-	return archimedes::map::to_qvariant_list(this->get_transported_commodity_outputs());
-}
-
-void country_game_data::change_transported_commodity_output(const commodity *commodity, const int change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	const int new_output = (this->transported_commodity_outputs[commodity] += change);
-
-	assert_throw(new_output >= 0);
-	assert_throw(new_output <= this->get_transportable_commodity_output(commodity).to_int());
-
-	if (new_output == 0) {
-		this->transported_commodity_outputs.erase(commodity);
-	}
-
-	this->change_commodity_output(commodity, centesimal_int(change));
-
-	if (game::get()->is_running()) {
-		emit transported_commodity_outputs_changed();
-	}
-}
-
 QVariantList country_game_data::get_commodity_outputs_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_commodity_outputs());
@@ -2392,54 +2314,6 @@ bool country_game_data::produces_commodity(const commodity *commodity) const
 	}
 
 	return false;
-}
-
-void country_game_data::set_land_transport_capacity(const int capacity)
-{
-	if (capacity == this->get_land_transport_capacity()) {
-		return;
-	}
-
-	this->land_transport_capacity = capacity;
-
-	if (game::get()->is_running()) {
-		emit land_transport_capacity_changed();
-	}
-}
-
-void country_game_data::set_sea_transport_capacity(const int capacity)
-{
-	if (capacity == this->get_sea_transport_capacity()) {
-		return;
-	}
-
-	this->sea_transport_capacity = capacity;
-
-	if (game::get()->is_running()) {
-		emit sea_transport_capacity_changed();
-	}
-}
-
-void country_game_data::assign_transport_orders()
-{
-	if (this->is_under_anarchy()) {
-		return;
-	}
-
-	for (const auto &[commodity, transportable_output] : this->get_transportable_commodity_outputs()) {
-		const int available_transportable_output = transportable_output.to_int() - this->get_transported_commodity_output(commodity);
-		assert_throw(available_transportable_output >= 0);
-		if (available_transportable_output == 0) {
-			continue;
-		}
-
-		const int available_transport_capacity = this->get_available_transport_capacity();
-		if (available_transport_capacity == 0) {
-			break;
-		}
-
-		this->change_transported_commodity_output(commodity, std::min(available_transportable_output, available_transport_capacity));
-	}
 }
 
 bool country_game_data::can_declare_war_on(const kobold::country *other_country) const
@@ -3167,33 +3041,6 @@ void country_game_data::remove_army(army *army)
 	}
 }
 
-void country_game_data::add_transporter(qunique_ptr<transporter> &&transporter)
-{
-	if (transporter->is_ship()) {
-		this->change_sea_transport_capacity(transporter->get_cargo());
-	} else {
-		this->change_land_transport_capacity(transporter->get_cargo());
-	}
-
-	this->transporters.push_back(std::move(transporter));
-}
-
-void country_game_data::remove_transporter(transporter *transporter)
-{
-	if (transporter->is_ship()) {
-		this->change_sea_transport_capacity(-transporter->get_cargo());
-	} else {
-		this->change_land_transport_capacity(-transporter->get_cargo());
-	}
-
-	for (size_t i = 0; i < this->transporters.size(); ++i) {
-		if (this->transporters[i].get() == transporter) {
-			this->transporters.erase(this->transporters.begin() + i);
-			return;
-		}
-	}
-}
-
 const military_unit_type *country_game_data::get_best_military_unit_category_type(const military_unit_category category, const culture *culture) const
 {
 	const military_unit_type *best_type = nullptr;
@@ -3239,51 +3086,6 @@ const military_unit_type *country_game_data::get_best_military_unit_category_typ
 	return this->get_best_military_unit_category_type(category, this->country->get_culture());
 }
 
-const transporter_type *country_game_data::get_best_transporter_category_type(const transporter_category category, const culture *culture) const
-{
-	const transporter_type *best_type = nullptr;
-	int best_score = -1;
-
-	for (const transporter_class *transporter_class : transporter_class::get_all()) {
-		if (transporter_class->get_category() != category) {
-			continue;
-		}
-
-		const transporter_type *type = culture->get_transporter_class_type(transporter_class);
-
-		if (type == nullptr) {
-			continue;
-		}
-
-		bool upgrade_is_available = false;
-		for (const transporter_type *upgrade : type->get_upgrades()) {
-			if (culture->get_transporter_class_type(upgrade->get_transporter_class()) != upgrade) {
-				continue;
-			}
-
-			upgrade_is_available = true;
-			break;
-		}
-
-		if (upgrade_is_available) {
-			continue;
-		}
-
-		const int score = type->get_score();
-
-		if (score > best_score) {
-			best_type = type;
-		}
-	}
-
-	return best_type;
-}
-
-const transporter_type *country_game_data::get_best_transporter_category_type(const transporter_category category) const
-{
-	return this->get_best_transporter_category_type(category, this->country->get_culture());
-}
-
 void country_game_data::set_military_unit_type_stat_modifier(const military_unit_type *type, const military_unit_stat stat, const centesimal_int &value)
 {
 	const centesimal_int old_value = this->get_military_unit_type_stat_modifier(type, stat);
@@ -3309,34 +3111,6 @@ void country_game_data::set_military_unit_type_stat_modifier(const military_unit
 		}
 
 		military_unit->change_stat(stat, difference);
-	}
-}
-
-void country_game_data::set_transporter_type_stat_modifier(const transporter_type *type, const transporter_stat stat, const centesimal_int &value)
-{
-	const centesimal_int old_value = this->get_transporter_type_stat_modifier(type, stat);
-
-	if (value == old_value) {
-		return;
-	}
-
-	if (value == 0) {
-		this->transporter_type_stat_modifiers[type].erase(stat);
-
-		if (this->transporter_type_stat_modifiers[type].empty()) {
-			this->transporter_type_stat_modifiers.erase(type);
-		}
-	} else {
-		this->transporter_type_stat_modifiers[type][stat] = value;
-	}
-
-	const centesimal_int difference = value - old_value;
-	for (const qunique_ptr<transporter> &transporter : this->transporters) {
-		if (transporter->get_type() != type) {
-			continue;
-		}
-
-		transporter->change_stat(stat, difference);
 	}
 }
 
@@ -4211,43 +3985,6 @@ void country_game_data::set_free_consulate_count(const consulate *consulate, con
 			if (current_consulate == nullptr || current_consulate->get_level() < consulate->get_level()) {
 				this->set_consulate(known_country, consulate);
 			}
-		}
-	}
-}
-
-void country_game_data::calculate_tile_transport_levels()
-{
-	this->clear_tile_transport_levels();
-
-	const site *capital = this->get_capital();
-	if (capital == nullptr) {
-		return;
-	}
-
-	map::get()->calculate_tile_transport_level(capital->get_map_data()->get_tile_pos());
-
-	//calculate transport levels beginning from sites with ports
-	for (const province *province : this->get_provinces()) {
-		for (const site *site : province->get_game_data()->get_sites()) {
-			if (site == capital) {
-				//already calculated
-				continue;
-			}
-
-			if (site->get_game_data()->get_improvement(improvement_slot::port) == nullptr) {
-				continue;
-			}
-
-			map::get()->calculate_tile_transport_level(site->get_map_data()->get_tile_pos());
-		}
-	}
-}
-
-void country_game_data::clear_tile_transport_levels()
-{
-	for (const province *province : this->get_provinces()) {
-		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-			map::get()->clear_tile_transport_level(settlement->get_map_data()->get_tile_pos());
 		}
 	}
 }

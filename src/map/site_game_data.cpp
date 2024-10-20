@@ -118,7 +118,7 @@ bool site_game_data::can_be_capital() const
 	}
 
 	if (!this->is_near_water()) {
-		//settlements need to have sea access to be capitals, so that the country's transport network can include water access, and so that the country can trade in the world market
+		//settlements need to have sea access to be capitals, so that the country can trade in the world market
 		return false;
 	}
 
@@ -167,7 +167,7 @@ void site_game_data::set_owner(const country *owner)
 				continue;
 			}
 
-			old_owner->get_game_data()->change_transportable_commodity_output(commodity, -this->get_transportable_commodity_output(commodity));
+			old_owner->get_game_data()->change_commodity_output(commodity, -output);
 		}
 	}
 
@@ -179,7 +179,7 @@ void site_game_data::set_owner(const country *owner)
 				continue;
 			}
 
-			this->get_owner()->get_game_data()->change_transportable_commodity_output(commodity, this->get_transportable_commodity_output(commodity));
+			this->get_owner()->get_game_data()->change_commodity_output(commodity, output);
 		}
 
 		for (const auto &[improvement, commodity_bonuses] : this->get_owner()->get_game_data()->get_improvement_commodity_bonuses()) {
@@ -382,16 +382,6 @@ const improvement *site_game_data::get_main_improvement() const
 const improvement *site_game_data::get_resource_improvement() const
 {
 	return this->get_improvement(improvement_slot::resource);
-}
-
-const improvement *site_game_data::get_depot_improvement() const
-{
-	return this->get_improvement(improvement_slot::depot);
-}
-
-const improvement *site_game_data::get_port_improvement() const
-{
-	return this->get_improvement(improvement_slot::port);
 }
 
 bool site_game_data::has_improvement(const improvement *improvement) const
@@ -682,17 +672,6 @@ void site_game_data::check_free_buildings()
 				changed = true;
 			}
 		}
-
-		//capitals get the highest level of depot and port improvements for free
-		for (const improvement *improvement : improvement::get_all()) {
-			if (improvement->get_slot() != improvement_slot::depot && improvement->get_slot() != improvement_slot::port) {
-				continue;
-			}
-
-			if (this->check_free_improvement(improvement)) {
-				changed = true;
-			}
-		}
 	}
 
 	if (changed) {
@@ -925,24 +904,21 @@ void site_game_data::set_commodity_output(const commodity *commodity, const cent
 		return;
 	}
 
-	const centesimal_int old_transportable_output = this->get_transportable_commodity_output(commodity);
-
 	if (output == 0) {
 		this->commodity_outputs.erase(commodity);
 	} else {
 		this->commodity_outputs[commodity] = output;
 	}
 
-	const centesimal_int transportable_output = this->get_transportable_commodity_output(commodity);
-	const centesimal_int transportable_change = transportable_output - old_transportable_output;
+	const centesimal_int output_change = output - old_output;
 
 	if (commodity->is_local()) {
 		if (this->get_province() != nullptr) {
-			this->get_province()->get_game_data()->change_local_commodity_output(commodity, transportable_change);
+			this->get_province()->get_game_data()->change_local_commodity_output(commodity, output_change);
 		}
 	} else {
 		if (this->get_owner() != nullptr) {
-			this->get_owner()->get_game_data()->change_transportable_commodity_output(commodity, transportable_change);
+			this->get_owner()->get_game_data()->change_commodity_output(commodity, output_change);
 		}
 	}
 
@@ -1049,113 +1025,6 @@ void site_game_data::change_local_luxury_consumption(const commodity *commodity,
 	if (count == 0) {
 		this->local_luxury_consumption.erase(commodity);
 	}
-}
-
-void site_game_data::set_depot_level(const int level)
-{
-	if (level == this->get_depot_level()) {
-		return;
-	}
-
-	this->depot_level = level;
-
-	if (game::get()->is_running()) {
-		if (this->get_owner() != nullptr) {
-			this->get_owner()->get_turn_data()->set_transport_level_recalculation_needed(true);
-		}
-	}
-}
-
-void site_game_data::set_port_level(const int level)
-{
-	if (level == this->get_port_level()) {
-		return;
-	}
-
-	this->port_level = level;
-
-	if (game::get()->is_running()) {
-		if (this->get_owner() != nullptr) {
-			this->get_owner()->get_turn_data()->set_transport_level_recalculation_needed(true);
-		}
-	}
-}
-
-void site_game_data::set_transport_level(const int level)
-{
-	if (level == this->get_transport_level()) {
-		return;
-	}
-
-	commodity_map<centesimal_int> old_transportable_outputs;
-	for (auto &[commodity, output] : this->get_commodity_outputs()) {
-		old_transportable_outputs[commodity] = this->get_transportable_commodity_output(commodity);
-	}
-
-	this->transport_level = level;
-
-	for (const auto &[commodity, old_transportable_output] : old_transportable_outputs) {
-		const centesimal_int transportable_output = this->get_transportable_commodity_output(commodity);
-		const centesimal_int transportable_change = transportable_output - old_transportable_output;
-
-		if (commodity->is_local()) {
-			if (this->get_province() != nullptr) {
-				this->get_province()->get_game_data()->change_local_commodity_output(commodity, transportable_change);
-			}
-		} else {
-			if (this->get_owner() != nullptr) {
-				this->get_owner()->get_game_data()->change_transportable_commodity_output(commodity, transportable_change);
-			}
-		}
-	}
-
-	if (game::get()->is_running()) {
-		emit transport_level_changed();
-	}
-}
-
-void site_game_data::set_sea_transport_level(const int level)
-{
-	if (level == this->get_sea_transport_level()) {
-		return;
-	}
-
-	commodity_map<centesimal_int> old_transportable_outputs;
-	for (auto &[commodity, output] : this->get_commodity_outputs()) {
-		old_transportable_outputs[commodity] = this->get_transportable_commodity_output(commodity);
-	}
-
-	this->sea_transport_level = level;
-
-	for (const auto &[commodity, old_transportable_output] : old_transportable_outputs) {
-		const centesimal_int transportable_output = this->get_transportable_commodity_output(commodity);
-		const centesimal_int transportable_change = transportable_output - old_transportable_output;
-
-		if (commodity->is_local()) {
-			if (this->get_province() != nullptr) {
-				this->get_province()->get_game_data()->change_local_commodity_output(commodity, transportable_change);
-			}
-		} else {
-			if (this->get_owner() != nullptr) {
-				this->get_owner()->get_game_data()->change_transportable_commodity_output(commodity, transportable_change);
-			}
-		}
-	}
-
-	if (game::get()->is_running()) {
-		emit transport_level_changed();
-	}
-}
-
-centesimal_int site_game_data::get_transportable_commodity_output(const commodity *commodity) const
-{
-	const centesimal_int &output = this->get_commodity_output(commodity);
-
-	if (commodity->is_abstract()) {
-		return output;
-	}
-
-	return centesimal_int::min(output, centesimal_int(this->get_best_transport_level()));
 }
 
 bool site_game_data::can_be_visited() const

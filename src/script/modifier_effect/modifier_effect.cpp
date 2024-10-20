@@ -23,7 +23,6 @@
 #include "script/modifier_effect/commodity_output_modifier_effect.h"
 #include "script/modifier_effect/commodity_throughput_modifier_effect.h"
 #include "script/modifier_effect/deployment_limit_modifier_effect.h"
-#include "script/modifier_effect/depot_level_modifier_effect.h"
 #include "script/modifier_effect/diplomatic_penalty_for_expansion_modifier_effect.h"
 #include "script/modifier_effect/entrenchment_bonus_modifier_effect.h"
 #include "script/modifier_effect/free_artillery_promotion_modifier_effect.h"
@@ -36,13 +35,11 @@
 #include "script/modifier_effect/infantry_cost_modifier_effect.h"
 #include "script/modifier_effect/inflation_change_modifier_effect.h"
 #include "script/modifier_effect/law_cost_modifier_effect.h"
-#include "script/modifier_effect/merchant_ship_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_category_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_domain_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_type_stat_modifier_effect.h"
 #include "script/modifier_effect/output_modifier_effect.h"
-#include "script/modifier_effect/port_level_modifier_effect.h"
 #include "script/modifier_effect/resource_output_modifier_effect.h"
 #include "script/modifier_effect/ship_stat_modifier_effect.h"
 #include "script/modifier_effect/storage_capacity_modifier_effect.h"
@@ -67,7 +64,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 		static const std::string building_capacity_modifier_suffix = "_capacity";
 		static const std::string capital_commodity_bonus_prefix = "capital_";
 		static const std::string commodity_per_building_infix = "_per_";
-		static const std::string merchant_ship_stat_modifier_prefix = "merchant_ship_";
 		static const std::string militancy_modifier_suffix = "_militancy_modifier";
 		static const std::string military_unit_type_stat_modifier_infix = "_";
 		static const std::string military_unit_type_stat_modifier_suffix = "_modifier";
@@ -150,10 +146,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 				const std::string stat_name = key.substr(ship_stat_modifier_prefix.size(), key.size() - ship_stat_modifier_prefix.size() - military_unit_type_stat_modifier_suffix.size());
 
 				return std::make_unique<ship_stat_modifier_effect>(stat_name, value);
-			} else if (key.starts_with(merchant_ship_stat_modifier_prefix)) {
-				const std::string stat_name = key.substr(merchant_ship_stat_modifier_prefix.size(), key.size() - merchant_ship_stat_modifier_prefix.size() - military_unit_type_stat_modifier_suffix.size());
-
-				return std::make_unique<merchant_ship_stat_modifier_effect>(enum_converter<transporter_stat>::to_enum(stat_name), value);
 			}
 
 			infix_pos = key.rfind(military_unit_type_stat_modifier_infix, suffix_pos - 1);
@@ -184,11 +176,7 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			}
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
-		if (key == "depot_level") {
-			return std::make_unique<depot_level_modifier_effect>(value);
-		} else if (key == "port_level") {
-			return std::make_unique<port_level_modifier_effect>(value);
-		} else if (key.ends_with(bonus_suffix)) {
+		if (key.ends_with(bonus_suffix)) {
 			const size_t commodity_identifier_size = key.size() - bonus_suffix.size();
 			const commodity *commodity = commodity::get(key.substr(0, commodity_identifier_size));
 
