@@ -127,7 +127,6 @@ int main(int argc, char **argv)
 
 		QQmlApplicationEngine engine;
 
-		enum_converter<character_attribute>();
 		enum_converter<character_role>();
 		enum_converter<country_tier>();
 		enum_converter<country_type>();
@@ -149,6 +148,7 @@ int main(int argc, char **argv)
 
 		qmlRegisterAnonymousType<building_type>("", 1);
 		qmlRegisterAnonymousType<character>("", 1);
+		qmlRegisterAnonymousType<character_attribute>("", 1);
 		qmlRegisterAnonymousType<character_game_data>("", 1);
 		qmlRegisterAnonymousType<consulate>("", 1);
 		qmlRegisterAnonymousType<country>("", 1);

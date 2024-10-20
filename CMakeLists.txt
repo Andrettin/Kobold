@@ -20,9 +20,7 @@ include_directories(
 
 set(character_SRCS
 	src/character/character.cpp
-	src/character/character_attribute.cpp
 	src/character/character_class.cpp
-	src/character/character_class_container.cpp
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_role.cpp
@@ -75,6 +73,7 @@ source_group(country FILES ${country_SRCS})
 set_source_files_properties(${country_SRCS} PROPERTIES UNITY_GROUP "country")
 
 set(database_SRCS
+	src/database/data_entry_container.cpp
 	src/database/defines.cpp
 	src/database/preferences.cpp
 )
@@ -297,7 +296,6 @@ set(character_HDRS
 	src/character/character.h
 	src/character/character_attribute.h
 	src/character/character_class.h
-	src/character/character_class_container.h
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
@@ -350,6 +348,7 @@ set(country_HDRS
 source_group(country FILES ${country_HDRS})
 
 set(database_HDRS
+	src/database/data_entry_container.h
 	src/database/defines.h
 	src/database/preferences.h
 )

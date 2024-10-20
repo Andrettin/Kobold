@@ -2,8 +2,6 @@
 
 #include "character/dynasty.h"
 
-#include "util/assert_util.h"
-
 namespace kobold {
 
 void dynasty::check() const

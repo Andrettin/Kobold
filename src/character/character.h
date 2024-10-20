@@ -35,7 +35,6 @@ class portrait;
 class religion;
 class site;
 class trait;
-enum class character_attribute;
 enum class character_role;
 enum class military_unit_category;
 

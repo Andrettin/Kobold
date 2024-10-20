@@ -2,7 +2,6 @@
 
 #include "character/character.h"
 
-#include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"

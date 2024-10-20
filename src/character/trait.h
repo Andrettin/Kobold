@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
@@ -8,11 +9,11 @@ Q_MOC_INCLUDE("ui/icon.h")
 namespace kobold {
 
 class character;
+class character_attribute;
 class country;
 class icon;
 class military_unit;
 class province;
-enum class character_attribute;
 enum class trait_type;
 
 template <typename scope_type>
@@ -28,10 +29,8 @@ class trait final : public named_data_entry, public data_type<trait>
 	Q_PROPERTY(kobold::trait_type type MEMBER type NOTIFY changed)
 	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
-	Q_PROPERTY(kobold::character_attribute attribute MEMBER attribute READ get_attribute NOTIFY changed)
 	Q_PROPERTY(int max_scaling MEMBER max_scaling READ get_max_scaling NOTIFY changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
-	Q_PROPERTY(QString military_unit_modifier_string READ get_military_unit_modifier_string CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "trait";
@@ -59,22 +58,17 @@ public:
 		return this->level;
 	}
 
-	character_attribute get_attribute() const
-	{
-		return this->attribute;
-	}
-
 	int get_max_scaling() const
 	{
 		return this->max_scaling;
 	}
 
-	const std::map<character_attribute, int> &get_attribute_bonuses() const
+	const data_entry_map<character_attribute, int> &get_attribute_bonuses() const
 	{
 		return this->attribute_bonuses;
 	}
 
-	int get_attribute_bonus(const character_attribute attribute) const
+	int get_attribute_bonus(const character_attribute *attribute) const
 	{
 		const auto find_iterator = this->get_attribute_bonuses().find(attribute);
 		if (find_iterator != this->get_attribute_bonuses().end()) {
@@ -101,43 +95,6 @@ public:
 
 	QString get_modifier_string() const;
 
-	const kobold::modifier<const country> *get_ruler_modifier() const
-	{
-		return this->ruler_modifier.get();
-	}
-
-	const kobold::modifier<const country> *get_scaled_ruler_modifier() const
-	{
-		return this->scaled_ruler_modifier.get();
-	}
-
-	const kobold::modifier<const province> *get_governor_modifier() const
-	{
-		return this->governor_modifier.get();
-	}
-
-	const kobold::modifier<const province> *get_scaled_governor_modifier() const
-	{
-		return this->scaled_governor_modifier.get();
-	}
-
-	const kobold::modifier<const character> *get_leader_modifier() const
-	{
-		return this->leader_modifier.get();
-	}
-
-	const kobold::modifier<const character> *get_scaled_leader_modifier() const
-	{
-		return this->scaled_leader_modifier.get();
-	}
-
-	const kobold::modifier<military_unit> *get_military_unit_modifier() const
-	{
-		return this->military_unit_modifier.get();
-	}
-
-	QString get_military_unit_modifier_string() const;
-
 signals:
 	void changed();
 
@@ -145,19 +102,11 @@ private:
 	trait_type type;
 	kobold::icon *icon = nullptr;
 	int level = 1;
-	character_attribute attribute{};
 	int max_scaling = std::numeric_limits<int>::max();
-	std::map<character_attribute, int> attribute_bonuses;
+	data_entry_map<character_attribute, int> attribute_bonuses;
 	std::unique_ptr<const and_condition<character>> conditions;
 	std::unique_ptr<const and_condition<character>> generation_conditions;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
-	std::unique_ptr<const kobold::modifier<const country>> ruler_modifier;
-	std::unique_ptr<const kobold::modifier<const country>> scaled_ruler_modifier;
-	std::unique_ptr<const kobold::modifier<const province>> governor_modifier;
-	std::unique_ptr<const kobold::modifier<const province>> scaled_governor_modifier;
-	std::unique_ptr<const kobold::modifier<const character>> leader_modifier;
-	std::unique_ptr<const kobold::modifier<const character>> scaled_leader_modifier;
-	std::unique_ptr<const kobold::modifier<military_unit>> military_unit_modifier;
 };
 
 }

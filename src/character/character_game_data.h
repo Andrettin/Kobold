@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character/character_container.h"
+#include "database/data_entry_container.h"
 #include "script/scripted_modifier_container.h"
 #include "spell/spell_container.h"
 #include "unit/military_unit_type_container.h"
@@ -12,6 +13,7 @@ Q_MOC_INCLUDE("ui/portrait.h")
 namespace kobold {
 
 class character;
+class character_attribute;
 class civilian_unit;
 class country;
 class military_unit;
@@ -21,7 +23,6 @@ class province;
 class scripted_character_modifier;
 class spell;
 class trait;
-enum class character_attribute;
 enum class military_unit_stat;
 enum class trait_type;
 
@@ -71,7 +72,7 @@ public:
 	void set_dead(const bool dead);
 	void die();
 
-	int get_attribute_value(const character_attribute attribute) const
+	int get_attribute_value(const character_attribute *attribute) const
 	{
 		const auto find_iterator = this->attribute_values.find(attribute);
 		if (find_iterator != this->attribute_values.end()) {
@@ -81,7 +82,7 @@ public:
 		return 0;
 	}
 
-	void change_attribute_value(const character_attribute attribute, const int change);
+	void change_attribute_value(const character_attribute *attribute, const int change);
 
 	const std::vector<const trait *> &get_traits() const
 	{
@@ -118,15 +119,6 @@ public:
 	void decrement_scripted_modifiers();
 
 	bool is_ruler() const;
-	std::string get_ruler_modifier_string(const kobold::country *country) const;
-
-	Q_INVOKABLE QString get_ruler_modifier_qstring(const kobold::country *country) const
-	{
-		return QString::fromStdString(this->get_ruler_modifier_string(country));
-	}
-
-	void apply_ruler_modifier(const kobold::country *country, const int multiplier) const;
-	void apply_trait_ruler_modifier(const trait *trait, const kobold::country *country, const int multiplier) const;
 
 	void apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier);
 
@@ -220,7 +212,7 @@ private:
 	const kobold::portrait *portrait = nullptr;
 	const kobold::country *country = nullptr;
 	bool dead = false;
-	std::map<character_attribute, int> attribute_values;
+	data_entry_map<character_attribute, int> attribute_values;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	spell_set spells;

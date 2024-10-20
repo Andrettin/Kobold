@@ -161,38 +161,15 @@ void character_game_data::die()
 }
 
 
-void character_game_data::change_attribute_value(const character_attribute attribute, const int change)
+void character_game_data::change_attribute_value(const character_attribute *attribute, const int change)
 {
 	if (change == 0) {
 		return;
 	}
 
-	if (this->is_ruler()) {
-		this->apply_ruler_modifier(this->get_country(), -1);
-	}
-	if (this->character->get_role() == character_role::leader) {
-		for (const trait *trait : this->get_traits()) {
-			if (trait->get_scaled_leader_modifier() != nullptr && attribute == trait->get_attribute()) {
-				this->apply_modifier(trait->get_scaled_leader_modifier(), -std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()));
-			}
-		}
-	}
-
 	const int new_value = (this->attribute_values[attribute] += change);
-
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
-	}
-
-	if (this->is_ruler()) {
-		this->apply_ruler_modifier(this->get_country(), 1);
-	}
-	if (this->character->get_role() == character_role::leader) {
-		for (const trait *trait : this->get_traits()) {
-			if (trait->get_scaled_leader_modifier() != nullptr && attribute == trait->get_attribute()) {
-				this->apply_modifier(trait->get_scaled_leader_modifier(), std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()));
-			}
-		}
 	}
 }
 
@@ -277,30 +254,12 @@ void character_game_data::remove_trait(const trait *trait)
 
 void character_game_data::on_trait_gained(const trait *trait, const int multiplier)
 {
-	if (this->is_ruler()) {
-		assert_throw(this->get_country() != nullptr);
-
-		if (trait->get_ruler_modifier() != nullptr || trait->get_scaled_ruler_modifier() != nullptr) {
-			this->apply_trait_ruler_modifier(trait, this->get_country(), multiplier);
-		}
-	}
-
 	for (const auto &[attribute, bonus] : trait->get_attribute_bonuses()) {
 		this->change_attribute_value(attribute, bonus * multiplier);
 	}
 
 	if (trait->get_modifier() != nullptr) {
 		this->apply_modifier(trait->get_modifier(), multiplier);
-	}
-
-	if (this->character->get_role() == character_role::leader) {
-		if (trait->get_leader_modifier() != nullptr) {
-			this->apply_modifier(trait->get_leader_modifier(), multiplier);
-		}
-
-		if (trait->get_scaled_leader_modifier() != nullptr) {
-			this->apply_modifier(trait->get_scaled_leader_modifier(), std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()) * multiplier);
-		}
 	}
 }
 
@@ -400,54 +359,6 @@ void character_game_data::decrement_scripted_modifiers()
 bool character_game_data::is_ruler() const
 {
 	return this->get_country() != nullptr && this->get_country()->get_game_data()->get_ruler() == this->character;
-}
-
-std::string character_game_data::get_ruler_modifier_string(const kobold::country *country) const
-{
-	assert_throw(this->character->get_role() == character_role::ruler);
-
-	std::string str = string::highlight(this->character->get_character_class()->get_name());
-
-	for (const trait *trait : this->get_traits()) {
-		if (trait->get_ruler_modifier() == nullptr && trait->get_scaled_ruler_modifier() == nullptr) {
-			continue;
-		}
-
-		if (!str.empty()) {
-			str += "\n";
-		}
-
-		str += string::highlight(trait->get_name());
-		if (trait->get_ruler_modifier() != nullptr) {
-			str += "\n" + trait->get_ruler_modifier()->get_string(country, 1, 1);
-		}
-		if (trait->get_scaled_ruler_modifier() != nullptr) {
-			str += "\n" + trait->get_scaled_ruler_modifier()->get_string(country, std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()), 1);
-		}
-	}
-
-	return str;
-}
-
-void character_game_data::apply_ruler_modifier(const kobold::country *country, const int multiplier) const
-{
-	assert_throw(this->character->get_role() == character_role::ruler);
-	assert_throw(country != nullptr);
-
-	for (const trait *trait : this->get_traits()) {
-		this->apply_trait_ruler_modifier(trait, country, multiplier);
-	}
-}
-
-void character_game_data::apply_trait_ruler_modifier(const trait *trait, const kobold::country *country, const int multiplier) const
-{
-	if (trait->get_ruler_modifier() != nullptr) {
-		trait->get_ruler_modifier()->apply(country, multiplier);
-	}
-
-	if (trait->get_scaled_ruler_modifier() != nullptr) {
-		trait->get_scaled_ruler_modifier()->apply(country, std::min(this->get_attribute_value(trait->get_attribute()), trait->get_max_scaling()) * multiplier);
-	}
 }
 
 void character_game_data::apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier)

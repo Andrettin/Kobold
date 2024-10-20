@@ -2816,14 +2816,12 @@ void country_game_data::set_ruler(const character *ruler)
 	const character *old_ruler = this->get_ruler();
 
 	if (old_ruler != nullptr) {
-		old_ruler->get_game_data()->apply_ruler_modifier(this->country, -1);
 		old_ruler->get_game_data()->set_country(nullptr);
 	}
 
 	this->ruler = ruler;
 
 	if (this->get_ruler() != nullptr) {
-		this->get_ruler()->get_game_data()->apply_ruler_modifier(this->country, 1);
 		this->get_ruler()->get_game_data()->set_country(this->country);
 	}
 
@@ -2876,7 +2874,7 @@ void country_game_data::check_ruler()
 			if (this->country == game::get()->get_player_country() && game::get()->is_running()) {
 				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
 
-				engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!\n\n{}", this->get_ruler()->get_full_name(), this->get_ruler()->get_game_data()->get_ruler_modifier_string(this->country)));
+				engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!", this->get_ruler()->get_full_name()));
 			}
 		}
 	}
