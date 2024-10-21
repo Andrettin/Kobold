@@ -160,6 +160,47 @@ void character_game_data::die()
 	this->set_dead(true);
 }
 
+void character_game_data::change_character_class_level(const character_class *character_class, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	//should not decrease a character's level below 1
+	assert_throw(change > 0 || this->get_level() > 1);
+
+	//only one level at a time should be changed
+	assert_throw(std::abs(change) == 1);
+
+	const int old_value = this->get_character_class_level(character_class);
+	const int new_value = (this->character_class_levels[character_class] += change);
+	if (new_value == 0) {
+		this->character_class_levels.erase(character_class);
+	}
+
+	this->change_level(change);
+
+	const int affected_class_level = change > 0 ? new_value : old_value;
+	this->on_class_level_gained(character_class, affected_class_level, change);
+}
+
+void character_game_data::on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier)
+{
+	const dice &hit_dice = character_class->get_hit_dice();
+	if (this->get_level() == 1 && multiplier > 0) {
+		this->change_hit_points(hit_dice.get_maximum_result() * multiplier);
+	} else {
+		assert_throw(hit_dice.get_count() > 0);
+		const int base_value = hit_dice.get_maximum_result() + hit_dice.get_count();
+		int hit_points = base_value / 2;
+		if (base_value % 2 == 1 && affected_class_level % 2 == 0) {
+			hit_points += 1;
+		}
+		this->change_hit_points(hit_points * multiplier);
+	}
+
+	this->change_base_attack_bonus(character_class->get_base_attack_bonus_per_level(affected_class_level) * multiplier);
+}
 
 void character_game_data::change_attribute_value(const character_attribute *attribute, const int change)
 {

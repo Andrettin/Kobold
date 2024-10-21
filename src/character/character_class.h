@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 #include "util/dice.h"
@@ -29,6 +30,16 @@ public:
 		return this->hit_dice;
 	}
 
+	int get_base_attack_bonus_per_level(const int level) const
+	{
+		const auto find_iterator = this->base_attack_bonus_per_level.find(level);
+		if (find_iterator != this->base_attack_bonus_per_level.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	int get_base_skill_points_per_level() const
 	{
 		return this->base_skill_points_per_level;
@@ -39,6 +50,7 @@ signals:
 
 private:
 	dice hit_dice;
+	std::map<int, int> base_attack_bonus_per_level;
 	int base_skill_points_per_level = 0;
 };
 

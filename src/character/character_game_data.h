@@ -14,7 +14,7 @@ namespace kobold {
 
 class character;
 class character_attribute;
-class civilian_unit;
+class character_class;
 class country;
 class military_unit;
 class military_unit_type;
@@ -72,6 +72,29 @@ public:
 	void set_dead(const bool dead);
 	void die();
 
+	int get_level() const
+	{
+		return this->level;
+	}
+
+	void change_level(const int change)
+	{
+		this->level += change;
+	}
+
+	int get_character_class_level(const character_class *character_class) const
+	{
+		const auto find_iterator = this->character_class_levels.find(character_class);
+		if (find_iterator != this->character_class_levels.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_character_class_level(const character_class *character_class, const int change);
+	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
+
 	int get_attribute_value(const character_attribute *attribute) const
 	{
 		const auto find_iterator = this->attribute_values.find(attribute);
@@ -83,6 +106,26 @@ public:
 	}
 
 	void change_attribute_value(const character_attribute *attribute, const int change);
+
+	int get_hit_points() const
+	{
+		return this->hit_points;
+	}
+
+	void change_hit_points(const int change)
+	{
+		this->hit_points += change;
+	}
+
+	int get_base_attack_bonus() const
+	{
+		return this->base_attack_bonus;
+	}
+
+	void change_base_attack_bonus(const int change)
+	{
+		this->base_attack_bonus += change;
+	}
 
 	const std::vector<const trait *> &get_traits() const
 	{
@@ -212,7 +255,11 @@ private:
 	const kobold::portrait *portrait = nullptr;
 	const kobold::country *country = nullptr;
 	bool dead = false;
+	int level = 0;
+	data_entry_map<character_class, int> character_class_levels;
 	data_entry_map<character_attribute, int> attribute_values;
+	int hit_points;
+	int base_attack_bonus;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	spell_set spells;
