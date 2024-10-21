@@ -2,10 +2,10 @@ bard = {
 	name = "Bard"
 	hit_dice = 1d6
 	base_attack_bonus_table = medium_base_attack_bonus
-	saving_throw_tables = {
-		fortitude = low_saving_throw
-		reflex = high_saving_throw
-		will = high_saving_throw
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 6
 }

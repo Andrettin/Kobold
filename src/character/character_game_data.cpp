@@ -187,6 +187,9 @@ void character_game_data::change_character_class_level(const character_class *ch
 
 void character_game_data::on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier)
 {
+	//only gaining levels is possible at present
+	assert_throw(multiplier == 1);
+
 	const dice &hit_dice = character_class->get_hit_dice();
 	if (this->get_level() == 1 && multiplier > 0) {
 		this->change_hit_points(hit_dice.get_maximum_result() * multiplier);
@@ -202,8 +205,8 @@ void character_game_data::on_class_level_gained(const character_class *character
 
 	this->change_base_attack_bonus(character_class->get_base_attack_bonus_table()->get_bonus_per_level(affected_class_level) * multiplier);
 
-	for (const auto &[saving_throw_type, saving_throw_table] : character_class->get_saving_throw_tables()) {
-		this->change_saving_throw(saving_throw_type, saving_throw_table->get_bonus_per_level(affected_class_level) * multiplier);
+	for (const auto &[saving_throw_type, saving_throw_bonus_table] : character_class->get_saving_throw_bonus_tables()) {
+		this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(affected_class_level) * multiplier);
 	}
 }
 
@@ -219,15 +222,15 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 	}
 }
 
-void character_game_data::change_saving_throw(const saving_throw_type *type, const int change)
+void character_game_data::change_saving_throw_bonus(const saving_throw_type *type, const int change)
 {
 	if (change == 0) {
 		return;
 	}
 
-	const int new_value = (this->saving_throws[type] += change);
+	const int new_value = (this->saving_throw_bonuses[type] += change);
 	if (new_value == 0) {
-		this->saving_throws.erase(type);
+		this->saving_throw_bonuses.erase(type);
 	}
 }
 

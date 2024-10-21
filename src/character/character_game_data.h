@@ -128,17 +128,17 @@ public:
 		this->base_attack_bonus += change;
 	}
 
-	int get_saving_throw(const saving_throw_type *type) const
+	int get_saving_throw_bonus(const saving_throw_type *type) const
 	{
-		const auto find_iterator = this->saving_throws.find(type);
-		if (find_iterator != this->saving_throws.end()) {
+		const auto find_iterator = this->saving_throw_bonuses.find(type);
+		if (find_iterator != this->saving_throw_bonuses.end()) {
 			return find_iterator->second;
 		}
 
 		return 0;
 	}
 
-	void change_saving_throw(const saving_throw_type *type, const int change);
+	void change_saving_throw_bonus(const saving_throw_type *type, const int change);
 
 	const std::vector<const trait *> &get_traits() const
 	{
@@ -273,7 +273,7 @@ private:
 	data_entry_map<character_attribute, int> attribute_values;
 	int hit_points;
 	int base_attack_bonus;
-	data_entry_map<saving_throw_type, int> saving_throws;
+	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	spell_set spells;

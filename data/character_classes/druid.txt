@@ -2,10 +2,10 @@ druid = {
 	name = "Druid"
 	hit_dice = 1d8
 	base_attack_bonus_table = medium_base_attack_bonus
-	saving_throw_tables = {
-		fortitude = high_saving_throw
-		reflex = low_saving_throw
-		will = high_saving_throw
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 4
 }

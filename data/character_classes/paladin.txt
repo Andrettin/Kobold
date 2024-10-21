@@ -2,10 +2,10 @@ paladin = {
 	name = "Paladin"
 	hit_dice = 1d10
 	base_attack_bonus_table = high_base_attack_bonus
-	saving_throw_tables = {
-		fortitude = high_saving_throw
-		reflex = low_saving_throw
-		will = low_saving_throw
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = low_saving_throw_bonus
 	}
 	base_skill_points_per_level = 2
 }

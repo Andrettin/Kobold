@@ -1,4 +1,4 @@
-low_saving_throw = {
+low_saving_throw_bonus = {
 	1 = 0
 	2 = 0
 	3 = 1
@@ -21,7 +21,7 @@ low_saving_throw = {
 	20 = 0
 }
 
-high_saving_throw = {
+high_saving_throw_bonus = {
 	1 = 2
 	2 = 1
 	3 = 0

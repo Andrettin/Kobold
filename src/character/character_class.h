@@ -41,9 +41,9 @@ public:
 		return this->base_attack_bonus_table;
 	}
 
-	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_tables() const
+	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_bonus_tables() const
 	{
-		return this->saving_throw_tables;
+		return this->saving_throw_bonus_tables;
 	}
 
 	int get_base_skill_points_per_level() const
@@ -57,7 +57,7 @@ signals:
 private:
 	dice hit_dice;
 	const level_bonus_table *base_attack_bonus_table = nullptr;
-	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_tables;
+	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	int base_skill_points_per_level = 0;
 };
 
