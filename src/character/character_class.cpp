@@ -2,6 +2,9 @@
 
 #include "character/character_class.h"
 
+#include "character/level_bonus_table.h"
+#include "character/saving_throw_type.h"
+
 namespace kobold {
 
 character_class::character_class(const std::string &identifier)
@@ -17,12 +20,12 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
 
-	if (tag == "base_attack_bonus_per_level") {
+	if (tag == "saving_throw_tables") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
 
-			this->base_attack_bonus_per_level[std::stoi(key)] = std::stoi(value);
+			this->saving_throw_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
 		});
 	} else {
 		data_entry::process_gsml_scope(scope);
@@ -35,8 +38,12 @@ void character_class::check() const
 		throw std::runtime_error(std::format("Character class \"{}\" has null hit dice.", this->get_identifier()));
 	}
 
-	if (this->base_attack_bonus_per_level.empty()) {
-		throw std::runtime_error(std::format("Character class \"{}\" has no base attack bonus per level.", this->get_identifier()));
+	if (this->get_base_attack_bonus_table() == nullptr) {
+		throw std::runtime_error(std::format("Character class \"{}\" has no base attack bonus table.", this->get_identifier()));
+	}
+
+	if (this->get_saving_throw_tables().empty()) {
+		throw std::runtime_error(std::format("Character class \"{}\" has no saving throw tables.", this->get_identifier()));
 	}
 
 	if (this->get_base_skill_points_per_level() == 0) {

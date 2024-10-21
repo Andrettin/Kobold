@@ -5,13 +5,19 @@
 #include "database/named_data_entry.h"
 #include "util/dice.h"
 
+Q_MOC_INCLUDE("character/level_bonus_table.h")
+
 namespace kobold {
+
+class level_bonus_table;
+class saving_throw_type;
 
 class character_class final : public named_data_entry, public data_type<character_class>
 {
 	Q_OBJECT
 
 	Q_PROPERTY(archimedes::dice hit_dice MEMBER hit_dice READ get_hit_dice NOTIFY changed)
+	Q_PROPERTY(const kobold::level_bonus_table* base_attack_bonus_table MEMBER base_attack_bonus_table READ get_base_attack_bonus_table NOTIFY changed)
 	Q_PROPERTY(int base_skill_points_per_level MEMBER base_skill_points_per_level READ get_base_skill_points_per_level NOTIFY changed)
 
 public:
@@ -30,14 +36,14 @@ public:
 		return this->hit_dice;
 	}
 
-	int get_base_attack_bonus_per_level(const int level) const
+	const level_bonus_table *get_base_attack_bonus_table() const
 	{
-		const auto find_iterator = this->base_attack_bonus_per_level.find(level);
-		if (find_iterator != this->base_attack_bonus_per_level.end()) {
-			return find_iterator->second;
-		}
+		return this->base_attack_bonus_table;
+	}
 
-		return 0;
+	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_tables() const
+	{
+		return this->saving_throw_tables;
 	}
 
 	int get_base_skill_points_per_level() const
@@ -50,7 +56,8 @@ signals:
 
 private:
 	dice hit_dice;
-	std::map<int, int> base_attack_bonus_per_level;
+	const level_bonus_table *base_attack_bonus_table = nullptr;
+	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_tables;
 	int base_skill_points_per_level = 0;
 };
 

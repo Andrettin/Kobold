@@ -6,6 +6,7 @@
 #include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/character_role.h"
+#include "character/level_bonus_table.h"
 #include "character/trait.h"
 #include "character/trait_type.h"
 #include "country/country.h"
@@ -199,7 +200,11 @@ void character_game_data::on_class_level_gained(const character_class *character
 		this->change_hit_points(hit_points * multiplier);
 	}
 
-	this->change_base_attack_bonus(character_class->get_base_attack_bonus_per_level(affected_class_level) * multiplier);
+	this->change_base_attack_bonus(character_class->get_base_attack_bonus_table()->get_bonus_per_level(affected_class_level) * multiplier);
+
+	for (const auto &[saving_throw_type, saving_throw_table] : character_class->get_saving_throw_tables()) {
+		this->change_saving_throw(saving_throw_type, saving_throw_table->get_bonus_per_level(affected_class_level) * multiplier);
+	}
 }
 
 void character_game_data::change_attribute_value(const character_attribute *attribute, const int change)
@@ -211,6 +216,18 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 	const int new_value = (this->attribute_values[attribute] += change);
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
+	}
+}
+
+void character_game_data::change_saving_throw(const saving_throw_type *type, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->saving_throws[type] += change);
+	if (new_value == 0) {
+		this->saving_throws.erase(type);
 	}
 }
 
