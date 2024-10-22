@@ -8,4 +8,29 @@ aristocrat = {
 		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 4
+	rank_levels = {
+		knight = 2
+		baronet = 4
+		baron = 6
+		baroness = 6
+		lord = 6
+		viscount = 8
+		viscountess = 8
+		count = 10
+		countess = 10
+		marquess = 12
+		marchioness = 12
+		duke = 14
+		duchess = 14
+		grand_duke = 16
+		grand_duchess = 16
+		archduke = 16
+		archduchess = 16
+		prince = 16
+		princess = 16
+		king = 18
+		queen = 18
+		emperor = 20
+		empress = 20
+	}
 }

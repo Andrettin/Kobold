@@ -27,6 +27,13 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 
 			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
 		});
+	} else if (tag == "rank_levels") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->rank_levels[key] = std::stoi(value);
+		});
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}

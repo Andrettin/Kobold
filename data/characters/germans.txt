@@ -2,6 +2,7 @@ nikolaus_von_kues = { #Source: "Encyclopædia Britannica", 1911, vol. 7, pp. 665
 	name = "Nikolaus"
 	surname = "von Kues"
 	character_class = cleric #scholar, cardinal and theologian
+	rank = cardinal
 	culture = german
 	religion = catholic
 	home_site = trier #born in Kues, in the Archbishopric of Trier

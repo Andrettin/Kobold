@@ -53,6 +53,8 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
 	Q_PROPERTY(const kobold::character_class* character_class MEMBER character_class READ get_character_class NOTIFY changed)
+	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
+	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion NOTIFY changed)
 	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
@@ -104,6 +106,11 @@ public:
 	const kobold::character_class *get_character_class() const
 	{
 		return this->character_class;
+	}
+
+	int get_level() const
+	{
+		return this->level;
 	}
 
 	const kobold::culture *get_culture() const
@@ -166,6 +173,8 @@ private:
 	kobold::dynasty *dynasty = nullptr;
 	kobold::character_role role;
 	const kobold::character_class *character_class = nullptr;
+	int level = 0;
+	std::string rank;
 	kobold::culture *culture = nullptr;
 	kobold::religion *religion = nullptr;
 	kobold::phenotype *phenotype = nullptr;

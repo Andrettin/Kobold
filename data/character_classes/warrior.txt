@@ -8,4 +8,19 @@ warrior = {
 		will = low_saving_throw_bonus
 	}
 	base_skill_points_per_level = 2
+	rank_levels = {
+		soldier = 1
+		corporal = 2
+		sergeant = 3
+		lieutenant = 5
+		captain = 7
+		major = 9
+		colonel = 11
+		brigadier = 13
+		major_general = 15
+		lieutenant_general = 17
+		feldzeugmeister = 17
+		general = 19
+		field_marshal = 20
+	}
 }

@@ -2,6 +2,7 @@ ernst_von_kaunitz = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnüge
 	name = "Ernst"
 	dynasty = kaunitz
 	character_class = aristocrat
+	rank = prince
 	culture = german #Saxon/Westphalian
 	religion = catholic
 	home_site = minden #Rietberg

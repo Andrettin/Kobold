@@ -2,6 +2,7 @@ johann_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, 
 	name = "Johann"
 	dynasty = schwarzenberg
 	character_class = aristocrat
+	rank = baron
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -17,7 +18,8 @@ johann_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, 
 adolf_von_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 390.
 	name = "Adolf"
 	dynasty = schwarzenberg
-	character_class = aristocrat
+	character_class = warrior
+	rank = general
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -32,6 +34,7 @@ georg_ludwig_von_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vo
 	name = "Georg Ludwig"
 	dynasty = schwarzenberg
 	character_class = aristocrat
+	rank = count
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -47,6 +50,7 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 	dynasty = schwarzenberg
 	role = leader
 	character_class = warrior
+	rank = major
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna #born in Vienna
@@ -66,9 +70,16 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 	history = {
 		#entered the imperial cavalry in 1788
 		#fought in 1789 under Lacy and Loudon against the Turks
-		#became major in 1792
+		
+		1792 = {
+			rank = major #became major in 1792
+		}
+		
 		#decorated with the cross of the Maria Theresa order
-		#became major-general in 1796
+		
+		1796 = {
+			rank = major_general #became major-general in 1796
+		}
 		
 		1799 = {
 			#became lieutenant field marshal in 1799
@@ -79,7 +90,11 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 		#became a commander of the order of Maria Theresa in 1805
 		#received the Golden Fleece in 1809
 		#became general of cavalry soon after the Battle of Wagram (1809)
-		#was field marshal by 1813
+		
+		1813 = {
+			rank = field_marshal #was field marshal by 1813
+		}
+		
 		#was president of the Hofkriegsrat
 		#disabled by a stroke of paralysis in 1817
 	}
@@ -88,7 +103,8 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 391.
 	name = "Friedrich"
 	dynasty = schwarzenberg
-	character_class = aristocrat
+	character_class = warrior
+	rank = major_general
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -108,7 +124,8 @@ friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 2
 karl_philipp_ii_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 391.
 	name = "Karl Philipp"
 	dynasty = schwarzenberg
-	character_class = aristocrat
+	character_class = warrior
+	rank = feldzeugmeister
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -122,6 +139,7 @@ felix_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p
 	name = "Felix"
 	dynasty = schwarzenberg
 	character_class = aristocrat
+	rank = prince
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -146,7 +164,8 @@ felix_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p
 edmund_leopold_friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 391.
 	name = "Edmund Leopold" #"Edmund Leopold Friedrich"
 	dynasty = schwarzenberg
-	character_class = aristocrat
+	character_class = warrior
+	rank = field_marshal
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -161,6 +180,7 @@ friedrich_johann_josef_coelestin_zu_schwarzenberg = { #Source: "Encyclopædia Br
 	name = "Friedrich Johann" #"Friedrich Johann Josef Coelestin"
 	dynasty = schwarzenberg
 	character_class = cleric #cardinal
+	rank = cardinal
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna

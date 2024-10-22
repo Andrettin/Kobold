@@ -112,6 +112,13 @@ void character::initialize()
 		}
 	}
 
+	if (!this->rank.empty()) {
+		assert_throw(this->get_level() == 0);
+		assert_throw(this->get_character_class() != nullptr);
+		this->level = this->get_character_class()->get_rank_level(this->rank);
+		this->rank.clear();
+	}
+
 	character_base::initialize();
 }
 

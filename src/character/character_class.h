@@ -51,6 +51,17 @@ public:
 		return this->base_skill_points_per_level;
 	}
 
+	int get_rank_level(const std::string &rank) const
+	{
+		const auto find_iterator = this->rank_levels.find(rank);
+
+		if (find_iterator != this->rank_levels.end()) {
+			return find_iterator->second;
+		}
+
+		throw std::runtime_error(std::format("Invalid rank for class \"{}\": \"{}\".", this->get_identifier(), rank));
+	}
+
 signals:
 	void changed();
 
@@ -59,6 +70,7 @@ private:
 	const level_bonus_table *base_attack_bonus_table = nullptr;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	int base_skill_points_per_level = 0;
+	std::map<std::string, int> rank_levels; //names for particular levels
 };
 
 }

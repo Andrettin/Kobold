@@ -2,6 +2,7 @@ erkinger = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 390.
 	name = "Erkinger"
 	surname = "von Seinsheim"
 	character_class = aristocrat
+	rank = lord
 	culture = german #Franconian
 	religion = catholic
 	home_site = aschaffenburg #Seinsheim

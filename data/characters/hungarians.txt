@@ -2,6 +2,7 @@ tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 	name = "Tamas" #"Tamás"
 	surname = "Bakocz" #"Bakócz"
 	character_class = cleric
+	rank = bishop
 	culture = magyar
 	religion = catholic
 	home_site = gyor
@@ -16,8 +17,15 @@ tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 		#succeeded his uncle as rector of Tétel in 1480
 		#became bishop of Gyor and a member of the Hungarian royal council in 1490
 		#became bishop of Eger under Wladislaus II
-		#became archbishop of Esztergom in 1497
-		#became cardinal in 1500
+		
+		1497 = {
+			rank = archbishop #became archbishop of Esztergom in 1497
+		}
+		
+		1500 = {
+			rank = archbishop #became cardinal in 1500
+		}
+		
 		#became titular patriarch of Constantinople in 1510
 	}
 }

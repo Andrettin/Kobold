@@ -489,7 +489,11 @@ void game::apply_history(const kobold::scenario *scenario)
 		}
 
 		for (const character *character : character::get_all()) {
-			//FIXME: apply character
+			const character_history *character_history = character->get_history();
+			character_game_data *character_game_data = character->get_game_data();
+
+			const int level = std::max(character_history->get_level(), 1);
+			character_game_data->change_character_class_level(character->get_character_class(), level);
 		}
 
 		for (const historical_civilian_unit *historical_civilian_unit : historical_civilian_unit::get_all()) {

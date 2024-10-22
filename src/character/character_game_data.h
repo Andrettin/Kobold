@@ -271,8 +271,8 @@ private:
 	int level = 0;
 	data_entry_map<character_class, int> character_class_levels;
 	data_entry_map<character_attribute, int> attribute_values;
-	int hit_points;
-	int base_attack_bonus;
+	int hit_points = 0;
+	int base_attack_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;

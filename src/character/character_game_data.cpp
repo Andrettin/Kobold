@@ -29,6 +29,7 @@
 #include "util/gender.h"
 #include "util/log_util.h"
 #include "util/map_util.h"
+#include "util/number_util.h"
 #include "util/string_util.h"
 #include "util/vector_random_util.h"
 #include "util/vector_util.h"
@@ -167,28 +168,34 @@ void character_game_data::change_character_class_level(const character_class *ch
 		return;
 	}
 
-	//should not decrease a character's level below 1
-	assert_throw(change > 0 || this->get_level() > 1);
-
-	//only one level at a time should be changed
-	assert_throw(std::abs(change) == 1);
-
 	const int old_value = this->get_character_class_level(character_class);
 	const int new_value = (this->character_class_levels[character_class] += change);
 	if (new_value == 0) {
 		this->character_class_levels.erase(character_class);
 	}
 
-	this->change_level(change);
+	const int multiplier = number::sign(change);
+	int levels_applied = 0;
+	while ((old_value + levels_applied) != new_value) {
+		const int affected_class_level = old_value + levels_applied + (multiplier > 0 ? multiplier : 0);
+		this->on_class_level_gained(character_class, affected_class_level, multiplier);
 
-	const int affected_class_level = change > 0 ? new_value : old_value;
-	this->on_class_level_gained(character_class, affected_class_level, change);
+		levels_applied += multiplier;
+	}
 }
 
 void character_game_data::on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier)
 {
+	//only the effects of one level at a time should be applied
+	assert_throw(std::abs(multiplier) == 1);
+
 	//only gaining levels is possible at present
-	assert_throw(multiplier == 1);
+	assert_throw(multiplier > 0);
+
+	//should not decrease a character's level below 1
+	assert_throw(multiplier > 0 || this->get_level() > 1);
+
+	this->change_level(multiplier);
 
 	const dice &hit_dice = character_class->get_hit_dice();
 	if (this->get_level() == 1 && multiplier > 0) {
