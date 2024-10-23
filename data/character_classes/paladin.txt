@@ -1,5 +1,6 @@
 paladin = {
 	name = "Paladin"
+	type = base_class
 	hit_dice = 1d10
 	base_attack_bonus_table = high_base_attack_bonus
 	saving_throw_bonus_tables = {

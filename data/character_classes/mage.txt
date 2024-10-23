@@ -1,5 +1,6 @@
 mage = {
 	name = "Mage"
+	type = base_class
 	hit_dice = 1d4
 	base_attack_bonus_table = low_base_attack_bonus
 	saving_throw_bonus_tables = {

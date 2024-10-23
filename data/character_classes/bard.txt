@@ -1,5 +1,6 @@
 bard = {
 	name = "Bard"
+	type = base_class
 	hit_dice = 1d6
 	base_attack_bonus_table = medium_base_attack_bonus
 	saving_throw_bonus_tables = {

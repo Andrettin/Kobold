@@ -2,6 +2,7 @@
 
 #include "character/character_class.h"
 
+#include "character/character_class_type.h"
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 
@@ -41,6 +42,10 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 
 void character_class::check() const
 {
+	if (this->get_type() == character_class_type::none) {
+		throw std::runtime_error(std::format("Character class \"{}\" has no type.", this->get_identifier()));
+	}
+
 	if (this->get_hit_dice().is_null()) {
 		throw std::runtime_error(std::format("Character class \"{}\" has null hit dice.", this->get_identifier()));
 	}

@@ -21,6 +21,7 @@ include_directories(
 set(character_SRCS
 	src/character/character.cpp
 	src/character/character_class.cpp
+	src/character/character_class_type.cpp
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_history.cpp
@@ -299,6 +300,7 @@ set(character_HDRS
 	src/character/character.h
 	src/character/character_attribute.h
 	src/character/character_class.h
+	src/character/character_class_type.h
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
