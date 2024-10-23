@@ -37,6 +37,7 @@ class game final : public QObject, public singleton<game>
 	Q_PROPERTY(int turn READ get_turn NOTIFY turn_changed)
 	Q_PROPERTY(QVariantList countries READ get_countries_qvariant_list NOTIFY countries_changed)
 	Q_PROPERTY(QVariantList great_powers READ get_great_powers_qvariant_list NOTIFY countries_changed)
+	Q_PROPERTY(const kobold::character* player_character READ get_player_character WRITE set_player_character NOTIFY player_character_changed)
 	Q_PROPERTY(const kobold::country* player_country READ get_player_country WRITE set_player_country NOTIFY player_country_changed)
 	Q_PROPERTY(const kobold::game_rules* rules READ get_rules CONSTANT)
 
@@ -160,6 +161,21 @@ public:
 
 	void calculate_great_power_ranks();
 
+	const character *get_player_character() const
+	{
+		return this->player_character;
+	}
+
+	void set_player_character(const character *character)
+	{
+		if (character == this->get_player_character()) {
+			return;
+		}
+
+		this->player_character = character;
+		emit player_character_changed();
+	}
+
 	const country *get_player_country() const
 	{
 		return this->player_country;
@@ -256,6 +272,7 @@ signals:
 	void setup_finished();
 	void turn_changed();
 	void countries_changed();
+	void player_character_changed();
 	void player_country_changed();
 
 private:
@@ -266,6 +283,7 @@ private:
 	int turn = 1;
 	std::vector<country *> countries; //the countries currently in the game, i.e. those with at least 1 province
 	std::vector<const country *> great_powers;
+	const character *player_character = nullptr;
 	const country *player_country = nullptr;
 	commodity_map<int> prices;
 	QImage exploration_diplomatic_map_image;
