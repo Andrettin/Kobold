@@ -3,6 +3,7 @@
 #include "character/character.h"
 
 #include "character/character_class.h"
+#include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
 #include "character/character_role.h"
@@ -44,12 +45,32 @@ character::~character()
 {
 }
 
+void character::process_gsml_property(const gsml_property &property)
+{
+	const std::string &key = property.get_key();
+	const std::string &value = property.get_value();
+
+	if (key == "character_class") {
+		const character_class *character_class = character_class::get(value);
+		this->character_classes[character_class->get_type()] = character_class;
+	} else {
+		data_entry::process_gsml_property(property);
+	}
+}
+
 void character::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "rulable_countries") {
+	if (tag == "character_classes") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->character_classes[enum_converter<character_class_type>::to_enum(key)] = character_class::get(value);
+		});
+	} else if (tag == "rulable_countries") {
 		for (const std::string &value : values) {
 			this->add_rulable_country(country::get(value));
 		}
@@ -114,8 +135,8 @@ void character::initialize()
 
 	if (!this->rank.empty()) {
 		assert_throw(this->get_level() == 0);
-		assert_throw(this->get_character_class() != nullptr);
-		this->level = this->get_character_class()->get_rank_level(this->rank);
+		assert_throw(this->get_character_class(character_class_type::base_class) != nullptr);
+		this->level = this->get_character_class(character_class_type::base_class)->get_rank_level(this->rank);
 		this->rank.clear();
 	}
 
@@ -124,8 +145,8 @@ void character::initialize()
 
 void character::check() const
 {
-	if (this->get_character_class() == nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has no character class.", this->get_identifier()));
+	if (this->get_character_class(character_class_type::base_class) == nullptr) {
+		throw std::runtime_error(std::format("Character \"{}\" has no base character class.", this->get_identifier()));
 	}
 
 	switch (this->get_role()) {

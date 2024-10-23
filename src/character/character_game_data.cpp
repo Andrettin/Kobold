@@ -5,6 +5,7 @@
 #include "character/character.h"
 #include "character/character_attribute.h"
 #include "character/character_class.h"
+#include "character/character_class_type.h"
 #include "character/character_role.h"
 #include "character/level_bonus_table.h"
 #include "character/trait.h"
@@ -443,7 +444,14 @@ QVariantList character_game_data::get_spells_qvariant_list() const
 
 bool character_game_data::can_learn_spell(const spell *spell) const
 {
-	if (!spell->is_available_for_character_class(this->character->get_character_class())) {
+	bool has_suitable_class = false;
+	for (const auto &[type, character_class] : this->get_character_classes()) {
+		if (spell->is_available_for_character_class(character_class)) {
+			has_suitable_class = true;
+			break;
+		}
+	}
+	if (!has_suitable_class) {
 		return false;
 	}
 

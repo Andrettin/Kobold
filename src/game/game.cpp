@@ -3,6 +3,7 @@
 #include "game/game.h"
 
 #include "character/character.h"
+#include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
 #include "character/character_role.h"
@@ -493,7 +494,7 @@ void game::apply_history(const kobold::scenario *scenario)
 			character_game_data *character_game_data = character->get_game_data();
 
 			const int level = std::max(character_history->get_level(), 1);
-			character_game_data->change_character_class_level(character->get_character_class(), level);
+			character_game_data->change_character_class_level(character->get_character_class(character_class_type::base_class), level);
 		}
 
 		for (const historical_civilian_unit *historical_civilian_unit : historical_civilian_unit::get_all()) {

@@ -73,6 +73,31 @@ public:
 	void set_dead(const bool dead);
 	void die();
 
+	const std::map<character_class_type, const character_class *> &get_character_classes() const
+	{
+		return this->character_classes;
+	}
+
+	const character_class *get_character_class(const character_class_type type) const
+	{
+		const auto find_iterator = this->character_classes.find(type);
+
+		if (find_iterator != this->character_classes.end()) {
+			return find_iterator->second;
+		}
+
+		return nullptr;
+	}
+
+	const character_class *get_character_class() const
+	{
+		if (!this->character_classes.empty()) {
+			return std::prev(this->character_classes.end())->second;
+		}
+
+		return nullptr;
+	}
+
 	int get_level() const
 	{
 		return this->level;
@@ -268,6 +293,7 @@ private:
 	const kobold::portrait *portrait = nullptr;
 	const kobold::country *country = nullptr;
 	bool dead = false;
+	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
 	data_entry_map<character_class, int> character_class_levels;
 	data_entry_map<character_attribute, int> attribute_values;

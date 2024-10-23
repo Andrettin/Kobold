@@ -34,6 +34,7 @@ class portrait;
 class religion;
 class site;
 class trait;
+enum class character_class_type;
 enum class character_role;
 enum class military_unit_category;
 
@@ -52,7 +53,6 @@ class character final : public character_base, public data_type<character>
 
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
-	Q_PROPERTY(const kobold::character_class* character_class MEMBER character_class READ get_character_class NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
@@ -74,6 +74,7 @@ public:
 	explicit character(const std::string &identifier);
 	~character();
 
+	virtual void process_gsml_property(const gsml_property &property) override;
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
 	virtual void check() const override;
@@ -103,9 +104,20 @@ public:
 		return this->role;
 	}
 
-	const kobold::character_class *get_character_class() const
+	const std::map<character_class_type, const character_class *> &get_character_classes() const
 	{
-		return this->character_class;
+		return this->character_classes;
+	}
+
+	const character_class *get_character_class(const character_class_type type) const
+	{
+		const auto find_iterator = this->character_classes.find(type);
+
+		if (find_iterator != this->character_classes.end()) {
+			return find_iterator->second;
+		}
+
+		return nullptr;
 	}
 
 	int get_level() const
@@ -172,7 +184,7 @@ signals:
 private:
 	kobold::dynasty *dynasty = nullptr;
 	kobold::character_role role;
-	const kobold::character_class *character_class = nullptr;
+	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
 	std::string rank;
 	kobold::culture *culture = nullptr;
