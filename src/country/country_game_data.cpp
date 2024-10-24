@@ -9,6 +9,7 @@
 #include "character/trait.h"
 #include "country/consulate.h"
 #include "country/country.h"
+#include "country/country_attribute.h"
 #include "country/country_rank.h"
 #include "country/country_tier.h"
 #include "country/country_tier_data.h"
@@ -583,6 +584,18 @@ void country_game_data::set_subject_type(const kobold::subject_type *subject_typ
 	}
 
 	this->check_government_type();
+}
+
+void country_game_data::change_attribute_value(const country_attribute *attribute, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->attribute_values[attribute] += change);
+	if (new_value == 0) {
+		this->attribute_values.erase(attribute);
+	}
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const

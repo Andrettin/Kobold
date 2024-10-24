@@ -4,6 +4,7 @@
 #include "country/country_container.h"
 #include "country/law_group_container.h"
 #include "country/tradition_container.h"
+#include "database/data_entry_container.h"
 #include "economy/commodity_container.h"
 #include "economy/resource_container.h"
 #include "infrastructure/building_class_container.h"
@@ -41,6 +42,7 @@ class character;
 class civilian_unit;
 class consulate;
 class country;
+class country_attribute;
 class country_building_slot;
 class country_rank;
 class culture;
@@ -227,6 +229,18 @@ public:
 	}
 
 	void set_subject_type(const kobold::subject_type *subject_type);
+
+	int get_attribute_value(const country_attribute *attribute) const
+	{
+		const auto find_iterator = this->attribute_values.find(attribute);
+		if (find_iterator != this->attribute_values.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_attribute_value(const country_attribute *attribute, const int change);
 
 	const std::vector<const province *> &get_provinces() const
 	{
@@ -1898,6 +1912,8 @@ private:
 	country_tier tier{};
 	const kobold::religion *religion = nullptr;
 	const kobold::country *overlord = nullptr;
+	const kobold::subject_type *subject_type = nullptr;
+	data_entry_map<country_attribute, int> attribute_values;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;
 	int settlement_count = 0; //only includes built settlements
@@ -1912,7 +1928,6 @@ private:
 	resource_map<int> resource_counts;
 	resource_map<int> vassal_resource_counts;
 	terrain_type_map<int> tile_terrain_counts;
-	const kobold::subject_type *subject_type = nullptr;
 	country_set known_countries;
 	country_map<diplomacy_state> diplomacy_states;
 	std::map<diplomacy_state, int> diplomacy_state_counts;

@@ -317,6 +317,7 @@ set(country_HDRS
 	src/country/consulate.h
 	src/country/consulate_container.h
 	src/country/country.h
+	src/country/country_attribute.h
 	src/country/country_container.h
 	src/country/country_game_data.h
 	src/country/country_history.h
