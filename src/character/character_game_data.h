@@ -133,6 +133,21 @@ public:
 
 	void change_attribute_value(const character_attribute *attribute, const int change);
 
+	int get_attribute_modifier(const character_attribute *attribute) const
+	{
+		const int attribute_value = this->get_attribute_value(attribute);
+		int modifier = attribute_value;
+
+		if (attribute_value >= 10) {
+			modifier -= 10;
+		} else {
+			modifier -= 11;
+		}
+
+		modifier /= 2;
+		return modifier;
+	}
+
 	int get_hit_points() const
 	{
 		return this->hit_points;
