@@ -1841,14 +1841,8 @@ void country_game_data::change_settlement_building_count(const building_type *bu
 		}
 	}
 
-	if (building->get_country_modifier() != nullptr && this->get_settlement_count() != 0) {
-		//reapply the settlement building's country modifier with the updated count
-		building->get_country_modifier()->apply(this->country, centesimal_int(-old_count) / this->get_settlement_count());
-		building->get_country_modifier()->apply(this->country, centesimal_int(count) / this->get_settlement_count());
-	}
-
-	if (building->get_stackable_country_modifier() != nullptr) {
-		building->get_stackable_country_modifier()->apply(this->country, change);
+	if (building->get_country_modifier() != nullptr) {
+		building->get_country_modifier()->apply(this->country, change);
 	}
 
 	if (game::get()->is_running()) {

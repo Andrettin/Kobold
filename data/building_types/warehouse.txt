@@ -17,7 +17,7 @@ warehouse = {
 		castle
 		monastery
 	}
-	stackable_country_modifier = {
+	country_modifier = {
 		storage_capacity = 100
 	}
 }
