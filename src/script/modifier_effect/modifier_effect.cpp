@@ -42,6 +42,7 @@
 #include "script/modifier_effect/storage_capacity_modifier_effect.h"
 #include "script/modifier_effect/throughput_modifier_effect.h"
 #include "script/modifier_effect/unit_upgrade_cost_modifier_effect.h"
+#include "script/modifier_effect/unrest_modifier_effect.h"
 #include "script/modifier_effect/warship_cost_modifier_effect.h"
 #include "script/modifier_effect/wonder_cost_efficiency_modifier_effect.h"
 
@@ -106,6 +107,8 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<throughput_modifier_effect<scope_type>>(value);
 		} else if (key == "unit_upgrade_cost_modifier") {
 			return std::make_unique<unit_upgrade_cost_modifier_effect>(value);
+		} else if (key == "unrest") {
+			return std::make_unique<unrest_modifier_effect>(value);
 		} else if (key == "warship_cost_modifier") {
 			return std::make_unique<warship_cost_modifier_effect>(value);
 		} else if (key == "wonder_cost_efficiency") {

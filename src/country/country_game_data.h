@@ -240,6 +240,20 @@ public:
 
 	void change_attribute_value(const country_attribute *attribute, const int change);
 
+	int get_unrest() const
+	{
+		return this->unrest;
+	}
+
+	void change_unrest(const int change)
+	{
+		if (change == 0) {
+			return;
+		}
+
+		this->unrest += change;
+	}
+
 	const std::vector<const province *> &get_provinces() const
 	{
 		return this->provinces;
@@ -1891,6 +1905,7 @@ private:
 	const kobold::country *overlord = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
 	data_entry_map<country_attribute, int> attribute_values;
+	int unrest = 0;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;
 	int settlement_count = 0; //only includes built settlements
