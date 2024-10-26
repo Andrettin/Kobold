@@ -6,12 +6,16 @@ shrine = {
 	provincial = true
 	settlement_types = {
 		village
-		campus
-		castle
-		monastery
 		town
 		city
 		metropolis
+	}
+	commodity_costs = {
+		gold_bars = 8
+	}
+	country_modifier = {
+		loyalty = 1
+		unrest = -1
 	}
 }
 
@@ -23,12 +27,17 @@ temple = {
 	provincial = true
 	required_building = shrine
 	settlement_types = {
-		monastery
+		town
 		city
 		metropolis
 	}
-	settlement_modifier = {
-		luxuries_bonus = 1
+	commodity_costs = {
+		gold_bars = 24
+	}
+	country_modifier = {
+		loyalty = 2
+		stability = 2
+		unrest = -2
 	}
 }
 
@@ -40,11 +49,16 @@ cathedral = {
 	provincial = true
 	required_building = temple
 	settlement_types = {
-		monastery
 		city
 		metropolis
 	}
-	settlement_modifier = {
-		luxuries_bonus = 4
+	commodity_costs = {
+		gold_bars = 26
+	}
+	country_modifier = {
+		loyalty = 4
+		stability = 4
+		unrest = -4
+		#fame = 1
 	}
 }

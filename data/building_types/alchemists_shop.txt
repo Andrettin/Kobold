@@ -5,12 +5,14 @@ alchemists_shop = {
 	icon = research
 	provincial = true
 	settlement_types = {
+		town
 		city
 		metropolis
-		campus
 	}
 	commodity_costs = {
-		lumber = 4
-		cast_iron = 4
+		gold_bars = 18
+	}
+	country_modifier = {
+		economy = 1
 	}
 }

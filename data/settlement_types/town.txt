@@ -49,9 +49,6 @@ city = {
 	build_conditions = {
 		has_building_class = town_hall
 	}
-	conditions = {
-		capital = true
-	}
 }
 
 metropolis = {
@@ -67,8 +64,5 @@ metropolis = {
 			has_building_class = state_house
 			has_building_class = capitol
 		}
-	}
-	conditions = {
-		capital = true
 	}
 }

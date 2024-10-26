@@ -30,8 +30,8 @@ furniture_factory = {
 	name = "Furniture Factory"
 }
 
-metalworks = {
-	name = "Metalworks"
+smithy = {
+	name = "Smithy"
 }
 
 sugar_refinery = {
