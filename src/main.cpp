@@ -32,7 +32,6 @@
 #include "game/game_rules.h"
 #include "game/scenario.h"
 #include "infrastructure/building_type.h"
-#include "infrastructure/country_building_slot.h"
 #include "infrastructure/improvement.h"
 #include "infrastructure/improvement_slot.h"
 #include "infrastructure/wonder.h"
@@ -154,7 +153,6 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<character_game_data>("", 1);
 		qmlRegisterAnonymousType<consulate>("", 1);
 		qmlRegisterAnonymousType<country>("", 1);
-		qmlRegisterAnonymousType<country_building_slot>("", 1);
 		qmlRegisterAnonymousType<country_game_data>("", 1);
 		qmlRegisterAnonymousType<country_tier_data>("", 1);
 		qmlRegisterAnonymousType<country_turn_data>("", 1);

@@ -118,7 +118,6 @@ set(infrastructure_SRCS
 	src/infrastructure/building_slot_type_container.cpp
 	src/infrastructure/building_type.cpp
 	src/infrastructure/building_type_container.cpp
-	src/infrastructure/country_building_slot.cpp
 	src/infrastructure/improvement.cpp
 	src/infrastructure/improvement_container.cpp
 	src/infrastructure/improvement_slot.cpp
@@ -400,7 +399,6 @@ set(infrastructure_HDRS
 	src/infrastructure/building_slot_type_container.h
 	src/infrastructure/building_type.h
 	src/infrastructure/building_type_container.h
-	src/infrastructure/country_building_slot.h
 	src/infrastructure/improvement.h
 	src/infrastructure/improvement_container.h
 	src/infrastructure/improvement_slot.h
@@ -612,7 +610,6 @@ source_group(script\\effect FILES ${script_effect_HDRS})
 set(script_modifier_effect_HDRS
 	src/script/modifier_effect/ai_building_desire_modifier_effect.h
 	src/script/modifier_effect/artillery_cost_modifier_effect.h
-	src/script/modifier_effect/building_capacity_modifier_effect.h
 	src/script/modifier_effect/building_cost_efficiency_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_bonus_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_output_modifier_effect.h

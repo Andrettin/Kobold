@@ -43,7 +43,6 @@ class civilian_unit;
 class consulate;
 class country;
 class country_attribute;
-class country_building_slot;
 class country_rank;
 class culture;
 class event;
@@ -102,7 +101,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QRect diplomatic_map_image_rect READ get_diplomatic_map_image_rect NOTIFY diplomatic_map_image_changed)
 	Q_PROPERTY(int score READ get_score NOTIFY score_changed)
 	Q_PROPERTY(int score_rank READ get_score_rank NOTIFY score_rank_changed)
-	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(int wealth READ get_wealth NOTIFY wealth_changed)
 	Q_PROPERTY(int wealth_income READ get_wealth_income NOTIFY wealth_income_changed)
 	Q_PROPERTY(int credit_limit READ get_credit_limit NOTIFY credit_limit_changed)
@@ -602,24 +600,7 @@ public:
 		return static_cast<int>(this->civilian_units.size()) + static_cast<int>(this->military_units.size());
 	}
 
-	QVariantList get_building_slots_qvariant_list() const;
-	void initialize_building_slots();
-
-	country_building_slot *get_building_slot(const building_slot_type *slot_type) const
-	{
-		const auto find_iterator = this->building_slot_map.find(slot_type);
-
-		if (find_iterator != this->building_slot_map.end()) {
-			return find_iterator->second;
-		}
-
-		return nullptr;
-	}
-
-	const building_type *get_slot_building(const building_slot_type *slot_type) const;
-	void set_slot_building(const building_slot_type *slot_type, const building_type *building);
 	bool has_building(const building_type *building) const;
-	void clear_buildings();
 
 	int get_settlement_building_count(const building_type *building) const
 	{
@@ -943,10 +924,6 @@ public:
 	}
 
 	void change_commodity_demand(const commodity *commodity, const centesimal_int &change);
-
-	void assign_production();
-	void decrease_wealth_consumption(const bool restore_inputs = true);
-	void decrease_commodity_consumption(const commodity *commodity, const bool restore_inputs = true);
 
 	bool produces_commodity(const commodity *commodity) const;
 
@@ -1945,8 +1922,6 @@ private:
 	int score_rank = 0;
 	int economic_score = 0;
 	int military_score = 0;
-	std::vector<qunique_ptr<country_building_slot>> building_slots;
-	building_slot_type_map<country_building_slot *> building_slot_map;
 	building_type_map<int> settlement_building_counts;
 	int wealth = 0;
 	int wealth_income = 0;

@@ -41,7 +41,6 @@
 #include "infrastructure/building_class.h"
 #include "infrastructure/building_slot_type.h"
 #include "infrastructure/building_type.h"
-#include "infrastructure/country_building_slot.h"
 #include "infrastructure/improvement.h"
 #include "infrastructure/improvement_slot.h"
 #include "infrastructure/settlement_building_slot.h"
@@ -154,11 +153,6 @@ void country_game_data::do_turn()
 void country_game_data::do_production()
 {
 	try {
-		//FIXME: add preference for production being automatically assigned for person players
-		if (this->is_ai()) {
-			this->assign_production();
-		}
-
 		for (const auto &[commodity, output] : this->get_commodity_outputs()) {
 			if (!commodity->is_storable()) {
 				assert_throw(output >= 0);
@@ -166,23 +160,6 @@ void country_game_data::do_production()
 			}
 
 			this->change_stored_commodity(commodity, output.to_int());
-		}
-
-		//decrease consumption of commodities for which we no longer have enough in storage
-		while (this->get_wealth_income() < 0 && (this->get_wealth_income() * -1) > this->get_wealth_with_credit()) {
-			this->decrease_wealth_consumption(false);
-		}
-
-		const std::vector<const commodity *> input_commodities = archimedes::map::get_keys(this->get_commodity_inputs());
-
-		for (const commodity *commodity : input_commodities) {
-			if (!commodity->is_storable() || commodity->is_negative_allowed()) {
-				continue;
-			}
-
-			while (this->get_commodity_input(commodity) > this->get_stored_commodity(commodity)) {
-				this->decrease_commodity_consumption(commodity, false);
-			}
 		}
 
 		//reduce inputs from the storage for the next turn (for production this turn it had already been subtracted)
@@ -213,16 +190,6 @@ void country_game_data::do_production()
 void country_game_data::do_construction()
 {
 	try {
-		for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-			if (building_slot->get_under_construction_building() != nullptr) {
-				building_slot->set_building(building_slot->get_under_construction_building());
-				building_slot->set_under_construction_building(nullptr);
-			}
-
-			if (building_slot->is_expanding()) {
-				building_slot->expand();
-			}
-		}
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error("Error doing construction for country \"" + this->country->get_identifier() + "\"."));
 	}
@@ -340,51 +307,6 @@ void country_game_data::do_events()
 void country_game_data::do_ai_turn()
 {
 	//build buildings
-	building_type_map<int> ai_building_desires;
-	std::vector<const building_type *> ai_desired_buildings;
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		if (!building_slot->is_available()) {
-			continue;
-		}
-
-		const building_type *buildable_building = building_slot->get_buildable_building();
-
-		if (buildable_building == nullptr) {
-			continue;
-		}
-
-		if (building_slot->is_expanding() || building_slot->get_under_construction_building() != nullptr) {
-			continue;
-		}
-
-		int ai_building_desire = 0;
-		ai_building_desire += this->get_ai_building_desire_modifier(buildable_building);
-
-		if (ai_building_desire <= 0) {
-			continue;
-		}
-
-		ai_building_desires[buildable_building] = ai_building_desire;
-		ai_desired_buildings.push_back(buildable_building);
-	}
-
-	std::sort(ai_desired_buildings.begin(), ai_desired_buildings.end(), [&](const building_type *lhs, const building_type *rhs) {
-		const int lhs_priority = ai_building_desires[lhs];
-		const int rhs_priority = ai_building_desires[rhs];
-		if (lhs_priority != rhs_priority) {
-			return lhs_priority > rhs_priority;
-		}
-
-		return lhs->get_identifier() < rhs->get_identifier();
-	});
-
-	for (const building_type *ai_desired_building : ai_desired_buildings) {
-		country_building_slot *building_slot = this->get_building_slot(ai_desired_building->get_slot_type());
-		assert_throw(building_slot != nullptr);
-
-		building_slot->build_building(ai_desired_building);
-	}
-
 	for (const province *province : this->get_provinces()) {
 		province->get_game_data()->do_ai_turn();
 	}
@@ -1724,70 +1646,9 @@ void country_game_data::change_military_score(const int change)
 	this->change_score(change);
 }
 
-QVariantList country_game_data::get_building_slots_qvariant_list() const
-{
-	std::vector<const country_building_slot *> available_building_slots;
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		if (!building_slot->is_available()) {
-			continue;
-		}
-
-		available_building_slots.push_back(building_slot.get());
-	}
-
-	return container::to_qvariant_list(available_building_slots);
-}
-
-void country_game_data::initialize_building_slots()
-{
-	//initialize building slots, placing them in random order
-	std::vector<building_slot_type *> building_slot_types = building_slot_type::get_all();
-	vector::shuffle(building_slot_types);
-
-	for (const building_slot_type *building_slot_type : building_slot_types) {
-		this->building_slots.push_back(make_qunique<country_building_slot>(building_slot_type, this->country));
-		this->building_slot_map[building_slot_type] = this->building_slots.back().get();
-	}
-}
-
-const building_type *country_game_data::get_slot_building(const building_slot_type *slot_type) const
-{
-	const auto find_iterator = this->building_slot_map.find(slot_type);
-	if (find_iterator != this->building_slot_map.end()) {
-		return find_iterator->second->get_building();
-	}
-
-	assert_throw(false);
-
-	return nullptr;
-}
-
-void country_game_data::set_slot_building(const building_slot_type *slot_type, const building_type *building)
-{
-	if (building != nullptr) {
-		assert_throw(building->get_slot_type() == slot_type);
-	}
-
-	const auto find_iterator = this->building_slot_map.find(slot_type);
-	if (find_iterator != this->building_slot_map.end()) {
-		find_iterator->second->set_building(building);
-		return;
-	}
-
-	assert_throw(false);
-}
-
 bool country_game_data::has_building(const building_type *building) const
 {
-	return this->get_slot_building(building->get_slot_type()) == building;
-}
-
-void country_game_data::clear_buildings()
-{
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		building_slot->set_building(nullptr);
-	}
+	return this->get_settlement_building_count(building) > 0;
 }
 
 void country_game_data::change_settlement_building_count(const building_type *building, const int change)
@@ -1795,8 +1656,6 @@ void country_game_data::change_settlement_building_count(const building_type *bu
 	if (change == 0) {
 		return;
 	}
-
-	const int old_count = this->get_settlement_building_count(building);
 
 	const int count = (this->settlement_building_counts[building] += change);
 
@@ -1806,39 +1665,6 @@ void country_game_data::change_settlement_building_count(const building_type *bu
 
 	if (count == 0) {
 		this->settlement_building_counts.erase(building);
-	}
-
-	country_building_slot *country_building_slot = this->get_building_slot(building->get_slot_type());
-
-	assert_throw(country_building_slot != nullptr);
-
-	if (count == 0) {
-		//lost last settlement building
-		if (country_building_slot->get_building() == building) {
-			//get the best settlement building to replace the one that was lost (if any), and set it to the building slot
-
-			const building_type *best_building = nullptr;
-			int best_level = 0;
-
-			for (const auto &[settlement_building, building_count] : this->settlement_building_counts) {
-				if (settlement_building->get_slot_type() != country_building_slot->get_type()) {
-					continue;
-				}
-
-				const int level = settlement_building->get_level();
-				if (level > best_level) {
-					best_building = settlement_building;
-					best_level = level;
-				}
-			}
-
-			country_building_slot->set_building(best_building);
-		}
-	} else if (count > 0 && old_count == 0) {
-		//gained first settlement building
-		if (country_building_slot->can_gain_building(building)) {
-			country_building_slot->set_building(building);
-		}
 	}
 
 	if (building->get_country_modifier() != nullptr) {
@@ -1907,31 +1733,7 @@ void country_game_data::set_inflation(const centesimal_int &inflation)
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_input_wealth() == 0) {
-				continue;
-			}
-
-			const int input_wealth = building_slot->get_production_type_input_wealth(production_type);
-			this->change_wealth(input_wealth);
-			this->change_wealth_income(input_wealth);
-		}
-	}
-
 	this->inflation = inflation;
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_input_wealth() == 0) {
-				continue;
-			}
-
-			const int input_wealth = building_slot->get_production_type_input_wealth(production_type);
-			this->change_wealth(-input_wealth);
-			this->change_wealth_income(-input_wealth);
-		}
-	}
 
 	emit inflation_changed();
 }
@@ -2101,13 +1903,6 @@ void country_game_data::change_commodity_output(const commodity *commodity, cons
 	if (game::get()->is_running()) {
 		emit commodity_outputs_changed();
 	}
-
-	if (change < 0 && !commodity->is_storable() && !commodity->is_negative_allowed()) {
-		//decrease consumption of non-storable commodities immediately if the net output goes below zero, since for those commodities consumption cannot be fulfilled by storage
-		while (this->get_net_commodity_output(commodity) < 0) {
-			this->decrease_commodity_consumption(commodity);
-		}
-	}
 }
 
 void country_game_data::calculate_site_commodity_outputs()
@@ -2222,84 +2017,6 @@ void country_game_data::change_commodity_demand(const commodity *commodity, cons
 	}
 }
 
-void country_game_data::assign_production()
-{
-	bool changed = true;
-
-	while (changed) {
-		changed = false;
-
-		for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-			const building_type *building_type = building_slot->get_building();
-
-			if (building_type == nullptr) {
-				continue;
-			}
-
-			for (const production_type *production_type : building_slot->get_available_production_types()) {
-				if (!building_slot->can_increase_production(production_type)) {
-					continue;
-				}
-
-				building_slot->increase_production(production_type);
-				changed = true;
-			}
-		}
-	}
-}
-
-void country_game_data::decrease_wealth_consumption(const bool restore_inputs)
-{
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		const building_type *building_type = building_slot->get_building();
-
-		if (building_type == nullptr) {
-			continue;
-		}
-
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_input_wealth() == 0) {
-				continue;
-			}
-
-			if (!building_slot->can_decrease_production(production_type)) {
-				continue;
-			}
-
-			building_slot->decrease_production(production_type, restore_inputs);
-			return;
-		}
-	}
-
-	assert_throw(false);
-}
-
-void country_game_data::decrease_commodity_consumption(const commodity *commodity, const bool restore_inputs)
-{
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		const building_type *building_type = building_slot->get_building();
-
-		if (building_type == nullptr) {
-			continue;
-		}
-
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (!production_type->get_input_commodities().contains(commodity)) {
-				continue;
-			}
-
-			if (!building_slot->can_decrease_production(production_type)) {
-				continue;
-			}
-
-			building_slot->decrease_production(production_type, restore_inputs);
-			return;
-		}
-	}
-
-	assert_throw(false);
-}
-
 bool country_game_data::produces_commodity(const commodity *commodity) const
 {
 	if (this->get_commodity_output(commodity).to_int() > 0) {
@@ -2309,14 +2026,6 @@ bool country_game_data::produces_commodity(const commodity *commodity) const
 	for (const province *province : this->get_provinces()) {
 		if (province->get_game_data()->produces_commodity(commodity)) {
 			return true;
-		}
-	}
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_output_commodity() == commodity && building_slot->get_production_type_output(production_type).to_int() > 0) {
-				return true;
-			}
 		}
 	}
 
@@ -3125,19 +2834,7 @@ void country_game_data::set_output_modifier(const centesimal_int &value)
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			this->change_commodity_output(production_type->get_output_commodity(), -building_slot->get_production_type_output(production_type));
-		}
-	}
-
 	this->output_modifier = value;
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			this->change_commodity_output(production_type->get_output_commodity(), building_slot->get_production_type_output(production_type));
-		}
-	}
 
 	this->calculate_site_commodity_outputs();
 
@@ -3167,27 +2864,7 @@ void country_game_data::set_industrial_output_modifier(const int value)
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (!production_type->is_industrial()) {
-				continue;
-			}
-
-			this->change_commodity_output(production_type->get_output_commodity(), -building_slot->get_production_type_output(production_type));
-		}
-	}
-
 	this->industrial_output_modifier = value;
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (!production_type->is_industrial()) {
-				continue;
-			}
-
-			this->change_commodity_output(production_type->get_output_commodity(), building_slot->get_production_type_output(production_type));
-		}
-	}
 
 	if (game::get()->is_running()) {
 		emit industrial_output_modifier_changed();
@@ -3200,30 +2877,10 @@ void country_game_data::set_commodity_output_modifier(const commodity *commodity
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_output_commodity() != commodity) {
-				continue;
-			}
-
-			this->change_commodity_output(production_type->get_output_commodity(), -building_slot->get_production_type_output(production_type));
-		}
-	}
-
 	if (value == 0) {
 		this->commodity_output_modifiers.erase(commodity);
 	} else {
 		this->commodity_output_modifiers[commodity] = value;
-	}
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_output_commodity() != commodity) {
-				continue;
-			}
-
-			this->change_commodity_output(production_type->get_output_commodity(), building_slot->get_production_type_output(production_type));
-		}
 	}
 
 	this->calculate_site_commodity_output(commodity);
@@ -3252,31 +2909,7 @@ void country_game_data::set_throughput_modifier(const int value)
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			const commodity_map<int> inputs = building_slot->get_production_type_inputs(production_type);
-			for (const auto &[input_commodity, input_value] : inputs) {
-				if (input_commodity->is_storable()) {
-					this->change_stored_commodity(input_commodity, input_value);
-				}
-				this->change_commodity_input(input_commodity, -input_value);
-			}
-		}
-	}
-
 	this->throughput_modifier = value;
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			const commodity_map<int> inputs = building_slot->get_production_type_inputs(production_type);
-			for (const auto &[input_commodity, input_value] : inputs) {
-				if (input_commodity->is_storable()) {
-					this->change_stored_commodity(input_commodity, -input_value);
-				}
-				this->change_commodity_input(input_commodity, input_value);
-			}
-		}
-	}
 
 	if (game::get()->is_running()) {
 		emit throughput_modifier_changed();
@@ -3289,42 +2922,10 @@ void country_game_data::set_commodity_throughput_modifier(const commodity *commo
 		return;
 	}
 
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_output_commodity() != commodity) {
-				continue;
-			}
-
-			const commodity_map<int> inputs = building_slot->get_production_type_inputs(production_type);
-			for (const auto &[input_commodity, input_value] : inputs) {
-				if (input_commodity->is_storable()) {
-					this->change_stored_commodity(input_commodity, input_value);
-				}
-				this->change_commodity_input(input_commodity, -input_value);
-			}
-		}
-	}
-
 	if (value == 0) {
 		this->commodity_throughput_modifiers.erase(commodity);
 	} else {
 		this->commodity_throughput_modifiers[commodity] = value;
-	}
-
-	for (const qunique_ptr<country_building_slot> &building_slot : this->building_slots) {
-		for (const production_type *production_type : building_slot->get_available_production_types()) {
-			if (production_type->get_output_commodity() != commodity) {
-				continue;
-			}
-
-			const commodity_map<int> inputs = building_slot->get_production_type_inputs(production_type);
-			for (const auto &[input_commodity, input_value] : inputs) {
-				if (input_commodity->is_storable()) {
-					this->change_stored_commodity(input_commodity, -input_value);
-				}
-				this->change_commodity_input(input_commodity, input_value);
-			}
-		}
 	}
 }
 

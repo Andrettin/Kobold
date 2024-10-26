@@ -11,7 +11,6 @@
 #include "infrastructure/building_class.h"
 #include "infrastructure/building_slot_type.h"
 #include "infrastructure/building_type.h"
-#include "infrastructure/country_building_slot.h"
 #include "infrastructure/wonder.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
