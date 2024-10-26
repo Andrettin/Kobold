@@ -8,7 +8,11 @@ arena = {
 		city
 		metropolis
 	}
-	settlement_modifier = {
-		luxuries_bonus = 3
+	commodity_costs = {
+		wealth = 40gb
+	}
+	country_modifier = {
+		stability = 4
+		#fame = 1
 	}
 }
