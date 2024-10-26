@@ -28,6 +28,7 @@ settlement_commodity_bonuses = {
 river_settlement_commodity_bonuses = {
 }
 
+wealth_commodity = wealth
 research_commodity = research
 prestige_commodity = prestige
 piety_commodity = piety

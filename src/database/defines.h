@@ -42,6 +42,7 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(kobold::terrain_type* default_province_terrain MEMBER default_province_terrain)
 	Q_PROPERTY(kobold::terrain_type* default_water_zone_terrain MEMBER default_water_zone_terrain)
 	Q_PROPERTY(kobold::pathway* route_pathway MEMBER route_pathway NOTIFY changed)
+	Q_PROPERTY(const kobold::commodity* wealth_commodity MEMBER wealth_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* research_commodity MEMBER research_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* prestige_commodity MEMBER prestige_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* piety_commodity MEMBER piety_commodity NOTIFY changed)
@@ -167,6 +168,11 @@ public:
 	const commodity_map<int> &get_river_settlement_commodity_bonuses() const
 	{
 		return this->river_settlement_commodity_bonuses;
+	}
+
+	const commodity *get_wealth_commodity() const
+	{
+		return this->wealth_commodity;
 	}
 
 	const commodity *get_research_commodity() const
@@ -341,6 +347,7 @@ private:
 	pathway *route_pathway = nullptr;
 	commodity_map<int> settlement_commodity_bonuses;
 	commodity_map<int> river_settlement_commodity_bonuses;
+	const commodity *wealth_commodity = nullptr;
 	const commodity *research_commodity = nullptr;
 	const commodity *prestige_commodity = nullptr;
 	const commodity *piety_commodity = nullptr;

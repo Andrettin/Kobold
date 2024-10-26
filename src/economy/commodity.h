@@ -1,10 +1,12 @@
 #pragma once
 
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
 namespace kobold {
 
+class commodity_unit;
 class icon;
 
 class commodity final : public named_data_entry, public data_type<commodity>
@@ -29,6 +31,7 @@ public:
 
 	explicit commodity(const std::string &identifier);
 
+	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
 	const kobold::icon *get_icon() const
@@ -81,6 +84,27 @@ public:
 		return !this->is_abstract() && this->is_storable() && !this->is_convertible_to_wealth();
 	}
 
+	Q_INVOKABLE const kobold::commodity_unit *get_unit(const int value) const
+	{
+		if (this->units.empty()) {
+			return nullptr;
+		}
+
+		for (auto it = this->units.rbegin(); it != this->units.rend(); ++it) {
+			const auto &[unit_value, unit] = *it;
+
+			if ((value / unit_value) >= 10) {
+				return unit;
+			}
+		}
+
+		return this->units.begin()->second;
+	}
+
+	Q_INVOKABLE int get_unit_value(const kobold::commodity_unit *unit) const;
+
+	int string_to_value(const std::string &str) const;
+
 signals:
 	void changed();
 
@@ -93,6 +117,8 @@ private:
 	bool labor = false;
 	int wealth_value = 0;
 	int base_price = 0;
+	std::map<int, const commodity_unit *> units;
+	data_entry_map<commodity_unit, int> unit_values;
 };
 
 }

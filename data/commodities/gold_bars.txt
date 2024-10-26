@@ -1,5 +1,0 @@
-gold_bars = {
-	name = "Gold Bars"
-	icon = gold
-	base_price = 4000
-}

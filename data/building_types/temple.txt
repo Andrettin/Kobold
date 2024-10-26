@@ -11,7 +11,7 @@ shrine = {
 		metropolis
 	}
 	commodity_costs = {
-		gold_bars = 8
+		wealth = 8gb
 	}
 	country_modifier = {
 		loyalty = 1
@@ -32,7 +32,7 @@ temple = {
 		metropolis
 	}
 	commodity_costs = {
-		gold_bars = 24
+		wealth = 24gb
 	}
 	country_modifier = {
 		loyalty = 2
@@ -53,7 +53,7 @@ cathedral = {
 		metropolis
 	}
 	commodity_costs = {
-		gold_bars = 26
+		wealth = 26gb
 	}
 	country_modifier = {
 		loyalty = 4

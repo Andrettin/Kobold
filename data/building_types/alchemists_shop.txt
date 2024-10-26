@@ -10,7 +10,7 @@ alchemists_shop = {
 		metropolis
 	}
 	commodity_costs = {
-		gold_bars = 18
+		wealth = 18gb
 	}
 	country_modifier = {
 		economy = 1
