@@ -3,10 +3,6 @@ tobacconists_house = {
 	building_class = tobacconists_house
 	portrait = factory
 	icon = tobacco
-	production_types = {
-		cigar_production
-	}
-	base_capacity = 2
 }
 
 tobacconists_shop = {
@@ -14,10 +10,6 @@ tobacconists_shop = {
 	building_class = tobacconists_shop
 	portrait = factory
 	icon = tobacco
-	production_types = {
-		cigar_production
-	}
-	base_capacity = 4
 	required_building = tobacconists_house
 }
 
@@ -26,11 +18,5 @@ cigar_factory = {
 	building_class = cigar_factory
 	portrait = factory
 	icon = tobacco
-	production_types = {
-		cigar_production
-	}
-	base_capacity = 8
-	capacity_increment = 8
-	expandable = true
 	required_building = tobacconists_shop
 }

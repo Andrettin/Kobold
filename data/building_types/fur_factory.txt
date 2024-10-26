@@ -3,10 +3,6 @@ furriers_house = {
 	building_class = furriers_house
 	portrait = factory
 	icon = fur_hats
-	production_types = {
-		fur_hat_production
-	}
-	base_capacity = 2
 }
 
 furriers_shop = {
@@ -14,10 +10,6 @@ furriers_shop = {
 	building_class = furriers_shop
 	portrait = factory
 	icon = fur_hats
-	production_types = {
-		fur_hat_production
-	}
-	base_capacity = 4
 	required_building = furriers_house
 }
 
@@ -26,11 +18,5 @@ fur_factory = {
 	building_class = fur_factory
 	portrait = factory
 	icon = fur_hats
-	production_types = {
-		fur_hat_production
-	}
-	base_capacity = 8
-	capacity_increment = 8
-	expandable = true
 	required_building = furriers_shop
 }

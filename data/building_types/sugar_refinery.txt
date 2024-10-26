@@ -3,10 +3,4 @@ sugar_refinery = {
 	building_class = sugar_refinery
 	portrait = factory
 	icon = refined_sugar
-	production_types = {
-		sugar_refining
-	}
-	base_capacity = 8
-	capacity_increment = 8
-	expandable = true
 }

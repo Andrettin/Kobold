@@ -3,11 +3,6 @@ sawyers_house = {
 	building_class = sawyers_house
 	portrait = factory
 	icon = lumber
-	production_types = {
-		lumber_making
-		papermaking
-	}
-	base_capacity = 2
 }
 
 sawyers_shop = {
@@ -15,11 +10,6 @@ sawyers_shop = {
 	building_class = sawyers_shop
 	portrait = factory
 	icon = lumber
-	production_types = {
-		lumber_making
-		papermaking
-	}
-	base_capacity = 4
 	required_building = sawyers_house
 }
 
@@ -28,12 +18,5 @@ lumber_mill = {
 	building_class = lumber_mill
 	portrait = factory
 	icon = lumber
-	production_types = {
-		lumber_making
-		papermaking
-	}
-	base_capacity = 8
-	capacity_increment = 8
-	expandable = true
 	required_building = sawyers_shop
 }

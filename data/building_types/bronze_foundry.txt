@@ -3,10 +3,4 @@ bronze_foundry = {
 	building_class = bronze_foundry
 	portrait = factory
 	icon = bronze
-	production_types = {
-		bronze_making
-	}
-	base_capacity = 8
-	capacity_increment = 8
-	expandable = true
 }
