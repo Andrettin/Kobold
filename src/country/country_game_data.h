@@ -236,6 +236,20 @@ public:
 
 	void change_attribute_value(const country_attribute *attribute, const int change);
 
+	int get_consumption() const
+	{
+		return this->consumption;
+	}
+
+	void change_consumption(const int change)
+	{
+		if (change == 0) {
+			return;
+		}
+
+		this->consumption += change;
+	}
+
 	int get_unrest() const
 	{
 		return this->unrest;
@@ -1786,6 +1800,7 @@ private:
 	const kobold::country *overlord = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
 	data_entry_map<country_attribute, int> attribute_values;
+	int consumption = 0;
 	int unrest = 0;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;

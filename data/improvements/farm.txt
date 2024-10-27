@@ -24,4 +24,7 @@ farm = {
 	commodity_costs = {
 		wealth = 2gb
 	}
+	country_modifier = {
+		consumption = -2
+	}
 }

@@ -18,6 +18,7 @@
 #include "script/modifier_effect/commodity_bonus_per_settlement_modifier_effect.h"
 #include "script/modifier_effect/commodity_output_modifier_effect.h"
 #include "script/modifier_effect/commodity_throughput_modifier_effect.h"
+#include "script/modifier_effect/consumption_modifier_effect.h"
 #include "script/modifier_effect/country_attribute_modifier_effect.h"
 #include "script/modifier_effect/deployment_limit_modifier_effect.h"
 #include "script/modifier_effect/diplomatic_penalty_for_expansion_modifier_effect.h"
@@ -72,6 +73,8 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<building_cost_efficiency_modifier_effect>(value);
 		} else if (key == "cavalry_cost_modifier") {
 			return std::make_unique<cavalry_cost_modifier_effect>(value);
+		} else if (key == "consumption") {
+			return std::make_unique<consumption_modifier_effect>(value);
 		} else if (key == "deployment_limit") {
 			return std::make_unique<deployment_limit_modifier_effect>(value);
 		} else if (key == "diplomatic_penalty_for_expansion_modifier") {

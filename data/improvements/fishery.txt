@@ -11,4 +11,7 @@ fishery = {
 	commodity_costs = {
 		wealth = 4gb
 	}
+	country_modifier = {
+		consumption = -1
+	}
 }
