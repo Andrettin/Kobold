@@ -1,0 +1,9 @@
+academy = {
+	name = "Academy"
+	slot_type = university
+}
+
+university = {
+	name = "University"
+	slot_type = university
+}

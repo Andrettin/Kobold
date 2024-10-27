@@ -1,0 +1,42 @@
+academy = {
+	name = "Academy"
+	building_class = academy
+	portrait = university
+	icon = university
+	provincial = true
+	settlement_types = {
+		city
+		metropolis
+	}
+	build_conditions = {
+		has_building_class = library
+	}
+	commodity_costs = {
+		wealth = 46gb
+	}
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+	}
+}
+
+university = {
+	name = "University"
+	building_class = university
+	portrait = university
+	icon = university
+	provincial = true
+	required_building = academy
+	settlement_types = {
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 26gb
+	}
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+		#fame = 1
+	}
+}
