@@ -6,12 +6,26 @@ mine = {
 	terrain_image_filepaths = {
 		mountains = "tiles/improvements/quarry_mountains.png"
 	}
-	resource = iron_ore
-	output_multiplier = 1
+	resources = {
+		amber
+		coal
+		copper
+		diamonds
+		gems
+		gold
+		iron_ore
+		oil
+		salt
+		silver
+		tin
+	}
 	commodity_costs = {
 		wealth = 6gb
 	}
 	modifier = {
 		wealth_bonus = 1
+	}
+	country_modifier = {
+		economy = 1
 	}
 }

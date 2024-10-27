@@ -4,8 +4,10 @@ fishery = {
 	icon = trade_consulate
 	image_filepath = "tiles/improvements/fishing_wharf.png"
 	variation_count = 4
-	resource = fish
-	output_multiplier = 1
+	resources = {
+		fish
+		whales
+	}
 	commodity_costs = {
 		wealth = 4gb
 	}

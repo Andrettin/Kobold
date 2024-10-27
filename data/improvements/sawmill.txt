@@ -3,8 +3,9 @@ sawmill = {
 	slot = resource
 	icon = trade_consulate
 	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
-	resource = timber
-	output_multiplier = 1
+	resources = {
+		timber
+	}
 	commodity_costs = {
 		wealth = 3gb
 	}

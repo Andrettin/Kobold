@@ -3,8 +3,9 @@ quarry = {
 	slot = resource
 	icon = trade_consulate
 	image_filepath = "tiles/improvements/quarry.png"
-	resource = stone
-	output_multiplier = 1
+	resources = {
+		stone
+	}
 	commodity_costs = {
 		wealth = 6gb
 	}

@@ -25,11 +25,9 @@ class improvement final : public named_data_entry, public data_type<improvement>
 	Q_OBJECT
 
 	Q_PROPERTY(kobold::improvement_slot slot MEMBER slot READ get_slot NOTIFY changed)
-	Q_PROPERTY(kobold::resource* resource MEMBER resource NOTIFY changed)
 	Q_PROPERTY(bool ruins MEMBER ruins READ is_ruins NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
-	Q_PROPERTY(int output_multiplier MEMBER output_multiplier READ get_output_multiplier NOTIFY changed)
 	Q_PROPERTY(int variation_count MEMBER variation_count READ get_variation_count)
 	Q_PROPERTY(kobold::improvement* required_improvement MEMBER required_improvement NOTIFY changed)
 
@@ -57,9 +55,9 @@ public:
 
 	void calculate_level();
 
-	const kobold::resource *get_resource() const
+	const std::vector<resource *> &get_resources() const
 	{
-		return this->resource;
+		return this->resources;
 	}
 
 	bool is_ruins() const
@@ -92,13 +90,6 @@ public:
 	bool has_terrain_image_filepath(const terrain_type *terrain) const
 	{
 		return this->terrain_image_filepaths.contains(terrain);
-	}
-
-	const commodity *get_output_commodity() const;
-
-	int get_output_multiplier() const
-	{
-		return this->output_multiplier;
 	}
 
 	const std::vector<const terrain_type *> &get_terrain_types() const
@@ -134,12 +125,11 @@ signals:
 private:
 	improvement_slot slot{};
 	int level = 0;
-	kobold::resource *resource = nullptr; //the resource for which this improvement can be built
+	std::vector<resource *> resources; //the resource for which this improvement can be built
 	bool ruins = false; //if true, this improvement can be explored by troops, yielding some bonus (or malus)
 	const kobold::icon *icon = nullptr;
 	std::filesystem::path image_filepath;
 	std::map<const terrain_type *, std::filesystem::path> terrain_image_filepaths;
-	int output_multiplier = 0;
 	std::vector<const terrain_type *> terrain_types; //the terrain types where the improvement can be built
 	int variation_count = 1;
 	improvement *required_improvement = nullptr;

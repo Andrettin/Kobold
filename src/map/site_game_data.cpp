@@ -792,10 +792,6 @@ void site_game_data::on_wonder_gained(const wonder *wonder, const int multiplier
 
 void site_game_data::on_improvement_gained(const improvement *improvement, const int multiplier)
 {
-	if (improvement->get_output_commodity() != nullptr) {
-		this->change_base_commodity_output(improvement->get_output_commodity(), centesimal_int(improvement->get_output_multiplier()) * multiplier);
-	}
-
 	if (this->get_province() != nullptr && this->get_resource() != nullptr && improvement->get_slot() == improvement_slot::resource) {
 		for (const auto &[commodity, value] : this->get_province()->get_game_data()->get_improved_resource_commodity_bonuses(this->get_resource())) {
 			this->change_base_commodity_output(commodity, centesimal_int(value) * multiplier);

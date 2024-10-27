@@ -4,8 +4,23 @@ farm = {
 	icon = trade_consulate
 	image_filepath = "tiles/improvements/grain_farm.png"
 	variation_count = 4
-	resource = grain
-	output_multiplier = 1
+	resources = {
+		cattle
+		coffee
+		cotton
+		dye
+		fruit
+		grain
+		horses
+		opium
+		potatoes
+		sheep
+		silk
+		spices
+		sugar_cane
+		tea
+		tobacco
+	}
 	commodity_costs = {
 		wealth = 2gb
 	}

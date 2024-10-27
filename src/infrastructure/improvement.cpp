@@ -29,7 +29,11 @@ void improvement::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "terrain_types") {
+	if (tag == "resources") {
+		for (const std::string &value : values) {
+			this->resources.push_back(resource::get(value));
+		}
+	} else if (tag == "terrain_types") {
 		for (const std::string &value : values) {
 			this->terrain_types.push_back(terrain_type::get(value));
 		}
@@ -55,8 +59,8 @@ void improvement::process_gsml_scope(const gsml_data &scope)
 
 void improvement::initialize()
 {
-	if (this->get_resource() != nullptr) {
-		this->resource->add_improvement(this);
+	for (resource *resource : this->get_resources()) {
+		resource->add_improvement(this);
 	}
 
 	if (!this->get_image_filepath().empty()) {
@@ -78,20 +82,12 @@ void improvement::check() const
 		throw std::runtime_error(std::format("Improvement \"{}\" has no slot.", this->get_identifier()));
 	}
 
-	if (this->get_resource() != nullptr && this->get_slot() != improvement_slot::resource) {
-		throw std::runtime_error(std::format("Improvement \"{}\" has a resource, but is not a resource improvement.", this->get_identifier()));
+	if (!this->get_resources().empty() && this->get_slot() != improvement_slot::resource) {
+		throw std::runtime_error(std::format("Improvement \"{}\" has resources, but is not a resource improvement.", this->get_identifier()));
 	}
 
 	if (this->is_ruins() && this->get_slot() != improvement_slot::main) {
 		throw std::runtime_error(std::format("Improvement \"{}\" is ruins, but is not a main improvement.", this->get_identifier()));
-	}
-
-	if (this->get_output_commodity() != nullptr && this->get_output_multiplier() == 0) {
-		throw std::runtime_error(std::format("Improvement \"{}\" has an output commodity, but no output multiplier.", this->get_identifier()));
-	}
-
-	if (this->get_output_multiplier() > 0 && this->get_output_commodity() == nullptr) {
-		throw std::runtime_error(std::format("Improvement \"{}\" has an output multiplier, but no output commodity.", this->get_identifier()));
 	}
 
 	if ((this->get_slot() == improvement_slot::main || this->get_slot() == improvement_slot::resource) && this->get_image_filepath().empty()) {
@@ -99,7 +95,16 @@ void improvement::check() const
 	}
 
 	for (const auto &[terrain, filepath] : this->terrain_image_filepaths) {
-		assert_throw(vector::contains(this->get_terrain_types(), terrain) || vector::contains(this->get_resource()->get_terrain_types(), terrain));
+		bool found = vector::contains(this->get_terrain_types(), terrain);
+		if (!found) {
+			for (const resource *resource : this->get_resources()) {
+				if (vector::contains(resource->get_terrain_types(), terrain)) {
+					found = true;
+					break;
+				}
+			}
+		}
+		assert_throw(found);
 	}
 
 	if ((this->get_slot() == improvement_slot::resource) && this->icon == nullptr) {
@@ -129,15 +134,6 @@ void improvement::set_image_filepath(const std::filesystem::path &filepath)
 	this->image_filepath = database::get()->get_graphics_path(this->get_module()) / filepath;
 }
 
-const commodity *improvement::get_output_commodity() const
-{
-	if (this->get_resource() != nullptr) {
-		return this->get_resource()->get_commodity();
-	}
-
-	return nullptr;
-}
-
 bool improvement::is_buildable_on_site(const site *site) const
 {
 	const site_game_data *site_game_data = site->get_game_data();
@@ -152,7 +148,7 @@ bool improvement::is_buildable_on_site(const site *site) const
 			break;
 	}
 
-	if (this->get_resource() != nullptr && this->get_resource() != site_game_data->get_resource()) {
+	if (!this->get_resources().empty() && !vector::contains(this->get_resources(), site_game_data->get_resource())) {
 		return false;
 	}
 
@@ -167,15 +163,11 @@ bool improvement::is_buildable_on_site(const site *site) const
 			return false;
 		}
 
-		if (this->get_output_multiplier() < current_improvement->get_output_multiplier()) {
-			return false;
-		}
-
 		if (this->get_level() < current_improvement->get_level()) {
 			return false;
 		}
 
-		if (this->get_output_multiplier() == current_improvement->get_output_multiplier() && this->get_level() == current_improvement->get_level()) {
+		if (this->get_level() == current_improvement->get_level()) {
 			//the improvement must be better in some way
 			return false;
 		}
