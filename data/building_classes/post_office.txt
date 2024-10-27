@@ -1,4 +1,0 @@
-post_office = {
-	name = "Post Office"
-	slot_type = post_office
-}

@@ -1,6 +1,0 @@
-sugar_refinery = {
-	name = "Sugar Refinery"
-	building_class = sugar_refinery
-	portrait = factory
-	icon = refined_sugar
-}

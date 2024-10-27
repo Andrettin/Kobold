@@ -34,10 +34,6 @@ smithy = {
 	name = "Smithy"
 }
 
-sugar_refinery = {
-	name = "Sugar Refinery"
-}
-
 cigar_factory = {
 	name = "Cigar Factory"
 }

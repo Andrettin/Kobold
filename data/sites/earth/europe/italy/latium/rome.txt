@@ -34,7 +34,7 @@ rome = {
 		}
 		
 		1640 = {
-			buildings += newspaper #Weekly gazette founded in Rome in 1640; Source: Henry Kamen, "Early Modern European Society", 2021, p. 309.
+			#buildings += newspaper #Weekly gazette founded in Rome in 1640; Source: Henry Kamen, "Early Modern European Society", 2021, p. 309.
 		}
 		
 		1815 = {

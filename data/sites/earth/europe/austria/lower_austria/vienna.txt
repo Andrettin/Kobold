@@ -33,7 +33,7 @@ vienna = {
 		}
 
 		1720.9 = {
-			buildings += newspaper #the "Wiener Diarium" existed in September 1720; Source: Josef Dullinger, "Die Handelskompagnien Oesterreichs nach dem Oriente und nach Ostindien in der ersten Hälfte des 18. Jahrhunderts", 1900, pp. 51-52.
+			#buildings += newspaper #the "Wiener Diarium" existed in September 1720; Source: Josef Dullinger, "Die Handelskompagnien Oesterreichs nach dem Oriente und nach Ostindien in der ersten Hälfte des 18. Jahrhunderts", 1900, pp. 51-52.
 		}
 		
 		1815 = {

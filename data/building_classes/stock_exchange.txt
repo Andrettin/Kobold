@@ -1,4 +1,0 @@
-stock_exchange = {
-	name = "Stock Exchange"
-	slot_type = stock_exchange
-}

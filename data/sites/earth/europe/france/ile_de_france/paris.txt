@@ -33,7 +33,7 @@ paris = {
 		}
 		
 		1631 = {
-			buildings += newspaper #the newspaper "Gazette de France" was founded in 1631; Source: Henry Kamen, "Early Modern European Society", 2021, p. 309.
+			#buildings += newspaper #the newspaper "Gazette de France" was founded in 1631; Source: Henry Kamen, "Early Modern European Society", 2021, p. 309.
 		}
 		
 		1700 = {

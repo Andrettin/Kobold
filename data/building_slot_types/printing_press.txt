@@ -1,3 +1,0 @@
-printing_press = {
-	name = "Printing Press"
-}
