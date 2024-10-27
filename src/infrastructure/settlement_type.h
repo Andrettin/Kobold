@@ -18,7 +18,6 @@ class settlement_type final : public named_data_entry, public data_type<settleme
 	Q_OBJECT
 
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath NOTIFY changed)
-	Q_PROPERTY(int free_resource_improvement_level MEMBER free_resource_improvement_level READ get_free_resource_improvement_level NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "settlement_type";
@@ -39,6 +38,27 @@ public:
 
 	void set_image_filepath(const std::filesystem::path &filepath);
 
+	int get_level() const
+	{
+		return this->level;
+	}
+
+	int get_depth() const
+	{
+		int depth = 1;
+
+		for (const settlement_type *base_settlement_type : this->get_base_settlement_types()) {
+			if (depth == 1) {
+				depth = base_settlement_type->get_depth() + 1;
+				continue;
+			}
+
+			depth = std::min(depth, base_settlement_type->get_depth() + 1);
+		}
+
+		return depth;
+	}
+
 	const std::vector<const settlement_type *> &get_base_settlement_types() const
 	{
 		return this->base_settlement_types;
@@ -47,11 +67,6 @@ public:
 	const std::vector<const settlement_type *> &get_upgraded_settlement_types() const
 	{
 		return this->upgraded_settlement_types;
-	}
-
-	int get_free_resource_improvement_level() const
-	{
-		return this->free_resource_improvement_level;
 	}
 
 	const and_condition<site> *get_conditions() const
@@ -74,9 +89,9 @@ signals:
 
 private:
 	std::filesystem::path image_filepath;
+	int level = 0;
 	std::vector<const settlement_type *> base_settlement_types;
 	std::vector<const settlement_type *> upgraded_settlement_types;
-	int free_resource_improvement_level = 0;
 	std::unique_ptr<const and_condition<site>> conditions;
 	std::unique_ptr<const and_condition<site>> build_conditions;
 	std::unique_ptr<modifier<const site>> modifier;

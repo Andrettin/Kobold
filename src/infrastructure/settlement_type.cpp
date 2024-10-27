@@ -46,6 +46,8 @@ void settlement_type::process_gsml_scope(const gsml_data &scope)
 
 void settlement_type::initialize()
 {
+	this->level = this->get_depth();
+
 	tile_image_provider::get()->load_image("settlement/" + this->get_identifier() + "/0");
 
 	named_data_entry::initialize();
