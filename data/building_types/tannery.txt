@@ -1,0 +1,19 @@
+tannery = {
+	name = "Tannery"
+	building_class = tannery
+	portrait = factory
+	icon = leather
+	provincial = true
+	settlement_types = {
+		town
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 6gb
+	}
+	country_modifier = {
+		economy = 1
+		stability = 1
+	}
+}

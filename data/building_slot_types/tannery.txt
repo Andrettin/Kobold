@@ -1,0 +1,3 @@
+tannery = {
+	name = "Tannery"
+}

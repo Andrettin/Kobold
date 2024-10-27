@@ -8,4 +8,11 @@ sewer_system = {
 		city
 		metropolis
 	}
+	commodity_costs = {
+		wealth = 24gb
+	}
+	country_modifier = {
+		loyalty = 1
+		stability = 2
+	}
 }
