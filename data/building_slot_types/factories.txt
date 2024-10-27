@@ -1,7 +1,3 @@
-food_processing_center = {
-	name = "Food Processing Center"
-}
-
 bronze_foundry = {
 	name = "Bronze Foundry"
 }
@@ -22,22 +18,6 @@ textile_mill = {
 	name = "Textile Mill"
 }
 
-clothing_factory = {
-	name = "Clothing Factory"
-}
-
-furniture_factory = {
-	name = "Furniture Factory"
-}
-
 smithy = {
 	name = "Smithy"
-}
-
-cigar_factory = {
-	name = "Cigar Factory"
-}
-
-fur_factory = {
-	name = "Fur Factory"
 }

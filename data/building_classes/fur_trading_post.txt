@@ -1,4 +1,0 @@
-fur_trading_post = {
-	name = "Fur Trading Post"
-	slot_type = fur_trading_post
-}

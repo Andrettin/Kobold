@@ -20,7 +20,7 @@ czechoslovakia = {
 		1600 = {
 			#population = 4500000 #Czechoslovakia had a population of 4,500,000 in 1600 AD; Source: Angus Maddison, "Statistics on World Population, GDP and Per Capita GDP, 1-2008 AD", 2010.
 			
-			##population = 2000000 #2 million people lived in Czechoslovakia around 1600; Source: Josiah Cox Russell, "Medieval Population", 1937, p. 504.
+			#population = 2000000 #2 million people lived in Czechoslovakia around 1600; Source: Josiah Cox Russell, "Medieval Population", 1937, p. 504.
 		}
 
 		1700 = {
