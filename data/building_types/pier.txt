@@ -1,9 +1,8 @@
-dock = {
-	name = "Dock"
-	building_class = dock
+pier = {
+	name = "Pier"
+	building_class = pier
 	portrait = dock
 	icon = anchor
-	free_in_capital = true
 	provincial = true
 	settlement_types = {
 		camp
@@ -12,32 +11,39 @@ dock = {
 		town
 		city
 		metropolis
-		castle
-		monastery
-	}
-	wealth_cost = 3000
-	commodity_costs = {
-		lumber = 5
-		cast_iron = 5
 	}
 	settlement_conditions = {
 		near_water = true
 	}
+	commodity_costs = {
+		wealth = 16gb
+	}
+	country_modifier = {
+		economy = 1
+		stability = 1
+	}
 }
 
-shipyard = {
-	name = "Shipyard"
-	building_class = shipyard
+waterfront = {
+	name = "Waterfront"
+	building_class = waterfront
 	portrait = dock
 	icon = anchor
 	provincial = true
 	capital_only = true
-	required_building = dock
+	required_building = pier
 	settlement_types = {
 		city
 		metropolis
 	}
 	settlement_conditions = {
 		near_water = true
+	}
+	commodity_costs = {
+		wealth = 74gb
+	}
+	country_modifier = {
+		economy = 4
+		stability = 1
 	}
 }
