@@ -112,9 +112,14 @@ public:
 		return this->commodity_costs;
 	}
 
-	const modifier<const site> *get_modifier() const
+	const kobold::modifier<const site> *get_modifier() const
 	{
 		return this->modifier.get();
+	}
+
+	const kobold::modifier<const country> *get_country_modifier() const
+	{
+		return this->country_modifier.get();
 	}
 
 	bool is_buildable_on_site(const site *site) const;
@@ -134,7 +139,8 @@ private:
 	int variation_count = 1;
 	improvement *required_improvement = nullptr;
 	commodity_map<int> commodity_costs;
-	std::unique_ptr<modifier<const site>> modifier;
+	std::unique_ptr<kobold::modifier<const site>> modifier;
+	std::unique_ptr<kobold::modifier<const country>> country_modifier;
 };
 
 }

@@ -784,16 +784,20 @@ void site_game_data::on_improvement_gained(const improvement *improvement, const
 		}
 	}
 
+	if (improvement->get_modifier() != nullptr) {
+		improvement->get_modifier()->apply(this->site, multiplier);
+	}
+
 	if (this->get_owner() != nullptr) {
 		const country_game_data *country_game_data = this->get_owner()->get_game_data();
+
+		if (improvement->get_country_modifier() != nullptr) {
+			improvement->get_country_modifier()->apply(this->get_owner(), multiplier);
+		}
 
 		for (const auto &[commodity, bonus] : country_game_data->get_improvement_commodity_bonuses(improvement)) {
 			this->change_base_commodity_output(commodity, bonus * multiplier);
 		}
-	}
-
-	if (improvement->get_modifier() != nullptr) {
-		improvement->get_modifier()->apply(this->site, multiplier);
 	}
 }
 

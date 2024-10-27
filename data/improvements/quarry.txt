@@ -12,4 +12,7 @@ quarry = {
 	modifier = {
 		wealth_bonus = 1
 	}
+	country_modifier = {
+		stability = 1
+	}
 }
