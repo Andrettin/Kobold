@@ -1,0 +1,20 @@
+mint = {
+	name = "Mint"
+	building_class = mint
+	portrait = trading_post
+	icon = wealth
+	provincial = true
+	settlement_types = {
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 30gb
+	}
+	country_modifier = {
+		economy = 3
+		loyalty = 3
+		stability = 1
+		#fame = 1
+	}
+}

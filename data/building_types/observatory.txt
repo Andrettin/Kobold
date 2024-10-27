@@ -8,10 +8,10 @@ observatory = {
 		city
 		metropolis
 	}
-	settlement_conditions = {
-		or = {
-			terrain = mountains
-			adjacent_terrain = mountains
-		}
+	commodity_costs = {
+		wealth = 12gb
+	}
+	country_modifier = {
+		stability = 1
 	}
 }

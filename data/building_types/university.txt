@@ -35,8 +35,8 @@ university = {
 		wealth = 26gb
 	}
 	country_modifier = {
-		economy = 1
-		loyalty = 1
+		economy = 2
+		loyalty = 2
 		#fame = 1
 	}
 }

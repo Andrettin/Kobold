@@ -1,69 +1,20 @@
-village_hall = {
-	name = "Village Hall"
-	building_class = village_hall
-	portrait = town
-	icon = flag
-	free_in_capital = true
-	provincial = true
-	settlement_types = {
-		village
-		town
-		city
-		metropolis
-	}
-}
-
 town_hall = {
 	name = "Town Hall"
 	building_class = town_hall
 	portrait = town
 	icon = flag
 	provincial = true
-	required_building = village_hall
 	settlement_types = {
 		town
 		city
 		metropolis
 	}
-}
-
-city_hall = {
-	name = "City Hall"
-	building_class = city_hall
-	portrait = city
-	icon = flag
-	provincial = true
-	required_building = town_hall
-	settlement_types = {
-		city
-		metropolis
+	commodity_costs = {
+		wealth = 22gb
 	}
-}
-
-state_house = {
-	name = "State House"
-	building_class = state_house
-	portrait = city
-	icon = flag
-	provincial = true
-	provincial_capitol = true
-	required_building = city_hall
-	settlement_types = {
-		city
-		metropolis
-	}
-}
-
-capitol = {
-	name = "Capitol"
-	building_class = capitol
-	portrait = city
-	icon = flag
-	provincial = true
-	capitol = true
-	required_building = state_house
-	settlement_types = {
-		city
-		metropolis
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+		stability = 1
 	}
 }

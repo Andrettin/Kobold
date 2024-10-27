@@ -1,0 +1,4 @@
+mint = {
+	name = "Mint"
+	slot_type = mint
+}

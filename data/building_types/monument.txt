@@ -11,7 +11,11 @@ monument = {
 		castle
 		monastery
 	}
-	settlement_modifier = {
-		culture_bonus = 2
+	commodity_costs = {
+		wealth = 6gb
+	}
+	country_modifier = {
+		loyalty = 1
+		unrest = -1
 	}
 }
