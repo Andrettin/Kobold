@@ -17,9 +17,6 @@ village = {
 		camp
 		hamlet
 	}
-	build_conditions = {
-		has_building_class = warehouse
-	}
 }
 
 town = {
@@ -27,9 +24,6 @@ town = {
 	image_filepath = "tiles/settlements/town.png"
 	base_settlement_types = {
 		village
-	}
-	build_conditions = {
-		has_building_class = village_hall
 	}
 }
 
@@ -51,12 +45,5 @@ metropolis = {
 	image_filepath = "tiles/settlements/metropolis.png"
 	base_settlement_types = {
 		city
-	}
-	build_conditions = {
-		or = {
-			has_building_class = city_hall
-			has_building_class = state_house
-			has_building_class = capitol
-		}
 	}
 }
