@@ -1,18 +1,20 @@
-library = {
-	name = "Library"
-	building_class = library
-	portrait = university
-	icon = book
+brewery = {
+	name = "Brewery"
+	building_class = brewery
+	portrait = factory
+	icon = wine
 	provincial = true
 	settlement_types = {
+		town
 		city
 		metropolis
+		castle
 	}
 	commodity_costs = {
 		wealth = 6gb
 	}
 	country_modifier = {
-		economy = 1
 		loyalty = 1
+		stability = 1
 	}
 }

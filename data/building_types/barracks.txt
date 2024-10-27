@@ -9,4 +9,10 @@ barracks = {
 		metropolis
 		castle
 	}
+	commodity_costs = {
+		wealth = 6gb
+	}
+	country_modifier = {
+		unrest = -1
+	}
 }
