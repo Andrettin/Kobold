@@ -3,6 +3,9 @@ quarry = {
 	slot = resource
 	icon = trade_consulate
 	image_filepath = "tiles/improvements/quarry.png"
+	terrain_image_filepaths = {
+		mountains = "tiles/improvements/quarry_mountains.png"
+	}
 	resources = {
 		stone
 	}

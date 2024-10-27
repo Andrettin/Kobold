@@ -6,5 +6,6 @@ stone = {
 	terrain_types = {
 		barren_hills
 		desert
+		mountains
 	}
 }
