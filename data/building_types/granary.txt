@@ -8,7 +8,6 @@ granary = {
 		camp
 		hamlet
 		village
-		campus
 		castle
 		monastery
 		town

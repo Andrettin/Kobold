@@ -12,7 +12,7 @@ orleans = {
 	history = {
 		1305 = {
 			buildings += university #University founded in Orléans in 1305; Source: "Atlas de História Mundial", 2001, p. 144.
-			settlement_type = campus
+			settlement_type = city
 		}
 		
 		1360 = {

@@ -5,7 +5,6 @@ school = {
 	icon = university
 	provincial = true
 	settlement_types = {
-		campus
 		town
 		city
 		metropolis
@@ -20,7 +19,6 @@ college = {
 	provincial = true
 	required_building = school
 	settlement_types = {
-		campus
 		city
 		metropolis
 	}
@@ -34,7 +32,6 @@ university = {
 	provincial = true
 	required_building = college
 	settlement_types = {
-		campus
 		city
 		metropolis
 	}

@@ -5,7 +5,6 @@ printing_press = {
 	icon = newspaper
 	provincial = true
 	settlement_types = {
-		campus
 		town
 		city
 		metropolis
@@ -24,7 +23,6 @@ newspaper = {
 	provincial = true
 	required_building = printing_press
 	settlement_types = {
-		campus
 		city
 		metropolis
 	}

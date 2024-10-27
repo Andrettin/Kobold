@@ -7,7 +7,6 @@ observatory = {
 	settlement_types = {
 		city
 		metropolis
-		campus
 	}
 	settlement_conditions = {
 		or = {

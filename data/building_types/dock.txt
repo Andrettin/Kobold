@@ -12,7 +12,6 @@ dock = {
 		town
 		city
 		metropolis
-		campus
 		castle
 		monastery
 	}

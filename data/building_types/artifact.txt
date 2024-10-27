@@ -8,7 +8,6 @@ artifact = {
 	settlement_types = {
 		camp
 		hamlet
-		campus
 		castle
 		monastery
 		town
