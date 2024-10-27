@@ -56,7 +56,6 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(bool wonder_only MEMBER wonder_only READ is_wonder_only NOTIFY changed)
 	Q_PROPERTY(int fort_level MEMBER fort_level READ get_fort_level NOTIFY changed)
 	Q_PROPERTY(kobold::building_type* required_building MEMBER required_building NOTIFY changed)
-	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "building_type";
@@ -189,13 +188,6 @@ public:
 		return this->requiring_buildings;
 	}
 
-	int get_wealth_cost() const
-	{
-		return this->wealth_cost;
-	}
-
-	int get_wealth_cost_for_country(const country *country) const;
-
 	const commodity_map<int> &get_commodity_costs() const
 	{
 		return this->commodity_costs;
@@ -273,7 +265,6 @@ private:
 	int fort_level = 0;
 	building_type *required_building = nullptr;
 	std::vector<const building_type *> requiring_buildings; //buildings which require this one
-	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;
 	std::unique_ptr<const and_condition<country>> conditions;

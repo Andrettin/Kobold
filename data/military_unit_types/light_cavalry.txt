@@ -51,9 +51,9 @@ hussars = {
 		defense = 7
 		movement = 11
 	}
-	wealth_cost = 100
 	upkeep = 25
 	commodity_costs = {
+		wealth = 100
 		manpower = 1
 		armament = 1
 		horses = 1
@@ -74,9 +74,9 @@ scouts = {
 		defense = 7
 		movement = 11
 	}
-	wealth_cost = 2000
 	upkeep = 50
 	commodity_costs = {
+		wealth = 2000
 		manpower = 1
 		armament = 2
 		horses = 1
@@ -98,9 +98,9 @@ mechanized_infantry = {
 		movement = 11
 	}
 	entrenchment_bonus = 2
-	wealth_cost = 5000
 	upkeep = 100
 	commodity_costs = {
+		wealth = 5000
 		manpower = 1
 		armament = 4
 		fuel = 4

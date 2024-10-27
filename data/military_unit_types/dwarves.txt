@@ -124,9 +124,9 @@ dwarven_dragonguards = {
 		movement = 4
 	}
 	entrench = true
-	wealth_cost = 1000
 	upkeep = 25
 	commodity_costs = {
+		wealth = 1000
 		manpower = 1
 		armament = 1
 	}

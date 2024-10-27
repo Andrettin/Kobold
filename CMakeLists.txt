@@ -524,7 +524,6 @@ set(script_condition_HDRS
 	src/script/condition/improvement_condition.h
 	src/script/condition/independent_condition.h
 	src/script/condition/infantry_condition.h
-	src/script/condition/inflation_condition.h
 	src/script/condition/is_military_unit_category_available_condition.h
 	src/script/condition/is_ruler_condition.h
 	src/script/condition/law_condition.h
@@ -558,8 +557,6 @@ set(script_condition_HDRS
 	src/script/condition/tradition_condition.h
 	src/script/condition/trait_condition.h
 	src/script/condition/war_condition.h
-	src/script/condition/wealth_condition.h
-	src/script/condition/wealth_inflated_condition.h
 	src/script/condition/year_condition.h
 )
 source_group(script\\condition FILES ${script_condition_HDRS})
@@ -585,7 +582,6 @@ set(script_effect_HDRS
 	src/script/effect/gain_spell_scroll_effect.h
 	src/script/effect/hidden_effect.h
 	src/script/effect/if_effect.h
-	src/script/effect/inflation_effect.h
 	src/script/effect/location_effect.h
 	src/script/effect/opinion_modifiers_effect.h
 	src/script/effect/random_effect.h
@@ -604,8 +600,6 @@ set(script_effect_HDRS
 	src/script/effect/source_site_effect.h
 	src/script/effect/tooltip_effect.h
 	src/script/effect/traits_effect.h
-	src/script/effect/wealth_effect.h
-	src/script/effect/wealth_inflated_effect.h
 )
 source_group(script\\effect FILES ${script_effect_HDRS})
 
@@ -637,7 +631,6 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/free_warship_promotion_modifier_effect.h
 	src/script/modifier_effect/industrial_output_modifier_effect.h
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
-	src/script/modifier_effect/inflation_change_modifier_effect.h
 	src/script/modifier_effect/law_cost_modifier_effect.h
 	src/script/modifier_effect/military_unit_category_stat_modifier_effect.h
 	src/script/modifier_effect/military_unit_domain_stat_modifier_effect.h

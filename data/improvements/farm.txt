@@ -1,0 +1,12 @@
+farm = {
+	name = "Farm"
+	slot = resource
+	icon = trade_consulate
+	image_filepath = "tiles/improvements/grain_farm.png"
+	variation_count = 4
+	resource = grain
+	output_multiplier = 1
+	commodity_costs = {
+		wealth = 2gb
+	}
+}

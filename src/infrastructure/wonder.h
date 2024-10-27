@@ -28,7 +28,6 @@ class wonder final : public named_data_entry, public data_type<wonder>
 
 	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(kobold::building_type* building MEMBER building NOTIFY changed)
-	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "wonder";
@@ -51,13 +50,6 @@ public:
 	{
 		return this->building;
 	}
-
-	int get_wealth_cost() const
-	{
-		return this->wealth_cost;
-	}
-
-	int get_wealth_cost_for_country(const country *country) const;
 
 	const commodity_map<int> &get_commodity_costs() const
 	{
@@ -97,7 +89,6 @@ signals:
 private:
 	kobold::portrait *portrait = nullptr;
 	building_type *building = nullptr;
-	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;
 	std::unique_ptr<const and_condition<country>> conditions;

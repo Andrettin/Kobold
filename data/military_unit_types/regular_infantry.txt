@@ -10,9 +10,9 @@ regulars = {
 		movement = 4
 	}
 	entrench = true
-	wealth_cost = 500
 	upkeep = 25
 	commodity_costs = {
+		wealth = 500
 		manpower = 1
 		armament = 1
 	}
@@ -33,9 +33,9 @@ rifle_infantry = {
 		movement = 4
 	}
 	entrench = true
-	wealth_cost = 3000
 	upkeep = 50
 	commodity_costs = {
+		wealth = 3000
 		manpower = 1
 		armament = 2
 	}
@@ -57,9 +57,9 @@ infantry = {
 	}
 	entrench = true
 	entrenchment_bonus = 5
-	wealth_cost = 5000
 	upkeep = 100
 	commodity_costs = {
+		wealth = 5000
 		manpower = 1
 		armament = 4
 	}

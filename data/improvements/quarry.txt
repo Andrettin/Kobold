@@ -1,0 +1,14 @@
+quarry = {
+	name = "Quarry"
+	slot = resource
+	icon = trade_consulate
+	image_filepath = "tiles/improvements/quarry.png"
+	resource = stone
+	output_multiplier = 1
+	commodity_costs = {
+		wealth = 6gb
+	}
+	modifier = {
+		wealth_bonus = 1
+	}
+}

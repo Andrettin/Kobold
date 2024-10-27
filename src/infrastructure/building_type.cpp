@@ -207,18 +207,6 @@ void building_type::calculate_level()
 	}
 }
 
-int building_type::get_wealth_cost_for_country(const country *country) const
-{
-	int cost = this->get_wealth_cost();
-
-	if (cost > 0 && this->get_cost_factor() != nullptr) {
-		cost = this->get_cost_factor()->calculate(country, centesimal_int(cost)).to_int();
-		cost = std::max(1, cost);
-	}
-
-	return cost;
-}
-
 commodity_map<int> building_type::get_commodity_costs_for_country(const country *country) const
 {
 	commodity_map<int> costs = this->get_commodity_costs();

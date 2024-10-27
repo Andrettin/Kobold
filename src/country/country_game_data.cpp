@@ -163,10 +163,6 @@ void country_game_data::do_production()
 		}
 
 		//reduce inputs from the storage for the next turn (for production this turn it had already been subtracted)
-		if (this->get_wealth_income() != 0) {
-			this->change_wealth(this->get_wealth_income());
-		}
-
 		for (const auto &[commodity, input] : this->get_commodity_inputs()) {
 			try {
 				if (!commodity->is_storable()) {
@@ -234,7 +230,7 @@ void country_game_data::do_trade(country_map<commodity_map<int>> &country_luxury
 				const int bid = other_country_game_data->get_bid(commodity);
 				if (bid != 0) {
 					int sold_quantity = std::min(offer, bid);
-					sold_quantity = std::min(sold_quantity, other_country_game_data->get_wealth_with_credit() / price);
+					sold_quantity = std::min(sold_quantity, other_country_game_data->get_wealth() / price);
 
 					if (sold_quantity > 0) {
 						this->do_sale(other_country, commodity, sold_quantity, true);
@@ -264,22 +260,6 @@ void country_game_data::do_trade(country_map<commodity_map<int>> &country_luxury
 				}
 			}
 		}
-	} catch (...) {
-		std::throw_with_nested(std::runtime_error(std::format("Error doing trade for country \"{}\".", this->country->get_identifier())));
-	}
-}
-
-void country_game_data::do_inflation()
-{
-	try {
-		if (this->is_under_anarchy()) {
-			return;
-		}
-
-		this->country->get_turn_data()->calculate_inflation();
-		this->change_inflation(this->country->get_turn_data()->get_total_inflation_change());
-
-		this->change_inflation(this->get_inflation_change());
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error(std::format("Error doing trade for country \"{}\".", this->country->get_identifier())));
 	}
@@ -1689,6 +1669,16 @@ void country_game_data::on_wonder_gained(const wonder *wonder, const int multipl
 	}
 }
 
+int country_game_data::get_wealth() const
+{
+	return this->get_stored_commodity(defines::get()->get_wealth_commodity());
+}
+
+void country_game_data::set_wealth(const int wealth)
+{
+	return this->set_stored_commodity(defines::get()->get_wealth_commodity(), wealth);
+}
+
 void country_game_data::add_taxable_wealth(const int taxable_wealth, const income_transaction_type tax_income_type)
 {
 	assert_throw(taxable_wealth >= 0);
@@ -1714,37 +1704,6 @@ void country_game_data::add_taxable_wealth(const int taxable_wealth, const incom
 		this->get_overlord()->get_turn_data()->add_income_transaction(tax_income_type, tax, nullptr, 0, this->country);
 		this->country->get_turn_data()->add_expense_transaction(expense_transaction_type::tax, tax, nullptr, 0, this->get_overlord());
 	}
-}
-
-void country_game_data::set_inflation(const centesimal_int &inflation)
-{
-	if (inflation == this->get_inflation()) {
-		return;
-	}
-
-	if (inflation < 0) {
-		this->set_inflation(centesimal_int(0));
-		return;
-	}
-
-	if (!this->country->is_great_power()) {
-		//minor nations cannot be affected by inflation
-		this->set_inflation(centesimal_int(0));
-		return;
-	}
-
-	this->inflation = inflation;
-
-	emit inflation_changed();
-}
-
-void country_game_data::set_inflation_change(const centesimal_int &inflation_change)
-{
-	if (inflation_change == this->get_inflation_change()) {
-		return;
-	}
-
-	this->inflation_change = inflation_change;
 }
 
 QVariantList country_game_data::get_available_commodities_qvariant_list() const
@@ -1916,19 +1875,6 @@ void country_game_data::calculate_site_commodity_output(const commodity *commodi
 {
 	for (const province *province : this->get_provinces()) {
 		province->get_game_data()->calculate_site_commodity_output(commodity);
-	}
-}
-
-void country_game_data::change_everyday_wealth_consumption(const int change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	this->everyday_wealth_consumption += change;
-
-	if (game::get()->is_running()) {
-		emit everyday_wealth_consumption_changed();
 	}
 }
 
@@ -2662,7 +2608,7 @@ void country_game_data::do_sale(const kobold::country *other_country, const comm
 
 	if (state_purchase) {
 		other_country_game_data->change_stored_commodity(commodity, sold_quantity);
-		const int purchase_expense = other_country_game_data->get_inflated_value(price * sold_quantity);
+		const int purchase_expense = price * sold_quantity;
 		other_country_game_data->change_wealth(-purchase_expense);
 		other_country->get_turn_data()->add_expense_transaction(expense_transaction_type::purchase, purchase_expense, commodity, sold_quantity, this->country);
 

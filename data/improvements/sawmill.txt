@@ -1,0 +1,14 @@
+sawmill = {
+	name = "Sawmill"
+	slot = resource
+	icon = trade_consulate
+	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
+	resource = timber
+	output_multiplier = 1
+	commodity_costs = {
+		wealth = 3gb
+	}
+	modifier = {
+		wealth_bonus = 1
+	}
+}

@@ -147,7 +147,7 @@ centesimal_int military_unit_type::get_stat_for_country(const military_unit_stat
 
 int military_unit_type::get_score() const
 {
-	int score = this->get_wealth_cost();
+	int score = 0;
 
 	for (const auto &[commodity, cost] : this->get_commodity_costs()) {
 		if (commodity->get_base_price() == 0) {

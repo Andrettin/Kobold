@@ -229,10 +229,6 @@ bool civilian_unit::can_build_improvement(const improvement *improvement) const
 
 	const country_game_data *country_game_data = this->get_owner()->get_game_data();
 
-	if (improvement->get_wealth_cost() > 0 && improvement->get_wealth_cost() > country_game_data->get_wealth_with_credit()) {
-		return false;
-	}
-
 	for (const auto &[commodity, cost] : improvement->get_commodity_costs()) {
 		if (cost > country_game_data->get_stored_commodity(commodity)) {
 			return false;
@@ -266,9 +262,6 @@ void civilian_unit::build_improvement(const improvement *improvement)
 	this->set_task_completion_turns(civilian_unit::improvement_construction_turns);
 
 	country_game_data *country_game_data = this->get_owner()->get_game_data();
-	if (improvement->get_wealth_cost() > 0) {
-		country_game_data->change_wealth_inflated(-improvement->get_wealth_cost());
-	}
 
 	for (const auto &[commodity, cost] : improvement->get_commodity_costs()) {
 		country_game_data->change_stored_commodity(commodity, -cost);
@@ -279,9 +272,6 @@ void civilian_unit::cancel_work()
 {
 	if (this->improvement_under_construction != nullptr) {
 		country_game_data *country_game_data = this->get_owner()->get_game_data();
-		if (this->improvement_under_construction->get_wealth_cost() > 0) {
-			country_game_data->change_wealth(this->improvement_under_construction->get_wealth_cost());
-		}
 
 		for (const auto &[commodity, cost] : this->improvement_under_construction->get_commodity_costs()) {
 			country_game_data->change_stored_commodity(commodity, cost);

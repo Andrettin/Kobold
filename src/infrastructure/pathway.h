@@ -20,7 +20,6 @@ class pathway final : public named_data_entry, public data_type<pathway>
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(int transport_level MEMBER transport_level READ get_transport_level NOTIFY changed)
 	Q_PROPERTY(kobold::pathway* required_pathway MEMBER required_pathway NOTIFY changed)
-	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "pathway";
@@ -52,11 +51,6 @@ public:
 		return this->required_pathway;
 	}
 
-	int get_wealth_cost() const
-	{
-		return this->wealth_cost;
-	}
-
 	const commodity_map<int> &get_commodity_costs() const
 	{
 		return this->commodity_costs;
@@ -71,7 +65,6 @@ private:
 	std::filesystem::path image_filepath;
 	int transport_level = 0;
 	pathway *required_pathway = nullptr;
-	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 };
 

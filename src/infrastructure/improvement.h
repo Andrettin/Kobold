@@ -32,7 +32,6 @@ class improvement final : public named_data_entry, public data_type<improvement>
 	Q_PROPERTY(int output_multiplier MEMBER output_multiplier READ get_output_multiplier NOTIFY changed)
 	Q_PROPERTY(int variation_count MEMBER variation_count READ get_variation_count)
 	Q_PROPERTY(kobold::improvement* required_improvement MEMBER required_improvement NOTIFY changed)
-	Q_PROPERTY(int wealth_cost MEMBER wealth_cost READ get_wealth_cost NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "improvement";
@@ -117,11 +116,6 @@ public:
 		return this->required_improvement;
 	}
 
-	int get_wealth_cost() const
-	{
-		return this->wealth_cost;
-	}
-
 	const commodity_map<int> &get_commodity_costs() const
 	{
 		return this->commodity_costs;
@@ -149,7 +143,6 @@ private:
 	std::vector<const terrain_type *> terrain_types; //the terrain types where the improvement can be built
 	int variation_count = 1;
 	improvement *required_improvement = nullptr;
-	int wealth_cost = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<modifier<const site>> modifier;
 };
