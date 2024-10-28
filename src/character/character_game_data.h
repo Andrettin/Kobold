@@ -39,6 +39,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(const kobold::country* country READ get_country NOTIFY country_changed)
 	Q_PROPERTY(int age READ get_age NOTIFY age_changed)
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
+	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY ruler_changed)
@@ -98,6 +99,8 @@ public:
 
 		return nullptr;
 	}
+
+	void set_character_class(const character_class_type type, const character_class *character_class);
 
 	int get_level() const
 	{
@@ -309,6 +312,7 @@ signals:
 	void country_changed();
 	void age_changed();
 	void dead_changed();
+	void character_classes_changed();
 	void feats_changed();
 	void scripted_modifiers_changed();
 	void ruler_changed();

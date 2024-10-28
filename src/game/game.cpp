@@ -494,6 +494,10 @@ void game::apply_history(const kobold::scenario *scenario)
 			const character_history *character_history = character->get_history();
 			character_game_data *character_game_data = character->get_game_data();
 
+			for (const auto &[type, character_class] : character->get_character_classes()) {
+				character_game_data->set_character_class(type, character_class);
+			}
+
 			const int level = std::max(character_history->get_level(), 1);
 			character_game_data->change_character_class_level(character->get_character_class(character_class_type::base_class), level);
 		}

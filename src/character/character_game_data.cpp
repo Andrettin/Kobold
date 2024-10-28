@@ -149,6 +149,23 @@ void character_game_data::die()
 	this->set_dead(true);
 }
 
+void character_game_data::set_character_class(const character_class_type type, const character_class *character_class)
+{
+	if (this->get_character_class(type) == character_class) {
+		return;
+	}
+
+	if (character_class != nullptr) {
+		assert_throw(type == character_class->get_type());
+	}
+
+	this->character_classes[type] = character_class;
+
+	if (game::get()->is_running()) {
+		emit character_classes_changed();
+	}
+}
+
 void character_game_data::change_character_class_level(const character_class *character_class, const int change)
 {
 	if (change == 0) {

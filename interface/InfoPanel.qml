@@ -95,7 +95,8 @@ Rectangle {
 		anchors.horizontalCenter: parent.horizontalCenter
 		text: selected_garrison ? "Garrison" : (
 			selected_site ? selected_site.game_data.current_cultural_name
-				: (selected_civilian_unit ? selected_civilian_unit.type.name : "")
+				: (selected_civilian_unit ? selected_civilian_unit.type.name
+					: (kobold.game.player_character ? kobold.game.player_character.full_name : ""))
 		)
 	}
 	
@@ -105,7 +106,7 @@ Rectangle {
 		anchors.topMargin: 16 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		source: icon_identifier.length > 0 ? ("image://icon/" + icon_identifier) : "image://empty/"
-		visible: !selected_garrison
+		visible: !selected_garrison && icon_identifier.length > 0
 		
 		readonly property string icon_identifier: selected_civilian_unit ? selected_civilian_unit.icon.identifier : (
 			selected_site ? (
@@ -134,7 +135,7 @@ Rectangle {
 	
 	SmallText {
 		id: subtitle
-		anchors.top: icon.bottom
+		anchors.top: icon.visible ? icon.bottom : title.bottom
 		anchors.topMargin: 16 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		text: (selected_site && !selected_garrison) ? (
@@ -145,7 +146,7 @@ Rectangle {
 					selected_site.map_data.resource ? selected_site.map_data.resource.name : ""
 				)
 			)
-		) : (selected_civilian_unit && selected_civilian_unit.character ? selected_civilian_unit.character.full_name : "")
+		) : (selected_civilian_unit && selected_civilian_unit.character ? selected_civilian_unit.character.full_name : (kobold.game.player_character ? kobold.game.player_character.game_data.character_class.name : ""))
 	}
 	
 	ScriptedModifierRow {
@@ -252,6 +253,18 @@ Rectangle {
 			
 			return str
 		}
+	}
+	
+	PortraitButton {
+		id: character_portrait
+		anchors.top: subtitle.bottom
+		anchors.topMargin: 16 * scale_factor
+		anchors.horizontalCenter: parent.horizontalCenter
+		portrait_identifier: character ? character.game_data.portrait.identifier : ""
+		circle: true
+		visible: !selected_site && !selected_garrison && !selected_civilian_unit && !selected_province
+		
+		readonly property var character: kobold.game.player_character
 	}
 	
 	CivilianUnitInfoArea {
