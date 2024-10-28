@@ -16,6 +16,8 @@ class character;
 class character_attribute;
 class character_class;
 class country;
+class feat;
+class feat_type;
 class military_unit;
 class military_unit_type;
 class portrait;
@@ -24,9 +26,7 @@ class saving_throw_type;
 class scripted_character_modifier;
 class skill;
 class spell;
-class trait;
 enum class military_unit_stat;
-enum class trait_type;
 
 template <typename scope_type>
 class modifier;
@@ -39,7 +39,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(const kobold::country* country READ get_country NOTIFY country_changed)
 	Q_PROPERTY(int age READ get_age NOTIFY age_changed)
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
-	Q_PROPERTY(QVariantList traits READ get_traits_qvariant_list NOTIFY traits_changed)
+	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY ruler_changed)
 	Q_PROPERTY(QVariantList spells READ get_spells_qvariant_list NOTIFY spells_changed)
@@ -193,28 +193,26 @@ public:
 
 	void change_skill_bonus(const skill *skill, const int change);
 
-	const std::vector<const trait *> &get_traits() const
+	const std::vector<const feat *> &get_feats() const
 	{
-		return this->traits;
+		return this->feats;
 	}
 
-	QVariantList get_traits_qvariant_list() const;
+	QVariantList get_feats_qvariant_list() const;
 
-	std::vector<const trait *> get_traits_of_type(const trait_type trait_type) const;
-	Q_INVOKABLE QVariantList get_traits_of_type(const QString &trait_type_str) const;
+	std::vector<const feat *> get_feats_of_type(const feat_type *feat_type) const;
+	Q_INVOKABLE QVariantList get_feats_of_type(const QString &feat_type_str) const;
 
-	int get_trait_count_for_type(const trait_type trait_type) const
+	int get_feat_count_for_type(const feat_type *feat_type) const
 	{
-		return static_cast<int>(this->get_traits_of_type(trait_type).size());
+		return static_cast<int>(this->get_feats_of_type(feat_type).size());
 	}
 
-	bool can_have_trait(const trait *trait) const;
-	bool has_trait(const trait *trait) const;
-	void add_trait(const trait *trait);
-	void remove_trait(const trait *trait);
-	void on_trait_gained(const trait *trait, const int multiplier);
-	[[nodiscard]] bool generate_trait(const trait_type trait_type);
-	void sort_traits();
+	bool can_have_feat(const feat *feat) const;
+	bool has_feat(const feat *feat) const;
+	void add_feat(const feat *feat);
+	void remove_feat(const feat *feat);
+	void on_feat_gained(const feat *feat, const int multiplier);
 
 	const scripted_character_modifier_map<int> &get_scripted_modifiers() const
 	{
@@ -311,7 +309,7 @@ signals:
 	void country_changed();
 	void age_changed();
 	void dead_changed();
-	void traits_changed();
+	void feats_changed();
 	void scripted_modifiers_changed();
 	void ruler_changed();
 	void spells_changed();
@@ -329,7 +327,7 @@ private:
 	int base_attack_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
-	std::vector<const trait *> traits;
+	std::vector<const feat *> feats;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	spell_set spells;
 	spell_set item_spells;

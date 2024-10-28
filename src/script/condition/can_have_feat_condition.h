@@ -2,23 +2,23 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
-#include "character/trait.h"
+#include "character/feat.h"
 #include "script/condition/condition.h"
 
 namespace kobold {
 
-class trait_condition final : public condition<character>
+class can_have_feat_condition final : public condition<character>
 {
 public:
-	explicit trait_condition(const std::string &value, const gsml_operator condition_operator)
+	explicit can_have_feat_condition(const std::string &value, const gsml_operator condition_operator)
 		: condition<character>(condition_operator)
 	{
-		this->trait = trait::get(value);
+		this->feat = feat::get(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
 	{
-		static const std::string class_identifier = "trait";
+		static const std::string class_identifier = "can_have_feat";
 		return class_identifier;
 	}
 
@@ -26,18 +26,18 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		return scope->get_game_data()->has_trait(this->trait);
+		return scope->get_game_data()->can_have_feat(this->feat);
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override
 	{
 		Q_UNUSED(indent);
 
-		return this->trait->get_name() + " trait";
+		return "Can have the " + this->feat->get_name() + " feat";
 	}
 
 private:
-	const kobold::trait *trait = nullptr;
+	const kobold::feat *feat = nullptr;
 };
 
 }

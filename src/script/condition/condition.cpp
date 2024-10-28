@@ -20,7 +20,7 @@
 #include "script/condition/artillery_condition.h"
 #include "script/condition/attacking_commander_condition.h"
 #include "script/condition/can_gain_building_class_condition.h"
-#include "script/condition/can_have_trait_condition.h"
+#include "script/condition/can_have_feat_condition.h"
 #include "script/condition/capital_condition.h"
 #include "script/condition/cavalry_condition.h"
 #include "script/condition/character_class_condition.h"
@@ -38,6 +38,7 @@
 #include "script/condition/discovered_province_condition.h"
 #include "script/condition/discovered_region_condition.h"
 #include "script/condition/event_condition.h"
+#include "script/condition/feat_condition.h"
 #include "script/condition/game_rule_condition.h"
 #include "script/condition/government_type_condition.h"
 #include "script/condition/has_building_condition.h"
@@ -80,7 +81,6 @@
 #include "script/condition/subject_type_condition.h"
 #include "script/condition/terrain_condition.h"
 #include "script/condition/tradition_condition.h"
-#include "script/condition/trait_condition.h"
 #include "script/condition/war_condition.h"
 #include "script/condition/year_condition.h"
 #include "unit/military_unit.h"
@@ -98,16 +98,16 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 	if constexpr (std::is_same_v<scope_type, character>) {
 		if (key == "age") {
 			return std::make_unique<age_condition>(value, condition_operator);
-		} else if (key == "can_have_trait") {
-			return std::make_unique<can_have_trait_condition>(value, condition_operator);
+		} else if (key == "can_have_feat") {
+			return std::make_unique<can_have_feat_condition>(value, condition_operator);
 		} else if (key == "character_class") {
 			return std::make_unique<character_class_condition>(value, condition_operator);
 		} else if (key == "character_role") {
 			return std::make_unique<character_role_condition>(value, condition_operator);
+		} else if (key == "feat") {
+			return std::make_unique<feat_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
-		} else if (key == "trait") {
-			return std::make_unique<trait_condition>(value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, country>) {
 		if (key == "anarchy") {

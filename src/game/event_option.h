@@ -9,8 +9,8 @@ namespace kobold {
 
 class character;
 class country;
+class feat;
 class province;
-class trait;
 struct context;
 struct read_only_context;
 
@@ -54,7 +54,7 @@ public:
 private:
 	std::string name;
 	std::string tooltip;
-	const trait *tooltip_info_trait = nullptr;
+	const feat *tooltip_info_feat = nullptr;
 	int ai_weight = 1;
 	std::unique_ptr<and_condition<std::remove_const_t<scope_type>>> conditions;
 	std::unique_ptr<effect_list<scope_type>> effects;

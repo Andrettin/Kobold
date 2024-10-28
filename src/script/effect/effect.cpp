@@ -42,7 +42,6 @@
 #include "script/effect/set_flag_effect.h"
 #include "script/effect/source_site_effect.h"
 #include "script/effect/tooltip_effect.h"
-#include "script/effect/traits_effect.h"
 #include "util/assert_util.h"
 
 namespace kobold {
@@ -54,11 +53,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	const gsml_operator effect_operator = property.get_operator();
 	const std::string &value = property.get_value();
 
-	if constexpr (std::is_same_v<scope_type, const character>) {
-		if (key == "traits") {
-			return std::make_unique<traits_effect>(value, effect_operator);
-		}
-	} else if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string percent_suffix = "_percent";
 
 		if (key == "clear_flag") {

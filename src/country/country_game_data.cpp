@@ -6,7 +6,6 @@
 #include "character/character_class.h"
 #include "character/character_game_data.h"
 #include "character/character_role.h"
-#include "character/trait.h"
 #include "country/consulate.h"
 #include "country/country.h"
 #include "country/country_attribute.h"

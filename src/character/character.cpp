@@ -8,8 +8,7 @@
 #include "character/character_history.h"
 #include "character/character_role.h"
 #include "character/dynasty.h"
-#include "character/trait.h"
-#include "character/trait_type.h"
+#include "character/feat.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -74,9 +73,9 @@ void character::process_gsml_scope(const gsml_data &scope)
 		for (const std::string &value : values) {
 			this->add_rulable_country(country::get(value));
 		}
-	} else if (tag == "traits") {
+	} else if (tag == "feats") {
 		for (const std::string &value : values) {
-			this->traits.push_back(trait::get(value));
+			this->feats.push_back(feat::get(value));
 		}
 	} else if (tag == "conditions") {
 		auto conditions = std::make_unique<and_condition<country>>();
@@ -153,20 +152,6 @@ void character::check() const
 		case character_role::ruler: {
 			if (this->get_rulable_countries().empty()) {
 				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no rulable countries.", this->get_identifier()));
-			}
-
-			std::vector<const trait *> ruler_traits = this->get_traits();
-			std::erase_if(ruler_traits, [](const trait *trait) {
-				return trait->get_type() != trait_type::ruler;
-			});
-			const int ruler_trait_count = static_cast<int>(ruler_traits.size());
-			const int min_ruler_traits = defines::get()->get_min_traits_for_type(trait_type::ruler);
-			const int max_ruler_traits = defines::get()->get_max_traits_for_type(trait_type::ruler);
-
-			if (ruler_trait_count < min_ruler_traits) {
-				log::log_error(std::format("Ruler character \"{}\" only has {} ruler {}, less than the expected minimum of {}.", this->get_identifier(), ruler_trait_count, ruler_trait_count == 1 ? "trait" : "traits", min_ruler_traits));
-			} else if (ruler_trait_count > max_ruler_traits) {
-				log::log_error(std::format("Ruler character \"{}\" has {} ruler {}, more than the expected maximum of {}.", this->get_identifier(), ruler_trait_count, ruler_trait_count == 1 ? "trait" : "traits", max_ruler_traits));
 			}
 			break;
 		}

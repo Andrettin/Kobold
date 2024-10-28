@@ -29,11 +29,11 @@ class civilian_unit_type;
 class country;
 class culture;
 class dynasty;
+class feat;
 class phenotype;
 class portrait;
 class religion;
 class site;
-class trait;
 enum class character_class_type;
 enum class character_role;
 enum class military_unit_category;
@@ -160,9 +160,9 @@ public:
 		return static_cast<const character *>(character_base::get_mother());
 	}
 
-	const std::vector<const trait *> &get_traits() const
+	const std::vector<const feat *> &get_feats() const
 	{
-		return this->traits;
+		return this->feats;
 	}
 
 	const and_condition<country> *get_conditions() const
@@ -194,7 +194,7 @@ private:
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
 	std::vector<const country *> rulable_countries;
-	std::vector<const trait *> traits;
+	std::vector<const feat *> feats;
 	std::unique_ptr<const and_condition<country>> conditions;
 	qunique_ptr<character_history> history;
 	qunique_ptr<character_game_data> game_data;

@@ -7,9 +7,9 @@
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/character_role.h"
+#include "character/feat.h"
+#include "character/feat_type.h"
 #include "character/level_bonus_table.h"
-#include "character/trait.h"
-#include "character/trait_type.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "database/defines.h"
@@ -47,20 +47,6 @@ character_game_data::character_game_data(const kobold::character *character)
 
 void character_game_data::on_setup_finished()
 {
-	for (const trait *trait : this->character->get_traits()) {
-		this->add_trait(trait);
-	}
-
-	static constexpr std::array generated_trait_types{ trait_type::background, trait_type::personality, trait_type::expertise };
-
-	bool success = true;
-	for (const trait_type trait_type : generated_trait_types) {
-		success = true;
-		while (this->get_trait_count_for_type(trait_type) < defines::get()->get_min_traits_for_type(trait_type) && success) {
-			success = this->generate_trait(trait_type);
-		}
-	}
-
 	this->check_portrait();
 }
 
@@ -254,133 +240,85 @@ void character_game_data::change_skill_bonus(const skill *skill, const int chang
 	}
 }
 
-QVariantList character_game_data::get_traits_qvariant_list() const
+QVariantList character_game_data::get_feats_qvariant_list() const
 {
-	return container::to_qvariant_list(this->get_traits());
+	return container::to_qvariant_list(this->get_feats());
 }
 
-std::vector<const trait *> character_game_data::get_traits_of_type(const trait_type trait_type) const
+std::vector<const feat *> character_game_data::get_feats_of_type(const feat_type *feat_type) const
 {
-	std::vector<const trait *> traits;
+	std::vector<const feat *> feats;
 
-	for (const trait *trait : this->get_traits()) {
-		if (trait->get_type() != trait_type) {
+	for (const feat *feat : this->get_feats()) {
+		if (!vector::contains(feat->get_types(), feat_type)) {
 			continue;
 		}
 
-		traits.push_back(trait);
+		feats.push_back(feat);
 	}
 
-	return traits;
+	return feats;
 }
 
-QVariantList character_game_data::get_traits_of_type(const QString &trait_type_str) const
+QVariantList character_game_data::get_feats_of_type(const QString &feat_type_str) const
 {
-	const trait_type type = enum_converter<trait_type>::to_enum(trait_type_str.toStdString());
-	return container::to_qvariant_list(this->get_traits_of_type(type));
+	const feat_type *type = feat_type::get(feat_type_str.toStdString());
+	return container::to_qvariant_list(this->get_feats_of_type(type));
 }
 
-bool character_game_data::can_have_trait(const trait *trait) const
+bool character_game_data::can_have_feat(const feat *feat) const
 {
-	if (trait->get_conditions() != nullptr && !trait->get_conditions()->check(this->character, read_only_context(this->character))) {
+	if (feat->get_conditions() != nullptr && !feat->get_conditions()->check(this->character, read_only_context(this->character))) {
 		return false;
 	}
 
 	return true;
 }
 
-bool character_game_data::has_trait(const trait *trait) const
+bool character_game_data::has_feat(const feat *feat) const
 {
-	return vector::contains(this->get_traits(), trait);
+	return vector::contains(this->get_feats(), feat);
 }
 
-void character_game_data::add_trait(const trait *trait)
+void character_game_data::add_feat(const feat *feat)
 {
-	if (vector::contains(this->get_traits(), trait)) {
-		log::log_error("Tried to add trait \"" + trait->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", but they already have the trait.");
+	if (vector::contains(this->get_feats(), feat)) {
+		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", but they already have the feat.");
 		return;
 	}
 
 	const read_only_context ctx(this->character);
 
-	if (trait->get_conditions() != nullptr && !trait->get_conditions()->check(this->character, ctx)) {
-		log::log_error("Tried to add trait \"" + trait->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", for which the trait's conditions are not fulfilled.");
+	if (feat->get_conditions() != nullptr && !feat->get_conditions()->check(this->character, ctx)) {
+		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", for which the feat's conditions are not fulfilled.");
 		return;
 	}
 
-	this->traits.push_back(trait);
+	this->feats.push_back(feat);
 
-	this->on_trait_gained(trait, 1);
-
-	this->sort_traits();
+	this->on_feat_gained(feat, 1);
 
 	if (game::get()->is_running()) {
-		emit traits_changed();
+		emit feats_changed();
 	}
 }
 
-void character_game_data::remove_trait(const trait *trait)
+void character_game_data::remove_feat(const feat *feat)
 {
-	//remove modifiers that this character is applying on other scopes so that we reapply them later, as the trait change can affect them
-	std::erase(this->traits, trait);
+	std::erase(this->feats, feat);
 
-	this->on_trait_gained(trait, -1);
-
-	this->sort_traits();
+	this->on_feat_gained(feat, -1);
 
 	if (game::get()->is_running()) {
-		emit traits_changed();
+		emit feats_changed();
 	}
 }
 
-void character_game_data::on_trait_gained(const trait *trait, const int multiplier)
+void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 {
-	for (const auto &[attribute, bonus] : trait->get_attribute_bonuses()) {
-		this->change_attribute_value(attribute, bonus * multiplier);
+	if (feat->get_modifier() != nullptr) {
+		this->apply_modifier(feat->get_modifier(), multiplier);
 	}
-
-	if (trait->get_modifier() != nullptr) {
-		this->apply_modifier(trait->get_modifier(), multiplier);
-	}
-}
-
-bool character_game_data::generate_trait(const trait_type trait_type)
-{
-	std::vector<const trait *> potential_traits;
-
-	for (const trait *trait : trait::get_all()) {
-		if (trait->get_type() != trait_type) {
-			continue;
-		}
-
-		if (this->has_trait(trait)) {
-			continue;
-		}
-
-		if (!this->can_have_trait(trait)) {
-			continue;
-		}
-
-		potential_traits.push_back(trait);
-	}
-
-	if (potential_traits.empty()) {
-		return false;
-	}
-
-	this->add_trait(vector::get_random(potential_traits));
-	return true;
-}
-
-void character_game_data::sort_traits()
-{
-	std::sort(this->traits.begin(), this->traits.end(), [](const trait *lhs, const trait *rhs) {
-		if (lhs->get_type() != rhs->get_type()) {
-			return lhs->get_type() < rhs->get_type();
-		}
-
-		return lhs->get_identifier() < rhs->get_identifier();
-	});
 }
 
 QVariantList character_game_data::get_scripted_modifiers_qvariant_list() const

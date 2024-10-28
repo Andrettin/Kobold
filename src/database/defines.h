@@ -26,7 +26,6 @@ class portrait;
 class terrain_type;
 enum class diplomacy_state;
 enum class event_trigger;
-enum class trait_type;
 
 class defines final : public defines_base, public singleton<defines>
 {
@@ -43,7 +42,6 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(kobold::terrain_type* default_water_zone_terrain MEMBER default_water_zone_terrain)
 	Q_PROPERTY(kobold::pathway* route_pathway MEMBER route_pathway NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* wealth_commodity MEMBER wealth_commodity NOTIFY changed)
-	Q_PROPERTY(const kobold::commodity* research_commodity MEMBER research_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* prestige_commodity MEMBER prestige_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* piety_commodity MEMBER piety_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* tradition_commodity MEMBER tradition_commodity NOTIFY changed)
@@ -51,7 +49,6 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(const kobold::icon* tariff_icon MEMBER tariff_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* treasure_fleet_icon MEMBER treasure_fleet_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* military_upkeep_icon MEMBER military_upkeep_icon NOTIFY changed)
-	Q_PROPERTY(int max_character_skill MEMBER max_character_skill READ get_max_character_skill NOTIFY changed)
 	Q_PROPERTY(kobold::portrait* interior_minister_portrait MEMBER interior_minister_portrait NOTIFY changed)
 	Q_PROPERTY(kobold::portrait* war_minister_portrait MEMBER war_minister_portrait NOTIFY changed)
 	Q_PROPERTY(QColor minor_nation_color MEMBER minor_nation_color READ get_minor_nation_color NOTIFY changed)
@@ -175,11 +172,6 @@ public:
 		return this->wealth_commodity;
 	}
 
-	const commodity *get_research_commodity() const
-	{
-		return this->research_commodity;
-	}
-
 	const commodity *get_prestige_commodity() const
 	{
 		return this->prestige_commodity;
@@ -213,31 +205,6 @@ public:
 	const icon *get_military_upkeep_icon() const
 	{
 		return this->military_upkeep_icon;
-	}
-
-	int get_min_traits_for_type(const trait_type type) const
-	{
-		const auto find_iterator = this->min_traits_per_type.find(type);
-		if (find_iterator != this->min_traits_per_type.end()) {
-			return find_iterator->second;
-		}
-
-		return 0;
-	}
-
-	int get_max_traits_for_type(const trait_type type) const
-	{
-		const auto find_iterator = this->max_traits_per_type.find(type);
-		if (find_iterator != this->max_traits_per_type.end()) {
-			return find_iterator->second;
-		}
-
-		return std::numeric_limits<int>::max();
-	}
-
-	int get_max_character_skill() const
-	{
-		return this->max_character_skill;
 	}
 
 	const portrait *get_interior_minister_portrait() const
@@ -348,7 +315,6 @@ private:
 	commodity_map<int> settlement_commodity_bonuses;
 	commodity_map<int> river_settlement_commodity_bonuses;
 	const commodity *wealth_commodity = nullptr;
-	const commodity *research_commodity = nullptr;
 	const commodity *prestige_commodity = nullptr;
 	const commodity *piety_commodity = nullptr;
 	const commodity *tradition_commodity = nullptr;
@@ -356,9 +322,6 @@ private:
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
-	std::map<trait_type, int> min_traits_per_type;
-	std::map<trait_type, int> max_traits_per_type;
-	int max_character_skill = 0;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	QColor minor_nation_color;

@@ -3,7 +3,7 @@
 #include "game/event_option.h"
 
 #include "character/character.h"
-#include "character/trait.h"
+#include "character/feat.h"
 #include "database/database.h"
 #include "database/gsml_data.h"
 #include "database/gsml_property.h"
@@ -37,8 +37,8 @@ void event_option<scope_type>::process_gsml_property(const gsml_property &proper
 		this->name = value;
 	} else if (key == "tooltip") {
 		this->tooltip = value;
-	} else if (key == "tooltip_info_trait") {
-		this->tooltip_info_trait = trait::get(value);
+	} else if (key == "tooltip_info_feat") {
+		this->tooltip_info_feat = feat::get(value);
 	} else if (key == "ai_weight") {
 		this->ai_weight = std::stoi(value);
 	} else {
@@ -85,8 +85,8 @@ std::string event_option<scope_type>::get_tooltip(const read_only_context &ctx) 
 		str += this->get_effects_string(ctx);
 	}
 
-	if (this->tooltip_info_trait != nullptr) {
-		str = "(This option is available due to the " + this->tooltip_info_trait->get_name() + " trait)\n" + str;
+	if (this->tooltip_info_feat != nullptr) {
+		str = "(This option is available due to the " + this->tooltip_info_feat->get_name() + " feat)\n" + str;
 	}
 
 	return str;

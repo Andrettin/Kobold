@@ -6,7 +6,8 @@
 #include "character/character_game_data.h"
 #include "character/character_role.h"
 #include "character/dynasty.h"
-#include "character/trait_type.h"
+#include "character/feat.h"
+#include "character/feat_type.h"
 #include "country/consulate.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
@@ -145,7 +146,6 @@ int main(int argc, char **argv)
 		enum_converter<moisture_type>();
 		enum_converter<site_type>();
 		enum_converter<temperature_type>();
-		enum_converter<trait_type>();
 
 		QCoro::Qml::registerTypes();
 
@@ -166,6 +166,8 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<era>("", 1);
 		qmlRegisterAnonymousType<event>("", 1);
 		qmlRegisterAnonymousType<event_instance>("", 1);
+		qmlRegisterAnonymousType<feat>("", 1);
+		qmlRegisterAnonymousType<feat_type>("", 1);
 		qmlRegisterAnonymousType<game>("", 1);
 		qmlRegisterAnonymousType<game_rules>("", 1);
 		qmlRegisterAnonymousType<government_type>("", 1);

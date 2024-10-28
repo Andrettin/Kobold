@@ -27,11 +27,11 @@ set(character_SRCS
 	src/character/character_history.cpp
 	src/character/character_role.cpp
 	src/character/dynasty.cpp
+	src/character/feat.cpp
+	src/character/feat_type.cpp
 	src/character/level_bonus_table.cpp
 	src/character/saving_throw_type.cpp
 	src/character/skill.cpp
-	src/character/trait.cpp
-	src/character/trait_type.cpp
 )
 source_group(character FILES ${character_SRCS})
 set_source_files_properties(${character_SRCS} PROPERTIES UNITY_GROUP "character")
@@ -307,11 +307,11 @@ set(character_HDRS
 	src/character/character_history.h
 	src/character/character_role.h
 	src/character/dynasty.h
+	src/character/feat.h
+	src/character/feat_type.h
 	src/character/level_bonus_table.h
 	src/character/saving_throw_type.h
 	src/character/skill.h
-	src/character/trait.h
-	src/character/trait_type.h
 )
 source_group(character FILES ${character_HDRS})
 
@@ -497,7 +497,7 @@ set(script_condition_HDRS
 	src/script/condition/artillery_condition.h
 	src/script/condition/attacking_commander_condition.h
 	src/script/condition/can_gain_building_class_condition.h
-	src/script/condition/can_have_trait_condition.h
+	src/script/condition/can_have_feat_condition.h
 	src/script/condition/capital_condition.h
 	src/script/condition/cavalry_condition.h
 	src/script/condition/character_class_condition.h
@@ -515,6 +515,7 @@ set(script_condition_HDRS
 	src/script/condition/discovered_province_condition.h
 	src/script/condition/discovered_region_condition.h
 	src/script/condition/event_condition.h
+	src/script/condition/feat_condition.h
 	src/script/condition/game_rule_condition.h
 	src/script/condition/government_type_condition.h
 	src/script/condition/has_building_class_condition.h
@@ -557,7 +558,6 @@ set(script_condition_HDRS
 	src/script/condition/subject_type_condition.h
 	src/script/condition/terrain_condition.h
 	src/script/condition/tradition_condition.h
-	src/script/condition/trait_condition.h
 	src/script/condition/war_condition.h
 	src/script/condition/year_condition.h
 )
@@ -601,7 +601,6 @@ set(script_effect_HDRS
 	src/script/effect/set_flag_effect.h
 	src/script/effect/source_site_effect.h
 	src/script/effect/tooltip_effect.h
-	src/script/effect/traits_effect.h
 )
 source_group(script\\effect FILES ${script_effect_HDRS})
 
