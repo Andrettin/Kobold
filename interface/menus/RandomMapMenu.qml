@@ -259,6 +259,7 @@ MenuBase {
 		
 		onClicked: {
 			kobold.game.player_country = selected_country
+			kobold.game.player_character = selected_country.game_data.ruler
 			kobold.game.start()
 		}
 	}
