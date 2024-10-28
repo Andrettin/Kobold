@@ -1,6 +1,6 @@
 dye = {
 	name = "Dye"
-	commodity = dye
+	icon = cotton
 	tiny_icon = trade_consulate
 	terrain_types = {
 		plains

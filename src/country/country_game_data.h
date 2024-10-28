@@ -121,8 +121,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList bids READ get_bids_qvariant_list NOTIFY bids_changed)
 	Q_PROPERTY(QVariantList offers READ get_offers_qvariant_list NOTIFY offers_changed)
 	Q_PROPERTY(int output_modifier READ get_output_modifier_int NOTIFY output_modifier_changed)
-	Q_PROPERTY(int resource_output_modifier READ get_resource_output_modifier NOTIFY resource_output_modifier_changed)
-	Q_PROPERTY(int industrial_output_modifier READ get_industrial_output_modifier NOTIFY industrial_output_modifier_changed)
 	Q_PROPERTY(int throughput_modifier READ get_throughput_modifier NOTIFY throughput_modifier_changed)
 	Q_PROPERTY(QVariantList active_journal_entries READ get_active_journal_entries_qvariant_list NOTIFY journal_entries_changed)
 	Q_PROPERTY(QVariantList inactive_journal_entries READ get_inactive_journal_entries_qvariant_list NOTIFY journal_entries_changed)
@@ -1172,30 +1170,6 @@ public:
 		this->set_output_modifier(this->get_output_modifier() + change);
 	}
 
-	int get_resource_output_modifier() const
-	{
-		return this->resource_output_modifier;
-	}
-
-	void set_resource_output_modifier(const int value);
-
-	void change_resource_output_modifier(const int value)
-	{
-		this->set_resource_output_modifier(this->get_resource_output_modifier() + value);
-	}
-
-	int get_industrial_output_modifier() const
-	{
-		return this->industrial_output_modifier;
-	}
-
-	void set_industrial_output_modifier(const int value);
-
-	void change_industrial_output_modifier(const int value)
-	{
-		this->set_industrial_output_modifier(this->get_industrial_output_modifier() + value);
-	}
-
 	const commodity_map<centesimal_int> &get_commodity_output_modifiers() const
 	{
 		return this->commodity_output_modifiers;
@@ -1786,8 +1760,6 @@ signals:
 	void bids_changed();
 	void offers_changed();
 	void output_modifier_changed();
-	void resource_output_modifier_changed();
-	void industrial_output_modifier_changed();
 	void throughput_modifier_changed();
 	void prospected_tiles_changed();
 	void journal_entries_changed();
@@ -1865,8 +1837,6 @@ private:
 	int warship_cost_modifier = 0;
 	int unit_upgrade_cost_modifier = 0;
 	centesimal_int output_modifier;
-	int resource_output_modifier = 0;
-	int industrial_output_modifier = 0;
 	commodity_map<centesimal_int> commodity_output_modifiers;
 	commodity_map<centesimal_int> capital_commodity_output_modifiers;
 	int throughput_modifier = 0;

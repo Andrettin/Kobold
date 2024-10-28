@@ -1,6 +1,6 @@
 silver = {
 	name = "Silver"
-	commodity = silver
+	icon = silver
 	tiny_icon = trade_consulate
 	prospectable = true
 	terrain_types = {

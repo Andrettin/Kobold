@@ -1,6 +1,6 @@
 stone = {
 	name = "Stone"
-	commodity = stone
+	icon = stone
 	tiny_icon = trade_consulate
 	prospectable = true
 	terrain_types = {

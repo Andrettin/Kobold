@@ -1,6 +1,6 @@
 ivory = {
 	name = "Ivory"
-	commodity = ivory
+	icon = amber
 	tiny_icon = garrison
 	terrain_types = {
 		barren_hills

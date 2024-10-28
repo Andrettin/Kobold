@@ -1,6 +1,6 @@
 gold = {
 	name = "Gold"
-	commodity = gold
+	icon = gold_ore
 	tiny_icon = trade_consulate
 	prospectable = true
 	terrain_types = {

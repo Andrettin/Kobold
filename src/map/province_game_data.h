@@ -343,8 +343,6 @@ public:
 		this->set_commodity_bonus_for_tile_threshold(commodity, threshold, this->get_commodity_bonus_for_tile_threshold(commodity, threshold) + value);
 	}
 
-	bool can_produce_commodity(const commodity *commodity) const;
-
 	province_game_data &operator =(const province_game_data &other) = delete;
 
 signals:

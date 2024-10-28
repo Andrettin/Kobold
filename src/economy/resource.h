@@ -3,23 +3,18 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-Q_MOC_INCLUDE("economy/commodity.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
-class commodity;
 class icon;
 class improvement;
 class terrain_type;
 
-//resources are present on tiles, allowing the tile to produce a given commodity
-//multiple resources can produce the same commodity
 class resource final : public named_data_entry, public data_type<resource>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(kobold::commodity* commodity MEMBER commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* tiny_icon MEMBER tiny_icon READ get_tiny_icon NOTIFY changed)
 	Q_PROPERTY(bool coastal MEMBER coastal READ is_coastal NOTIFY changed)
@@ -38,12 +33,10 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	const kobold::commodity *get_commodity() const
+	const kobold::icon *get_icon() const
 	{
-		return this->commodity;
+		return this->icon;
 	}
-
-	const kobold::icon *get_icon() const;
 
 	const kobold::icon *get_tiny_icon() const
 	{
@@ -86,7 +79,6 @@ signals:
 	void changed();
 
 private:
-	kobold::commodity *commodity = nullptr;
 	const kobold::icon *icon = nullptr;
 	const kobold::icon *tiny_icon = nullptr;
 	bool coastal = false;

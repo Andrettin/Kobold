@@ -1,6 +1,6 @@
 whales = {
 	name = "Whales"
-	commodity = fish
+	icon = fish
 	tiny_icon = garrison
 	coastal = true
 	terrain_types = {

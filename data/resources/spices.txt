@@ -1,6 +1,6 @@
 spices = {
 	name = "Spices"
-	commodity = spices
+	icon = spices
 	tiny_icon = trade_consulate
 	terrain_types = {
 		plains

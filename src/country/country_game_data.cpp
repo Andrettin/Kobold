@@ -2789,34 +2789,6 @@ void country_game_data::set_output_modifier(const centesimal_int &value)
 	}
 }
 
-void country_game_data::set_resource_output_modifier(const int value)
-{
-	if (value == this->get_resource_output_modifier()) {
-		return;
-	}
-
-	this->resource_output_modifier = value;
-
-	this->calculate_site_commodity_outputs();
-
-	if (game::get()->is_running()) {
-		emit resource_output_modifier_changed();
-	}
-}
-
-void country_game_data::set_industrial_output_modifier(const int value)
-{
-	if (value == this->get_industrial_output_modifier()) {
-		return;
-	}
-
-	this->industrial_output_modifier = value;
-
-	if (game::get()->is_running()) {
-		emit industrial_output_modifier_changed();
-	}
-}
-
 void country_game_data::set_commodity_output_modifier(const commodity *commodity, const centesimal_int &value)
 {
 	if (value == this->get_commodity_output_modifier(commodity)) {

@@ -1,6 +1,6 @@
 fish = {
 	name = "Fish"
-	commodity = fish
+	icon = fish
 	tiny_icon = garrison
 	near_water = true
 	terrain_types = {

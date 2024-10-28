@@ -1,6 +1,6 @@
 potatoes = {
 	name = "Potatoes"
-	commodity = potatoes
+	icon = grain
 	tiny_icon = trade_consulate
 	terrain_types = {
 		plains

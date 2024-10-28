@@ -660,18 +660,4 @@ void province_game_data::set_commodity_bonus_for_tile_threshold(const commodity 
 	}
 }
 
-bool province_game_data::can_produce_commodity(const commodity *commodity) const
-{
-	for (const QPoint &tile_pos : this->get_resource_tiles()) {
-		const tile *tile = map::get()->get_tile(tile_pos);
-		const kobold::commodity *tile_resource_commodity = tile->get_resource()->get_commodity();
-
-		if (tile_resource_commodity == commodity) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 }

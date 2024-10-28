@@ -1,6 +1,6 @@
 tea = {
 	name = "Tea"
-	commodity = tea
+	icon = tobacco
 	tiny_icon = trade_consulate
 	terrain_types = {
 		plains

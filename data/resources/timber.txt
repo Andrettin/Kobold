@@ -1,6 +1,6 @@
 timber = {
 	name = "Timber"
-	commodity = timber
+	icon = timber
 	tiny_icon = garrison
 	terrain_types = {
 		conifer_forest

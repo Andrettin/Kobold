@@ -1,6 +1,6 @@
 beavers = {
 	name = "Beavers"
-	commodity = furs
+	icon = furs
 	tiny_icon = garrison
 	terrain_types = {
 		conifer_forest

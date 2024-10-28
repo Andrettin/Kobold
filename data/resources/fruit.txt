@@ -1,6 +1,6 @@
 fruit = {
 	name = "Fruit"
-	commodity = fruit
+	icon = fruit
 	tiny_icon = trade_consulate
 	terrain_types = {
 		plains
