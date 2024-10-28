@@ -1,0 +1,4 @@
+spot = {
+	name = "Spot"
+	attribute = wisdom
+}

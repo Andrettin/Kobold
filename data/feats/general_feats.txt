@@ -1,0 +1,11 @@
+alertness = {
+	name = "Alertness"
+	icon = research
+	types = {
+		general
+	}
+	modifier = {
+		listen = 2
+		spot = 2
+	}
+}

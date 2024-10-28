@@ -1,0 +1,4 @@
+listen = {
+	name = "Listen"
+	attribute = wisdom
+}
