@@ -639,7 +639,9 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/military_unit_type_stat_modifier_effect.h
 	src/script/modifier_effect/modifier_effect.h
 	src/script/modifier_effect/output_modifier_effect.h
+	src/script/modifier_effect/saving_throw_modifier_effect.h
 	src/script/modifier_effect/ship_stat_modifier_effect.h
+	src/script/modifier_effect/skill_modifier_effect.h
 	src/script/modifier_effect/storage_capacity_modifier_effect.h
 	src/script/modifier_effect/throughput_modifier_effect.h
 	src/script/modifier_effect/unit_upgrade_cost_modifier_effect.h

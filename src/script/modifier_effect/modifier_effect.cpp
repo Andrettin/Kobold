@@ -36,7 +36,9 @@
 #include "script/modifier_effect/military_unit_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_type_stat_modifier_effect.h"
 #include "script/modifier_effect/output_modifier_effect.h"
+#include "script/modifier_effect/saving_throw_modifier_effect.h"
 #include "script/modifier_effect/ship_stat_modifier_effect.h"
+#include "script/modifier_effect/skill_modifier_effect.h"
 #include "script/modifier_effect/storage_capacity_modifier_effect.h"
 #include "script/modifier_effect/throughput_modifier_effect.h"
 #include "script/modifier_effect/unit_upgrade_cost_modifier_effect.h"
@@ -54,7 +56,13 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 
 	static const std::string bonus_suffix = "_bonus";
 
-	if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const character>) {
+		if (saving_throw_type::try_get(key) != nullptr) {
+			return std::make_unique<saving_throw_modifier_effect>(saving_throw_type::get(key), value);
+		} else if (skill::try_get(key) != nullptr) {
+			return std::make_unique<skill_modifier_effect>(skill::get(key), value);
+		}
+	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string capital_commodity_bonus_prefix = "capital_";
 		static const std::string commodity_per_building_infix = "_per_";
 		static const std::string militancy_modifier_suffix = "_militancy_modifier";
