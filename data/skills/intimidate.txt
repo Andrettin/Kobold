@@ -1,0 +1,4 @@
+intimidate = {
+	name = "Intimidate"
+	attribute = charisma
+}
