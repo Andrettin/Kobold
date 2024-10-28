@@ -22,6 +22,7 @@ class portrait;
 class province;
 class saving_throw_type;
 class scripted_character_modifier;
+class skill;
 class spell;
 class trait;
 enum class military_unit_stat;
@@ -180,6 +181,18 @@ public:
 
 	void change_saving_throw_bonus(const saving_throw_type *type, const int change);
 
+	int get_skill_bonus(const skill *skill) const
+	{
+		const auto find_iterator = this->skill_bonuses.find(skill);
+		if (find_iterator != this->skill_bonuses.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_skill_bonus(const skill *skill, const int change);
+
 	const std::vector<const trait *> &get_traits() const
 	{
 		return this->traits;
@@ -315,6 +328,7 @@ private:
 	int hit_points = 0;
 	int base_attack_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
+	data_entry_map<skill, int> skill_bonuses;
 	std::vector<const trait *> traits;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	spell_set spells;

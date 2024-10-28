@@ -29,6 +29,7 @@ set(character_SRCS
 	src/character/dynasty.cpp
 	src/character/level_bonus_table.cpp
 	src/character/saving_throw_type.cpp
+	src/character/skill.cpp
 	src/character/trait.cpp
 	src/character/trait_type.cpp
 )
@@ -308,6 +309,7 @@ set(character_HDRS
 	src/character/dynasty.h
 	src/character/level_bonus_table.h
 	src/character/saving_throw_type.h
+	src/character/skill.h
 	src/character/trait.h
 	src/character/trait_type.h
 )

@@ -242,6 +242,18 @@ void character_game_data::change_saving_throw_bonus(const saving_throw_type *typ
 	}
 }
 
+void character_game_data::change_skill_bonus(const skill *skill, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->skill_bonuses[skill] += change);
+	if (new_value == 0) {
+		this->skill_bonuses.erase(skill);
+	}
+}
+
 QVariantList character_game_data::get_traits_qvariant_list() const
 {
 	return container::to_qvariant_list(this->get_traits());

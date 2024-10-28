@@ -19,11 +19,13 @@ class character_class;
 class commodity_unit;
 class country_attribute;
 class saving_throw_type;
+class skill;
 
 extern template struct data_entry_compare<character_attribute>;
 extern template struct data_entry_compare<character_class>;
 extern template struct data_entry_compare<commodity_unit>;
 extern template struct data_entry_compare<country_attribute>;
 extern template struct data_entry_compare<saving_throw_type>;
+extern template struct data_entry_compare<skill>;
 
 }
