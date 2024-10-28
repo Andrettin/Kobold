@@ -333,6 +333,11 @@ void character_game_data::remove_feat(const feat *feat)
 
 void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 {
+	if (feat->get_effects() != nullptr && multiplier > 0) {
+		context ctx(this->character);
+		feat->get_effects()->do_effects(this->character, ctx);
+	}
+
 	if (feat->get_modifier() != nullptr) {
 		this->apply_modifier(feat->get_modifier(), multiplier);
 	}

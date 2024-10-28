@@ -4,6 +4,7 @@
 
 #include "character/feat_type.h"
 #include "script/condition/and_condition.h"
+#include "script/effect/effect_list.h"
 #include "script/modifier.h"
 
 namespace kobold {
@@ -36,6 +37,10 @@ void feat::process_gsml_scope(const gsml_data &scope)
 		auto modifier = std::make_unique<kobold::modifier<const character>>();
 		database::process_gsml_data(modifier, scope);
 		this->modifier = std::move(modifier);
+	} else if (tag == "effects") {
+		auto effect_list = std::make_unique<kobold::effect_list<const character>>();
+		database::process_gsml_data(effect_list, scope);
+		this->effects = std::move(effect_list);
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}

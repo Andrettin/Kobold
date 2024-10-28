@@ -16,13 +16,17 @@ template <typename scope_type>
 class and_condition;
 
 template <typename scope_type>
+class effect_list;
+
+template <typename scope_type>
 class modifier;
 
 class feat final : public named_data_entry, public data_type<feat>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(std::string description MEMBER description NOTIFY changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
 
 public:
@@ -46,6 +50,11 @@ public:
 		return this->icon;
 	}
 
+	const std::string &get_description() const
+	{
+		return this->description;
+	}
+
 	const and_condition<character> *get_conditions() const
 	{
 		return this->conditions.get();
@@ -56,16 +65,23 @@ public:
 		return this->modifier.get();
 	}
 
+	const effect_list<const character> *get_effects() const
+	{
+		return this->effects.get();
+	}
+
 	QString get_modifier_string() const;
 
 signals:
 	void changed();
 
 private:
+	const kobold::icon *icon = nullptr;
+	std::string description;
 	std::vector<const feat_type *> types;
-	kobold::icon *icon = nullptr;
 	std::unique_ptr<const and_condition<character>> conditions;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
+	std::unique_ptr<const effect_list<const character>> effects;
 };
 
 }
