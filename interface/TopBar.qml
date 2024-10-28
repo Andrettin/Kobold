@@ -31,7 +31,7 @@ Rectangle {
 			anchors.fill: parent
 			hoverEnabled: true
 			onEntered: {
-				status_text = "Current Season and Year"
+				status_text = "Current Month and Year"
 			}
 			onExited: {
 				status_text = ""
