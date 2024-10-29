@@ -11,6 +11,9 @@ class feat;
 template <typename scope_type>
 class and_condition;
 
+template <typename scope_type>
+class effect_list;
+
 class feat_type final : public named_data_entry, public data_type<feat_type>
 {
 	Q_OBJECT
@@ -38,6 +41,11 @@ public:
 		return this->gain_conditions.get();
 	}
 
+	const effect_list<const character> *get_effects() const
+	{
+		return this->effects.get();
+	}
+
 	const std::vector<const feat *> &get_feats() const
 	{
 		return this->feats;
@@ -54,6 +62,7 @@ signals:
 private:
 	int max_feats = 0; //the maximum amount of feats of this type a character can acquire
 	std::unique_ptr<const and_condition<character>> gain_conditions;
+	std::unique_ptr<const effect_list<const character>> effects;
 	std::vector<const feat *> feats;
 };
 

@@ -1,3 +1,17 @@
+inattentive = {
+	name = "Inattentive"
+	icon = skull
+	description = "You are particularly unaware of your surroundings."
+	types = {
+		flaw
+		general
+	}
+	modifier = {
+		listen = -4
+		spot = -4
+	}
+}
+
 meager_fortitude = {
 	name = "Meager Fortitude"
 	icon = skull
@@ -8,10 +22,6 @@ meager_fortitude = {
 	}
 	modifier = {
 		fortitude = -3
-	}
-	effects = {
-		gain_feat_of_type = general
-		gain_feat_of_type = general
 	}
 }
 
@@ -26,8 +36,17 @@ poor_reflexes = {
 	modifier = {
 		reflex = -3
 	}
-	effects = {
-		gain_feat_of_type = general
-		gain_feat_of_type = general
+}
+
+weak_will = {
+	name = "Weak Will"
+	icon = skull
+	description = "You are highly suggestible and easily duped."
+	types = {
+		flaw
+		general
+	}
+	modifier = {
+		will = -3
 	}
 }

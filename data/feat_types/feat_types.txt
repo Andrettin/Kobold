@@ -8,6 +8,10 @@ flaw = {
 	gain_conditions = {
 		level == 1
 	}
+	effects = {
+		gain_feat_of_type = general
+		gain_feat_of_type = general
+	}
 }
 
 trait = {
@@ -15,5 +19,8 @@ trait = {
 	max_feats = 2
 	gain_conditions = {
 		level == 1
+	}
+	effects = {
+		gain_feat_of_type = general
 	}
 }

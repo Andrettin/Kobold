@@ -410,9 +410,18 @@ void character_game_data::remove_feat(const feat *feat)
 
 void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 {
-	if (feat->get_effects() != nullptr && multiplier > 0) {
-		context ctx(this->character);
-		feat->get_effects()->do_effects(this->character, ctx);
+	if (multiplier > 0) {
+		if (feat->get_effects() != nullptr) {
+			context ctx(this->character);
+			feat->get_effects()->do_effects(this->character, ctx);
+		}
+
+		for (const feat_type *type : feat->get_types()) {
+			if (type->get_effects() != nullptr) {
+				context ctx(this->character);
+				type->get_effects()->do_effects(this->character, ctx);
+			}
+		}
 	}
 
 	if (feat->get_modifier() != nullptr) {
