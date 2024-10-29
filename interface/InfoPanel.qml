@@ -267,6 +267,42 @@ Rectangle {
 		readonly property var character: kobold.game.player_character
 	}
 	
+	SmallText {
+		id: character_info_text
+		anchors.top: character_portrait.bottom
+		anchors.topMargin: 16 * scale_factor
+		anchors.left: parent.left
+		anchors.leftMargin: 4 * scale_factor
+		anchors.right: parent.right
+		anchors.rightMargin: 4 * scale_factor
+		wrapMode: Text.WordWrap
+		text: format_text(
+			character ? (
+				"Feats: " + string_list_to_string(object_list_to_name_list(character.game_data.feats), ", ")
+			) : ""
+		)
+		visible: character_portrait.visible
+		
+		readonly property var character: kobold.game.player_character
+		
+		function get_commodity_outputs_string(commodity_outputs) {
+			var str = ""
+			
+			for (var kv_pair of commodity_outputs) {
+				var commodity = kv_pair.key
+				var output = kv_pair.value
+				
+				if (str.length > 0) {
+					str += "\n"
+				}
+				
+				str += commodity.name + " Output: " + output
+			}
+			
+			return str
+		}
+	}
+	
 	CivilianUnitInfoArea {
 		id: civilian_unit_info_area
 		anchors.top: subtitle.bottom
