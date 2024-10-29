@@ -292,6 +292,21 @@ bool character_game_data::can_have_feat(const feat *feat) const
 	return true;
 }
 
+bool character_game_data::can_gain_feat(const feat *feat) const
+{
+	if (this->has_feat(feat)) {
+		return false;
+	}
+
+	for (const feat_type *type : feat->get_types()) {
+		if (type->get_max_feats() > 0 && this->get_feat_count_for_type(type) >= type->get_max_feats()) {
+			return false;
+		}
+	}
+
+	return this->can_have_feat(feat);
+}
+
 bool character_game_data::has_feat(const feat *feat) const
 {
 	return vector::contains(this->get_feats(), feat);

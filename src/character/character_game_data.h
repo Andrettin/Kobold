@@ -212,6 +212,7 @@ public:
 	}
 
 	bool can_have_feat(const feat *feat) const;
+	bool can_gain_feat(const feat *feat) const;
 	bool has_feat(const feat *feat) const;
 	void add_feat(const feat *feat);
 	void remove_feat(const feat *feat);
