@@ -26,6 +26,7 @@ class saving_throw_type;
 class scripted_character_modifier;
 class skill;
 class spell;
+enum class character_class_type;
 enum class military_unit_stat;
 
 template <typename scope_type>
@@ -35,6 +36,7 @@ class character_game_data final : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString titled_name READ get_titled_name_qstring NOTIFY titled_name_changed)
 	Q_PROPERTY(const kobold::portrait* portrait READ get_portrait NOTIFY portrait_changed)
 	Q_PROPERTY(const kobold::country* country READ get_country NOTIFY country_changed)
 	Q_PROPERTY(int age READ get_age NOTIFY age_changed)
@@ -51,6 +53,13 @@ public:
 
 	void apply_history();
 	void on_setup_finished();
+
+	std::string get_titled_name() const;
+
+	QString get_titled_name_qstring() const
+	{
+		return QString::fromStdString(this->get_titled_name());
+	}
 
 	const kobold::portrait *get_portrait() const
 	{
@@ -309,6 +318,7 @@ public:
 	}
 
 signals:
+	void titled_name_changed();
 	void portrait_changed();
 	void country_changed();
 	void age_changed();

@@ -254,6 +254,23 @@ Window {
 		return str
 	}
 	
+	function bonuses_to_string(bonuses) {
+		var str = ""
+		
+		for (var i = 0; i < bonuses.length; i++) {
+			var bonus_type = bonuses[i].key
+			var bonus = bonuses[i].value
+			
+			if (i > 0) {
+				str += ", "
+			}
+			
+			str += bonus_type.name + " " + signed_number_string(bonus)
+		}
+		
+		return str
+	}
+	
 	function get_plural_form(str) {
 		if (str.endsWith("y")) {
 			return str.substr(0, str.length - 1) + "ies"

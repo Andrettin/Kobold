@@ -4,10 +4,18 @@ import ".."
 
 ModifierDialog {
 	id: character_dialog
-	title: character ? (is_ruler ? country_game_data.ruler_title_name + " " : "") + character.full_name : ""
-	date_string: character ? ("Lived: " + date_year_range_string(character.birth_date, character.death_date)) : ""
-	description: character ? character.description : ""
+	title: character ? character.game_data.titled_name : ""
+	//date_string: character ? ("Lived: " + date_year_range_string(character.birth_date, character.death_date)) : ""
+	//description: character ? character.description : ""
+	description: character ? (
+		"Class: " + character.game_data.character_class.name
+		+ "\nLevel: " + character.game_data.level
+		+ "\n\nFeats: " + string_list_to_string(object_list_to_name_list(character.game_data.feats), ", ")
+	) : ""
 	
 	property var character: null
-	readonly property bool is_ruler: character ? character === ruler : false
+	
+	onClosed: {
+		character = null
+	}
 }

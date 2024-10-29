@@ -116,17 +116,17 @@ Rectangle {
 		id: ruler_label
 		anchors.top: country_text.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
-		text: ruler_portrait.ruler_titled_name
+		text: ruler_portrait.character_titled_name
 		visible: ruler_portrait.visible
 	}
 	
-	RulerPortrait {
+	CharacterPortraitButton {
 		id: ruler_portrait
 		anchors.top: ruler_label.bottom
 		anchors.topMargin: 12 * scale_factor
 		anchors.left: country_text.right
 		anchors.leftMargin: 32 * scale_factor
-		ruler: selected_country_ruler
+		character: selected_country_ruler
 	}
 	
 	Row {

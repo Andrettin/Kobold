@@ -255,16 +255,13 @@ Rectangle {
 		}
 	}
 	
-	PortraitButton {
+	CharacterPortraitButton {
 		id: character_portrait
 		anchors.top: subtitle.bottom
 		anchors.topMargin: 16 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
-		portrait_identifier: character ? character.game_data.portrait.identifier : ""
-		circle: true
+		character: kobold.game.player_character
 		visible: !selected_site && !selected_garrison && !selected_civilian_unit && !selected_province
-		
-		readonly property var character: kobold.game.player_character
 	}
 	
 	SmallText {

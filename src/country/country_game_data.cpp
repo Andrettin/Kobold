@@ -100,6 +100,12 @@ country_game_data::country_game_data(kobold::country *country)
 	connect(this, &country_game_data::ruler_changed, this, &country_game_data::ruler_title_name_changed);
 	connect(this, &country_game_data::rank_changed, this, &country_game_data::type_name_changed);
 
+	connect(this, &country_game_data::title_name_changed, this, [this]() {
+		if (this->get_ruler() != nullptr) {
+			emit this->get_ruler()->get_game_data()->titled_name_changed();
+		}
+	});
+
 	for (const commodity *commodity : commodity::get_all()) {
 		this->add_available_commodity(commodity);
 

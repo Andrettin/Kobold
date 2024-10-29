@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import "./dialogs"
 
 Item {
 	id: diplomatic_map_view
@@ -70,6 +71,10 @@ Item {
 		anchors.top: parent.top
 		anchors.left: left_bar.right
 		anchors.right: right_bar.left
+	}
+	
+	CharacterDialog {
+		id: character_dialog
 	}
 	
 	Component.onCompleted: {

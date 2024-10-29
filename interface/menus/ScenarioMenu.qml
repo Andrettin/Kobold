@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import ".."
+import "../dialogs"
 
 MenuBase {
 	id: scenario_menu
@@ -198,11 +199,11 @@ MenuBase {
 		id: ruler_label
 		anchors.top: country_text_area.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
-		text: ruler_portrait.ruler_titled_name
+		text: ruler_portrait.character_titled_name
 		visible: ruler_portrait.visible
 	}
 	
-	RulerPortrait {
+	CharacterPortraitButton {
 		id: ruler_portrait
 		anchors.top: ruler_label.bottom
 		anchors.topMargin: 12 * scale_factor
@@ -344,6 +345,10 @@ MenuBase {
 		}
 	}
 	
+	CharacterDialog {
+		id: character_dialog
+	}
+	
 	Connections {
 		target: kobold.game
 		function onSetup_finished() {
@@ -393,10 +398,10 @@ MenuBase {
 	}
 	
 	function update_selected_country_data(country) {
-		ruler_portrait.ruler = country ? country.game_data.ruler : null
-		if (ruler_portrait.ruler !== null) {
-			ruler_portrait.ruler_country = country
-			ruler_portrait.portrait = ruler_portrait.ruler.game_data.portrait
+		ruler_portrait.character = country ? country.game_data.ruler : null
+		if (ruler_portrait.character !== null) {
+			ruler_portrait.portrait = ruler_portrait.character.game_data.portrait
+			ruler_portrait.character_titled_name = ruler_portrait.character.game_data.titled_name
 		}
 	}
 	

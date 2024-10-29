@@ -42,6 +42,7 @@ character_game_data::character_game_data(const kobold::character *character)
 	: character(character)
 {
 	connect(game::get(), &game::turn_changed, this, &character_game_data::age_changed);
+	connect(this, &character_game_data::ruler_changed, this, &character_game_data::titled_name_changed);
 
 	this->portrait = this->character->get_portrait();
 }
@@ -60,6 +61,15 @@ void character_game_data::apply_history()
 void character_game_data::on_setup_finished()
 {
 	this->check_portrait();
+}
+
+std::string character_game_data::get_titled_name() const
+{
+	if (!this->is_ruler()) {
+		return this->character->get_full_name();
+	}
+
+	return this->get_country()->get_game_data()->get_ruler_title_name() + " " + this->character->get_full_name();
 }
 
 bool character_game_data::is_current_portrait_valid() const
