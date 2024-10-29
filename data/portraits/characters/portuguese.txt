@@ -6,6 +6,9 @@ henry_the_navigator = {
 			culture = portuguese
 			culture = turkish
 		}
-		is_ruler = true
+		or = {
+			character_class = aristocrat
+			character_class = expert
+		}
 	}
 }

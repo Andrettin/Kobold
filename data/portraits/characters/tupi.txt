@@ -6,6 +6,5 @@ cunhambebe = {
 			culture = tupi
 			cultural_group = american
 		}
-		is_ruler = true
 	}
 }

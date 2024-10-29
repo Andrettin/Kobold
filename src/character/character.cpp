@@ -14,6 +14,8 @@
 #include "country/culture.h"
 #include "country/religion.h"
 #include "database/defines.h"
+#include "game/game.h"
+#include "language/name_generator.h"
 #include "map/province.h"
 #include "map/site.h"
 #include "map/site_type.h"
@@ -24,8 +26,12 @@
 #include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
 #include "util/assert_util.h"
+#include "util/gender.h"
 #include "util/log_util.h"
+#include "util/random.h"
 #include "util/string_util.h"
+
+#include <QUuid>
 
 namespace kobold {
 
@@ -33,6 +39,34 @@ const std::set<std::string> character::database_dependencies = {
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
 	province::class_identifier
 };
+
+const character *character::generate(const std::map<character_class_type, const character_class *> &character_classes, const int level, kobold::culture *culture, kobold::religion *religion, const site *home_settlement)
+{
+	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
+	generated_character->moveToThread(QApplication::instance()->thread());
+
+	generated_character->character_classes = character_classes;
+	generated_character->level = level;
+	generated_character->culture = culture;
+	generated_character->religion = religion;
+	generated_character->phenotype = culture->get_default_phenotype();
+	generated_character->home_settlement = home_settlement;
+	generated_character->set_start_date(game::get()->get_date());
+
+	const archimedes::gender gender = random::get()->generate(2) == 0 ? gender::male : gender::female;
+	generated_character->set_gender(gender);
+	generated_character->set_name(culture->get_personal_name_generator(gender)->generate_name());
+	generated_character->set_surname(culture->get_surname_generator(gender)->generate_name());
+
+	generated_character->initialize_dates();
+	generated_character->check();
+	generated_character->reset_history();
+	generated_character->get_game_data()->apply_history();
+	generated_character->get_game_data()->on_setup_finished();
+
+	game::get()->add_generated_character(std::move(generated_character));
+	return game::get()->get_generated_characters().back().get();
+}
 
 character::character(const std::string &identifier)
 	: character_base(identifier), role(character_role::none)

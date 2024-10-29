@@ -358,7 +358,7 @@ const name_generator *culture_base::get_personal_name_generator(const gender gen
 		return this->get_group()->get_personal_name_generator(gender);
 	}
 
-	return name_generator;
+	return fallback_name_generator::get()->get_personal_name_generator(gender);
 }
 
 void culture_base::add_personal_name(const gender gender, const name_variant &name)
@@ -398,7 +398,7 @@ const name_generator *culture_base::get_surname_generator(const gender gender) c
 		return this->get_group()->get_surname_generator(gender);
 	}
 
-	return name_generator;
+	return fallback_name_generator::get()->get_surname_generator(gender);
 }
 
 void culture_base::add_surname(const gender gender, const name_variant &surname)

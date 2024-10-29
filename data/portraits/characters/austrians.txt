@@ -4,8 +4,8 @@ metternich = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = false
 		character_class = aristocrat
 	}
 }

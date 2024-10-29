@@ -6,6 +6,7 @@
 #include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
+#include "character/character_history.h"
 #include "character/character_role.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
@@ -45,6 +46,17 @@ character_game_data::character_game_data(const kobold::character *character)
 	this->portrait = this->character->get_portrait();
 }
 
+void character_game_data::apply_history()
+{
+	for (const auto &[type, character_class] : this->character->get_character_classes()) {
+		this->set_character_class(type, character_class);
+	}
+
+	const character_history *character_history = this->character->get_history();
+	const int level = std::max(character_history->get_level(), 1);
+	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), level);
+}
+
 void character_game_data::on_setup_finished()
 {
 	this->check_portrait();
@@ -72,11 +84,6 @@ bool character_game_data::is_current_portrait_valid() const
 
 void character_game_data::check_portrait()
 {
-	if (this->character->get_role() != character_role::ruler) {
-		//only rulers need portraits
-		return;
-	}
-
 	if (this->is_current_portrait_valid()) {
 		return;
 	}
@@ -145,6 +152,10 @@ void character_game_data::set_dead(const bool dead)
 
 void character_game_data::die()
 {
+	if (this->is_ruler()) {
+		this->get_country()->get_game_data()->set_ruler(nullptr);
+	}
+
 	this->set_country(nullptr);
 	this->set_dead(true);
 }

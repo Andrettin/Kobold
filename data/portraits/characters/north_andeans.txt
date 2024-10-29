@@ -6,7 +6,13 @@ simon_bolivar = {
 			culture = castillian #Colombian/Venezuelan
 			culture = portuguese
 		}
-		is_ruler = true
+		or = {
+			character_class = aristocrat
+			character_class = barbarian
+			character_class = paladin
+			character_class = ranger
+			character_class = warrior
+		}
 		birth_year >= 1750
 	}
 }

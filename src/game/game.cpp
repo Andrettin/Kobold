@@ -3,6 +3,7 @@
 #include "game/game.h"
 
 #include "character/character.h"
+#include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
@@ -313,6 +314,8 @@ void game::reset_game_data()
 	for (character *character : character::get_all()) {
 		character->reset_game_data();
 	}
+
+	this->generated_characters.clear();
 }
 
 void game::apply_history(const kobold::scenario *scenario)
@@ -491,15 +494,8 @@ void game::apply_history(const kobold::scenario *scenario)
 		}
 
 		for (const character *character : character::get_all()) {
-			const character_history *character_history = character->get_history();
 			character_game_data *character_game_data = character->get_game_data();
-
-			for (const auto &[type, character_class] : character->get_character_classes()) {
-				character_game_data->set_character_class(type, character_class);
-			}
-
-			const int level = std::max(character_history->get_level(), 1);
-			character_game_data->change_character_class_level(character->get_character_class(character_class_type::base_class), level);
+			character_game_data->apply_history();
 		}
 
 		for (const historical_civilian_unit *historical_civilian_unit : historical_civilian_unit::get_all()) {
@@ -932,6 +928,28 @@ QCoro::Task<void> game::on_setup_finished()
 
 	this->calculate_great_power_ranks();
 
+	//generate rulers for countries without any
+	for (const country *country : this->get_countries()) {
+		if (country->get_game_data()->is_under_anarchy()) {
+			continue;
+		}
+
+		if (country->get_game_data()->get_ruler() == nullptr) {
+			std::vector<const character_class *> potential_base_classes;
+			for (const character_class *character_class : character_class::get_all()) {
+				if (character_class->get_type() == character_class_type::base_class) {
+					potential_base_classes.push_back(character_class);
+				}
+			}
+			assert_throw(!potential_base_classes.empty());
+
+			const character_class *base_class = vector::get_random(potential_base_classes);
+
+			const character *ruler = character::generate({ { base_class->get_type(), base_class } }, 1, const_cast<culture *>(country->get_culture()), const_cast<religion *>(country->get_game_data()->get_religion()), country->get_game_data()->get_capital());
+			country->get_game_data()->set_ruler(ruler);
+		}
+	}
+
 	for (const character *character : character::get_all()) {
 		character->get_game_data()->on_setup_finished();
 
@@ -1326,6 +1344,11 @@ QCoro::Task<void> game::create_exploration_diplomatic_map_image()
 	});
 
 	this->exploration_diplomatic_map_image = std::move(scaled_exploration_diplomatic_map_image);
+}
+
+void game::add_generated_character(qunique_ptr<character> &&character)
+{
+	this->generated_characters.push_back(std::move(character));
 }
 
 void game::process_delayed_effects()

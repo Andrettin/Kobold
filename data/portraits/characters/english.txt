@@ -4,8 +4,9 @@ elizabeth_i_of_england = {
 		gender = female
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = true
+		character_class = aristocrat
 	}
 }
 
@@ -15,8 +16,11 @@ francis_drake = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = false
-		character_class = expert
+		or = {
+			character_class = expert
+			character_class = rogue
+		}
 	}
 }

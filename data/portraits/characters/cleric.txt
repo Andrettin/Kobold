@@ -4,6 +4,7 @@ frankish_cleric = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
 		or = {
 			character_class = cleric

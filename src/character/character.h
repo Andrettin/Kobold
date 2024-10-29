@@ -71,6 +71,8 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
+	static const character *generate(const std::map<character_class_type, const character_class *> &character_classes, const int level, kobold::culture *culture, kobold::religion *religion, const site *home_settlement);
+
 	explicit character(const std::string &identifier);
 	~character();
 

@@ -1,20 +1,7 @@
 soldier = {
 	filepath = "portraits/characters/soldier.png"
-	character_conditions = {
-		or = {
-			character_class = barbarian
-			character_class = ranger
-			character_class = rogue
-		}
-	}
 }
 
 soldier_chainmail = {
 	filepath = "portraits/characters/soldier_chainmail.png"
-	character_conditions = {
-		or = {
-			character_class = paladin
-			character_class = warrior
-		}
-	}
 }

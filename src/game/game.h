@@ -239,6 +239,13 @@ public:
 		}
 	}
 
+	const std::vector<qunique_ptr<character>> &get_generated_characters() const
+	{
+		return this->generated_characters;
+	}
+
+	void add_generated_character(qunique_ptr<character> &&character);
+
 	void process_delayed_effects();
 
 private:
@@ -289,6 +296,7 @@ private:
 	QImage exploration_diplomatic_map_image;
 	bool exploration_changed = false;
 	std::map<const wonder *, const country *> wonder_countries;
+	std::vector<qunique_ptr<character>> generated_characters;
 	std::vector<std::unique_ptr<delayed_effect_instance<const character>>> character_delayed_effects;
 	std::vector<std::unique_ptr<delayed_effect_instance<const country>>> country_delayed_effects;
 	std::vector<std::unique_ptr<delayed_effect_instance<const province>>> province_delayed_effects;

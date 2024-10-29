@@ -48,6 +48,7 @@ class character_game_data final : public QObject
 public:
 	explicit character_game_data(const kobold::character *character);
 
+	void apply_history();
 	void on_setup_finished();
 
 	const kobold::portrait *get_portrait() const

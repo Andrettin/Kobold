@@ -6,7 +6,7 @@ frederick_the_great = {
 			culture = german
 			culture = polish
 		}
-		is_ruler = true
+		character_class = aristocrat
 	}
 }
 
@@ -16,6 +16,7 @@ jakob_fugger = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
 		character_class = expert
 		birth_year < 1800
@@ -29,7 +30,6 @@ wilhelmine_von_sagan = {
 		not = {
 			cultural_group = african
 		}
-		is_ruler = false
 	}
 }
 
@@ -39,8 +39,14 @@ otto_von_bismarck = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = false
-		character_class = aristocrat
+		or = {
+			character_class = aristocrat
+			character_class = barbarian
+			character_class = paladin
+			character_class = ranger
+			character_class = warrior
+		}
 	}
 }

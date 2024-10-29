@@ -3,7 +3,7 @@ louis_xiv = {
 	character_conditions = {
 		gender = male
 		culture = french
-		is_ruler = true
+		character_class = aristocrat
 	}
 }
 
@@ -13,6 +13,7 @@ cardinal_richelieu = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
 		religion = catholic #because of the cardinal's hat
 		character_class = cleric

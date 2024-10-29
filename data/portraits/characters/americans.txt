@@ -3,7 +3,12 @@ george_washington = {
 	character_conditions = {
 		gender = male
 		culture = english #American
-		is_ruler = true
+		or = {
+			character_class = barbarian
+			character_class = paladin
+			character_class = ranger
+			character_class = warrior
+		}
 		birth_year >= 1700
 	}
 }
@@ -14,8 +19,8 @@ jp_morgan = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = false
 		character_class = expert
 		birth_year >= 1800
 	}

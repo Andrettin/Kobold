@@ -6,6 +6,9 @@ gustav_adolf_of_sweden = {
 			culture = swedish
 			culture = russian
 		}
-		is_ruler = true
+		or = {
+			character_class = aristocrat
+			character_class = warrior
+		}
 	}
 }

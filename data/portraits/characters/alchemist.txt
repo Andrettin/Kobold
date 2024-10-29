@@ -4,8 +4,8 @@ alchemist = {
 		gender = male
 		not = {
 			cultural_group = african
+			cultural_group = american
 		}
-		is_ruler = false
 		or = {
 			character_class = mage
 			character_class = sorcerer
