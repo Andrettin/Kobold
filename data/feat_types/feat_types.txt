@@ -1,3 +1,13 @@
 general = {
 	name = "General"
 }
+
+flaw = {
+	name = "Flaw"
+	max_feats = 2
+}
+
+trait = {
+	name = "Trait"
+	max_feats = 2
+}

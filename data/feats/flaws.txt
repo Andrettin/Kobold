@@ -1,0 +1,33 @@
+meager_fortitude = {
+	name = "Meager Fortitude"
+	icon = skull
+	description = "You are sickly and weak of stomach."
+	types = {
+		flaw
+		general
+	}
+	modifier = {
+		fortitude = -3
+	}
+	effects = {
+		gain_feat_of_type = general
+		gain_feat_of_type = general
+	}
+}
+
+poor_reflexes = {
+	name = "Poor Reflexes"
+	icon = skull
+	description = "You often zig when you should have zagged."
+	types = {
+		flaw
+		general
+	}
+	modifier = {
+		reflex = -3
+	}
+	effects = {
+		gain_feat_of_type = general
+		gain_feat_of_type = general
+	}
+}

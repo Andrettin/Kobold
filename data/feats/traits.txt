@@ -1,0 +1,17 @@
+abrasive = {
+	name = "Abrasive"
+	icon = skull
+	description = "You are difficult and demanding in conversation, which tends to oppress those around you."
+	types = {
+		trait
+		general
+	}
+	modifier = {
+		intimidate = 1
+		diplomacy = -1
+		bluff = -1
+	}
+	effects = {
+		gain_feat_of_type = general
+	}
+}
