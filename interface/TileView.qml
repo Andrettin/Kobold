@@ -98,6 +98,7 @@ Item {
 		visible: province !== null && is_center_tile && resource !== null && site && (site.game_data.settlement_type !== null || (improvement !== null && improvement.resource === null))
 	}
 	
+	/*
 	Image {
 		id: depot_icon
 		anchors.left: resource_icon.left
@@ -117,6 +118,7 @@ Item {
 		source: (site && site.game_data.port_improvement !== null) ? ("image://icon/" + site.game_data.port_improvement.icon.identifier) : "image://empty/"
 		visible: site && site.game_data.port_improvement !== null
 	}
+	*/
 	
 	Rectangle {
 		id: selection_rectangle
