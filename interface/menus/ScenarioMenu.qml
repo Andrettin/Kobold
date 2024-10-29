@@ -144,7 +144,7 @@ MenuBase {
 		anchors.leftMargin: 4 * scale_factor
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: 4 * scale_factor
-		width: 128 * scale_factor
+		width: 192 * scale_factor
 		height: 128 * scale_factor
 		contentWidth: contentItem.childrenRect.width
 		contentHeight: contentItem.childrenRect.height
@@ -198,23 +198,16 @@ MenuBase {
 		id: ruler_label
 		anchors.top: country_text_area.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
-		text: "Ruler"
+		text: ruler_portrait.ruler_titled_name
 		visible: ruler_portrait.visible
 	}
 	
-	PortraitButton {
+	RulerPortrait {
 		id: ruler_portrait
 		anchors.top: ruler_label.bottom
 		anchors.topMargin: 12 * scale_factor
 		anchors.left: country_text_area.right
 		anchors.leftMargin: 32 * scale_factor
-		portrait_identifier: portrait ? portrait.identifier : ""
-		visible: ruler !== null
-		tooltip: ruler && selected_country ? (selected_country.game_data.ruler_title_name + " " + ruler.full_name) : ""
-		circle: true
-		
-		property var ruler: null
-		property var portrait: null
 	}
 	
 	Rectangle {
@@ -402,6 +395,7 @@ MenuBase {
 	function update_selected_country_data(country) {
 		ruler_portrait.ruler = country ? country.game_data.ruler : null
 		if (ruler_portrait.ruler !== null) {
+			ruler_portrait.ruler_country = country
 			ruler_portrait.portrait = ruler_portrait.ruler.game_data.portrait
 		}
 	}

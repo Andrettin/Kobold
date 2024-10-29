@@ -177,6 +177,19 @@ void character_game_data::set_character_class(const character_class_type type, c
 	}
 }
 
+void character_game_data::change_level(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->level += change;
+
+	if (game::get()->is_running()) {
+		emit level_changed();
+	}
+}
+
 void character_game_data::change_character_class_level(const character_class *character_class, const int change)
 {
 	if (change == 0) {

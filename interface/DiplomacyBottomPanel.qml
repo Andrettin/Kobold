@@ -116,20 +116,17 @@ Rectangle {
 		id: ruler_label
 		anchors.top: country_text.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
-		text: "Ruler"
+		text: ruler_portrait.ruler_titled_name
 		visible: ruler_portrait.visible
 	}
 	
-	PortraitButton {
+	RulerPortrait {
 		id: ruler_portrait
 		anchors.top: ruler_label.bottom
 		anchors.topMargin: 12 * scale_factor
 		anchors.left: country_text.right
 		anchors.leftMargin: 32 * scale_factor
-		portrait_identifier: selected_country_ruler && selected_country_ruler.game_data.portrait ? selected_country_ruler.game_data.portrait.identifier : ""
-		visible: selected_country_ruler !== null
-		tooltip: selected_country_ruler ? (selected_country.game_data.ruler_title_name + " " + selected_country_ruler.full_name) : ""
-		circle: true
+		ruler: selected_country_ruler
 	}
 	
 	Row {
