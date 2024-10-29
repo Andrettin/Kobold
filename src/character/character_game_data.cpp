@@ -314,14 +314,12 @@ bool character_game_data::has_feat(const feat *feat) const
 
 void character_game_data::add_feat(const feat *feat)
 {
-	if (vector::contains(this->get_feats(), feat)) {
+	if (this->has_feat(feat)) {
 		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", but they already have the feat.");
 		return;
 	}
 
-	const read_only_context ctx(this->character);
-
-	if (feat->get_conditions() != nullptr && !feat->get_conditions()->check(this->character, ctx)) {
+	if (!this->can_have_feat(feat)) {
 		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", for which the feat's conditions are not fulfilled.");
 		return;
 	}
@@ -356,6 +354,21 @@ void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 	if (feat->get_modifier() != nullptr) {
 		this->apply_modifier(feat->get_modifier(), multiplier);
 	}
+}
+
+void character_game_data::choose_feat(const feat_type *type)
+{
+	std::vector<const feat *> potential_feats;
+
+	for (const feat *feat : type->get_feats()) {
+		if (this->can_gain_feat(feat)) {
+			potential_feats.push_back(feat);
+		}
+	}
+
+	assert_throw(!potential_feats.empty());
+
+	this->add_feat(vector::get_random(potential_feats));
 }
 
 QVariantList character_game_data::get_scripted_modifiers_qvariant_list() const

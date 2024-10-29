@@ -25,6 +25,8 @@
 #include "script/effect/create_military_unit_effect.h"
 #include "script/effect/delayed_effect.h"
 #include "script/effect/event_effect.h"
+#include "script/effect/gain_feat_effect.h"
+#include "script/effect/gain_feat_of_type_effect.h"
 #include "script/effect/gain_spell_scroll_effect.h"
 #include "script/effect/hidden_effect.h"
 #include "script/effect/if_effect.h"
@@ -53,7 +55,13 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	const gsml_operator effect_operator = property.get_operator();
 	const std::string &value = property.get_value();
 
-	if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const character>) {
+		if (key == "gain_feat") {
+			return std::make_unique<gain_feat_effect>(value, effect_operator);
+		} else if (key == "gain_feat_of_type") {
+			return std::make_unique<gain_feat_of_type_effect>(value, effect_operator);
+		}
+	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string percent_suffix = "_percent";
 
 		if (key == "clear_flag") {

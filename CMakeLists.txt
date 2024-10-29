@@ -581,6 +581,8 @@ set(script_effect_HDRS
 	src/script/effect/effect.h
 	src/script/effect/effect_list.h
 	src/script/effect/event_effect.h
+	src/script/effect/gain_feat_effect.h
+	src/script/effect/gain_feat_of_type_effect.h
 	src/script/effect/gain_spell_scroll_effect.h
 	src/script/effect/hidden_effect.h
 	src/script/effect/if_effect.h

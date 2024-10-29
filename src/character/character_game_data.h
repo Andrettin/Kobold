@@ -217,6 +217,7 @@ public:
 	void add_feat(const feat *feat);
 	void remove_feat(const feat *feat);
 	void on_feat_gained(const feat *feat, const int multiplier);
+	void choose_feat(const feat_type *type);
 
 	const scripted_character_modifier_map<int> &get_scripted_modifiers() const
 	{
