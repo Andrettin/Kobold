@@ -135,7 +135,7 @@ Window {
 	
 	function signed_number_string(n) {
 		if (n < 0) {
-			return 0
+			return n
 		}
 		return "+" + n
 	}
