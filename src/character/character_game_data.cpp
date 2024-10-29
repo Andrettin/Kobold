@@ -275,6 +275,11 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 	}
 }
 
+QVariantList character_game_data::get_saving_throw_bonuses_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_saving_throw_bonuses());
+}
+
 void character_game_data::change_saving_throw_bonus(const saving_throw_type *type, const int change)
 {
 	if (change == 0) {
@@ -285,6 +290,15 @@ void character_game_data::change_saving_throw_bonus(const saving_throw_type *typ
 	if (new_value == 0) {
 		this->saving_throw_bonuses.erase(type);
 	}
+
+	if (game::get()->is_running()) {
+		emit saving_throw_bonuses_changed();
+	}
+}
+
+QVariantList character_game_data::get_skill_bonuses_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_skill_bonuses());
 }
 
 void character_game_data::change_skill_bonus(const skill *skill, const int change)
@@ -296,6 +310,10 @@ void character_game_data::change_skill_bonus(const skill *skill, const int chang
 	const int new_value = (this->skill_bonuses[skill] += change);
 	if (new_value == 0) {
 		this->skill_bonuses.erase(skill);
+	}
+
+	if (game::get()->is_running()) {
+		emit skill_bonuses_changed();
 	}
 }
 

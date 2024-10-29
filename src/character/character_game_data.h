@@ -43,6 +43,8 @@ class character_game_data final : public QObject
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
 	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
+	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
+	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY ruler_changed)
@@ -180,6 +182,13 @@ public:
 		this->base_attack_bonus += change;
 	}
 
+	const data_entry_map<saving_throw_type, int> &get_saving_throw_bonuses() const
+	{
+		return this->saving_throw_bonuses;
+	}
+
+	QVariantList get_saving_throw_bonuses_qvariant_list() const;
+
 	int get_saving_throw_bonus(const saving_throw_type *type) const
 	{
 		const auto find_iterator = this->saving_throw_bonuses.find(type);
@@ -191,6 +200,13 @@ public:
 	}
 
 	void change_saving_throw_bonus(const saving_throw_type *type, const int change);
+
+	const data_entry_map<skill, int> &get_skill_bonuses() const
+	{
+		return this->skill_bonuses;
+	}
+
+	QVariantList get_skill_bonuses_qvariant_list() const;
 
 	int get_skill_bonus(const skill *skill) const
 	{
@@ -325,6 +341,8 @@ signals:
 	void dead_changed();
 	void character_classes_changed();
 	void level_changed();
+	void saving_throw_bonuses_changed();
+	void skill_bonuses_changed();
 	void feats_changed();
 	void scripted_modifiers_changed();
 	void ruler_changed();
