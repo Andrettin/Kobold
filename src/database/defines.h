@@ -19,6 +19,7 @@ namespace archimedes {
 namespace kobold {
 
 class building_class;
+class character;
 class commodity;
 class icon;
 class pathway;
@@ -26,6 +27,9 @@ class portrait;
 class terrain_type;
 enum class diplomacy_state;
 enum class event_trigger;
+
+template <typename scope_type>
+class effect_list;
 
 class defines final : public defines_base, public singleton<defines>
 {
@@ -66,6 +70,7 @@ public:
 	using singleton<defines>::get;
 
 	defines();
+	~defines();
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
@@ -217,6 +222,16 @@ public:
 		return this->war_minister_portrait;
 	}
 
+	const effect_list<const character> *get_character_level_effects(const int level) const
+	{
+		const auto find_iterator = this->character_level_effects.find(level);
+		if (find_iterator != this->character_level_effects.end()) {
+			return find_iterator->second.get();
+		}
+
+		return nullptr;
+	}
+
 	const QColor &get_minor_nation_color() const
 	{
 		return this->minor_nation_color;
@@ -322,6 +337,7 @@ private:
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
+	std::map<int, std::unique_ptr<const effect_list<const character>>> character_level_effects;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	QColor minor_nation_color;

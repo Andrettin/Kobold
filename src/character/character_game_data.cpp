@@ -219,6 +219,14 @@ void character_game_data::on_class_level_gained(const character_class *character
 	for (const auto &[saving_throw_type, saving_throw_bonus_table] : character_class->get_saving_throw_bonus_tables()) {
 		this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(affected_class_level) * multiplier);
 	}
+
+	if (multiplier > 0) {
+		const effect_list<const kobold::character> *effects = defines::get()->get_character_level_effects(this->get_level());
+		if (effects != nullptr) {
+			context ctx(this->character);
+			effects->do_effects(this->character, ctx);
+		}
+	}
 }
 
 void character_game_data::change_attribute_value(const character_attribute *attribute, const int change)

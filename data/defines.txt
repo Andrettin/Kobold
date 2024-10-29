@@ -31,6 +31,51 @@ military_upkeep_icon = crossed_sabers
 interior_minister_portrait = metternich
 war_minister_portrait = otto_von_bismarck
 
+character_level_effects = {
+	1 = {
+		gain_feat_of_type = general
+	}
+	3 = {
+		gain_feat_of_type = general
+	}
+	6 = {
+		gain_feat_of_type = general
+	}
+	9 = {
+		gain_feat_of_type = general
+	}
+	12 = {
+		gain_feat_of_type = general
+	}
+	15 = {
+		gain_feat_of_type = general
+	}
+	18 = {
+		gain_feat_of_type = general
+	}
+	21 = {
+		gain_feat_of_type = general
+	}
+	24 = {
+		gain_feat_of_type = general
+	}
+	27 = {
+		gain_feat_of_type = general
+	}
+	30 = {
+		gain_feat_of_type = general
+	}
+	33 = {
+		gain_feat_of_type = general
+	}
+	36 = {
+		gain_feat_of_type = general
+	}
+	39 = {
+		gain_feat_of_type = general
+	}
+}
+
 minor_nation_color = { 221 216 181 }
 country_border_color = { 0 0 0 }
 selected_country_color = { 255 255 0 }

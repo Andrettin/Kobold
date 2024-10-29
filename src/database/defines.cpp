@@ -13,6 +13,7 @@
 #include "map/direction.h"
 #include "map/terrain_adjacency_type.h"
 #include "map/tile_image_provider.h"
+#include "script/effect/effect_list.h"
 #include "ui/icon.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
@@ -26,6 +27,10 @@ defines::defines() : min_log_level(log_level::warning)
 
 	connect(this, &defines::changed, this, &defines::scaled_tile_size_changed);
 	connect(preferences::get(), &preferences::scale_factor_changed, this, &defines::scaled_tile_size_changed);
+}
+
+defines::~defines()
+{
 }
 
 void defines::process_gsml_scope(const gsml_data &scope)
@@ -52,6 +57,14 @@ void defines::process_gsml_scope(const gsml_data &scope)
 			const int bonus = std::stoi(property.get_value());
 
 			this->river_settlement_commodity_bonuses[commodity] = bonus;
+		});
+	} else if (tag == "character_level_effects") {
+		scope.for_each_child([&](const gsml_data &child_scope) {
+			const std::string &child_tag = child_scope.get_tag();
+			const int level = std::stoi(child_tag);
+			auto effect_list = std::make_unique<kobold::effect_list<const character>>();
+			database::process_gsml_data(effect_list, child_scope);
+			this->character_level_effects[level] = std::move(effect_list);
 		});
 	} else if (tag == "diplomacy_state_colors") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
