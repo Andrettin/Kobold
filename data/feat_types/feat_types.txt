@@ -5,9 +5,15 @@ general = {
 flaw = {
 	name = "Flaw"
 	max_feats = 2
+	gain_conditions = {
+		level == 1
+	}
 }
 
 trait = {
 	name = "Trait"
 	max_feats = 2
+	gain_conditions = {
+		level == 1
+	}
 }

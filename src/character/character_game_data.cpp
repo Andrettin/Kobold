@@ -310,6 +310,10 @@ bool character_game_data::can_gain_feat(const feat *feat) const
 		if (type->get_max_feats() > 0 && this->get_feat_count_for_type(type) >= type->get_max_feats()) {
 			return false;
 		}
+
+		if (type->get_gain_conditions() != nullptr && !type->get_gain_conditions()->check(this->character, read_only_context(this->character))) {
+			return false;
+		}
 	}
 
 	return this->can_have_feat(feat);
