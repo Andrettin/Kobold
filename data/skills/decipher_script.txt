@@ -1,0 +1,4 @@
+decipher_script = {
+	name = "Decipher Script"
+	attribute = intelligence
+}

@@ -1,0 +1,4 @@
+sense_motive = {
+	name = "Sense Motive"
+	attribute = wisdom
+}

@@ -1,0 +1,4 @@
+move_silently = {
+	name = "Move Silently"
+	attribute = dexterity
+}

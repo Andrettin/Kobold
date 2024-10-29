@@ -1,0 +1,4 @@
+tumble = {
+	name = "Tumble"
+	attribute = dexterity
+}

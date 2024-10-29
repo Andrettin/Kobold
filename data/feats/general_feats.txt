@@ -1,3 +1,27 @@
+acrobatic = {
+	name = "Acrobatic"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		jump = 2
+		tumble = 2
+	}
+}
+
+agile = {
+	name = "Agile"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		balance = 2
+		escape_artist = 2
+	}
+}
+
 alertness = {
 	name = "Alertness"
 	icon = research
@@ -7,5 +31,182 @@ alertness = {
 	modifier = {
 		listen = 2
 		spot = 2
+	}
+}
+
+animal_affinity = {
+	name = "Animal Affinity"
+	icon = horses
+	types = {
+		general
+	}
+	modifier = {
+		handle_animal = 2
+		ride = 2
+	}
+}
+
+athletic = {
+	name = "Athletic"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		climb = 2
+		swim = 2
+	}
+}
+
+deceitful = {
+	name = "Deceitful"
+	icon = dagger_bloody
+	types = {
+		general
+	}
+	modifier = {
+		disguise = 2
+		forgery = 2
+	}
+}
+
+deft_hands = {
+	name = "Deft Hands"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		sleight_of_hand = 2
+		use_rope = 2
+	}
+}
+
+diligent = {
+	name = "Diligent"
+	icon = cog
+	types = {
+		general
+	}
+	modifier = {
+		appraise = 2
+		decipher_script = 2
+	}
+}
+
+great_fortitude = {
+	name = "Great Fortitude"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		fortitude = 2
+	}
+}
+
+investigator = {
+	name = "Investigator"
+	icon = research
+	types = {
+		general
+	}
+	modifier = {
+		gather_information = 2
+		search = 2
+	}
+}
+
+iron_will = {
+	name = "Iron Will"
+	icon = wall
+	types = {
+		general
+	}
+	modifier = {
+		will = 2
+	}
+}
+
+lightning_reflexes = {
+	name = "Lightning Reflexes"
+	icon = research
+	types = {
+		general
+	}
+	modifier = {
+		reflex = 2
+	}
+}
+
+magical_aptitude = {
+	name = "Magical Aptitude"
+	icon = university
+	types = {
+		general
+	}
+	modifier = {
+		spellcraft = 2
+		use_magic_device = 2
+	}
+}
+
+negotiator = {
+	name = "Negotiator"
+	icon = treaty
+	types = {
+		general
+	}
+	modifier = {
+		diplomacy = 2
+		sense_motive = 2
+	}
+}
+
+nimble_fingers = {
+	name = "Nimble Fingers"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		disable_device = 2
+		open_lock = 2
+	}
+}
+
+persuasive = {
+	name = "Persuasive"
+	icon = treaty
+	types = {
+		general
+	}
+	modifier = {
+		bluff = 2
+		intimidate = 2
+	}
+}
+
+self_sufficient = {
+	name = "Self-Sufficient"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		heal = 2
+		survival = 2
+	}
+}
+
+stealthy = {
+	name = "Stealthy"
+	icon = dagger_bloody
+	types = {
+		general
+	}
+	modifier = {
+		hide = 2
+		move_silently = 2
 	}
 }

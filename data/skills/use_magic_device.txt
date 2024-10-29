@@ -1,0 +1,4 @@
+use_magic_device = {
+	name = "Use Magic Device"
+	attribute = charisma
+}

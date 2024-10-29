@@ -1,0 +1,4 @@
+open_lock = {
+	name = "Open Lock"
+	attribute = dexterity
+}

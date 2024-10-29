@@ -1,0 +1,4 @@
+disguise = {
+	name = "Disguise"
+	attribute = charisma
+}

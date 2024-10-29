@@ -1,0 +1,4 @@
+search = {
+	name = "Search"
+	attribute = intelligence
+}

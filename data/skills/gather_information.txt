@@ -1,0 +1,4 @@
+gather_information = {
+	name = "Gather Information"
+	attribute = charisma
+}

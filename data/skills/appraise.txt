@@ -1,0 +1,4 @@
+appraise = {
+	name = "Appraise"
+	attribute = intelligence
+}

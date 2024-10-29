@@ -1,0 +1,4 @@
+swim = {
+	name = "Swim"
+	attribute = strength
+}

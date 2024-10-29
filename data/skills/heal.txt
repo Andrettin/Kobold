@@ -1,0 +1,4 @@
+heal = {
+	name = "Heal"
+	attribute = wisdom
+}

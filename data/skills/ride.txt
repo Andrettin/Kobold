@@ -1,0 +1,4 @@
+ride = {
+	name = "Ride"
+	attribute = dexterity
+}

@@ -1,0 +1,4 @@
+balance = {
+	name = "Balance"
+	attribute = dexterity
+}

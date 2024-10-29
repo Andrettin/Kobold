@@ -1,0 +1,4 @@
+spellcraft = {
+	name = "Spellcraft"
+	attribute = intelligence
+}

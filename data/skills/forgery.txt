@@ -1,0 +1,4 @@
+forgery = {
+	name = "Forgery"
+	attribute = intelligence
+}

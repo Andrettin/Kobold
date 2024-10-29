@@ -1,0 +1,4 @@
+use_rope = {
+	name = "Use Rope"
+	attribute = dexterity
+}

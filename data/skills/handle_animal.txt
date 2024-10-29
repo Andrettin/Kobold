@@ -1,0 +1,4 @@
+handle_animal = {
+	name = "Handle Animal"
+	attribute = charisma
+}

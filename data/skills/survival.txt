@@ -1,0 +1,4 @@
+survival = {
+	name = "Survival"
+	attribute = wisdom
+}
