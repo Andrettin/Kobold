@@ -43,6 +43,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
 	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
+	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
@@ -134,6 +135,13 @@ public:
 
 	void change_character_class_level(const character_class *character_class, const int change);
 	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
+
+	const data_entry_map<character_attribute, int> &get_attribute_values() const
+	{
+		return this->attribute_values;
+	}
+
+	QVariantList get_attribute_values_qvariant_list() const;
 
 	int get_attribute_value(const character_attribute *attribute) const
 	{
@@ -341,6 +349,7 @@ signals:
 	void dead_changed();
 	void character_classes_changed();
 	void level_changed();
+	void attribute_values_changed();
 	void saving_throw_bonuses_changed();
 	void skill_bonuses_changed();
 	void feats_changed();

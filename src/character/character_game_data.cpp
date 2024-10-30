@@ -275,6 +275,11 @@ void character_game_data::on_class_level_gained(const character_class *character
 	}
 }
 
+QVariantList character_game_data::get_attribute_values_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_attribute_values());
+}
+
 void character_game_data::change_attribute_value(const character_attribute *attribute, const int change)
 {
 	if (change == 0) {
@@ -284,6 +289,10 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 	const int new_value = (this->attribute_values[attribute] += change);
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
+	}
+
+	if (game::get()->is_running()) {
+		emit attribute_values_changed();
 	}
 }
 

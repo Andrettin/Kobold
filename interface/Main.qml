@@ -254,21 +254,25 @@ Window {
 		return str
 	}
 	
-	function bonuses_to_string(bonuses) {
+	function values_to_string(values, signed = false) {
 		var str = ""
 		
-		for (var i = 0; i < bonuses.length; i++) {
-			var bonus_type = bonuses[i].key
-			var bonus = bonuses[i].value
+		for (var i = 0; i < values.length; i++) {
+			var value_type = values[i].key
+			var value = values[i].value
 			
 			if (i > 0) {
 				str += ", "
 			}
 			
-			str += bonus_type.name + " " + signed_number_string(bonus)
+			str += value_type.name + " " + (signed ? signed_number_string(value) : number_string(value))
 		}
 		
 		return str
+	}
+	
+	function bonuses_to_string(bonuses) {
+		return values_to_string(bonuses, true)
 	}
 	
 	function get_plural_form(str) {
