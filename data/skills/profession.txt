@@ -1,0 +1,4 @@
+profession_miner = {
+	name = "Profession: Miner"
+	attribute = wisdom
+}

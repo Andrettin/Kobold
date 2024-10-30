@@ -1,4 +1,12 @@
 kobold = {
 	name = "Kobold"
 	sapient = true
+	modifier = {
+		strength = -4
+		dexterity = 2
+		constitution = -2
+		craft_trapmaking = 2
+		profession_miner = 2
+		search = 2
+	}
 }

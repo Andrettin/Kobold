@@ -2,3 +2,8 @@ craft_alchemy = {
 	name = "Craft: Alchemy"
 	attribute = intelligence
 }
+
+craft_trapmaking = {
+	name = "Craft: Trapmaking"
+	attribute = intelligence
+}

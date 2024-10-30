@@ -1,4 +1,10 @@
 orc = {
 	name = "Orc"
 	sapient = true
+	modifier = {
+		strength = 4
+		intelligence = -2
+		wisdom = -2
+		charisma = -2
+	}
 }

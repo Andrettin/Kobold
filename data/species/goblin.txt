@@ -1,4 +1,11 @@
 goblin = {
 	name = "Goblin"
 	sapient = true
+	modifier = {
+		strength = -2
+		dexterity = 2
+		charisma = -2
+		move_silently = 4
+		ride = 4
+	}
 }
