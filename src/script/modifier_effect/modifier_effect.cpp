@@ -9,6 +9,7 @@
 #include "script/modifier_effect/capital_commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_output_modifier_effect.h"
 #include "script/modifier_effect/cavalry_cost_modifier_effect.h"
+#include "script/modifier_effect/character_attribute_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_for_tile_threshold_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_per_adjacent_terrain_modifier_effect.h"
@@ -57,7 +58,9 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	static const std::string bonus_suffix = "_bonus";
 
 	if constexpr (std::is_same_v<scope_type, const character>) {
-		if (saving_throw_type::try_get(key) != nullptr) {
+		if (character_attribute::try_get(key) != nullptr) {
+			return std::make_unique<character_attribute_modifier_effect>(character_attribute::get(key), value);
+		} else if (saving_throw_type::try_get(key) != nullptr) {
 			return std::make_unique<saving_throw_modifier_effect>(saving_throw_type::get(key), value);
 		} else if (skill::try_get(key) != nullptr) {
 			return std::make_unique<skill_modifier_effect>(skill::get(key), value);
