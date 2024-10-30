@@ -1,4 +1,11 @@
 elf = {
 	name = "Elf"
 	sapient = true
+	modifier = {
+		dexterity = 2
+		constitution = -2
+		listen = 2
+		search = 2
+		spot = 2
+	}
 }
