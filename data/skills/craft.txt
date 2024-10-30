@@ -1,0 +1,4 @@
+craft_alchemy = {
+	name = "Craft: Alchemy"
+	attribute = intelligence
+}

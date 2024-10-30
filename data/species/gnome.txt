@@ -1,4 +1,10 @@
 gnome = {
 	name = "Gnome"
 	sapient = true
+	modifier = {
+		constitution = 2
+		strength = -2
+		listen = 2
+		craft_alchemy = 2
+	}
 }

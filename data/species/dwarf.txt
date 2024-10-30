@@ -1,4 +1,8 @@
 dwarf = {
 	name = "Dwarf"
 	sapient = true
+	modifier = {
+		constitution = 2
+		charisma = -2
+	}
 }
