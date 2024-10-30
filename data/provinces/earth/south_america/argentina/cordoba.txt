@@ -7,14 +7,9 @@ cordoba_argentina = {
 	}
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = charrua
+		culture = charruan
 		religion = pagan
-		
-		-4000 = {
-			owner = charrua
-			culture = charruan
-		}
 		
 		1600 = {
 			owner = la_plata #part of La Plata in the 1600-1700 period; Source: William R. Shepherd, "Historical Atlas", 1911, p. 128.

@@ -7,14 +7,9 @@ piaui = {
 	}
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = tupi
+		culture = tupi
 		religion = pagan
-		
-		-4000 = {
-			owner = tupi
-			culture = tupi
-		}
 		
 		1300 = {
 			owner = tupi #territory of the Tropical Forest cultural group (to which the Tupi belonged) in the 1300-1535 period; Source: "Atlas de História Mundial", 2001, pp. 148-149.

@@ -7,14 +7,9 @@ colombia = {
 	}
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = arawaks
+		culture = arawak
 		religion = pagan
-		
-		-4000 = {
-			owner = arawaks
-			culture = arawak
-		}
 		
 		1836 = {
 			owner = colombia

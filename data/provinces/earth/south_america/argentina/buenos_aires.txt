@@ -7,14 +7,9 @@ buenos_aires = {
 	}
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = charrua
+		culture = charruan
 		religion = pagan
-		
-		-4000 = {
-			owner = charrua
-			culture = charruan
-		}
 		
 		1535 = {
 			owner = spain #Buenos Aires founded by the Spanish in 1535/1580; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 107-110.

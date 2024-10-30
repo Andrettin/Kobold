@@ -1,3 +1,0 @@
-dinosaur = {
-	name = "Dinosaur"
-}

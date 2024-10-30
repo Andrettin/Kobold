@@ -7,13 +7,8 @@ cayenne = {
 	}
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = tupi
+		culture = tupi
 		religion = pagan
-		
-		-4000 = {
-			owner = tupi
-			culture = tupi
-		}
 	}
 }

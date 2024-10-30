@@ -4,14 +4,9 @@ falkland_islands = {
 	provincial_capital = stanley
 	
 	history = {
-		owner = gondwana
-		culture = dinosaur
+		owner = mapuche
+		culture = mapuche
 		religion = pagan
-		
-		-4000 = {
-			owner = mapuche
-			culture = mapuche
-		}
 		
 		1763 = {
 			owner = france #became a French possession in 1763; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 214-215.
