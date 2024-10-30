@@ -22,7 +22,7 @@ farm = {
 		tobacco
 	}
 	commodity_costs = {
-		wealth = 2gb
+		wealth = 2gb #FIXME: cost should be variable depending on terrain
 	}
 	country_modifier = {
 		consumption = -2

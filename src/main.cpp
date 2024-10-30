@@ -55,6 +55,7 @@
 #include "map/site_type.h"
 #include "map/temperature_type.h"
 #include "map/tile_image_provider.h"
+#include "map/world.h"
 #include "script/scripted_character_modifier.h"
 #include "time/era.h"
 #include "ui/icon.h"
@@ -164,6 +165,7 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<defines>("", 1);
 		qmlRegisterAnonymousType<dynasty>("", 1);
 		qmlRegisterAnonymousType<era>("", 1);
+		qmlRegisterAnonymousType<const era>("", 1);
 		qmlRegisterAnonymousType<event>("", 1);
 		qmlRegisterAnonymousType<event_instance>("", 1);
 		qmlRegisterAnonymousType<feat>("", 1);
@@ -188,6 +190,8 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<site>("", 1);
 		qmlRegisterAnonymousType<site_game_data>("", 1);
 		qmlRegisterAnonymousType<wonder>("", 1);
+		qmlRegisterAnonymousType<world>("", 1);
+		qmlRegisterAnonymousType<const world>("", 1);
 
 		qmlRegisterType<map_country_model>("map_country_model", 1, 0, "MapCountryModel");
 		qmlRegisterType<map_grid_model>("map_grid_model", 1, 0, "MapGridModel");

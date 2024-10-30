@@ -1,0 +1,4 @@
+lizardfolk = {
+	name = "Lizardfolk"
+	sapient = true
+}

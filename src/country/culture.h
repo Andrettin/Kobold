@@ -6,6 +6,7 @@
 namespace kobold {
 
 class cultural_group;
+class species;
 
 template <typename scope_type>
 class condition;
@@ -36,6 +37,11 @@ public:
 		return this->color;
 	}
 
+	const std::vector<const species *> &get_species() const
+	{
+		return this->species;
+	}
+
 	const std::vector<const culture *> &get_derived_cultures() const
 	{
 		return this->derived_cultures;
@@ -46,6 +52,7 @@ signals:
 
 private:
 	QColor color;
+	std::vector<const species *> species; //species which can have this culture
 	std::vector<const culture *> derived_cultures;
 };
 

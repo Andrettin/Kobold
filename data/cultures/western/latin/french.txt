@@ -2,6 +2,9 @@ french = {
 	name = "French"
 	group = french
 	color = { 87 139 166 }
+	species = {
+		human
+	}
 	ruler_title_names = {
 		democratic_republic = "Premier"
 	}

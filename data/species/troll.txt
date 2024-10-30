@@ -1,0 +1,4 @@
+troll = {
+	name = "Troll"
+	sapient = true
+}

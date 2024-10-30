@@ -2,4 +2,7 @@ danish = {
 	name = "Danish"
 	group = scandinavian
 	color = { 220 40 40 }
+	species = {
+		human
+	}
 }

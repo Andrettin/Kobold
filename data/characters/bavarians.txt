@@ -2,6 +2,7 @@ triangel_fuchs = { #Source: Josef Dullinger, "Die Handelskompagnien Oesterreichs
 	name = "Triangel"
 	surname = "Fuchs"
 	role = civilian
+	species = human
 	character_class = expert #merchant
 	culture = german #Bavarian?
 	religion = catholic

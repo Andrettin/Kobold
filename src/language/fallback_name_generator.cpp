@@ -54,6 +54,24 @@ void fallback_name_generator::add_surnames(const std::unique_ptr<gendered_name_g
 	this->surname_generator->add_names_from(source_name_generator);
 }
 
+const name_generator *fallback_name_generator::get_specimen_name_generator(const gender gender) const
+{
+	if (this->specimen_name_generator != nullptr) {
+		return this->specimen_name_generator->get_name_generator(gender);
+	}
+
+	return nullptr;
+}
+
+void fallback_name_generator::add_specimen_names(const std::unique_ptr<gendered_name_generator> &source_name_generator)
+{
+	if (this->specimen_name_generator == nullptr) {
+		this->specimen_name_generator = std::make_unique<gendered_name_generator>();
+	}
+
+	this->specimen_name_generator->add_names_from(source_name_generator);
+}
+
 const name_generator *fallback_name_generator::get_military_unit_class_name_generator(const military_unit_class *unit_class) const
 {
 	const auto find_iterator = this->military_unit_class_name_generators.find(unit_class);

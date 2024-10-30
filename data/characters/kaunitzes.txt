@@ -1,6 +1,7 @@
 ernst_von_kaunitz = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, p. 85.
 	name = "Ernst"
 	dynasty = kaunitz
+	species = human
 	character_class = aristocrat
 	rank = prince
 	culture = german #Saxon/Westphalian
@@ -15,6 +16,7 @@ ernst_von_kaunitz = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnüge
 marie_eleonore_von_kaunitz = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, p. 85.
 	name = "Marie Eleonore"
 	dynasty = kaunitz
+	species = human
 	character_class = aristocrat
 	culture = german #Saxon/Westphalian
 	religion = catholic

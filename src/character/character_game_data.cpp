@@ -22,6 +22,7 @@
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "script/scripted_character_modifier.h"
+#include "species/species.h"
 #include "spell/spell.h"
 #include "ui/portrait.h"
 #include "unit/military_unit.h"
@@ -49,6 +50,10 @@ character_game_data::character_game_data(const kobold::character *character)
 
 void character_game_data::apply_history()
 {
+	if (this->character->get_species()->get_modifier() != nullptr) {
+		this->character->get_species()->get_modifier()->apply(this->character, 1);
+	}
+
 	for (const auto &[type, character_class] : this->character->get_character_classes()) {
 		this->set_character_class(type, character_class);
 	}
@@ -255,6 +260,13 @@ void character_game_data::on_class_level_gained(const character_class *character
 	}
 
 	if (multiplier > 0) {
+		if (this->get_level() == 1) {
+			if (this->character->get_species()->get_effects() != nullptr) {
+				context ctx(this->character);
+				this->character->get_species()->get_effects()->do_effects(this->character, ctx);
+			}
+		}
+
 		const effect_list<const kobold::character> *effects = defines::get()->get_character_level_effects(this->get_level());
 		if (effects != nullptr) {
 			context ctx(this->character);

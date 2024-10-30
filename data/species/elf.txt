@@ -1,0 +1,4 @@
+elf = {
+	name = "Elf"
+	sapient = true
+}

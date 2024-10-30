@@ -1,6 +1,7 @@
 sargon_ii_of_assyria = { #Source: William R. Shepherd, "Historical Atlas", 1911, p. 5.
 	name = "Sargon"
 	epithet = "II"
+	species = human
 	character_class = aristocrat
 	rank = king
 	culture = assyrian
@@ -12,6 +13,7 @@ sargon_ii_of_assyria = { #Source: William R. Shepherd, "Historical Atlas", 1911,
 
 assurbanipal_of_assyria = { #Source: William R. Shepherd, "Historical Atlas", 1911, p. 5.
 	name = "Assurbanipal"
+	species = human
 	character_class = aristocrat
 	rank = king
 	culture = assyrian

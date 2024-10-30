@@ -1,6 +1,7 @@
 selim_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 204.
 	name = "Selim"
 	epithet = "I"
+	species = human
 	character_class = aristocrat
 	rank = emperor
 	culture = turkish
@@ -16,6 +17,7 @@ suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciê
 	name = "Suleiman" #"Süleyman"
 	epithet = "I"
 	role = ruler
+	species = human
 	character_class = aristocrat
 	rank = emperor
 	culture = turkish

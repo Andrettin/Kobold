@@ -1,6 +1,7 @@
 tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 	name = "Tamas" #"Tamás"
 	surname = "Bakocz" #"Bakócz"
+	species = human
 	character_class = cleric
 	rank = bishop
 	culture = magyar

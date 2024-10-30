@@ -2,4 +2,7 @@ portuguese = {
 	name = "Portuguese"
 	group = iberian
 	color = { 0 66 24 }
+	species = {
+		human
+	}
 }

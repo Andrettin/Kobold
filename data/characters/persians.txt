@@ -2,6 +2,7 @@ darius_i_of_persia = {
 	name = "Darius"
 	epithet = "I"
 	role = ruler
+	species = human
 	character_class = aristocrat
 	rank = king
 	culture = persian

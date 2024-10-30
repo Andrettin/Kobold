@@ -1,6 +1,7 @@
 cymburgis_of_masovia = { #Cymburgis of Masovia; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 	name = "Cymburgis"
 	surname = "of Masovia"
+	species = human
 	character_class = aristocrat
 	culture = polish
 	religion = catholic
@@ -12,6 +13,7 @@ cymburgis_of_masovia = { #Cymburgis of Masovia; Source: Eva Demmerle, "Das Haus 
 nicolaus_copernicus = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 209-211.
 	name = "Nicolaus"
 	surname = "Copernicus"
+	species = human
 	character_class = expert #astronomer
 	culture = polish
 	religion = catholic

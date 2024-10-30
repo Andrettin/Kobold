@@ -1,0 +1,4 @@
+cyclops = {
+	name = "Cyclops"
+	sapient = true
+}

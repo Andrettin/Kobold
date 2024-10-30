@@ -1,6 +1,7 @@
 erkinger = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 390.
 	name = "Erkinger"
 	surname = "von Seinsheim"
+	species = human
 	character_class = aristocrat
 	rank = lord
 	culture = german #Franconian
@@ -17,6 +18,7 @@ regiomontanus = { #Source: "Encyclopædia Britannica", 1911, vol. 23, p. 39.
 	name = "Johann"
 	surname = "Muller" #"Müller"
 	nickname = "Regiomontanus"
+	species = human
 	character_class = expert #astronomer
 	culture = german
 	religion = catholic

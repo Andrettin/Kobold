@@ -12,6 +12,7 @@ Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("population/phenotype.h")
+Q_MOC_INCLUDE("species/species.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
 namespace archimedes {
@@ -34,6 +35,7 @@ class phenotype;
 class portrait;
 class religion;
 class site;
+class species;
 enum class character_class_type;
 enum class character_role;
 enum class military_unit_category;
@@ -53,6 +55,7 @@ class character final : public character_base, public data_type<character>
 
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
+	Q_PROPERTY(kobold::species* species MEMBER species NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
@@ -71,7 +74,7 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
-	static const character *generate(const std::map<character_class_type, const character_class *> &character_classes, const int level, kobold::culture *culture, kobold::religion *religion, const site *home_settlement);
+	static const character *generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
 	explicit character(const std::string &identifier);
 	~character();
@@ -104,6 +107,11 @@ public:
 	character_role get_role() const
 	{
 		return this->role;
+	}
+
+	const kobold::species *get_species() const
+	{
+		return this->species;
 	}
 
 	const std::map<character_class_type, const character_class *> &get_character_classes() const
@@ -186,6 +194,7 @@ signals:
 private:
 	kobold::dynasty *dynasty = nullptr;
 	kobold::character_role role;
+	kobold::species *species = nullptr;
 	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
 	std::string rank;

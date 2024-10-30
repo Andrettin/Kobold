@@ -945,7 +945,7 @@ QCoro::Task<void> game::on_setup_finished()
 
 			const character_class *base_class = vector::get_random(potential_base_classes);
 
-			const character *ruler = character::generate({ { base_class->get_type(), base_class } }, 1, const_cast<culture *>(country->get_culture()), const_cast<religion *>(country->get_game_data()->get_religion()), country->get_game_data()->get_capital());
+			const character *ruler = character::generate(country->get_culture()->get_species().at(0), { { base_class->get_type(), base_class } }, 1, country->get_culture(), country->get_game_data()->get_religion(), country->get_game_data()->get_capital());
 			country->get_game_data()->set_ruler(ruler);
 		}
 	}

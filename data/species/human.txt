@@ -1,0 +1,8 @@
+human = {
+	name = "Human"
+	#supertaxon = homo
+	sapient = true
+	effects = {
+		gain_feat_of_type = general
+	}
+}

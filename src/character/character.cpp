@@ -40,15 +40,16 @@ const std::set<std::string> character::database_dependencies = {
 	province::class_identifier
 };
 
-const character *character::generate(const std::map<character_class_type, const character_class *> &character_classes, const int level, kobold::culture *culture, kobold::religion *religion, const site *home_settlement)
+const character *character::generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
 
+	generated_character->species = const_cast<kobold::species *>(species);
 	generated_character->character_classes = character_classes;
 	generated_character->level = level;
-	generated_character->culture = culture;
-	generated_character->religion = religion;
+	generated_character->culture = const_cast<kobold::culture *>(culture);
+	generated_character->religion = const_cast<kobold::religion *>(religion);
 	generated_character->phenotype = culture->get_default_phenotype();
 	generated_character->home_settlement = home_settlement;
 	generated_character->set_start_date(game::get()->get_date());
@@ -178,6 +179,10 @@ void character::initialize()
 
 void character::check() const
 {
+	if (this->get_species() == nullptr) {
+		throw std::runtime_error(std::format("Character \"{}\" has no species.", this->get_identifier()));
+	}
+
 	if (this->get_character_class(character_class_type::base_class) == nullptr) {
 		throw std::runtime_error(std::format("Character \"{}\" has no base character class.", this->get_identifier()));
 	}
@@ -197,7 +202,9 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has rulable countries, but is not a ruler.", this->get_identifier()));
 	}
 
-	assert_throw(this->get_culture() != nullptr);
+	if (this->get_culture() == nullptr) {
+		throw std::runtime_error(std::format("Character \"{}\" has no culture.", this->get_identifier()));
+	}
 
 	if (this->get_religion() == nullptr) {
 		throw std::runtime_error(std::format("Character \"{}\" has no religion.", this->get_identifier()));

@@ -1,0 +1,4 @@
+hobgoblin = {
+	name = "Hobgoblin"
+	sapient = true
+}

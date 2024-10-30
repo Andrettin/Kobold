@@ -1,6 +1,7 @@
 catherine_of_aragon = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 207.
 	name = "Catherine"
 	surname = "of Aragon"
+	species = human
 	character_class = aristocrat
 	culture = aragonese
 	religion = catholic
