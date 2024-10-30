@@ -1,0 +1,9 @@
+half_orc = {
+	name = "Half-Orc"
+	sapient = true
+	modifier = {
+		strength = 2
+		intelligence = -2
+		charisma = -2
+	}
+}

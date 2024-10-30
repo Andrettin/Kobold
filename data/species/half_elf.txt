@@ -1,0 +1,11 @@
+half_elf = {
+	name = "Half-Elf"
+	sapient = true
+	modifier = {
+		listen = 1
+		search = 1
+		spot = 1
+		diplomacy = 2
+		gather_information = 2
+	}
+}

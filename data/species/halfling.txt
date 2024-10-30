@@ -1,0 +1,15 @@
+halfling = {
+	name = "Halfling"
+	sapient = true
+	modifier = {
+		dexterity = 2
+		strength = -2
+		climb = 2
+		jump = 2
+		listen = 2
+		move_silently = 2
+		fortitude = 1
+		reflex = 1
+		will = 1
+	}
+}
