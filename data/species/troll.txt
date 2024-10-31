@@ -1,4 +1,18 @@
 troll = {
 	name = "Troll"
 	sapient = true
+	hit_dice = 6d8
+	level_adjustment = 5
+	modifier = {
+		strength = 12
+		dexterity = 4
+		constitution = 12
+		intelligence = -4
+		wisdom = -2
+		charisma = -4
+		base_attack_bonus = 4
+		fortitude = 5
+		reflex = 2
+		will = 2
+	}
 }

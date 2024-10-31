@@ -1,4 +1,14 @@
 gnoll = {
 	name = "Gnoll"
 	sapient = true
+	hit_dice = 2d8
+	level_adjustment = 1
+	modifier = {
+		strength = 4
+		constitution = 2
+		intelligence = -2
+		charisma = -2
+		base_attack_bonus = 1
+		fortitude = 3
+	}
 }
