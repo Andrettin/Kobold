@@ -534,6 +534,7 @@ set(script_condition_HDRS
 	src/script/condition/has_resource_condition.h
 	src/script/condition/has_route_condition.h
 	src/script/condition/has_terrain_condition.h
+	src/script/condition/hit_dice_condition.h
 	src/script/condition/improvement_condition.h
 	src/script/condition/independent_condition.h
 	src/script/condition/infantry_condition.h

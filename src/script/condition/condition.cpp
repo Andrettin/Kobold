@@ -47,6 +47,7 @@
 #include "script/condition/has_resource_condition.h"
 #include "script/condition/has_route_condition.h"
 #include "script/condition/has_terrain_condition.h"
+#include "script/condition/hit_dice_condition.h"
 #include "script/condition/improvement_condition.h"
 #include "script/condition/independent_condition.h"
 #include "script/condition/infantry_condition.h"
@@ -107,6 +108,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<character_role_condition>(value, condition_operator);
 		} else if (key == "feat") {
 			return std::make_unique<feat_condition>(value, condition_operator);
+		} else if (key == "hit_dice") {
+			return std::make_unique<hit_dice_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
 		} else if (key == "level") {
