@@ -20,6 +20,7 @@
 #include "map/province.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
+#include "script/factor.h"
 #include "script/modifier.h"
 #include "script/scripted_character_modifier.h"
 #include "species/species.h"
@@ -497,9 +498,16 @@ void character_game_data::choose_feat(const feat_type *type)
 	std::vector<const feat *> potential_feats;
 
 	for (const feat *feat : type->get_feats()) {
-		if (this->can_gain_feat(feat)) {
+		if (!this->can_gain_feat(feat)) {
+			continue;
+		}
+
+		const int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
+
+		for (int i = 0; i < weight; ++i) {
 			potential_feats.push_back(feat);
 		}
+
 	}
 
 	assert_throw(!potential_feats.empty());

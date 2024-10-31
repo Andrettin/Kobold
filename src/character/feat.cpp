@@ -5,6 +5,7 @@
 #include "character/feat_type.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
+#include "script/factor.h"
 #include "script/modifier.h"
 
 namespace kobold {
@@ -16,6 +17,19 @@ feat::feat(const std::string &identifier)
 
 feat::~feat()
 {
+}
+
+void feat::process_gsml_property(const gsml_property &property)
+{
+	const std::string &key = property.get_key();
+	const std::string &value = property.get_value();
+
+	if (key == "weight_factor") {
+		const int factor = std::stoi(value);
+		this->weight_factor = std::make_unique<kobold::factor<character>>(factor);
+	} else {
+		data_entry::process_gsml_property(property);
+	}
 }
 
 void feat::process_gsml_scope(const gsml_data &scope)
@@ -41,6 +55,9 @@ void feat::process_gsml_scope(const gsml_data &scope)
 		auto effect_list = std::make_unique<kobold::effect_list<const character>>();
 		database::process_gsml_data(effect_list, scope);
 		this->effects = std::move(effect_list);
+	} else if (tag == "weight_factor") {
+		this->weight_factor = std::make_unique<factor<character>>();
+		database::process_gsml_data(this->weight_factor, scope);
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
@@ -54,6 +71,10 @@ void feat::check() const
 
 	if (this->get_icon() == nullptr) {
 		throw std::runtime_error(std::format("Feat \"{}\" has no icon.", this->get_identifier()));
+	}
+
+	if (this->get_weight_factor() != nullptr) {
+		this->get_weight_factor()->check();
 	}
 }
 

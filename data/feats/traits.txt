@@ -11,6 +11,7 @@ abrasive = {
 		diplomacy = -1
 		bluff = -1
 	}
+	weight_factor = 3
 }
 
 detached = {
@@ -25,6 +26,7 @@ detached = {
 		will = 1
 		reflex = -1
 	}
+	weight_factor = 3
 }
 
 dishonest = {
@@ -39,6 +41,7 @@ dishonest = {
 		bluff = 1
 		diplomacy = -2
 	}
+	weight_factor = 3
 }
 
 easygoing = {
@@ -54,6 +57,7 @@ easygoing = {
 		intimidate = -1
 		sense_motive = -1
 	}
+	weight_factor = 3
 }
 
 farsighted = {
@@ -68,6 +72,7 @@ farsighted = {
 		spot = 1
 		search = -2
 	}
+	weight_factor = 3
 }
 
 hard_of_hearing = {
@@ -82,6 +87,7 @@ hard_of_hearing = {
 		spot = 1
 		listen = -2
 	}
+	weight_factor = 3
 }
 
 hardy = {
@@ -96,6 +102,7 @@ hardy = {
 		fortitude = 1
 		reflex = -1
 	}
+	weight_factor = 3
 }
 
 honest = {
@@ -111,6 +118,7 @@ honest = {
 		bluff = -1
 		sense_motive = -1
 	}
+	weight_factor = 3
 }
 
 nearsighted = {
@@ -125,6 +133,7 @@ nearsighted = {
 		search = 1
 		spot = -1
 	}
+	weight_factor = 3
 }
 
 passionate = {
@@ -139,6 +148,7 @@ passionate = {
 		fortitude = 1
 		will = -1
 	}
+	weight_factor = 3
 }
 
 plucky = {
@@ -153,6 +163,7 @@ plucky = {
 		will = 1
 		fortitude = -1
 	}
+	weight_factor = 3
 }
 
 polite = {
@@ -167,6 +178,7 @@ polite = {
 		diplomacy = 1
 		intimidate = -2
 	}
+	weight_factor = 3
 }
 
 saddleborn = {
@@ -181,6 +193,7 @@ saddleborn = {
 		ride = 1
 		handle_animal = -1
 	}
+	weight_factor = 2
 }
 
 suspicious = {
@@ -196,4 +209,5 @@ suspicious = {
 		diplomacy = -1
 		intimidate = -1
 	}
+	weight_factor = 3
 }
