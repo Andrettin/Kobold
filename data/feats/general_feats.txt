@@ -210,3 +210,14 @@ stealthy = {
 		move_silently = 2
 	}
 }
+
+toughness = {
+	name = "Toughness"
+	icon = labor
+	types = {
+		general
+	}
+	modifier = {
+		hit_points = 3
+	}
+}

@@ -646,6 +646,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/free_consulate_modifier_effect.h
 	src/script/modifier_effect/free_infantry_promotion_modifier_effect.h
 	src/script/modifier_effect/free_warship_promotion_modifier_effect.h
+	src/script/modifier_effect/hit_points_modifier_effect.h
 	src/script/modifier_effect/infantry_cost_modifier_effect.h
 	src/script/modifier_effect/law_cost_modifier_effect.h
 	src/script/modifier_effect/military_unit_category_stat_modifier_effect.h
