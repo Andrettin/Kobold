@@ -50,6 +50,10 @@ void character_class::check() const
 		throw std::runtime_error(std::format("Character class \"{}\" has null hit dice.", this->get_identifier()));
 	}
 
+	if (this->get_hit_dice().get_count() != 1) {
+		throw std::runtime_error(std::format("Character class \"{}\" has hit dice with a dice count different than 1.", this->get_identifier()));
+	}
+
 	if (this->get_base_attack_bonus_table() == nullptr) {
 		throw std::runtime_error(std::format("Character class \"{}\" has no base attack bonus table.", this->get_identifier()));
 	}

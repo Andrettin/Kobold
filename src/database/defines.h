@@ -222,10 +222,10 @@ public:
 		return this->war_minister_portrait;
 	}
 
-	const effect_list<const character> *get_character_level_effects(const int level) const
+	const effect_list<const character> *get_character_hit_dice_count_effects(const int level) const
 	{
-		const auto find_iterator = this->character_level_effects.find(level);
-		if (find_iterator != this->character_level_effects.end()) {
+		const auto find_iterator = this->character_hit_dice_count_effects.find(level);
+		if (find_iterator != this->character_hit_dice_count_effects.end()) {
 			return find_iterator->second.get();
 		}
 
@@ -337,7 +337,7 @@ private:
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
-	std::map<int, std::unique_ptr<const effect_list<const character>>> character_level_effects;
+	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	QColor minor_nation_color;

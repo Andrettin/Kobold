@@ -50,8 +50,22 @@ character_game_data::character_game_data(const kobold::character *character)
 
 void character_game_data::apply_history()
 {
-	if (this->character->get_species()->get_modifier() != nullptr) {
-		this->character->get_species()->get_modifier()->apply(this->character, 1);
+	const species *species = this->character->get_species();
+
+	if (species->get_level_adjustment() != 0) {
+		this->change_level(species->get_level_adjustment());
+	}
+
+	if (species->get_modifier() != nullptr) {
+		species->get_modifier()->apply(this->character, 1);
+	}
+
+	const dice &species_hit_dice = species->get_hit_dice();
+	if (!species_hit_dice.is_null()) {
+		for (int i = 0; i < species_hit_dice.get_count(); ++i) {
+			this->change_level(1);
+			this->apply_hit_dice(dice(1, species_hit_dice.get_sides()));
+		}
 	}
 
 	for (const auto &[type, character_class] : this->character->get_character_classes()) {
@@ -240,38 +254,40 @@ void character_game_data::on_class_level_gained(const character_class *character
 
 	this->change_level(multiplier);
 
-	const dice &hit_dice = character_class->get_hit_dice();
-	if (this->get_level() == 1 && multiplier > 0) {
-		this->change_hit_points(hit_dice.get_maximum_result() * multiplier);
-	} else {
-		assert_throw(hit_dice.get_count() > 0);
-		const int base_value = hit_dice.get_maximum_result() + hit_dice.get_count();
-		int hit_points = base_value / 2;
-		if (base_value % 2 == 1 && affected_class_level % 2 == 0) {
-			hit_points += 1;
-		}
-		this->change_hit_points(hit_points * multiplier);
-	}
-
 	this->change_base_attack_bonus(character_class->get_base_attack_bonus_table()->get_bonus_per_level(affected_class_level) * multiplier);
 
 	for (const auto &[saving_throw_type, saving_throw_bonus_table] : character_class->get_saving_throw_bonus_tables()) {
 		this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(affected_class_level) * multiplier);
 	}
 
-	if (multiplier > 0) {
-		if (this->get_level() == 1) {
-			if (this->character->get_species()->get_effects() != nullptr) {
-				context ctx(this->character);
-				this->character->get_species()->get_effects()->do_effects(this->character, ctx);
-			}
-		}
+	const dice &hit_dice = character_class->get_hit_dice();
+	this->apply_hit_dice(hit_dice);
+}
 
-		const effect_list<const kobold::character> *effects = defines::get()->get_character_level_effects(this->get_level());
-		if (effects != nullptr) {
+void character_game_data::apply_hit_dice(const dice &hit_dice)
+{
+	assert_throw(hit_dice.get_count() == 1);
+
+	this->change_hit_dice_count(1);
+
+	if (this->get_hit_dice_count() == 1) {
+		this->change_hit_points(hit_dice.get_maximum_result());
+	} else {
+		assert_throw(hit_dice.get_count() > 0);
+		this->change_hit_points(random::get()->roll_dice(hit_dice));
+	}
+
+	if (this->get_hit_dice_count() == 1) {
+		if (this->character->get_species()->get_effects() != nullptr) {
 			context ctx(this->character);
-			effects->do_effects(this->character, ctx);
+			this->character->get_species()->get_effects()->do_effects(this->character, ctx);
 		}
+	}
+
+	const effect_list<const kobold::character> *effects = defines::get()->get_character_hit_dice_count_effects(this->get_hit_dice_count());
+	if (effects != nullptr) {
+		context ctx(this->character);
+		effects->do_effects(this->character, ctx);
 	}
 }
 
@@ -293,6 +309,32 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 
 	if (game::get()->is_running()) {
 		emit attribute_values_changed();
+	}
+}
+
+void character_game_data::change_hit_points(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->hit_points += change;
+
+	if (game::get()->is_running()) {
+		emit hit_points_changed();
+	}
+}
+
+void character_game_data::change_base_attack_bonus(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->base_attack_bonus += change;
+
+	if (game::get()->is_running()) {
+		emit base_attack_bonus_changed();
 	}
 }
 

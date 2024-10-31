@@ -31,7 +31,7 @@ military_upkeep_icon = crossed_sabers
 interior_minister_portrait = metternich
 war_minister_portrait = otto_von_bismarck
 
-character_level_effects = {
+character_hit_dice_count_effects = {
 	1 = {
 		gain_feat_of_type = general
 	}

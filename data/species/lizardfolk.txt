@@ -1,4 +1,15 @@
 lizardfolk = {
 	name = "Lizardfolk"
 	sapient = true
+	hit_dice = 2d8
+	level_adjustment = 1
+	modifier = {
+		strength = 2
+		constitution = 2
+		intelligence = -2
+		reflex = 3
+		balance = 4
+		jump = 4
+		swim = 4
+	}
 }

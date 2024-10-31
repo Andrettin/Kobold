@@ -1,4 +1,10 @@
 hobgoblin = {
 	name = "Hobgoblin"
 	sapient = true
+	level_adjustment = 1
+	modifier = {
+		dexterity = 2
+		constitution = 2
+		move_silently = 4
+	}
 }

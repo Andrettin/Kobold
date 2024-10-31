@@ -10,6 +10,10 @@
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
+namespace archimedes {
+	class dice;
+}
+
 namespace kobold {
 
 class character;
@@ -44,6 +48,8 @@ class character_game_data final : public QObject
 	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
+	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
+	Q_PROPERTY(int base_attack_bonus READ get_base_attack_bonus NOTIFY base_attack_bonus_changed)
 	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
@@ -136,6 +142,22 @@ public:
 	void change_character_class_level(const character_class *character_class, const int change);
 	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
 
+	int get_hit_dice_count() const
+	{
+		return this->hit_dice_count;
+	}
+
+	void change_hit_dice_count(const int change)
+	{
+		if (change == 0) {
+			return;
+		}
+
+		this->hit_dice_count += change;
+	}
+
+	void apply_hit_dice(const dice &hit_dice);
+
 	const data_entry_map<character_attribute, int> &get_attribute_values() const
 	{
 		return this->attribute_values;
@@ -175,20 +197,14 @@ public:
 		return this->hit_points;
 	}
 
-	void change_hit_points(const int change)
-	{
-		this->hit_points += change;
-	}
+	void change_hit_points(const int change);
 
 	int get_base_attack_bonus() const
 	{
 		return this->base_attack_bonus;
 	}
 
-	void change_base_attack_bonus(const int change)
-	{
-		this->base_attack_bonus += change;
-	}
+	void change_base_attack_bonus(const int change);
 
 	const data_entry_map<saving_throw_type, int> &get_saving_throw_bonuses() const
 	{
@@ -350,6 +366,8 @@ signals:
 	void character_classes_changed();
 	void level_changed();
 	void attribute_values_changed();
+	void hit_points_changed();
+	void base_attack_bonus_changed();
 	void saving_throw_bonuses_changed();
 	void skill_bonuses_changed();
 	void feats_changed();
@@ -365,6 +383,7 @@ private:
 	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
 	data_entry_map<character_class, int> character_class_levels;
+	int hit_dice_count = 0;
 	data_entry_map<character_attribute, int> attribute_values;
 	int hit_points = 0;
 	int base_attack_bonus = 0;

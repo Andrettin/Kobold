@@ -1,4 +1,16 @@
 ogre = {
 	name = "Ogre"
 	sapient = true
+	hit_dice = 4d8
+	level_adjustment = 2
+	modifier = {
+		strength = 10
+		dexterity = -2
+		constitution = 4
+		intelligence = -4
+		charisma = -4
+		fortitude = 4
+		reflex = 1
+		will = 1
+	}
 }
