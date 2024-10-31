@@ -7,6 +7,7 @@ lizardfolk = {
 		strength = 2
 		constitution = 2
 		intelligence = -2
+		base_attack_bonus = 1
 		reflex = 3
 		balance = 4
 		jump = 4

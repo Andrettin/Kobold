@@ -9,6 +9,7 @@ ogre = {
 		constitution = 4
 		intelligence = -4
 		charisma = -4
+		base_attack_bonus = 3
 		fortitude = 4
 		reflex = 1
 		will = 1
