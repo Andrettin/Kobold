@@ -581,20 +581,6 @@ public:
 
 	void change_score(const int change);
 
-	int get_economic_score() const
-	{
-		return this->economic_score;
-	}
-
-	void change_economic_score(const int change);
-
-	int get_military_score() const
-	{
-		return this->military_score;
-	}
-
-	void change_military_score(const int change);
-
 	int get_score_rank() const
 	{
 		return this->score_rank;
@@ -1812,8 +1798,6 @@ private:
 	int score = 0;
 	const country_rank *rank = nullptr;
 	int score_rank = 0;
-	int economic_score = 0;
-	int military_score = 0;
 	building_type_map<int> settlement_building_counts;
 	commodity_set available_commodities;
 	commodity_set tradeable_commodities;

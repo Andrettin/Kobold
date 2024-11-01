@@ -391,8 +391,6 @@ void country_game_data::set_overlord(const kobold::country *overlord)
 	}
 
 	if (this->get_overlord() != nullptr) {
-		this->get_overlord()->get_game_data()->change_economic_score(-this->get_economic_score() * country_game_data::vassal_tax_rate / 100);
-
 		for (const auto &[resource, count] : this->get_resource_counts()) {
 			this->get_overlord()->get_game_data()->change_vassal_resource_count(resource, -count);
 		}
@@ -401,8 +399,6 @@ void country_game_data::set_overlord(const kobold::country *overlord)
 	this->overlord = overlord;
 
 	if (this->get_overlord() != nullptr) {
-		this->get_overlord()->get_game_data()->change_economic_score(this->get_economic_score() * country_game_data::vassal_tax_rate / 100);
-
 		for (const auto &[resource, count] : this->get_resource_counts()) {
 			this->get_overlord()->get_game_data()->change_vassal_resource_count(resource, count);
 		}
@@ -508,6 +504,8 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
 	}
+
+	this->change_score(change);
 
 	if (game::get()->is_running()) {
 		emit attribute_values_changed();
@@ -1610,36 +1608,6 @@ void country_game_data::change_score(const int change)
 	emit score_changed();
 }
 
-void country_game_data::change_economic_score(const int change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	if (this->get_overlord() != nullptr) {
-		this->get_overlord()->get_game_data()->change_economic_score(-this->get_economic_score() * country_game_data::vassal_tax_rate / 100);
-	}
-
-	this->economic_score += change;
-
-	this->change_score(change);
-
-	if (this->get_overlord() != nullptr) {
-		this->get_overlord()->get_game_data()->change_economic_score(this->get_economic_score() * country_game_data::vassal_tax_rate / 100);
-	}
-}
-
-void country_game_data::change_military_score(const int change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	this->military_score += change;
-
-	this->change_score(change);
-}
-
 bool country_game_data::has_building(const building_type *building) const
 {
 	return this->get_settlement_building_count(building) > 0;
@@ -1768,18 +1736,10 @@ void country_game_data::set_stored_commodity(const commodity *commodity, const i
 		return;
 	}
 
-	if (commodity == defines::get()->get_prestige_commodity()) {
-		this->change_score(-this->get_stored_commodity(commodity));
-	}
-
 	if (value <= 0) {
 		this->stored_commodities.erase(commodity);
 	} else {
 		this->stored_commodities[commodity] = value;
-	}
-
-	if (commodity == defines::get()->get_prestige_commodity()) {
-		this->change_score(value);
 	}
 
 	if (this->get_offer(commodity) > value) {
@@ -1828,10 +1788,6 @@ void country_game_data::change_commodity_input(const commodity *commodity, const
 		this->commodity_inputs.erase(commodity);
 	}
 
-	if (commodity->get_base_price() != 0) {
-		this->change_economic_score(-change * commodity->get_base_price());
-	}
-
 	if (game::get()->is_running()) {
 		emit commodity_inputs_changed();
 	}
@@ -1855,22 +1811,12 @@ void country_game_data::change_commodity_output(const commodity *commodity, cons
 
 	const centesimal_int old_output = this->get_commodity_output(commodity);
 
-	if (commodity->get_base_price() != 0 || commodity->get_wealth_value() != 0) {
-		const int commodity_value = commodity->get_base_price() != 0 ? commodity->get_base_price() : commodity->get_wealth_value();
-		this->change_economic_score(-old_output.to_int() * commodity_value);
-	}
-
 	const centesimal_int &new_output = (this->commodity_outputs[commodity] += change);
 
 	assert_throw(new_output >= 0);
 
 	if (new_output == 0) {
 		this->commodity_outputs.erase(commodity);
-	}
-
-	if (commodity->get_base_price() != 0 || commodity->get_wealth_value() != 0) {
-		const int commodity_value = commodity->get_base_price() != 0 ? commodity->get_base_price() : commodity->get_wealth_value();
-		this->change_economic_score(new_output.to_int() * commodity_value);
 	}
 
 	if (game::get()->is_running()) {

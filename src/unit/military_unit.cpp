@@ -78,8 +78,6 @@ military_unit::military_unit(const military_unit_type *type, const kobold::count
 		this->change_stat(stat, type_stat_value - type->get_stat(stat));
 	}
 
-	this->get_country()->get_game_data()->change_military_score(this->get_score());
-
 	this->check_free_promotions();
 }
 
@@ -140,10 +138,6 @@ void military_unit::set_type(const military_unit_type *type)
 
 	const military_unit_type *old_type = this->get_type();
 
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(-this->get_score());
-	}
-
 	const bool different_category = this->get_category() != type->get_category();
 	if (this->get_province() != nullptr && different_category) {
 		this->get_province()->get_game_data()->change_military_unit_category_count(this->get_category(), -1);
@@ -166,10 +160,6 @@ void military_unit::set_type(const military_unit_type *type)
 		if (type_stat_value != old_type_stat_value) {
 			this->change_stat(stat, type_stat_value - old_type_stat_value);
 		}
-	}
-
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(this->get_score());
 	}
 
 	//check promotions in case any have been invalidated by the type change, or if new free promotions have been gained
@@ -395,15 +385,7 @@ void military_unit::add_promotion(const promotion *promotion)
 		return;
 	}
 
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(-this->get_score());
-	}
-
 	this->promotions.push_back(promotion);
-
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(this->get_score());
-	}
 
 	if (promotion->get_modifier() != nullptr) {
 		promotion->get_modifier()->apply(this);
@@ -416,15 +398,7 @@ void military_unit::add_promotion(const promotion *promotion)
 
 void military_unit::remove_promotion(const promotion *promotion)
 {
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(-this->get_score());
-	}
-
 	std::erase(this->promotions, promotion);
-
-	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(this->get_score());
-	}
 
 	if (promotion->get_modifier() != nullptr) {
 		promotion->get_modifier()->remove(this);
@@ -632,7 +606,6 @@ void military_unit::disband(const bool dead)
 	}
 
 	if (this->get_country() != nullptr) {
-		this->get_country()->get_game_data()->change_military_score(-this->get_score());
 		this->get_country()->get_game_data()->remove_military_unit(this);
 
 		if (!dead) {
