@@ -1,0 +1,119 @@
+epic_fortitude = {
+	name = "Epic Fortitude"
+	icon = labor
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		fortitude = 4
+	}
+}
+
+epic_reflexes = {
+	name = "Epic Reflexes"
+	icon = research
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		reflex = 4
+	}
+}
+
+epic_toughness = {
+	name = "Epic Toughness"
+	icon = labor
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		hit_points = 30
+	}
+}
+
+epic_will = {
+	name = "Epic Will"
+	icon = research
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		will = 4
+	}
+}
+
+great_charisma = {
+	name = "Great Charisma"
+	icon = music
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		charisma = 1
+	}
+}
+
+great_constitution = {
+	name = "Great Constitution"
+	icon = labor
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		constitution = 1
+	}
+}
+
+great_dexterity = {
+	name = "Great Dexterity"
+	icon = labor
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		dexterity = 1
+	}
+}
+
+great_intelligence = {
+	name = "Great Intelligence"
+	icon = research
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		intelligence = 1
+	}
+}
+
+great_strength = {
+	name = "Great Strength"
+	icon = labor
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		strength = 1
+	}
+}
+
+great_wisdom = {
+	name = "Great Wisdom"
+	icon = university
+	types = {
+		epic
+		general
+	}
+	modifier = {
+		wisdom = 1
+	}
+}

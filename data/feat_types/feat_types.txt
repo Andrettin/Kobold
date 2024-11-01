@@ -2,6 +2,13 @@ general = {
 	name = "General"
 }
 
+epic = {
+	name = "Epic"
+	gain_conditions = {
+		level >= 21
+	}
+}
+
 flaw = {
 	name = "Flaw"
 	max_feats = 2
