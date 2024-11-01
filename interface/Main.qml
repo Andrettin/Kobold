@@ -254,7 +254,7 @@ Window {
 		return str
 	}
 	
-	function values_to_string(values, signed = false) {
+	function values_to_string(values, separator = ", ", signed = false) {
 		var str = ""
 		
 		for (var i = 0; i < values.length; i++) {
@@ -262,7 +262,7 @@ Window {
 			var value = values[i].value
 			
 			if (i > 0) {
-				str += ", "
+				str += separator
 			}
 			
 			str += value_type.name + " " + (signed ? signed_number_string(value) : number_string(value))
@@ -271,8 +271,8 @@ Window {
 		return str
 	}
 	
-	function bonuses_to_string(bonuses) {
-		return values_to_string(bonuses, true)
+	function bonuses_to_string(bonuses, separator = ", ") {
+		return values_to_string(bonuses, separator, true)
 	}
 	
 	function get_plural_form(str) {

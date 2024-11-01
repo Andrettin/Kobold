@@ -83,6 +83,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(const kobold::country* overlord READ get_overlord NOTIFY overlord_changed)
 	Q_PROPERTY(QString type_name READ get_type_name_qstring NOTIFY type_name_changed)
 	Q_PROPERTY(const kobold::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
+	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(QVariantList provinces READ get_provinces_qvariant_list NOTIFY provinces_changed)
 	Q_PROPERTY(const kobold::site* capital READ get_capital NOTIFY capital_changed)
 	Q_PROPERTY(bool coastal READ is_coastal NOTIFY provinces_changed)
@@ -221,6 +222,13 @@ public:
 	}
 
 	void set_subject_type(const kobold::subject_type *subject_type);
+
+	const data_entry_map<country_attribute, int> &get_attribute_values() const
+	{
+		return this->attribute_values;
+	}
+
+	QVariantList get_attribute_values_qvariant_list() const;
 
 	int get_attribute_value(const country_attribute *attribute) const
 	{
@@ -1731,6 +1739,7 @@ signals:
 	void overlord_changed();
 	void type_name_changed();
 	void subject_type_changed();
+	void attribute_values_changed();
 	void diplomacy_states_changed();
 	void offered_diplomacy_states_changed();
 	void consulates_changed();

@@ -493,6 +493,11 @@ void country_game_data::set_subject_type(const kobold::subject_type *subject_typ
 	this->check_government_type();
 }
 
+QVariantList country_game_data::get_attribute_values_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_attribute_values());
+}
+
 void country_game_data::change_attribute_value(const country_attribute *attribute, const int change)
 {
 	if (change == 0) {
@@ -502,6 +507,10 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 	const int new_value = (this->attribute_values[attribute] += change);
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
+	}
+
+	if (game::get()->is_running()) {
+		emit attribute_values_changed();
 	}
 }
 
