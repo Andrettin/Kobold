@@ -59,9 +59,9 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
-	Q_PROPERTY(kobold::religion* religion MEMBER religion NOTIFY changed)
-	Q_PROPERTY(kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
-	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(const kobold::religion* religion MEMBER religion NOTIFY changed)
+	Q_PROPERTY(const kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
+	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_settlement MEMBER home_settlement NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_site MEMBER home_site NOTIFY changed)
 	Q_PROPERTY(const kobold::character* father READ get_father WRITE set_father NOTIFY changed)
@@ -199,9 +199,9 @@ private:
 	int level = 0;
 	std::string rank;
 	kobold::culture *culture = nullptr;
-	kobold::religion *religion = nullptr;
-	kobold::phenotype *phenotype = nullptr;
-	kobold::portrait *portrait = nullptr;
+	const kobold::religion *religion = nullptr;
+	const kobold::phenotype *phenotype = nullptr;
+	const kobold::portrait *portrait = nullptr;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
 	std::vector<const country *> rulable_countries;

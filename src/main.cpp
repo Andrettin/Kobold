@@ -21,6 +21,7 @@
 #include "country/journal_entry.h"
 #include "country/law.h"
 #include "country/law_group.h"
+#include "country/religion.h"
 #include "database/database.h"
 #include "database/defines.h"
 #include "database/preferences.h"
@@ -56,6 +57,7 @@
 #include "map/temperature_type.h"
 #include "map/tile_image_provider.h"
 #include "map/world.h"
+#include "population/phenotype.h"
 #include "script/scripted_character_modifier.h"
 #include "time/era.h"
 #include "ui/icon.h"
@@ -180,14 +182,20 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<law_group>("", 1);
 		qmlRegisterAnonymousType<map>("", 1);
 		qmlRegisterAnonymousType<map_template>("", 1);
+		qmlRegisterAnonymousType<phenotype>("", 1);
+		qmlRegisterAnonymousType<const phenotype>("", 1);
 		qmlRegisterAnonymousType<portrait>("", 1);
+		qmlRegisterAnonymousType<const portrait>("", 1);
 		qmlRegisterAnonymousType<preferences>("", 1);
 		qmlRegisterAnonymousType<production_type>("", 1);
 		qmlRegisterAnonymousType<province>("", 1);
 		qmlRegisterAnonymousType<province_game_data>("", 1);
+		qmlRegisterAnonymousType<religion>("", 1);
+		qmlRegisterAnonymousType<const religion>("", 1);
 		qmlRegisterAnonymousType<scenario>("", 1);
 		qmlRegisterAnonymousType<scripted_character_modifier>("", 1);
 		qmlRegisterAnonymousType<site>("", 1);
+		qmlRegisterAnonymousType<const site>("", 1);
 		qmlRegisterAnonymousType<site_game_data>("", 1);
 		qmlRegisterAnonymousType<wonder>("", 1);
 		qmlRegisterAnonymousType<world>("", 1);

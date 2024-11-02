@@ -49,7 +49,7 @@ const character *character::generate(const kobold::species *species, const std::
 	generated_character->character_classes = character_classes;
 	generated_character->level = level;
 	generated_character->culture = const_cast<kobold::culture *>(culture);
-	generated_character->religion = const_cast<kobold::religion *>(religion);
+	generated_character->religion = religion;
 	generated_character->phenotype = culture->get_default_phenotype();
 	generated_character->home_settlement = home_settlement;
 	generated_character->set_start_date(game::get()->get_date());
