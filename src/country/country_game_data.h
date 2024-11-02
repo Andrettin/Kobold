@@ -942,6 +942,17 @@ public:
 
 	void choose_next_belief();
 
+	const std::vector<const character *> &get_characters() const
+	{
+		return this->characters;
+	}
+
+	void add_character(const character *character)
+	{
+		this->characters.push_back(character);
+	}
+
+	void remove_character(const character *character);
 	void check_characters();
 
 	const character *get_ruler() const
@@ -950,7 +961,10 @@ public:
 	}
 
 	void set_ruler(const character *ruler);
-	void check_ruler();
+	void check_ruler(const character *previous_ruler);
+	void choose_ruler(const character *previous_ruler);
+	void generate_ruler();
+	void on_ruler_died();
 
 	const commodity_map<int> &get_bids() const
 	{
@@ -1813,6 +1827,7 @@ private:
 	tradition_set traditions;
 	const tradition *next_tradition = nullptr;
 	const tradition *next_belief = nullptr;
+	std::vector<const character *> characters;
 	const character *ruler = nullptr;
 	commodity_map<int> bids;
 	commodity_map<int> offers;

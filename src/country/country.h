@@ -160,16 +160,6 @@ public:
 		return this->core_provinces;
 	}
 
-	const std::vector<const character *> &get_rulers() const
-	{
-		return this->rulers;
-	}
-
-	void add_ruler(const character *character)
-	{
-		this->rulers.push_back(character);
-	}
-
 	bool can_declare_war() const;
 
 signals:
@@ -194,7 +184,6 @@ private:
 	title_name_map title_names;
 	ruler_title_name_map ruler_title_names;
 	std::vector<province *> core_provinces;
-	std::vector<const character *> rulers;
 	qunique_ptr<country_history> history;
 	qunique_ptr<country_game_data> game_data;
 	qunique_ptr<country_turn_data> turn_data;

@@ -37,7 +37,6 @@ class religion;
 class site;
 class species;
 enum class character_class_type;
-enum class character_role;
 enum class military_unit_category;
 
 template <typename scope_type>
@@ -54,7 +53,6 @@ class character final : public character_base, public data_type<character>
 	Q_OBJECT
 
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
-	Q_PROPERTY(kobold::character_role role MEMBER role READ get_role NOTIFY changed)
 	Q_PROPERTY(kobold::species* species MEMBER species NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
@@ -102,11 +100,6 @@ public:
 	const dynasty *get_dynasty() const
 	{
 		return this->dynasty;
-	}
-
-	character_role get_role() const
-	{
-		return this->role;
 	}
 
 	const kobold::species *get_species() const
@@ -180,20 +173,12 @@ public:
 		return this->conditions.get();
 	}
 
-	const std::vector<const country *> &get_rulable_countries() const
-	{
-		return this->rulable_countries;
-	}
-
-	void add_rulable_country(country *country);
-
 signals:
 	void changed();
 	void game_data_changed() const;
 
 private:
 	kobold::dynasty *dynasty = nullptr;
-	kobold::character_role role;
 	kobold::species *species = nullptr;
 	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
@@ -204,7 +189,6 @@ private:
 	const kobold::portrait *portrait = nullptr;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
-	std::vector<const country *> rulable_countries;
 	std::vector<const feat *> feats;
 	std::unique_ptr<const and_condition<country>> conditions;
 	qunique_ptr<character_history> history;

@@ -25,7 +25,6 @@ set(character_SRCS
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_history.cpp
-	src/character/character_role.cpp
 	src/character/dynasty.cpp
 	src/character/feat.cpp
 	src/character/feat_type.cpp
@@ -315,7 +314,6 @@ set(character_HDRS
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
-	src/character/character_role.h
 	src/character/dynasty.h
 	src/character/feat.h
 	src/character/feat_type.h
@@ -511,7 +509,6 @@ set(script_condition_HDRS
 	src/script/condition/capital_condition.h
 	src/script/condition/cavalry_condition.h
 	src/script/condition/character_class_condition.h
-	src/script/condition/character_role_condition.h
 	src/script/condition/coastal_condition.h
 	src/script/condition/commodity_condition.h
 	src/script/condition/condition.h

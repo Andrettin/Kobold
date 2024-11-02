@@ -24,7 +24,6 @@
 #include "script/condition/capital_condition.h"
 #include "script/condition/cavalry_condition.h"
 #include "script/condition/character_class_condition.h"
-#include "script/condition/character_role_condition.h"
 #include "script/condition/coastal_condition.h"
 #include "script/condition/commodity_condition.h"
 #include "script/condition/condition_base.ipp"
@@ -104,8 +103,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<can_have_feat_condition>(value, condition_operator);
 		} else if (key == "character_class") {
 			return std::make_unique<character_class_condition>(value, condition_operator);
-		} else if (key == "character_role") {
-			return std::make_unique<character_role_condition>(value, condition_operator);
 		} else if (key == "feat") {
 			return std::make_unique<feat_condition>(value, condition_operator);
 		} else if (key == "hit_dice") {

@@ -6,7 +6,6 @@
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
-#include "character/character_role.h"
 #include "character/dynasty.h"
 #include "character/feat.h"
 #include "country/country.h"
@@ -61,8 +60,7 @@ const character *character::generate(const kobold::species *species, const std::
 
 	generated_character->initialize_dates();
 	generated_character->check();
-	generated_character->reset_history();
-	generated_character->get_game_data()->apply_history();
+	generated_character->get_game_data()->apply_species_and_class(level);
 	generated_character->get_game_data()->on_setup_finished();
 
 	game::get()->add_generated_character(std::move(generated_character));
@@ -70,7 +68,7 @@ const character *character::generate(const kobold::species *species, const std::
 }
 
 character::character(const std::string &identifier)
-	: character_base(identifier), role(character_role::none)
+	: character_base(identifier)
 {
 	this->reset_game_data();
 }
@@ -104,10 +102,6 @@ void character::process_gsml_scope(const gsml_data &scope)
 
 			this->character_classes[enum_converter<character_class_type>::to_enum(key)] = character_class::get(value);
 		});
-	} else if (tag == "rulable_countries") {
-		for (const std::string &value : values) {
-			this->add_rulable_country(country::get(value));
-		}
 	} else if (tag == "feats") {
 		for (const std::string &value : values) {
 			this->feats.push_back(feat::get(value));
@@ -187,21 +181,6 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has no base character class.", this->get_identifier()));
 	}
 
-	switch (this->get_role()) {
-		case character_role::ruler: {
-			if (this->get_rulable_countries().empty()) {
-				throw std::runtime_error(std::format("Character \"{}\" is a ruler, but has no rulable countries.", this->get_identifier()));
-			}
-			break;
-		}
-		default:
-			break;
-	}
-
-	if (this->get_role() != character_role::ruler && !this->get_rulable_countries().empty()) {
-		throw std::runtime_error(std::format("Character \"{}\" has rulable countries, but is not a ruler.", this->get_identifier()));
-	}
-
 	if (this->get_culture() == nullptr) {
 		throw std::runtime_error(std::format("Character \"{}\" has no culture.", this->get_identifier()));
 	}
@@ -235,12 +214,6 @@ void character::reset_game_data()
 {
 	this->game_data = make_qunique<character_game_data>(this);
 	emit game_data_changed();
-}
-
-void character::add_rulable_country(country *country)
-{
-	this->rulable_countries.push_back(country);
-	country->add_ruler(this);
 }
 
 }

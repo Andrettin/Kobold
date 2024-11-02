@@ -16,7 +16,6 @@ selim_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciênci
 suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
 	name = "Suleiman" #"Süleyman"
 	epithet = "I"
-	role = ruler
 	species = human
 	character_class = aristocrat
 	rank = emperor
@@ -26,9 +25,6 @@ suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciê
 	gender = male
 	birth_date = 1494
 	death_date = 1566
-	rulable_countries = {
-		ottoman_empire
-	}
 	
 	#known as the Magnificent
 	#became Sultan of the Ottoman Empire in 1520

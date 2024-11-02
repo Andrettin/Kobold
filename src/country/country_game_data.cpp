@@ -4,8 +4,8 @@
 
 #include "character/character.h"
 #include "character/character_class.h"
+#include "character/character_class_type.h"
 #include "character/character_game_data.h"
-#include "character/character_role.h"
 #include "country/consulate.h"
 #include "country/country.h"
 #include "country/country_attribute.h"
@@ -2424,9 +2424,29 @@ void country_game_data::choose_next_belief()
 	}
 }
 
+void country_game_data::remove_character(const character *character)
+{
+	std::erase(this->characters, character);
+
+	if (character == this->get_ruler()) {
+		this->set_ruler(nullptr);
+		this->check_ruler(character);
+	}
+}
+
 void country_game_data::check_characters()
 {
-	this->check_ruler();
+	const std::vector<const character *> characters = this->get_characters();
+	const QDate &current_date = game::get()->get_next_date();
+	for (const character *character : characters) {
+		if (character->get_death_date() > current_date) {
+			continue;
+		}
+
+		character->get_game_data()->die();
+	}
+
+	this->check_ruler(nullptr);
 }
 
 void country_game_data::set_ruler(const character *ruler)
@@ -2436,10 +2456,6 @@ void country_game_data::set_ruler(const character *ruler)
 	}
 
 	const character *old_ruler = this->get_ruler();
-
-	if (old_ruler != nullptr) {
-		old_ruler->get_game_data()->set_country(nullptr);
-	}
 
 	this->ruler = ruler;
 
@@ -2460,45 +2476,102 @@ void country_game_data::set_ruler(const character *ruler)
 	}
 }
 
-void country_game_data::check_ruler()
+void country_game_data::check_ruler(const character *previous_ruler)
 {
 	if (this->is_under_anarchy()) {
 		this->set_ruler(nullptr);
 		return;
 	}
 
-	//if the country has no ruler, see if there is any character which can become its ruler
+	//if the country has no ruler, see if there is any character who can become its ruler
 	if (this->get_ruler() == nullptr) {
-		std::vector<const character *> potential_rulers;
+		this->choose_ruler(previous_ruler);
+	}
+}
 
-		for (const character *character : this->country->get_rulers()) {
-			assert_throw(character->get_role() == character_role::ruler);
+void country_game_data::choose_ruler(const character *previous_ruler)
+{
+	std::vector<const character *> potential_rulers;
+	int best_level = 0;
+	bool found_same_dynasty = false;
 
-			const character_game_data *character_game_data = character->get_game_data();
-			if (character_game_data->get_country() != nullptr) {
-				continue;
-			}
+	for (const character *character : this->get_characters()) {
+		const character_game_data *character_game_data = character->get_game_data();
 
-			if (character_game_data->is_dead()) {
-				continue;
-			}
+		assert_throw(character_game_data->get_country() == this->country);
 
-			if (character->get_conditions() != nullptr && !character->get_conditions()->check(this->country, read_only_context(this->country))) {
-				continue;
-			}
-
-			potential_rulers.push_back(character);
+		if (character->get_conditions() != nullptr && !character->get_conditions()->check(this->country, read_only_context(this->country))) {
+			continue;
 		}
 
-		if (!potential_rulers.empty()) {
-			this->set_ruler(vector::get_random(potential_rulers));
-
-			if (this->country == game::get()->get_player_country() && game::get()->is_running()) {
-				const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-				engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!", this->get_ruler()->get_full_name()));
+		if (previous_ruler != nullptr && previous_ruler->get_dynasty() != nullptr) {
+			const bool same_dynasty = character->get_dynasty() == previous_ruler->get_dynasty();
+			if (same_dynasty && !found_same_dynasty) {
+				potential_rulers.clear();
+				best_level = 0;
+				found_same_dynasty = true;
+			} else if (!same_dynasty && found_same_dynasty) {
+				continue;
 			}
 		}
+
+		const int level = character_game_data->get_level();
+		if (level < best_level) {
+			continue;
+		}
+
+		if (level > best_level) {
+			best_level = level;
+			potential_rulers.clear();
+		}
+
+		potential_rulers.push_back(character);
+	}
+
+	if (!potential_rulers.empty()) {
+		this->set_ruler(vector::get_random(potential_rulers));
+	} else {
+		this->generate_ruler();
+		assert_throw(this->get_ruler() != nullptr);
+	}
+
+	if (this->country == game::get()->get_player_country() && game::get()->is_running()) {
+		const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
+
+		engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!", this->get_ruler()->get_full_name()));
+	}
+}
+
+void country_game_data::generate_ruler()
+{
+	std::vector<const character_class *> potential_base_classes;
+	for (const character_class *character_class : character_class::get_all()) {
+		if (character_class->get_type() == character_class_type::base_class) {
+			potential_base_classes.push_back(character_class);
+		}
+	}
+	assert_throw(!potential_base_classes.empty());
+
+	const character_class *base_class = vector::get_random(potential_base_classes);
+
+	const character *ruler = character::generate(vector::get_random(this->country->get_culture()->get_species()), { { base_class->get_type(), base_class } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital());
+	this->set_ruler(ruler);
+}
+
+void country_game_data::on_ruler_died()
+{
+	assert_throw(this->get_ruler() != nullptr);
+
+	if (game::get()->is_running()) {
+		if (this->country == game::get()->get_player_country()) {
+			const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
+
+			engine_interface::get()->add_notification("Ruler Died", interior_minister_portrait, std::format("Our ruler, {}, has died!", this->get_ruler()->get_full_name()));
+		}
+
+		context ctx(this->country);
+		ctx.source_scope = this->get_ruler();
+		country_event::check_events_for_scope(this->country, event_trigger::ruler_death, ctx);
 	}
 }
 

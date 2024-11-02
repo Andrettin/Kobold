@@ -1,6 +1,5 @@
 #pragma once
 
-#include "character/character_role.h"
 #include "script/condition/condition.h"
 #include "unit/military_unit.h"
 #include "unit/military_unit_category.h"

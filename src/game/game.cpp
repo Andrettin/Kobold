@@ -7,7 +7,6 @@
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
-#include "character/character_role.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/country_history.h"
@@ -247,7 +246,7 @@ QCoro::Task<void> game::start_coro()
 	for (const country *country : this->get_countries()) {
 		country_game_data *country_game_data = country->get_game_data();
 
-		country_game_data->check_ruler();
+		country_game_data->check_ruler(nullptr);
 
 		//setup journal entries, marking the ones for which the country already fulfills conditions as finished, but without doing the effects
 		country_game_data->check_journal_entries(true, true);
@@ -390,7 +389,9 @@ void game::apply_history(const kobold::scenario *scenario)
 			}
 
 			const character *ruler = country_history->get_ruler();
-			if (ruler != nullptr) {
+			if (ruler != nullptr && scenario->get_start_date() <= ruler->get_death_date()) {
+				assert_throw(scenario->get_start_date() >= ruler->get_birth_date());
+
 				character_game_data *ruler_game_data = ruler->get_game_data();
 
 				if (ruler_game_data->get_country() != nullptr && ruler_game_data->get_country() != country) {
@@ -495,7 +496,7 @@ void game::apply_history(const kobold::scenario *scenario)
 
 		for (const character *character : character::get_all()) {
 			character_game_data *character_game_data = character->get_game_data();
-			character_game_data->apply_history();
+			character_game_data->apply_history(scenario->get_start_date());
 		}
 
 		for (const historical_civilian_unit *historical_civilian_unit : historical_civilian_unit::get_all()) {
@@ -900,7 +901,7 @@ QCoro::Task<void> game::on_setup_finished()
 	for (const country *country : this->get_countries()) {
 		country->get_game_data()->check_government_type();
 		country->get_game_data()->check_laws();
-		country->get_game_data()->check_ruler();
+		country->get_game_data()->check_ruler(nullptr);
 
 		for (const QPoint &border_tile_pos : country->get_game_data()->get_border_tiles()) {
 			map::get()->calculate_tile_country_border_directions(border_tile_pos);
@@ -927,28 +928,6 @@ QCoro::Task<void> game::on_setup_finished()
 	}
 
 	this->calculate_great_power_ranks();
-
-	//generate rulers for countries without any
-	for (const country *country : this->get_countries()) {
-		if (country->get_game_data()->is_under_anarchy()) {
-			continue;
-		}
-
-		if (country->get_game_data()->get_ruler() == nullptr) {
-			std::vector<const character_class *> potential_base_classes;
-			for (const character_class *character_class : character_class::get_all()) {
-				if (character_class->get_type() == character_class_type::base_class) {
-					potential_base_classes.push_back(character_class);
-				}
-			}
-			assert_throw(!potential_base_classes.empty());
-
-			const character_class *base_class = vector::get_random(potential_base_classes);
-
-			const character *ruler = character::generate(country->get_culture()->get_species().at(0), { { base_class->get_type(), base_class } }, 1, country->get_culture(), country->get_game_data()->get_religion(), country->get_game_data()->get_capital());
-			country->get_game_data()->set_ruler(ruler);
-		}
-	}
 
 	for (const character *character : character::get_all()) {
 		character->get_game_data()->on_setup_finished();

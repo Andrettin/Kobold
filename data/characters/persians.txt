@@ -1,7 +1,6 @@
 darius_i_of_persia = {
 	name = "Darius"
 	epithet = "I"
-	role = ruler
 	species = human
 	character_class = aristocrat
 	rank = king
@@ -11,7 +10,4 @@ darius_i_of_persia = {
 	gender = male
 	birth_date = -550
 	death_date = -486
-	rulable_countries = {
-		persia
-	}
 }

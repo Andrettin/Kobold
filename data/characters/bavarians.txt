@@ -1,7 +1,6 @@
 triangel_fuchs = { #Source: Josef Dullinger, "Die Handelskompagnien Oesterreichs nach dem Oriente und nach Ostindien in der ersten Hälfte des 18. Jahrhunderts", 1900, pp. 50-51.
 	name = "Triangel"
 	surname = "Fuchs"
-	role = civilian
 	species = human
 	character_class = expert #merchant
 	culture = german #Bavarian?

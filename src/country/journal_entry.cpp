@@ -4,7 +4,6 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
-#include "character/character_role.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/tradition.h"
@@ -140,16 +139,6 @@ void journal_entry::check() const
 	for (const auto &[settlement, buildings] : this->get_built_settlement_buildings()) {
 		if (!settlement->is_settlement()) {
 			throw std::runtime_error(std::format("Journal entry \"{}\" requires constructing a building in \"{}\", but that site is not a settlement.", this->get_identifier(), settlement->get_identifier()));
-		}
-	}
-
-	for (const character *character : this->get_recruited_characters()) {
-		switch (character->get_role()) {
-			case character_role::leader:
-			case character_role::civilian:
-				break;
-			default:
-				throw std::runtime_error(std::format("Journal entry \"{}\" requires the recruiting \"{}\" character, but that character does not have a recruitable role.", this->get_identifier(), character->get_identifier()));
 		}
 	}
 }

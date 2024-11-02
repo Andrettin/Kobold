@@ -1,7 +1,6 @@
 #pragma once
 
 #include "character/character.h"
-#include "character/character_role.h"
 #include "script/condition/condition.h"
 #include "util/string_conversion_util.h"
 
@@ -26,7 +25,7 @@ public:
 	{
 		Q_UNUSED(ctx);
 
-		return (scope->get_role() == character_role::ruler) == this->value;
+		return scope->get_game_data()->is_ruler() == this->value;
 	}
 
 	virtual std::string get_assignment_string(const size_t indent) const override

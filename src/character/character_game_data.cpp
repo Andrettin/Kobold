@@ -7,7 +7,6 @@
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/character_history.h"
-#include "character/character_role.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
 #include "character/level_bonus_table.h"
@@ -49,7 +48,7 @@ character_game_data::character_game_data(const kobold::character *character)
 	this->portrait = this->character->get_portrait();
 }
 
-void character_game_data::apply_history()
+void character_game_data::apply_species_and_class(const int level)
 {
 	const species *species = this->character->get_species();
 
@@ -73,9 +72,23 @@ void character_game_data::apply_history()
 		this->set_character_class(type, character_class);
 	}
 
-	const character_history *character_history = this->character->get_history();
-	const int level = std::max(character_history->get_level(), 1);
 	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), level);
+}
+
+void character_game_data::apply_history(const QDate &start_date)
+{
+	const character_history *character_history = this->character->get_history();
+
+	const int level = std::max(character_history->get_level(), 1);
+	this->apply_species_and_class(level);
+
+	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
+		if (character_history->get_country() != nullptr) {
+			this->set_country(character_history->get_country());
+		}
+	} else if (character->get_death_date() <= start_date) {
+		this->set_dead(true);
+	}
 }
 
 void character_game_data::on_setup_finished()
@@ -145,7 +158,15 @@ void character_game_data::set_country(const kobold::country *country)
 		return;
 	}
 
+	if (this->get_country() != nullptr) {
+		this->get_country()->get_game_data()->remove_character(this->character);
+	}
+
 	this->country = country;
+
+	if (this->get_country() != nullptr) {
+		this->get_country()->get_game_data()->add_character(this->character);
+	}
 
 	if (game::get()->is_running()) {
 		emit country_changed();
@@ -183,10 +204,13 @@ void character_game_data::set_dead(const bool dead)
 void character_game_data::die()
 {
 	if (this->is_ruler()) {
-		this->get_country()->get_game_data()->set_ruler(nullptr);
+		this->get_country()->get_game_data()->on_ruler_died();
 	}
 
-	this->set_country(nullptr);
+	if (this->get_country() != nullptr) {
+		this->set_country(nullptr);
+	}
+
 	this->set_dead(true);
 }
 

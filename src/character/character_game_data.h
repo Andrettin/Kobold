@@ -60,7 +60,8 @@ class character_game_data final : public QObject
 public:
 	explicit character_game_data(const kobold::character *character);
 
-	void apply_history();
+	void apply_species_and_class(const int level);
+	void apply_history(const QDate &start_date);
 	void on_setup_finished();
 
 	std::string get_titled_name() const;
