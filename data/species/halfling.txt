@@ -1,6 +1,11 @@
 halfling = {
 	name = "Halfling"
 	sapient = true
+	adulthood_age = 20
+	middle_age = 50
+	old_age = 75
+	venerable_age = 100
+	maximum_age_modifier = 5d20
 	modifier = {
 		dexterity = 2
 		strength = -2

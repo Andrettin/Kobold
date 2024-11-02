@@ -21,6 +21,7 @@
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
+#include "species/species.h"
 #include "time/calendar.h"
 #include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
@@ -214,6 +215,58 @@ void character::reset_game_data()
 {
 	this->game_data = make_qunique<character_game_data>(this);
 	emit game_data_changed();
+}
+
+void character::initialize_dates()
+{
+	assert_throw(this->get_species() != nullptr);
+
+	const int adulthood_age = this->get_species()->get_adulthood_age();
+	const int venerable_age = this->get_species()->get_venerable_age();
+	const dice &maximum_age_modifier = this->get_species()->get_maximum_age_modifier();
+
+	if (adulthood_age != 0 && venerable_age != 0 && !maximum_age_modifier.is_null()) {
+		bool date_changed = true;
+		while (date_changed) {
+			date_changed = false;
+
+			if (!this->get_start_date().isValid()) {
+				if (this->get_birth_date().isValid()) {
+					QDate start_date = this->get_birth_date();
+					start_date = start_date.addYears(adulthood_age);
+					this->set_start_date(start_date);
+					date_changed = true;
+				}
+			}
+
+			if (!this->get_birth_date().isValid()) {
+				if (this->get_start_date().isValid()) {
+					QDate birth_date = this->get_start_date();
+					birth_date = birth_date.addYears(-adulthood_age);
+					this->set_birth_date(birth_date);
+					date_changed = true;
+				} else if (this->get_death_date().isValid()) {
+					QDate birth_date = this->get_death_date();
+					birth_date = birth_date.addYears(-venerable_age);
+					birth_date = birth_date.addYears(-random::get()->roll_dice(maximum_age_modifier));
+					this->set_birth_date(birth_date);
+					date_changed = true;
+				}
+			}
+
+			if (!this->get_death_date().isValid()) {
+				if (this->get_birth_date().isValid()) {
+					QDate death_date = this->get_birth_date();
+					death_date = death_date.addYears(venerable_age);
+					death_date = death_date.addYears(random::get()->roll_dice(maximum_age_modifier));
+					this->set_death_date(death_date);
+					date_changed = true;
+				}
+			}
+		}
+	}
+
+	character_base::initialize_dates();
 }
 
 }

@@ -1,6 +1,11 @@
 half_elf = {
 	name = "Half-Elf"
 	sapient = true
+	adulthood_age = 20
+	middle_age = 62
+	old_age = 93
+	venerable_age = 125
+	maximum_age_modifier = 3d20
 	modifier = {
 		listen = 1
 		search = 1

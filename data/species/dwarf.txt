@@ -1,6 +1,11 @@
 dwarf = {
 	name = "Dwarf"
 	sapient = true
+	adulthood_age = 40
+	middle_age = 125
+	old_age = 188
+	venerable_age = 250
+	maximum_age_modifier = 2d100
 	modifier = {
 		constitution = 2
 		charisma = -2

@@ -1,6 +1,11 @@
 elf = {
 	name = "Elf"
 	sapient = true
+	adulthood_age = 110
+	middle_age = 175
+	old_age = 263
+	venerable_age = 350
+	maximum_age_modifier = 4d100
 	modifier = {
 		dexterity = 2
 		constitution = -2

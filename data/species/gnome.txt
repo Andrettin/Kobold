@@ -1,6 +1,11 @@
 gnome = {
 	name = "Gnome"
 	sapient = true
+	adulthood_age = 40
+	middle_age = 100
+	old_age = 150
+	venerable_age = 200
+	maximum_age_modifier = 3d100
 	modifier = {
 		constitution = 2
 		strength = -2

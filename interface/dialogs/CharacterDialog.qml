@@ -11,6 +11,7 @@ ModifierDialog {
 		"Species: " + character.species.name
 		+ "\nClass: " + character.game_data.character_class.name
 		+ "\nLevel: " + character.game_data.level
+		+ "\nAge: " + character.game_data.age
 		+ "\n\nAttributes: " + values_to_string(character.game_data.attribute_values)
 		+ "\nHit Points: " + character.game_data.hit_points
 		+ "\nBase Attack Bonus: " + signed_number_string(character.game_data.base_attack_bonus)

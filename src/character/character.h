@@ -97,6 +97,8 @@ public:
 		return this->game_data.get();
 	}
 
+	virtual void initialize_dates() override;
+
 	const dynasty *get_dynasty() const
 	{
 		return this->dynasty;
