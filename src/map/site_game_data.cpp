@@ -117,11 +117,6 @@ bool site_game_data::can_be_capital() const
 		return false;
 	}
 
-	if (!this->is_near_water()) {
-		//settlements need to have sea access to be capitals, so that the country can trade in the world market
-		return false;
-	}
-
 	return true;
 }
 
