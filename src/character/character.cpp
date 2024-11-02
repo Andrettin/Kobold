@@ -219,13 +219,18 @@ void character::reset_game_data()
 
 void character::initialize_dates()
 {
+	const character_class *character_class = this->get_character_class(character_class_type::base_class);
+
 	assert_throw(this->get_species() != nullptr);
+	assert_throw(character_class != nullptr);
 
 	const int adulthood_age = this->get_species()->get_adulthood_age();
 	const int venerable_age = this->get_species()->get_venerable_age();
 	const dice &maximum_age_modifier = this->get_species()->get_maximum_age_modifier();
 
 	if (adulthood_age != 0 && venerable_age != 0 && !maximum_age_modifier.is_null()) {
+		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
+
 		bool date_changed = true;
 		while (date_changed) {
 			date_changed = false;
@@ -234,6 +239,7 @@ void character::initialize_dates()
 				if (this->get_birth_date().isValid()) {
 					QDate start_date = this->get_birth_date();
 					start_date = start_date.addYears(adulthood_age);
+					start_date = start_date.addYears(random::get()->roll_dice(starting_age_modifier));
 					this->set_start_date(start_date);
 					date_changed = true;
 				}
@@ -243,6 +249,7 @@ void character::initialize_dates()
 				if (this->get_start_date().isValid()) {
 					QDate birth_date = this->get_start_date();
 					birth_date = birth_date.addYears(-adulthood_age);
+					birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
 					this->set_birth_date(birth_date);
 					date_changed = true;
 				} else if (this->get_death_date().isValid()) {
