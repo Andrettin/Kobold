@@ -2454,7 +2454,7 @@ void country_game_data::remove_character(const character *character)
 	std::erase(this->characters, character);
 
 	if (character == this->get_ruler()) {
-		this->set_ruler(nullptr);
+		this->set_office_holder(defines::get()->get_ruler_office(), nullptr);
 		this->check_ruler(character);
 	}
 }
@@ -2474,37 +2474,15 @@ void country_game_data::check_characters()
 	this->check_ruler(nullptr);
 }
 
-void country_game_data::set_ruler(const character *ruler)
+const character *country_game_data::get_ruler() const
 {
-	if (ruler == this->get_ruler()) {
-		return;
-	}
-
-	const character *old_ruler = this->get_ruler();
-
-	this->ruler = ruler;
-
-	if (this->get_ruler() != nullptr) {
-		this->get_ruler()->get_game_data()->set_country(this->country);
-	}
-
-	if (game::get()->is_running()) {
-		emit ruler_changed();
-
-		if (old_ruler != nullptr) {
-			emit old_ruler->get_game_data()->ruler_changed();
-		}
-
-		if (ruler != nullptr) {
-			emit ruler->get_game_data()->ruler_changed();
-		}
-	}
+	return this->get_office_holder(defines::get()->get_ruler_office());
 }
 
 void country_game_data::check_ruler(const character *previous_ruler)
 {
 	if (this->is_under_anarchy()) {
-		this->set_ruler(nullptr);
+		this->set_office_holder(defines::get()->get_ruler_office(), nullptr);
 		return;
 	}
 
@@ -2526,10 +2504,6 @@ void country_game_data::choose_ruler(const character *previous_ruler)
 		const character_game_data *character_game_data = character->get_game_data();
 
 		assert_throw(character_game_data->get_country() == this->country);
-
-		if (character->get_conditions() != nullptr && !character->get_conditions()->check(this->country, read_only_context(this->country))) {
-			continue;
-		}
 
 		const character_class *base_class = character->get_game_data()->get_character_class(character_class_type::base_class);
 		if (base_class == nullptr || !vector::contains(this->get_government_type()->get_ruler_character_classes(), base_class)) {
@@ -2561,7 +2535,7 @@ void country_game_data::choose_ruler(const character *previous_ruler)
 	}
 
 	if (!potential_rulers.empty()) {
-		this->set_ruler(vector::get_random(potential_rulers));
+		this->set_office_holder(defines::get()->get_ruler_office(), vector::get_random(potential_rulers));
 	} else {
 		this->generate_ruler();
 		assert_throw(this->get_ruler() != nullptr);
@@ -2589,24 +2563,7 @@ void country_game_data::generate_ruler()
 	const character_class *base_class = vector::get_random(potential_base_classes);
 
 	const character *ruler = character::generate(vector::get_random(this->country->get_culture()->get_species()), { { base_class->get_type(), base_class } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital());
-	this->set_ruler(ruler);
-}
-
-void country_game_data::on_ruler_died()
-{
-	assert_throw(this->get_ruler() != nullptr);
-
-	if (game::get()->is_running()) {
-		if (this->country == game::get()->get_player_country()) {
-			const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-			engine_interface::get()->add_notification("Ruler Died", interior_minister_portrait, std::format("Our ruler, {}, has died!", this->get_ruler()->get_full_name()));
-		}
-
-		context ctx(this->country);
-		ctx.source_scope = this->get_ruler();
-		country_event::check_events_for_scope(this->country, event_trigger::ruler_death, ctx);
-	}
+	this->set_office_holder(defines::get()->get_ruler_office(), ruler);
 }
 
 QVariantList country_game_data::get_office_holders_qvariant_list() const
@@ -2630,12 +2587,20 @@ void country_game_data::set_office_holder(const office *office, const character 
 	this->office_holders[office] = character;
 
 	if (character != nullptr) {
+		if (office == defines::get()->get_ruler_office()) {
+			this->get_ruler()->get_game_data()->set_country(this->country);
+		}
+
 		character->get_game_data()->set_office(office);
 		this->apply_office_holder(office, character, 1);
 	}
 
 	if (game::get()->is_running()) {
 		emit office_holders_changed();
+
+		if (office == defines::get()->get_ruler_office()) {
+			emit ruler_changed();
+		}
 	}
 }
 
@@ -2646,6 +2611,23 @@ void country_game_data::apply_office_holder(const office *office, const characte
 
 	for (const country_attribute *attribute : office->get_country_attributes()) {
 		this->change_attribute_value(attribute, office_holder->get_game_data()->get_attribute_modifier(office->get_character_attribute()) * multiplier);
+	}
+}
+
+void country_game_data::on_office_holder_died(const office *office, const character *office_holder)
+{
+	if (game::get()->is_running()) {
+		if (this->country == game::get()->get_player_country()) {
+			const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
+
+			engine_interface::get()->add_notification(std::format("{} Died", office->get_name()), interior_minister_portrait, std::format("Our {}, {}, has died!", string::lowered(office->get_name()), office_holder->get_full_name()));
+		}
+
+		if (office == defines::get()->get_ruler_office()) {
+			context ctx(this->country);
+			ctx.source_scope = office_holder;
+			country_event::check_events_for_scope(this->country, event_trigger::ruler_death, ctx);
+		}
 	}
 }
 

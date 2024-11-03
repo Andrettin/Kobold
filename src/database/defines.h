@@ -7,6 +7,7 @@
 #include "util/singleton.h"
 
 Q_MOC_INCLUDE("country/country_attribute.h")
+Q_MOC_INCLUDE("country/office.h")
 Q_MOC_INCLUDE("economy/commodity.h")
 Q_MOC_INCLUDE("economy/commodity_unit.h")
 Q_MOC_INCLUDE("infrastructure/pathway.h")
@@ -26,6 +27,7 @@ class commodity;
 class commodity_unit;
 class country_attribute;
 class icon;
+class office;
 class pathway;
 class portrait;
 class terrain_type;
@@ -59,6 +61,7 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(const kobold::icon* tariff_icon MEMBER tariff_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* treasure_fleet_icon MEMBER treasure_fleet_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* military_upkeep_icon MEMBER military_upkeep_icon NOTIFY changed)
+	Q_PROPERTY(const kobold::office* ruler_office MEMBER ruler_office READ get_ruler_office NOTIFY changed)
 	Q_PROPERTY(kobold::portrait* interior_minister_portrait MEMBER interior_minister_portrait NOTIFY changed)
 	Q_PROPERTY(kobold::portrait* war_minister_portrait MEMBER war_minister_portrait NOTIFY changed)
 	Q_PROPERTY(QColor minor_nation_color MEMBER minor_nation_color READ get_minor_nation_color NOTIFY changed)
@@ -228,6 +231,11 @@ public:
 		return this->military_upkeep_icon;
 	}
 
+	const office *get_ruler_office() const
+	{
+		return this->ruler_office;
+	}
+
 	const portrait *get_interior_minister_portrait() const
 	{
 		return this->interior_minister_portrait;
@@ -356,6 +364,7 @@ private:
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
+	const office *ruler_office = nullptr;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	QColor minor_nation_color;

@@ -11,4 +11,11 @@ gustav_i_of_sweden = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 	gender = male
 	birth_date = 1496
 	death_date = 1560
+	
+	history = {
+		1523 = {
+			country = sweden
+			office = ruler #Gustav I became king of Sweden in 1523; Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
+		}
+	}
 }

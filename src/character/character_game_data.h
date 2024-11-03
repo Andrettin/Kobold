@@ -56,7 +56,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
-	Q_PROPERTY(bool ruler READ is_ruler NOTIFY ruler_changed)
+	Q_PROPERTY(bool ruler READ is_ruler NOTIFY office_changed)
 	Q_PROPERTY(const kobold::office* office READ get_office NOTIFY office_changed)
 	Q_PROPERTY(QVariantList spells READ get_spells_qvariant_list NOTIFY spells_changed)
 
@@ -383,7 +383,6 @@ signals:
 	void skill_bonuses_changed();
 	void feats_changed();
 	void scripted_modifiers_changed();
-	void ruler_changed();
 	void office_changed();
 	void spells_changed();
 

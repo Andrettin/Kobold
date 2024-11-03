@@ -2,6 +2,7 @@ an_empire_under_the_sun = {
 	name = "An Empire Under the Sun"
 	start_date = 1836
 	map_template = earth
+	hidden = true
 	default_countries = {
 		great_britain
 	}

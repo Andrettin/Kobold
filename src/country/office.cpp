@@ -7,6 +7,18 @@
 
 namespace kobold {
 
+void office::process_gsml_property(const gsml_property &property)
+{
+	const std::string &key = property.get_key();
+	const std::string &value = property.get_value();
+
+	if (key == "country_attribute") {
+		this->country_attributes.push_back(country_attribute::get(value));
+	} else {
+		data_entry::process_gsml_property(property);
+	}
+}
+
 void office::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();

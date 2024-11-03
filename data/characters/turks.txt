@@ -10,7 +10,13 @@ selim_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciênci
 	gender = male
 	birth_date = 1467
 	death_date = 1520
-	#became Sultan of the Ottoman Empire in 1512
+	
+	history = {
+		1512 = {
+			country = ottoman_empire
+			office = ruler #became Sultan of the Ottoman Empire in 1512
+		}
+	}
 }
 
 suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
@@ -27,5 +33,11 @@ suleiman_i_of_the_ottoman_empire = { #Source: Isaac Asimov, "Cronologia das Ciê
 	death_date = 1566
 	
 	#known as the Magnificent
-	#became Sultan of the Ottoman Empire in 1520
+	
+	history = {
+		1520 = {
+			country = ottoman_empire
+			office = ruler #became Sultan of the Ottoman Empire in 1520
+		}
+	}
 }

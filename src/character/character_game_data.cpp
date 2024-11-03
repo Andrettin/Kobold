@@ -44,7 +44,7 @@ character_game_data::character_game_data(const kobold::character *character)
 	: character(character)
 {
 	connect(game::get(), &game::turn_changed, this, &character_game_data::age_changed);
-	connect(this, &character_game_data::ruler_changed, this, &character_game_data::titled_name_changed);
+	connect(this, &character_game_data::office_changed, this, &character_game_data::titled_name_changed);
 
 	this->portrait = this->character->get_portrait();
 }
@@ -106,6 +106,12 @@ void character_game_data::apply_history(const QDate &start_date)
 	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
 		if (character_history->get_country() != nullptr) {
 			this->set_country(character_history->get_country());
+
+			if (character_history->get_office() != nullptr) {
+				assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);
+
+				this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
+			}
 		}
 	} else if (character->get_death_date() <= start_date) {
 		this->set_dead(true);
@@ -224,8 +230,8 @@ void character_game_data::set_dead(const bool dead)
 
 void character_game_data::die()
 {
-	if (this->is_ruler()) {
-		this->get_country()->get_game_data()->on_ruler_died();
+	if (this->get_office() != nullptr) {
+		this->get_country()->get_game_data()->on_office_holder_died(this->get_office(), this->character);
 	}
 
 	if (this->get_country() != nullptr) {

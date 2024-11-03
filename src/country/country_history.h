@@ -27,7 +27,6 @@ class country_history final : public data_entry_history
 
 	Q_PROPERTY(kobold::country_tier tier MEMBER tier)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
-	Q_PROPERTY(kobold::character* ruler MEMBER ruler)
 	Q_PROPERTY(const kobold::government_type* government_type MEMBER government_type READ get_government_type)
 	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
@@ -45,11 +44,6 @@ public:
 	const kobold::religion *get_religion() const
 	{
 		return this->religion;
-	}
-
-	const character *get_ruler() const
-	{
-		return this->ruler;
 	}
 
 	const kobold::subject_type *get_subject_type() const
@@ -103,7 +97,6 @@ private:
 	const kobold::country *country = nullptr;
 	country_tier tier{};
 	kobold::religion *religion = nullptr;
-	character *ruler = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
 	const kobold::government_type *government_type = nullptr;
 	std::vector<const tradition *> traditions;

@@ -1,0 +1,9 @@
+ruler = {
+	name = "Ruler"
+	character_attribute = charisma
+	country_attributes = {
+		economy
+		loyalty
+		stability
+	}
+}

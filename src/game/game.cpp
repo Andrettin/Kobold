@@ -394,19 +394,6 @@ void game::apply_history(const kobold::scenario *scenario)
 				country_game_data->set_government_type(country->get_default_government_type());
 			}
 
-			const character *ruler = country_history->get_ruler();
-			if (ruler != nullptr && scenario->get_start_date() <= ruler->get_death_date()) {
-				assert_throw(scenario->get_start_date() >= ruler->get_birth_date());
-
-				character_game_data *ruler_game_data = ruler->get_game_data();
-
-				if (ruler_game_data->get_country() != nullptr && ruler_game_data->get_country() != country) {
-					throw std::runtime_error(std::format("Cannot set \"{}\" as the ruler of \"{}\", as it is already assigned to another country.", ruler->get_identifier(), country->get_identifier()));
-				}
-
-				country_game_data->set_ruler(ruler);
-			}
-
 			for (const tradition *tradition : country_history->get_traditions()) {
 				country_game_data->gain_tradition_with_prerequisites(tradition);
 			}
