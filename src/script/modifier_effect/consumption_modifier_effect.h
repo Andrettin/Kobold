@@ -29,6 +29,11 @@ public:
 	{
 		return "Consumption";
 	}
+
+	virtual bool is_negative(const centesimal_int &multiplier) const override
+	{
+		return (this->value * multiplier) > 0;
+	}
 };
 
 }
