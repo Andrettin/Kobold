@@ -92,7 +92,10 @@ Rectangle {
 		id: title
 		anchors.top: industry_button.bottom
 		anchors.topMargin: 8 * scale_factor
-		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.left: parent.left
+		anchors.right: parent.right
+		horizontalAlignment: Text.AlignHCenter
+		wrapMode: Text.WordWrap
 		text: selected_garrison ? "Garrison" : (
 			selected_site ? selected_site.game_data.current_cultural_name
 				: (selected_civilian_unit ? selected_civilian_unit.type.name
