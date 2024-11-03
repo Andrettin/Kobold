@@ -17,7 +17,6 @@
 #include "country/culture.h"
 #include "country/culture_history.h"
 #include "country/diplomacy_state.h"
-#include "country/government_type.h"
 #include "country/religion.h"
 #include "country/tradition.h"
 #include "database/defines.h"
@@ -386,6 +385,13 @@ void game::apply_history(const kobold::scenario *scenario)
 			const subject_type *subject_type = country_history->get_subject_type();
 			if (subject_type != nullptr) {
 				country_game_data->set_subject_type(subject_type);
+			}
+
+			const government_type *government_type = country_history->get_government_type();
+			if (government_type != nullptr) {
+				country_game_data->set_government_type(government_type);
+			} else {
+				country_game_data->set_government_type(country->get_default_government_type());
 			}
 
 			const character *ruler = country_history->get_ruler();

@@ -1,0 +1,8 @@
+oligarchy = {
+	name = "Oligarchy"
+	group = republic
+	icon = chest
+	ruler_character_classes = {
+		expert
+	}
+}

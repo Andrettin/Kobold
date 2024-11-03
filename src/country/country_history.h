@@ -14,6 +14,7 @@ namespace kobold {
 class character;
 class consulate;
 class country;
+class government_type;
 class religion;
 class subject_type;
 class tradition;
@@ -27,6 +28,7 @@ class country_history final : public data_entry_history
 	Q_PROPERTY(kobold::country_tier tier MEMBER tier)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
 	Q_PROPERTY(kobold::character* ruler MEMBER ruler)
+	Q_PROPERTY(const kobold::government_type* government_type MEMBER government_type READ get_government_type)
 	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
 
@@ -53,6 +55,11 @@ public:
 	const kobold::subject_type *get_subject_type() const
 	{
 		return this->subject_type;
+	}
+
+	const kobold::government_type *get_government_type() const
+	{
+		return this->government_type;
 	}
 
 	const std::vector<const tradition *> &get_traditions() const
@@ -98,6 +105,7 @@ private:
 	kobold::religion *religion = nullptr;
 	character *ruler = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
+	const kobold::government_type *government_type = nullptr;
 	std::vector<const tradition *> traditions;
 	int wealth = 0;
 	commodity_map<int> commodities;

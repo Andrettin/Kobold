@@ -12,6 +12,7 @@ namespace archimedes {
 
 namespace kobold {
 
+class character_class;
 class government_group;
 enum class country_tier;
 
@@ -67,6 +68,11 @@ public:
 		return this->conditions.get();
 	}
 
+	const std::vector<const character_class *> &get_ruler_character_classes() const
+	{
+		return this->ruler_character_classes;
+	}
+
 signals:
 	void changed();
 
@@ -74,6 +80,7 @@ private:
 	const government_group *group = nullptr;
 	const icon *icon = nullptr;
 	std::unique_ptr<const and_condition<country>> conditions;
+	std::vector<const character_class *> ruler_character_classes;
 	title_name_map title_names;
 	ruler_title_name_map ruler_title_names;
 };

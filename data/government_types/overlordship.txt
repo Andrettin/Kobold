@@ -1,0 +1,8 @@
+overlordship = {
+	name = "Overlordship"
+	group = monarchy
+	icon = saber
+	ruler_character_classes = {
+		warrior
+	}
+}

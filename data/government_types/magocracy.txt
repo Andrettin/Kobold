@@ -1,0 +1,9 @@
+magocracy = {
+	name = "Magocracy"
+	group = republic
+	icon = philosophy
+	ruler_character_classes = {
+		mage
+		sorcerer
+	}
+}

@@ -5,7 +5,7 @@ ottoman_empire = {
 	culture = turkish
 	default_religion = sunni
 	default_tier = empire
-	default_government_type = monarchy
+	default_government_type = autocracy
 	default_capital = constantinople
 	short_name = true
 	eras = {
@@ -19,7 +19,7 @@ ottoman_empire = {
 	history = {
 		1520 = {
 			ruler = suleiman_i_of_the_ottoman_empire #Suleiman I became Sultan of the Ottoman Empire in 1520; Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 205.
-			traditions += monarchy
+			government_type = autocracy
 		}
 	
 		1820 = {

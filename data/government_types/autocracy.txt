@@ -1,0 +1,9 @@
+autocracy = {
+	name = "Autocracy"
+	group = monarchy
+	icon = crown_royal
+	ruler_character_classes = {
+		aristocrat
+		warrior
+	}
+}

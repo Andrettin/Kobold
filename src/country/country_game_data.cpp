@@ -2491,6 +2491,8 @@ void country_game_data::check_ruler(const character *previous_ruler)
 
 void country_game_data::choose_ruler(const character *previous_ruler)
 {
+	assert_throw(this->get_government_type() != nullptr);
+
 	std::vector<const character *> potential_rulers;
 	int best_level = 0;
 	bool found_same_dynasty = false;
@@ -2501,6 +2503,11 @@ void country_game_data::choose_ruler(const character *previous_ruler)
 		assert_throw(character_game_data->get_country() == this->country);
 
 		if (character->get_conditions() != nullptr && !character->get_conditions()->check(this->country, read_only_context(this->country))) {
+			continue;
+		}
+
+		const character_class *base_class = character->get_game_data()->get_character_class(character_class_type::base_class);
+		if (base_class == nullptr || !vector::contains(this->get_government_type()->get_ruler_character_classes(), base_class)) {
 			continue;
 		}
 
@@ -2544,8 +2551,10 @@ void country_game_data::choose_ruler(const character *previous_ruler)
 
 void country_game_data::generate_ruler()
 {
+	assert_throw(this->get_government_type() != nullptr);
+
 	std::vector<const character_class *> potential_base_classes;
-	for (const character_class *character_class : character_class::get_all()) {
+	for (const character_class *character_class : this->get_government_type()->get_ruler_character_classes()) {
 		if (character_class->get_type() == character_class_type::base_class) {
 			potential_base_classes.push_back(character_class);
 		}

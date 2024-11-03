@@ -6,10 +6,10 @@ chinese = {
 	species = {
 		human
 	}
-	ruler_title_names = {
-		communism = {
-			male = "Chairman"
-			female = "Chairwoman"
-		}
-	}
+	#ruler_title_names = {
+	#	communism = {
+	#		male = "Chairman"
+	#		female = "Chairwoman"
+	#	}
+	#}
 }

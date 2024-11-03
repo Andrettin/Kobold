@@ -2,10 +2,7 @@ republic = {
 	name = "Republic"
 	group = republic
 	icon = philosophy
-	conditions = {
-		tradition = republic
-		not = {
-			subject_type = colony
-		}
+	ruler_character_classes = {
+		expert
 	}
 }

@@ -1,0 +1,9 @@
+theocracy = {
+	name = "Theocracy"
+	group = theocracy
+	icon = wooden_cross
+	ruler_character_classes = {
+		cleric
+		paladin
+	}
+}

@@ -1,0 +1,66 @@
+#colony = {
+#	title_names = {
+#		duchy = "Colony"
+#		kingdom = "Governorate General"
+#		empire = "Grand Governorate General"
+#	}
+#	ruler_title_names = {
+#		duchy = "Colonial Governor"
+#		kingdom = "Governor General"
+#		empire = "Grand Governor General"
+#	}
+#}
+
+#communism = {
+#	ruler_title_names = {
+#		barony = "Comrade"
+#		county = "Comrade"
+#		duchy = "Comrade"
+#		kingdom = "Comrade"
+#		empire = "Comrade"
+#	}
+#}
+
+#crown_colony = {
+#	title_names = {
+#		duchy = "Captaincy General"
+#		kingdom = "Viceroyalty"
+#		empire = "Grand Viceroyalty"
+#	}
+#	ruler_title_names = {
+#		duchy = "Captain General"
+#		kingdom = "Viceroy"
+#		empire = "Grand Viceroy"
+#	}
+#}
+
+#democratic_republic = {
+#	ruler_title_names = {
+#		duchy = "President"
+#		kingdom = "President"
+#		empire = "President"
+#	}
+#}
+
+#dictatorship = {
+#	ruler_title_names = {
+#		barony = "Dictator"
+#		county = "Dictator"
+#		duchy = "Dictator"
+#		kingdom = "Dictator"
+#		empire = "Dictator"
+#	}
+#}
+
+#self_governing_colony = {
+#	title_names = {
+#		duchy = "Colony"
+#		kingdom = "Dominion"
+#		empire = "Grand Dominion"
+#	}
+#	ruler_title_names = {
+#		duchy = "Colonial Governor"
+#		kingdom = "Governor General"
+#		empire = "Grand Governor General"
+#	}
+#}

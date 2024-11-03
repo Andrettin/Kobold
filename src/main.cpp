@@ -173,6 +173,7 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<game>("", 1);
 		qmlRegisterAnonymousType<game_rules>("", 1);
 		qmlRegisterAnonymousType<government_type>("", 1);
+		qmlRegisterAnonymousType<const government_type>("", 1);
 		qmlRegisterAnonymousType<icon>("", 1);
 		qmlRegisterAnonymousType<improvement>("", 1);
 		qmlRegisterAnonymousType<journal_entry>("", 1);

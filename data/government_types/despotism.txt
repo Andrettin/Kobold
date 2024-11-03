@@ -2,13 +2,7 @@ despotism = {
 	name = "Despotism"
 	group = tribe
 	icon = bow
-	conditions = {
-		not = {
-			tradition = communism
-			tradition = monarchy
-			tradition = republic
-			tradition = theocracy
-			subject_type = colony
-		}
+	ruler_character_classes = {
+		barbarian
 	}
 }

@@ -1,8 +1,0 @@
-fundamentalism = {
-	name = "Fundamentalism"
-	group = theocracy
-	icon = wooden_cross
-	conditions = {
-		tradition = theocracy
-	}
-}
