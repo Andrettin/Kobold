@@ -84,6 +84,11 @@ public:
 		return !this->is_abstract() && this->is_storable() && !this->is_convertible_to_wealth();
 	}
 
+	bool has_unit(const commodity_unit *unit) const
+	{
+		return this->unit_values.contains(unit);
+	}
+
 	Q_INVOKABLE const kobold::commodity_unit *get_unit(const int value) const
 	{
 		if (this->units.empty()) {

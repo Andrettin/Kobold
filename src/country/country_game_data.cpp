@@ -126,6 +126,8 @@ void country_game_data::do_turn()
 			province->get_game_data()->do_turn();
 		}
 
+		this->do_income_phase();
+
 		this->do_production();
 		this->do_construction();
 
@@ -153,6 +155,23 @@ void country_game_data::do_turn()
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error(std::format("Failed to process turn for country \"{}\".", this->country->get_identifier())));
 	}
+}
+
+void country_game_data::do_income_phase()
+{
+	this->collect_taxes();
+}
+
+void country_game_data::collect_taxes()
+{
+	const int result = this->do_check(defines::get()->get_country_tax_attribute()) / 3;
+
+	const commodity *wealth_commodity = defines::get()->get_wealth_commodity();
+	const commodity_unit *wealth_commodity_unit = defines::get()->get_country_income_commodity_unit();
+	assert_throw(wealth_commodity->has_unit(wealth_commodity_unit));
+	const int unit_value = wealth_commodity->get_unit_value(wealth_commodity_unit);
+
+	this->change_stored_commodity(wealth_commodity, unit_value * result);
 }
 
 void country_game_data::do_production()
@@ -510,6 +529,11 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 	if (game::get()->is_running()) {
 		emit attribute_values_changed();
 	}
+}
+
+int country_game_data::do_check(const country_attribute *attribute) const
+{
+	return random::get()->roll_dice(dice(1, 20)) + this->get_attribute_value(attribute) - this->get_unrest();
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const

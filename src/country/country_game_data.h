@@ -135,6 +135,10 @@ public:
 	~country_game_data();
 
 	void do_turn();
+
+	void do_income_phase();
+	void collect_taxes();
+
 	void do_production();
 	void do_construction();
 	void do_trade(country_map<commodity_map<int>> &country_luxury_demands);
@@ -269,6 +273,8 @@ public:
 
 		this->unrest += change;
 	}
+
+	int do_check(const country_attribute *attribute) const;
 
 	const std::vector<const province *> &get_provinces() const
 	{

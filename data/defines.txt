@@ -23,6 +23,9 @@ prestige_commodity = prestige
 piety_commodity = piety
 tradition_commodity = culture
 leader_commodity = leadership
+country_income_commodity_unit = gb
+
+country_tax_attribute = economy
 
 tariff_icon = wealth
 treasure_fleet_icon = chest
