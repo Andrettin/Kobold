@@ -49,9 +49,12 @@ Popup {
 	LargeText {
 		id: title_text
 		text: dialog.title
-		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.top: parent.top
 		anchors.topMargin: 16 * scale_factor
+		anchors.left: parent.left
+		anchors.right: parent.right
+		horizontalAlignment: Text.AlignHCenter
+		wrapMode: Text.WordWrap
 	}
 	
 	onOpened: {
