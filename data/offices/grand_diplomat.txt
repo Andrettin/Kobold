@@ -1,13 +1,14 @@
-treasurer = {
-	name = "Treasurer"
+grand_diplomat = {
+	name = "Grand Diplomat"
 	character_attributes = {
+		charisma
 		intelligence
-		wisdom
 	}
-	country_attribute = economy
+	country_attribute = stability
 	conditions = {
 		or = {
 			character_class = aristocrat
+			character_class = bard
 			character_class = expert
 		}
 	}

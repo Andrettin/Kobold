@@ -1,0 +1,15 @@
+high_priest = {
+	name = "High Priest"
+	character_attributes = {
+		charisma
+		wisdom
+	}
+	country_attribute = stability
+	conditions = {
+		or = {
+			character_class = cleric
+			character_class = druid
+			character_class = paladin
+		}
+	}
+}

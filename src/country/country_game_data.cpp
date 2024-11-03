@@ -2590,6 +2590,10 @@ void country_game_data::choose_office_holder(const office *office, const charact
 
 		assert_throw(character_game_data->get_country() == this->country);
 
+		if (office->get_conditions() != nullptr && !office->get_conditions()->check(character, read_only_context(character))) {
+			continue;
+		}
+
 		if (office == defines::get()->get_ruler_office()) {
 			const character_class *base_class = character->get_game_data()->get_character_class(character_class_type::base_class);
 			if (base_class == nullptr || !vector::contains(this->get_government_type()->get_ruler_character_classes(), base_class)) {
