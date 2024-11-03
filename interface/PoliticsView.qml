@@ -52,11 +52,10 @@ Item {
 	}
 	
 	TraditionsInfoPanel {
-		id: traditions_infopanel
+		id: infopanel
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.left: parent.left
-		visible: politics_view_mode === PoliticsView.Mode.Traditions
 	}
 	
 	StatusBar {
