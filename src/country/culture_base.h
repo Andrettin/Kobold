@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 #include "infrastructure/building_class_container.h"
@@ -25,6 +26,7 @@ class culture_history;
 class government_group;
 class government_type;
 class military_unit_type;
+class office;
 class phenotype;
 enum class country_tier;
 
@@ -39,7 +41,7 @@ class culture_base : public named_data_entry
 public:
 	using government_variant = std::variant<const government_type *, const government_group *>;
 	using title_name_map = std::map<government_variant, std::map<country_tier, std::string>>;
-	using ruler_title_name_map = std::map<government_variant, std::map<country_tier, std::map<gender, std::string>>>;
+	using office_title_name_map = data_entry_map<office, std::map<government_variant, std::map<country_tier, std::map<gender, std::string>>>>;
 
 	explicit culture_base(const std::string &identifier);
 	~culture_base();
@@ -68,7 +70,7 @@ public:
 	phenotype *get_default_phenotype() const;
 
 	const std::string &get_title_name(const government_type *government_type, const country_tier tier) const;
-	const std::string &get_ruler_title_name(const government_type *government_type, const country_tier tier, const gender gender) const;
+	const std::string &get_office_title_name(const office *office, const government_type *government_type, const country_tier tier, const gender gender) const;
 
 	const building_type *get_building_class_type(const building_class *building_class) const;
 
@@ -128,7 +130,7 @@ private:
 	cultural_group *group = nullptr;
 	phenotype *default_phenotype = nullptr;
 	title_name_map title_names;
-	ruler_title_name_map ruler_title_names;
+	office_title_name_map office_title_names;
 	building_class_map<const building_type *> building_class_types;
 	civilian_unit_class_map<const civilian_unit_type *> civilian_class_unit_types;
 	military_unit_class_map<const military_unit_type *> military_class_unit_types;

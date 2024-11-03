@@ -125,11 +125,11 @@ void character_game_data::on_setup_finished()
 
 std::string character_game_data::get_titled_name() const
 {
-	if (!this->is_ruler()) {
+	if (this->get_office() == nullptr) {
 		return this->character->get_full_name();
 	}
 
-	return this->get_country()->get_game_data()->get_ruler_title_name() + " " + this->character->get_full_name();
+	return this->get_country()->get_game_data()->get_office_title_name(this->get_office()) + " " + this->character->get_full_name();
 }
 
 bool character_game_data::is_current_portrait_valid() const

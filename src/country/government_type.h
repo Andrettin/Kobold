@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
@@ -14,6 +15,7 @@ namespace kobold {
 
 class character_class;
 class government_group;
+class office;
 enum class country_tier;
 
 template <typename scope_type>
@@ -32,7 +34,8 @@ class government_type final : public named_data_entry, public data_type<governme
 public:
 	using government_variant = std::variant<const government_type *, const government_group *>;
 	using title_name_map = std::map<country_tier, std::string>;
-	using ruler_title_name_map = std::map<country_tier, std::map<gender, std::string>>;
+	using office_title_inner_name_map = std::map<country_tier, std::map<gender, std::string>>;
+	using office_title_name_map = data_entry_map<office, office_title_inner_name_map>;
 
 	static constexpr const char class_identifier[] = "government_type";
 	static constexpr const char property_class_identifier[] = "kobold::government_type*";
@@ -40,9 +43,11 @@ public:
 
 	static void process_title_name_scope(std::map<government_variant, title_name_map> &title_names, const gsml_data &scope);
 	static void process_title_name_scope(title_name_map &title_names, const gsml_data &scope);
-	static void process_ruler_title_name_scope(std::map<government_variant, ruler_title_name_map> &ruler_title_names, const gsml_data &scope);
-	static void process_ruler_title_name_scope(ruler_title_name_map &ruler_title_names, const gsml_data &scope);
-	static void process_ruler_title_name_scope(std::map<gender, std::string> &ruler_title_names, const gsml_data &scope);
+	static void process_office_title_name_scope(data_entry_map<office, std::map<government_variant, office_title_inner_name_map>> &office_title_names, const gsml_data &scope);
+	static void process_office_title_name_scope(office_title_name_map &office_title_names, const gsml_data &scope);
+	static void process_office_title_name_scope(std::map<government_variant, office_title_inner_name_map> &office_title_names, const gsml_data &scope);
+	static void process_office_title_name_scope(office_title_inner_name_map &office_title_names, const gsml_data &scope);
+	static void process_office_title_name_scope(std::map<gender, std::string> &office_title_names, const gsml_data &scope);
 
 	explicit government_type(const std::string &identifier);
 	~government_type();
@@ -51,7 +56,7 @@ public:
 	virtual void check() const override;
 
 	const std::string &get_title_name(const country_tier tier) const;
-	const std::string &get_ruler_title_name(const country_tier tier, const gender gender) const;
+	const std::string &get_office_title_name(const office *office, const country_tier tier, const gender gender) const;
 
 	const government_group *get_group() const
 	{
@@ -82,7 +87,7 @@ private:
 	std::unique_ptr<const and_condition<country>> conditions;
 	std::vector<const character_class *> ruler_character_classes;
 	title_name_map title_names;
-	ruler_title_name_map ruler_title_names;
+	office_title_name_map office_title_names;
 };
 
 }

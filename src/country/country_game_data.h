@@ -79,7 +79,6 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QString name READ get_name_qstring NOTIFY title_name_changed)
 	Q_PROPERTY(QString titled_name READ get_titled_name_qstring NOTIFY title_name_changed)
 	Q_PROPERTY(QString title_name READ get_title_name_qstring NOTIFY title_name_changed)
-	Q_PROPERTY(QString ruler_title_name READ get_ruler_title_name_qstring NOTIFY ruler_title_name_changed)
 	Q_PROPERTY(const kobold::religion* religion READ get_religion NOTIFY religion_changed)
 	Q_PROPERTY(const kobold::country* overlord READ get_overlord NOTIFY overlord_changed)
 	Q_PROPERTY(QString type_name READ get_type_name_qstring NOTIFY type_name_changed)
@@ -177,12 +176,7 @@ public:
 		return QString::fromStdString(this->get_title_name());
 	}
 
-	const std::string &get_ruler_title_name() const;
-
-	QString get_ruler_title_name_qstring() const
-	{
-		return QString::fromStdString(this->get_ruler_title_name());
-	}
+	const std::string &get_office_title_name(const office *office) const;
 
 	const kobold::religion *get_religion() const
 	{
@@ -1758,7 +1752,7 @@ public:
 signals:
 	void tier_changed();
 	void title_name_changed();
-	void ruler_title_name_changed();
+	void office_title_names_changed();
 	void religion_changed();
 	void overlord_changed();
 	void type_name_changed();
