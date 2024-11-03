@@ -18,6 +18,9 @@
 #include "game/event_trigger.h"
 #include "game/game.h"
 #include "map/province.h"
+#include "map/site.h"
+#include "map/site_game_data.h"
+#include "map/site_map_data.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/factor.h"
@@ -104,8 +107,15 @@ void character_game_data::apply_history(const QDate &start_date)
 	this->apply_species_and_class(level);
 
 	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
-		if (character_history->get_country() != nullptr) {
-			this->set_country(character_history->get_country());
+		const kobold::country *country = character_history->get_country();
+		if (country == nullptr) {
+			if (this->character->get_home_settlement()->get_map_data()->is_on_map()) {
+				country = this->character->get_home_settlement()->get_game_data()->get_owner();
+			}
+		}
+
+		if (country != nullptr) {
+			this->set_country(country);
 
 			if (character_history->get_office() != nullptr) {
 				assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);

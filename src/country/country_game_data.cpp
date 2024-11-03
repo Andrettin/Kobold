@@ -2519,7 +2519,7 @@ void country_game_data::set_office_holder(const office *office, const character 
 		this->apply_office_holder(office, old_office_holder, -1);
 	}
 
-	const kobold::office *old_office = character->get_game_data()->get_office();
+	const kobold::office *old_office = character ? character->get_game_data()->get_office() : nullptr;
 	if (old_office != nullptr) {
 		this->set_office_holder(old_office, nullptr);
 	}
