@@ -354,7 +354,7 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 		return;
 	}
 
-	const bool office_attribute_value_changed = this->get_office() != nullptr && attribute == this->get_office()->get_character_attribute();
+	const bool office_attribute_value_changed = this->get_office() != nullptr && vector::contains(this->get_office()->get_character_attributes(), attribute);
 
 	if (office_attribute_value_changed) {
 		assert_throw(this->get_country() != nullptr);

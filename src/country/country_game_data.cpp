@@ -2609,8 +2609,14 @@ void country_game_data::apply_office_holder(const office *office, const characte
 	assert_throw(office != nullptr);
 	assert_throw(office_holder != nullptr);
 
+	//apply the highest character attribute modifier to all country attributes listed
+	int attribute_modifier = 0;
+	for (const character_attribute *attribute : office->get_character_attributes()) {
+		attribute_modifier = std::max(office_holder->get_game_data()->get_attribute_modifier(attribute), attribute_modifier);
+	}
+
 	for (const country_attribute *attribute : office->get_country_attributes()) {
-		this->change_attribute_value(attribute, office_holder->get_game_data()->get_attribute_modifier(office->get_character_attribute()) * multiplier);
+		this->change_attribute_value(attribute, attribute_modifier * multiplier);
 	}
 }
 

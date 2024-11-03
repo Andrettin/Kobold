@@ -1,5 +1,8 @@
 treasurer = {
 	name = "Treasurer"
-	character_attribute = wisdom
+	character_attributes = {
+		intelligence
+		wisdom
+	}
 	country_attribute = economy
 }
