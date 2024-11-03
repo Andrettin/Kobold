@@ -1,8 +1,0 @@
-despotism = {
-	name = "Despotism"
-	group = tribe
-	icon = bow
-	ruler_character_classes = {
-		barbarian
-	}
-}

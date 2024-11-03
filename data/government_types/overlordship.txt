@@ -1,8 +1,8 @@
 overlordship = {
 	name = "Overlordship"
-	group = monarchy
-	icon = saber
+	group = tribe
+	icon = bow
 	ruler_character_classes = {
-		warrior
+		barbarian
 	}
 }

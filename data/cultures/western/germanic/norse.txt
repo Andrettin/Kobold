@@ -13,7 +13,7 @@ norse = {
 		swedish
 	}
 	ruler_title_names = {
-		despotism = "Warlord"
+		overlordship = "Warlord"
 	}
 	
 	personal_names = {
