@@ -60,16 +60,36 @@ void character_game_data::apply_species_and_class(const int level)
 		species->get_modifier()->apply(this->character, 1);
 	}
 
+	const character_class *base_class = this->character->get_character_class(character_class_type::base_class);
+
+	for (const character_attribute *attribute : character_attribute::get_all()) {
+		int min_result = 1;
+		min_result = std::max(species->get_min_attribute_value(attribute), min_result);
+		if (base_class != nullptr) {
+			min_result = std::max(base_class->get_min_attribute_value(attribute), min_result);
+		}
+
+		bool valid_result = false;
+		while (!valid_result) {
+			const int result = random::get()->roll_dice(dice(3, 6)) + this->get_attribute_value(attribute);
+
+			valid_result = result >= min_result;
+			if (valid_result) {
+				this->change_attribute_value(attribute, result);
+			}
+		}
+	}
+
+	for (const auto &[type, character_class] : this->character->get_character_classes()) {
+		this->set_character_class(type, character_class);
+	}
+
 	const dice &species_hit_dice = species->get_hit_dice();
 	if (!species_hit_dice.is_null()) {
 		for (int i = 0; i < species_hit_dice.get_count(); ++i) {
 			this->change_level(1);
 			this->apply_hit_dice(dice(1, species_hit_dice.get_sides()));
 		}
-	}
-
-	for (const auto &[type, character_class] : this->character->get_character_classes()) {
-		this->set_character_class(type, character_class);
 	}
 
 	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), level);

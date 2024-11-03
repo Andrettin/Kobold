@@ -21,6 +21,14 @@ half_elf = {
 		sorcerer = 1d6
 		warrior = 2d6
 	}
+	min_attribute_values = {
+		strength = 3
+		dexterity = 6
+		constitution = 6
+		intelligence = 4
+		wisdom = 3
+		charisma = 3
+	}
 	modifier = {
 		listen = 1
 		search = 1

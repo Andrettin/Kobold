@@ -21,6 +21,14 @@ halfling = {
 		sorcerer = 2d4
 		warrior = 3d6
 	}
+	min_attribute_values = {
+		strength = 6
+		dexterity = 8
+		constitution = 10
+		intelligence = 6
+		wisdom = 3
+		charisma = 3
+	}
 	modifier = {
 		dexterity = 2
 		strength = -2

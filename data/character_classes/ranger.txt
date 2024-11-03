@@ -9,4 +9,12 @@ ranger = {
 		will = low_saving_throw_bonus
 	}
 	base_skill_points_per_level = 6
+	min_attribute_values = {
+		strength = 13
+		dexterity = 6
+		constitution = 14
+		intelligence = 13
+		wisdom = 14
+		charisma = 6
+	}
 }

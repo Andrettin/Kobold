@@ -9,4 +9,12 @@ mage = {
 		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 2
+	min_attribute_values = {
+		strength = 3
+		dexterity = 6
+		constitution = 6
+		intelligence = 9
+		wisdom = 6
+		charisma = 6
+	}
 }

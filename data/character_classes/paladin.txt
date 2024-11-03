@@ -9,4 +9,12 @@ paladin = {
 		will = low_saving_throw_bonus
 	}
 	base_skill_points_per_level = 2
+	min_attribute_values = {
+		strength = 12
+		dexterity = 6
+		constitution = 9
+		intelligence = 9
+		wisdom = 13
+		charisma = 17
+	}
 }

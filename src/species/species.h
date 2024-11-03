@@ -90,6 +90,16 @@ public:
 
 	const dice &get_starting_age_modifier(const character_class *character_class) const;
 
+	int get_min_attribute_value(const character_attribute *attribute) const
+	{
+		const auto find_iterator = this->min_attribute_values.find(attribute);
+		if (find_iterator != this->min_attribute_values.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	const kobold::modifier<const character> *get_modifier() const
 	{
 		return this->modifier.get();
@@ -110,6 +120,7 @@ private:
 	int venerable_age = 0;
 	dice maximum_age_modifier;
 	data_entry_map<character_class, dice> starting_age_modifiers;
+	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
 };

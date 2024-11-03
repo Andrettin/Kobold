@@ -21,6 +21,14 @@ elf = {
 		sorcerer = 4d6
 		warrior = 6d6
 	}
+	min_attribute_values = {
+		strength = 3
+		dexterity = 7
+		constitution = 8
+		intelligence = 8
+		wisdom = 3
+		charisma = 8
+	}
 	modifier = {
 		dexterity = 2
 		constitution = -2

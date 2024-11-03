@@ -21,6 +21,14 @@ gnome = {
 		sorcerer = 4d6
 		warrior = 6d6
 	}
+	min_attribute_values = {
+		strength = 6
+		dexterity = 3
+		constitution = 8
+		intelligence = 7
+		wisdom = 3
+		charisma = 3
+	}
 	modifier = {
 		constitution = 2
 		strength = -2

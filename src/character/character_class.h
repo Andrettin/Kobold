@@ -58,6 +58,16 @@ public:
 		return this->base_skill_points_per_level;
 	}
 
+	int get_min_attribute_value(const character_attribute *attribute) const
+	{
+		const auto find_iterator = this->min_attribute_values.find(attribute);
+		if (find_iterator != this->min_attribute_values.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	int get_rank_level(const std::string &rank) const
 	{
 		const auto find_iterator = this->rank_levels.find(rank);
@@ -78,6 +88,7 @@ private:
 	const level_bonus_table *base_attack_bonus_table = nullptr;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	int base_skill_points_per_level = 0;
+	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<std::string, int> rank_levels; //names for particular levels
 };
 

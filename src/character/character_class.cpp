@@ -2,6 +2,7 @@
 
 #include "character/character_class.h"
 
+#include "character/character_attribute.h"
 #include "character/character_class_type.h"
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
@@ -27,6 +28,13 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
+		});
+	} else if (tag == "min_attribute_values") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->min_attribute_values[character_attribute::get(key)] = std::stoi(value);
 		});
 	} else if (tag == "rank_levels") {
 		scope.for_each_property([&](const gsml_property &property) {

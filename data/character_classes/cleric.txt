@@ -9,6 +9,14 @@ cleric = {
 		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 2
+	min_attribute_values = {
+		strength = 6
+		dexterity = 3
+		constitution = 6
+		intelligence = 6
+		wisdom = 9
+		charisma = 6
+	}
 	rank_levels = {
 		deacon = 1
 		priest = 2

@@ -9,4 +9,12 @@ druid = {
 		will = high_saving_throw_bonus
 	}
 	base_skill_points_per_level = 4
+	min_attribute_values = {
+		strength = 6
+		dexterity = 6
+		constitution = 6
+		intelligence = 6
+		wisdom = 12
+		charisma = 15
+	}
 }

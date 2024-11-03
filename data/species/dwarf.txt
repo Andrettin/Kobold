@@ -21,6 +21,14 @@ dwarf = {
 		sorcerer = 3d6
 		warrior = 5d6
 	}
+	min_attribute_values = {
+		strength = 8
+		dexterity = 3
+		constitution = 12
+		intelligence = 3
+		wisdom = 3
+		charisma = 3
+	}
 	modifier = {
 		constitution = 2
 		charisma = -2

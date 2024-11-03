@@ -21,6 +21,14 @@ half_orc = {
 		sorcerer = 1d4
 		warrior = 1d6
 	}
+	min_attribute_values = {
+		strength = 6
+		dexterity = 3
+		constitution = 13
+		intelligence = 3
+		wisdom = 3
+		charisma = 3
+	}
 	modifier = {
 		strength = 2
 		intelligence = -2
