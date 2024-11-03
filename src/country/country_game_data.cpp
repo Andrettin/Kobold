@@ -2453,9 +2453,10 @@ void country_game_data::remove_character(const character *character)
 {
 	std::erase(this->characters, character);
 
-	if (character == this->get_ruler()) {
-		this->set_office_holder(defines::get()->get_ruler_office(), nullptr);
-		this->check_ruler(character);
+	const office *office = character->get_game_data()->get_office();
+	if (office != nullptr) {
+		this->set_office_holder(office, nullptr);
+		this->check_office_holder(office, character);
 	}
 }
 
@@ -2471,81 +2472,14 @@ void country_game_data::check_characters()
 		character->get_game_data()->die();
 	}
 
-	this->check_ruler(nullptr);
+	for (const office *office : office::get_all()) {
+		this->check_office_holder(office, nullptr);
+	}
 }
 
 const character *country_game_data::get_ruler() const
 {
 	return this->get_office_holder(defines::get()->get_ruler_office());
-}
-
-void country_game_data::check_ruler(const character *previous_ruler)
-{
-	if (this->is_under_anarchy()) {
-		this->set_office_holder(defines::get()->get_ruler_office(), nullptr);
-		return;
-	}
-
-	//if the country has no ruler, see if there is any character who can become its ruler
-	if (this->get_ruler() == nullptr) {
-		this->choose_ruler(previous_ruler);
-	}
-}
-
-void country_game_data::choose_ruler(const character *previous_ruler)
-{
-	assert_throw(this->get_government_type() != nullptr);
-
-	std::vector<const character *> potential_rulers;
-	int best_level = 0;
-	bool found_same_dynasty = false;
-
-	for (const character *character : this->get_characters()) {
-		const character_game_data *character_game_data = character->get_game_data();
-
-		assert_throw(character_game_data->get_country() == this->country);
-
-		const character_class *base_class = character->get_game_data()->get_character_class(character_class_type::base_class);
-		if (base_class == nullptr || !vector::contains(this->get_government_type()->get_ruler_character_classes(), base_class)) {
-			continue;
-		}
-
-		if (previous_ruler != nullptr && previous_ruler->get_dynasty() != nullptr) {
-			const bool same_dynasty = character->get_dynasty() == previous_ruler->get_dynasty();
-			if (same_dynasty && !found_same_dynasty) {
-				potential_rulers.clear();
-				best_level = 0;
-				found_same_dynasty = true;
-			} else if (!same_dynasty && found_same_dynasty) {
-				continue;
-			}
-		}
-
-		const int level = character_game_data->get_level();
-		if (level < best_level) {
-			continue;
-		}
-
-		if (level > best_level) {
-			best_level = level;
-			potential_rulers.clear();
-		}
-
-		potential_rulers.push_back(character);
-	}
-
-	if (!potential_rulers.empty()) {
-		this->set_office_holder(defines::get()->get_ruler_office(), vector::get_random(potential_rulers));
-	} else {
-		this->generate_ruler();
-		assert_throw(this->get_ruler() != nullptr);
-	}
-
-	if (this->country == game::get()->get_player_country() && game::get()->is_running()) {
-		const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
-
-		engine_interface::get()->add_notification("New Ruler", interior_minister_portrait, std::format("{} has become our new ruler!", this->get_ruler()->get_full_name()));
-	}
 }
 
 void country_game_data::generate_ruler()
@@ -2575,13 +2509,18 @@ void country_game_data::set_office_holder(const office *office, const character 
 {
 	const kobold::character *old_office_holder = this->get_office_holder(office);
 
-	if (character == this->get_office_holder(office)) {
+	if (character == old_office_holder) {
 		return;
 	}
 
 	if (old_office_holder != nullptr) {
 		old_office_holder->get_game_data()->set_office(nullptr);
 		this->apply_office_holder(office, old_office_holder, -1);
+	}
+
+	const kobold::office *old_office = character->get_game_data()->get_office();
+	if (old_office != nullptr) {
+		this->set_office_holder(old_office, nullptr);
 	}
 
 	this->office_holders[office] = character;
@@ -2593,6 +2532,10 @@ void country_game_data::set_office_holder(const office *office, const character 
 
 		character->get_game_data()->set_office(office);
 		this->apply_office_holder(office, character, 1);
+	}
+
+	if (old_office != nullptr) {
+		this->check_office_holder(old_office, character);
 	}
 
 	if (game::get()->is_running()) {
@@ -2617,6 +2560,88 @@ void country_game_data::apply_office_holder(const office *office, const characte
 
 	for (const country_attribute *attribute : office->get_country_attributes()) {
 		this->change_attribute_value(attribute, attribute_modifier * multiplier);
+	}
+}
+
+void country_game_data::check_office_holder(const office *office, const character *previous_holder)
+{
+	if (this->is_under_anarchy()) {
+		this->set_office_holder(office, nullptr);
+		return;
+	}
+
+	//if the country has no holder for the office, see if there is any character who can become the holder
+	if (this->get_office_holder(office) == nullptr) {
+		this->choose_office_holder(office, previous_holder);
+	}
+}
+
+void country_game_data::choose_office_holder(const office *office, const character *previous_holder)
+{
+	assert_throw(this->get_government_type() != nullptr);
+
+	std::vector<const character *> potential_holders;
+	int best_attribute_value = 0;
+	bool found_same_dynasty = false;
+
+	for (const character *character : this->get_characters()) {
+		const character_game_data *character_game_data = character->get_game_data();
+
+		assert_throw(character_game_data->get_country() == this->country);
+
+		if (office == defines::get()->get_ruler_office()) {
+			const character_class *base_class = character->get_game_data()->get_character_class(character_class_type::base_class);
+			if (base_class == nullptr || !vector::contains(this->get_government_type()->get_ruler_character_classes(), base_class)) {
+				continue;
+			}
+
+			if (previous_holder != nullptr && previous_holder->get_dynasty() != nullptr) {
+				const bool same_dynasty = character->get_dynasty() == previous_holder->get_dynasty();
+				if (same_dynasty && !found_same_dynasty) {
+					potential_holders.clear();
+					best_attribute_value = 0;
+					found_same_dynasty = true;
+				} else if (!same_dynasty && found_same_dynasty) {
+					continue;
+				}
+			}
+		} else {
+			if (character_game_data->get_office() != nullptr) {
+				continue;
+			}
+		}
+
+		int attribute_value = 0;
+		for (const character_attribute *attribute : office->get_character_attributes()) {
+			attribute_value = std::max(character_game_data->get_attribute_value(attribute), attribute_value);
+		}
+
+		if (attribute_value < best_attribute_value) {
+			continue;
+		}
+
+		if (attribute_value > best_attribute_value) {
+			best_attribute_value = attribute_value;
+			potential_holders.clear();
+		}
+
+		potential_holders.push_back(character);
+	}
+
+	if (!potential_holders.empty()) {
+		this->set_office_holder(office, vector::get_random(potential_holders));
+	} else {
+		if (office == defines::get()->get_ruler_office()) {
+			this->generate_ruler();
+			assert_throw(this->get_ruler() != nullptr);
+		}
+	}
+
+	const character *office_holder = this->get_office_holder(office);
+	if (this->country == game::get()->get_player_country() && game::get()->is_running() && office_holder != nullptr) {
+		const portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
+
+		engine_interface::get()->add_notification(std::format("New {}", office->get_name()), interior_minister_portrait, std::format("{} has become our new {}!", office_holder->get_full_name(), string::lowered(office->get_name())));
 	}
 }
 

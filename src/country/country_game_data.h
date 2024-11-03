@@ -964,8 +964,6 @@ public:
 	void check_characters();
 
 	const character *get_ruler() const;
-	void check_ruler(const character *previous_ruler);
-	void choose_ruler(const character *previous_ruler);
 	void generate_ruler();
 
 	const data_entry_map<office, const character *> &get_office_holders() const
@@ -988,6 +986,8 @@ public:
 
 	void set_office_holder(const office *office, const character *character);
 	void apply_office_holder(const office *office, const character *office_holder, const int multiplier);
+	void check_office_holder(const office *office, const character *previous_holder);
+	void choose_office_holder(const office *office, const character *previous_holder);
 	void on_office_holder_died(const office *office, const character *office_holder);
 
 	const commodity_map<int> &get_bids() const

@@ -245,7 +245,7 @@ QCoro::Task<void> game::start_coro()
 	for (const country *country : this->get_countries()) {
 		country_game_data *country_game_data = country->get_game_data();
 
-		country_game_data->check_ruler(nullptr);
+		country_game_data->check_characters();
 
 		//setup journal entries, marking the ones for which the country already fulfills conditions as finished, but without doing the effects
 		country_game_data->check_journal_entries(true, true);
@@ -894,7 +894,7 @@ QCoro::Task<void> game::on_setup_finished()
 	for (const country *country : this->get_countries()) {
 		country->get_game_data()->check_government_type();
 		country->get_game_data()->check_laws();
-		country->get_game_data()->check_ruler(nullptr);
+		country->get_game_data()->check_characters();
 
 		for (const QPoint &border_tile_pos : country->get_game_data()->get_border_tiles()) {
 			map::get()->calculate_tile_country_border_directions(border_tile_pos);
