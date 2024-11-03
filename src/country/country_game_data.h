@@ -52,6 +52,7 @@ class journal_entry;
 class law;
 class military_unit;
 class military_unit_type;
+class office;
 class opinion_modifier;
 class phenotype;
 class province;
@@ -119,6 +120,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(const kobold::tradition* next_tradition READ get_next_tradition WRITE set_next_tradition NOTIFY next_tradition_changed)
 	Q_PROPERTY(const kobold::tradition* next_belief READ get_next_belief WRITE set_next_belief NOTIFY next_belief_changed)
 	Q_PROPERTY(const kobold::character* ruler READ get_ruler NOTIFY ruler_changed)
+	Q_PROPERTY(QVariantList office_holders READ get_office_holders_qvariant_list NOTIFY office_holders_changed)
 	Q_PROPERTY(QVariantList bids READ get_bids_qvariant_list NOTIFY bids_changed)
 	Q_PROPERTY(QVariantList offers READ get_offers_qvariant_list NOTIFY offers_changed)
 	Q_PROPERTY(int output_modifier READ get_output_modifier_int NOTIFY output_modifier_changed)
@@ -972,6 +974,27 @@ public:
 	void generate_ruler();
 	void on_ruler_died();
 
+	const data_entry_map<office, const character *> &get_office_holders() const
+	{
+		return this->office_holders;
+	}
+
+	QVariantList get_office_holders_qvariant_list() const;
+
+	const character *get_office_holder(const office *office) const
+	{
+		const auto find_iterator = this->office_holders.find(office);
+
+		if (find_iterator != this->office_holders.end()) {
+			return find_iterator->second;
+		}
+
+		return nullptr;
+	}
+
+	void set_office_holder(const office *office, const character *character);
+	void apply_office_holder(const office *office, const character *office_holder, const int multiplier);
+
 	const commodity_map<int> &get_bids() const
 	{
 		return this->bids;
@@ -1772,6 +1795,7 @@ signals:
 	void next_belief_changed();
 	void belief_adopted(const tradition *belief);
 	void ruler_changed();
+	void office_holders_changed();
 	void bids_changed();
 	void offers_changed();
 	void output_modifier_changed();
@@ -1835,6 +1859,7 @@ private:
 	const tradition *next_belief = nullptr;
 	std::vector<const character *> characters;
 	const character *ruler = nullptr;
+	data_entry_map<office, const character *> office_holders;
 	commodity_map<int> bids;
 	commodity_map<int> offers;
 	commodity_map<int> commodity_needs;

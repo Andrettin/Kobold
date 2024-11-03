@@ -1,0 +1,5 @@
+treasurer = {
+	name = "Treasurer"
+	character_attribute = wisdom
+	country_attribute = economy
+}

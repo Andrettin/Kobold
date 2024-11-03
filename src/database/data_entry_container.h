@@ -18,6 +18,7 @@ class character_attribute;
 class character_class;
 class commodity_unit;
 class country_attribute;
+class office;
 class saving_throw_type;
 class skill;
 

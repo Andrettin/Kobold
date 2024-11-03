@@ -21,6 +21,7 @@
 #include "country/journal_entry.h"
 #include "country/law.h"
 #include "country/law_group.h"
+#include "country/office.h"
 #include "country/religion.h"
 #include "country/tradition.h"
 #include "country/tradition_category.h"
@@ -2605,6 +2606,46 @@ void country_game_data::on_ruler_died()
 		context ctx(this->country);
 		ctx.source_scope = this->get_ruler();
 		country_event::check_events_for_scope(this->country, event_trigger::ruler_death, ctx);
+	}
+}
+
+QVariantList country_game_data::get_office_holders_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_office_holders());
+}
+
+void country_game_data::set_office_holder(const office *office, const character *character)
+{
+	const kobold::character *old_office_holder = this->get_office_holder(office);
+
+	if (character == this->get_office_holder(office)) {
+		return;
+	}
+
+	if (old_office_holder != nullptr) {
+		old_office_holder->get_game_data()->set_office(nullptr);
+		this->apply_office_holder(office, old_office_holder, -1);
+	}
+
+	this->office_holders[office] = character;
+
+	if (character != nullptr) {
+		character->get_game_data()->set_office(office);
+		this->apply_office_holder(office, character, 1);
+	}
+
+	if (game::get()->is_running()) {
+		emit office_holders_changed();
+	}
+}
+
+void country_game_data::apply_office_holder(const office *office, const character *office_holder, const int multiplier)
+{
+	assert_throw(office != nullptr);
+	assert_throw(office_holder != nullptr);
+
+	for (const country_attribute *attribute : office->get_country_attributes()) {
+		this->change_attribute_value(attribute, office_holder->get_game_data()->get_attribute_modifier(office->get_character_attribute()) * multiplier);
 	}
 }
 

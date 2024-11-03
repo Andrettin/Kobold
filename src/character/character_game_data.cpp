@@ -12,6 +12,7 @@
 #include "character/level_bonus_table.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
+#include "country/office.h"
 #include "database/defines.h"
 #include "game/character_event.h"
 #include "game/event_trigger.h"
@@ -347,11 +348,22 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 		return;
 	}
 
+	const bool office_attribute_value_changed = this->get_office() != nullptr && attribute == this->get_office()->get_character_attribute();
+
+	if (office_attribute_value_changed) {
+		assert_throw(this->get_country() != nullptr);
+		this->get_country()->get_game_data()->apply_office_holder(this->get_office(), this->character, -1);
+	}
+
 	const int new_value = (this->attribute_values[attribute] += change);
 	if (new_value == 0) {
 		this->attribute_values.erase(attribute);
 	}
 
+	if (office_attribute_value_changed) {
+		assert_throw(this->get_country() != nullptr);
+		this->get_country()->get_game_data()->apply_office_holder(this->get_office(), this->character, 1);
+	}
 	if (game::get()->is_running()) {
 		emit attribute_values_changed();
 	}
@@ -616,6 +628,20 @@ void character_game_data::decrement_scripted_modifiers()
 bool character_game_data::is_ruler() const
 {
 	return this->get_country() != nullptr && this->get_country()->get_game_data()->get_ruler() == this->character;
+}
+
+
+void character_game_data::set_office(const kobold::office *office)
+{
+	if (office == this->get_office()) {
+		return;
+	}
+
+	this->office = office;
+
+	if (game::get()->is_running()) {
+		emit office_changed();
+	}
 }
 
 void character_game_data::apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier)

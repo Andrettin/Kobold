@@ -8,6 +8,7 @@
 #include "util/fractional_int.h"
 
 Q_MOC_INCLUDE("country/country.h")
+Q_MOC_INCLUDE("country/office.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
 namespace archimedes {
@@ -24,6 +25,7 @@ class feat;
 class feat_type;
 class military_unit;
 class military_unit_type;
+class office;
 class portrait;
 class province;
 class saving_throw_type;
@@ -55,6 +57,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY ruler_changed)
+	Q_PROPERTY(const kobold::office* office READ get_office NOTIFY office_changed)
 	Q_PROPERTY(QVariantList spells READ get_spells_qvariant_list NOTIFY spells_changed)
 
 public:
@@ -281,6 +284,13 @@ public:
 
 	bool is_ruler() const;
 
+	const kobold::office *get_office() const
+	{
+		return this->office;
+	}
+
+	void set_office(const kobold::office *office);
+
 	void apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier);
 
 	const spell_set &get_spells() const
@@ -374,6 +384,7 @@ signals:
 	void feats_changed();
 	void scripted_modifiers_changed();
 	void ruler_changed();
+	void office_changed();
 	void spells_changed();
 
 private:
@@ -392,6 +403,7 @@ private:
 	data_entry_map<skill, int> skill_bonuses;
 	std::vector<const feat *> feats;
 	scripted_character_modifier_map<int> scripted_modifiers;
+	const kobold::office *office = nullptr;
 	spell_set spells;
 	spell_set item_spells;
 	std::map<military_unit_stat, centesimal_int> commanded_military_unit_stat_modifiers;
