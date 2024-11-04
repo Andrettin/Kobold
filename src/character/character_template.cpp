@@ -5,6 +5,7 @@
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/feat.h"
+#include "species/species.h"
 
 namespace kobold {
 
@@ -57,6 +58,10 @@ void character_template::initialize()
 	if (character_class != nullptr) {
 		for (const feat *feat : this->get_feats()) {
 			character_class->add_feat_weight(feat, 1);
+		}
+	} else {
+		for (const feat *feat : this->get_feats()) {
+			this->species->add_feat_weight(feat, 1);
 		}
 	}
 

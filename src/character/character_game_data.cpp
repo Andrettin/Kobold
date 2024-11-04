@@ -618,6 +618,8 @@ std::vector<const feat *> character_game_data::get_potential_feats_from_list(con
 		int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
 		if (character_class != nullptr) {
 			weight *= std::max(character_class->get_feat_weight(feat), 1);
+		} else {
+			weight *= std::max(this->character->get_species()->get_feat_weight(feat), 1);
 		}
 
 		for (int i = 0; i < weight; ++i) {

@@ -181,6 +181,10 @@ void character::initialize()
 		for (const feat *feat : this->get_feats()) {
 			character_class->add_feat_weight(feat, 1);
 		}
+	} else {
+		for (const feat *feat : this->get_feats()) {
+			this->species->add_feat_weight(feat, 1);
+		}
 	}
 
 	character_base::initialize();

@@ -1,0 +1,18 @@
+ogre = {
+	name = "Ogre"
+	species = ogre
+	level = 6
+	feats = {
+		toughness
+	}
+}
+
+ogre_barbarian = {
+	name = "Ogre"
+	species = ogre
+	character_class = barbarian
+	level = 10
+	feats = {
+		toughness
+	}
+}

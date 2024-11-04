@@ -8,6 +8,7 @@
 namespace kobold {
 
 class character_class;
+class feat;
 class taxon;
 enum class taxonomic_rank;
 
@@ -110,6 +111,27 @@ public:
 		return this->effects.get();
 	}
 
+	const data_entry_map<feat, int> &get_feat_weights() const
+	{
+		return this->feat_weights;
+	}
+
+	int get_feat_weight(const feat *feat) const
+	{
+		const auto find_iterator = this->feat_weights.find(feat);
+
+		if (find_iterator != this->feat_weights.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void add_feat_weight(const feat *feat, const int weight)
+	{
+		this->feat_weights[feat] += weight;
+	}
+
 private:
 	bool sapient = false;
 	dice hit_dice;
@@ -123,6 +145,7 @@ private:
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
+	data_entry_map<feat, int> feat_weights;
 };
 
 }

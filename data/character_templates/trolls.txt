@@ -1,0 +1,20 @@
+troll = {
+	name = "Troll"
+	species = troll
+	level = 11
+	feats = {
+		alertness
+		iron_will
+	}
+}
+
+troll_hunter = {
+	name = "Troll Hunter"
+	species = troll
+	character_class = ranger
+	level = 17
+	feats = {
+		alertness
+		iron_will
+	}
+}
