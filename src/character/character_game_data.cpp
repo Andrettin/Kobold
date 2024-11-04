@@ -577,10 +577,20 @@ void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 void character_game_data::choose_feat(const feat_type *type)
 {
 	std::vector<const feat *> potential_feats;
+	bool found_unacquired_feat = false;
 
 	for (const feat *feat : type->get_feats()) {
 		if (!this->can_gain_feat(feat, type)) {
 			continue;
+		}
+
+		if (type->prioritizes_unacquired_feats()) {
+			if (!found_unacquired_feat && !this->has_feat(feat)) {
+				potential_feats.clear();
+				found_unacquired_feat = true;
+			} else if (found_unacquired_feat && this->has_feat(feat)) {
+				continue;
+			}
 		}
 
 		const int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
@@ -588,7 +598,6 @@ void character_game_data::choose_feat(const feat_type *type)
 		for (int i = 0; i < weight; ++i) {
 			potential_feats.push_back(feat);
 		}
-
 	}
 
 	assert_throw(!potential_feats.empty());

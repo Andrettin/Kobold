@@ -20,6 +20,7 @@ class feat_type final : public named_data_entry, public data_type<feat_type>
 
 	Q_PROPERTY(int max_feats MEMBER max_feats READ get_max_feats NOTIFY changed)
 	Q_PROPERTY(bool ignore_other_type_conditions MEMBER ignore_other_type_conditions READ ignores_other_type_conditions NOTIFY changed)
+	Q_PROPERTY(bool prioritize_unacquired_feats MEMBER prioritize_unacquired_feats READ prioritizes_unacquired_feats NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "feat_type";
@@ -40,6 +41,11 @@ public:
 	bool ignores_other_type_conditions() const
 	{
 		return this->ignore_other_type_conditions;
+	}
+
+	bool prioritizes_unacquired_feats() const
+	{
+		return this->prioritize_unacquired_feats;
 	}
 
 	const and_condition<character> *get_gain_conditions() const
@@ -68,6 +74,7 @@ signals:
 private:
 	int max_feats = 0; //the maximum amount of feats of this type a character can acquire
 	bool ignore_other_type_conditions = false;
+	bool prioritize_unacquired_feats = true;
 	std::unique_ptr<const and_condition<character>> gain_conditions;
 	std::unique_ptr<const effect_list<const character>> effects;
 	std::vector<const feat *> feats;
