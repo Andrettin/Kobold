@@ -17,9 +17,30 @@ Rectangle {
 	}
 	
 	IconButton {
-		id: government_button
+		id: offices_button
 		anchors.top: parent.top
 		anchors.topMargin: 16 * scale_factor
+		anchors.horizontalCenter: parent.horizontalCenter
+		icon_identifier: "rifle_infantry_light_small"
+		border_color: politics_view_mode === PoliticsView.Mode.Offices ? "white" : "gray"
+		
+		onReleased: {
+			politics_view_mode = PoliticsView.Mode.Offices
+		}
+		
+		onHoveredChanged: {
+			if (hovered) {
+				status_text = "View Offices"
+			} else {
+				status_text = ""
+			}
+		}
+	}
+	
+	IconButton {
+		id: government_button
+		anchors.top: offices_button.bottom
+		anchors.topMargin: 4 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		icon_identifier: "flag"
 		border_color: politics_view_mode === PoliticsView.Mode.Government ? "white" : "gray"

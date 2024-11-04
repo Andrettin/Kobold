@@ -6,6 +6,7 @@ Item {
 	id: politics_view
 	
 	enum Mode {
+		Offices,
 		Government,
 		Traditions
 	}
@@ -24,6 +25,15 @@ Item {
 		anchors.left: infopanel.right
 		anchors.right: button_panel.left
 		color: "black"
+	}
+	
+	OfficesView {
+		id: offices_view
+		anchors.top: top_bar.bottom
+		anchors.bottom: status_bar.top
+		anchors.left: infopanel.right
+		anchors.right: button_panel.left
+		visible: politics_view_mode === PoliticsView.Mode.Offices
 	}
 	
 	GovernmentView {
