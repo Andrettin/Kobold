@@ -529,14 +529,16 @@ bool character_game_data::has_feat(const feat *feat) const
 
 void character_game_data::change_feat_count(const feat *feat, const int change)
 {
-	if (this->has_feat(feat) && !feat->is_unlimited()) {
-		log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to character \"{}\", but they already have the feat.", feat->get_identifier(), this->character->get_identifier()));
-		return;
-	}
+	if (change > 0) {
+		if (this->has_feat(feat) && !feat->is_unlimited()) {
+			log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to character \"{}\", but they already have the feat.", feat->get_identifier(), this->character->get_identifier()));
+			return;
+		}
 
-	if (!this->can_have_feat(feat)) {
-		log::log_error(std::format("Tried to add feat \"{}\" to character \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->character->get_identifier()));
-		return;
+		if (!this->can_have_feat(feat)) {
+			log::log_error(std::format("Tried to add feat \"{}\" to character \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->character->get_identifier()));
+			return;
+		}
 	}
 
 	const int new_value = (this->feat_counts[feat] += change);
