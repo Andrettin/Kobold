@@ -50,6 +50,8 @@ public:
 		return this->types;
 	}
 
+	bool has_type(const feat_type *type) const;
+
 	const kobold::icon *get_icon() const
 	{
 		return this->icon;

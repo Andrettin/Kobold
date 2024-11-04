@@ -7,6 +7,7 @@
 #include "script/effect/effect_list.h"
 #include "script/factor.h"
 #include "script/modifier.h"
+#include "util/vector_util.h"
 
 namespace kobold {
 
@@ -76,6 +77,11 @@ void feat::check() const
 	if (this->get_weight_factor() != nullptr) {
 		this->get_weight_factor()->check();
 	}
+}
+
+bool feat::has_type(const feat_type *type) const
+{
+	return vector::contains(this->get_types(), type);
 }
 
 QString feat::get_modifier_string() const
