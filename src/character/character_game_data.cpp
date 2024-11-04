@@ -96,7 +96,8 @@ void character_game_data::apply_species_and_class(const int level)
 		}
 	}
 
-	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), level);
+	const int remaining_level = level - this->get_level();
+	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), remaining_level);
 }
 
 void character_game_data::apply_history(const QDate &start_date)

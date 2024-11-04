@@ -25,6 +25,7 @@ namespace kobold {
 class character_class;
 class character_game_data;
 class character_history;
+class character_template;
 class civilian_unit_class;
 class civilian_unit_type;
 class country;
@@ -72,7 +73,8 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
-	static const character *generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
+	static const character *generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats);
+	static const character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
 	explicit character(const std::string &identifier);
 	~character();

@@ -6,6 +6,7 @@
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
+#include "character/character_template.h"
 #include "character/dynasty.h"
 #include "character/feat.h"
 #include "country/country.h"
@@ -40,7 +41,7 @@ const std::set<std::string> character::database_dependencies = {
 	province::class_identifier
 };
 
-const character *character::generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
+const character *character::generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
@@ -61,11 +62,17 @@ const character *character::generate(const kobold::species *species, const std::
 
 	generated_character->initialize_dates();
 	generated_character->check();
+	generated_character->get_game_data()->set_target_feats(feats);
 	generated_character->get_game_data()->apply_species_and_class(level);
 	generated_character->get_game_data()->on_setup_finished();
 
 	game::get()->add_generated_character(std::move(generated_character));
 	return game::get()->get_generated_characters().back().get();
+}
+
+const character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
+{
+	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats());
 }
 
 character::character(const std::string &identifier)

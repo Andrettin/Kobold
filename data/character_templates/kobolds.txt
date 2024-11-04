@@ -1,0 +1,9 @@
+kobold_warrior = {
+	name = "Kobold Warrior"
+	species = kobold
+	character_class = warrior
+	level = 1
+	feats = {
+		alertness
+	}
+}

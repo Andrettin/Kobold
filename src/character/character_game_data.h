@@ -363,6 +363,11 @@ public:
 		this->set_commanded_military_unit_type_stat_modifier(type, stat, this->get_commanded_military_unit_type_stat_modifier(type, stat) + change);
 	}
 
+	void set_target_feats(const std::vector<const feat *> &feats)
+	{
+		this->target_feats = feats;
+	}
+
 signals:
 	void titled_name_changed();
 	void portrait_changed();
@@ -402,6 +407,7 @@ private:
 	spell_set item_spells;
 	std::map<military_unit_stat, centesimal_int> commanded_military_unit_stat_modifiers;
 	military_unit_type_map<std::map<military_unit_stat, centesimal_int>> commanded_military_unit_type_stat_modifiers;
+	std::vector<const feat *> target_feats;
 };
 
 }

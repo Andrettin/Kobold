@@ -1,0 +1,70 @@
+#include "kobold.h"
+
+#include "character/character_template.h"
+
+#include "character/character_class.h"
+#include "character/character_class_type.h"
+#include "character/feat.h"
+
+namespace kobold {
+
+character_template::character_template(const std::string &identifier)
+	: named_data_entry(identifier)
+{
+}
+
+character_template::~character_template()
+{
+}
+
+void character_template::process_gsml_property(const gsml_property &property)
+{
+	const std::string &key = property.get_key();
+	const std::string &value = property.get_value();
+
+	if (key == "character_class") {
+		const character_class *character_class = character_class::get(value);
+		this->character_classes[character_class->get_type()] = character_class;
+	} else {
+		data_entry::process_gsml_property(property);
+	}
+}
+
+void character_template::process_gsml_scope(const gsml_data &scope)
+{
+	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
+
+	if (tag == "character_classes") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->character_classes[enum_converter<character_class_type>::to_enum(key)] = character_class::get(value);
+		});
+	} else if (tag == "feats") {
+		for (const std::string &value : values) {
+			this->feats.push_back(feat::get(value));
+		}
+	} else {
+		data_entry::process_gsml_scope(scope);
+	}
+}
+
+void character_template::initialize()
+{
+	if (this->get_species() != nullptr) {
+
+	}
+
+	named_data_entry::initialize();
+}
+
+void character_template::check() const
+{
+	if (this->get_species() == nullptr) {
+		throw std::runtime_error(std::format("Character template \"{}\" has no species.", this->get_identifier()));
+	}
+}
+
+}
