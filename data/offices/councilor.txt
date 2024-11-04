@@ -1,0 +1,8 @@
+councilor = {
+	name = "Councilor"
+	character_attributes = {
+		charisma
+		wisdom
+	}
+	country_attribute = loyalty
+}

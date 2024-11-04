@@ -1,0 +1,8 @@
+magister = {
+	name = "Magister"
+	character_attributes = {
+		charisma
+		intelligence
+	}
+	country_attribute = economy
+}

@@ -1,0 +1,16 @@
+general = {
+	name = "General"
+	character_attributes = {
+		charisma
+		strength
+	}
+	country_attribute = stability
+	conditions = {
+		or = {
+			character_class = barbarian
+			character_class = paladin
+			character_class = ranger
+			character_class = warrior
+		}
+	}
+}

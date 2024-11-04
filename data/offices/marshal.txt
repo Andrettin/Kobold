@@ -1,0 +1,8 @@
+marshal = {
+	name = "Marshal"
+	character_attributes = {
+		dexterity
+		wisdom
+	}
+	country_attribute = economy
+}

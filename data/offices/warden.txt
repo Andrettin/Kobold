@@ -1,0 +1,8 @@
+warden = {
+	name = "Warden"
+	character_attributes = {
+		constitution
+		strength
+	}
+	country_attribute = loyalty
+}

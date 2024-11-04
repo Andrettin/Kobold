@@ -1,0 +1,8 @@
+royal_enforcer = {
+	name = "Royal Enforcer"
+	character_attributes = {
+		dexterity
+		strength
+	}
+	country_attribute = loyalty
+}
