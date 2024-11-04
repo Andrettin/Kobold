@@ -1,0 +1,16 @@
+hound_archon = {
+	name = "Hound Archon"
+	species = hound_archon
+	level = 11
+	feats = {
+	}
+}
+
+hound_archon_hero = {
+	name = "Hound Archon Hero"
+	species = hound_archon
+	character_class = paladin
+	level = 22
+	feats = {
+	}
+}

@@ -63,6 +63,7 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/opinion_modifier.h"
+#include "species/species.h"
 #include "ui/icon.h"
 #include "ui/icon_container.h"
 #include "ui/portrait.h"
@@ -2487,17 +2488,22 @@ void country_game_data::generate_ruler()
 {
 	assert_throw(this->get_government_type() != nullptr);
 
+	const species *species = vector::get_random(this->country->get_culture()->get_species());
+
 	std::vector<const character_class *> potential_base_classes;
 	for (const character_class *character_class : this->get_government_type()->get_ruler_character_classes()) {
 		if (character_class->get_type() == character_class_type::base_class) {
-			potential_base_classes.push_back(character_class);
+			const int weight = std::max(species->get_character_class_weight(character_class), 1);
+			for (int i = 0; i < weight; ++i) {
+				potential_base_classes.push_back(character_class);
+			}
 		}
 	}
 	assert_throw(!potential_base_classes.empty());
 
 	const character_class *base_class = vector::get_random(potential_base_classes);
 
-	const character *ruler = character::generate(vector::get_random(this->country->get_culture()->get_species()), { { base_class->get_type(), const_cast<character_class *>(base_class) } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital(), {});
+	const character *ruler = character::generate(species, { { base_class->get_type(), const_cast<character_class *>(base_class) } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital(), {});
 	this->set_office_holder(defines::get()->get_ruler_office(), ruler);
 }
 

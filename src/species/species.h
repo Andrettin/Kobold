@@ -111,6 +111,27 @@ public:
 		return this->effects.get();
 	}
 
+	const data_entry_map<character_class, int> &get_character_class_weights() const
+	{
+		return this->character_class_weights;
+	}
+
+	int get_character_class_weight(const character_class *character_class) const
+	{
+		const auto find_iterator = this->character_class_weights.find(character_class);
+
+		if (find_iterator != this->character_class_weights.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void add_character_class_weight(const character_class *character_class, const int weight)
+	{
+		this->character_class_weights[character_class] += weight;
+	}
+
 	const data_entry_map<feat, int> &get_feat_weights() const
 	{
 		return this->feat_weights;
@@ -145,6 +166,7 @@ private:
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
+	data_entry_map<character_class, int> character_class_weights;
 	data_entry_map<feat, int> feat_weights;
 };
 

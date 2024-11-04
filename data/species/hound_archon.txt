@@ -1,0 +1,16 @@
+hound_archon = {
+	name = "Hound Archon"
+	sapient = true
+	hit_dice = 6d8
+	level_adjustment = 5
+	modifier = {
+		strength = 4
+		constitution = 2
+		wisdom = 2
+		charisma = 2
+		base_attack_bonus = 6
+		fortitude = 5
+		reflex = 5
+		will = 5
+	}
+}

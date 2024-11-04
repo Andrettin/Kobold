@@ -176,6 +176,10 @@ void character::initialize()
 		this->rank.clear();
 	}
 
+	for (const auto &[character_class_type, character_class] : this->get_character_classes()) {
+		this->species->add_character_class_weight(character_class, 1);
+	}
+
 	character_class *character_class = this->get_character_class();
 	if (character_class != nullptr) {
 		for (const feat *feat : this->get_feats()) {
