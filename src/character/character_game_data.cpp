@@ -108,7 +108,38 @@ void character_game_data::apply_history(const QDate &start_date)
 	this->apply_species_and_class(level);
 
 	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
+		if (character_history->get_spouse() != nullptr) {
+			this->set_spouse(character_history->get_spouse());
+		}
+
 		const kobold::country *country = character_history->get_country();
+		if (country == nullptr) {
+			if (this->get_spouse() != nullptr) {
+				const kobold::character_history *spouse_history = this->get_spouse()->get_history();
+
+				bool is_spouse_higher_ranking = false;
+				if (spouse_history->get_office() != nullptr) {
+					if (character_history->get_office() == nullptr) {
+						is_spouse_higher_ranking = true;
+					} else if (spouse_history->get_office() == defines::get()->get_ruler_office() && character_history->get_office() != defines::get()->get_ruler_office()) {
+						is_spouse_higher_ranking = true;
+					}
+				} else {
+					if (character_history->get_office() == nullptr && spouse_history->get_level() > character_history->get_level()) {
+						is_spouse_higher_ranking = true;
+					}
+				}
+
+				if (is_spouse_higher_ranking) {
+					if (spouse_history->get_country() != nullptr) {
+						country = spouse_history->get_country();
+					} else if (this->get_spouse()->get_home_settlement()->get_map_data()->is_on_map()) {
+						country = this->get_spouse()->get_home_settlement()->get_game_data()->get_owner();
+					}
+				}
+			}
+		}
+
 		if (country == nullptr) {
 			if (this->character->get_home_settlement()->get_map_data()->is_on_map()) {
 				country = this->character->get_home_settlement()->get_game_data()->get_owner();
@@ -118,7 +149,7 @@ void character_game_data::apply_history(const QDate &start_date)
 		if (country != nullptr) {
 			this->set_country(country);
 
-			if (character_history->get_office() != nullptr) {
+			if (character_history->get_office() != nullptr && country == character_history->get_country()) {
 				assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);
 
 				this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
@@ -243,6 +274,10 @@ void character_game_data::die()
 {
 	if (this->get_office() != nullptr) {
 		this->get_country()->get_game_data()->on_office_holder_died(this->get_office(), this->character);
+	}
+
+	if (this->get_spouse() != nullptr) {
+		this->get_spouse()->get_game_data()->set_spouse(nullptr);
 	}
 
 	if (this->get_country() != nullptr) {
@@ -689,7 +724,6 @@ bool character_game_data::is_ruler() const
 	return this->get_country() != nullptr && this->get_country()->get_game_data()->get_ruler() == this->character;
 }
 
-
 void character_game_data::set_office(const kobold::office *office)
 {
 	if (office == this->get_office()) {
@@ -700,6 +734,29 @@ void character_game_data::set_office(const kobold::office *office)
 
 	if (game::get()->is_running()) {
 		emit office_changed();
+	}
+}
+
+void character_game_data::set_spouse(const kobold::character *spouse)
+{
+	if (spouse == this->get_spouse()) {
+		return;
+	}
+
+	const kobold::character *old_spouse = this->get_spouse();
+
+	this->spouse = spouse;
+
+	if (old_spouse != nullptr) {
+		old_spouse->get_game_data()->set_spouse(nullptr);
+	}
+
+	if (spouse != nullptr) {
+		spouse->get_game_data()->set_spouse(this->character);
+	}
+
+	if (game::get()->is_running()) {
+		emit spouse_changed();
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "unit/military_unit_type_container.h"
 #include "util/fractional_int.h"
 
+Q_MOC_INCLUDE("character/character.h")
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("country/office.h")
 Q_MOC_INCLUDE("ui/portrait.h")
@@ -58,6 +59,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY office_changed)
 	Q_PROPERTY(const kobold::office* office READ get_office NOTIFY office_changed)
+	Q_PROPERTY(const kobold::character* spouse READ get_spouse NOTIFY spouse_changed)
 	Q_PROPERTY(QVariantList spells READ get_spells_qvariant_list NOTIFY spells_changed)
 
 public:
@@ -287,6 +289,13 @@ public:
 
 	void set_office(const kobold::office *office);
 
+	const kobold::character *get_spouse() const
+	{
+		return this->spouse;
+	}
+
+	void set_spouse(const kobold::character *spouse);
+
 	void apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier);
 
 	const spell_set &get_spells() const
@@ -385,6 +394,7 @@ signals:
 	void feats_changed();
 	void scripted_modifiers_changed();
 	void office_changed();
+	void spouse_changed();
 	void spells_changed();
 
 private:
@@ -404,6 +414,7 @@ private:
 	data_entry_map<feat, int> feat_counts;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	const kobold::office *office = nullptr;
+	const kobold::character *spouse = nullptr;
 	spell_set spells;
 	spell_set item_spells;
 	std::map<military_unit_stat, centesimal_int> commanded_military_unit_stat_modifiers;

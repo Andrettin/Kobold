@@ -20,7 +20,8 @@ class character_history final : public data_entry_history
 
 	Q_PROPERTY(kobold::country* country MEMBER country)
 	Q_PROPERTY(int level MEMBER level READ get_level)
-	Q_PROPERTY(const kobold::office* office MEMBER office)
+	Q_PROPERTY(const kobold::office* office MEMBER office READ get_office)
+	Q_PROPERTY(const kobold::character* spouse READ get_spouse WRITE set_spouse)
 	Q_PROPERTY(kobold::province* deployment_province MEMBER deployment_province)
 	Q_PROPERTY(const kobold::site* deployment_site MEMBER deployment_site)
 
@@ -44,6 +45,13 @@ public:
 		return this->office;
 	}
 
+	const kobold::character *get_spouse() const
+	{
+		return this->spouse;
+	}
+
+	void set_spouse(const kobold::character *spouse);
+
 	const province *get_deployment_province() const
 	{
 		return this->deployment_province;
@@ -59,6 +67,7 @@ private:
 	kobold::country *country = nullptr;
 	int level = 0;
 	const kobold::office *office = nullptr;
+	const kobold::character *spouse = nullptr;
 	province *deployment_province = nullptr;
 	const site *deployment_site = nullptr;
 };
