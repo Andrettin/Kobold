@@ -9,6 +9,7 @@ Q_MOC_INCLUDE("species/species.h")
 namespace kobold {
 
 class species;
+enum class character_class_type;
 
 class character_template final : public named_data_entry, public data_type<character_template>
 {
@@ -35,7 +36,7 @@ public:
 		return this->species;
 	}
 
-	const std::map<character_class_type, const character_class *> &get_character_classes() const
+	const std::map<character_class_type, character_class *> &get_character_classes() const
 	{
 		return this->character_classes;
 	}
@@ -46,6 +47,15 @@ public:
 
 		if (find_iterator != this->character_classes.end()) {
 			return find_iterator->second;
+		}
+
+		return nullptr;
+	}
+
+	character_class *get_character_class() const
+	{
+		if (!this->character_classes.empty()) {
+			return std::prev(this->character_classes.end())->second;
 		}
 
 		return nullptr;
@@ -66,7 +76,7 @@ signals:
 
 private:
 	kobold::species *species = nullptr;
-	std::map<character_class_type, const character_class *> character_classes;
+	std::map<character_class_type, character_class *> character_classes;
 	int level = 0;
 	std::vector<const feat *> feats;
 };

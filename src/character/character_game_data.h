@@ -265,6 +265,7 @@ public:
 	void change_feat_count(const feat *feat, const int change);
 	void on_feat_gained(const feat *feat, const int multiplier);
 	void choose_feat(const feat_type *type);
+	std::vector<const feat *> get_potential_feats_from_list(const std::vector<const feat *> &feats, const feat_type *type) const;
 
 	const scripted_character_modifier_map<int> &get_scripted_modifiers() const
 	{

@@ -79,6 +79,27 @@ public:
 		throw std::runtime_error(std::format("Invalid rank for class \"{}\": \"{}\".", this->get_identifier(), rank));
 	}
 
+	const data_entry_map<feat, int> &get_feat_weights() const
+	{
+		return this->feat_weights;
+	}
+
+	int get_feat_weight(const feat *feat) const
+	{
+		const auto find_iterator = this->feat_weights.find(feat);
+
+		if (find_iterator != this->feat_weights.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void add_feat_weight(const feat *feat, const int weight)
+	{
+		this->feat_weights[feat] += weight;
+	}
+
 signals:
 	void changed();
 
@@ -90,6 +111,7 @@ private:
 	int base_skill_points_per_level = 0;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<std::string, int> rank_levels; //names for particular levels
+	data_entry_map<feat, int> feat_weights;
 };
 
 }

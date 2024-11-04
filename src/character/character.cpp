@@ -41,7 +41,7 @@ const std::set<std::string> character::database_dependencies = {
 	province::class_identifier
 };
 
-const character *character::generate(const kobold::species *species, const std::map<character_class_type, const character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
+const character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
@@ -91,7 +91,7 @@ void character::process_gsml_property(const gsml_property &property)
 	const std::string &value = property.get_value();
 
 	if (key == "character_class") {
-		const character_class *character_class = character_class::get(value);
+		character_class *character_class = character_class::get(value);
 		this->character_classes[character_class->get_type()] = character_class;
 	} else {
 		data_entry::process_gsml_property(property);
@@ -174,6 +174,13 @@ void character::initialize()
 		assert_throw(this->get_character_class(character_class_type::base_class) != nullptr);
 		this->level = this->get_character_class(character_class_type::base_class)->get_rank_level(this->rank);
 		this->rank.clear();
+	}
+
+	character_class *character_class = this->get_character_class();
+	if (character_class != nullptr) {
+		for (const feat *feat : this->get_feats()) {
+			character_class->add_feat_weight(feat, 1);
+		}
 	}
 
 	character_base::initialize();

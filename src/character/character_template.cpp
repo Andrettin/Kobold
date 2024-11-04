@@ -23,7 +23,7 @@ void character_template::process_gsml_property(const gsml_property &property)
 	const std::string &value = property.get_value();
 
 	if (key == "character_class") {
-		const character_class *character_class = character_class::get(value);
+		character_class *character_class = character_class::get(value);
 		this->character_classes[character_class->get_type()] = character_class;
 	} else {
 		data_entry::process_gsml_property(property);
@@ -53,8 +53,11 @@ void character_template::process_gsml_scope(const gsml_data &scope)
 
 void character_template::initialize()
 {
-	if (this->get_species() != nullptr) {
-
+	character_class *character_class = this->get_character_class();
+	if (character_class != nullptr) {
+		for (const feat *feat : this->get_feats()) {
+			character_class->add_feat_weight(feat, 1);
+		}
 	}
 
 	named_data_entry::initialize();

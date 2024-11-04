@@ -577,10 +577,31 @@ void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 
 void character_game_data::choose_feat(const feat_type *type)
 {
+	std::vector<const feat *> potential_feats = this->get_potential_feats_from_list(vector::intersected(this->target_feats, type->get_feats()), type);
+
+	if (potential_feats.empty()) {
+		potential_feats = this->get_potential_feats_from_list(type->get_feats(), type);
+	}
+
+	assert_throw(!potential_feats.empty());
+
+	const feat *chosen_feat = vector::get_random(potential_feats);
+
+	if (vector::contains(target_feats, chosen_feat)) {
+		vector::remove_one(target_feats, chosen_feat);
+	}
+
+	this->change_feat_count(chosen_feat, 1);
+}
+
+std::vector<const feat *> character_game_data::get_potential_feats_from_list(const std::vector<const feat *> &feats, const feat_type *type) const
+{
+	const character_class *character_class = this->get_character_class();
+
 	std::vector<const feat *> potential_feats;
 	bool found_unacquired_feat = false;
 
-	for (const feat *feat : type->get_feats()) {
+	for (const feat *feat : feats) {
 		if (!this->can_gain_feat(feat, type)) {
 			continue;
 		}
@@ -594,16 +615,17 @@ void character_game_data::choose_feat(const feat_type *type)
 			}
 		}
 
-		const int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
+		int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
+		if (character_class != nullptr) {
+			weight *= std::max(character_class->get_feat_weight(feat), 1);
+		}
 
 		for (int i = 0; i < weight; ++i) {
 			potential_feats.push_back(feat);
 		}
 	}
 
-	assert_throw(!potential_feats.empty());
-
-	this->change_feat_count(vector::get_random(potential_feats), 1);
+	return potential_feats;
 }
 
 QVariantList character_game_data::get_scripted_modifiers_qvariant_list() const
