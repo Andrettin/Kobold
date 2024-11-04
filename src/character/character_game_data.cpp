@@ -109,7 +109,7 @@ void character_game_data::apply_history(const QDate &start_date)
 
 	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
 		const kobold::character *spouse = character_history->get_spouse();
-		if (spouse != nullptr && character->get_death_date() > start_date) {
+		if (spouse != nullptr && spouse->get_death_date() > start_date) {
 			this->set_spouse(spouse);
 		}
 
