@@ -42,41 +42,65 @@ character_hit_dice_count_effects = {
 	3 = {
 		gain_feat_of_type = general
 	}
+	4 = {
+		gain_feat_of_type = attribute
+	}
 	6 = {
 		gain_feat_of_type = general
+	}
+	8 = {
+		gain_feat_of_type = attribute
 	}
 	9 = {
 		gain_feat_of_type = general
 	}
 	12 = {
+		gain_feat_of_type = attribute
 		gain_feat_of_type = general
 	}
 	15 = {
 		gain_feat_of_type = general
 	}
+	16 = {
+		gain_feat_of_type = attribute
+	}
 	18 = {
 		gain_feat_of_type = general
+	}
+	20 = {
+		gain_feat_of_type = attribute
 	}
 	21 = {
 		gain_feat_of_type = general
 	}
 	24 = {
+		gain_feat_of_type = attribute
 		gain_feat_of_type = general
 	}
 	27 = {
 		gain_feat_of_type = general
 	}
+	28 = {
+		gain_feat_of_type = attribute
+	}
 	30 = {
 		gain_feat_of_type = general
+	}
+	32 = {
+		gain_feat_of_type = attribute
 	}
 	33 = {
 		gain_feat_of_type = general
 	}
 	36 = {
+		gain_feat_of_type = attribute
 		gain_feat_of_type = general
 	}
 	39 = {
 		gain_feat_of_type = general
+	}
+	40 = {
+		gain_feat_of_type = attribute
 	}
 }
 

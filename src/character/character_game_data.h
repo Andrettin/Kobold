@@ -260,7 +260,7 @@ public:
 	int get_feat_count_for_type(const feat_type *feat_type) const;
 
 	bool can_have_feat(const feat *feat) const;
-	bool can_gain_feat(const feat *feat) const;
+	bool can_gain_feat(const feat *feat, const feat_type *choice_type) const;
 	bool has_feat(const feat *feat) const;
 	void change_feat_count(const feat *feat, const int change);
 	void on_feat_gained(const feat *feat, const int multiplier);

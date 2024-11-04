@@ -31,3 +31,8 @@ trait = {
 		gain_feat_of_type = general
 	}
 }
+
+attribute = {
+	name = "Attribute"
+	ignore_other_type_conditions = true
+}

@@ -15,7 +15,7 @@ Window {
 	readonly property real scale_factor: kobold.scale_factor
 	readonly property color interface_background_color: Qt.rgba(48.0 / 255.0, 48.0 / 255.0, 48.0 / 255.0, 1)
 	
-	property int politics_view_mode: PoliticsView.Government
+	property int politics_view_mode: PoliticsView.Offices
 	property int trade_view_mode: TradeView.TradeOrders
 	
 	FontLoader {
@@ -247,7 +247,7 @@ Window {
 		for (var kv_pair of object_counts) {
 			var object = kv_pair.key
 			var count = kv_pair.value
-			name_list.push(prefix + object.name + (count > 1 ? ("(x" + count + ")") : "") + suffix)
+			name_list.push(prefix + object.name + (count > 1 ? (" (x" + count + ")") : "") + suffix)
 		}
 		
 		return name_list

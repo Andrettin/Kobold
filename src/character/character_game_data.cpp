@@ -499,13 +499,17 @@ bool character_game_data::can_have_feat(const feat *feat) const
 	return true;
 }
 
-bool character_game_data::can_gain_feat(const feat *feat) const
+bool character_game_data::can_gain_feat(const feat *feat, const feat_type *choice_type) const
 {
 	if (this->has_feat(feat) && !feat->is_unlimited()) {
 		return false;
 	}
 
 	for (const feat_type *type : feat->get_types()) {
+		if (choice_type != nullptr && choice_type->ignores_other_type_conditions() && type != choice_type) {
+			continue;
+		}
+
 		if (type->get_max_feats() > 0 && this->get_feat_count_for_type(type) >= type->get_max_feats()) {
 			return false;
 		}
@@ -573,7 +577,7 @@ void character_game_data::choose_feat(const feat_type *type)
 	std::vector<const feat *> potential_feats;
 
 	for (const feat *feat : type->get_feats()) {
-		if (!this->can_gain_feat(feat)) {
+		if (!this->can_gain_feat(feat, type)) {
 			continue;
 		}
 
