@@ -214,6 +214,7 @@ stealthy = {
 toughness = {
 	name = "Toughness"
 	icon = labor
+	unlimited = true
 	types = {
 		general
 	}

@@ -49,6 +49,7 @@ epic_will = {
 great_charisma = {
 	name = "Great Charisma"
 	icon = music
+	unlimited = true
 	types = {
 		epic
 		general
@@ -61,6 +62,7 @@ great_charisma = {
 great_constitution = {
 	name = "Great Constitution"
 	icon = labor
+	unlimited = true
 	types = {
 		epic
 		general
@@ -73,6 +75,7 @@ great_constitution = {
 great_dexterity = {
 	name = "Great Dexterity"
 	icon = labor
+	unlimited = true
 	types = {
 		epic
 		general
@@ -85,6 +88,7 @@ great_dexterity = {
 great_intelligence = {
 	name = "Great Intelligence"
 	icon = research
+	unlimited = true
 	types = {
 		epic
 		general
@@ -97,6 +101,7 @@ great_intelligence = {
 great_strength = {
 	name = "Great Strength"
 	icon = labor
+	unlimited = true
 	types = {
 		epic
 		general
@@ -109,6 +114,7 @@ great_strength = {
 great_wisdom = {
 	name = "Great Wisdom"
 	icon = university
+	unlimited = true
 	types = {
 		epic
 		general

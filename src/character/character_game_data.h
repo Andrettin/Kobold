@@ -248,26 +248,21 @@ public:
 
 	void change_skill_bonus(const skill *skill, const int change);
 
-	const std::vector<const feat *> &get_feats() const
+	const data_entry_map<feat, int> &get_feat_counts() const
 	{
-		return this->feats;
+		return this->feat_counts;
 	}
 
 	QVariantList get_feats_qvariant_list() const;
 
-	std::vector<const feat *> get_feats_of_type(const feat_type *feat_type) const;
+	data_entry_map<feat, int> get_feat_counts_of_type(const feat_type *feat_type) const;
 	Q_INVOKABLE QVariantList get_feats_of_type(const QString &feat_type_str) const;
-
-	int get_feat_count_for_type(const feat_type *feat_type) const
-	{
-		return static_cast<int>(this->get_feats_of_type(feat_type).size());
-	}
+	int get_feat_count_for_type(const feat_type *feat_type) const;
 
 	bool can_have_feat(const feat *feat) const;
 	bool can_gain_feat(const feat *feat) const;
 	bool has_feat(const feat *feat) const;
-	void add_feat(const feat *feat);
-	void remove_feat(const feat *feat);
+	void change_feat_count(const feat *feat, const int change);
 	void on_feat_gained(const feat *feat, const int multiplier);
 	void choose_feat(const feat_type *type);
 
@@ -400,7 +395,7 @@ private:
 	int base_attack_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
-	std::vector<const feat *> feats;
+	data_entry_map<feat, int> feat_counts;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	const kobold::office *office = nullptr;
 	spell_set spells;

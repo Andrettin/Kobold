@@ -241,6 +241,18 @@ Window {
 		return name_list
 	}
 	
+	function object_counts_to_name_list(object_counts, prefix = "", suffix = "") {
+		var name_list = []
+		
+		for (var kv_pair of object_counts) {
+			var object = kv_pair.key
+			var count = kv_pair.value
+			name_list.push(prefix + object.name + (count > 1 ? ("(x" + count + ")") : "") + suffix)
+		}
+		
+		return name_list
+	}
+	
 	function costs_to_string(costs, modifier) {
 		var str = "Costs:"
 		

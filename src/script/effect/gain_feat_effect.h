@@ -27,7 +27,7 @@ public:
 
 	virtual void do_assignment_effect(const character *scope) const override
 	{
-		scope->get_game_data()->add_feat(this->feat);
+		scope->get_game_data()->change_feat_count(this->feat, 1);
 	}
 
 	virtual std::string get_assignment_string() const override

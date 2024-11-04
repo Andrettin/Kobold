@@ -17,7 +17,7 @@ ModifierDialog {
 		+ "\nBase Attack Bonus: " + signed_number_string(character.game_data.base_attack_bonus)
 		+ "\n\nSaving Throws: " + bonuses_to_string(character.game_data.saving_throw_bonuses)
 		+ (character.game_data.skill_bonuses.length > 0 ? ("\n\nSkills: " + bonuses_to_string(character.game_data.skill_bonuses)) : "")
-		+ "\n\nFeats: " + string_list_to_string(object_list_to_name_list(character.game_data.feats), ", ")
+		+ "\n\nFeats: " + string_list_to_string(object_counts_to_name_list(character.game_data.feats), ", ")
 	) : ""
 	
 	property var character: null

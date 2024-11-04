@@ -455,28 +455,39 @@ void character_game_data::change_skill_bonus(const skill *skill, const int chang
 
 QVariantList character_game_data::get_feats_qvariant_list() const
 {
-	return container::to_qvariant_list(this->get_feats());
+	return archimedes::map::to_qvariant_list(this->get_feat_counts());
 }
 
-std::vector<const feat *> character_game_data::get_feats_of_type(const feat_type *feat_type) const
+data_entry_map<feat, int> character_game_data::get_feat_counts_of_type(const feat_type *feat_type) const
 {
-	std::vector<const feat *> feats;
+	data_entry_map<feat, int> feat_counts;
 
-	for (const feat *feat : this->get_feats()) {
+	for (const auto &[feat, count] : this->get_feat_counts()) {
 		if (!vector::contains(feat->get_types(), feat_type)) {
 			continue;
 		}
 
-		feats.push_back(feat);
+		feat_counts[feat] = count;
 	}
 
-	return feats;
+	return feat_counts;
 }
 
 QVariantList character_game_data::get_feats_of_type(const QString &feat_type_str) const
 {
 	const feat_type *type = feat_type::get(feat_type_str.toStdString());
-	return container::to_qvariant_list(this->get_feats_of_type(type));
+	return archimedes::map::to_qvariant_list(this->get_feat_counts_of_type(type));
+}
+
+int character_game_data::get_feat_count_for_type(const feat_type *feat_type) const
+{
+	int total_count = 0;
+
+	for (const auto &[feat, count] : this->get_feat_counts_of_type(feat_type)) {
+		total_count += count;
+	}
+
+	return total_count;
 }
 
 bool character_game_data::can_have_feat(const feat *feat) const
@@ -490,7 +501,7 @@ bool character_game_data::can_have_feat(const feat *feat) const
 
 bool character_game_data::can_gain_feat(const feat *feat) const
 {
-	if (this->has_feat(feat)) {
+	if (this->has_feat(feat) && !feat->is_unlimited()) {
 		return false;
 	}
 
@@ -509,35 +520,27 @@ bool character_game_data::can_gain_feat(const feat *feat) const
 
 bool character_game_data::has_feat(const feat *feat) const
 {
-	return vector::contains(this->get_feats(), feat);
+	return this->get_feat_counts().contains(feat);
 }
 
-void character_game_data::add_feat(const feat *feat)
+void character_game_data::change_feat_count(const feat *feat, const int change)
 {
-	if (this->has_feat(feat)) {
-		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", but they already have the feat.");
+	if (this->has_feat(feat) && !feat->is_unlimited()) {
+		log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to character \"{}\", but they already have the feat.", feat->get_identifier(), this->character->get_identifier()));
 		return;
 	}
 
 	if (!this->can_have_feat(feat)) {
-		log::log_error("Tried to add feat \"" + feat->get_identifier() + "\" to character \"" + this->character->get_identifier() + "\", for which the feat's conditions are not fulfilled.");
+		log::log_error(std::format("Tried to add feat \"{}\" to character \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->character->get_identifier()));
 		return;
 	}
 
-	this->feats.push_back(feat);
-
-	this->on_feat_gained(feat, 1);
-
-	if (game::get()->is_running()) {
-		emit feats_changed();
+	const int new_value = (this->feat_counts[feat] += change);
+	if (new_value == 0) {
+		this->feat_counts.erase(feat);
 	}
-}
 
-void character_game_data::remove_feat(const feat *feat)
-{
-	std::erase(this->feats, feat);
-
-	this->on_feat_gained(feat, -1);
+	this->on_feat_gained(feat, change);
 
 	if (game::get()->is_running()) {
 		emit feats_changed();
@@ -584,7 +587,7 @@ void character_game_data::choose_feat(const feat_type *type)
 
 	assert_throw(!potential_feats.empty());
 
-	this->add_feat(vector::get_random(potential_feats));
+	this->change_feat_count(vector::get_random(potential_feats), 1);
 }
 
 QVariantList character_game_data::get_scripted_modifiers_qvariant_list() const

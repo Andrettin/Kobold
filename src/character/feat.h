@@ -29,6 +29,7 @@ class feat final : public named_data_entry, public data_type<feat>
 	Q_OBJECT
 
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(bool unlimited MEMBER unlimited READ is_unlimited NOTIFY changed)
 	Q_PROPERTY(std::string description MEMBER description NOTIFY changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
 
@@ -52,6 +53,11 @@ public:
 	const kobold::icon *get_icon() const
 	{
 		return this->icon;
+	}
+
+	bool is_unlimited() const
+	{
+		return this->unlimited;
 	}
 
 	const std::string &get_description() const
@@ -86,6 +92,7 @@ signals:
 
 private:
 	const kobold::icon *icon = nullptr;
+	bool unlimited = false;
 	std::string description;
 	std::vector<const feat_type *> types;
 	std::unique_ptr<const and_condition<character>> conditions;
