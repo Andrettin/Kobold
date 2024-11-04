@@ -101,6 +101,11 @@ public:
 	void set_dead(const bool dead);
 	void die();
 
+	bool is_alive() const
+	{
+		return !this->is_dead();
+	}
+
 	const std::map<character_class_type, const character_class *> &get_character_classes() const
 	{
 		return this->character_classes;

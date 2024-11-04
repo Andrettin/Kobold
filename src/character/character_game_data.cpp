@@ -108,8 +108,9 @@ void character_game_data::apply_history(const QDate &start_date)
 	this->apply_species_and_class(level);
 
 	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
-		if (character_history->get_spouse() != nullptr) {
-			this->set_spouse(character_history->get_spouse());
+		const kobold::character *spouse = character_history->get_spouse();
+		if (spouse != nullptr && character->get_death_date() > start_date) {
+			this->set_spouse(spouse);
 		}
 
 		const kobold::country *country = character_history->get_country();
