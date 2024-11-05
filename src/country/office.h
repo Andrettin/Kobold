@@ -15,6 +15,8 @@ class office final : public named_data_entry, public data_type<office>
 {
 	Q_OBJECT
 
+	Q_PROPERTY(int attribute_modifier_divisor MEMBER attribute_modifier_divisor READ get_attribute_modifier_divisor NOTIFY changed)
+
 public:
 	static constexpr const char class_identifier[] = "office";
 	static constexpr const char property_class_identifier[] = "kobold::office*";
@@ -37,6 +39,11 @@ public:
 		return this->country_attributes;
 	}
 
+	int get_attribute_modifier_divisor() const
+	{
+		return this->attribute_modifier_divisor;
+	}
+
 	const and_condition<character> *get_conditions() const
 	{
 		return this->conditions.get();
@@ -48,6 +55,7 @@ signals:
 private:
 	std::vector<const character_attribute *> character_attributes;
 	std::vector<const country_attribute *> country_attributes;
+	int attribute_modifier_divisor = 0;
 	std::unique_ptr<const and_condition<character>> conditions;
 };
 

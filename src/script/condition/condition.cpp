@@ -52,6 +52,7 @@
 #include "script/condition/infantry_condition.h"
 #include "script/condition/is_military_unit_category_available_condition.h"
 #include "script/condition/is_ruler_condition.h"
+#include "script/condition/is_ruler_spouse_condition.h"
 #include "script/condition/law_condition.h"
 #include "script/condition/level_condition.h"
 #include "script/condition/military_unit_category_condition.h"
@@ -109,6 +110,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<hit_dice_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
+		} else if (key == "is_ruler_spouse") {
+			return std::make_unique<is_ruler_spouse_condition>(value, condition_operator);
 		} else if (key == "level") {
 			return std::make_unique<level_condition>(value, condition_operator);
 		}
