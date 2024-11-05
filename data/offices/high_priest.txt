@@ -6,6 +6,7 @@ high_priest = {
 	}
 	country_attribute = stability
 	conditions = {
+		is_ruler_spouse = false
 		or = {
 			character_class = cleric
 			character_class = druid

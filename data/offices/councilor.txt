@@ -5,4 +5,7 @@ councilor = {
 		wisdom
 	}
 	country_attribute = loyalty
+	conditions = {
+		is_ruler_spouse = false
+	}
 }

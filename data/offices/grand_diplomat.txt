@@ -6,6 +6,7 @@ grand_diplomat = {
 	}
 	country_attribute = stability
 	conditions = {
+		is_ruler_spouse = false
 		or = {
 			character_class = aristocrat
 			character_class = bard

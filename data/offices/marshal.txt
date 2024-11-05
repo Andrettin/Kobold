@@ -5,4 +5,7 @@ marshal = {
 		wisdom
 	}
 	country_attribute = economy
+	conditions = {
+		is_ruler_spouse = false
+	}
 }

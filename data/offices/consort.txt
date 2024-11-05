@@ -1,0 +1,9 @@
+consort = {
+	name = "Consort"
+	character_attribute = charisma
+	country_attribute = loyalty
+	attribute_modifier_divisor = 2
+	conditions = {
+		is_ruler_spouse = true
+	}
+}

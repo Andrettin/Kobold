@@ -6,6 +6,7 @@ treasurer = {
 	}
 	country_attribute = economy
 	conditions = {
+		is_ruler_spouse = false
 		or = {
 			character_class = aristocrat
 			character_class = expert

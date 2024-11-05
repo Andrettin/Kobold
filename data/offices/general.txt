@@ -6,6 +6,7 @@ general = {
 	}
 	country_attribute = stability
 	conditions = {
+		is_ruler_spouse = false
 		or = {
 			character_class = barbarian
 			character_class = paladin
