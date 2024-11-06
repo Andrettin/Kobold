@@ -6,6 +6,7 @@
 #include "character/character_class_type.h"
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
+#include "script/effect/effect_list.h"
 
 namespace kobold {
 
@@ -42,6 +43,14 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			this->rank_levels[key] = std::stoi(value);
+		});
+	} else if (tag == "level_effects") {
+		scope.for_each_child([&](const gsml_data &child_scope) {
+			const std::string &child_tag = child_scope.get_tag();
+			const int level = std::stoi(child_tag);
+			auto effect_list = std::make_unique<kobold::effect_list<const character>>();
+			database::process_gsml_data(effect_list, child_scope);
+			this->level_effects[level] = std::move(effect_list);
 		});
 	} else {
 		data_entry::process_gsml_scope(scope);

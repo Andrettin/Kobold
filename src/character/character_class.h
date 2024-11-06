@@ -13,6 +13,9 @@ class level_bonus_table;
 class saving_throw_type;
 enum class character_class_type;
 
+template <typename scope_type>
+class effect_list;
+
 class character_class final : public named_data_entry, public data_type<character_class>
 {
 	Q_OBJECT
@@ -79,6 +82,16 @@ public:
 		throw std::runtime_error(std::format("Invalid rank for class \"{}\": \"{}\".", this->get_identifier(), rank));
 	}
 
+	const effect_list<const character> *get_level_effects(const int level) const
+	{
+		const auto find_iterator = this->level_effects.find(level);
+		if (find_iterator != this->level_effects.end()) {
+			return find_iterator->second.get();
+		}
+
+		return nullptr;
+	}
+
 	const data_entry_map<feat, int> &get_feat_weights() const
 	{
 		return this->feat_weights;
@@ -111,6 +124,7 @@ private:
 	int base_skill_points_per_level = 0;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<std::string, int> rank_levels; //names for particular levels
+	std::map<int, std::unique_ptr<const effect_list<const character>>> level_effects;
 	data_entry_map<feat, int> feat_weights;
 };
 

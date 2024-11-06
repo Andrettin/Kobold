@@ -361,6 +361,12 @@ void character_game_data::on_class_level_gained(const character_class *character
 
 	const dice &hit_dice = character_class->get_hit_dice();
 	this->apply_hit_dice(hit_dice);
+
+	const effect_list<const kobold::character> *effects = character_class->get_level_effects(affected_class_level);
+	if (effects != nullptr) {
+		context ctx(this->character);
+		effects->do_effects(this->character, ctx);
+	}
 }
 
 void character_game_data::apply_hit_dice(const dice &hit_dice)
@@ -566,6 +572,10 @@ bool character_game_data::has_feat(const feat *feat) const
 
 void character_game_data::change_feat_count(const feat *feat, const int change)
 {
+	if (change == 0) {
+		return;
+	}
+
 	if (change > 0) {
 		if (this->has_feat(feat) && !feat->is_unlimited()) {
 			log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to character \"{}\", but they already have the feat.", feat->get_identifier(), this->character->get_identifier()));
@@ -583,6 +593,7 @@ void character_game_data::change_feat_count(const feat *feat, const int change)
 		this->feat_counts.erase(feat);
 	}
 
+	assert_throw(std::abs(change) == 1);
 	this->on_feat_gained(feat, change);
 
 	if (game::get()->is_running()) {
@@ -592,6 +603,8 @@ void character_game_data::change_feat_count(const feat *feat, const int change)
 
 void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 {
+	assert_throw(multiplier != 0);
+
 	if (multiplier > 0) {
 		if (feat->get_effects() != nullptr) {
 			context ctx(this->character);
