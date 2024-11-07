@@ -2530,7 +2530,11 @@ void country_game_data::set_office_holder(const office *office, const character 
 		this->set_office_holder(old_office, nullptr);
 	}
 
-	this->office_holders[office] = character;
+	if (character != nullptr) {
+		this->office_holders[office] = character;
+	} else {
+		this->office_holders.erase(office);
+	}
 
 	if (character != nullptr) {
 		if (office == defines::get()->get_ruler_office()) {
