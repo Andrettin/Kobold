@@ -5,6 +5,7 @@
 #include "character/character.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
+#include "character/feat.h"
 
 namespace kobold {
 
@@ -21,6 +22,12 @@ void character_history::process_gsml_property(const gsml_property &property)
 
 	if (key == "rank") {
 		this->level = this->character->get_character_class(character_class_type::base_class)->get_rank_level(value);
+	} else if (key == "feat") {
+		const feat *feat = kobold::feat::get(value);
+		while (feat != nullptr) {
+			this->feats.push_back(feat);
+			feat = feat->get_upgraded_feat();
+		}
 	} else {
 		data_entry_history::process_gsml_property(property);
 	}

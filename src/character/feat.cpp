@@ -4,6 +4,8 @@
 
 #include "character/feat_type.h"
 #include "script/condition/and_condition.h"
+#include "script/condition/feat_condition.h"
+#include "script/condition/not_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/factor.h"
 #include "script/modifier.h"
@@ -62,6 +64,19 @@ void feat::process_gsml_scope(const gsml_data &scope)
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
+}
+
+void feat::initialize()
+{
+	feat *upgraded_feat = this->upgraded_feat;
+	while (upgraded_feat != nullptr) {
+		auto feat_condition = std::make_unique<kobold::feat_condition>(this);
+		auto not_condition = std::make_unique<archimedes::not_condition<character, read_only_context, condition<character>>>(std::move(feat_condition));
+		upgraded_feat->conditions->add_condition(std::move(not_condition));
+		upgraded_feat = upgraded_feat->upgraded_feat;
+	}
+
+	named_data_entry::initialize();
 }
 
 void feat::check() const

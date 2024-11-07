@@ -54,6 +54,13 @@ void character_template::process_gsml_scope(const gsml_data &scope)
 
 void character_template::initialize()
 {
+	for (size_t i = 0; i < this->get_feats().size(); ++i) {
+		const feat *feat = this->get_feats().at(i);
+		if (feat->get_upgraded_feat() != nullptr) {
+			this->feats.push_back(feat->get_upgraded_feat());
+		}
+	}
+
 	for (const auto &[character_class_type, character_class] : this->get_character_classes()) {
 		this->species->add_character_class_weight(character_class, 1);
 	}

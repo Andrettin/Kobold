@@ -550,6 +550,10 @@ bool character_game_data::can_gain_feat(const feat *feat, const feat_type *choic
 		return false;
 	}
 
+	if (feat->get_upgraded_feat() != nullptr && !this->has_feat(feat->get_upgraded_feat())) {
+		return false;
+	}
+
 	for (const feat_type *type : feat->get_types()) {
 		if (choice_type != nullptr && choice_type->ignores_other_type_conditions() && type != choice_type) {
 			continue;
@@ -608,6 +612,10 @@ void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 	assert_throw(multiplier != 0);
 
 	if (multiplier > 0) {
+		if (feat->get_upgraded_feat() != nullptr) {
+			this->change_feat_count(feat->get_upgraded_feat(), -1);
+		}
+
 		if (feat->get_effects() != nullptr) {
 			context ctx(this->character);
 			feat->get_effects()->do_effects(this->character, ctx);

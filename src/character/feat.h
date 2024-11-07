@@ -30,6 +30,7 @@ class feat final : public named_data_entry, public data_type<feat>
 
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon NOTIFY changed)
 	Q_PROPERTY(bool unlimited MEMBER unlimited READ is_unlimited NOTIFY changed)
+	Q_PROPERTY(kobold::feat* upgraded_feat MEMBER upgraded_feat NOTIFY changed)
 	Q_PROPERTY(std::string description MEMBER description NOTIFY changed)
 	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
 
@@ -43,6 +44,7 @@ public:
 
 	virtual void process_gsml_property(const gsml_property &property) override;
 	virtual void process_gsml_scope(const gsml_data &scope) override;
+	virtual void initialize() override;
 	virtual void check() const override;
 
 	const std::vector<const feat_type *> &get_types() const
@@ -60,6 +62,11 @@ public:
 	bool is_unlimited() const
 	{
 		return this->unlimited;
+	}
+
+	const kobold::feat *get_upgraded_feat() const
+	{
+		return this->upgraded_feat;
 	}
 
 	const std::string &get_description() const
@@ -95,9 +102,10 @@ signals:
 private:
 	const kobold::icon *icon = nullptr;
 	bool unlimited = false;
+	kobold::feat *upgraded_feat = nullptr;
 	std::string description;
 	std::vector<const feat_type *> types;
-	std::unique_ptr<const and_condition<character>> conditions;
+	std::unique_ptr<and_condition<character>> conditions;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
 	std::unique_ptr<factor<character>> weight_factor;
