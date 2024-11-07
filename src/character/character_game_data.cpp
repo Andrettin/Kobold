@@ -96,8 +96,16 @@ void character_game_data::apply_species_and_class(const int level)
 		}
 	}
 
-	const int remaining_level = level - this->get_level();
-	this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), remaining_level);
+	if (this->character->get_character_class(character_class_type::base_class) != nullptr) {
+		const int remaining_level = std::max(level - this->get_level(), 1);
+		this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), remaining_level);
+
+		if (this->character->get_level() == 0) {
+			while (!this->target_feats.empty()) {
+				this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), 1);
+			}
+		}
+	}
 }
 
 void character_game_data::apply_history(const QDate &start_date)
