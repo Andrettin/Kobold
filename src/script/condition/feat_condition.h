@@ -10,10 +10,15 @@ namespace kobold {
 class feat_condition final : public condition<character>
 {
 public:
-	explicit feat_condition(const std::string &value, const gsml_operator condition_operator)
+	explicit feat_condition(const kobold::feat *feat, const gsml_operator condition_operator = gsml_operator::assignment)
 		: condition<character>(condition_operator)
 	{
-		this->feat = feat::get(value);
+		this->feat = feat;
+	}
+
+	explicit feat_condition(const std::string &value, const gsml_operator condition_operator)
+		: feat_condition(feat::get(value), condition_operator)
+	{
 	}
 
 	virtual const std::string &get_class_identifier() const override
