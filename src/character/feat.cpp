@@ -72,6 +72,9 @@ void feat::initialize()
 	while (upgraded_feat != nullptr) {
 		auto feat_condition = std::make_unique<kobold::feat_condition>(this);
 		auto not_condition = std::make_unique<archimedes::not_condition<character, read_only_context, condition<character>>>(std::move(feat_condition));
+		if (upgraded_feat->get_conditions() == nullptr) {
+			upgraded_feat->conditions = std::make_unique<and_condition<character>>();
+		}
 		upgraded_feat->conditions->add_condition(std::move(not_condition));
 		upgraded_feat = upgraded_feat->upgraded_feat;
 	}
