@@ -11,6 +11,7 @@ namespace kobold {
 character_history::character_history(const kobold::character *character) : character(character)
 {
 	this->level = character->get_level();
+	this->feats = character->get_feats();
 }
 
 void character_history::process_gsml_property(const gsml_property &property)

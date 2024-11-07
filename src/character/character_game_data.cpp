@@ -104,6 +104,8 @@ void character_game_data::apply_history(const QDate &start_date)
 {
 	const character_history *character_history = this->character->get_history();
 
+	this->set_target_feats(character_history->get_feats());
+
 	const int level = std::max(character_history->get_level(), 1);
 	this->apply_species_and_class(level);
 

@@ -11,6 +11,7 @@ namespace kobold {
 
 class character;
 class country;
+class feat;
 class province;
 class site;
 
@@ -40,6 +41,11 @@ public:
 		return this->level;
 	}
 
+	const std::vector<const feat *> &get_feats() const
+	{
+		return this->feats;
+	}
+
 	const kobold::office *get_office() const
 	{
 		return this->office;
@@ -66,6 +72,7 @@ private:
 	const kobold::character *character = nullptr;
 	kobold::country *country = nullptr;
 	int level = 0;
+	std::vector<const feat *> feats;
 	const kobold::office *office = nullptr;
 	const kobold::character *spouse = nullptr;
 	province *deployment_province = nullptr;
