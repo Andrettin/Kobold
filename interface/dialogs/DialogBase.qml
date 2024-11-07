@@ -52,7 +52,9 @@ Popup {
 		anchors.top: parent.top
 		anchors.topMargin: 16 * scale_factor
 		anchors.left: parent.left
+		anchors.leftMargin: 8 * scale_factor
 		anchors.right: parent.right
+		anchors.rightMargin: 8 * scale_factor
 		horizontalAlignment: Text.AlignHCenter
 		wrapMode: Text.WordWrap
 	}
