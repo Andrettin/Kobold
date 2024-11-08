@@ -1,4 +1,5 @@
 sleight_of_hand = {
 	name = "Sleight of Hand"
 	attribute = dexterity
+	icon = dagger
 }

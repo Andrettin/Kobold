@@ -1,4 +1,5 @@
 balance = {
 	name = "Balance"
 	attribute = dexterity
+	icon = labor
 }

@@ -199,61 +199,6 @@ self_sufficient = {
 	}
 }
 
-skill_focus_bluff = {
-	name = "Skill Focus: Bluff"
-	icon = treaty
-	types = {
-		general
-	}
-	modifier = {
-		bluff = 3
-	}
-}
-
-skill_focus_diplomacy = {
-	name = "Skill Focus: Diplomacy"
-	icon = treaty
-	types = {
-		general
-	}
-	modifier = {
-		diplomacy = 3
-	}
-}
-
-skill_focus_gather_information = {
-	name = "Skill Focus: Gather Information"
-	icon = treaty
-	types = {
-		general
-	}
-	modifier = {
-		gather_information = 3
-	}
-}
-
-skill_focus_intimidate = {
-	name = "Skill Focus: Intimidate"
-	icon = treaty
-	types = {
-		general
-	}
-	modifier = {
-		intimidate = 3
-	}
-}
-
-skill_focus_ride = {
-	name = "Skill Focus: Ride"
-	icon = horses
-	types = {
-		general
-	}
-	modifier = {
-		ride = 3
-	}
-}
-
 stealthy = {
 	name = "Stealthy"
 	icon = dagger_bloody

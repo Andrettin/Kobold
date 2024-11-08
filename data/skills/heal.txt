@@ -1,4 +1,5 @@
 heal = {
 	name = "Heal"
 	attribute = wisdom
+	icon = heart
 }

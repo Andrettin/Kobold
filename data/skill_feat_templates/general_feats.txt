@@ -1,0 +1,9 @@
+skill_focus_[skill] = {
+	name = "Skill Focus: [skill_name]"
+	types = {
+		general
+	}
+	modifier = {
+		[skill] = 3
+	}
+}

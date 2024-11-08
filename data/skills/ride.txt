@@ -1,4 +1,5 @@
 ride = {
 	name = "Ride"
 	attribute = dexterity
+	icon = horses
 }

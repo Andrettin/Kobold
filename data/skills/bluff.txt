@@ -1,4 +1,5 @@
 bluff = {
 	name = "Bluff"
 	attribute = charisma
+	icon = treaty
 }

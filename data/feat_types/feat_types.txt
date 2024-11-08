@@ -37,3 +37,7 @@ attribute = {
 	ignore_other_type_conditions = true
 	prioritize_unacquired_feats = false
 }
+
+skill_proficiency = {
+	name = "Skill Proficiency"
+}

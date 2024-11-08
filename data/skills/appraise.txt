@@ -1,4 +1,5 @@
 appraise = {
 	name = "Appraise"
 	attribute = intelligence
+	icon = research
 }

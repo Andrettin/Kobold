@@ -1,4 +1,5 @@
 listen = {
 	name = "Listen"
 	attribute = wisdom
+	icon = research
 }

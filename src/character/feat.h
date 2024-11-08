@@ -59,6 +59,11 @@ public:
 		return this->icon;
 	}
 
+	void set_icon(const kobold::icon *icon)
+	{
+		this->icon = icon;
+	}
+
 	bool is_unlimited() const
 	{
 		return this->unlimited;

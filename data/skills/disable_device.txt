@@ -1,4 +1,5 @@
 disable_device = {
 	name = "Disable Device"
 	attribute = intelligence
+	icon = cog
 }

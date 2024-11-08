@@ -1,0 +1,48 @@
+[skill]_trained = {
+	name = "[skill_name]: Trained"
+	types = {
+		skill_proficiency
+	}
+	modifier = {
+		[skill] = 2
+	}
+}
+
+[skill]_expert = {
+	name = "[skill_name]: Expert"
+	upgraded_feat = [skill]_trained
+	types = {
+		skill_proficiency
+	}
+	modifier = {
+		[skill] = 4
+	}
+}
+
+[skill]_master = {
+	name = "[skill_name]: Master"
+	upgraded_feat = [skill]_expert
+	types = {
+		skill_proficiency
+	}
+	conditions = {
+		level = 7
+	}
+	modifier = {
+		[skill] = 6
+	}
+}
+
+[skill]_legendary = {
+	name = "[skill_name]: Legendary"
+	upgraded_feat = [skill]_master
+	types = {
+		skill_proficiency
+	}
+	conditions = {
+		level = 15
+	}
+	modifier = {
+		[skill] = 8
+	}
+}

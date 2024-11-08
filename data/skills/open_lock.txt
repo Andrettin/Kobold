@@ -1,4 +1,5 @@
 open_lock = {
 	name = "Open Lock"
 	attribute = dexterity
+	icon = cog
 }

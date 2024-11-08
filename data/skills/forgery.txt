@@ -1,4 +1,5 @@
 forgery = {
 	name = "Forgery"
 	attribute = intelligence
+	icon = treaty
 }

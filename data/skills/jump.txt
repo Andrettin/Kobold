@@ -1,4 +1,5 @@
 jump = {
 	name = "Jump"
 	attribute = strength
+	icon = labor
 }

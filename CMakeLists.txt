@@ -32,6 +32,7 @@ set(character_SRCS
 	src/character/level_bonus_table.cpp
 	src/character/saving_throw_type.cpp
 	src/character/skill.cpp
+	src/character/skill_feat_template.cpp
 )
 source_group(character FILES ${character_SRCS})
 set_source_files_properties(${character_SRCS} PROPERTIES UNITY_GROUP "character")
@@ -323,6 +324,7 @@ set(character_HDRS
 	src/character/level_bonus_table.h
 	src/character/saving_throw_type.h
 	src/character/skill.h
+	src/character/skill_feat_template.h
 )
 source_group(character FILES ${character_HDRS})
 

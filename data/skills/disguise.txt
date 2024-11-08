@@ -1,4 +1,5 @@
 disguise = {
 	name = "Disguise"
 	attribute = charisma
+	icon = dagger
 }

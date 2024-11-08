@@ -1,4 +1,5 @@
 search = {
 	name = "Search"
 	attribute = intelligence
+	icon = research
 }

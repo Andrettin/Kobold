@@ -1,4 +1,5 @@
 swim = {
 	name = "Swim"
 	attribute = strength
+	icon = labor
 }

@@ -1,4 +1,5 @@
 spot = {
 	name = "Spot"
 	attribute = wisdom
+	icon = research
 }

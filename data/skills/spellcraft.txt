@@ -1,4 +1,5 @@
 spellcraft = {
 	name = "Spellcraft"
 	attribute = intelligence
+	icon = university
 }

@@ -1,4 +1,5 @@
 escape_artist = {
 	name = "Escape Artist"
 	attribute = dexterity
+	icon = dagger
 }

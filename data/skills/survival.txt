@@ -1,4 +1,5 @@
 survival = {
 	name = "Survival"
 	attribute = wisdom
+	icon = labor
 }

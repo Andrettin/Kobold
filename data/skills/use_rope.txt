@@ -1,4 +1,5 @@
 use_rope = {
 	name = "Use Rope"
 	attribute = dexterity
+	icon = cog
 }
