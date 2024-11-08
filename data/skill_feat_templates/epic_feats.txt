@@ -1,0 +1,13 @@
+epic_skill_focus_[skill] = {
+	name = "Epic Skill Focus: [skill_name]"
+	types = {
+		epic
+		general
+	}
+	conditions = {
+		[skill] >= 20
+	}
+	modifier = {
+		[skill] = 10
+	}
+}
