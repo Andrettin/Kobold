@@ -4,6 +4,7 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
+#include "character/skill.h"
 #include "country/country_game_data.h"
 #include "database/database.h"
 #include "database/gsml_operator.h"
@@ -77,6 +78,7 @@
 #include "script/condition/scripted_condition_condition.h"
 #include "script/condition/scripted_modifier_condition.h"
 #include "script/condition/settlement_type_condition.h"
+#include "script/condition/skill_condition.h"
 #include "script/condition/source_character_condition.h"
 #include "script/condition/source_site_condition.h"
 #include "script/condition/source_site_scope_condition.h"
@@ -114,6 +116,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<is_ruler_spouse_condition>(value, condition_operator);
 		} else if (key == "level") {
 			return std::make_unique<level_condition>(value, condition_operator);
+		} else if (skill::try_get(key) != nullptr) {
+			return std::make_unique<skill_condition>(skill::get(key), value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, country>) {
 		if (key == "anarchy") {
