@@ -8,6 +8,37 @@ rogue = {
 		reflex = high_saving_throw_bonus
 		will = low_saving_throw_bonus
 	}
+	class_skills = {
+		appraise
+		balance
+		bluff
+		climb
+		craft_alchemy
+		craft_trapmaking
+		decipher_script
+		diplomacy
+		disable_device
+		disguise
+		escape_artist
+		forgery
+		gather_information
+		hide
+		intimidate
+		jump
+		listen
+		move_silently
+		open_lock
+		#perform
+		profession_miner
+		search
+		sense_motive
+		sleight_of_hand
+		spot
+		swim
+		tumble
+		use_magic_device
+		use_rope
+	}
 	base_skill_points_per_level = 8
 	min_attribute_values = {
 		strength = 6

@@ -64,6 +64,16 @@ public:
 		return this->level_adjustment;
 	}
 
+	const data_entry_set<skill> &get_class_skills() const
+	{
+		return this->class_skills;
+	}
+
+	bool has_class_skill(const skill *skill) const
+	{
+		return this->class_skills.contains(skill);
+	}
+
 	int get_adulthood_age() const
 	{
 		return this->adulthood_age;
@@ -157,6 +167,7 @@ private:
 	bool sapient = false;
 	dice hit_dice;
 	int level_adjustment = 0;
+	data_entry_set<skill> class_skills;
 	int adulthood_age = 0;
 	int middle_age = 0;
 	int old_age = 0;

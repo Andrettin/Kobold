@@ -8,5 +8,51 @@ expert = {
 		reflex = low_saving_throw_bonus
 		will = high_saving_throw_bonus
 	}
+	class_skills = {
+		appraise
+		balance
+		bluff
+		climb
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		decipher_script
+		diplomacy
+		disable_device
+		disguise
+		escape_artist
+		forgery
+		gather_information
+		handle_animal
+		heal
+		hide
+		intimidate
+		jump
+		knowledge_arcana
+		knowledge_architecture_and_engineering
+		knowledge_dungeoneering
+		knowledge_geography
+		knowledge_history
+		knowledge_nature
+		knowledge_nobility_and_royalty
+		knowledge_religion
+		knowledge_the_planes
+		listen
+		move_silently
+		open_lock
+		#perform
+		profession_miner
+		ride
+		search
+		sense_motive
+		sleight_of_hand
+		spellcraft
+		spot
+		survival
+		swim
+		tumble
+		use_magic_device
+		use_rope
+	}
 	base_skill_points_per_level = 6
 }

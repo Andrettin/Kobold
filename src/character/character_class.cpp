@@ -6,6 +6,7 @@
 #include "character/character_class_type.h"
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
+#include "character/skill.h"
 #include "script/effect/effect_list.h"
 
 namespace kobold {
@@ -22,6 +23,7 @@ character_class::~character_class()
 void character_class::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
 
 	if (tag == "saving_throw_bonus_tables") {
 		scope.for_each_property([&](const gsml_property &property) {
@@ -30,6 +32,10 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 
 			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
 		});
+	} else if (tag == "class_skills") {
+		for (const std::string &value : values) {
+			this->class_skills.insert(skill::get(value));
+		}
 	} else if (tag == "min_attribute_values") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
@@ -70,6 +76,10 @@ void character_class::check() const
 
 	if (this->get_saving_throw_bonus_tables().empty()) {
 		throw std::runtime_error(std::format("Character class \"{}\" has no saving throw bonus tables.", this->get_identifier()));
+	}
+
+	if (this->get_class_skills().empty()) {
+		throw std::runtime_error(std::format("Character class \"{}\" has no class skills.", this->get_identifier()));
 	}
 
 	if (this->get_base_skill_points_per_level() == 0) {

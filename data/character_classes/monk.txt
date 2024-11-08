@@ -8,5 +8,26 @@ monk = {
 		reflex = high_saving_throw_bonus
 		will = high_saving_throw_bonus
 	}
+	class_skills = {
+		balance
+		climb
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		diplomacy
+		escape_artist
+		hide
+		jump
+		knowledge_arcana
+		knowledge_religion
+		listen
+		move_silently
+		#perform
+		profession_miner
+		sense_motive
+		spot
+		swim
+		tumble
+	}
 	base_skill_points_per_level = 4
 }

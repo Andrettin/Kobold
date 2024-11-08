@@ -8,5 +8,17 @@ barbarian = {
 		reflex = low_saving_throw_bonus
 		will = low_saving_throw_bonus
 	}
+	class_skills = {
+		climb
+		craft_alchemy
+		craft_trapmaking
+		handle_animal
+		intimidate
+		jump
+		listen
+		ride
+		survival
+		swim
+	}
 	base_skill_points_per_level = 4
 }

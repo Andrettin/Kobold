@@ -3,6 +3,10 @@ troll = {
 	sapient = true
 	hit_dice = 6d8
 	level_adjustment = 5
+	class_skills = {
+		listen
+		spot
+	}
 	modifier = {
 		strength = 12
 		dexterity = 4

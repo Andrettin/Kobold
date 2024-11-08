@@ -8,6 +8,22 @@ druid = {
 		reflex = low_saving_throw_bonus
 		will = high_saving_throw_bonus
 	}
+	class_skills = {
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		diplomacy
+		handle_animal
+		heal
+		knowledge_nature
+		listen
+		profession_miner
+		ride
+		spellcraft
+		spot
+		survival
+		swim
+	}
 	base_skill_points_per_level = 4
 	min_attribute_values = {
 		strength = 6

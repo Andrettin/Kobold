@@ -8,6 +8,19 @@ paladin = {
 		reflex = low_saving_throw_bonus
 		will = low_saving_throw_bonus
 	}
+	class_skills = {
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		diplomacy
+		handle_animal
+		heal
+		knowledge_nobility_and_royalty
+		knowledge_religion
+		profession_miner
+		ride
+		sense_motive
+	}
 	base_skill_points_per_level = 2
 	min_attribute_values = {
 		strength = 12

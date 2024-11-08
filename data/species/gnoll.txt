@@ -3,6 +3,10 @@ gnoll = {
 	sapient = true
 	hit_dice = 2d8
 	level_adjustment = 1
+	class_skills = {
+		listen
+		spot
+	}
 	modifier = {
 		strength = 4
 		constitution = 2

@@ -5,6 +5,7 @@
 #include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
+#include "character/skill.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "species/taxon.h"
@@ -24,8 +25,13 @@ species::~species()
 void species::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "starting_age_modifiers") {
+	if (tag == "class_skills") {
+		for (const std::string &value : values) {
+			this->class_skills.insert(skill::get(value));
+		}
+	} else if (tag == "starting_age_modifiers") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
@@ -68,6 +74,12 @@ void species::check() const
 				//throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for base character class \"{}\".", this->get_identifier()));
 			}
 		}
+	}
+
+	if (!this->get_hit_dice().is_null() && this->get_class_skills().empty()) {
+		throw std::runtime_error(std::format("Species \"{}\" has hit dice, but no class skills.", this->get_identifier()));
+	} else if (this->get_hit_dice().is_null() && !this->get_class_skills().empty()) {
+		throw std::runtime_error(std::format("Species \"{}\" has no hit dice, but has class skills.", this->get_identifier()));
 	}
 }
 

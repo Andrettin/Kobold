@@ -1,0 +1,5 @@
+concentration = {
+	name = "Concentration"
+	attribute = constitution
+	icon = research
+}

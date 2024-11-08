@@ -56,6 +56,16 @@ public:
 		return this->saving_throw_bonus_tables;
 	}
 
+	const data_entry_set<skill> &get_class_skills() const
+	{
+		return this->class_skills;
+	}
+
+	bool has_class_skill(const skill *skill) const
+	{
+		return this->class_skills.contains(skill);
+	}
+
 	int get_base_skill_points_per_level() const
 	{
 		return this->base_skill_points_per_level;
@@ -110,6 +120,7 @@ private:
 	dice hit_dice;
 	const level_bonus_table *base_attack_bonus_table = nullptr;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
+	data_entry_set<skill> class_skills;
 	int base_skill_points_per_level = 0;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> level_effects;

@@ -3,6 +3,16 @@ hound_archon = {
 	sapient = true
 	hit_dice = 6d8
 	level_adjustment = 5
+	class_skills = {
+		concentration
+		hide
+		jump
+		listen
+		move_silently
+		sense_motive
+		spot
+		survival
+	}
 	modifier = {
 		strength = 4
 		constitution = 2

@@ -8,5 +8,31 @@ aristocrat = {
 		reflex = low_saving_throw_bonus
 		will = high_saving_throw_bonus
 	}
+	class_skills = {
+		appraise
+		bluff
+		diplomacy
+		disguise
+		forgery
+		gather_information
+		handle_animal
+		intimidate
+		knowledge_arcana
+		knowledge_architecture_and_engineering
+		knowledge_dungeoneering
+		knowledge_geography
+		knowledge_history
+		knowledge_nature
+		knowledge_nobility_and_royalty
+		knowledge_religion
+		knowledge_the_planes
+		listen
+		#perform
+		ride
+		sense_motive
+		spot
+		swim
+		survival
+	}
 	base_skill_points_per_level = 4
 }

@@ -1,0 +1,53 @@
+knowledge_arcana = {
+	name = "Knowledge: Arcana"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_architecture_and_engineering = {
+	name = "Knowledge: Architecture and Engineering"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_dungeoneering = {
+	name = "Knowledge: Dungeoneering"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_geography = {
+	name = "Knowledge: Geography"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_history = {
+	name = "Knowledge: History"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_nature = {
+	name = "Knowledge: Nature"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_nobility_and_royalty = {
+	name = "Knowledge: Nobility and Royalty"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_religion = {
+	name = "Knowledge: Religion"
+	attribute = intelligence
+	icon = university
+}
+
+knowledge_the_planes = {
+	name = "Knowledge: The Planes"
+	attribute = intelligence
+	icon = university
+}

@@ -8,6 +8,28 @@ ranger = {
 		reflex = high_saving_throw_bonus
 		will = low_saving_throw_bonus
 	}
+	class_skills = {
+		climb
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		handle_animal
+		heal
+		hide
+		jump
+		knowledge_dungeoneering
+		knowledge_geography
+		knowledge_nature
+		listen
+		move_silently
+		profession_miner
+		ride
+		search
+		spot
+		survival
+		swim
+		use_rope
+	}
 	base_skill_points_per_level = 6
 	min_attribute_values = {
 		strength = 13
