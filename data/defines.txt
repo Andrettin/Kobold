@@ -40,32 +40,53 @@ character_hit_dice_count_effects = {
 		gain_feat_of_type = general
 	}
 	3 = {
+		gain_feat_of_type = skill_proficiency
 		gain_feat_of_type = general
 	}
 	4 = {
 		gain_feat_of_type = attribute
 	}
+	5 = {
+		gain_feat_of_type = skill_proficiency
+	}
 	6 = {
 		gain_feat_of_type = general
+	}
+	7 = {
+		gain_feat_of_type = skill_proficiency
 	}
 	8 = {
 		gain_feat_of_type = attribute
 	}
 	9 = {
+		gain_feat_of_type = skill_proficiency
 		gain_feat_of_type = general
+	}
+	11 = {
+		gain_feat_of_type = skill_proficiency
 	}
 	12 = {
 		gain_feat_of_type = attribute
 		gain_feat_of_type = general
 	}
+	13 = {
+		gain_feat_of_type = skill_proficiency
+	}
 	15 = {
+		gain_feat_of_type = skill_proficiency
 		gain_feat_of_type = general
 	}
 	16 = {
 		gain_feat_of_type = attribute
 	}
+	17 = {
+		gain_feat_of_type = skill_proficiency
+	}
 	18 = {
 		gain_feat_of_type = general
+	}
+	19 = {
+		gain_feat_of_type = skill_proficiency
 	}
 	20 = {
 		gain_feat_of_type = attribute
