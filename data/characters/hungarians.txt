@@ -3,7 +3,6 @@ tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 	surname = "Bakocz" #"Bakócz"
 	species = human
 	character_class = cleric
-	rank = bishop
 	culture = magyar
 	religion = catholic
 	home_site = gyor
@@ -20,11 +19,11 @@ tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 		#became bishop of Eger under Wladislaus II
 		
 		1497 = {
-			rank = archbishop #became archbishop of Esztergom in 1497
+			#became archbishop of Esztergom in 1497
 		}
 		
 		1500 = {
-			rank = archbishop #became cardinal in 1500
+			#became cardinal in 1500
 		}
 		
 		#became titular patriarch of Constantinople in 1510

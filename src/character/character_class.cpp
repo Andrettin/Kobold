@@ -37,13 +37,6 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 
 			this->min_attribute_values[character_attribute::get(key)] = std::stoi(value);
 		});
-	} else if (tag == "rank_levels") {
-		scope.for_each_property([&](const gsml_property &property) {
-			const std::string &key = property.get_key();
-			const std::string &value = property.get_value();
-
-			this->rank_levels[key] = std::stoi(value);
-		});
 	} else if (tag == "level_effects") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();

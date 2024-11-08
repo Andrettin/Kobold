@@ -3,7 +3,6 @@ ulrich_von_cilli = { #Source: "Encyclopædia Britannica", 1911, vol. 6, p. 366.
 	surname = "von Cilli"
 	species = human
 	character_class = aristocrat
-	rank = count
 	culture = austrian
 	religion = catholic
 	home_site = cilli

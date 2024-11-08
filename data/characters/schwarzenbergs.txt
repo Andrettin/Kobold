@@ -3,7 +3,6 @@ johann_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, 
 	dynasty = schwarzenberg
 	species = human
 	character_class = aristocrat
-	rank = baron
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -21,7 +20,6 @@ adolf_von_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, 
 	dynasty = schwarzenberg
 	species = human
 	character_class = warrior
-	rank = general
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -37,7 +35,6 @@ georg_ludwig_von_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vo
 	dynasty = schwarzenberg
 	species = human
 	character_class = aristocrat
-	rank = count
 	culture = german #Franconian
 	religion = catholic
 	home_settlement = nuremberg
@@ -53,7 +50,6 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 	dynasty = schwarzenberg
 	species = human
 	character_class = warrior
-	rank = major
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna #born in Vienna
@@ -75,13 +71,13 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 		#fought in 1789 under Lacy and Loudon against the Turks
 		
 		1792 = {
-			rank = major #became major in 1792
+			#became major in 1792
 		}
 		
 		#decorated with the cross of the Maria Theresa order
 		
 		1796 = {
-			rank = major_general #became major-general in 1796
+			#became major-general in 1796
 		}
 		
 		1799 = {
@@ -95,7 +91,7 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 		#became general of cavalry soon after the Battle of Wagram (1809)
 		
 		1813 = {
-			rank = field_marshal #was field marshal by 1813
+			#was field marshal by 1813
 		}
 		
 		#was president of the Hofkriegsrat
@@ -108,7 +104,6 @@ friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 2
 	dynasty = schwarzenberg
 	species = human
 	character_class = warrior
-	rank = major_general
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -130,7 +125,6 @@ karl_philipp_ii_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, 
 	dynasty = schwarzenberg
 	species = human
 	character_class = warrior
-	rank = feldzeugmeister
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -145,7 +139,6 @@ felix_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p
 	dynasty = schwarzenberg
 	species = human
 	character_class = aristocrat
-	rank = prince
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -172,7 +165,6 @@ edmund_leopold_friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica
 	dynasty = schwarzenberg
 	species = human
 	character_class = warrior
-	rank = field_marshal
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna
@@ -188,7 +180,6 @@ friedrich_johann_josef_coelestin_zu_schwarzenberg = { #Source: "Encyclopædia Br
 	dynasty = schwarzenberg
 	species = human
 	character_class = cleric #cardinal
-	rank = cardinal
 	culture = austrian
 	religion = catholic
 	home_settlement = vienna

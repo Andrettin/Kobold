@@ -56,7 +56,6 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(kobold::species* species MEMBER species NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
-	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(const kobold::religion* religion MEMBER religion NOTIFY changed)
 	Q_PROPERTY(const kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
@@ -195,7 +194,6 @@ private:
 	kobold::species *species = nullptr;
 	std::map<character_class_type, character_class *> character_classes;
 	int level = 0;
-	std::string rank;
 	kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;

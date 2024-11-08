@@ -17,14 +17,4 @@ cleric = {
 		wisdom = 9
 		charisma = 6
 	}
-	rank_levels = {
-		deacon = 1
-		priest = 2
-		prelate = 5
-		bishop = 8
-		archbishop = 11
-		cardinal = 14
-		patriarch = 17
-		pope = 20
-	}
 }

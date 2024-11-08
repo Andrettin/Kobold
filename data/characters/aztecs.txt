@@ -3,7 +3,6 @@ montezuma_ii = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descober
 	epithet = "II"
 	species = human
 	character_class = aristocrat
-	rank = emperor
 	culture = aztec
 	religion = pagan
 	home_settlement = mexico_city

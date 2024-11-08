@@ -3,7 +3,6 @@ henry_viii_of_england = { #Source: Isaac Asimov, "Cronologia das Ciências e das
 	epithet = "VIII"
 	species = human
 	character_class = aristocrat
-	rank = king
 	culture = english
 	religion = protestant
 	home_settlement = london

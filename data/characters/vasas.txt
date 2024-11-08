@@ -4,7 +4,6 @@ gustav_i_of_sweden = { #Source: Isaac Asimov, "Cronologia das Ciências e das De
 	dynasty = vasa
 	species = human
 	character_class = aristocrat
-	rank = king
 	culture = swedish
 	religion = protestant
 	home_settlement = stockholm

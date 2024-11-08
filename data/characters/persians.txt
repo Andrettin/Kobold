@@ -3,7 +3,6 @@ darius_i_of_persia = {
 	epithet = "I"
 	species = human
 	character_class = aristocrat
-	rank = king
 	culture = persian
 	religion = pagan
 	home_settlement = shiraz #Persepolis; correct?

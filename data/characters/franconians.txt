@@ -3,7 +3,6 @@ erkinger = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p. 390.
 	surname = "von Seinsheim"
 	species = human
 	character_class = aristocrat
-	rank = lord
 	culture = german #Franconian
 	religion = catholic
 	home_site = aschaffenburg #Seinsheim

@@ -3,7 +3,6 @@ friederich_von_kageneck = { #Source: "Gothaischer Hofkalender zum Nutzen und Ver
 	dynasty = kageneck
 	species = human
 	character_class = aristocrat
-	rank = count
 	culture = german #Rhenish
 	religion = catholic
 	home_site = freiburg #correct?

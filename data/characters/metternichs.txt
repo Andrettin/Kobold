@@ -3,7 +3,6 @@ franz_georg_von_metternich = { #Source: "Gothaischer Hofkalender zum Nutzen und 
 	dynasty = metternich
 	species = human
 	character_class = aristocrat
-	rank = prince
 	culture = german #Rhenish
 	religion = catholic
 	home_settlement = vienna #correct?
@@ -25,7 +24,6 @@ clemens_wenceslaus_von_metternich = { #Source: "Gothaischer Hofkalender zum Nutz
 	dynasty = metternich
 	species = human
 	character_class = aristocrat
-	rank = prince
 	culture = german #Rhenish
 	religion = catholic
 	portrait = metternich
@@ -35,6 +33,12 @@ clemens_wenceslaus_von_metternich = { #Source: "Gothaischer Hofkalender zum Nutz
 	mother = marie_beatrix_von_kageneck
 	birth_date = 1773.5.15
 	start_date = 1795.9.27 #married
+	feats = {
+		negotiator
+		persuasive
+		skill_focus_diplomacy
+		diplomacy_master
+	}
 	
 	history = {
 		1795.9.27 = { #married on 1795.9.27 to Marie Eleonore, daughter of prince Ernst of Kaunitz-Rietberg

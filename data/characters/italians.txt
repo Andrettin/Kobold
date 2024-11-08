@@ -30,7 +30,6 @@ pope_paul_iii = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobe
 	epithet = "II"
 	species = human
 	character_class = cleric #pope
-	rank = pope
 	culture = italian
 	religion = catholic
 	home_settlement = rome
