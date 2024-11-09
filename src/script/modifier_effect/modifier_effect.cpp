@@ -42,6 +42,7 @@
 #include "script/modifier_effect/saving_throw_modifier_effect.h"
 #include "script/modifier_effect/ship_stat_modifier_effect.h"
 #include "script/modifier_effect/skill_modifier_effect.h"
+#include "script/modifier_effect/skill_per_level_modifier_effect.h"
 #include "script/modifier_effect/storage_capacity_modifier_effect.h"
 #include "script/modifier_effect/throughput_modifier_effect.h"
 #include "script/modifier_effect/unit_upgrade_cost_modifier_effect.h"
@@ -58,6 +59,7 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	const std::string &value = property.get_value();
 
 	static const std::string bonus_suffix = "_bonus";
+	static const std::string per_level_suffix = "_per_level";
 
 	if constexpr (std::is_same_v<scope_type, const character>) {
 		if (key == "base_attack_bonus") {
@@ -70,6 +72,13 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<saving_throw_modifier_effect>(saving_throw_type::get(key), value);
 		} else if (skill::try_get(key) != nullptr) {
 			return std::make_unique<skill_modifier_effect>(skill::get(key), value);
+		}
+
+		if (key.ends_with(per_level_suffix)) {
+			const size_t skill_identifier_size = key.size() - per_level_suffix.size();
+			const skill *skill = skill::get(key.substr(0, skill_identifier_size));
+
+			return std::make_unique<skill_per_level_modifier_effect>(skill, value);
 		}
 	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string capital_commodity_bonus_prefix = "capital_";

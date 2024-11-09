@@ -8,6 +8,7 @@
 	}
 	modifier = {
 		[skill] = 2
+		[skill]_per_level = 1
 	}
 }
 
@@ -22,6 +23,7 @@
 	}
 	modifier = {
 		[skill] = 4
+		[skill]_per_level = 1
 	}
 }
 
@@ -37,6 +39,7 @@
 	}
 	modifier = {
 		[skill] = 6
+		[skill]_per_level = 1
 	}
 }
 
@@ -52,5 +55,6 @@
 	}
 	modifier = {
 		[skill] = 8
+		[skill]_per_level = 1
 	}
 }

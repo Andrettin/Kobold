@@ -255,6 +255,13 @@ public:
 
 	void change_skill_bonus(const skill *skill, const int change);
 
+	const data_entry_map<skill, int> &get_skill_per_level_bonuses() const
+	{
+		return this->skill_per_level_bonuses;
+	}
+
+	void change_skill_per_level_bonus(const skill *skill, const int change);
+
 	const data_entry_map<feat, int> &get_feat_counts() const
 	{
 		return this->feat_counts;
@@ -416,6 +423,7 @@ private:
 	int base_attack_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
+	data_entry_map<skill, int> skill_per_level_bonuses;
 	data_entry_map<feat, int> feat_counts;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	const kobold::office *office = nullptr;

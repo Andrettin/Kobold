@@ -323,6 +323,10 @@ void character_game_data::change_level(const int change)
 
 	this->level += change;
 
+	for (const auto &[skill, per_level_bonus] : this->get_skill_per_level_bonuses()) {
+		this->change_skill_bonus(skill, change * per_level_bonus);
+	}
+
 	if (game::get()->is_running()) {
 		emit level_changed();
 	}
@@ -504,6 +508,20 @@ void character_game_data::change_skill_bonus(const skill *skill, const int chang
 	if (game::get()->is_running()) {
 		emit skill_bonuses_changed();
 	}
+}
+
+void character_game_data::change_skill_per_level_bonus(const skill *skill, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->skill_per_level_bonuses[skill] += change);
+	if (new_value == 0) {
+		this->skill_per_level_bonuses.erase(skill);
+	}
+
+	this->change_skill_bonus(skill, change * this->get_level());
 }
 
 QVariantList character_game_data::get_feats_qvariant_list() const
