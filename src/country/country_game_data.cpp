@@ -640,9 +640,14 @@ void country_game_data::change_skill_per_level_bonus(const country_skill *skill,
 	this->change_skill_bonus(skill, change * this->get_level());
 }
 
+int country_game_data::get_skill_modifier(const country_skill *skill) const
+{
+	return this->get_skill_bonus(skill) + this->get_attribute_modifier(skill->get_attribute()) - std::max(this->get_unrest(), 0);
+}
+
 int country_game_data::do_skill_check(const country_skill *skill) const
 {
-	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_bonus(skill) + this->get_attribute_modifier(skill->get_attribute()) - this->get_unrest();
+	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_modifier(skill);
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const

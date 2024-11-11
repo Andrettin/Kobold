@@ -334,6 +334,8 @@ public:
 
 	void change_skill_per_level_bonus(const country_skill *skill, const int change);
 
+	int get_skill_modifier(const country_skill *skill) const;
+
 	int do_skill_check(const country_skill *skill) const;
 
 	const std::vector<const province *> &get_provinces() const
