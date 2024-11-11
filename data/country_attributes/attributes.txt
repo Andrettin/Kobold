@@ -1,3 +1,7 @@
+culture = {
+	name = "Culture"
+}
+
 economy = {
 	name = "Economy"
 }
