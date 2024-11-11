@@ -125,6 +125,34 @@ country_game_data::~country_game_data()
 {
 }
 
+void country_game_data::on_setup_finished()
+{
+	this->check_government_type();
+	this->check_laws();
+	this->check_characters();
+
+	for (const QPoint &border_tile_pos : this->get_border_tiles()) {
+		map::get()->calculate_tile_country_border_directions(border_tile_pos);
+	}
+
+	//build free on start buildings
+	for (const province *province : this->get_provinces()) {
+		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
+			if (!settlement->get_game_data()->is_built()) {
+				continue;
+			}
+
+			for (const building_type *building : building_type::get_all()) {
+				if (!building->is_free_on_start()) {
+					continue;
+				}
+
+				settlement->get_game_data()->check_free_building(building);
+			}
+		}
+	}
+}
+
 void country_game_data::do_turn()
 {
 	try {

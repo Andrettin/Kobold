@@ -141,6 +141,8 @@ public:
 	explicit country_game_data(kobold::country *country);
 	~country_game_data();
 
+	void on_setup_finished();
+
 	void do_turn();
 
 	void do_income_phase();

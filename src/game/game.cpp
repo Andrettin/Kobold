@@ -892,30 +892,7 @@ QCoro::Task<void> game::on_setup_finished()
 	emit countries_changed();
 
 	for (const country *country : this->get_countries()) {
-		country->get_game_data()->check_government_type();
-		country->get_game_data()->check_laws();
-		country->get_game_data()->check_characters();
-
-		for (const QPoint &border_tile_pos : country->get_game_data()->get_border_tiles()) {
-			map::get()->calculate_tile_country_border_directions(border_tile_pos);
-		}
-
-		//build free on start buildings
-		for (const province *province : country->get_game_data()->get_provinces()) {
-			for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
-				if (!settlement->get_game_data()->is_built()) {
-					continue;
-				}
-
-				for (const building_type *building : building_type::get_all()) {
-					if (!building->is_free_on_start()) {
-						continue;
-					}
-
-					settlement->get_game_data()->check_free_building(building);
-				}
-			}
-		}
+		country->get_game_data()->on_setup_finished();
 
 		emit country->game_data_changed();
 	}
