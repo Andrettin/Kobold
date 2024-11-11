@@ -105,6 +105,8 @@ Rectangle {
 			+ (selected_country.great_power && !selected_country_game_data.anarchy ? ("\nScore: " + number_string(selected_country_game_data.score) + " (#" + (selected_country_game_data.score_rank + 1) + ")") : "")
 			+ "\n" + selected_country_game_data.provinces.length + " " + (selected_country_game_data.provinces.length > 1 ? "Provinces" : "Province")
 			+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
+			+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
+			+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
 			+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
 		) : "")
 		anchors.left: bottom_panel.left

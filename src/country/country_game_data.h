@@ -88,6 +88,8 @@ class country_game_data final : public QObject
 	Q_PROPERTY(const kobold::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
+	Q_PROPERTY(int consumption READ get_consumption NOTIFY consumption_changed)
+	Q_PROPERTY(int unrest READ get_unrest NOTIFY unrest_changed)
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList provinces READ get_provinces_qvariant_list NOTIFY provinces_changed)
 	Q_PROPERTY(const kobold::site* capital READ get_capital NOTIFY capital_changed)
@@ -284,6 +286,8 @@ public:
 		}
 
 		this->consumption += change;
+
+		emit consumption_changed();
 	}
 
 	int get_unrest() const
@@ -298,6 +302,8 @@ public:
 		}
 
 		this->unrest += change;
+
+		emit unrest_changed();
 	}
 
 	int do_check(const country_attribute *attribute) const;
@@ -1841,6 +1847,8 @@ signals:
 	void subject_type_changed();
 	void level_changed();
 	void attribute_values_changed();
+	void consumption_changed();
+	void unrest_changed();
 	void skill_bonuses_changed();
 	void diplomacy_states_changed();
 	void offered_diplomacy_states_changed();

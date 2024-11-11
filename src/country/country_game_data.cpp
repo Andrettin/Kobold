@@ -602,7 +602,7 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 
 int country_game_data::do_check(const country_attribute *attribute) const
 {
-	return random::get()->roll_dice(dice(1, 20)) + this->get_attribute_value(attribute) - this->get_unrest();
+	return random::get()->roll_dice(dice(1, 20)) + this->get_attribute_value(attribute) - std::max(this->get_unrest(), 0);
 }
 
 QVariantList country_game_data::get_skill_bonuses_qvariant_list() const
