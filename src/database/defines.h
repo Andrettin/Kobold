@@ -26,6 +26,7 @@ class character;
 class commodity;
 class commodity_unit;
 class country_attribute;
+class country_skill;
 class icon;
 class office;
 class pathway;
@@ -57,7 +58,7 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(const kobold::commodity* tradition_commodity MEMBER tradition_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* leader_commodity MEMBER leader_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity_unit* country_income_commodity_unit MEMBER country_income_commodity_unit READ get_country_income_commodity_unit NOTIFY changed)
-	Q_PROPERTY(const kobold::country_attribute* country_tax_attribute MEMBER country_tax_attribute READ get_country_tax_attribute NOTIFY changed)
+	Q_PROPERTY(const kobold::country_skill* country_tax_skill MEMBER country_tax_skill READ get_country_tax_skill NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* tariff_icon MEMBER tariff_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* treasure_fleet_icon MEMBER treasure_fleet_icon NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* military_upkeep_icon MEMBER military_upkeep_icon NOTIFY changed)
@@ -211,9 +212,9 @@ public:
 		return this->country_income_commodity_unit;
 	}
 
-	const country_attribute *get_country_tax_attribute() const
+	const country_skill *get_country_tax_skill() const
 	{
-		return this->country_tax_attribute;
+		return this->country_tax_skill;
 	}
 
 	const icon *get_tariff_icon() const
@@ -359,7 +360,7 @@ private:
 	const commodity *tradition_commodity = nullptr;
 	const commodity *leader_commodity = nullptr;
 	const commodity_unit *country_income_commodity_unit = nullptr;
-	const country_attribute *country_tax_attribute = nullptr;
+	const country_skill *country_tax_skill = nullptr;
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;

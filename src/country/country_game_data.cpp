@@ -167,7 +167,7 @@ void country_game_data::do_income_phase()
 
 void country_game_data::collect_taxes()
 {
-	const int result = this->do_check(defines::get()->get_country_tax_attribute()) / 3;
+	const int result = this->do_skill_check(defines::get()->get_country_tax_skill()) / 3;
 
 	const commodity *wealth_commodity = defines::get()->get_wealth_commodity();
 	const commodity_unit *wealth_commodity_unit = defines::get()->get_country_income_commodity_unit();
