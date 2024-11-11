@@ -154,7 +154,7 @@ MenuBase {
 		
 		SmallText {
 			id: country_text
-			text: selected_country ? (
+			text: selected_country ? format_text(
 				selected_country.game_data.name
 				+ "\n"
 				+ "\n" + selected_country.game_data.type_name
@@ -166,8 +166,8 @@ MenuBase {
 				+ (selected_country.great_power && !selected_country.game_data.anarchy ? ("\nScore: " + number_string(selected_country.game_data.score) + " (#" + (selected_country.game_data.score_rank + 1) + ")") : "")
 				+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 				+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
-				+ "\n" + values_to_string(selected_country.game_data.attribute_values, "\n")
-				+ "\n" + values_to_string(selected_country.game_data.skill_bonuses, "\n", true)
+				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
+				+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
 			) : ""
 			
 			function get_subject_type_counts_string(subject_type_counts) {
