@@ -3,6 +3,7 @@
 	name = "[country_skill_name]: Trained"
 	types = {
 		skill_proficiency
+		country
 	}
 	modifier = {
 		[country_skill] = 2

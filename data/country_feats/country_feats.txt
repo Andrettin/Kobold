@@ -1,0 +1,47 @@
+culture_boost = {
+	name = "Culture Boost"
+	icon = music
+	unlimited = true
+	types = {
+		attribute
+	}
+	modifier = {
+		culture = 2
+	}
+}
+
+economy_boost = {
+	name = "Economy Boost"
+	icon = chest
+	unlimited = true
+	types = {
+		attribute
+	}
+	modifier = {
+		economy = 2
+	}
+}
+
+loyalty_boost = {
+	name = "Loyalty Boost"
+	icon = heater_shield
+	unlimited = true
+	types = {
+		attribute
+	}
+	modifier = {
+		loyalty = 2
+	}
+}
+
+stability_boost = {
+	name = "Stability Boost"
+	icon = wall
+	unlimited = true
+	types = {
+		attribute
+	}
+	modifier = {
+		stability = 2
+	}
+}
