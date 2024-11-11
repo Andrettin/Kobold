@@ -1,7 +1,7 @@
-secret_syndicate = {
-	name = "Secret Syndicate"
-	group = republic
-	icon = dagger_bloody
+despotism = {
+	name = "Despotism"
+	group = tribe
+	icon = bow
 	modifier = {
 		stability = 2
 		economy = 2
@@ -9,9 +9,9 @@ secret_syndicate = {
 	effects = {
 		gain_feat_of_type = attribute
 		gain_feat = intrigue_trained
-		gain_feat = politics_trained
+		gain_feat = warfare_trained
 	}
 	ruler_character_classes = {
-		rogue
+		barbarian
 	}
 }

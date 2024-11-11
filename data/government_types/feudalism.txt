@@ -1,0 +1,18 @@
+feudalism = {
+	name = "Feudalism"
+	group = monarchy
+	icon = crown_ducal
+	modifier = {
+		stability = 2
+		culture = 2
+	}
+	effects = {
+		gain_feat_of_type = attribute
+		gain_feat = defense_trained
+		gain_feat = trade_trained
+	}
+	ruler_character_classes = {
+		aristocrat
+		warrior
+	}
+}

@@ -2,6 +2,15 @@ oligarchy = {
 	name = "Oligarchy"
 	group = republic
 	icon = chest
+	modifier = {
+		loyalty = 2
+		economy = 2
+	}
+	effects = {
+		gain_feat_of_type = attribute
+		gain_feat = arts_trained
+		gain_feat = industry_trained
+	}
 	ruler_character_classes = {
 		expert
 	}

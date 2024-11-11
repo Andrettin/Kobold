@@ -1,17 +1,18 @@
-republic = {
-	name = "Republic"
+yeomanry = {
+	name = "Yeomanry"
 	group = republic
-	icon = philosophy
+	icon = grain
 	modifier = {
-		stability = 2
 		loyalty = 2
+		culture = 2
 	}
 	effects = {
 		gain_feat_of_type = attribute
-		gain_feat = engineering_trained
-		gain_feat = politics_trained
+		gain_feat = agriculture_trained
+		gain_feat = wilderness_trained
 	}
 	ruler_character_classes = {
 		expert
+		ranger
 	}
 }

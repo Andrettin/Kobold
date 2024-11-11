@@ -2,6 +2,15 @@ theocracy = {
 	name = "Theocracy"
 	group = theocracy
 	icon = wooden_cross
+	modifier = {
+		economy = 2
+		culture = 2
+	}
+	effects = {
+		gain_feat_of_type = attribute
+		gain_feat = folklore_trained
+		gain_feat = magic_trained
+	}
 	ruler_character_classes = {
 		cleric
 		paladin

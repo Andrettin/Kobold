@@ -3,14 +3,21 @@
 #include "country/government_type.h"
 
 #include "character/character_class.h"
+#include "character/feat_template.h"
 #include "country/country_tier.h"
 #include "country/government_group.h"
 #include "country/office.h"
 #include "script/condition/and_condition.h"
+#include "script/effect/effect_list.h"
+#include "script/modifier.h"
 #include "util/assert_util.h"
 #include "util/gender.h"
 
 namespace kobold {
+
+const std::set<std::string> government_type::database_dependencies = {
+	feat_template::class_identifier
+};
 
 void government_type::process_title_name_scope(std::map<government_variant, title_name_map> &title_names, const gsml_data &scope)
 {
@@ -133,6 +140,14 @@ void government_type::process_gsml_scope(const gsml_data &scope)
 		auto conditions = std::make_unique<and_condition<country>>();
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
+	} else if (tag == "modifier") {
+		auto modifier = std::make_unique<kobold::modifier<const country>>();
+		database::process_gsml_data(modifier, scope);
+		this->modifier = std::move(modifier);
+	} else if (tag == "effects") {
+		auto effect_list = std::make_unique<kobold::effect_list<const country>>();
+		database::process_gsml_data(effect_list, scope);
+		this->effects = std::move(effect_list);
 	} else if (tag == "ruler_character_classes") {
 		for (const std::string &value : values) {
 			this->ruler_character_classes.push_back(character_class::get(value));
@@ -194,6 +209,15 @@ const std::string &government_type::get_office_title_name(const office *office, 
 	}
 
 	return this->get_group()->get_office_title_name(office, tier, gender);
+}
+
+QString government_type::get_modifier_string() const
+{
+	if (this->get_modifier() == nullptr) {
+		return QString();
+	}
+
+	return QString::fromStdString(this->get_modifier()->get_string(nullptr));
 }
 
 }

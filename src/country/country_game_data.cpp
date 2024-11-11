@@ -2101,7 +2101,24 @@ void country_game_data::set_government_type(const kobold::government_type *gover
 		}
 	}
 
+	const kobold::government_type *old_government_type = this->get_government_type();
+	if (old_government_type != nullptr && old_government_type->get_modifier() != nullptr) {
+		old_government_type->get_modifier()->apply(this->country, -1);
+	}
+
 	this->government_type = government_type;
+
+	if (this->get_government_type() != nullptr) {
+		if (this->get_government_type()->get_modifier() != nullptr) {
+			this->get_government_type()->get_modifier()->apply(this->country, 1);
+		}
+
+		//apply the government type effects for the initial government type for the country
+		if (this->get_government_type()->get_effects() != nullptr && old_government_type == nullptr) {
+			context ctx(this->country);
+			this->get_government_type()->get_effects()->do_effects(this->country, ctx);
+		}
+	}
 
 	if (game::get()->is_running()) {
 		emit government_type_changed();

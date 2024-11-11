@@ -1,7 +1,16 @@
 magocracy = {
 	name = "Magocracy"
 	group = republic
-	icon = philosophy
+	icon = university
+	modifier = {
+		economy = 2
+		culture = 2
+	}
+	effects = {
+		gain_feat_of_type = attribute
+		gain_feat = magic_trained
+		gain_feat = scholarship_trained
+	}
 	ruler_character_classes = {
 		mage
 		sorcerer
