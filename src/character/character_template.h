@@ -23,6 +23,8 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::character_template*";
 	static constexpr const char database_folder[] = "character_templates";
 
+	static const std::set<std::string> database_dependencies;
+
 	explicit character_template(const std::string &identifier);
 	~character_template();
 

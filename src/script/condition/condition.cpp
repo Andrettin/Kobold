@@ -113,8 +113,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
 		} else if (key == "is_ruler_spouse") {
 			return std::make_unique<is_ruler_spouse_condition>(value, condition_operator);
-		} else if (key == "level") {
-			return std::make_unique<level_condition>(value, condition_operator);
 		} else if (skill::try_get(key) != nullptr) {
 			return std::make_unique<skill_condition>(skill::get(key), value, condition_operator);
 		}
@@ -193,6 +191,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<can_have_feat_condition<scope_type>>(value, condition_operator);
 		} else if (key == "feat") {
 			return std::make_unique<feat_condition<scope_type>>(value, condition_operator);
+		} else if (key == "level") {
+			return std::make_unique<level_condition<scope_type>>(value, condition_operator);
 		} else if (key == "war") {
 			return std::make_unique<war_condition<scope_type>>(value, condition_operator);
 		}

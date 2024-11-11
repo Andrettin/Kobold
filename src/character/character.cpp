@@ -9,6 +9,7 @@
 #include "character/character_template.h"
 #include "character/dynasty.h"
 #include "character/feat.h"
+#include "character/feat_template.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -37,6 +38,7 @@
 namespace kobold {
 
 const std::set<std::string> character::database_dependencies = {
+	feat_template::class_identifier,
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
 	province::class_identifier
 };

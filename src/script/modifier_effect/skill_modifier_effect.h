@@ -7,11 +7,14 @@
 
 namespace kobold {
 
-class skill_modifier_effect final : public modifier_effect<const character>
+template <typename scope_type>
+class skill_modifier_effect final : public modifier_effect<scope_type>
 {
 public:
-	explicit skill_modifier_effect(const kobold::skill *skill, const std::string &value)
-		: modifier_effect<const character>(value), skill(skill)
+	using skill_type = std::conditional_t<std::is_same_v<scope_type, const country>, country_skill, skill>;
+
+	explicit skill_modifier_effect(const skill_type *skill, const std::string &value)
+		: modifier_effect<scope_type>(value), skill(skill)
 	{
 	}
 
@@ -21,7 +24,7 @@ public:
 		return identifier;
 	}
 
-	virtual void apply(const character *scope, const centesimal_int &multiplier) const override
+	virtual void apply(scope_type *scope, const centesimal_int &multiplier) const override
 	{
 		scope->get_game_data()->change_skill_bonus(this->skill, (this->value * multiplier).to_int());
 	}
@@ -32,7 +35,7 @@ public:
 	}
 
 private:
-	const kobold::skill *skill = nullptr;
+	const skill_type *skill = nullptr;
 };
 
 }

@@ -2,15 +2,18 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
+#include "country/country.h"
+#include "country/country_game_data.h"
 #include "script/condition/numerical_condition.h"
 
 namespace kobold {
 
-class level_condition final : public numerical_condition<character, read_only_context>
+template <typename scope_type>
+class level_condition final : public numerical_condition<scope_type, read_only_context>
 {
 public:
 	explicit level_condition(const std::string &value, const gsml_operator condition_operator)
-		: numerical_condition<character, read_only_context>(value, condition_operator)
+		: numerical_condition<scope_type, read_only_context>(value, condition_operator)
 	{
 	}
 
@@ -20,7 +23,7 @@ public:
 		return class_identifier;
 	}
 
-	virtual int get_scope_value(const character *scope) const override
+	virtual int get_scope_value(const scope_type *scope) const override
 	{
 		return scope->get_game_data()->get_level();
 	}

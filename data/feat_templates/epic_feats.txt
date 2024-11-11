@@ -1,4 +1,5 @@
 epic_skill_focus_[skill] = {
+	template_type = skill
 	name = "Epic Skill Focus: [skill_name]"
 	types = {
 		epic

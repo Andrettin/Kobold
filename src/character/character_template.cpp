@@ -5,9 +5,14 @@
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/feat.h"
+#include "character/feat_template.h"
 #include "species/species.h"
 
 namespace kobold {
+
+const std::set<std::string> character_template::database_dependencies = {
+	feat_template::class_identifier,
+};
 
 character_template::character_template(const std::string &identifier)
 	: named_data_entry(identifier)

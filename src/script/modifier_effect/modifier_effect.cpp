@@ -70,15 +70,6 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<character_attribute_modifier_effect>(character_attribute::get(key), value);
 		} else if (saving_throw_type::try_get(key) != nullptr) {
 			return std::make_unique<saving_throw_modifier_effect>(saving_throw_type::get(key), value);
-		} else if (skill::try_get(key) != nullptr) {
-			return std::make_unique<skill_modifier_effect>(skill::get(key), value);
-		}
-
-		if (key.ends_with(per_level_suffix)) {
-			const size_t skill_identifier_size = key.size() - per_level_suffix.size();
-			const skill *skill = skill::get(key.substr(0, skill_identifier_size));
-
-			return std::make_unique<skill_per_level_modifier_effect>(skill, value);
 		}
 	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string capital_commodity_bonus_prefix = "capital_";
@@ -197,6 +188,19 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			const commodity *commodity = commodity::get(key.substr(0, commodity_identifier_size));
 
 			return std::make_unique<commodity_bonus_modifier_effect>(commodity, value);
+		}
+	}
+
+	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
+		if (skill_modifier_effect<scope_type>::skill_type::try_get(key) != nullptr) {
+			return std::make_unique<skill_modifier_effect<scope_type>>(skill_modifier_effect<scope_type>::skill_type::get(key), value);
+		}
+
+		if (key.ends_with(per_level_suffix)) {
+			const size_t skill_identifier_size = key.size() - per_level_suffix.size();
+			const skill_per_level_modifier_effect<scope_type>::skill_type *skill = skill_per_level_modifier_effect<scope_type>::skill_type::get(key.substr(0, skill_identifier_size));
+
+			return std::make_unique<skill_per_level_modifier_effect<scope_type>>(skill, value);
 		}
 	}
 

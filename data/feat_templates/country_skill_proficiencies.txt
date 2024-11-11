@@ -1,0 +1,56 @@
+[country_skill]_trained = {
+	template_type = country_skill
+	name = "[country_skill_name]: Trained"
+	types = {
+		skill_proficiency
+	}
+	modifier = {
+		[country_skill] = 2
+		[country_skill]_per_level = 1
+	}
+}
+
+[country_skill]_expert = {
+	template_type = country_skill
+	name = "[country_skill_name]: Expert"
+	upgraded_feat = [country_skill]_trained
+	types = {
+		skill_proficiency
+	}
+	modifier = {
+		[country_skill] = 4
+		[country_skill]_per_level = 1
+	}
+}
+
+[country_skill]_master = {
+	template_type = country_skill
+	name = "[country_skill_name]: Master"
+	upgraded_feat = [country_skill]_expert
+	types = {
+		skill_proficiency
+	}
+	conditions = {
+		level = 7
+	}
+	modifier = {
+		[country_skill] = 6
+		[country_skill]_per_level = 1
+	}
+}
+
+[country_skill]_legendary = {
+	template_type = country_skill
+	name = "[country_skill_name]: Legendary"
+	upgraded_feat = [country_skill]_master
+	types = {
+		skill_proficiency
+	}
+	conditions = {
+		level = 15
+	}
+	modifier = {
+		[country_skill] = 8
+		[country_skill]_per_level = 1
+	}
+}
