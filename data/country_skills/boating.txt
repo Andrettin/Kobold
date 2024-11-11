@@ -1,0 +1,5 @@
+boating = {
+	name = "Boating"
+	attribute = economy
+	icon = anchor
+}

@@ -1,0 +1,5 @@
+statecraft = {
+	name = "Statecraft"
+	attribute = loyalty
+	icon = bell
+}

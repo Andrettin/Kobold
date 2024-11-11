@@ -1,0 +1,5 @@
+agriculture = {
+	name = "Agriculture"
+	attribute = stability
+	icon = grain
+}

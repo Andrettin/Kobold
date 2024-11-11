@@ -1,0 +1,5 @@
+exploration = {
+	name = "Exploration"
+	attribute = economy
+	icon = flag
+}

@@ -1,0 +1,5 @@
+arts = {
+	name = "Arts"
+	attribute = culture
+	icon = painting
+}

@@ -1,0 +1,5 @@
+magic = {
+	name = "Magic"
+	attribute = culture
+	icon = university
+}

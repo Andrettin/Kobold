@@ -1,0 +1,5 @@
+intrigue = {
+	name = "Intrigue"
+	attribute = loyalty
+	icon = dagger_bloody
+}

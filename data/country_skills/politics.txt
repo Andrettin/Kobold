@@ -1,0 +1,5 @@
+politics = {
+	name = "Politics"
+	attribute = loyalty
+	icon = bell
+}

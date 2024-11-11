@@ -1,0 +1,5 @@
+industry = {
+	name = "Industry"
+	attribute = economy
+	icon = cog
+}

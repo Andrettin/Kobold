@@ -1,0 +1,5 @@
+defense = {
+	name = "Defense"
+	attribute = stability
+	icon = wall
+}

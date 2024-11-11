@@ -10,6 +10,7 @@
 #include "country/country.h"
 #include "country/country_attribute.h"
 #include "country/country_rank.h"
+#include "country/country_skill.h"
 #include "country/country_tier.h"
 #include "country/country_tier_data.h"
 #include "country/country_turn_data.h"
@@ -511,6 +512,23 @@ void country_game_data::set_subject_type(const kobold::subject_type *subject_typ
 	this->check_government_type();
 }
 
+void country_game_data::change_level(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->level += change;
+
+	for (const auto &[skill, per_level_bonus] : this->get_skill_per_level_bonuses()) {
+		this->change_skill_bonus(skill, change * per_level_bonus);
+	}
+
+	if (game::get()->is_running()) {
+		emit level_changed();
+	}
+}
+
 QVariantList country_game_data::get_attribute_values_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_attribute_values());
@@ -537,6 +555,46 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 int country_game_data::do_check(const country_attribute *attribute) const
 {
 	return random::get()->roll_dice(dice(1, 20)) + this->get_attribute_value(attribute) - this->get_unrest();
+}
+
+QVariantList country_game_data::get_skill_bonuses_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_skill_bonuses());
+}
+
+void country_game_data::change_skill_bonus(const country_skill *skill, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->skill_bonuses[skill] += change);
+	if (new_value == 0) {
+		this->skill_bonuses.erase(skill);
+	}
+
+	if (game::get()->is_running()) {
+		emit skill_bonuses_changed();
+	}
+}
+
+void country_game_data::change_skill_per_level_bonus(const country_skill *skill, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->skill_per_level_bonuses[skill] += change);
+	if (new_value == 0) {
+		this->skill_per_level_bonuses.erase(skill);
+	}
+
+	this->change_skill_bonus(skill, change * this->get_level());
+}
+
+int country_game_data::do_skill_check(const country_skill *skill) const
+{
+	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_bonus(skill) + this->get_attribute_modifier(skill->get_attribute()) - this->get_unrest();
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const

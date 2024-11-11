@@ -1,0 +1,5 @@
+folklore = {
+	name = "Folklore"
+	attribute = culture
+	icon = music
+}

@@ -1,0 +1,5 @@
+warfare = {
+	name = "Warfare"
+	attribute = loyalty
+	icon = crossed_sabers
+}

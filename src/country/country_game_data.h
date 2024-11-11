@@ -44,6 +44,7 @@ class consulate;
 class country;
 class country_attribute;
 class country_rank;
+class country_skill;
 class culture;
 class event;
 class flag;
@@ -83,7 +84,9 @@ class country_game_data final : public QObject
 	Q_PROPERTY(const kobold::country* overlord READ get_overlord NOTIFY overlord_changed)
 	Q_PROPERTY(QString type_name READ get_type_name_qstring NOTIFY type_name_changed)
 	Q_PROPERTY(const kobold::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
+	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
+	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList provinces READ get_provinces_qvariant_list NOTIFY provinces_changed)
 	Q_PROPERTY(const kobold::site* capital READ get_capital NOTIFY capital_changed)
 	Q_PROPERTY(bool coastal READ is_coastal NOTIFY provinces_changed)
@@ -223,6 +226,13 @@ public:
 
 	void set_subject_type(const kobold::subject_type *subject_type);
 
+	int get_level() const
+	{
+		return this->level;
+	}
+
+	void change_level(const int change);
+
 	const data_entry_map<country_attribute, int> &get_attribute_values() const
 	{
 		return this->attribute_values;
@@ -241,6 +251,21 @@ public:
 	}
 
 	void change_attribute_value(const country_attribute *attribute, const int change);
+
+	int get_attribute_modifier(const country_attribute *attribute) const
+	{
+		const int attribute_value = this->get_attribute_value(attribute);
+		int modifier = attribute_value;
+
+		if (attribute_value >= 10) {
+			modifier -= 10;
+		} else {
+			modifier -= 11;
+		}
+
+		modifier /= 2;
+		return modifier;
+	}
 
 	int get_consumption() const
 	{
@@ -271,6 +296,34 @@ public:
 	}
 
 	int do_check(const country_attribute *attribute) const;
+
+	const data_entry_map<country_skill, int> &get_skill_bonuses() const
+	{
+		return this->skill_bonuses;
+	}
+
+	QVariantList get_skill_bonuses_qvariant_list() const;
+
+	int get_skill_bonus(const country_skill *skill) const
+	{
+		const auto find_iterator = this->skill_bonuses.find(skill);
+		if (find_iterator != this->skill_bonuses.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_skill_bonus(const country_skill *skill, const int change);
+
+	const data_entry_map<country_skill, int> &get_skill_per_level_bonuses() const
+	{
+		return this->skill_per_level_bonuses;
+	}
+
+	void change_skill_per_level_bonus(const country_skill *skill, const int change);
+
+	int do_skill_check(const country_skill *skill) const;
 
 	const std::vector<const province *> &get_provinces() const
 	{
@@ -1757,7 +1810,9 @@ signals:
 	void overlord_changed();
 	void type_name_changed();
 	void subject_type_changed();
+	void level_changed();
 	void attribute_values_changed();
+	void skill_bonuses_changed();
 	void diplomacy_states_changed();
 	void offered_diplomacy_states_changed();
 	void consulates_changed();
@@ -1799,9 +1854,12 @@ private:
 	const kobold::religion *religion = nullptr;
 	const kobold::country *overlord = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
+	int level = 0;
 	data_entry_map<country_attribute, int> attribute_values;
 	int consumption = 0;
 	int unrest = 0;
+	data_entry_map<country_skill, int> skill_bonuses;
+	data_entry_map<country_skill, int> skill_per_level_bonuses;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;
 	int settlement_count = 0; //only includes built settlements

@@ -1,0 +1,5 @@
+scholarship = {
+	name = "Scholarship"
+	attribute = culture
+	icon = university
+}

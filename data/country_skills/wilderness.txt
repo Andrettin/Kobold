@@ -1,0 +1,5 @@
+wilderness = {
+	name = "Wilderness"
+	attribute = stability
+	icon = mountains
+}
