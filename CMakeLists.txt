@@ -42,6 +42,8 @@ set(country_SRCS
 	src/country/consulate_container.cpp
 	src/country/country.cpp
 	src/country/country_container.cpp
+	src/country/country_feat.cpp
+	src/country/country_feat_type.cpp
 	src/country/country_game_data.cpp
 	src/country/country_history.cpp
 	src/country/country_rank.cpp
@@ -335,6 +337,8 @@ set(country_HDRS
 	src/country/country.h
 	src/country/country_attribute.h
 	src/country/country_container.h
+	src/country/country_feat.h
+	src/country/country_feat_type.h
 	src/country/country_game_data.h
 	src/country/country_history.h
 	src/country/country_rank.h

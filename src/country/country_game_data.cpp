@@ -9,6 +9,8 @@
 #include "country/consulate.h"
 #include "country/country.h"
 #include "country/country_attribute.h"
+#include "country/country_feat.h"
+#include "country/country_feat_type.h"
 #include "country/country_rank.h"
 #include "country/country_skill.h"
 #include "country/country_tier.h"
@@ -79,6 +81,7 @@
 #include "util/container_util.h"
 #include "util/gender.h"
 #include "util/image_util.h"
+#include "util/log_util.h"
 #include "util/map_util.h"
 #include "util/point_util.h"
 #include "util/rect_util.h"
@@ -2086,6 +2089,190 @@ void country_game_data::check_government_type()
 bool country_game_data::is_tribal() const
 {
 	return this->get_government_type()->get_group()->is_tribal();
+}
+
+QVariantList country_game_data::get_feats_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_feat_counts());
+}
+
+data_entry_map<country_feat, int> country_game_data::get_feat_counts_of_type(const country_feat_type *feat_type) const
+{
+	data_entry_map<country_feat, int> feat_counts;
+
+	for (const auto &[feat, count] : this->get_feat_counts()) {
+		if (!vector::contains(feat->get_types(), feat_type)) {
+			continue;
+		}
+
+		feat_counts[feat] = count;
+	}
+
+	return feat_counts;
+}
+
+QVariantList country_game_data::get_feats_of_type(const QString &feat_type_str) const
+{
+	const country_feat_type *type = country_feat_type::get(feat_type_str.toStdString());
+	return archimedes::map::to_qvariant_list(this->get_feat_counts_of_type(type));
+}
+
+int country_game_data::get_feat_count_for_type(const country_feat_type *feat_type) const
+{
+	int total_count = 0;
+
+	for (const auto &[feat, count] : this->get_feat_counts_of_type(feat_type)) {
+		total_count += count;
+	}
+
+	return total_count;
+}
+
+bool country_game_data::can_have_feat(const country_feat *feat) const
+{
+	if (feat->get_conditions() != nullptr && !feat->get_conditions()->check(this->country, read_only_context(this->country))) {
+		return false;
+	}
+
+	return true;
+}
+
+bool country_game_data::can_gain_feat(const country_feat *feat, const country_feat_type *choice_type) const
+{
+	if (this->has_feat(feat) && !feat->is_unlimited()) {
+		return false;
+	}
+
+	if (feat->get_upgraded_feat() != nullptr && !this->has_feat(feat->get_upgraded_feat())) {
+		return false;
+	}
+
+	for (const country_feat_type *type : feat->get_types()) {
+		if (choice_type != nullptr && choice_type->ignores_other_type_conditions() && type != choice_type) {
+			continue;
+		}
+
+		if (type->get_max_feats() > 0 && this->get_feat_count_for_type(type) >= type->get_max_feats()) {
+			return false;
+		}
+
+		if (type->get_gain_conditions() != nullptr && !type->get_gain_conditions()->check(this->country, read_only_context(this->country))) {
+			return false;
+		}
+	}
+
+	return this->can_have_feat(feat);
+}
+
+bool country_game_data::has_feat(const country_feat *feat) const
+{
+	return this->get_feat_counts().contains(feat);
+}
+
+void country_game_data::change_feat_count(const country_feat *feat, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	if (change > 0) {
+		if (this->has_feat(feat) && !feat->is_unlimited()) {
+			log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to country \"{}\", but it already has the feat.", feat->get_identifier(), this->country->get_identifier()));
+			return;
+		}
+
+		if (!this->can_have_feat(feat)) {
+			log::log_error(std::format("Tried to add feat \"{}\" to country \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->country->get_identifier()));
+			return;
+		}
+	}
+
+	const int new_value = (this->feat_counts[feat] += change);
+	if (new_value == 0) {
+		this->feat_counts.erase(feat);
+	}
+
+	assert_throw(std::abs(change) == 1);
+	this->on_feat_gained(feat, change);
+
+	if (game::get()->is_running()) {
+		emit feats_changed();
+	}
+}
+
+void country_game_data::on_feat_gained(const country_feat *feat, const int multiplier)
+{
+	assert_throw(multiplier != 0);
+
+	if (multiplier > 0) {
+		if (feat->get_upgraded_feat() != nullptr) {
+			this->change_feat_count(feat->get_upgraded_feat(), -1);
+		}
+
+		if (feat->get_effects() != nullptr) {
+			context ctx(this->country);
+			feat->get_effects()->do_effects(this->country, ctx);
+		}
+
+		for (const country_feat_type *type : feat->get_types()) {
+			if (type->get_effects() != nullptr) {
+				context ctx(this->country);
+				type->get_effects()->do_effects(this->country, ctx);
+			}
+		}
+	}
+
+	if (feat->get_modifier() != nullptr) {
+		feat->get_modifier()->apply(this->country, multiplier);
+	}
+}
+
+void country_game_data::choose_feat(const country_feat_type *type)
+{
+	std::vector<const country_feat *> potential_feats = this->get_potential_feats_from_list(vector::intersected(this->target_feats, type->get_feats()), type);
+
+	if (potential_feats.empty()) {
+		potential_feats = this->get_potential_feats_from_list(type->get_feats(), type);
+	}
+
+	assert_throw(!potential_feats.empty());
+
+	const country_feat *chosen_feat = vector::get_random(potential_feats);
+
+	if (vector::contains(target_feats, chosen_feat)) {
+		vector::remove_one(target_feats, chosen_feat);
+	}
+
+	this->change_feat_count(chosen_feat, 1);
+}
+
+std::vector<const country_feat *> country_game_data::get_potential_feats_from_list(const std::vector<const country_feat *> &feats, const country_feat_type *type) const
+{
+	std::vector<const country_feat *> potential_feats;
+	bool found_unacquired_feat = false;
+
+	for (const country_feat *feat : feats) {
+		if (!this->can_gain_feat(feat, type)) {
+			continue;
+		}
+
+		if (type->prioritizes_unacquired_feats()) {
+			if (!found_unacquired_feat && !this->has_feat(feat)) {
+				potential_feats.clear();
+				found_unacquired_feat = true;
+			} else if (found_unacquired_feat && this->has_feat(feat)) {
+				continue;
+			}
+		}
+
+		int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->country).to_int() : 1;
+
+		for (int i = 0; i < weight; ++i) {
+			potential_feats.push_back(feat);
+		}
+	}
+
+	return potential_feats;
 }
 
 QVariantList country_game_data::get_laws_qvariant_list() const

@@ -103,14 +103,10 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 	if constexpr (std::is_same_v<scope_type, character>) {
 		if (key == "age") {
 			return std::make_unique<age_condition>(value, condition_operator);
-		} else if (key == "can_have_feat") {
-			return std::make_unique<can_have_feat_condition>(value, condition_operator);
 		} else if (key == "character_class") {
 			return std::make_unique<character_class_condition>(value, condition_operator);
 		} else if (key == "class_skill") {
 			return std::make_unique<class_skill_condition>(value, condition_operator);
-		} else if (key == "feat") {
-			return std::make_unique<feat_condition>(value, condition_operator);
 		} else if (key == "hit_dice") {
 			return std::make_unique<hit_dice_condition>(value, condition_operator);
 		} else if (key == "is_ruler") {
@@ -193,7 +189,11 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 	}
 	
 	if constexpr (std::is_same_v<scope_type, character> || std::is_same_v<scope_type, country>) {
-		if (key == "war") {
+		if (key == "can_have_feat") {
+			return std::make_unique<can_have_feat_condition<scope_type>>(value, condition_operator);
+		} else if (key == "feat") {
+			return std::make_unique<feat_condition<scope_type>>(value, condition_operator);
+		} else if (key == "war") {
 			return std::make_unique<war_condition<scope_type>>(value, condition_operator);
 		}
 	}

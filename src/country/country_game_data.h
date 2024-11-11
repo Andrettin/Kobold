@@ -43,6 +43,8 @@ class civilian_unit;
 class consulate;
 class country;
 class country_attribute;
+class country_feat;
+class country_feat_type;
 class country_rank;
 class country_skill;
 class culture;
@@ -116,6 +118,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList luxury_consumption READ get_luxury_consumption_qvariant_list NOTIFY luxury_consumption_changed)
 	Q_PROPERTY(QColor diplomatic_map_color READ get_diplomatic_map_color NOTIFY overlord_changed)
 	Q_PROPERTY(const kobold::government_type* government_type READ get_government_type NOTIFY government_type_changed)
+	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList laws READ get_laws_qvariant_list NOTIFY laws_changed)
 	Q_PROPERTY(QVariantList available_traditions READ get_available_traditions_qvariant_list NOTIFY traditions_changed)
 	Q_PROPERTY(int tradition_cost READ get_tradition_cost NOTIFY traditions_changed)
@@ -900,6 +903,25 @@ public:
 	void check_government_type();
 
 	bool is_tribal() const;
+
+	const data_entry_map<country_feat, int> &get_feat_counts() const
+	{
+		return this->feat_counts;
+	}
+
+	QVariantList get_feats_qvariant_list() const;
+
+	data_entry_map<country_feat, int> get_feat_counts_of_type(const country_feat_type *feat_type) const;
+	Q_INVOKABLE QVariantList get_feats_of_type(const QString &feat_type_str) const;
+	int get_feat_count_for_type(const country_feat_type *feat_type) const;
+
+	bool can_have_feat(const country_feat *feat) const;
+	bool can_gain_feat(const country_feat *feat, const country_feat_type *choice_type) const;
+	bool has_feat(const country_feat *feat) const;
+	void change_feat_count(const country_feat *feat, const int change);
+	void on_feat_gained(const country_feat *feat, const int multiplier);
+	void choose_feat(const country_feat_type *type);
+	std::vector<const country_feat *> get_potential_feats_from_list(const std::vector<const country_feat *> &feats, const country_feat_type *type) const;
 
 	const law_group_map<const law *> &get_laws() const
 	{
@@ -1802,6 +1824,11 @@ public:
 		this->set_ai_settlement_building_desire_modifier(settlement, building, this->get_ai_settlement_building_desire_modifier(settlement, building) + value);
 	}
 
+	void set_target_feats(const std::vector<const country_feat *> &feats)
+	{
+		this->target_feats = feats;
+	}
+
 signals:
 	void tier_changed();
 	void title_name_changed();
@@ -1832,6 +1859,7 @@ signals:
 	void everyday_consumption_changed();
 	void luxury_consumption_changed();
 	void government_type_changed();
+	void feats_changed();
 	void laws_changed();
 	void traditions_changed();
 	void next_tradition_changed();
@@ -1900,6 +1928,7 @@ private:
 	commodity_map<centesimal_int> luxury_consumption;
 	commodity_map<centesimal_int> commodity_demands;
 	const kobold::government_type *government_type = nullptr;
+	data_entry_map<country_feat, int> feat_counts;
 	law_group_map<const law *> laws;
 	tradition_set traditions;
 	const tradition *next_tradition = nullptr;
@@ -1952,6 +1981,7 @@ private:
 	std::set<const flag *> flags;
 	building_type_map<int> ai_building_desire_modifiers;
 	site_map<building_type_map<int>> ai_settlement_building_desire_modifiers;
+	std::vector<const country_feat *> target_feats;
 };
 
 }
