@@ -170,6 +170,7 @@ MenuBase {
 				+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
 				+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
 				+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
+				+ (selected_country.game_data.feats.length > 0 ? "\nFeats:\n\t" + string_list_to_string(object_counts_to_name_list(selected_country.game_data.feats), "\n\t") : "")
 			) : ""
 			
 			function get_subject_type_counts_string(subject_type_counts) {
