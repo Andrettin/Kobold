@@ -167,6 +167,7 @@ MenuBase {
 				+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 				+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
 				+ "\n" + values_to_string(selected_country.game_data.attribute_values, "\n")
+				+ "\n" + values_to_string(selected_country.game_data.skill_bonuses, "\n", true)
 			) : ""
 			
 			function get_subject_type_counts_string(subject_type_counts) {
