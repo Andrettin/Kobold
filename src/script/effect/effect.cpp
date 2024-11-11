@@ -55,13 +55,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	const gsml_operator effect_operator = property.get_operator();
 	const std::string &value = property.get_value();
 
-	if constexpr (std::is_same_v<scope_type, const character>) {
-		if (key == "gain_feat") {
-			return std::make_unique<gain_feat_effect>(value, effect_operator);
-		} else if (key == "gain_feat_of_type") {
-			return std::make_unique<gain_feat_of_type_effect>(value, effect_operator);
-		}
-	} else if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string percent_suffix = "_percent";
 
 		if (key == "clear_flag") {
@@ -89,6 +83,10 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
 		if (key == "event") {
 			return std::make_unique<event_effect<scope_type>>(value, effect_operator);
+		} else if (key == "gain_feat") {
+			return std::make_unique<gain_feat_effect<scope_type>>(value, effect_operator);
+		} else if (key == "gain_feat_of_type") {
+			return std::make_unique<gain_feat_of_type_effect<scope_type>>(value, effect_operator);
 		}
 	}
 
