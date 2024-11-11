@@ -125,6 +125,42 @@ character_hit_dice_count_effects = {
 	}
 }
 
+country_level_effects = {
+	1 = {
+		gain_feat_of_type = skill_proficiency
+		gain_feat_of_type = skill_proficiency
+		gain_feat_of_type = skill_proficiency
+		gain_feat_of_type = skill_proficiency
+	}
+	3 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	5 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	7 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	9 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	11 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	13 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	15 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	17 = {
+		gain_feat_of_type = skill_proficiency
+	}
+	19 = {
+		gain_feat_of_type = skill_proficiency
+	}
+}
+
 minor_nation_color = { 221 216 181 }
 country_border_color = { 0 0 0 }
 selected_country_color = { 255 255 0 }

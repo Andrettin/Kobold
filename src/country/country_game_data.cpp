@@ -127,6 +127,10 @@ country_game_data::~country_game_data()
 
 void country_game_data::on_setup_finished()
 {
+	if (this->get_level() == 0) {
+		this->change_level(1);
+	}
+
 	this->check_government_type();
 	this->check_laws();
 	this->check_characters();
@@ -549,10 +553,23 @@ void country_game_data::change_level(const int change)
 		return;
 	}
 
+	const int old_level = this->get_level();
+
 	this->level += change;
 
 	for (const auto &[skill, per_level_bonus] : this->get_skill_per_level_bonuses()) {
 		this->change_skill_bonus(skill, change * per_level_bonus);
+	}
+
+	if (change > 0) {
+		for (int i = 1; i <= change; ++i) {
+			const int new_level = old_level + i;
+			const effect_list<const kobold::country> *effects = defines::get()->get_country_level_effects(new_level);
+			if (effects != nullptr) {
+				context ctx(this->country);
+				effects->do_effects(this->country, ctx);
+			}
+		}
 	}
 
 	if (game::get()->is_running()) {

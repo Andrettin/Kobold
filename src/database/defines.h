@@ -25,6 +25,7 @@ class building_class;
 class character;
 class commodity;
 class commodity_unit;
+class country;
 class country_attribute;
 class country_skill;
 class icon;
@@ -257,6 +258,16 @@ public:
 		return nullptr;
 	}
 
+	const effect_list<const country> *get_country_level_effects(const int level) const
+	{
+		const auto find_iterator = this->country_level_effects.find(level);
+		if (find_iterator != this->country_level_effects.end()) {
+			return find_iterator->second.get();
+		}
+
+		return nullptr;
+	}
+
 	const QColor &get_minor_nation_color() const
 	{
 		return this->minor_nation_color;
@@ -364,10 +375,11 @@ private:
 	const icon *tariff_icon = nullptr;
 	const icon *treasure_fleet_icon = nullptr;
 	const icon *military_upkeep_icon = nullptr;
-	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
 	const office *ruler_office = nullptr;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
+	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
+	std::map<int, std::unique_ptr<const effect_list<const country>>> country_level_effects;
 	QColor minor_nation_color;
 	QColor country_border_color;
 	QColor selected_country_color;

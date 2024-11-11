@@ -66,6 +66,14 @@ void defines::process_gsml_scope(const gsml_data &scope)
 			database::process_gsml_data(effect_list, child_scope);
 			this->character_hit_dice_count_effects[level] = std::move(effect_list);
 		});
+	} else if (tag == "country_level_effects") {
+		scope.for_each_child([&](const gsml_data &child_scope) {
+			const std::string &child_tag = child_scope.get_tag();
+			const int level = std::stoi(child_tag);
+			auto effect_list = std::make_unique<kobold::effect_list<const country>>();
+			database::process_gsml_data(effect_list, child_scope);
+			this->country_level_effects[level] = std::move(effect_list);
+		});
 	} else if (tag == "diplomacy_state_colors") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();
