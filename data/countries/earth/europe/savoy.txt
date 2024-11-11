@@ -5,7 +5,7 @@ savoy = {
 	culture = italian
 	default_religion = catholic
 	default_tier = county
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = chambery
 	eras = {
 		renaissance_era

@@ -4,7 +4,7 @@ catalonia = {
 	culture = catalan
 	default_religion = catholic
 	default_tier = county
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = barcelona
 	eras = {
 		medieval_era

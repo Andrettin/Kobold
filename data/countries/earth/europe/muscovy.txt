@@ -5,7 +5,7 @@ muscovy = {
 	culture = russian
 	default_religion = orthodox
 	default_tier = duchy
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = moscow
 	eras = {
 		renaissance_era

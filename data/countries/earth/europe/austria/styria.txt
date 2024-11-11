@@ -4,7 +4,7 @@ styria = {
 	culture = austrian
 	default_religion = catholic
 	default_tier = duchy
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = graz
 	eras = {
 		medieval_era
@@ -16,7 +16,7 @@ styria = {
 	history = {
 		1055 = {
 			#March of Styria established in 1055; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 62-63.
-			government_type = autocracy
+			government_type = feudalism
 		}
 		
 		1180 = {

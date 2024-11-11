@@ -4,7 +4,7 @@ hungary = {
 	culture = magyar
 	default_religion = catholic
 	default_tier = kingdom
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = pest
 	eras = {
 		medieval_era

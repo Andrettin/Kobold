@@ -4,7 +4,7 @@ poland = {
 	culture = polish
 	default_religion = catholic
 	default_tier = kingdom
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = warsaw
 	eras = {
 		renaissance_era
@@ -19,7 +19,7 @@ poland = {
 	history = {
 		1025 = {
 			tier = kingdom #Poland became a kingdom in 1025; Source: William R. Shepherd, "Historical Atlas", 1911, pp. 62-63.
-			government_type = autocracy
+			government_type = feudalism
 		}
 		
 		1815 = {

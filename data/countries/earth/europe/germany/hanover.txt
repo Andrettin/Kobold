@@ -4,7 +4,7 @@ hanover = {
 	culture = german
 	default_religion = protestant
 	default_tier = kingdom
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = hanover
 	eras = {
 		renaissance_era

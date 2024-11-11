@@ -4,7 +4,7 @@ pomerania = {
 	culture = german
 	default_religion = protestant
 	default_tier = duchy
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = stettin
 	eras = {
 		medieval_era
@@ -22,7 +22,7 @@ pomerania_slavic = {
 	culture = pomeranian
 	default_religion = pagan
 	default_tier = duchy
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = danzig
 	eras = {
 		medieval_era
