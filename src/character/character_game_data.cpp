@@ -410,6 +410,19 @@ void character_game_data::apply_hit_dice(const dice &hit_dice)
 	}
 }
 
+void character_game_data::change_experience(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->experience += change;
+
+	if (game::get()->is_running()) {
+		emit experience_changed();
+	}
+}
+
 QVariantList character_game_data::get_attribute_values_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_attribute_values());

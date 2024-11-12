@@ -63,8 +63,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 			return std::make_unique<clear_flag_effect>(value, effect_operator);
 		} else if (key == "create_military_unit") {
 			return std::make_unique<create_military_unit_effect>(value, effect_operator);
-		} else if (key == "experience") {
-			return std::make_unique<experience_effect>(value, effect_operator);
 		} else if (key == "gain_spell_scroll") {
 			return std::make_unique<gain_spell_scroll_effect>(value, effect_operator);
 		} else if (key == "set_flag") {
@@ -86,6 +84,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
 		if (key == "event") {
 			return std::make_unique<event_effect<scope_type>>(value, effect_operator);
+		} else if (key == "experience") {
+			return std::make_unique<experience_effect<scope_type>>(value, effect_operator);
 		} else if (key == "gain_feat") {
 			return std::make_unique<gain_feat_effect<scope_type>>(value, effect_operator);
 		} else if (key == "gain_feat_of_type") {

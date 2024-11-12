@@ -167,7 +167,7 @@ MenuBase {
 				+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 				+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
 				+ "\nLevel: " + selected_country.game_data.level
-				+ "\nExperience: " + selected_country.game_data.experience
+				+ "\nExperience: " + number_string(selected_country.game_data.experience)
 				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
 				+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
 				+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
