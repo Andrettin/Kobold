@@ -47,6 +47,7 @@ set(country_SRCS
 	src/country/country_feat_type.cpp
 	src/country/country_game_data.cpp
 	src/country/country_history.cpp
+	src/country/country_milestone.cpp
 	src/country/country_rank.cpp
 	src/country/country_skill.cpp
 	src/country/country_tier.cpp
@@ -343,6 +344,7 @@ set(country_HDRS
 	src/country/country_feat_type.h
 	src/country/country_game_data.h
 	src/country/country_history.h
+	src/country/country_milestone.h
 	src/country/country_rank.h
 	src/country/country_skill.h
 	src/country/country_tier.h

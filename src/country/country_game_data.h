@@ -45,6 +45,7 @@ class country;
 class country_attribute;
 class country_feat;
 class country_feat_type;
+class country_milestone;
 class country_rank;
 class country_skill;
 class culture;
@@ -1767,6 +1768,13 @@ public:
 		this->set_free_consulate_count(consulate, this->get_free_consulate_count(consulate) + value);
 	}
 
+	bool has_milestone(const country_milestone *milestone) const
+	{
+		return this->milestones.contains(milestone);
+	}
+
+	void check_milestones();
+
 	bool has_flag(const flag *flag) const
 	{
 		return this->flags.contains(flag);
@@ -1902,6 +1910,7 @@ signals:
 	void prospected_tiles_changed();
 	void journal_entries_changed();
 	void journal_entry_completed(const journal_entry *journal_entry);
+	void milestone_reached(const country_milestone *milestone);
 
 private:
 	kobold::country *country = nullptr;
@@ -2006,6 +2015,7 @@ private:
 	promotion_map<int> free_artillery_promotion_counts;
 	promotion_map<int> free_warship_promotion_counts;
 	consulate_map<int> free_consulate_counts;
+	data_entry_set<country_milestone> milestones;
 	std::set<const flag *> flags;
 	building_type_map<int> ai_building_desire_modifiers;
 	site_map<building_type_map<int>> ai_settlement_building_desire_modifiers;

@@ -9,6 +9,7 @@
 #include "character/skill.h"
 #include "country/country_attribute.h"
 #include "country/country_feat.h"
+#include "country/country_milestone.h"
 #include "country/country_skill.h"
 #include "country/office.h"
 #include "economy/commodity_unit.h"
@@ -26,6 +27,7 @@ template struct data_entry_compare<character_class>;
 template struct data_entry_compare<commodity_unit>;
 template struct data_entry_compare<country_attribute>;
 template struct data_entry_compare<country_feat>;
+template struct data_entry_compare<country_milestone>;
 template struct data_entry_compare<country_skill>;
 template struct data_entry_compare<feat>;
 template struct data_entry_compare<office>;

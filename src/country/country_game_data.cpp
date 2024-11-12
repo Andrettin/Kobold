@@ -11,6 +11,7 @@
 #include "country/country_attribute.h"
 #include "country/country_feat.h"
 #include "country/country_feat_type.h"
+#include "country/country_milestone.h"
 #include "country/country_rank.h"
 #include "country/country_skill.h"
 #include "country/country_tier.h"
@@ -131,6 +132,7 @@ void country_game_data::on_setup_finished()
 		this->change_level(1);
 	}
 
+	this->check_milestones();
 	this->check_government_type();
 	this->check_laws();
 	this->check_characters();
@@ -186,6 +188,7 @@ void country_game_data::do_turn()
 		this->decrement_scripted_modifiers();
 
 		this->check_journal_entries();
+		this->check_milestones();
 
 		this->check_traditions();
 		this->check_government_type();
@@ -3978,6 +3981,30 @@ void country_game_data::set_free_consulate_count(const consulate *consulate, con
 			if (current_consulate == nullptr || current_consulate->get_level() < consulate->get_level()) {
 				this->set_consulate(known_country, consulate);
 			}
+		}
+	}
+}
+
+void country_game_data::check_milestones()
+{
+	for (const country_milestone *milestone : country_milestone::get_all()) {
+		if (this->has_milestone(milestone)) {
+			continue;
+		}
+
+		if (milestone->get_conditions() != nullptr && !milestone->get_conditions()->check(this->country)) {
+			continue;
+		}
+
+		this->milestones.insert(milestone);
+
+		if (milestone->get_effects() != nullptr) {
+			context ctx(this->country);
+			milestone->get_effects()->do_effects(this->country, ctx);
+		}
+
+		if (game::get()->is_running()) {
+			emit milestone_reached(milestone);
 		}
 	}
 }

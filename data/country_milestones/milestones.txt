@@ -1,0 +1,63 @@
+first_village = {
+	name = "First Village"
+	portrait = town
+	conditions = {
+		any_settlement = {
+			or = {
+				settlement_type = village
+				settlement_type = town
+				settlement_type = city
+				settlement_type = metropolis
+			}
+		}
+	}
+	effects = {
+		experience += 40
+	}
+}
+
+first_town = {
+	name = "First Town"
+	portrait = town
+	conditions = {
+		any_settlement = {
+			or = {
+				settlement_type = town
+				settlement_type = city
+				settlement_type = metropolis
+			}
+		}
+	}
+	effects = {
+		experience += 60
+	}
+}
+
+first_city = {
+	name = "First City"
+	portrait = city
+	conditions = {
+		any_settlement = {
+			or = {
+				settlement_type = city
+				settlement_type = metropolis
+			}
+		}
+	}
+	effects = {
+		experience += 80
+	}
+}
+
+first_metropolis = {
+	name = "First Metropolis"
+	portrait = city
+	conditions = {
+		any_settlement = {
+			settlement_type = metropolis
+		}
+	}
+	effects = {
+		experience += 120
+	}
+}
