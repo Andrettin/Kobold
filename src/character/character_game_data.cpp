@@ -327,6 +327,13 @@ void character_game_data::change_level(const int change)
 		this->change_skill_bonus(skill, change * per_level_bonus);
 	}
 
+	if (change > 0) {
+		const int level_experience = defines::get()->get_experience_for_level(this->get_level());
+		if (this->get_experience() < level_experience) {
+			this->set_experience(level_experience);
+		}
+	}
+
 	if (game::get()->is_running()) {
 		emit level_changed();
 	}
@@ -420,6 +427,10 @@ void character_game_data::change_experience(const int change)
 
 	if (game::get()->is_running()) {
 		emit experience_changed();
+	}
+
+	while (this->get_experience() >= defines::get()->get_experience_for_level(this->get_level() + 1)) {
+		this->change_level(1);
 	}
 }
 

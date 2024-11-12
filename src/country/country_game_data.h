@@ -141,7 +141,6 @@ class country_game_data final : public QObject
 public:
 	static constexpr int base_deployment_limit = 10;
 	static constexpr int vassal_tax_rate = 50;
-	static constexpr int level_experience_threshold = 1000;
 
 	explicit country_game_data(kobold::country *country);
 	~country_game_data();

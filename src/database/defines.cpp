@@ -58,6 +58,13 @@ void defines::process_gsml_scope(const gsml_data &scope)
 
 			this->river_settlement_commodity_bonuses[commodity] = bonus;
 		});
+	} else if (tag == "experience_per_level") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const int level = std::stoi(property.get_key());
+			const int experience = std::stoi(property.get_value());
+
+			this->experience_per_level[level] = experience;
+		});
 	} else if (tag == "character_hit_dice_count_effects") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();

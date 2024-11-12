@@ -573,6 +573,11 @@ void country_game_data::change_level(const int change)
 				effects->do_effects(this->country, ctx);
 			}
 		}
+
+		const int level_experience = defines::get()->get_experience_for_level(this->get_level());
+		if (this->get_experience() < level_experience) {
+			this->set_experience(level_experience);
+		}
 	}
 
 	if (game::get()->is_running()) {
@@ -592,8 +597,7 @@ void country_game_data::change_experience(const int change)
 		emit experience_changed();
 	}
 
-	if (this->get_experience() >= country_game_data::level_experience_threshold) {
-		this->change_experience(-country_game_data::level_experience_threshold);
+	while (this->get_experience() >= defines::get()->get_experience_for_level(this->get_level() + 1)) {
 		this->change_level(1);
 	}
 }
