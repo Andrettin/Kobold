@@ -87,6 +87,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QString type_name READ get_type_name_qstring NOTIFY type_name_changed)
 	Q_PROPERTY(const kobold::subject_type* subject_type READ get_subject_type NOTIFY subject_type_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
+	Q_PROPERTY(int experience READ get_experience NOTIFY experience_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(int consumption READ get_consumption NOTIFY consumption_changed)
 	Q_PROPERTY(int unrest READ get_unrest NOTIFY unrest_changed)
@@ -139,6 +140,7 @@ class country_game_data final : public QObject
 public:
 	static constexpr int base_deployment_limit = 10;
 	static constexpr int vassal_tax_rate = 50;
+	static constexpr int level_experience_threshold = 1000;
 
 	explicit country_game_data(kobold::country *country);
 	~country_game_data();
@@ -239,6 +241,18 @@ public:
 	}
 
 	void change_level(const int change);
+
+	int get_experience() const
+	{
+		return this->experience;
+	}
+
+	void set_experience(const int experience)
+	{
+		this->change_experience(experience - this->get_experience());
+	}
+
+	void change_experience(const int change);
 
 	const data_entry_map<country_attribute, int> &get_attribute_values() const
 	{
@@ -1848,6 +1862,7 @@ signals:
 	void type_name_changed();
 	void subject_type_changed();
 	void level_changed();
+	void experience_changed();
 	void attribute_values_changed();
 	void consumption_changed();
 	void unrest_changed();
@@ -1895,6 +1910,7 @@ private:
 	const kobold::country *overlord = nullptr;
 	const kobold::subject_type *subject_type = nullptr;
 	int level = 0;
+	int experience = 0;
 	data_entry_map<country_attribute, int> attribute_values;
 	int consumption = 0;
 	int unrest = 0;

@@ -104,6 +104,7 @@ Rectangle {
 			+ (selected_country_game_data.anarchy ? "\nAnarchy" : "")
 			+ (selected_country.great_power && !selected_country_game_data.anarchy ? ("\nScore: " + number_string(selected_country_game_data.score) + " (#" + (selected_country_game_data.score_rank + 1) + ")") : "")
 			+ "\n" + selected_country_game_data.provinces.length + " " + (selected_country_game_data.provinces.length > 1 ? "Provinces" : "Province")
+			+ "\nLevel: " + selected_country.game_data.level
 			+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
 			+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
 			+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)

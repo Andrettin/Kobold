@@ -577,6 +577,24 @@ void country_game_data::change_level(const int change)
 	}
 }
 
+void country_game_data::change_experience(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->experience += change;
+
+	if (game::get()->is_running()) {
+		emit experience_changed();
+	}
+
+	if (this->get_experience() >= country_game_data::level_experience_threshold) {
+		this->change_experience(-country_game_data::level_experience_threshold);
+		this->change_level(1);
+	}
+}
+
 QVariantList country_game_data::get_attribute_values_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_attribute_values());
