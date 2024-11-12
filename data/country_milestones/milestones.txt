@@ -12,7 +12,7 @@ first_village = {
 		}
 	}
 	effects = {
-		experience += 40
+		experience += 2400
 	}
 }
 
@@ -29,7 +29,7 @@ first_town = {
 		}
 	}
 	effects = {
-		experience += 60
+		experience += 4800
 	}
 }
 
@@ -45,7 +45,7 @@ first_city = {
 		}
 	}
 	effects = {
-		experience += 80
+		experience += 9600
 	}
 }
 
@@ -58,6 +58,6 @@ first_metropolis = {
 		}
 	}
 	effects = {
-		experience += 120
+		experience += 12800
 	}
 }
