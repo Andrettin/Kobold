@@ -268,6 +268,11 @@ int character_game_data::get_age() const
 	return age;
 }
 
+bool character_game_data::is_adult() const
+{
+	return this->get_age() >= this->character->get_species()->get_adulthood_age();
+}
+
 void character_game_data::set_dead(const bool dead)
 {
 	if (dead == this->is_dead()) {

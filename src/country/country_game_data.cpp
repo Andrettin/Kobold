@@ -2957,6 +2957,10 @@ void country_game_data::choose_office_holder(const office *office, const charact
 	for (const character *character : this->get_characters()) {
 		const character_game_data *character_game_data = character->get_game_data();
 
+		if (!character_game_data->is_adult()) {
+			continue;
+		}
+
 		assert_throw(character_game_data->get_country() == this->country);
 
 		if (office->get_conditions() != nullptr && !office->get_conditions()->check(character, read_only_context(character))) {

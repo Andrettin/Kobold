@@ -93,6 +93,7 @@ public:
 	void set_country(const kobold::country *country);
 
 	int get_age() const;
+	bool is_adult() const;
 
 	bool is_dead() const
 	{
