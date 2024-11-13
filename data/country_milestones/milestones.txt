@@ -61,3 +61,69 @@ first_metropolis = {
 		experience += 12800
 	}
 }
+
+country_size_10 = {
+	name = "Country Size 10"
+	portrait = town
+	conditions = {
+		site_count >= 10
+	}
+	effects = {
+		experience += 2400
+	}
+}
+
+country_size_25 = {
+	name = "Country Size 25"
+	portrait = town
+	conditions = {
+		site_count >= 25
+	}
+	effects = {
+		experience += 4800
+	}
+}
+
+country_size_50 = {
+	name = "Country Size 50"
+	portrait = city
+	conditions = {
+		site_count >= 50
+	}
+	effects = {
+		experience += 9600
+	}
+}
+
+country_size_100 = {
+	name = "Country Size 100"
+	portrait = city
+	conditions = {
+		site_count >= 100
+	}
+	effects = {
+		experience += 12800
+	}
+}
+
+country_size_150 = {
+	name = "Country Size 150"
+	portrait = city
+	conditions = {
+		site_count >= 150
+	}
+	effects = {
+		experience += 25600
+	}
+}
+
+country_size_200 = {
+	name = "Country Size 200"
+	portrait = city
+	conditions = {
+		site_count >= 200
+	}
+	effects = {
+		experience += 76800
+	}
+}
