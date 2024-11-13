@@ -67,7 +67,11 @@ karl_philipp_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol
 	description = "Austrian field marshal, he entered the imperial cavalry in 1788, fought in 1789 against the Turks, distinguished himself by his bravery, and became major in 1792. After taking part in the battles of Amberg and Würzburg in 1796 he was raised to the rank of major-general, and in 1799 he was promoted lieutenant field marshal. In 1813, when Austria, after many hesitations, took the side of the allies against Napoleon, Schwarzenberg, recently promoted to be field marshal, was appointed commander-in-chief of the allied Grand Army of Bohemia. As such he was the senior of the allied generals who conducted the campaign of 1813-1814 to the final victory before Paris and the overthrow of Napoleon."
 	
 	history = {
-		#entered the imperial cavalry in 1788
+		1788 = {
+			country = austria #entered the imperial cavalry in 1788
+			feat = ride_trained
+		}
+		
 		#fought in 1789 under Lacy and Loudon against the Turks
 		
 		1792 = {
@@ -115,7 +119,11 @@ friedrich_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 2
 	
 	history = {
 		#published "Wanderungen eines Lanzknechtes" in 1844-1845
-		#took part as an Austrian officer in the campaigns of Galicia 1846, Italy 1848 and Hungary 1848
+		
+		1846 = {
+			country = austria #took part as an Austrian officer in the campaigns of Galicia 1846, Italy 1848 and Hungary 1848
+		}
+		
 		#became a major-general in the Austrian army in 1849
 	}
 }
@@ -152,10 +160,13 @@ felix_zu_schwarzenberg = { #Source: "Encyclopædia Britannica", 1911, vol. 24, p
 	
 	history = {
 		#served for 6 years in the Austrian army
-		#served as an Austrian diplomat from 1824 to 1848
+		
+		1824 = {
+			country = austria #served as an Austrian diplomat from 1824 to 1848
+		}
 		
 		1848.11.21 = {
-			country = austria #became the head minister of Austria
+			#became the head minister of Austria
 		}
 	}
 }
