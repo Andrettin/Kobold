@@ -79,6 +79,7 @@
 #include "script/condition/scripted_condition_condition.h"
 #include "script/condition/scripted_modifier_condition.h"
 #include "script/condition/settlement_type_condition.h"
+#include "script/condition/site_count_condition.h"
 #include "script/condition/skill_condition.h"
 #include "script/condition/source_character_condition.h"
 #include "script/condition/source_site_condition.h"
@@ -141,6 +142,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<province_count_condition>(value, condition_operator);
 		} else if (key == "ruler") {
 			return std::make_unique<ruler_condition>(value, condition_operator);
+		} else if (key == "site_count") {
+			return std::make_unique<site_count_condition>(value, condition_operator);
 		} else if (key == "subject_type") {
 			return std::make_unique<subject_type_condition>(value, condition_operator);
 		} else if (commodity::try_get(key) != nullptr && string::is_number(value)) {

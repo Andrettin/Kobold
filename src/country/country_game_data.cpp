@@ -59,6 +59,7 @@
 #include "map/site.h"
 #include "map/site_game_data.h"
 #include "map/site_map_data.h"
+#include "map/site_type.h"
 #include "map/terrain_type.h"
 #include "map/tile.h"
 #include "population/phenotype.h"
@@ -863,6 +864,10 @@ void country_game_data::on_province_gained(const province *province, const int m
 
 void country_game_data::on_site_gained(const site *site, const int multiplier)
 {
+	if (site->get_type() == site_type::settlement || site->get_type() == site_type::resource) {
+		this->change_site_count(multiplier);
+	}
+
 	const site_game_data *site_game_data = site->get_game_data();
 
 	if (site->is_settlement() && site_game_data->is_built()) {
@@ -953,6 +958,19 @@ const province *country_game_data::get_capital_province() const
 	}
 
 	return nullptr;
+}
+
+void country_game_data::change_site_count(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->site_count += change;
+
+	if (game::get()->is_running()) {
+		emit site_count_changed();
+	}
 }
 
 void country_game_data::change_settlement_count(const int change)

@@ -166,6 +166,7 @@ MenuBase {
 				+ (selected_country.great_power && !selected_country.game_data.anarchy ? ("\nScore: " + number_string(selected_country.game_data.score) + " (#" + (selected_country.game_data.score_rank + 1) + ")") : "")
 				+ get_subject_type_counts_string(selected_country.game_data.subject_type_counts)
 				+ "\n" + selected_country.game_data.provinces.length + " " + (selected_country.game_data.provinces.length > 1 ? "Provinces" : "Province")
+				+ "\n" + selected_country.game_data.site_count + " " + (selected_country.game_data.site_count > 1 ? "Sites" : "Sites")
 				+ "\nLevel: " + selected_country.game_data.level
 				+ "\nExperience: " + number_string(selected_country.game_data.experience)
 				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")

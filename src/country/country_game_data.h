@@ -95,6 +95,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList provinces READ get_provinces_qvariant_list NOTIFY provinces_changed)
 	Q_PROPERTY(const kobold::site* capital READ get_capital NOTIFY capital_changed)
+	Q_PROPERTY(int site_count READ get_site_count NOTIFY site_count_changed)
 	Q_PROPERTY(bool coastal READ is_coastal NOTIFY provinces_changed)
 	Q_PROPERTY(bool anarchy READ is_under_anarchy NOTIFY provinces_changed)
 	Q_PROPERTY(QRect territory_rect READ get_territory_rect NOTIFY provinces_changed)
@@ -378,6 +379,13 @@ public:
 	void choose_capital();
 
 	const province *get_capital_province() const;
+
+	int get_site_count() const
+	{
+		return this->site_count;
+	}
+
+	void change_site_count(const int change);
 
 	int get_settlement_count() const
 	{
@@ -1879,6 +1887,7 @@ signals:
 	void consulates_changed();
 	void provinces_changed();
 	void capital_changed();
+	void site_count_changed();
 	void diplomatic_map_image_changed();
 	void score_changed();
 	void score_rank_changed();
@@ -1926,6 +1935,7 @@ private:
 	data_entry_map<country_skill, int> skill_per_level_bonuses;
 	std::vector<const province *> provinces;
 	const site *capital = nullptr;
+	int site_count = 0;
 	int settlement_count = 0; //only includes built settlements
 	std::vector<const province *> border_provinces;
 	int coastal_province_count = 0;
