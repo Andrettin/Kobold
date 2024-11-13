@@ -39,4 +39,14 @@ ranger = {
 		wisdom = 14
 		charisma = 6
 	}
+	level_effects = {
+		1 = {
+			gain_feat = knowledge_nature_trained
+			gain_feat = survival_trained
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
 }

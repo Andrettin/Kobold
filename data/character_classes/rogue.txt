@@ -47,4 +47,16 @@ rogue = {
 		intelligence = 6
 		charisma = 6
 	}
+	level_effects = {
+		1 = {
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
 }

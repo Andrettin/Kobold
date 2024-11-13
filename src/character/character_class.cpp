@@ -4,12 +4,17 @@
 
 #include "character/character_attribute.h"
 #include "character/character_class_type.h"
+#include "character/feat_template.h"
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "script/effect/effect_list.h"
 
 namespace kobold {
+
+const std::set<std::string> character_class::database_dependencies = {
+	feat_template::class_identifier,
+};
 
 character_class::character_class(const std::string &identifier)
 	: named_data_entry(identifier)

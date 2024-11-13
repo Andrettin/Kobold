@@ -18,4 +18,10 @@ sorcerer = {
 		spellcraft
 	}
 	base_skill_points_per_level = 2
+	level_effects = {
+		1 = {
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
 }

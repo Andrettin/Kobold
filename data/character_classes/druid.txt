@@ -33,4 +33,12 @@ druid = {
 		wisdom = 12
 		charisma = 15
 	}
+	level_effects = {
+		1 = {
+			gain_feat = knowledge_nature_trained
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
 }

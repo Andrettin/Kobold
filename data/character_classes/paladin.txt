@@ -30,4 +30,10 @@ paladin = {
 		wisdom = 13
 		charisma = 17
 	}
+	level_effects = {
+		1 = {
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
 }
