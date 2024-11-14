@@ -1,8 +1,14 @@
 gnoll = {
 	name = "Gnoll"
+	creature_type = humanoid
 	sapient = true
-	hit_dice = 2d8
+	hit_dice_count = 2
 	level_adjustment = 1
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
 	class_skills = {
 		listen
 		spot
@@ -12,7 +18,5 @@ gnoll = {
 		constitution = 2
 		intelligence = -2
 		charisma = -2
-		base_attack_bonus = 1
-		fortitude = 3
 	}
 }

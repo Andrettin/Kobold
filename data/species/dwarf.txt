@@ -1,5 +1,6 @@
 dwarf = {
 	name = "Dwarf"
+	creature_type = humanoid
 	sapient = true
 	adulthood_age = 40
 	middle_age = 125

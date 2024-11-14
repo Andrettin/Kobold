@@ -5,6 +5,8 @@
 #include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
+#include "character/level_bonus_table.h"
+#include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
@@ -27,7 +29,14 @@ void species::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "class_skills") {
+	if (tag == "saving_throw_bonus_tables") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
+		});
+	} else if (tag == "class_skills") {
 		for (const std::string &value : values) {
 			this->class_skills.insert(skill::get(value));
 		}
@@ -64,6 +73,10 @@ void species::check() const
 		//throw std::runtime_error("Species \"" + this->get_identifier() + "\" has no supertaxon.");
 	}
 
+	if (this->get_creature_type() == nullptr) {
+		throw std::runtime_error(std::format("Species \"{}\" has no creature type.", this->get_identifier()));
+	}
+
 	if (this->is_sapient()) {
 		for (const character_class *character_class : character_class::get_all()) {
 			if (character_class->get_type() != character_class_type::base_class) {
@@ -76,10 +89,10 @@ void species::check() const
 		}
 	}
 
-	if (!this->get_hit_dice().is_null() && this->get_class_skills().empty()) {
-		throw std::runtime_error(std::format("Species \"{}\" has hit dice, but no class skills.", this->get_identifier()));
-	} else if (this->get_hit_dice().is_null() && !this->get_class_skills().empty()) {
-		throw std::runtime_error(std::format("Species \"{}\" has no hit dice, but has class skills.", this->get_identifier()));
+	if (this->get_hit_dice_count() > 0 && this->get_class_skills().empty()) {
+		throw std::runtime_error(std::format("Species \"{}\" has a hit dice count, but no class skills.", this->get_identifier()));
+	} else if (this->get_hit_dice_count() == 0 && !this->get_class_skills().empty()) {
+		throw std::runtime_error(std::format("Species \"{}\" has no hit dice count, but has class skills.", this->get_identifier()));
 	}
 }
 

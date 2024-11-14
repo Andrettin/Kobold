@@ -1,6 +1,7 @@
 human = {
 	name = "Human"
 	#supertaxon = homo
+	creature_type = humanoid
 	sapient = true
 	adulthood_age = 15
 	middle_age = 35

@@ -26,6 +26,7 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/scripted_character_modifier.h"
+#include "species/creature_type.h"
 #include "species/species.h"
 #include "spell/spell.h"
 #include "ui/portrait.h"
@@ -60,6 +61,12 @@ void character_game_data::apply_species_and_class(const int level)
 		this->change_level(species->get_level_adjustment());
 	}
 
+	const creature_type *creature_type = species->get_creature_type();
+
+	if (creature_type->get_modifier() != nullptr) {
+		creature_type->get_modifier()->apply(this->character, 1);
+	}
+
 	if (species->get_modifier() != nullptr) {
 		species->get_modifier()->apply(this->character, 1);
 	}
@@ -73,9 +80,15 @@ void character_game_data::apply_species_and_class(const int level)
 			min_result = std::max(base_class->get_min_attribute_value(attribute), min_result);
 		}
 
+		const dice attribute_dice(3, 6);
+		const int maximum_result = attribute_dice.get_maximum_result() + this->get_attribute_value(attribute);
+		if (maximum_result < min_result) {
+			throw std::runtime_error("Character \"{}\" of species \"{}\" cannot be generated with base class \"{}\", since it cannot possibly fulfill the attribute requirements.");
+		}
+
 		bool valid_result = false;
 		while (!valid_result) {
-			const int result = random::get()->roll_dice(dice(3, 6)) + this->get_attribute_value(attribute);
+			const int result = random::get()->roll_dice(attribute_dice) + this->get_attribute_value(attribute);
 
 			valid_result = result >= min_result;
 			if (valid_result) {
@@ -88,10 +101,25 @@ void character_game_data::apply_species_and_class(const int level)
 		this->set_character_class(type, character_class);
 	}
 
-	const dice &species_hit_dice = species->get_hit_dice();
+	const dice species_hit_dice(species->get_hit_dice_count(), creature_type->get_hit_dice().get_sides());
 	if (!species_hit_dice.is_null()) {
 		for (int i = 0; i < species_hit_dice.get_count(); ++i) {
 			this->change_level(1);
+
+			const int hit_dice_count = i + 1;
+
+			this->change_base_attack_bonus(creature_type->get_base_attack_bonus_table()->get_bonus_per_level(hit_dice_count));
+
+			if (!species->get_saving_throw_bonus_tables().empty()) {
+				for (const auto &[saving_throw_type, saving_throw_bonus_table] : species->get_saving_throw_bonus_tables()) {
+					this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(hit_dice_count));
+				}
+			} else {
+				for (const auto &[saving_throw_type, saving_throw_bonus_table] : creature_type->get_saving_throw_bonus_tables()) {
+					this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(hit_dice_count));
+				}
+			}
+
 			this->apply_hit_dice(dice(1, species_hit_dice.get_sides()));
 		}
 	}
@@ -409,6 +437,11 @@ void character_game_data::apply_hit_dice(const dice &hit_dice)
 	}
 
 	if (this->get_hit_dice_count() == 1) {
+		if (this->character->get_species()->get_creature_type()->get_effects() != nullptr) {
+			context ctx(this->character);
+			this->character->get_species()->get_creature_type()->get_effects()->do_effects(this->character, ctx);
+		}
+
 		if (this->character->get_species()->get_effects() != nullptr) {
 			context ctx(this->character);
 			this->character->get_species()->get_effects()->do_effects(this->character, ctx);

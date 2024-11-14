@@ -1,4 +1,5 @@
 cyclops = {
 	name = "Cyclops"
+	creature_type = giant
 	sapient = true
 }

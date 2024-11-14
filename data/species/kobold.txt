@@ -1,5 +1,6 @@
 kobold = {
 	name = "Kobold"
+	creature_type = humanoid
 	sapient = true
 	modifier = {
 		strength = -4

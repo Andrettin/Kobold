@@ -227,6 +227,7 @@ source_group(script\\modifier_effect FILES ${script_modifier_effect_SRCS})
 set_source_files_properties(${script_modifier_effect_SRCS} PROPERTIES UNITY_GROUP "script_modifier_effect")
 
 set(species_SRCS
+	src/species/creature_type.cpp
 	src/species/species.cpp
 	src/species/taxon_base.cpp
 	src/species/taxon.cpp
@@ -688,6 +689,7 @@ set(script_modifier_effect_HDRS
 source_group(script\\modifier_effect FILES ${script_modifier_effect_HDRS})
 
 set(species_HDRS
+	src/species/creature_type.h
 	src/species/species.h
 	src/species/taxon.h
 	src/species/taxon_base.h

@@ -1,0 +1,10 @@
+outsider = {
+	name = "Outsider"
+	hit_dice = 1d8
+	base_attack_bonus_table = high_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = high_saving_throw_bonus
+	}
+}

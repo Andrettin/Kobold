@@ -1,5 +1,6 @@
 half_orc = {
 	name = "Half-Orc"
+	creature_type = humanoid
 	sapient = true
 	adulthood_age = 14
 	middle_age = 30

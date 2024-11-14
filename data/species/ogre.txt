@@ -1,7 +1,8 @@
 ogre = {
 	name = "Ogre"
+	creature_type = giant
 	sapient = true
-	hit_dice = 4d8
+	hit_dice_count = 4
 	level_adjustment = 2
 	class_skills = {
 		climb
@@ -14,9 +15,5 @@ ogre = {
 		constitution = 4
 		intelligence = -4
 		charisma = -4
-		base_attack_bonus = 3
-		fortitude = 4
-		reflex = 1
-		will = 1
 	}
 }

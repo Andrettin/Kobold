@@ -3,12 +3,16 @@
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "species/taxon_base.h"
-#include "util/dice.h"
+
+Q_MOC_INCLUDE("species/creature_type.h")
 
 namespace kobold {
 
 class character_class;
+class creature_type;
 class feat;
+class level_bonus_table;
+class saving_throw_type;
 class taxon;
 enum class taxonomic_rank;
 
@@ -22,8 +26,9 @@ class species final : public taxon_base, public data_type<species>
 {
 	Q_OBJECT
 
+	Q_PROPERTY(const kobold::creature_type* creature_type MEMBER creature_type READ get_creature_type NOTIFY changed)
 	Q_PROPERTY(bool sapient MEMBER sapient READ is_sapient NOTIFY changed)
-	Q_PROPERTY(archimedes::dice hit_dice MEMBER hit_dice READ get_hit_dice NOTIFY changed)
+	Q_PROPERTY(int hit_dice_count MEMBER hit_dice_count READ get_hit_dice_count NOTIFY changed)
 	Q_PROPERTY(int level_adjustment MEMBER level_adjustment READ get_level_adjustment NOTIFY changed)
 	Q_PROPERTY(int adulthood_age MEMBER adulthood_age READ get_adulthood_age NOTIFY changed)
 	Q_PROPERTY(int middle_age MEMBER middle_age READ get_middle_age NOTIFY changed)
@@ -49,19 +54,29 @@ public:
 		return this->get_name();
 	}
 
+	const kobold::creature_type *get_creature_type() const
+	{
+		return this->creature_type;
+	}
+
 	bool is_sapient() const
 	{
 		return this->sapient;
 	}
 
-	const dice &get_hit_dice() const
+	int get_hit_dice_count() const
 	{
-		return this->hit_dice;
+		return this->hit_dice_count;
 	}
 
 	int get_level_adjustment() const
 	{
 		return this->level_adjustment;
+	}
+
+	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_bonus_tables() const
+	{
+		return this->saving_throw_bonus_tables;
 	}
 
 	const data_entry_set<skill> &get_class_skills() const
@@ -164,9 +179,11 @@ public:
 	}
 
 private:
+	const kobold::creature_type *creature_type = nullptr;
 	bool sapient = false;
-	dice hit_dice;
+	int hit_dice_count = 0;
 	int level_adjustment = 0;
+	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;
 	int adulthood_age = 0;
 	int middle_age = 0;

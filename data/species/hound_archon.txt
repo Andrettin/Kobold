@@ -1,7 +1,8 @@
 hound_archon = {
 	name = "Hound Archon"
+	creature_type = outsider
 	sapient = true
-	hit_dice = 6d8
+	hit_dice_count = 6
 	level_adjustment = 5
 	class_skills = {
 		concentration
@@ -18,9 +19,5 @@ hound_archon = {
 		constitution = 2
 		wisdom = 2
 		charisma = 2
-		base_attack_bonus = 6
-		fortitude = 5
-		reflex = 5
-		will = 5
 	}
 }

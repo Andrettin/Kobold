@@ -1,7 +1,8 @@
 lizardfolk = {
 	name = "Lizardfolk"
+	creature_type = humanoid
 	sapient = true
-	hit_dice = 2d8
+	hit_dice_count = 2
 	level_adjustment = 1
 	class_skills = {
 		balance
@@ -12,8 +13,6 @@ lizardfolk = {
 		strength = 2
 		constitution = 2
 		intelligence = -2
-		base_attack_bonus = 1
-		reflex = 3
 		balance = 4
 		jump = 4
 		swim = 4
