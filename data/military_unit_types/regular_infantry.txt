@@ -13,8 +13,6 @@ regulars = {
 	upkeep = 25
 	commodity_costs = {
 		wealth = 500
-		manpower = 1
-		armament = 1
 	}
 	upgrades = {
 		rifle_infantry
@@ -36,8 +34,6 @@ rifle_infantry = {
 	upkeep = 50
 	commodity_costs = {
 		wealth = 3000
-		manpower = 1
-		armament = 2
 	}
 	upgrades = {
 		infantry
@@ -60,7 +56,5 @@ infantry = {
 	upkeep = 100
 	commodity_costs = {
 		wealth = 5000
-		manpower = 1
-		armament = 4
 	}
 }

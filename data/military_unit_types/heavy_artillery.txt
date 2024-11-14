@@ -28,11 +28,6 @@ culverin = {
 		defense = 2
 		movement = 2
 	}
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 4
-	}
 	upgrades = {
 		royal_artillery
 	}
@@ -48,11 +43,6 @@ royal_artillery = {
 		range = 8
 		defense = 2
 		movement = 2
-	}
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 6
 	}
 	upgrades = {
 		artillery
@@ -73,8 +63,6 @@ artillery = {
 	upkeep = 50
 	commodity_costs = {
 		wealth = 1000
-		manpower = 1
-		armament = 2
 	}
 	upgrades = {
 		siege_artillery
@@ -95,8 +83,6 @@ siege_artillery = {
 	upkeep = 100
 	commodity_costs = {
 		wealth = 5000
-		manpower = 1
-		armament = 4
 	}
 	upgrades = {
 		railroad_guns
@@ -118,7 +104,5 @@ railroad_guns = {
 	upkeep = 200
 	commodity_costs = {
 		wealth = 9000
-		manpower = 1
-		armament = 8
 	}
 }

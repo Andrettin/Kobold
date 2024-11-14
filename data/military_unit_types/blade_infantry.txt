@@ -30,11 +30,6 @@ swordsmen = {
 		bonus_vs_infantry = 50
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		cast_iron = 1
-	}
 	upgrades = {
 		two_handed_swordsmen
 	}
@@ -52,11 +47,6 @@ two_handed_swordsmen = {
 		bonus_vs_infantry = 50
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		cast_iron = 2
-	}
 	upgrades = {
 		grenadiers
 	}

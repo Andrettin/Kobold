@@ -10,11 +10,6 @@ arquebusiers = {
 		movement = 2
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 1
-	}
 	upgrades = {
 		musketeers
 	}
@@ -32,11 +27,6 @@ musketeers = {
 		movement = 3
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 2
-	}
 	upgrades = {
 		grenadiers
 	}
@@ -57,8 +47,6 @@ grenadiers = {
 	upkeep = 25
 	commodity_costs = {
 		wealth = 1000
-		manpower = 1
-		armament = 1
 	}
 	free_promotions = {
 		grenadier_1
@@ -83,8 +71,6 @@ guards = {
 	upkeep = 50
 	commodity_costs = {
 		wealth = 4000
-		manpower = 1
-		armament = 2
 	}
 	upgrades = {
 		machine_gunners
@@ -107,7 +93,5 @@ machine_gunners = {
 	upkeep = 100
 	commodity_costs = {
 		wealth = 7000
-		manpower = 1
-		armament = 4
 	}
 }

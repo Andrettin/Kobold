@@ -9,12 +9,6 @@ harquebusiers = {
 		defense = 5
 		movement = 6
 	}
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 2
-		horses = 2
-	}
 	upgrades = {
 		cuirassiers
 	}
@@ -34,9 +28,6 @@ cuirassiers = {
 	upkeep = 25
 	commodity_costs = {
 		wealth = 500
-		manpower = 1
-		armament = 1
-		horses = 1
 	}
 	upgrades = {
 		carbine_cavalry
@@ -57,9 +48,6 @@ carbine_cavalry = {
 	upkeep = 50
 	commodity_costs = {
 		wealth = 3500
-		manpower = 1
-		armament = 2
-		horses = 1
 	}
 	upgrades = {
 		armor
@@ -81,8 +69,5 @@ armor = {
 	upkeep = 250
 	commodity_costs = {
 		wealth = 9000
-		manpower = 1
-		armament = 10
-		fuel = 4
 	}
 }

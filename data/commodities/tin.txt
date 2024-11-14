@@ -1,5 +1,0 @@
-tin = {
-	name = "Tin"
-	icon = tin
-	base_price = 100
-}

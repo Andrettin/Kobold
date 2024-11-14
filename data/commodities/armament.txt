@@ -1,5 +1,0 @@
-armament = {
-	name = "Armament"
-	icon = cannon
-	base_price = 900
-}

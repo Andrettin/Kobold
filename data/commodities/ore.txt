@@ -1,0 +1,5 @@
+ore = {
+	name = "Ore"
+	icon = iron_ore
+	base_price = 100
+}

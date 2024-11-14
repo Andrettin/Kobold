@@ -17,22 +17,4 @@ sardinia = {
 		genoa
 		sardinia
 	}
-	
-	history = {
-		1820 = {
-			wealth = 1500
-			
-			commodities = {
-				horses = 4
-				fabric = 3
-				lumber = 15
-				paper = 8
-				steel = 10
-				clothing = 2
-				furniture = 2
-				tools = 2
-				armament = 2
-			}
-		}
-	}
 }

@@ -30,11 +30,6 @@ pikemen = {
 		bonus_vs_cavalry = 100
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		cast_iron = 1
-	}
 	upgrades = {
 		halberdiers
 	}
@@ -52,11 +47,6 @@ halberdiers = {
 		bonus_vs_cavalry = 100
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		cast_iron = 2
-	}
 	upgrades = {
 		regulars
 	}

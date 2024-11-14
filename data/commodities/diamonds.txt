@@ -1,5 +1,0 @@
-diamonds = {
-	name = "Diamonds"
-	icon = diamonds
-	wealth_value = 400
-}

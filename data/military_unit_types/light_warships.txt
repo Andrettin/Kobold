@@ -29,8 +29,6 @@ sloop = {
 	hit_points = 25
 	commodity_costs = {
 		lumber = 3
-		bronze = 2
-		fabric = 1
 	}
 	upgrades = {
 		frigate
@@ -51,9 +49,7 @@ frigate = {
 	hit_points = 35
 	upkeep = 50
 	commodity_costs = {
-		fabric = 2
 		lumber = 5
-		armament = 2
 	}
 	upgrades = {
 		raider
@@ -75,8 +71,6 @@ raider = {
 	upkeep = 75
 	commodity_costs = {
 		lumber = 6
-		armament = 3
-		coal = 10
 	}
 	upgrades = {
 		armored_cruiser
@@ -98,9 +92,6 @@ armored_cruiser = {
 	upkeep = 200
 	commodity_costs = {
 		lumber = 2
-		armament = 8
-		steel = 6
-		coal = 20
 	}
 	upgrades = {
 		battlecruiser
@@ -120,9 +111,4 @@ battlecruiser = {
 	}
 	hit_points = 90
 	upkeep = 450
-	commodity_costs = {
-		armament = 18
-		steel = 22
-		fuel = 20
-	}
 }

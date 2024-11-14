@@ -1,5 +1,5 @@
 lumber = {
 	name = "Lumber"
 	icon = lumber
-	base_price = 300
+	base_price = 100
 }

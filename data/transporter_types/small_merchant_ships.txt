@@ -10,8 +10,6 @@ carrack = {
 	cargo = 3
 	commodity_costs = {
 		lumber = 4
-		cast_iron = 2
-		fabric = 2
 	}
 	upgrades = {
 		trader
@@ -29,7 +27,6 @@ trader = {
 	}
 	cargo = 4
 	commodity_costs = {
-		fabric = 2
 		lumber = 4
 	}
 	upgrades = {
@@ -48,7 +45,6 @@ clipper = {
 	}
 	cargo = 6
 	commodity_costs = {
-		fabric = 2
 		lumber = 6
 	}
 }

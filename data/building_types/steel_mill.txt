@@ -5,6 +5,5 @@ steel_mill = {
 	icon = steel
 	commodity_costs = {
 		lumber = 8
-		steel = 8
 	}
 }

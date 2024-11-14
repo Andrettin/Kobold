@@ -1,5 +1,0 @@
-copper = {
-	name = "Copper"
-	icon = copper
-	base_price = 100
-}

@@ -8,7 +8,6 @@ beaver_camp = {
 	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
 	commodity_costs = {
 		lumber = 1
-		cast_iron = 1
 	}
 }
 
@@ -22,6 +21,5 @@ deer_camp = {
 	image_filepath = "tiles/improvements/timber_lodge_clearing.png"
 	commodity_costs = {
 		lumber = 1
-		cast_iron = 1
 	}
 }

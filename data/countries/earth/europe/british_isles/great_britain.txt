@@ -30,24 +30,4 @@ great_britain = {
 		ayrshire
 		highlands
 	}
-	
-	history = {
-		1820 = {
-			wealth = 10000
-			
-			commodities = {
-				cotton = 8
-				wool = 8
-				horses = 2
-				fabric = 10
-				lumber = 20
-				paper = 10
-				steel = 15
-				clothing = 8
-				furniture = 5
-				tools = 5
-				armament = 2
-			}
-		}
-	}
 }

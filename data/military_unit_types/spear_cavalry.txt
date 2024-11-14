@@ -26,12 +26,6 @@ knights = {
 		defense = 6
 		movement = 4
 	}
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 2
-		horses = 2
-	}
 	upgrades = {
 		lancers
 	}
@@ -46,12 +40,6 @@ lancers = {
 		range = 1
 		defense = 5
 		movement = 6
-	}
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-		bronze = 2
-		horses = 3
 	}
 	upgrades = {
 		cuirassiers

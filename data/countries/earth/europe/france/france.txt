@@ -30,21 +30,4 @@ france = {
 		lower_languedoc
 		provence
 	}
-	
-	history = {
-		1820 = {
-			wealth = 5000
-			
-			commodities = {
-				horses = 4
-				fabric = 5
-				lumber = 20
-				paper = 10
-				steel = 15
-				clothing = 4
-				furniture = 4
-				tools = 4
-			}
-		}
-	}
 }
