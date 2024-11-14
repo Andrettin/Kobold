@@ -11,7 +11,4 @@ lighthouse = {
 	settlement_conditions = {
 		coastal = true
 	}
-	province_modifier = {
-		fish_bonus_for_tile_threshold = 1
-	}
 }

@@ -14,7 +14,4 @@ granary = {
 		city
 		metropolis
 	}
-	province_modifier = {
-		grain_per_improved_grain = 1
-	}
 }

@@ -37,7 +37,6 @@ france = {
 			
 			commodities = {
 				horses = 4
-				canned_food = 20
 				fabric = 5
 				lumber = 20
 				paper = 10

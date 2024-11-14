@@ -1,5 +1,0 @@
-grain = {
-	name = "Grain"
-	icon = grain
-	base_price = 100
-}

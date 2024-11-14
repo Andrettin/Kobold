@@ -26,7 +26,6 @@ ottoman_empire = {
 			
 			commodities = {
 				horses = 4
-				canned_food = 20
 				fabric = 3
 				lumber = 15
 				paper = 4

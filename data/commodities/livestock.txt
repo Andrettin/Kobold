@@ -1,5 +1,0 @@
-livestock = {
-	name = "Livestock"
-	icon = cattle
-	base_price = 100
-}

@@ -1,5 +1,0 @@
-fruit = {
-	name = "Fruit"
-	icon = fruit
-	base_price = 100
-}

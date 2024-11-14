@@ -1,5 +1,0 @@
-canned_food = {
-	name = "Canned Food"
-	icon = canned_food
-	base_price = 100
-}

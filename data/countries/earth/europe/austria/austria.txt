@@ -61,7 +61,6 @@ austria = {
 			commodities = {
 				wealth = 5000
 				horses = 4
-				canned_food = 20
 				fabric = 3
 				lumber = 15
 				paper = 8
