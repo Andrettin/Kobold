@@ -4,7 +4,7 @@ wales = {
 	culture = welsh
 	default_religion = protestant
 	default_tier = duchy #principality
-	default_government_type = autocracy
+	default_government_type = feudalism
 	default_capital = cardiff
 	eras = {
 		medieval_era

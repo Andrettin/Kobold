@@ -1,6 +1,7 @@
 republic = {
 	name = "Republic"
 	title_names = {
+		barony = "City-State"
 		duchy = "Petty Republic"
 		kingdom = "Republic"
 		empire = "Grand Republic"
