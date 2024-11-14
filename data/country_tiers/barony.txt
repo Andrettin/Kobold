@@ -1,7 +1,10 @@
 barony = {
 	name = "Barony"
 	icon = crown_baronial
+	conditions = {
+		site_count >= 1
+	}
 	modifier = {
-		capital_prestige_bonus = 1
+		storage_capacity = 4
 	}
 }

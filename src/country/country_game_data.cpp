@@ -134,6 +134,7 @@ void country_game_data::on_setup_finished()
 	}
 
 	this->check_milestones();
+	this->check_tier();
 	this->check_government_type();
 	this->check_laws();
 	this->check_characters();
@@ -191,6 +192,7 @@ void country_game_data::do_turn()
 		this->check_journal_entries();
 		this->check_milestones();
 
+		this->check_tier();
 		this->check_traditions();
 		this->check_government_type();
 		this->check_characters();
@@ -405,6 +407,24 @@ void country_game_data::set_tier(const country_tier tier)
 	if (game::get()->is_running()) {
 		emit tier_changed();
 	}
+}
+
+void country_game_data::check_tier()
+{
+	country_tier best_tier = this->country->get_min_tier();
+
+	for (int i = static_cast<int>(this->country->get_min_tier()); i <= static_cast<int>(this->country->get_max_tier()); ++i) {
+		const country_tier tier = static_cast<country_tier>(i);
+		const country_tier_data *tier_data = country_tier_data::get(tier);
+
+		if (tier_data->get_conditions() != nullptr && !tier_data->get_conditions()->check(this->country)) {
+			continue;
+		}
+
+		best_tier = tier;
+	}
+
+	this->set_tier(best_tier);
 }
 
 const std::string &country_game_data::get_name() const

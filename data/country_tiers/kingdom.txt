@@ -1,7 +1,10 @@
 kingdom = {
 	name = "Kingdom"
 	icon = crown_royal
+	conditions = {
+		site_count >= 50
+	}
 	modifier = {
-		capital_prestige_bonus = 4
+		storage_capacity = 16
 	}
 }

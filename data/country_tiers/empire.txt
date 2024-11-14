@@ -1,7 +1,10 @@
 empire = {
 	name = "Empire"
 	icon = crown_imperial
+	conditions = {
+		site_count >= 100
+	}
 	modifier = {
-		capital_prestige_bonus = 5
+		storage_capacity = 20
 	}
 }

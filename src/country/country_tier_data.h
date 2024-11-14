@@ -9,6 +9,9 @@ class country;
 enum class country_tier;
 
 template <typename scope_type>
+class and_condition;
+
+template <typename scope_type>
 class modifier;
 
 class country_tier_data final : public named_data_entry, public enum_data_type<country_tier_data, country_tier>
@@ -33,6 +36,11 @@ public:
 		return this->icon;
 	}
 
+	const and_condition<country> *get_conditions() const
+	{
+		return this->conditions.get();
+	}
+
 	const modifier<const country> *get_modifier() const
 	{
 		return this->modifier.get();
@@ -45,6 +53,7 @@ signals:
 
 private:
 	const kobold::icon *icon = nullptr;
+	std::unique_ptr<const and_condition<country>> conditions;
 	std::unique_ptr<const modifier<const country>> modifier;
 };
 

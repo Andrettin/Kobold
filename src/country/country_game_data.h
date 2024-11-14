@@ -167,6 +167,7 @@ public:
 	}
 
 	void set_tier(const country_tier tier);
+	void check_tier();
 
 	const std::string &get_name() const;
 

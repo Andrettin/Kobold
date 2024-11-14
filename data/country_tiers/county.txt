@@ -1,7 +1,10 @@
 county = {
 	name = "County"
 	icon = crown_comital
+	conditions = {
+		site_count >= 10
+	}
 	modifier = {
-		capital_prestige_bonus = 2
+		storage_capacity = 8
 	}
 }
