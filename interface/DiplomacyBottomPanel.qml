@@ -107,6 +107,7 @@ Rectangle {
 			+ "\n" + selected_country_game_data.site_count + " " + (selected_country_game_data.site_count > 1 ? "Sites" : "Sites")
 			+ "\nLevel: " + selected_country.game_data.level
 			+ "\nExperience: " + number_string(selected_country.game_data.experience)
+			+ "\nGovernment Type: " + selected_country.game_data.government_type.name
 			+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
 			+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
 			+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
