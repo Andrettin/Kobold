@@ -24,6 +24,21 @@ austria = {
 		carniola
 		istria
 	}
+	title_names = {
+		monarchy = {
+			kingdom = "Archduchy"
+		}
+	}
+	office_title_names = {
+		ruler = {
+			monarchy = {
+				kingdom = {
+					male = "Archduke"
+					female = "Archduchess"
+				}
+			}
+		}
+	}
 	
 	history = {
 		1156 = {
