@@ -1,5 +1,0 @@
-wool = {
-	name = "Wool"
-	icon = wool
-	base_price = 100
-}

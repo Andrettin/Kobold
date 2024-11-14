@@ -1,5 +1,0 @@
-oil = {
-	name = "Oil"
-	icon = oil
-	base_price = 100
-}

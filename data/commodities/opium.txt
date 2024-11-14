@@ -1,5 +1,0 @@
-opium = {
-	name = "Opium"
-	icon = cotton
-	base_price = 100
-}

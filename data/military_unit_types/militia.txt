@@ -9,10 +9,6 @@ peasant_levies = {
 		movement = 3
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-	}
 	upgrades = {
 		minutemen
 	}

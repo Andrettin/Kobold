@@ -28,10 +28,6 @@ macemen = {
 		movement = 4
 	}
 	entrench = true
-	commodity_costs = {
-		manpower = 1
-		fabric = 1
-	}
 	upgrades = {
 		calivermen
 	}

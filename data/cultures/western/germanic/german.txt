@@ -4,8 +4,6 @@ german = {
 	color = { 245 167 97 }
 	species = {
 		human
-		ogre
-		half_elf
 	}
 	office_title_names = {
 		ruler = {

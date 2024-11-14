@@ -9,12 +9,11 @@ market = {
 		city
 		metropolis
 	}
-	settlement_conditions = {
-		province = {
-			produces_commodity = trade
-		}
+	commodity_costs = {
+		wealth = 28gb
 	}
-	settlement_modifier = {
-		trade_output_modifier = 50
+	country_modifier = {
+		economy = 2
+		stability = 2
 	}
 }

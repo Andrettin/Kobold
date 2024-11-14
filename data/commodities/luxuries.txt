@@ -1,7 +1,5 @@
 luxuries = {
 	name = "Luxuries"
-	icon = music
-	abstract = true
-	storable = false
-	local = true
+	icon = painting
+	base_price = 100
 }

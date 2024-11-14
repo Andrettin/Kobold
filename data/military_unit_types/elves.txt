@@ -33,8 +33,6 @@ elven_marksmen = {
 	}
 	entrench = true
 	commodity_costs = {
-		manpower = 1
-		fabric = 1
 		lumber = 1
 	}
 	upgrades = {

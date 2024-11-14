@@ -18,6 +18,5 @@ republic = {
 		}
 	}
 	modifier = {
-		trade_bonus_for_tile_threshold = 1
 	}
 }

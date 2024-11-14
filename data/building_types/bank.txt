@@ -12,7 +12,7 @@ bank = {
 		has_building_class = market
 	}
 	commodity_costs = {
-		wealth = 28gb
+		wealth = 48gb
 	}
 	country_modifier = {
 		economy = 4

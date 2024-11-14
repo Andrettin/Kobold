@@ -1,5 +1,0 @@
-trade = {
-	name = "Trade"
-	icon = wealth
-	wealth_value = 5
-}

@@ -9,6 +9,5 @@ wagon = {
 	cargo = 2
 	commodity_costs = {
 		lumber = 2
-		fabric = 2
 	}
 }
