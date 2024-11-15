@@ -9,6 +9,7 @@ namespace kobold {
 class character;
 class country;
 class province;
+class site;
 
 template <typename scope_type>
 class effect_list;
@@ -122,6 +123,40 @@ public:
 	static constexpr const char database_folder[] = "scripted_effects/province";
 
 	explicit province_scripted_effect(const std::string &identifier) : data_entry(identifier)
+	{
+	}
+
+	virtual void process_gsml_property(const gsml_property &property) override
+	{
+		scripted_effect_base::process_gsml_property(property);
+	}
+
+	virtual void process_gsml_scope(const gsml_data &scope) override
+	{
+		scripted_effect_base::process_gsml_scope(scope);
+	}
+
+	virtual void check() const override
+	{
+		scripted_effect_base::check();
+	}
+
+	virtual const std::string &get_identifier() const override
+	{
+		return data_entry::get_identifier();
+	}
+};
+
+class site_scripted_effect final : public data_entry, public data_type<site_scripted_effect>, public scripted_effect_base<const site>
+{
+	Q_OBJECT
+
+public:
+	static constexpr const char class_identifier[] = "site_scripted_effect";
+	static constexpr const char property_class_identifier[] = "kobold::site_scripted_effect*";
+	static constexpr const char database_folder[] = "scripted_effects/site";
+
+	explicit site_scripted_effect(const std::string &identifier) : data_entry(identifier)
 	{
 	}
 

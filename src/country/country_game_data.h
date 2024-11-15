@@ -15,6 +15,7 @@
 #include "map/site_container.h"
 #include "map/terrain_type_container.h"
 #include "script/opinion_modifier_container.h"
+#include "script/scripted_modifier_container.h"
 #include "unit/military_unit_type_container.h"
 #include "unit/promotion_container.h"
 #include "util/fractional_int.h"
@@ -138,6 +139,7 @@ class country_game_data final : public QObject
 	Q_PROPERTY(QVariantList active_journal_entries READ get_active_journal_entries_qvariant_list NOTIFY journal_entries_changed)
 	Q_PROPERTY(QVariantList inactive_journal_entries READ get_inactive_journal_entries_qvariant_list NOTIFY journal_entries_changed)
 	Q_PROPERTY(QVariantList finished_journal_entries READ get_finished_journal_entries_qvariant_list NOTIFY journal_entries_changed)
+	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 
 public:
 	static constexpr int base_deployment_limit = 10;
@@ -1592,6 +1594,15 @@ public:
 		this->diplomatic_penalty_for_expansion_modifier += change;
 	}
 
+	const scripted_country_modifier_map<int> &get_scripted_modifiers() const
+	{
+		return this->scripted_modifiers;
+	}
+
+	QVariantList get_scripted_modifiers_qvariant_list() const;
+	bool has_scripted_modifier(const scripted_country_modifier *modifier) const;
+	void add_scripted_modifier(const scripted_country_modifier *modifier, const int duration);
+	void remove_scripted_modifier(const scripted_country_modifier *modifier);
 	void decrement_scripted_modifiers();
 
 	Q_INVOKABLE bool is_tile_explored(const QPoint &tile_pos) const;
@@ -1920,6 +1931,7 @@ signals:
 	void journal_entries_changed();
 	void journal_entry_completed(const journal_entry *journal_entry);
 	void milestone_reached(const country_milestone *milestone);
+	void scripted_modifiers_changed();
 
 private:
 	kobold::country *country = nullptr;
@@ -2026,6 +2038,7 @@ private:
 	promotion_map<int> free_warship_promotion_counts;
 	consulate_map<int> free_consulate_counts;
 	data_entry_set<country_milestone> milestones;
+	scripted_country_modifier_map<int> scripted_modifiers;
 	std::set<const flag *> flags;
 	building_type_map<int> ai_building_desire_modifiers;
 	site_map<building_type_map<int>> ai_settlement_building_desire_modifiers;

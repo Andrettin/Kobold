@@ -5,16 +5,16 @@
 
 namespace kobold {
 
-class country;
+class site;
 
-class country_event final : public event, public data_type<country_event>, public scoped_event_base<const country>
+class site_event final : public event, public data_type<site_event>, public scoped_event_base<const site>
 {
 	Q_OBJECT
 
 public:
-	static constexpr const char class_identifier[] = "country_event";
-	static constexpr const char property_class_identifier[] = "kobold::country_event*";
-	static constexpr const char database_folder[] = "events/country";
+	static constexpr const char class_identifier[] = "site_event";
+	static constexpr const char property_class_identifier[] = "kobold::site_event*";
+	static constexpr const char database_folder[] = "events/site";
 
 	static void clear()
 	{
@@ -22,7 +22,7 @@ public:
 		scoped_event_base::clear();
 	}
 
-	explicit country_event(const std::string &identifier) : event(identifier)
+	explicit site_event(const std::string &identifier) : event(identifier)
 	{
 	}
 

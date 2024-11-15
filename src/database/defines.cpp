@@ -10,6 +10,7 @@
 #include "game/country_event.h"
 #include "game/event_trigger.h"
 #include "game/province_event.h"
+#include "game/site_event.h"
 #include "map/direction.h"
 #include "map/terrain_adjacency_type.h"
 #include "map/tile_image_provider.h"
@@ -161,6 +162,7 @@ void defines::initialize()
 		character_event::add_trigger_none_random_weight(event_trigger, random_weight);
 		country_event::add_trigger_none_random_weight(event_trigger, random_weight);
 		province_event::add_trigger_none_random_weight(event_trigger, random_weight);
+		site_event::add_trigger_none_random_weight(event_trigger, random_weight);
 	}
 
 	tile_image_provider::get()->load_image("borders/province_border");

@@ -68,6 +68,7 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/opinion_modifier.h"
+#include "script/scripted_country_modifier.h"
 #include "species/species.h"
 #include "ui/icon.h"
 #include "ui/icon_container.h"
@@ -350,6 +351,7 @@ void country_game_data::do_events()
 	}
 
 	country_event::check_events_for_scope(this->country, event_trigger::quarterly_pulse);
+	country_event::check_events_for_scope(this->country, event_trigger::per_turn_pulse);
 }
 
 void country_game_data::do_ai_turn()
@@ -3516,8 +3518,59 @@ void country_game_data::change_capital_commodity_bonus(const commodity *commodit
 	}
 }
 
+QVariantList country_game_data::get_scripted_modifiers_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_scripted_modifiers());
+}
+
+bool country_game_data::has_scripted_modifier(const scripted_country_modifier *modifier) const
+{
+	return this->get_scripted_modifiers().contains(modifier);
+}
+
+void country_game_data::add_scripted_modifier(const scripted_country_modifier *modifier, const int duration)
+{
+	const read_only_context ctx(this->country);
+
+	this->scripted_modifiers[modifier] = std::max(this->scripted_modifiers[modifier], duration);
+
+	if (modifier->get_modifier() != nullptr) {
+		modifier->get_modifier()->apply(this->country);
+	}
+
+	if (game::get()->is_running()) {
+		emit scripted_modifiers_changed();
+	}
+}
+
+void country_game_data::remove_scripted_modifier(const scripted_country_modifier *modifier)
+{
+	this->scripted_modifiers.erase(modifier);
+
+	if (modifier->get_modifier() != nullptr) {
+		modifier->get_modifier()->remove(this->country);
+	}
+
+	if (game::get()->is_running()) {
+		emit scripted_modifiers_changed();
+	}
+}
+
 void country_game_data::decrement_scripted_modifiers()
 {
+	std::vector<const scripted_country_modifier *> modifiers_to_remove;
+	for (auto &[modifier, duration] : this->scripted_modifiers) {
+		--duration;
+
+		if (duration == 0) {
+			modifiers_to_remove.push_back(modifier);
+		}
+	}
+
+	for (const scripted_country_modifier *modifier : modifiers_to_remove) {
+		this->remove_scripted_modifier(modifier);
+	}
+
 	//decrement opinion modifiers
 	country_map<std::vector<const opinion_modifier *>> opinion_modifiers_to_remove;
 

@@ -417,6 +417,7 @@ set(game_HDRS
 	src/game/province_event.h
 	src/game/scenario.h
 	src/game/scoped_event_base.h
+	src/game/site_event.h
 )
 source_group(game FILES ${game_HDRS})
 
@@ -502,6 +503,7 @@ set(script_HDRS
 	src/script/opinion_modifier.h
 	src/script/opinion_modifier_container.h
 	src/script/scripted_character_modifier.h
+	src/script/scripted_country_modifier.h
 	src/script/scripted_modifier.h
 	src/script/scripted_modifier_container.h
 	src/script/scripted_province_modifier.h

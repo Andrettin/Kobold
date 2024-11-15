@@ -82,9 +82,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	}
 
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
-		if (key == "event") {
-			return std::make_unique<event_effect<scope_type>>(value, effect_operator);
-		} else if (key == "experience") {
+		if (key == "experience") {
 			return std::make_unique<experience_effect<scope_type>>(value, effect_operator);
 		} else if (key == "gain_feat") {
 			return std::make_unique<gain_feat_effect<scope_type>>(value, effect_operator);
@@ -106,7 +104,9 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 		}
 	}
 
-	if (key == "save_scope_as") {
+	if (key == "event") {
+		return std::make_unique<event_effect<scope_type>>(value, effect_operator);
+	} else if (key == "save_scope_as") {
 		return std::make_unique<save_scope_as_effect<scope_type>>(value, effect_operator);
 	} else if (key == "scripted_effect") {
 		return std::make_unique<scripted_effect_effect<scope_type>>(value, effect_operator);
