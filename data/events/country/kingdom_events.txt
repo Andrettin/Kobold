@@ -1,0 +1,53 @@
+roll_kingdom_event = {
+	name = "Roll Kingdom Event"
+	trigger = per_turn_pulse
+	hidden = true
+	immediate_effects = {
+		random_list = {
+			2 = { #natural blessing and roll again
+			}
+			2 = { #good weather and roll again
+				modifier = {
+					factor = 0
+					scripted_modifier = good_weather
+				}
+				
+				event = good_weather
+				
+				hidden = {
+					event = roll_kingdom_event
+				}
+			}
+			21 = { #beneficial kingdom event
+			}
+			25 = { #dangerous kingdom event
+			}
+			25 = { #beneficial settlement event
+			}
+			21 = { #dangerous settlement event
+			}
+			1 = { #bandit activity and roll again
+			}
+			1 = { #squatters and roll again
+			}
+			1 = { #monster attack and roll again
+			}
+			1 = { #vandals and roll again
+			}
+		}
+	}
+}
+
+good_weather = {
+	name = "Good Weather"
+	portrait = building_slot
+	description = "Good weather raises spirits and productivity."
+	option = {
+		effects = {
+			scripted_modifiers += {
+				modifier = good_weather
+				duration = 1
+			}
+		}
+	}
+}
