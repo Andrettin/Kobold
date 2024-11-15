@@ -91,7 +91,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 		}
 	}
 
-	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
+	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
 		if (key == "scripted_modifiers") {
 			assert_throw(effect_operator == gsml_operator::subtraction);
 			return std::make_unique<scripted_modifiers_effect<scope_type>>(value, effect_operator);
@@ -156,7 +156,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 		}
 	}
 
-	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
+	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
 		if (effect_identifier == "scripted_modifiers") {
 			effect = std::make_unique<scripted_modifiers_effect<scope_type>>(effect_operator);
 		}
