@@ -91,39 +91,48 @@ Rectangle {
 		}
 	}
 	
-	SmallText {
-		id: country_text
-		text: format_text(selected_country && selected_country_game_data ? (
-			selected_country_game_data.name
-			+ "\n"
-			+ "\n" + selected_country_game_data.type_name
-			+ (selected_country_game_data.overlord ? (
-				"\n" + selected_country_game_data.subject_type.name + " of " + selected_country_game_data.overlord.name
-			) : "")
-			+ "\n" + selected_country_game_data.title_name
-			+ (selected_country_game_data.anarchy ? "\nAnarchy" : "")
-			+ (selected_country.great_power && !selected_country_game_data.anarchy ? ("\nScore: " + number_string(selected_country_game_data.score) + " (#" + (selected_country_game_data.score_rank + 1) + ")") : "")
-			+ "\n" + selected_country_game_data.provinces.length + " " + (selected_country_game_data.provinces.length > 1 ? "Provinces" : "Province")
-			+ "\n" + selected_country_game_data.site_count + " " + (selected_country_game_data.site_count > 1 ? "Sites" : "Sites")
-			+ "\nLevel: " + selected_country.game_data.level
-			+ "\nExperience: " + number_string(selected_country.game_data.experience)
-			+ "\nGovernment Type: " + selected_country.game_data.government_type.name
-			+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
-			+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
-			+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
-			+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
-			+ (selected_country.game_data.feats.length > 0 ? "\nFeats:\n\t" + string_list_to_string(object_counts_to_name_list(selected_country.game_data.feats), "\n\t") : "")
-		) : "")
+	Flickable {
+		id: country_text_area
 		anchors.left: bottom_panel.left
 		anchors.leftMargin: 16 * scale_factor
 		anchors.top: bottom_panel.top
 		anchors.topMargin: 16 * scale_factor
-		width: 128 * scale_factor
+		anchors.bottom: bottom_panel.bottom
+		width: 192 * scale_factor
+		contentWidth: contentItem.childrenRect.width
+		contentHeight: contentItem.childrenRect.height
+		boundsBehavior: Flickable.StopAtBounds
+		clip: true
+		
+		SmallText {
+			id: country_text
+			text: format_text(selected_country && selected_country_game_data ? (
+				selected_country_game_data.name
+				+ "\n"
+				+ "\n" + selected_country_game_data.type_name
+				+ (selected_country_game_data.overlord ? (
+					"\n" + selected_country_game_data.subject_type.name + " of " + selected_country_game_data.overlord.name
+				) : "")
+				+ "\n" + selected_country_game_data.title_name
+				+ (selected_country_game_data.anarchy ? "\nAnarchy" : "")
+				+ (selected_country.great_power && !selected_country_game_data.anarchy ? ("\nScore: " + number_string(selected_country_game_data.score) + " (#" + (selected_country_game_data.score_rank + 1) + ")") : "")
+				+ "\n" + selected_country_game_data.provinces.length + " " + (selected_country_game_data.provinces.length > 1 ? "Provinces" : "Province")
+				+ "\n" + selected_country_game_data.site_count + " " + (selected_country_game_data.site_count > 1 ? "Sites" : "Sites")
+				+ "\nLevel: " + selected_country.game_data.level
+				+ "\nExperience: " + number_string(selected_country.game_data.experience)
+				+ "\nGovernment Type: " + selected_country.game_data.government_type.name
+				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
+				+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
+				+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
+				+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
+				+ (selected_country.game_data.feats.length > 0 ? "\nFeats:\n\t" + string_list_to_string(object_counts_to_name_list(selected_country.game_data.feats), "\n\t") : "")
+			) : "")
+		}
 	}
 	
 	SmallText {
 		id: ruler_label
-		anchors.top: country_text.top
+		anchors.top: country_text_area.top
 		anchors.horizontalCenter: ruler_portrait.horizontalCenter
 		text: ruler_portrait.character_titled_name
 		visible: ruler_portrait.visible
@@ -133,7 +142,7 @@ Rectangle {
 		id: ruler_portrait
 		anchors.top: ruler_label.bottom
 		anchors.topMargin: 12 * scale_factor
-		anchors.left: country_text.right
+		anchors.left: country_text_area.right
 		anchors.leftMargin: 32 * scale_factor
 		character: selected_country_ruler
 	}
