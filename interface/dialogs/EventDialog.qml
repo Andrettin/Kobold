@@ -6,11 +6,11 @@ DialogBase {
 	id: event_dialog
 	panel: 5
 	width: Math.max(content_width, default_width)
-	height: Math.max(content_height, default_height)
+	height: content_height
 	title: event_instance ? event_instance.name : ""
 	
 	readonly property int max_button_width: calculate_max_button_width(option_column) + 8 * scale_factor * 2
-	readonly property int content_width: Math.max(max_button_width, title_item.contentWidth + 8 * scale_factor * 2)
+	readonly property int content_width: max_button_width
 	readonly property int content_height: description.y + description.contentHeight + 16 * scale_factor + option_column.height + 8 * scale_factor
 	
 	property var event_instance: null
