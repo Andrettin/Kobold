@@ -28,7 +28,7 @@ public:
 
 	virtual std::string get_base_string() const override
 	{
-		return std::string(this->attribute->get_name());
+		return this->attribute->get_name();
 	}
 
 private:

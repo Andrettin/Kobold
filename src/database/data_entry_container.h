@@ -24,6 +24,7 @@ class country_skill;
 class feat;
 class office;
 class saving_throw_type;
+class settlement_attribute;
 class skill;
 
 extern template struct data_entry_compare<character_attribute>;
@@ -35,6 +36,7 @@ extern template struct data_entry_compare<country_milestone>;
 extern template struct data_entry_compare<country_skill>;
 extern template struct data_entry_compare<feat>;
 extern template struct data_entry_compare<saving_throw_type>;
+extern template struct data_entry_compare<settlement_attribute>;
 extern template struct data_entry_compare<skill>;
 
 }

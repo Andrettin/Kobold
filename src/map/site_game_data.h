@@ -23,6 +23,7 @@ class province;
 class religion;
 class resource;
 class scripted_site_modifier;
+class settlement_attribute;
 class settlement_building_slot;
 class settlement_type;
 class site;
@@ -40,6 +41,7 @@ class site_game_data final : public QObject
 	Q_PROPERTY(const kobold::settlement_type* settlement_type READ get_settlement_type NOTIFY settlement_type_changed)
 	Q_PROPERTY(const kobold::improvement* improvement READ get_main_improvement NOTIFY improvements_changed)
 	Q_PROPERTY(const kobold::improvement* resource_improvement READ get_resource_improvement NOTIFY improvements_changed)
+	Q_PROPERTY(QVariantList settlement_attribute_values READ get_settlement_attribute_values_qvariant_list NOTIFY settlement_attribute_values_changed)
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
@@ -133,6 +135,25 @@ public:
 	const improvement *get_resource_improvement() const;
 	bool has_improvement(const improvement *improvement) const;
 	void set_improvement(const improvement_slot slot, const improvement *improvement);
+
+	const data_entry_map<settlement_attribute, int> &get_settlement_attribute_values() const
+	{
+		return this->settlement_attribute_values;
+	}
+
+	QVariantList get_settlement_attribute_values_qvariant_list() const;
+
+	int get_settlement_attribute_value(const settlement_attribute *attribute) const
+	{
+		const auto find_iterator = this->settlement_attribute_values.find(attribute);
+		if (find_iterator != this->settlement_attribute_values.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_settlement_attribute_value(const settlement_attribute *attribute, const int change);
 
 	const std::vector<qunique_ptr<settlement_building_slot>> &get_building_slots() const
 	{
@@ -334,8 +355,9 @@ signals:
 	void owner_changed();
 	void culture_changed();
 	void religion_changed();
-	void improvements_changed();
 	void settlement_type_changed();
+	void improvements_changed();
+	void settlement_attribute_values_changed();
 	void scripted_modifiers_changed();
 	void commodity_outputs_changed();
 	void visiting_armies_changed();
@@ -348,6 +370,7 @@ private:
 	const kobold::settlement_type *settlement_type = nullptr;
 	std::map<improvement_slot, const improvement *> improvements;
 	bool resource_discovered = false;
+	data_entry_map<settlement_attribute, int> settlement_attribute_values;
 	std::vector<qunique_ptr<settlement_building_slot>> building_slots;
 	building_slot_type_map<settlement_building_slot *> building_slot_map;
 	scripted_site_modifier_map<int> scripted_modifiers;

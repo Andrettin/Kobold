@@ -4,6 +4,6 @@ good_weather = {
 	modifier = {
 		economy = 2
 		loyalty = 2
-		#productivity = 2
+		productivity = 2
 	}
 }

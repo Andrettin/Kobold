@@ -63,6 +63,7 @@ class phenotype;
 class province;
 class region;
 class religion;
+class settlement_attribute;
 class site;
 class subject_type;
 class tradition;
@@ -372,6 +373,7 @@ public:
 	}
 
 	void on_site_gained(const site *site, const int multiplier);
+	void on_settlement_gained(const site *settlement, const int multiplier);
 
 	const site *get_capital() const
 	{
@@ -1196,6 +1198,24 @@ public:
 	const military_unit_type *get_best_military_unit_category_type(const military_unit_category category, const culture *culture) const;
 	const military_unit_type *get_best_military_unit_category_type(const military_unit_category category) const;
 
+
+	const data_entry_map<settlement_attribute, int> &get_settlement_attribute_values() const
+	{
+		return this->settlement_attribute_values;
+	}
+
+	int get_settlement_attribute_value(const settlement_attribute *attribute) const
+	{
+		const auto find_iterator = this->settlement_attribute_values.find(attribute);
+		if (find_iterator != this->settlement_attribute_values.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_settlement_attribute_value(const settlement_attribute *attribute, const int change);
+
 	int get_deployment_limit() const
 	{
 		return this->deployment_limit;
@@ -1925,6 +1945,7 @@ signals:
 	void office_holders_changed();
 	void bids_changed();
 	void offers_changed();
+	void settlement_attribute_values_changed();
 	void output_modifier_changed();
 	void throughput_modifier_changed();
 	void prospected_tiles_changed();
@@ -2001,6 +2022,7 @@ private:
 	std::vector<qunique_ptr<military_unit>> military_units;
 	std::set<std::string> military_unit_names;
 	std::vector<qunique_ptr<army>> armies;
+	data_entry_map<settlement_attribute, int> settlement_attribute_values;
 	int deployment_limit = country_game_data::base_deployment_limit;
 	int entrenchment_bonus_modifier = 0;
 	military_unit_type_map<std::map<military_unit_stat, centesimal_int>> military_unit_type_stat_modifiers;

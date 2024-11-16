@@ -56,6 +56,7 @@
 #include "map/province_game_data.h"
 #include "map/province_map_data.h"
 #include "map/region.h"
+#include "map/settlement_attribute.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
 #include "map/site_map_data.h"
@@ -891,21 +892,45 @@ void country_game_data::on_site_gained(const site *site, const int multiplier)
 	}
 
 	const site_game_data *site_game_data = site->get_game_data();
-
 	if (site->is_settlement() && site_game_data->is_built()) {
-		this->change_settlement_count(1 * multiplier);
+		this->on_settlement_gained(site, multiplier);
+	}
+}
 
-		for (const qunique_ptr<settlement_building_slot> &building_slot : site_game_data->get_building_slots()) {
-			const building_type *building = building_slot->get_building();
-			if (building != nullptr) {
-				assert_throw(building->is_provincial());
-				this->change_settlement_building_count(building, 1 * multiplier);
-			}
+void country_game_data::on_settlement_gained(const site *settlement, const int multiplier)
+{
+	this->change_settlement_count(1 * multiplier);
 
-			const wonder *wonder = building_slot->get_wonder();
-			if (wonder != nullptr) {
-				this->on_wonder_gained(wonder, multiplier);
-			}
+	site_game_data *settlement_game_data = settlement->get_game_data();
+
+	for (const auto &[attribute, value] : this->get_settlement_attribute_values()) {
+		settlement_game_data->change_settlement_attribute_value(attribute, value * multiplier);
+	}
+
+	for (const auto &[commodity, bonus] : this->get_settlement_commodity_bonuses()) {
+		settlement_game_data->change_base_commodity_output(commodity, bonus * multiplier);
+	}
+
+	for (const auto &[building, commodity_bonuses] : this->get_building_commodity_bonuses()) {
+		if (!settlement_game_data->has_building(building)) {
+			continue;
+		}
+
+		for (const auto &[commodity, bonus] : commodity_bonuses) {
+			settlement_game_data->change_base_commodity_output(commodity, centesimal_int(bonus) * multiplier);
+		}
+	}
+
+	for (const qunique_ptr<settlement_building_slot> &building_slot : settlement_game_data->get_building_slots()) {
+		const building_type *building = building_slot->get_building();
+		if (building != nullptr) {
+			assert_throw(building->is_provincial());
+			this->change_settlement_building_count(building, 1 * multiplier);
+		}
+
+		const wonder *wonder = building_slot->get_wonder();
+		if (wonder != nullptr) {
+			this->on_wonder_gained(wonder, multiplier);
 		}
 	}
 }
@@ -3264,6 +3289,32 @@ const military_unit_type *country_game_data::get_best_military_unit_category_typ
 const military_unit_type *country_game_data::get_best_military_unit_category_type(const military_unit_category category) const
 {
 	return this->get_best_military_unit_category_type(category, this->country->get_culture());
+}
+
+void country_game_data::change_settlement_attribute_value(const settlement_attribute *attribute, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->settlement_attribute_values[attribute] += change);
+	if (new_value == 0) {
+		this->settlement_attribute_values.erase(attribute);
+	}
+
+	for (const province *province : this->get_provinces()) {
+		for (const site *settlement : province->get_game_data()->get_settlement_sites()) {
+			if (!settlement->get_game_data()->is_built()) {
+				continue;
+			}
+
+			settlement->get_game_data()->change_settlement_attribute_value(attribute, change);
+		}
+	}
+
+	if (game::get()->is_running()) {
+		emit settlement_attribute_values_changed();
+	}
 }
 
 void country_game_data::set_military_unit_type_stat_modifier(const military_unit_type *type, const military_unit_stat stat, const centesimal_int &value)

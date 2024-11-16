@@ -24,6 +24,7 @@
 #include "map/map.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
+#include "map/settlement_attribute.h"
 #include "map/site.h"
 #include "map/site_map_data.h"
 #include "map/tile.h"
@@ -139,22 +140,6 @@ void site_game_data::set_owner(const country *owner)
 			}
 		}
 
-		if (this->site->is_settlement()) {
-			for (const auto &[commodity, bonus] : old_owner->get_game_data()->get_settlement_commodity_bonuses()) {
-				this->change_base_commodity_output(commodity, -bonus);
-			}
-
-			for (const auto &[building, commodity_bonuses] : old_owner->get_game_data()->get_building_commodity_bonuses()) {
-				if (!this->has_building(building)) {
-					continue;
-				}
-
-				for (const auto &[commodity, bonus] : commodity_bonuses) {
-					this->change_base_commodity_output(commodity, -centesimal_int(bonus));
-				}
-			}
-		}
-
 		old_owner->get_game_data()->on_site_gained(this->site, -1);
 
 		for (const auto &[commodity, output] : this->get_commodity_outputs()) {
@@ -184,22 +169,6 @@ void site_game_data::set_owner(const country *owner)
 
 			for (const auto &[commodity, bonus] : commodity_bonuses) {
 				this->change_base_commodity_output(commodity, bonus);
-			}
-		}
-
-		if (this->site->is_settlement()) {
-			for (const auto &[commodity, bonus] : this->get_owner()->get_game_data()->get_settlement_commodity_bonuses()) {
-				this->change_base_commodity_output(commodity, bonus);
-			}
-
-			for (const auto &[building, commodity_bonuses] : this->get_owner()->get_game_data()->get_building_commodity_bonuses()) {
-				if (!this->has_building(building)) {
-					continue;
-				}
-
-				for (const auto &[commodity, bonus] : commodity_bonuses) {
-					this->change_base_commodity_output(commodity, centesimal_int(bonus));
-				}
 			}
 		}
 
@@ -410,6 +379,29 @@ void site_game_data::set_improvement(const improvement_slot slot, const improvem
 
 	emit improvements_changed();
 	emit map::get()->tile_improvement_changed(this->get_tile_pos());
+}
+
+QVariantList site_game_data::get_settlement_attribute_values_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_settlement_attribute_values());
+}
+
+void site_game_data::change_settlement_attribute_value(const settlement_attribute *attribute, const int change)
+{
+	assert_throw(this->site->is_settlement());
+
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->settlement_attribute_values[attribute] += change);
+	if (new_value == 0) {
+		this->settlement_attribute_values.erase(attribute);
+	}
+
+	if (game::get()->is_running()) {
+		emit settlement_attribute_values_changed();
+	}
 }
 
 QVariantList site_game_data::get_building_slots_qvariant_list() const
@@ -702,13 +694,9 @@ bool site_game_data::check_free_improvement(const improvement *improvement)
 
 void site_game_data::on_settlement_built(const int multiplier)
 {
-	this->get_province()->get_game_data()->change_settlement_count(multiplier);
-
-	if (this->get_owner() != nullptr) {
-		this->get_owner()->get_game_data()->change_settlement_count(multiplier);
-	}
-
 	if (this->get_province() != nullptr) {
+		this->get_province()->get_game_data()->change_settlement_count(multiplier);
+
 		for (const auto &[commodity, bonus] : defines::get()->get_settlement_commodity_bonuses()) {
 			this->change_base_commodity_output(commodity, centesimal_int(bonus));
 		}
@@ -719,12 +707,10 @@ void site_game_data::on_settlement_built(const int multiplier)
 				this->change_base_commodity_output(commodity, centesimal_int(bonus));
 			}
 		}
+	}
 
-		if (this->get_owner() != nullptr) {
-			for (const auto &[commodity, bonus] : this->get_owner()->get_game_data()->get_settlement_commodity_bonuses()) {
-				this->change_base_commodity_output(commodity, bonus);
-			}
-		}
+	if (this->get_owner() != nullptr) {
+		this->get_owner()->get_game_data()->on_settlement_gained(this->site, multiplier);
 	}
 }
 

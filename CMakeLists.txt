@@ -468,6 +468,7 @@ set(map_HDRS
 	src/map/route_container.h
 	src/map/route_game_data.h
 	src/map/route_history.h
+	src/map/settlement_attribute.h
 	src/map/site.h
 	src/map/site_container.h
 	src/map/site_game_data.h
@@ -678,6 +679,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/modifier_effect.h
 	src/script/modifier_effect/output_modifier_effect.h
 	src/script/modifier_effect/saving_throw_modifier_effect.h
+	src/script/modifier_effect/settlement_attribute_modifier_effect.h
 	src/script/modifier_effect/ship_stat_modifier_effect.h
 	src/script/modifier_effect/skill_modifier_effect.h
 	src/script/modifier_effect/skill_per_level_modifier_effect.h

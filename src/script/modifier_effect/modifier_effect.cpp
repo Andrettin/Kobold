@@ -40,6 +40,7 @@
 #include "script/modifier_effect/military_unit_type_stat_modifier_effect.h"
 #include "script/modifier_effect/output_modifier_effect.h"
 #include "script/modifier_effect/saving_throw_modifier_effect.h"
+#include "script/modifier_effect/settlement_attribute_modifier_effect.h"
 #include "script/modifier_effect/ship_stat_modifier_effect.h"
 #include "script/modifier_effect/skill_modifier_effect.h"
 #include "script/modifier_effect/skill_per_level_modifier_effect.h"
@@ -238,6 +239,12 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 		} else if (key.ends_with(output_modifier_suffix) && commodity::try_get(key.substr(0, key.size() - output_modifier_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - output_modifier_suffix.size()));
 			return std::make_unique<commodity_output_modifier_effect<scope_type>>(commodity, value);
+		}
+	}
+
+	if constexpr (std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const site>) {
+		if (settlement_attribute::try_get(key) != nullptr) {
+			return std::make_unique<settlement_attribute_modifier_effect<scope_type>>(settlement_attribute::get(key), value);
 		}
 	}
 
