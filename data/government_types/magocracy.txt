@@ -5,6 +5,10 @@ magocracy = {
 	modifier = {
 		economy = 2
 		culture = 2
+		
+		lore = 2
+		productivity = -1
+		society = -1
 	}
 	effects = {
 		gain_feat_of_type = attribute

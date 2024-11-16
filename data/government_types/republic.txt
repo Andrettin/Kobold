@@ -5,6 +5,11 @@ republic = {
 	modifier = {
 		stability = 2
 		loyalty = 2
+		
+		crime = -1
+		law = -1
+		productivity = 1
+		society = 1
 	}
 	effects = {
 		gain_feat_of_type = attribute

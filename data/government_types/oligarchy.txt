@@ -5,6 +5,11 @@ oligarchy = {
 	modifier = {
 		loyalty = 2
 		economy = 2
+		
+		corruption = 1
+		law = -1
+		lore = -1
+		society = 1
 	}
 	effects = {
 		gain_feat_of_type = attribute

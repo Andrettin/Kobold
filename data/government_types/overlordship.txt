@@ -2,6 +2,12 @@ overlordship = {
 	name = "Overlordship"
 	group = tribe
 	icon = bow
+	modifier = {
+		corruption = 1
+		crime = -1
+		law = 1
+		society = -1
+	}
 	ruler_character_classes = {
 		barbarian
 	}
