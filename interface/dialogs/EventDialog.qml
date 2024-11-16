@@ -37,16 +37,14 @@ DialogBase {
 		anchors.leftMargin: 8 * scale_factor
 		anchors.right: parent.right
 		anchors.rightMargin: 8 * scale_factor
-		anchors.bottom: option_column.top
-		anchors.bottomMargin: 16 * scale_factor
 		text: event_instance ? format_text(event_instance.description) : ""
 		wrapMode: Text.WordWrap
 	}
 	
 	Column {
 		id: option_column
-		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 8 * scale_factor
+		anchors.top: description.bottom
+		anchors.topMargin: 16 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		spacing: 8 * scale_factor
 		

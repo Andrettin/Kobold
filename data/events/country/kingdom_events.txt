@@ -13,16 +13,17 @@ roll_kingdom_event = {
 				}
 				
 				event = good_weather
-				
-				hidden = {
-					event = roll_kingdom_event
-				}
+				event = roll_kingdom_event
 			}
 			21 = { #beneficial kingdom event
+				event = roll_beneficial_kingdom_event
 			}
 			25 = { #dangerous kingdom event
 			}
 			25 = { #beneficial settlement event
+				random_settlement = {
+					event = roll_beneficial_settlement_event
+				}
 			}
 			21 = { #dangerous settlement event
 			}
@@ -33,6 +34,23 @@ roll_kingdom_event = {
 			1 = { #monster attack and roll again
 			}
 			1 = { #vandals and roll again
+			}
+		}
+	}
+}
+
+roll_beneficial_kingdom_event = {
+	name = "Roll Beneficial Kingdom Event"
+	hidden = true
+	immediate_effects = {
+		random_list = {
+			13 = { #good weather
+				modifier = {
+					factor = 0
+					scripted_modifier = good_weather
+				}
+				
+				event = good_weather
 			}
 		}
 	}

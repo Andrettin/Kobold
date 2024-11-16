@@ -1,0 +1,10 @@
+justice_prevails = {
+	name = "Justice Prevails"
+	icon = courthouse
+	modifier = {
+		law = 1
+		#loyalty = 1
+		crime = -1
+		#unrest = -1
+	}
+}

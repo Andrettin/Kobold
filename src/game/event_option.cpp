@@ -104,17 +104,29 @@ std::string event_option<scope_type>::get_effects_string(const read_only_context
 			scope = std::get<const country *>(ctx.root_scope);
 		} else if constexpr (std::is_same_v<scope_type, const province>) {
 			scope = std::get<const province *>(ctx.root_scope);
+		} else if constexpr (std::is_same_v<scope_type, const site>) {
+			scope = std::get<const site *>(ctx.root_scope);
 		} else {
 			assert_throw(false);
 		}
 
 		assert_throw(scope != nullptr);
 
-		std::string str = this->effects->get_effects_string(scope, ctx);
+		std::string str;
+		size_t indent = 0;
 
-		if (str.empty()) {
+		if constexpr (std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
+			str += std::format("{}:\n", scope->get_game_data()->get_current_cultural_name());
+			indent = 1;
+		}
+
+		const std::string effects_str = this->effects->get_effects_string(scope, ctx, indent);
+
+		if (effects_str.empty()) {
 			return effect_list<scope_type>::no_effect_string;
 		}
+
+		str += effects_str;
 
 		return str;
 	}
@@ -133,5 +145,6 @@ void event_option<scope_type>::do_effects(scope_type *scope, context &ctx) const
 template class event_option<const character>;
 template class event_option<const country>;
 template class event_option<const province>;
+template class event_option<const site>;
 
 }

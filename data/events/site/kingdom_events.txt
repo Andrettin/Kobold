@@ -1,0 +1,31 @@
+roll_beneficial_settlement_event = {
+	name = "Roll Beneficial Settlement Event"
+	hidden = true
+	immediate_effects = {
+		random_list = {
+			14 = { #justice prevails
+				modifier = {
+					factor = 0
+					scripted_modifier = justice_prevails
+				}
+				
+				event = justice_prevails
+			}
+		}
+	}
+}
+
+justice_prevails = {
+	name = "Justice Prevails"
+	portrait = aristocratic_palace
+	description = "Authorities shut down a major criminal operation in the [root.settlement_type.name.lowered] of [root.name]."
+	#description = "Authorities thwart a plot against the [root.settlement_type.name.lowered] of [root.name]."
+	option = {
+		effects = {
+			scripted_modifiers += {
+				modifier = justice_prevails
+				years = 1
+			}
+		}
+	}
+}
