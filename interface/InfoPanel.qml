@@ -155,10 +155,10 @@ Rectangle {
 	ScriptedModifierRow {
 		id: scripted_modifier_row
 		anchors.top: title.bottom
-		anchors.topMargin: 8 * scale_factor
+		anchors.topMargin: 12 * scale_factor
 		anchors.horizontalCenter: parent.horizontalCenter
 		scope: selected_site
-		visible: selected_site && !selected_garrison && selected_site.game_data.scripted_modifiers.length > 0
+		visible: selected_site && !selected_garrison && selected_site.game_data.scripted_modifiers.length > 0 && viewing_settlement_info
 	}
 	
 	Flickable {
@@ -309,9 +309,9 @@ Rectangle {
 	}
 	
 	SmallText {
-		id: settlement_info_info_text
-		anchors.top: title.bottom
-		anchors.topMargin: 12 * scale_factor
+		id: settlement_info_text
+		anchors.top: scripted_modifier_row.visible ? scripted_modifier_row.bottom : title.bottom
+		anchors.topMargin: scripted_modifier_row.visible ? 8 * scale_factor : 12 * scale_factor
 		anchors.left: parent.left
 		anchors.leftMargin: 16 * scale_factor
 		text: selected_site_game_data ? format_text(
