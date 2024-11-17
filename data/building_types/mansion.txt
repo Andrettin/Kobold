@@ -1,0 +1,48 @@
+mansion = {
+	name = "Mansion"
+	building_class = mansion
+	portrait = aristocratic_palace
+	icon = painting
+	provincial = true
+	settlement_types = {
+		town
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 10gb
+	}
+	country_modifier = {
+		stability = 1
+	}
+	settlement_modifier = {
+		law = 1
+		society = 1
+	}
+}
+
+noble_villa = {
+	name = "Noble Villa"
+	building_class = noble_villa
+	portrait = aristocratic_palace
+	icon = painting
+	provincial = true
+	required_building = mansion
+	settlement_types = {
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 14gb
+	}
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+		stability = 1
+		#fame = 1
+	}
+	settlement_modifier = {
+		law = 1
+		society = 1
+	}
+}

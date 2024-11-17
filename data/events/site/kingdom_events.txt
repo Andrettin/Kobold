@@ -11,6 +11,19 @@ roll_beneficial_settlement_event = {
 				
 				event = justice_prevails
 			}
+			6 = { #wealthy immigrant
+				modifier = {
+					factor = 0
+					not = {
+						can_gain_building_class = mansion
+					}
+					not = {
+						can_gain_building_class = noble_villa
+					}
+				}
+				
+				event = wealthy_immigrant
+			}
 		}
 	}
 }
@@ -27,5 +40,65 @@ justice_prevails = {
 				years = 1
 			}
 		}
+	}
+}
+
+wealthy_immigrant = {
+	name = "Wealthy Immigrant"
+	portrait = aristocratic_palace
+	description = "A rich [saved_string:wealthy_immigrant_type] from another land is impressed with our [root.country.title_name.lowered] and asks to construct a [saved_building:wealthy_immigrant_building.name] in the [root.settlement_type.name.lowered] of [root.name] at no cost to us."
+	immediate_effects = {
+		random_list = {
+			1 = {
+				save_string_as = {
+					name = wealthy_immigrant_type
+					string = "merchant"
+				}
+			}
+			1 = {
+				save_string_as = {
+					name = wealthy_immigrant_type
+					string = "noble"
+				}
+			}
+		}
+		
+		random_list = {
+			75 = {
+				modifier = {
+					factor = 0
+					not = {
+						can_gain_building_class = mansion
+					}
+				}
+				
+				save_building_as = {
+					name = wealthy_immigrant_building
+					building = mansion
+				}
+			}
+			25 = {
+				modifier = {
+					factor = 0
+					not = {
+						can_gain_building_class = noble_villa
+					}
+				}
+				
+				save_building_as = {
+					name = wealthy_immigrant_building
+					building = noble_villa
+				}
+			}
+		}
+	}
+	option = {
+		name = "Accept"
+		effects = {
+			add_building_class = saved_scope:wealthy_immigrant_building
+		}
+	}
+	option = {
+		name = "Reject"
 	}
 }
