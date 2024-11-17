@@ -51,10 +51,6 @@ void factor_modifier<scope_type>::process_gsml_scope(const gsml_data &scope)
 template <typename scope_type>
 void factor_modifier<scope_type>::check_validity() const
 {
-	if (this->factor == 0) {
-		throw std::runtime_error("Factor modifier has a factor of 0.");
-	}
-
 	this->conditions->check_validity();
 }
 
