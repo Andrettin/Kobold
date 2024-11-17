@@ -31,8 +31,23 @@ roll_beneficial_settlement_event = {
 justice_prevails = {
 	name = "Justice Prevails"
 	portrait = aristocratic_palace
-	description = "Authorities shut down a major criminal operation in the [root.settlement_type.name.lowered] of [root.name]."
-	#description = "Authorities thwart a plot against the [root.settlement_type.name.lowered] of [root.name]."
+	description = "Authorities [saved_string:crime_string] the [root.settlement_type.name.lowered] of [root.name]."
+	immediate_effects = {
+		random_list = {
+			1 = {
+				save_string_as = {
+					name = crime_string
+					string = "shut down a major criminal operation in"
+				}
+			}
+			1 = {
+				save_string_as = {
+					name = crime_string
+					string = "thwart a plot against"
+				}
+			}
+		}
+	}
 	option = {
 		effects = {
 			scripted_modifiers += {
