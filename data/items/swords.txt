@@ -1,0 +1,5 @@
+longsword = {
+	name = "Longsword"
+	slot = weapon
+	icon = saber
+}

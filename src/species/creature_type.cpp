@@ -4,6 +4,7 @@
 
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
+#include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 
@@ -28,6 +29,13 @@ void creature_type::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
+		});
+	} else if (tag == "item_slots") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->item_slot_counts[item_slot::get(key)] = std::stoi(value);
 		});
 	} else if (tag == "modifier") {
 		auto modifier = std::make_unique<kobold::modifier<const character>>();

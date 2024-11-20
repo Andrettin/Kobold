@@ -8,8 +8,10 @@
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
+#include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
+#include "species/creature_type.h"
 #include "species/taxon.h"
 #include "species/taxonomic_rank.h"
 
@@ -53,6 +55,13 @@ void species::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			this->min_attribute_values[character_attribute::get(key)] = std::stoi(value);
+		});
+	} else if (tag == "item_slots") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->item_slot_counts[item_slot::get(key)] = std::stoi(value);
 		});
 	} else if (tag == "modifier") {
 		auto modifier = std::make_unique<kobold::modifier<const character>>();
@@ -110,6 +119,17 @@ const dice &species::get_starting_age_modifier(const character_class *character_
 	}
 
 	throw std::runtime_error(std::format("Species \"{}\" has no starting age modifier for the character class \"{}\".", this->get_identifier(), character_class->get_identifier()));
+}
+
+int species::get_item_slot_count(const item_slot *slot) const
+{
+	const auto find_iterator = this->item_slot_counts.find(slot);
+
+	if (find_iterator != this->item_slot_counts.end()) {
+		return find_iterator->second;
+	}
+
+	return this->get_creature_type()->get_item_slot_count(slot);
 }
 
 }

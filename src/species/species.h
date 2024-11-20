@@ -11,6 +11,7 @@ namespace kobold {
 class character_class;
 class creature_type;
 class feat;
+class item_slot;
 class level_bonus_table;
 class saving_throw_type;
 class taxon;
@@ -126,6 +127,8 @@ public:
 		return 0;
 	}
 
+	int get_item_slot_count(const item_slot *slot) const;
+
 	const kobold::modifier<const character> *get_modifier() const
 	{
 		return this->modifier.get();
@@ -194,6 +197,7 @@ private:
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
+	data_entry_map<item_slot, int> item_slot_counts;
 	data_entry_map<character_class, int> character_class_weights;
 	data_entry_map<feat, int> feat_weights;
 };

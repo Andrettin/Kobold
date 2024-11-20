@@ -9,6 +9,7 @@ Q_MOC_INCLUDE("character/level_bonus_table.h")
 
 namespace kobold {
 
+class item_slot;
 class level_bonus_table;
 class saving_throw_type;
 
@@ -51,6 +52,17 @@ public:
 		return this->saving_throw_bonus_tables;
 	}
 
+	int get_item_slot_count(const item_slot *slot) const
+	{
+		const auto find_iterator = this->item_slot_counts.find(slot);
+
+		if (find_iterator != this->item_slot_counts.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	const kobold::modifier<const character> *get_modifier() const
 	{
 		return this->modifier.get();
@@ -65,6 +77,7 @@ private:
 	dice hit_dice;
 	const level_bonus_table *base_attack_bonus_table = nullptr;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
+	data_entry_map<item_slot, int> item_slot_counts;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;
 };
