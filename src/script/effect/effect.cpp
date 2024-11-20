@@ -145,6 +145,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 			effect = std::make_unique<random_neighbor_country_effect>(effect_operator);
 		} else if (effect_identifier == "random_settlement") {
 			effect = std::make_unique<random_settlement_effect>(effect_operator);
+		} else if (commodity::try_get(effect_identifier) != nullptr) {
+			effect = std::make_unique<commodity_effect>(commodity::get(effect_identifier), effect_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (effect_identifier == "location") {

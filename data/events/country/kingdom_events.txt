@@ -44,6 +44,9 @@ roll_beneficial_kingdom_event = {
 	hidden = true
 	immediate_effects = {
 		random_list = {
+			11 = { #economic boom
+				event = economic_boom
+			}
 			13 = { #good weather
 				modifier = {
 					factor = 0
@@ -51,6 +54,20 @@ roll_beneficial_kingdom_event = {
 				}
 				
 				event = good_weather
+			}
+		}
+	}
+}
+
+economic_boom = {
+	name = "Economic Boom"
+	portrait = coinage
+	description = "Trade is booming in our [root.title_name.lowered]!"
+	option = {
+		effects = {
+			wealth += {
+				quantity = 1d6gb
+				roll_again_threshold = 6
 			}
 		}
 	}

@@ -69,34 +69,57 @@ int commodity::get_unit_value(const commodity_unit *unit) const
 	return 1;
 }
 
-int commodity::string_to_value(const std::string &str) const
+std::pair<std::string, const commodity_unit *> commodity::string_to_number_string_and_unit(const std::string &str) const
 {
 	size_t suffix_pos = std::string::npos;
+	bool has_suffix = false;
 
-	for (size_t i = 0; i < str.size(); ++i) {
+	for (int i = (static_cast<int>(str.size()) - 1); i >= 0; --i) {
 		const char c = str[i];
 
-		if (i == 0 && c == '-') {
+		if (!std::isdigit(c)) {
+			has_suffix = true;
 			continue;
 		}
 
-		if (std::isdigit(c)) {
-			continue;
+		if (!has_suffix) {
+			break;
 		}
 
-		suffix_pos = i;
+		suffix_pos = i + 1;
 		break;
 	}
 
 	if (suffix_pos == std::string::npos) {
-		return std::stoi(str);
+		return { str, nullptr };
 	}
 
 	const std::string number_str = str.substr(0, suffix_pos);
 	const std::string suffix = str.substr(suffix_pos);
 	const commodity_unit *unit = commodity_unit::get(suffix);
-	return std::stoi(number_str) * this->get_unit_value(unit);
+
+	return { number_str, unit };
 }
 
+int commodity::string_to_value(const std::string &str) const
+{
+	const auto [number_str, unit] = this->string_to_number_string_and_unit(str);
+	int value = std::stoi(number_str);
+	if (unit != nullptr) {
+		value *= this->get_unit_value(unit);
+	}
+	return value;
+}
+
+std::pair<std::variant<int, dice>, const commodity_unit *> commodity::string_to_value_variant_with_unit(const std::string &str) const
+{
+	const auto [number_str, unit] = this->string_to_number_string_and_unit(str);
+
+	if (number_str.find("d") != std::string::npos) {
+		return { dice(number_str), unit };
+	} else {
+		return { std::stoi(number_str), unit };
+	}
+}
 
 }

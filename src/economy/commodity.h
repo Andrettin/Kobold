@@ -3,6 +3,7 @@
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
+#include "util/dice.h"
 
 namespace kobold {
 
@@ -108,7 +109,9 @@ public:
 
 	Q_INVOKABLE int get_unit_value(const kobold::commodity_unit *unit) const;
 
+	std::pair<std::string, const commodity_unit *> string_to_number_string_and_unit(const std::string &str) const;
 	int string_to_value(const std::string &str) const;
+	std::pair<std::variant<int, dice>, const commodity_unit *> string_to_value_variant_with_unit(const std::string &str) const;
 
 signals:
 	void changed();
