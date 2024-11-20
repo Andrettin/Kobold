@@ -6,6 +6,7 @@
 #include "economy/commodity_unit.h"
 #include "script/effect/effect.h"
 #include "util/dice.h"
+#include "util/number_util.h"
 #include "util/random.h"
 #include "util/string_util.h"
 
@@ -133,11 +134,11 @@ public:
 			const dice dice = std::get<archimedes::dice>(this->quantity_variant);
 			str = dice.to_string();
 		} else {
-			str = std::to_string(std::get<int>(this->quantity_variant));
+			str = number::to_formatted_string(std::get<int>(this->quantity_variant));
 		}
 
 		if (this->unit != nullptr) {
-			str += this->unit->get_suffix();
+			str += " " + this->unit->get_suffix();
 		}
 
 		return str;

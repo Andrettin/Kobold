@@ -1,0 +1,23 @@
+museum = {
+	name = "Museum"
+	building_class = museum
+	portrait = aristocratic_palace
+	icon = painting
+	provincial = true
+	settlement_types = {
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 30gb
+	}
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+		#fame = 1
+	}
+	settlement_modifier = {
+		lore = 2
+		society = 1
+	}
+}
