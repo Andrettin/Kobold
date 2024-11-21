@@ -4,7 +4,9 @@
 
 #include "character/character.h"
 #include "script/modifier_effect/ai_building_desire_modifier_effect.h"
+#include "script/modifier_effect/armor_class_modifier_effect.h"
 #include "script/modifier_effect/artillery_cost_modifier_effect.h"
+#include "script/modifier_effect/attack_bonus_modifier_effect.h"
 #include "script/modifier_effect/base_attack_bonus_modifier_effect.h"
 #include "script/modifier_effect/building_cost_efficiency_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_bonus_modifier_effect.h"
@@ -63,7 +65,11 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	static const std::string per_level_suffix = "_per_level";
 
 	if constexpr (std::is_same_v<scope_type, const character>) {
-		if (key == "base_attack_bonus") {
+		if (key == "armor_class") {
+			return std::make_unique<armor_class_modifier_effect>(value);
+		} else if (key == "attack_bonus") {
+			return std::make_unique<attack_bonus_modifier_effect>(value);
+		} else if (key == "base_attack_bonus") {
 			return std::make_unique<base_attack_bonus_modifier_effect>(value);
 		} else if (key == "hit_points") {
 			return std::make_unique<hit_points_modifier_effect>(value);

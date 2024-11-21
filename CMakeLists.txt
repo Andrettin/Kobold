@@ -658,7 +658,9 @@ source_group(script\\effect FILES ${script_effect_HDRS})
 
 set(script_modifier_effect_HDRS
 	src/script/modifier_effect/ai_building_desire_modifier_effect.h
+	src/script/modifier_effect/armor_class_modifier_effect.h
 	src/script/modifier_effect/artillery_cost_modifier_effect.h
+	src/script/modifier_effect/attack_bonus_modifier_effect.h
 	src/script/modifier_effect/base_attack_bonus_modifier_effect.h
 	src/script/modifier_effect/building_cost_efficiency_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_bonus_modifier_effect.h

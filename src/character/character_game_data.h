@@ -54,6 +54,8 @@ class character_game_data final : public QObject
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
 	Q_PROPERTY(int base_attack_bonus READ get_base_attack_bonus NOTIFY base_attack_bonus_changed)
+	Q_PROPERTY(int attack_bonus READ get_attack_bonus NOTIFY attack_bonus_changed)
+	Q_PROPERTY(int armor_class READ get_armor_class NOTIFY armor_class_changed)
 	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
@@ -230,6 +232,20 @@ public:
 	}
 
 	void change_base_attack_bonus(const int change);
+
+	int get_attack_bonus() const
+	{
+		return this->attack_bonus;
+	}
+
+	void change_attack_bonus(const int change);
+
+	int get_armor_class() const
+	{
+		return this->armor_class;
+	}
+
+	void change_armor_class(const int change);
 
 	const data_entry_map<saving_throw_type, int> &get_saving_throw_bonuses() const
 	{
@@ -416,6 +432,8 @@ signals:
 	void attribute_values_changed();
 	void hit_points_changed();
 	void base_attack_bonus_changed();
+	void attack_bonus_changed();
+	void armor_class_changed();
 	void saving_throw_bonuses_changed();
 	void skill_bonuses_changed();
 	void feats_changed();
@@ -437,6 +455,8 @@ private:
 	data_entry_map<character_attribute, int> attribute_values;
 	int hit_points = 0;
 	int base_attack_bonus = 0;
+	int attack_bonus = 0;
+	int armor_class = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
 	data_entry_map<skill, int> skill_per_level_bonuses;

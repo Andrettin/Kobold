@@ -26,6 +26,7 @@
 #include "script/factor.h"
 #include "script/modifier.h"
 #include "script/scripted_character_modifier.h"
+#include "species/creature_size.h"
 #include "species/creature_type.h"
 #include "species/species.h"
 #include "spell/spell.h"
@@ -62,9 +63,13 @@ void character_game_data::apply_species_and_class(const int level)
 	}
 
 	const creature_type *creature_type = species->get_creature_type();
-
 	if (creature_type->get_modifier() != nullptr) {
 		creature_type->get_modifier()->apply(this->character, 1);
+	}
+
+	const creature_size *creature_size = species->get_creature_size();
+	if (creature_size->get_modifier() != nullptr) {
+		creature_size->get_modifier()->apply(this->character, 1);
 	}
 
 	if (species->get_modifier() != nullptr) {
@@ -525,8 +530,36 @@ void character_game_data::change_base_attack_bonus(const int change)
 
 	this->base_attack_bonus += change;
 
+	this->change_attack_bonus(change);
+
 	if (game::get()->is_running()) {
 		emit base_attack_bonus_changed();
+	}
+}
+
+void character_game_data::change_attack_bonus(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->attack_bonus += change;
+
+	if (game::get()->is_running()) {
+		emit attack_bonus_changed();
+	}
+}
+
+void character_game_data::change_armor_class(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->armor_class += change;
+
+	if (game::get()->is_running()) {
+		emit armor_class_changed();
 	}
 }
 
