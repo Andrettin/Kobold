@@ -1,50 +1,73 @@
 #pragma once
 
-#include "database/data_type.h"
-#include "database/named_data_entry.h"
-
-Q_MOC_INCLUDE("item/item_slot.h")
+Q_MOC_INCLUDE("item/item_type.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
 class icon;
 class item_slot;
+class item_type;
 
-class item final : public named_data_entry, public data_type<item>
+class item final : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const kobold::item_slot* slot MEMBER slot READ get_slot NOTIFY changed)
-	Q_PROPERTY(const kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(const QString name READ get_name_qstring NOTIFY name_changed)
+	Q_PROPERTY(const kobold::item_type* type READ get_type CONSTANT)
+	Q_PROPERTY(const kobold::icon* icon READ get_icon CONSTANT)
 
 public:
-	static constexpr const char class_identifier[] = "item";
-	static constexpr const char property_class_identifier[] = "kobold::item*";
-	static constexpr const char database_folder[] = "items";
+	explicit item(const item_type *type);
 
-	explicit item(const std::string &identifier) : named_data_entry(identifier)
+	const std::string &get_name() const
 	{
+		return this->name;
 	}
 
-	virtual void check() const override;
-
-	const item_slot *get_slot() const
+	QString get_name_qstring() const
 	{
-		return this->slot;
+		return QString::fromStdString(this->get_name());
 	}
 
-	const kobold::icon *get_icon() const
+	void set_name(const std::string &name)
 	{
-		return this->icon;
+		if (name == this->get_name()) {
+			return;
+		}
+
+		this->name = name;
+
+		emit name_changed();
+	}
+
+	void update_name();
+
+	const item_type *get_type() const
+	{
+		return this->type;
+	}
+
+	const item_slot *get_slot() const;
+	const icon *get_icon() const;
+
+	bool is_equipped() const
+	{
+		return this->equipped;
+	}
+
+	void set_equipped(const bool equipped)
+	{
+		this->equipped = equipped;
 	}
 
 signals:
-	void changed();
+	void name_changed();
 
 private:
-	const item_slot *slot = nullptr;
-	const kobold::icon *icon = nullptr;
+	std::string name;
+	const item_type *type = nullptr;
+	bool equipped = false;
 };
 
 }

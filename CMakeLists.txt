@@ -141,6 +141,7 @@ set_source_files_properties(${infrastructure_SRCS} PROPERTIES UNITY_GROUP "infra
 
 set(item_SRCS
 	src/item/item.cpp
+	src/item/item_type.cpp
 )
 source_group(item FILES ${item_SRCS})
 set_source_files_properties(${item_SRCS} PROPERTIES UNITY_GROUP "item")
@@ -451,6 +452,7 @@ source_group(infrastructure FILES ${infrastructure_HDRS})
 set(item_HDRS
 	src/item/item.h
 	src/item/item_slot.h
+	src/item/item_type.h
 )
 source_group(item FILES ${item_HDRS})
 

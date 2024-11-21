@@ -3,6 +3,7 @@
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "species/taxon_base.h"
+#include "util/dice.h"
 
 Q_MOC_INCLUDE("species/creature_size.h")
 Q_MOC_INCLUDE("species/creature_type.h")
