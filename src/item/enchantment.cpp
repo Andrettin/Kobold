@@ -2,6 +2,7 @@
 
 #include "item/enchantment.h"
 
+#include "item/affix_type.h"
 #include "item/item_type.h"
 #include "script/modifier.h"
 
@@ -35,6 +36,10 @@ void enchantment::process_gsml_scope(const gsml_data &scope)
 
 void enchantment::check() const
 {
+	if (this->get_affix_type() == affix_type::none) {
+		throw std::runtime_error(std::format("Enchantment \"{}\" has no affix type.", this->get_identifier()));
+	}
+
 	if (this->get_item_types().empty()) {
 		throw std::runtime_error(std::format("Enchantment \"{}\" has no item types.", this->get_identifier()));
 	}

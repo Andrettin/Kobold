@@ -1,10 +1,12 @@
 #pragma once
 
+Q_MOC_INCLUDE("item/enchantment.h")
 Q_MOC_INCLUDE("item/item_type.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
+class enchantment;
 class icon;
 class item_slot;
 class item_type;
@@ -16,9 +18,10 @@ class item final : public QObject
 	Q_PROPERTY(const QString name READ get_name_qstring NOTIFY name_changed)
 	Q_PROPERTY(const kobold::item_type* type READ get_type CONSTANT)
 	Q_PROPERTY(const kobold::icon* icon READ get_icon CONSTANT)
+	Q_PROPERTY(const kobold::enchantment* enchantment READ get_enchantment CONSTANT)
 
 public:
-	explicit item(const item_type *type);
+	explicit item(const item_type *type, const kobold::enchantment *enchantment);
 
 	const std::string &get_name() const
 	{
@@ -51,6 +54,11 @@ public:
 	const item_slot *get_slot() const;
 	const icon *get_icon() const;
 
+	const kobold::enchantment *get_enchantment() const
+	{
+		return this->enchantment;
+	}
+
 	bool is_equipped() const
 	{
 		return this->equipped;
@@ -67,6 +75,7 @@ signals:
 private:
 	std::string name;
 	const item_type *type = nullptr;
+	const kobold::enchantment *enchantment = nullptr;
 	bool equipped = false;
 };
 

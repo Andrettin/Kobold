@@ -38,6 +38,7 @@
 #include "infrastructure/improvement.h"
 #include "infrastructure/improvement_slot.h"
 #include "infrastructure/wonder.h"
+#include "item/affix_type.h"
 #include "map/diplomatic_map_image_provider.h"
 #include "map/elevation_type.h"
 #include "map/forestation_type.h"
@@ -132,6 +133,7 @@ int main(int argc, char **argv)
 
 		QQmlApplicationEngine engine;
 
+		enum_converter<affix_type>();
 		enum_converter<character_class_type>();
 		enum_converter<country_tier>();
 		enum_converter<country_type>();

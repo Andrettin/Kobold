@@ -140,6 +140,7 @@ source_group(infrastructure FILES ${infrastructure_SRCS})
 set_source_files_properties(${infrastructure_SRCS} PROPERTIES UNITY_GROUP "infrastructure")
 
 set(item_SRCS
+	src/item/affix_type.cpp
 	src/item/enchantment.cpp
 	src/item/item.cpp
 	src/item/item_type.cpp
@@ -451,6 +452,7 @@ set(infrastructure_HDRS
 source_group(infrastructure FILES ${infrastructure_HDRS})
 
 set(item_HDRS
+	src/item/affix_type.h
 	src/item/enchantment.h
 	src/item/item.h
 	src/item/item_slot.h

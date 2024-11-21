@@ -8,6 +8,7 @@ namespace kobold {
 
 class character;
 class item_type;
+enum class affix_type;
 
 template <typename scope_type>
 class modifier;
@@ -15,6 +16,8 @@ class modifier;
 class enchantment final : public named_data_entry, public data_type<enchantment>
 {
 	Q_OBJECT
+
+	Q_PROPERTY(kobold::affix_type affix_type MEMBER affix_type READ get_affix_type NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "enchantment";
@@ -26,6 +29,11 @@ public:
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
+
+	kobold::affix_type get_affix_type() const
+	{
+		return this->affix_type;
+	}
 
 	const data_entry_set<item_type> &get_item_types() const
 	{
@@ -41,6 +49,7 @@ signals:
 	void changed();
 
 private:
+	kobold::affix_type affix_type{};
 	data_entry_set<item_type> item_types;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 };
