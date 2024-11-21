@@ -1,0 +1,5 @@
+amulet = {
+	name = "Amulet"
+	slot = amulet
+	icon = crown_baronial
+}

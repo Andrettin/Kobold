@@ -1,0 +1,5 @@
+boots = {
+	name = "Boots"
+	slot = boots
+	icon = clothing
+}
