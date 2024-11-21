@@ -1,0 +1,5 @@
+cloak = {
+	name = "Cloak"
+	slot = cloak
+	icon = clothing
+}

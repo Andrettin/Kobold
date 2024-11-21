@@ -1,0 +1,54 @@
+of_natural_armor_plus_1 = {
+	name = "of Natural Armor +1"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		armor_class = 1
+	}
+}
+
+of_natural_armor_plus_2 = {
+	name = "of Natural Armor +2"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		armor_class = 2
+	}
+}
+
+of_natural_armor_plus_3 = {
+	name = "of Natural Armor +3"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		armor_class = 3
+	}
+}
+
+of_natural_armor_plus_4 = {
+	name = "of Natural Armor +4"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		armor_class = 4
+	}
+}
+
+of_natural_armor_plus_5 = {
+	name = "of Natural Armor +5"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		armor_class = 5
+	}
+}

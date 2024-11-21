@@ -1,0 +1,87 @@
+of_giant_strength_plus_4 = {
+	name = "of Giant Strength +4"
+	affix_type = suffix
+	item_types = {
+		belt
+	}
+	modifier = {
+		strength = 4
+	}
+}
+
+of_giant_strength_plus_6 = {
+	name = "of Giant Strength +6"
+	affix_type = suffix
+	item_types = {
+		belt
+	}
+	modifier = {
+		strength = 6
+	}
+}
+
+of_charisma_plus_2 = {
+	name = "of Charisma +2"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		charisma = 2
+	}
+}
+
+of_charisma_plus_4 = {
+	name = "of Charisma +4"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		charisma = 4
+	}
+}
+
+of_charisma_plus_6 = {
+	name = "of Charisma +6"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		charisma = 6
+	}
+}
+
+of_health_plus_2 = {
+	name = "of Health +2"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		constitution = 2
+	}
+}
+
+of_health_plus_4 = {
+	name = "of Health +4"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		constitution = 4
+	}
+}
+
+of_health_plus_6 = {
+	name = "of Health +6"
+	affix_type = suffix
+	item_types = {
+		amulet
+	}
+	modifier = {
+		constitution = 6
+	}
+}

@@ -1,0 +1,21 @@
+of_elvenkind_boots = {
+	name = "of Elvenkind"
+	affix_type = suffix
+	item_types = {
+		boots
+	}
+	modifier = {
+		move_silently = 5
+	}
+}
+
+of_elvenkind_cloak = {
+	name = "of Elvenkind"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		hide = 5
+	}
+}
