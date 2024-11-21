@@ -1,17 +1,37 @@
 fine = {
 	name = "Fine"
+	modifier = {
+		attack_bonus = 8
+		armor_class = 8
+		hide = 16
+	}
 }
 
 diminutive = {
 	name = "Diminutive"
+	modifier = {
+		attack_bonus = 4
+		armor_class = 4
+		hide = 12
+	}
 }
 
 tiny = {
 	name = "Tiny"
+	modifier = {
+		attack_bonus = 2
+		armor_class = 2
+		hide = 8
+	}
 }
 
 small = {
 	name = "Small"
+	modifier = {
+		attack_bonus = 1
+		armor_class = 1
+		hide = 4
+	}
 }
 
 medium = {
@@ -20,16 +40,36 @@ medium = {
 
 large = {
 	name = "Large"
+	modifier = {
+		attack_bonus = -1
+		armor_class = -1
+		hide = -4
+	}
 }
 
 huge = {
 	name = "Huge"
+	modifier = {
+		attack_bonus = -2
+		armor_class = -2
+		hide = -8
+	}
 }
 
 gargantuan = {
 	name = "Gargantuan"
+	modifier = {
+		attack_bonus = -4
+		armor_class = -4
+		hide = -12
+	}
 }
 
 colossal = {
 	name = "Colossal"
+	modifier = {
+		attack_bonus = -8
+		armor_class = -8
+		hide = -16
+	}
 }
