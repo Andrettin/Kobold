@@ -1,6 +1,7 @@
 ogre = {
 	name = "Ogre"
 	creature_type = giant
+	creature_size = large
 	sapient = true
 	hit_dice_count = 4
 	level_adjustment = 2

@@ -1,6 +1,7 @@
 troll = {
 	name = "Troll"
 	creature_type = giant
+	creature_size = large
 	sapient = true
 	hit_dice_count = 6
 	level_adjustment = 5

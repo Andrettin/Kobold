@@ -1,6 +1,7 @@
 orc = {
 	name = "Orc"
 	creature_type = humanoid
+	creature_size = medium
 	sapient = true
 	modifier = {
 		strength = 4

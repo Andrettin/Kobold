@@ -1,5 +1,6 @@
 hobgoblin = {
 	name = "Hobgoblin"
+	creature_size = medium
 	creature_type = humanoid
 	sapient = true
 	level_adjustment = 1

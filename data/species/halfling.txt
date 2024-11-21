@@ -1,6 +1,7 @@
 halfling = {
 	name = "Halfling"
 	creature_type = humanoid
+	creature_size = small
 	sapient = true
 	adulthood_age = 20
 	middle_age = 50

@@ -1,6 +1,7 @@
 half_elf = {
 	name = "Half-Elf"
 	creature_type = humanoid
+	creature_size = medium
 	sapient = true
 	adulthood_age = 20
 	middle_age = 62

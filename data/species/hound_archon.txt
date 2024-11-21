@@ -1,6 +1,7 @@
 hound_archon = {
 	name = "Hound Archon"
 	creature_type = outsider
+	creature_size = medium
 	sapient = true
 	hit_dice_count = 6
 	level_adjustment = 5

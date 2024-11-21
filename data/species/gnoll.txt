@@ -1,6 +1,7 @@
 gnoll = {
 	name = "Gnoll"
 	creature_type = humanoid
+	creature_size = medium
 	sapient = true
 	hit_dice_count = 2
 	level_adjustment = 1

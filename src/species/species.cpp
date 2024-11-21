@@ -11,6 +11,7 @@
 #include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
+#include "species/creature_size.h"
 #include "species/creature_type.h"
 #include "species/taxon.h"
 #include "species/taxonomic_rank.h"
@@ -84,6 +85,10 @@ void species::check() const
 
 	if (this->get_creature_type() == nullptr) {
 		throw std::runtime_error(std::format("Species \"{}\" has no creature type.", this->get_identifier()));
+	}
+
+	if (this->get_creature_size() == nullptr) {
+		throw std::runtime_error(std::format("Species \"{}\" has no creature size.", this->get_identifier()));
 	}
 
 	if (this->is_sapient()) {

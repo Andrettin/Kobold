@@ -4,11 +4,13 @@
 #include "database/data_type.h"
 #include "species/taxon_base.h"
 
+Q_MOC_INCLUDE("species/creature_size.h")
 Q_MOC_INCLUDE("species/creature_type.h")
 
 namespace kobold {
 
 class character_class;
+class creature_size;
 class creature_type;
 class feat;
 class item_slot;
@@ -28,6 +30,7 @@ class species final : public taxon_base, public data_type<species>
 	Q_OBJECT
 
 	Q_PROPERTY(const kobold::creature_type* creature_type MEMBER creature_type READ get_creature_type NOTIFY changed)
+	Q_PROPERTY(const kobold::creature_size* creature_size MEMBER creature_size READ get_creature_size NOTIFY changed)
 	Q_PROPERTY(bool sapient MEMBER sapient READ is_sapient NOTIFY changed)
 	Q_PROPERTY(int hit_dice_count MEMBER hit_dice_count READ get_hit_dice_count NOTIFY changed)
 	Q_PROPERTY(int level_adjustment MEMBER level_adjustment READ get_level_adjustment NOTIFY changed)
@@ -58,6 +61,11 @@ public:
 	const kobold::creature_type *get_creature_type() const
 	{
 		return this->creature_type;
+	}
+
+	const kobold::creature_size *get_creature_size() const
+	{
+		return this->creature_size;
 	}
 
 	bool is_sapient() const
@@ -183,6 +191,7 @@ public:
 
 private:
 	const kobold::creature_type *creature_type = nullptr;
+	const kobold::creature_size *creature_size = nullptr;
 	bool sapient = false;
 	int hit_dice_count = 0;
 	int level_adjustment = 0;

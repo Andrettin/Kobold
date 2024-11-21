@@ -1,6 +1,7 @@
 goblin = {
 	name = "Goblin"
 	creature_type = humanoid
+	creature_size = small
 	sapient = true
 	modifier = {
 		strength = -2
