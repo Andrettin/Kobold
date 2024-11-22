@@ -1033,7 +1033,7 @@ void character_game_data::on_item_equipped(const item *item, const int multiplie
 		type->get_modifier()->apply(this->character, multiplier);
 	}
 
-	if (item->get_enchantment() != nullptr) {
+	if (item->get_enchantment() != nullptr && item->get_enchantment()->get_modifier() != nullptr) {
 		item->get_enchantment()->get_modifier()->apply(this->character, multiplier);
 	}
 }
