@@ -1,3 +1,25 @@
+of_climbing = {
+	name = "of Climbing"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		climb = 5
+	}
+}
+
+of_improved_climbing = {
+	name = "of Improved Climbing"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		climb = 10
+	}
+}
+
 of_elvenkind_boots = {
 	name = "of Elvenkind"
 	affix_type = suffix
@@ -17,5 +39,61 @@ of_elvenkind_cloak = {
 	}
 	modifier = {
 		hide = 5
+	}
+}
+
+of_jumping = {
+	name = "of Jumping"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		jump = 5
+	}
+}
+
+of_improved_jumping = {
+	name = "of Improved Jumping"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		jump = 10
+	}
+}
+
+of_swimming = {
+	name = "of Swimming"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		swim = 5
+	}
+}
+
+of_improved_swimming = {
+	name = "of Improved Swimming"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		swim = 10
+	}
+}
+
+of_swimming_and_climbing = {
+	name = "of Swimming and Climbing"
+	affix_type = suffix
+	item_types = {
+		gloves
+	}
+	modifier = {
+		swim = 5
+		climb = 5
 	}
 }

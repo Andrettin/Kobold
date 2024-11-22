@@ -52,3 +52,58 @@ of_natural_armor_plus_5 = {
 		armor_class = 5
 	}
 }
+
+of_protection_plus_1 = {
+	name = "of Protection +1"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		armor_class = 1
+	}
+}
+
+of_protection_plus_2 = {
+	name = "of Protection +2"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		armor_class = 2
+	}
+}
+
+of_protection_plus_3 = {
+	name = "of Protection +3"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		armor_class = 3
+	}
+}
+
+of_protection_plus_4 = {
+	name = "of Protection +4"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		armor_class = 4
+	}
+}
+
+of_protection_plus_5 = {
+	name = "of Protection +5"
+	affix_type = suffix
+	item_types = {
+		ring
+	}
+	modifier = {
+		armor_class = 5
+	}
+}

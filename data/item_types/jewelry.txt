@@ -3,3 +3,9 @@ amulet = {
 	slot = amulet
 	icon = crown_baronial
 }
+
+ring = {
+	name = "Ring"
+	slot = ring
+	icon = crown_baronial
+}

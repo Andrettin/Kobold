@@ -1,0 +1,5 @@
+headband = {
+	name = "Headband"
+	slot = helmet
+	icon = crown_baronial
+}

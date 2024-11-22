@@ -1,0 +1,11 @@
+gauntlets = {
+	name = "Gauntlets"
+	slot = gloves
+	icon = clothing
+}
+
+gloves = {
+	name = "Gloves"
+	slot = gloves
+	icon = clothing
+}
