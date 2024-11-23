@@ -1,5 +1,5 @@
 dagger = {
 	name = "Dagger"
-	slot = weapon
+	item_class = light_blade
 	icon = dagger
 }

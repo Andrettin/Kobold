@@ -1,0 +1,19 @@
+robe = {
+	name = "Robe"
+	slot = armor
+}
+
+light_armor = {
+	name = "Light Armor"
+	slot = armor
+}
+
+medium_armor = {
+	name = "Medium Armor"
+	slot = armor
+}
+
+heavy_armor = {
+	name = "Heavy Armor"
+	slot = armor
+}

@@ -1,11 +1,11 @@
 amulet = {
 	name = "Amulet"
-	slot = amulet
+	item_class = amulet
 	icon = crown_baronial
 }
 
 ring = {
 	name = "Ring"
-	slot = ring
+	item_class = ring
 	icon = crown_baronial
 }

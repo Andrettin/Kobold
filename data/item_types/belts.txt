@@ -1,5 +1,5 @@
 belt = {
 	name = "Belt"
-	slot = belt
+	item_class = belt
 	icon = clothing
 }

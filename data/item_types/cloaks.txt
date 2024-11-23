@@ -1,5 +1,5 @@
 cloak = {
 	name = "Cloak"
-	slot = cloak
+	item_class = cloak
 	icon = clothing
 }

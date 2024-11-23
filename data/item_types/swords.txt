@@ -1,5 +1,5 @@
 longsword = {
 	name = "Longsword"
-	slot = weapon
+	item_class = heavy_blade
 	icon = saber
 }

@@ -1,5 +1,5 @@
 boots = {
 	name = "Boots"
-	slot = boots
+	item_class = boots
 	icon = clothing
 }

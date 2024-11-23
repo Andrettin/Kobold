@@ -2,6 +2,7 @@
 
 #include "item/item_type.h"
 
+#include "item/item_class.h"
 #include "item/item_slot.h"
 #include "script/modifier.h"
 
@@ -30,9 +31,18 @@ void item_type::process_gsml_scope(const gsml_data &scope)
 
 void item_type::check() const
 {
+	if (this->get_item_class() == nullptr) {
+		throw std::runtime_error(std::format("Item type \"{}\" has no item class.", this->get_identifier()));
+	}
+
 	if (this->get_icon() == nullptr) {
 		throw std::runtime_error(std::format("Item type \"{}\" has no icon.", this->get_identifier()));
 	}
+}
+
+const item_slot *item_type::get_slot() const
+{
+	return this->get_item_class()->get_slot();
 }
 
 }

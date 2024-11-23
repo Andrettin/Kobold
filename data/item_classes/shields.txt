@@ -1,0 +1,3 @@
+shield = {
+	name = "Shield"
+}

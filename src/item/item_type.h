@@ -3,14 +3,14 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
-Q_MOC_INCLUDE("item/item_slot.h")
+Q_MOC_INCLUDE("item/item_class.h")
 Q_MOC_INCLUDE("ui/icon.h")
 
 namespace kobold {
 
 class character;
 class icon;
-class item_slot;
+class item_class;
 
 template <typename scope_type>
 class modifier;
@@ -19,7 +19,7 @@ class item_type final : public named_data_entry, public data_type<item_type>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const kobold::item_slot* slot MEMBER slot READ get_slot NOTIFY changed)
+	Q_PROPERTY(const kobold::item_class* item_class MEMBER item_class READ get_item_class NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 
 public:
@@ -33,10 +33,12 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	const item_slot *get_slot() const
+	const kobold::item_class *get_item_class() const
 	{
-		return this->slot;
+		return this->item_class;
 	}
+
+	const item_slot *get_slot() const;
 
 	const kobold::icon *get_icon() const
 	{
@@ -52,7 +54,7 @@ signals:
 	void changed();
 
 private:
-	const item_slot *slot = nullptr;
+	const kobold::item_class *item_class = nullptr;
 	const kobold::icon *icon = nullptr;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 };

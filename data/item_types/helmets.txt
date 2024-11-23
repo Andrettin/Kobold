@@ -1,5 +1,5 @@
 headband = {
 	name = "Headband"
-	slot = helmet
+	item_class = helmet
 	icon = crown_baronial
 }

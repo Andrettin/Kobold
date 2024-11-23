@@ -1,12 +1,12 @@
 robe = {
 	name = "Robe"
-	slot = armor
+	item_class = robe
 	icon = clothing
 }
 
 chain_shirt = {
 	name = "Chain Shirt"
-	slot = armor
+	item_class = light_armor
 	icon = clothing
 	modifier = {
 		armor_class = 4
@@ -15,7 +15,7 @@ chain_shirt = {
 
 breastplate = {
 	name = "Breastplate"
-	slot = armor
+	item_class = medium_armor
 	icon = clothing
 	modifier = {
 		armor_class = 5
@@ -24,7 +24,7 @@ breastplate = {
 
 full_plate = {
 	name = "Full Plate"
-	slot = armor
+	item_class = heavy_armor
 	icon = clothing
 	modifier = {
 		armor_class = 8

@@ -1,11 +1,11 @@
 gauntlets = {
 	name = "Gauntlets"
-	slot = gloves
+	item_class = gloves
 	icon = clothing
 }
 
 gloves = {
 	name = "Gloves"
-	slot = gloves
+	item_class = gloves
 	icon = clothing
 }
