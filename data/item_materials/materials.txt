@@ -1,7 +1,7 @@
 adamantine_light_armor = {
 	name = "Adamantine"
-	item_types = {
-		chain_shirt
+	item_classes = {
+		light_armor
 	}
 	modifier = {
 		damage_reduction = 1
@@ -10,8 +10,8 @@ adamantine_light_armor = {
 
 adamantine_medium_armor = {
 	name = "Adamantine"
-	item_types = {
-		breastplate
+	item_classes = {
+		medium_armor
 	}
 	modifier = {
 		damage_reduction = 2
@@ -20,8 +20,8 @@ adamantine_medium_armor = {
 
 adamantine_heavy_armor = {
 	name = "Adamantine"
-	item_types = {
-		full_plate
+	item_classes = {
+		heavy_armor
 	}
 	modifier = {
 		damage_reduction = 3
@@ -30,8 +30,8 @@ adamantine_heavy_armor = {
 
 cold_iron = {
 	name = "Cold Iron"
-	item_types = {
-		dagger
-		longsword
+	item_classes = {
+		light_blade
+		heavy_blade
 	}
 }

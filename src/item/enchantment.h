@@ -7,6 +7,7 @@
 namespace kobold {
 
 class character;
+class item_class;
 class item_type;
 enum class affix_type;
 
@@ -35,6 +36,11 @@ public:
 		return this->affix_type;
 	}
 
+	const data_entry_set<item_class> &get_item_classes() const
+	{
+		return this->item_classes;
+	}
+
 	const data_entry_set<item_type> &get_item_types() const
 	{
 		return this->item_types;
@@ -55,6 +61,7 @@ signals:
 
 private:
 	kobold::affix_type affix_type{};
+	data_entry_set<item_class> item_classes;
 	data_entry_set<item_type> item_types;
 	std::vector<const enchantment *> subenchantments;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;

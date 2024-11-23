@@ -3,6 +3,7 @@
 #include "item/enchantment.h"
 
 #include "item/affix_type.h"
+#include "item/item_class.h"
 #include "item/item_type.h"
 #include "script/modifier.h"
 
@@ -21,7 +22,11 @@ void enchantment::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "item_types") {
+	if (tag == "item_classes") {
+		for (const std::string &value : values) {
+			this->item_classes.insert(item_class::get(value));
+		}
+	} else if (tag == "item_types") {
 		for (const std::string &value : values) {
 			this->item_types.insert(item_type::get(value));
 		}
@@ -44,8 +49,8 @@ void enchantment::check() const
 		throw std::runtime_error(std::format("Enchantment \"{}\" has no affix type.", this->get_identifier()));
 	}
 
-	if (this->get_item_types().empty()) {
-		throw std::runtime_error(std::format("Enchantment \"{}\" has no item types.", this->get_identifier()));
+	if (this->get_item_classes().empty() && this->get_item_types().empty()) {
+		throw std::runtime_error(std::format("Enchantment \"{}\" has neither item classes nor item types.", this->get_identifier()));
 	}
 }
 

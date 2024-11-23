@@ -14,6 +14,7 @@
 #include "country/country_skill.h"
 #include "country/office.h"
 #include "economy/commodity_unit.h"
+#include "item/item_class.h"
 #include "item/item_slot.h"
 #include "item/item_type.h"
 #include "map/settlement_attribute.h"
@@ -35,6 +36,7 @@ template struct data_entry_compare<country_milestone>;
 template struct data_entry_compare<country_skill>;
 template struct data_entry_compare<damage_reduction_type>;
 template struct data_entry_compare<feat>;
+template struct data_entry_compare<item_class>;
 template struct data_entry_compare<item_slot>;
 template struct data_entry_compare<item_type>;
 template struct data_entry_compare<office>;

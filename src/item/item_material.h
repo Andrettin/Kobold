@@ -7,6 +7,7 @@
 namespace kobold {
 
 class character;
+class item_class;
 class item_type;
 
 template <typename scope_type>
@@ -27,6 +28,11 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
+	const data_entry_set<item_class> &get_item_classes() const
+	{
+		return this->item_classes;
+	}
+
 	const data_entry_set<item_type> &get_item_types() const
 	{
 		return this->item_types;
@@ -41,6 +47,7 @@ signals:
 	void changed();
 
 private:
+	data_entry_set<item_class> item_classes;
 	data_entry_set<item_type> item_types;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 };
