@@ -1,0 +1,64 @@
+of_resistance_plus_1 = {
+	name = "of Resistance +1"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		fortitude = 1
+		reflex = 1
+		will = 1
+	}
+}
+
+of_resistance_plus_2 = {
+	name = "of Resistance +2"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		fortitude = 2
+		reflex = 2
+		will = 2
+	}
+}
+
+of_resistance_plus_3 = {
+	name = "of Resistance +3"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		fortitude = 3
+		reflex = 3
+		will = 3
+	}
+}
+
+of_resistance_plus_4 = {
+	name = "of Resistance +4"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		fortitude = 4
+		reflex = 4
+		will = 4
+	}
+}
+
+of_resistance_plus_5 = {
+	name = "of Resistance +5"
+	affix_type = suffix
+	item_types = {
+		cloak
+	}
+	modifier = {
+		fortitude = 5
+		reflex = 5
+		will = 5
+	}
+}

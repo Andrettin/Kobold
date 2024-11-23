@@ -1,3 +1,68 @@
+plus_1_armor = {
+	name = "+1"
+	affix_type = suffix
+	item_types = {
+		chain_shirt
+		breastplate
+		full_plate
+	}
+	modifier = {
+		armor_class = 1
+	}
+}
+
+plus_2_armor = {
+	name = "+2"
+	affix_type = suffix
+	item_types = {
+		chain_shirt
+		breastplate
+		full_plate
+	}
+	modifier = {
+		armor_class = 2
+	}
+}
+
+plus_3_armor = {
+	name = "+3"
+	affix_type = suffix
+	item_types = {
+		chain_shirt
+		breastplate
+		full_plate
+	}
+	modifier = {
+		armor_class = 3
+	}
+}
+
+plus_4_armor = {
+	name = "+4"
+	affix_type = suffix
+	item_types = {
+		chain_shirt
+		breastplate
+		full_plate
+	}
+	modifier = {
+		armor_class = 4
+	}
+}
+
+plus_5_armor = {
+	name = "+5"
+	affix_type = suffix
+	item_types = {
+		chain_shirt
+		breastplate
+		full_plate
+	}
+	modifier = {
+		armor_class = 5
+	}
+}
+
 of_natural_armor_plus_1 = {
 	name = "of Natural Armor +1"
 	affix_type = suffix
