@@ -1033,8 +1033,19 @@ void character_game_data::on_item_equipped(const item *item, const int multiplie
 		type->get_modifier()->apply(this->character, multiplier);
 	}
 
-	if (item->get_enchantment() != nullptr && item->get_enchantment()->get_modifier() != nullptr) {
-		item->get_enchantment()->get_modifier()->apply(this->character, multiplier);
+	if (item->get_enchantment() != nullptr) {
+		this->on_item_equipped_with_enchantment(item->get_enchantment(), multiplier);
+	}
+}
+
+void character_game_data::on_item_equipped_with_enchantment(const enchantment *enchantment, const int multiplier)
+{
+	if (enchantment->get_modifier() != nullptr) {
+		enchantment->get_modifier()->apply(this->character, multiplier);
+	}
+
+	for (const kobold::enchantment *subenchantment : enchantment->get_subenchantments()) {
+		this->on_item_equipped_with_enchantment(subenchantment, multiplier);
 	}
 }
 

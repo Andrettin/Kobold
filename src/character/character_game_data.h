@@ -23,6 +23,7 @@ class character;
 class character_attribute;
 class character_class;
 class country;
+class enchantment;
 class feat;
 class feat_type;
 class item;
@@ -407,6 +408,7 @@ public:
 	void equip_item(item *item);
 	void deequip_item(item *item);
 	void on_item_equipped(const item *item, const int multiplier);
+	void on_item_equipped_with_enchantment(const enchantment *enchantment, const int multiplier);
 
 	const centesimal_int &get_commanded_military_unit_stat_modifier(const military_unit_stat stat) const
 	{

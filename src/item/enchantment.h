@@ -40,6 +40,11 @@ public:
 		return this->item_types;
 	}
 
+	const std::vector<const enchantment *> &get_subenchantments() const
+	{
+		return this->subenchantments;
+	}
+
 	const kobold::modifier<const character> *get_modifier() const
 	{
 		return this->modifier.get();
@@ -51,6 +56,7 @@ signals:
 private:
 	kobold::affix_type affix_type{};
 	data_entry_set<item_type> item_types;
+	std::vector<const enchantment *> subenchantments;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 };
 

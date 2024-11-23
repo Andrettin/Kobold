@@ -25,6 +25,10 @@ void enchantment::process_gsml_scope(const gsml_data &scope)
 		for (const std::string &value : values) {
 			this->item_types.insert(item_type::get(value));
 		}
+	} else if (tag == "subenchantments") {
+		for (const std::string &value : values) {
+			this->subenchantments.push_back(enchantment::get(value));
+		}
 	} else if (tag == "modifier") {
 		auto modifier = std::make_unique<kobold::modifier<const character>>();
 		database::process_gsml_data(modifier, scope);
