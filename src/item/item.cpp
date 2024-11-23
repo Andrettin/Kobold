@@ -4,13 +4,14 @@
 
 #include "item/affix_type.h"
 #include "item/enchantment.h"
+#include "item/item_material.h"
 #include "item/item_type.h"
 #include "util/assert_util.h"
 
 namespace kobold {
 
-item::item(const item_type *type, const kobold::enchantment *enchantment)
-	: type(type), enchantment(enchantment)
+item::item(const item_type *type, const item_material *material, const kobold::enchantment *enchantment)
+	: type(type), material(material), enchantment(enchantment)
 {
 	assert_throw(this->get_type() != nullptr);
 
@@ -20,6 +21,10 @@ item::item(const item_type *type, const kobold::enchantment *enchantment)
 void item::update_name()
 {
 	std::string name = this->get_type()->get_name();
+
+	if (this->get_material() != nullptr) {
+		name = this->get_material()->get_name() + " " + name;
+	}
 
 	if (this->get_enchantment() != nullptr) {
 		switch (this->get_enchantment()->get_affix_type()) {

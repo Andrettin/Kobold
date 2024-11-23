@@ -3,3 +3,30 @@ robe = {
 	slot = armor
 	icon = clothing
 }
+
+chain_shirt = {
+	name = "Chain Shirt"
+	slot = armor
+	icon = clothing
+	modifier = {
+		armor_class = 4
+	}
+}
+
+breastplate = {
+	name = "Breastplate"
+	slot = armor
+	icon = clothing
+	modifier = {
+		armor_class = 5
+	}
+}
+
+full_plate = {
+	name = "Full Plate"
+	slot = armor
+	icon = clothing
+	modifier = {
+		armor_class = 8
+	}
+}
