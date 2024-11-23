@@ -7,6 +7,7 @@
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/character_history.h"
+#include "character/damage_reduction_type.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
 #include "character/level_bonus_table.h"
@@ -620,6 +621,27 @@ void character_game_data::change_skill_per_level_bonus(const skill *skill, const
 	}
 
 	this->change_skill_bonus(skill, change * this->get_level());
+}
+
+QVariantList character_game_data::get_damage_reductions_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_damage_reductions());
+}
+
+void character_game_data::change_damage_reduction(const damage_reduction_type *type, const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->damage_reductions[type] += change);
+	if (new_value == 0) {
+		this->damage_reductions.erase(type);
+	}
+
+	if (game::get()->is_running()) {
+		emit damage_reductions_changed();
+	}
 }
 
 QVariantList character_game_data::get_feats_qvariant_list() const

@@ -335,6 +335,7 @@ set(character_HDRS
 	src/character/character_game_data.h
 	src/character/character_history.h
 	src/character/character_template.h
+	src/character/damage_reduction_type.h
 	src/character/dynasty.h
 	src/character/feat.h
 	src/character/feat_template.h
@@ -684,6 +685,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/commodity_throughput_modifier_effect.h
 	src/script/modifier_effect/consumption_modifier_effect.h
 	src/script/modifier_effect/country_attribute_modifier_effect.h
+	src/script/modifier_effect/damage_reduction_modifier_effect.h
 	src/script/modifier_effect/deployment_limit_modifier_effect.h
 	src/script/modifier_effect/diplomatic_penalty_for_expansion_modifier_effect.h
 	src/script/modifier_effect/entrenchment_bonus_modifier_effect.h

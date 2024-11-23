@@ -23,6 +23,7 @@ class character;
 class character_attribute;
 class character_class;
 class country;
+class damage_reduction_type;
 class enchantment;
 class feat;
 class feat_type;
@@ -62,6 +63,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(int armor_class READ get_armor_class NOTIFY armor_class_changed)
 	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
 	Q_PROPERTY(QVariantList skill_bonuses READ get_skill_bonuses_qvariant_list NOTIFY skill_bonuses_changed)
+	Q_PROPERTY(QVariantList damage_reductions READ get_damage_reductions_qvariant_list NOTIFY damage_reductions_changed)
 	Q_PROPERTY(QVariantList feats READ get_feats_qvariant_list NOTIFY feats_changed)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(bool ruler READ is_ruler NOTIFY office_changed)
@@ -297,6 +299,15 @@ public:
 
 	void change_skill_per_level_bonus(const skill *skill, const int change);
 
+	const data_entry_map<damage_reduction_type, int> &get_damage_reductions() const
+	{
+		return this->damage_reductions;
+	}
+
+	QVariantList get_damage_reductions_qvariant_list() const;
+
+	void change_damage_reduction(const damage_reduction_type *type, const int change);
+
 	const data_entry_map<feat, int> &get_feat_counts() const
 	{
 		return this->feat_counts;
@@ -473,6 +484,7 @@ signals:
 	void armor_class_changed();
 	void saving_throw_bonuses_changed();
 	void skill_bonuses_changed();
+	void damage_reductions_changed();
 	void feats_changed();
 	void scripted_modifiers_changed();
 	void office_changed();
@@ -499,6 +511,7 @@ private:
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
 	data_entry_map<skill, int> skill_per_level_bonuses;
+	data_entry_map<damage_reduction_type, int> damage_reductions;
 	data_entry_map<feat, int> feat_counts;
 	scripted_character_modifier_map<int> scripted_modifiers;
 	const kobold::office *office = nullptr;

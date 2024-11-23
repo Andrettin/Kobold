@@ -4,6 +4,7 @@
 
 #include "character/character_attribute.h"
 #include "character/character_class.h"
+#include "character/damage_reduction_type.h"
 #include "character/feat.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
@@ -32,6 +33,7 @@ template struct data_entry_compare<country_attribute>;
 template struct data_entry_compare<country_feat>;
 template struct data_entry_compare<country_milestone>;
 template struct data_entry_compare<country_skill>;
+template struct data_entry_compare<damage_reduction_type>;
 template struct data_entry_compare<feat>;
 template struct data_entry_compare<item_slot>;
 template struct data_entry_compare<item_type>;
