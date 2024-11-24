@@ -266,6 +266,15 @@ void character::initialize_dates()
 					start_date = start_date.addYears(random::get()->roll_dice(starting_age_modifier));
 					this->set_start_date(start_date);
 					date_changed = true;
+				} else if (this->get_contemporary_character() != nullptr) {
+					if (!this->get_contemporary_character()->is_initialized()) {
+						this->get_contemporary_character()->initialize();
+					}
+
+					if (this->get_contemporary_character()->get_start_date().isValid()) {
+						this->set_start_date(this->get_contemporary_character()->get_start_date());
+						date_changed = true;
+					}
 				}
 			}
 

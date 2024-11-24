@@ -64,6 +64,7 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(const kobold::site* home_site MEMBER home_site NOTIFY changed)
 	Q_PROPERTY(kobold::character* father READ get_father WRITE set_father NOTIFY changed)
 	Q_PROPERTY(kobold::character* mother READ get_mother WRITE set_mother NOTIFY changed)
+	Q_PROPERTY(kobold::character* contemporary_character READ get_contemporary_character WRITE set_contemporary_character NOTIFY changed)
 	Q_PROPERTY(kobold::character_game_data* game_data READ get_game_data NOTIFY game_data_changed)
 
 public:
@@ -173,6 +174,11 @@ public:
 	character *get_mother() const
 	{
 		return static_cast<character *>(character_base::get_mother());
+	}
+
+	character *get_contemporary_character() const
+	{
+		return static_cast<character *>(character_base::get_contemporary_character());
 	}
 
 	const std::vector<const feat *> &get_feats() const
