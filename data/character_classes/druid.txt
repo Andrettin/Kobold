@@ -1,6 +1,7 @@
 druid = {
 	name = "Druid"
 	type = base_class
+	icon = artillerist
 	hit_dice = 1d8
 	base_attack_bonus_table = medium_base_attack_bonus
 	saving_throw_bonus_tables = {

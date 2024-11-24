@@ -1,6 +1,7 @@
 barbarian = {
 	name = "Barbarian"
 	type = base_class
+	icon = pikemen
 	hit_dice = 1d12
 	base_attack_bonus_table = high_base_attack_bonus
 	saving_throw_bonus_tables = {

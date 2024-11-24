@@ -1,6 +1,7 @@
 expert = {
 	name = "Expert"
 	type = base_class
+	icon = craftsmen_light
 	hit_dice = 1d6
 	base_attack_bonus_table = medium_base_attack_bonus
 	saving_throw_bonus_tables = {
