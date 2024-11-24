@@ -7,7 +7,6 @@ friedrich_von_wittelsbach = { #Source: "Gothaischer Hofkalender zum Nutzen und V
 	religion = catholic
 	home_site = kaiserslautern
 	gender = male
-	start_date = 1752.5.10 #birth of child
 }
 
 maximilian_joseph_von_wittelsbach = { #Source: "Almanach de Gotha pour l'année 1847", 1847, p. 15.

@@ -8,7 +8,6 @@ heinrich_von_reuss_zu_ebersdorf = { #Heinrich von Reuss zu Ebersdorf; Source: "G
 	home_settlement = erfurt #Ebersdorf
 	gender = male
 	#count of Reuss zu Ebersdorf, as Heinrich XXIV
-	start_date = 1748 #30 years before his daughter had a child 
 }
 
 auguste_karoline_von_reuss_zu_ebersdorf = { #Auguste Karoline von Reuss zu Ebersdorf; Source: "Gothaischer Hofkalender zum Nutzen und Vergnügen auf das Jahr 1815", 1815, p. 3.
@@ -21,7 +20,6 @@ auguste_karoline_von_reuss_zu_ebersdorf = { #Auguste Karoline von Reuss zu Ebers
 	home_settlement = erfurt #Ebersdorf
 	gender = female
 	father = heinrich_von_reuss_zu_ebersdorf
-	start_date = 1778.8.19 #birth of her first child
 	
 	history = {
 		1778.8.19 = {

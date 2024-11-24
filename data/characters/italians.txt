@@ -7,7 +7,7 @@ viridis_visconti = { #Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 	religion = catholic
 	home_settlement = milan #correct?
 	gender = female
-	start_date = 1377 #married Leopold III of Austria, and had her son Ernst with him in 1377; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
+	#married Leopold III of Austria; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 }
 
 amerigo_vespucci = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, p. 199.

@@ -7,7 +7,6 @@ friederich_von_kageneck = { #Source: "Gothaischer Hofkalender zum Nutzen und Ver
 	religion = catholic
 	home_site = freiburg #correct?
 	gender = male
-	start_date = 1755.12.8 #daughter's birth
 	
 	#count of Kageneck
 }

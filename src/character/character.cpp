@@ -276,7 +276,33 @@ void character::initialize_dates()
 					birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
 					this->set_birth_date(birth_date);
 					date_changed = true;
-				} else if (this->get_death_date().isValid()) {
+				} else if (!this->get_children().empty()) {
+					QDate earliest_child_birth_date;
+
+					for (character_base *child : this->get_children()) {
+						if (!child->is_initialized()) {
+							child->initialize();
+						}
+
+						if (!child->get_birth_date().isValid()) {
+							continue;
+						}
+
+						if (!earliest_child_birth_date.isValid() || child->get_birth_date() < earliest_child_birth_date) {
+							earliest_child_birth_date = child->get_birth_date();
+						}
+					}
+
+					if (earliest_child_birth_date.isValid()) {
+						QDate birth_date = earliest_child_birth_date;
+						birth_date = birth_date.addYears(-adulthood_age);
+						birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
+						this->set_birth_date(birth_date);
+						date_changed = true;
+					}
+				}
+				
+				if (!this->get_birth_date().isValid() && this->get_death_date().isValid()) {
 					QDate birth_date = this->get_death_date();
 					birth_date = birth_date.addYears(-venerable_age);
 					birth_date = birth_date.addYears(-random::get()->roll_dice(maximum_age_modifier));

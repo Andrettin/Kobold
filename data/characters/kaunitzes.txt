@@ -7,7 +7,6 @@ ernst_von_kaunitz = { #Source: "Gothaischer Hofkalender zum Nutzen und Vergnüge
 	religion = catholic
 	home_site = minden #Rietberg
 	gender = male
-	start_date = 1775.9.27 #daughter's marriage was on 1795.9.27, set to 20 years before
 	
 	#prince of Kaunitz-Rietberg
 }

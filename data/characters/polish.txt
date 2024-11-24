@@ -7,7 +7,7 @@ cymburgis_of_masovia = { #Cymburgis of Masovia; Source: Eva Demmerle, "Das Haus 
 	religion = catholic
 	home_settlement = warsaw
 	gender = female
-	start_date = 1415 #married Ernst the Iron of Austria, and had her son Friedrich with him in 1415; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
+	#married Ernst the Iron of Austria; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 245.
 }
 
 nicolaus_copernicus = { #Source: Isaac Asimov, "Cronologia das Ciências e das Descobertas", 1993, pp. 209-211.
