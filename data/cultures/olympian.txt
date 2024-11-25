@@ -1,0 +1,7 @@
+olympian = {
+	name = "Olympian"
+	default_phenotype = european
+	species = {
+		human
+	}
+}

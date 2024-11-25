@@ -19,6 +19,7 @@
 #include "map/province.h"
 #include "map/site.h"
 #include "map/site_type.h"
+#include "religion/deity.h"
 #include "religion/religion.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
@@ -38,6 +39,7 @@
 namespace kobold {
 
 const std::set<std::string> character::database_dependencies = {
+	character_class::class_identifier,
 	feat_template::class_identifier,
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
 	province::class_identifier
@@ -127,6 +129,16 @@ void character::process_gsml_scope(const gsml_data &scope)
 
 void character::initialize()
 {
+	if (this->get_deity() != nullptr) {
+		if (this->get_name().empty()) {
+			this->set_name(this->get_deity()->get_name());
+		}
+
+		if (this->get_name_word() == nullptr) {
+			this->set_name_word(this->get_deity()->get_name_word());
+		}
+	}
+
 	if (this->get_phenotype() == nullptr && this->get_culture() != nullptr) {
 		this->phenotype = this->get_culture()->get_default_phenotype();
 	}

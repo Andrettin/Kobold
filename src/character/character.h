@@ -11,6 +11,7 @@ Q_MOC_INCLUDE("character/dynasty.h")
 Q_MOC_INCLUDE("country/culture.h")
 Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("population/phenotype.h")
+Q_MOC_INCLUDE("religion/deity.h")
 Q_MOC_INCLUDE("religion/religion.h")
 Q_MOC_INCLUDE("species/species.h")
 Q_MOC_INCLUDE("ui/portrait.h")
@@ -30,6 +31,7 @@ class civilian_unit_class;
 class civilian_unit_type;
 class country;
 class culture;
+class deity;
 class dynasty;
 class feat;
 class phenotype;
@@ -59,6 +61,7 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(const kobold::religion* religion MEMBER religion NOTIFY changed)
 	Q_PROPERTY(const kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
+	Q_PROPERTY(const kobold::deity* deity READ get_deity NOTIFY changed)
 	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_settlement MEMBER home_settlement NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_site MEMBER home_site NOTIFY changed)
@@ -156,6 +159,21 @@ public:
 		return this->phenotype;
 	}
 
+	const kobold::deity *get_deity() const
+	{
+		return this->deity;
+	}
+
+	void set_deity(const kobold::deity *deity)
+	{
+		this->deity = deity;
+	}
+
+	bool is_deity() const
+	{
+		return this->get_deity() != nullptr;
+	}
+
 	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
@@ -203,6 +221,7 @@ private:
 	kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
 	const kobold::phenotype *phenotype = nullptr;
+	const kobold::deity *deity = nullptr; //the deity which the character is (if it is a deity)
 	const kobold::portrait *portrait = nullptr;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;

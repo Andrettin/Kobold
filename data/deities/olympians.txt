@@ -1,0 +1,9 @@
+athena = {
+	name = "Athena"
+	pantheon = olympian
+	domains = {
+		knowledge
+		protection
+		war
+	}
+}
