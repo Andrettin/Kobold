@@ -228,9 +228,9 @@ void character::check() const
 
 	assert_throw(this->get_phenotype() != nullptr);
 
-	if (this->get_home_settlement() == nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has no home settlement.", this->get_identifier()));
-	} else if (!this->get_home_settlement()->is_settlement()) {
+	if (this->get_home_settlement() == nullptr && !this->is_deity()) {
+		throw std::runtime_error(std::format("Non-deity character \"{}\" has no home settlement.", this->get_identifier()));
+	} else if (this->get_home_settlement() != nullptr && !this->get_home_settlement()->is_settlement()) {
 		throw std::runtime_error(std::format("Character \"{}\" has \"{}\" set as their home settlement, but it is not a settlement site.", this->get_identifier(), this->get_home_settlement()->get_identifier()));
 	}
 

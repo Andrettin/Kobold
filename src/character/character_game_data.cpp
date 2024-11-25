@@ -181,7 +181,7 @@ void character_game_data::apply_history(const QDate &start_date)
 				if (is_spouse_higher_ranking) {
 					if (spouse_history->get_country() != nullptr) {
 						country = spouse_history->get_country();
-					} else if (this->get_spouse()->get_home_settlement()->get_map_data()->is_on_map()) {
+					} else if (this->get_spouse()->get_home_settlement() != nullptr && this->get_spouse()->get_home_settlement()->get_map_data()->is_on_map()) {
 						country = this->get_spouse()->get_home_settlement()->get_game_data()->get_owner();
 					}
 				}
@@ -189,7 +189,7 @@ void character_game_data::apply_history(const QDate &start_date)
 		}
 
 		if (country == nullptr) {
-			if (this->character->get_home_settlement()->get_map_data()->is_on_map() && !this->character->is_deity()) {
+			if (this->character->get_home_settlement() != nullptr && this->character->get_home_settlement()->get_map_data()->is_on_map()) {
 				country = this->character->get_home_settlement()->get_game_data()->get_owner();
 			}
 		}
