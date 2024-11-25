@@ -1,0 +1,11 @@
+asgardian = {
+	name = "Asgardian"
+}
+
+olympian = {
+	name = "Olympian"
+}
+
+pharaonic = {
+	name = "Pharaonic"
+}
