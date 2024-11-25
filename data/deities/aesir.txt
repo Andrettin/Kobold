@@ -1,0 +1,41 @@
+loki = {
+	name = "Loki"
+	pantheon = aesir
+	divine_rank = greater_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		trickery
+		chaos
+		madness
+	}
+}
+
+odin = {
+	name = "Odin"
+	pantheon = aesir
+	divine_rank = greater_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		magic
+		war
+		rune
+	}
+}
+
+thor = {
+	name = "Thor"
+	pantheon = aesir
+	divine_rank = greater_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		weather
+		strength
+		air
+	}
+}
