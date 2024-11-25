@@ -6,8 +6,8 @@
 
 Q_MOC_INCLUDE("country/country.h")
 Q_MOC_INCLUDE("country/culture.h")
-Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("population/phenotype.h")
+Q_MOC_INCLUDE("religion/religion.h")
 Q_MOC_INCLUDE("unit/military_unit_type.h")
 
 namespace kobold {

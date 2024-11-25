@@ -4,8 +4,8 @@
 #include "infrastructure/building_slot_type_container.h"
 
 Q_MOC_INCLUDE("country/culture.h")
-Q_MOC_INCLUDE("country/religion.h")
 Q_MOC_INCLUDE("infrastructure/settlement_type.h")
+Q_MOC_INCLUDE("religion/religion.h")
 
 namespace kobold {
 
