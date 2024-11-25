@@ -1,0 +1,87 @@
+air = {
+	name = "Air"
+}
+
+animal = {
+	name = "Animal"
+}
+
+chaos = {
+	name = "Chaos"
+}
+
+death = {
+	name = "Death"
+}
+
+destruction = {
+	name = "Destruction"
+}
+
+earth = {
+	name = "Earth"
+}
+
+evil = {
+	name = "Evil"
+}
+
+fire = {
+	name = "Fire"
+}
+
+good = {
+	name = "Good"
+}
+
+healing = {
+	name = "Healing"
+}
+
+knowledge = {
+	name = "Knowledge"
+}
+
+law = {
+	name = "Law"
+}
+
+luck = {
+	name = "Luck"
+}
+
+magic = {
+	name = "Magic"
+}
+
+plant = {
+	name = "Plant"
+}
+
+protection = {
+	name = "Protection"
+}
+
+strength = {
+	name = "Strength"
+}
+
+sun = {
+	name = "Sun"
+}
+
+travel = {
+	name = "Travel"
+}
+
+trickery = {
+	name = "Trickery"
+}
+
+war = {
+	name = "War"
+}
+
+water = {
+	name = "Water"
+}
