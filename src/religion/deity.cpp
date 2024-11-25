@@ -5,8 +5,10 @@
 #include "character/character.h"
 #include "character/character_class.h"
 #include "character/feat_template.h"
+#include "database/defines.h"
 #include "map/province.h"
 #include "religion/divine_domain.h"
+#include "util/string_util.h"
 
 namespace kobold {
 
@@ -15,6 +17,22 @@ const std::set<std::string> deity::database_dependencies = {
 	feat_template::class_identifier,
 	province::class_identifier
 };
+
+void deity::process_gsml_property(const gsml_property &property)
+{
+	const std::string &key = property.get_key();
+	const std::string &value = property.get_value();
+
+	if (key == "divine_rank") {
+		if (string::is_number(value)) {
+			this->divine_rank = std::stoi(value);
+		} else {
+			this->divine_rank = defines::get()->get_divine_rank(value);
+		}
+	} else {
+		data_entry::process_gsml_property(property);
+	}
+}
 
 void deity::process_gsml_scope(const gsml_data &scope)
 {
@@ -46,6 +64,10 @@ void deity::check() const
 {
 	if (this->get_pantheon() == nullptr) {
 		throw std::runtime_error(std::format("Deity \"{}\" has no pantheon.", this->get_identifier()));
+	}
+
+	if (this->get_divine_rank() == 0) {
+		throw std::runtime_error(std::format("Deity \"{}\" has no divine rank.", this->get_identifier()));
 	}
 
 	if (static_cast<int>(this->get_domains().size()) < deity::base_deity_domains) {

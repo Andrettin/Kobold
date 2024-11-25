@@ -273,6 +273,16 @@ public:
 		return nullptr;
 	}
 
+	int get_divine_rank(const std::string &name) const
+	{
+		const auto find_iterator = this->divine_ranks_by_name.find(name);
+		if (find_iterator != this->divine_ranks_by_name.end()) {
+			return find_iterator->second;
+		}
+
+		throw std::runtime_error(std::format("Invalid divine rank name: \"{}\".", name));
+	}
+
 	const effect_list<const country> *get_country_level_effects(const int level) const
 	{
 		const auto find_iterator = this->country_level_effects.find(level);
@@ -395,6 +405,7 @@ private:
 	portrait *war_minister_portrait = nullptr;
 	std::map<int, int> experience_per_level;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
+	std::map<std::string, int> divine_ranks_by_name;
 	std::map<int, std::unique_ptr<const effect_list<const country>>> country_level_effects;
 	QColor minor_nation_color;
 	QColor country_border_color;

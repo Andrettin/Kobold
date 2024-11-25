@@ -148,6 +148,14 @@ character_hit_dice_count_effects = {
 	}
 }
 
+divine_rank_names = {
+	demigod = 1
+	lesser_deity = 6
+	intermediate_deity = 11
+	greater_deity = 16
+	overdeity = 21
+}
+
 country_level_effects = {
 	1 = {
 		gain_feat_of_type = skill_proficiency

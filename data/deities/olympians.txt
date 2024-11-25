@@ -1,6 +1,7 @@
 athena = {
 	name = "Athena"
 	pantheon = olympian
+	divine_rank = intermediate_deity
 	domains = {
 		knowledge
 		protection

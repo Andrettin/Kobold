@@ -18,6 +18,7 @@ class deity final : public named_data_entry, public data_type<deity>
 
 	Q_PROPERTY(const kobold::pantheon* pantheon MEMBER pantheon READ get_pantheon NOTIFY changed)
 	Q_PROPERTY(const kobold::character* character READ get_character CONSTANT)
+	Q_PROPERTY(int divine_rank READ get_divine_rank CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "deity";
@@ -31,6 +32,7 @@ public:
 	{
 	}
 
+	virtual void process_gsml_property(const gsml_property &scope) override;
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
 	virtual void check() const override;
@@ -45,6 +47,11 @@ public:
 		return this->character;
 	}
 
+	int get_divine_rank() const
+	{
+		return this->divine_rank;
+	}
+
 	const std::vector<const divine_domain *> &get_domains() const
 	{
 		return this->domains;
@@ -56,6 +63,7 @@ signals:
 private:
 	const kobold::pantheon *pantheon = nullptr;
 	const kobold::character *character = nullptr;
+	int divine_rank = 0;
 	std::vector<const divine_domain *> domains;
 };
 
