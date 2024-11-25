@@ -8,6 +8,7 @@
 #include "database/defines.h"
 #include "map/province.h"
 #include "religion/divine_domain.h"
+#include "religion/religion.h"
 #include "util/string_util.h"
 
 namespace kobold {
@@ -39,17 +40,23 @@ void deity::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "character") {
+	if (tag == "religions") {
+		for (const std::string &value : values) {
+			religion *religion = religion::get(value);
+			religion->add_deity(this);
+			this->religions.push_back(religion);
+		}
+	} else if (tag == "domains") {
+		for (const std::string &value : values) {
+			this->domains.push_back(divine_domain::get(value));
+		}
+	} else if (tag == "character") {
 		//add a character with the same identifier as the deity for it
 		kobold::character *character = character::add(this->get_identifier(), this->get_module());
 		character->set_deity(this);
 		this->character = character;
 
 		database::process_gsml_data(character, scope);
-	} else if (tag == "domains") {
-		for (const std::string &value : values) {
-			this->domains.push_back(divine_domain::get(value));
-		}
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
@@ -64,6 +71,10 @@ void deity::check() const
 {
 	if (this->get_pantheon() == nullptr) {
 		throw std::runtime_error(std::format("Deity \"{}\" has no pantheon.", this->get_identifier()));
+	}
+
+	if (this->get_religions().empty()) {
+		throw std::runtime_error(std::format("Deity \"{}\" is not worshipped by any religions.", this->get_identifier()));
 	}
 
 	if (this->get_divine_rank() == 0) {

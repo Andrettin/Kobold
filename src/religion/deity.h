@@ -11,6 +11,7 @@ namespace kobold {
 class character;
 class divine_domain;
 class pantheon;
+class religion;
 
 class deity final : public named_data_entry, public data_type<deity>
 {
@@ -42,6 +43,11 @@ public:
 		return this->pantheon;
 	}
 
+	const std::vector<const religion *> &get_religions() const
+	{
+		return this->religions;
+	}
+
 	const kobold::character *get_character() const
 	{
 		return this->character;
@@ -62,6 +68,7 @@ signals:
 
 private:
 	const kobold::pantheon *pantheon = nullptr;
+	std::vector<const religion *> religions;
 	const kobold::character *character = nullptr;
 	int divine_rank = 0;
 	std::vector<const divine_domain *> domains;

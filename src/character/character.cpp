@@ -33,6 +33,7 @@
 #include "util/log_util.h"
 #include "util/random.h"
 #include "util/string_util.h"
+#include "util/vector_random_util.h"
 
 #include <QUuid>
 
@@ -55,6 +56,7 @@ const character *character::generate(const kobold::species *species, const std::
 	generated_character->level = level;
 	generated_character->culture = const_cast<kobold::culture *>(culture);
 	generated_character->religion = religion;
+	generated_character->generate_patron_deity();
 	generated_character->phenotype = culture->get_default_phenotype();
 	generated_character->home_settlement = home_settlement;
 	generated_character->set_start_date(game::get()->get_date());
@@ -188,6 +190,10 @@ void character::initialize()
 		if (feat->get_upgraded_feat() != nullptr) {
 			this->feats.push_back(feat->get_upgraded_feat());
 		}
+	}
+
+	if (this->get_patron_deity() == nullptr) {
+		this->generate_patron_deity();
 	}
 
 	for (const auto &[character_class_type, character_class] : this->get_character_classes()) {
@@ -345,6 +351,30 @@ void character::initialize_dates()
 	}
 
 	character_base::initialize_dates();
+}
+
+void character::generate_patron_deity()
+{
+	assert_throw(this->get_patron_deity() == nullptr);
+
+	if (this->get_religion() == nullptr) {
+		return;
+	}
+
+	if (this->get_religion()->get_deities().empty()) {
+		return;
+	}
+
+	std::vector<const kobold::deity *> potential_deities;
+
+	for (const kobold::deity *deity : this->get_religion()->get_deities()) {
+		for (int i = 0; i < deity->get_divine_rank(); ++i) {
+			potential_deities.push_back(deity);
+		}
+	}
+
+	assert_throw(!potential_deities.empty());
+	this->patron_deity = vector::get_random(potential_deities);
 }
 
 }

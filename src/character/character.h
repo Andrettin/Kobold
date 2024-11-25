@@ -60,6 +60,7 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(const kobold::religion* religion MEMBER religion NOTIFY changed)
+	Q_PROPERTY(const kobold::deity* patron_deity MEMBER patron_deity READ get_patron_deity NOTIFY changed)
 	Q_PROPERTY(const kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
 	Q_PROPERTY(const kobold::deity* deity READ get_deity NOTIFY changed)
 	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait NOTIFY changed)
@@ -154,6 +155,13 @@ public:
 		return this->religion;
 	}
 
+	const kobold::deity *get_patron_deity() const
+	{
+		return this->patron_deity;
+	}
+
+	void generate_patron_deity();
+
 	const kobold::phenotype *get_phenotype() const
 	{
 		return this->phenotype;
@@ -238,6 +246,7 @@ private:
 	int level = 0;
 	kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;
+	const kobold::deity *patron_deity = nullptr;
 	const kobold::phenotype *phenotype = nullptr;
 	const kobold::deity *deity = nullptr; //the deity which the character is (if it is a deity)
 	const kobold::portrait *portrait = nullptr;
