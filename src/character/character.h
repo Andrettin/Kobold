@@ -174,6 +174,11 @@ public:
 		return this->get_deity() != nullptr;
 	}
 
+	virtual bool is_immortal() const override
+	{
+		return this->is_deity();
+	}
+
 	const kobold::portrait *get_portrait() const
 	{
 		return this->portrait;
@@ -197,6 +202,19 @@ public:
 	character *get_contemporary_character() const
 	{
 		return static_cast<character *>(character_base::get_contemporary_character());
+	}
+
+	bool is_alive_on_start_date(const QDate &start_date) const
+	{
+		if (start_date < this->get_birth_date()) {
+			return false;
+		}
+
+		if (this->get_death_date().isValid() && start_date >= this->get_death_date()) {
+			return false;
+		}
+
+		return true;
 	}
 
 	const std::vector<const feat *> &get_feats() const

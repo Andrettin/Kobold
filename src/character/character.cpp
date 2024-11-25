@@ -332,7 +332,7 @@ void character::initialize_dates()
 				}
 			}
 
-			if (!this->get_death_date().isValid()) {
+			if (!this->get_death_date().isValid() && !this->is_immortal()) {
 				if (this->get_birth_date().isValid()) {
 					QDate death_date = this->get_birth_date();
 					death_date = death_date.addYears(venerable_age);

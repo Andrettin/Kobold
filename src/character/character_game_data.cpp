@@ -154,9 +154,9 @@ void character_game_data::apply_history(const QDate &start_date)
 	const int level = std::max(character_history->get_level(), 1);
 	this->apply_species_and_class(level);
 
-	if (this->character->get_birth_date() <= start_date && this->character->get_death_date() > start_date) {
+	if (this->character->is_alive_on_start_date(start_date)) {
 		const kobold::character *spouse = character_history->get_spouse();
-		if (spouse != nullptr && spouse->get_death_date() > start_date) {
+		if (spouse != nullptr && spouse->is_alive_on_start_date(start_date)) {
 			this->set_spouse(spouse);
 		}
 
@@ -203,7 +203,7 @@ void character_game_data::apply_history(const QDate &start_date)
 				this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
 			}
 		}
-	} else if (character->get_death_date() <= start_date) {
+	} else if (this->character->get_death_date().isValid() && this->character->get_death_date() <= start_date) {
 		this->set_dead(true);
 	}
 }
