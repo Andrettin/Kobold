@@ -6,8 +6,28 @@ animal = {
 	name = "Animal"
 }
 
+artifice = {
+	name = "Artifice"
+}
+
 chaos = {
 	name = "Chaos"
+}
+
+charm = {
+	name = "Charm"
+}
+
+community = {
+	name = "Community"
+}
+
+creation = {
+	name = "Creation"
+}
+
+darkness = {
+	name = "Darkness"
 }
 
 death = {
@@ -30,6 +50,10 @@ fire = {
 	name = "Fire"
 }
 
+glory = {
+	name = "Glory"
+}
+
 good = {
 	name = "Good"
 }
@@ -46,12 +70,24 @@ law = {
 	name = "Law"
 }
 
+liberation = {
+	name = "Liberation"
+}
+
 luck = {
 	name = "Luck"
 }
 
+madness = {
+	name = "Madness"
+}
+
 magic = {
 	name = "Magic"
+}
+
+nobility = {
+	name = "Nobility"
 }
 
 plant = {
@@ -60,6 +96,18 @@ plant = {
 
 protection = {
 	name = "Protection"
+}
+
+repose = {
+	name = "Repose"
+}
+
+rune = {
+	name = "Rune"
+}
+
+scalykind = {
+	name = "Scalykind"
 }
 
 strength = {
@@ -84,4 +132,8 @@ war = {
 
 water = {
 	name = "Water"
+}
+
+weather = {
+	name = "Weather"
 }

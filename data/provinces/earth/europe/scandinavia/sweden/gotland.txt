@@ -8,7 +8,7 @@ gotland = {
 	
 	history = {
 		culture = norse
-		religion = pagan
+		religion = asatru
 		
 		1360 = {
 			owner = sweden #part of Sweden in 1360 (apparently, it's difficult to see in the map); Source: William R. Shepherd, "Historical Atlas", 1911, p. 77.

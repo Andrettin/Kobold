@@ -1,5 +1,5 @@
-asgardian = {
-	name = "Asgardian"
+aesir = {
+	name = "Aesir"
 }
 
 olympian = {
@@ -8,4 +8,12 @@ olympian = {
 
 pharaonic = {
 	name = "Pharaonic"
+}
+
+titan = {
+	name = "Titan"
+}
+
+vanir = {
+	name = "Vanir"
 }
