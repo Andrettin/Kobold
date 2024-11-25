@@ -2869,6 +2869,12 @@ void country_game_data::check_characters()
 	const std::vector<const character *> characters = this->get_characters();
 	const QDate &current_date = game::get()->get_next_date();
 	for (const character *character : characters) {
+		if (character->is_immortal()) {
+			continue;
+		}
+
+		assert_throw(character->get_death_date().isValid());
+
 		if (character->get_death_date() > current_date) {
 			continue;
 		}
