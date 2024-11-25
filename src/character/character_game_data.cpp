@@ -189,7 +189,7 @@ void character_game_data::apply_history(const QDate &start_date)
 		}
 
 		if (country == nullptr) {
-			if (this->character->get_home_settlement()->get_map_data()->is_on_map()) {
+			if (this->character->get_home_settlement()->get_map_data()->is_on_map() && !this->character->is_deity()) {
 				country = this->character->get_home_settlement()->get_game_data()->get_owner();
 			}
 		}
