@@ -2,6 +2,10 @@ reformed = {
 	name = "Reformed"
 	group = christian
 	color = { 76 76 229 }
+	domains = {
+		law
+		protection
+	}
 	office_title_names = {
 		ruler = {
 			theocracy = "Reverend"

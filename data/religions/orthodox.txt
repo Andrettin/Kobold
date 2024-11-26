@@ -2,6 +2,10 @@ orthodox = {
 	name = "Orthodox"
 	group = christian
 	color = { 0 57 166 }
+	domains = {
+		law
+		protection
+	}
 	title_names = {
 		theocracy = {
 			kingdom = "Patriarchate"

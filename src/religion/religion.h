@@ -9,6 +9,7 @@ Q_MOC_INCLUDE("religion/religious_group.h")
 namespace kobold {
 
 class deity;
+class divine_domain;
 class office;
 class religious_group;
 
@@ -23,11 +24,13 @@ public:
 	static constexpr const char class_identifier[] = "religion";
 	static constexpr const char property_class_identifier[] = "kobold::religion*";
 	static constexpr const char database_folder[] = "religions";
+	static constexpr int min_religion_domains = 2;
 
 	explicit religion(const std::string &identifier) : religion_base(identifier)
 	{
 	}
 
+	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
 	virtual void check() const override;
 
@@ -39,6 +42,11 @@ public:
 	const QColor &get_color() const
 	{
 		return this->color;
+	}
+
+	const std::vector<const divine_domain *> &get_domains() const
+	{
+		return this->domains;
 	}
 
 	const std::vector<const deity *> &get_deities() const
@@ -60,6 +68,7 @@ signals:
 private:
 	religious_group *group = nullptr;
 	QColor color;
+	std::vector<const divine_domain *> domains;
 	std::vector<const deity *> deities;
 };
 

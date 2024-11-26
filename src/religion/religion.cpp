@@ -2,6 +2,7 @@
 
 #include "religion/religion.h"
 
+#include "religion/divine_domain.h"
 #include "religion/religious_group.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
@@ -10,10 +11,24 @@
 
 namespace kobold {
 
+void religion::process_gsml_scope(const gsml_data &scope)
+{
+	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
+
+	if (tag == "domains") {
+		for (const std::string &value : values) {
+			this->domains.push_back(divine_domain::get(value));
+		}
+	} else {
+		religion_base::process_gsml_scope(scope);
+	}
+}
+
 void religion::initialize()
 {
 	if (!this->color.isValid()) {
-		log::log_error("Religion \"" + this->get_identifier() + "\" has no color. A random one will be generated for it.");
+		log::log_error(std::format("Religion \"{}\" has no color. A random one will be generated for it.", this->get_identifier()));
 		this->color = random::get()->generate_color();
 	}
 
@@ -24,6 +39,10 @@ void religion::check() const
 {
 	if (this->get_group() == nullptr) {
 		throw std::runtime_error(std::format("Religion \"{}\" has no religious group.", this->get_identifier()));
+	}
+
+	if (this->get_domains().empty() && this->get_deities().empty()) {
+		throw std::runtime_error(std::format("Religion \"{}\" has neither domains nor deities.", this->get_identifier()));
 	}
 
 	assert_throw(this->get_color().isValid());

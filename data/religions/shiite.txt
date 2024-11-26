@@ -2,6 +2,10 @@ shiite = {
 	name = "Shiite"
 	group = muslim
 	color = { 148 116 108 }
+	domains = {
+		law
+		protection
+	}
 	office_title_names = {
 		ruler = {
 			theocracy = "Ayatollah"
