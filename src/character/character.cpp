@@ -34,6 +34,7 @@
 #include "util/random.h"
 #include "util/string_util.h"
 #include "util/vector_random_util.h"
+#include "util/vector_util.h"
 
 #include <QUuid>
 
@@ -232,6 +233,14 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has no religion.", this->get_identifier()));
 	}
 
+	if (this->get_patron_deity() != nullptr && !vector::contains(this->get_religion()->get_deities(), this->get_patron_deity())) {
+		throw std::runtime_error(std::format("Character \"{}\" has a patron deity which does not belong to their religion.", this->get_identifier()));
+	}
+
+	if (this->get_patron_deity() != nullptr && !this->get_patron_deity()->get_domains().empty() && !this->get_religion()->get_domains().empty()) {
+		throw std::runtime_error(std::format("Character \"{}\" has both a patron deity and a religion which provide divine domains.", this->get_identifier()));
+	}
+
 	assert_throw(this->get_phenotype() != nullptr);
 
 	if (this->get_home_settlement() == nullptr && !this->is_deity()) {
@@ -358,6 +367,11 @@ void character::generate_patron_deity()
 	assert_throw(this->get_patron_deity() == nullptr);
 
 	if (this->get_religion() == nullptr) {
+		return;
+	}
+
+	if (!this->get_religion()->get_domains().empty()) {
+		//religions with domains provide domains directly, instead of via a patron deity
 		return;
 	}
 
