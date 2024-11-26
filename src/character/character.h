@@ -176,6 +176,8 @@ public:
 	void set_deity(const kobold::deity *deity)
 	{
 		this->deity = deity;
+
+		this->patron_deity = deity;
 	}
 
 	bool is_deity() const
