@@ -15,7 +15,11 @@ tamas_bakocz = { #Source: "Encyclopædia Britannica", 1911, vol. 3, p. 230.
 	
 	history = {
 		#succeeded his uncle as rector of Tétel in 1480
-		#became bishop of Gyor and a member of the Hungarian royal council in 1490
+		
+		1490 = {
+			rank = bishop #became bishop of Gyor and a member of the Hungarian royal council in 1490
+		}
+		
 		#became bishop of Eger under Wladislaus II
 		
 		1497 = {

@@ -22,7 +22,11 @@ nikolaus_von_kues = { #Source: "Encyclopædia Britannica", 1911, vol. 7, pp. 665
 		#wrote "De docta ignorantia" in 1440
 		#published "De conjecturis libri" in 1440
 		#raised to a cardinal by Nicholas V in 1448
-		#appointed bishop of Brixen in 1450
+		
+		1450 = {
+			rank = bishop #appointed bishop of Brixen in 1450
+		}
+		
 		#acted as governor of Rome in 1459
 		#wrote "Crebratio Alcorani"
 	}
