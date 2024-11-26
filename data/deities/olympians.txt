@@ -1,3 +1,31 @@
+aphrodite = {
+	name = "Aphrodite"
+	pantheon = olympian
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		charm
+		repose
+		chaos
+	}
+}
+
+apollo = {
+	name = "Apollo"
+	pantheon = olympian
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		sun
+		fire
+		healing
+	}
+}
+
 athena = {
 	name = "Athena"
 	pantheon = olympian
@@ -9,5 +37,33 @@ athena = {
 		knowledge
 		protection
 		war
+	}
+}
+
+poseidon = {
+	name = "Poseidon"
+	pantheon = olympian
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		water
+		travel
+		protection
+	}
+}
+
+zeus = {
+	name = "Zeus"
+	pantheon = olympian
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		air
+		glory
+		protection
 	}
 }

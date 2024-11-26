@@ -1,0 +1,13 @@
+helios = {
+	name = "Helios"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		sun
+		fire
+		weather
+	}
+}
