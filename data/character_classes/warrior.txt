@@ -28,6 +28,11 @@ warrior = {
 		wisdom = 6
 		charisma = 6
 	}
+	rank_levels = {
+		swordmaster = 3
+		champion = 7
+		lord = 9
+	}
 	level_effects = {
 		1 = {
 			gain_feat_of_type = skill_proficiency

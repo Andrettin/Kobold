@@ -40,6 +40,10 @@ ranger = {
 		wisdom = 14
 		charisma = 6
 	}
+	rank_levels = {
+		ranger_knight = 9
+		ranger_lord = 10
+	}
 	level_effects = {
 		1 = {
 			gain_feat = knowledge_nature_trained

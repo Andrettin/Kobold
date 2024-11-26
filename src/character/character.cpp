@@ -186,6 +186,13 @@ void character::initialize()
 		}
 	}
 
+	if (!this->rank.empty()) {
+		assert_throw(this->get_level() == 0);
+		assert_throw(this->get_character_class(character_class_type::base_class) != nullptr);
+		this->level = this->get_character_class(character_class_type::base_class)->get_rank_level(this->rank);
+		this->rank.clear();
+	}
+
 	for (size_t i = 0; i < this->get_feats().size(); ++i) {
 		const feat *feat = this->get_feats().at(i);
 		if (feat->get_upgraded_feat() != nullptr) {

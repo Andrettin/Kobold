@@ -20,7 +20,9 @@ void character_history::process_gsml_property(const gsml_property &property)
 	const std::string &key = property.get_key();
 	const std::string &value = property.get_value();
 
-	if (key == "feat") {
+	if (key == "rank") {
+		this->level = this->character->get_character_class(character_class_type::base_class)->get_rank_level(value);
+	} else if (key == "feat") {
 		const feat *feat = kobold::feat::get(value);
 		while (feat != nullptr) {
 			this->feats.push_back(feat);

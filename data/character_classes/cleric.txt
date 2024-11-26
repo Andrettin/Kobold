@@ -31,6 +31,14 @@ cleric = {
 		wisdom = 9
 		charisma = 6
 	}
+	rank_levels = {
+		acolyte = 1
+		adept = 2
+		priest = 3
+		bishop = 6
+		patriarch = 8
+		matriarch = 8
+	}
 	level_effects = {
 		1 = {
 			gain_feat = knowledge_religion_trained

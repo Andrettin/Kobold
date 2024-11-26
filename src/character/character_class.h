@@ -91,6 +91,17 @@ public:
 		return 0;
 	}
 
+	int get_rank_level(const std::string &rank) const
+	{
+		const auto find_iterator = this->rank_levels.find(rank);
+
+		if (find_iterator != this->rank_levels.end()) {
+			return find_iterator->second;
+		}
+
+		throw std::runtime_error(std::format("Invalid rank for class \"{}\": \"{}\".", this->get_identifier(), rank));
+	}
+
 	const effect_list<const character> *get_level_effects(const int level) const
 	{
 		const auto find_iterator = this->level_effects.find(level);
@@ -134,6 +145,7 @@ private:
 	data_entry_set<skill> class_skills;
 	int base_skill_points_per_level = 0;
 	data_entry_map<character_attribute, int> min_attribute_values;
+	std::map<std::string, int> rank_levels; //names for particular levels
 	std::map<int, std::unique_ptr<const effect_list<const character>>> level_effects;
 	data_entry_map<feat, int> feat_weights;
 };

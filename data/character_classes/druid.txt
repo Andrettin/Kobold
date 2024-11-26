@@ -34,6 +34,9 @@ druid = {
 		wisdom = 12
 		charisma = 15
 	}
+	rank_levels = {
+		archdruid = 13
+	}
 	level_effects = {
 		1 = {
 			gain_feat = knowledge_nature_trained

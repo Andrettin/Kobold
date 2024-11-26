@@ -48,6 +48,10 @@ rogue = {
 		intelligence = 6
 		charisma = 6
 	}
+	rank_levels = {
+		apprentice_thief = 1
+		master_thief = 10
+	}
 	level_effects = {
 		1 = {
 			gain_feat_of_type = skill_proficiency
