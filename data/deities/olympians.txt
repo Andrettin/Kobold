@@ -66,4 +66,11 @@ zeus = {
 		glory
 		protection
 	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = olympian
+		religion = hellenism
+		gender = male
+	}
 }

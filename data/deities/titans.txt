@@ -1,3 +1,26 @@
+atlas = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 91-92.
+	name = "Atlas" #the name means "very enduring"
+	pantheon = titan
+	divine_rank = lesser_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		air #associated with the sky and the stars
+		strength
+		protection
+	}
+	character = {
+		species = human #Titan
+		character_class = warrior #correct?
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+	}
+	
+	#condemned by Zeus to hold up the sky
+}
+
 helios = {
 	name = "Helios"
 	pantheon = titan
