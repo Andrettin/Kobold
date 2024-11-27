@@ -10,6 +10,13 @@ aphrodite = {
 		repose
 		chaos
 	}
+	character = {
+		species = human
+		character_class = aristocrat
+		culture = olympian
+		religion = hellenism
+		gender = female
+	}
 }
 
 apollo = {
@@ -23,6 +30,14 @@ apollo = {
 		sun
 		fire
 		healing
+	}
+	character = {
+		species = human
+		character_class = ranger
+		culture = olympian
+		religion = hellenism
+		gender = male
+		father = zeus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 287-288.
 	}
 }
 
@@ -38,6 +53,13 @@ athena = {
 		protection
 		war
 	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = olympian
+		religion = hellenism
+		gender = female
+	}
 }
 
 poseidon = {
@@ -52,9 +74,16 @@ poseidon = {
 		travel
 		protection
 	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = olympian
+		religion = hellenism
+		gender = male
+	}
 }
 
-zeus = {
+zeus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 287-288.
 	name = "Zeus"
 	pantheon = olympian
 	divine_rank = greater_deity
@@ -67,8 +96,8 @@ zeus = {
 		protection
 	}
 	character = {
-		species = human
-		character_class = warrior
+		species = human #Olympian
+		character_class = warrior #correct?
 		culture = olympian
 		religion = hellenism
 		gender = male

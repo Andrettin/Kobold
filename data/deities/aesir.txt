@@ -10,6 +10,13 @@ loki = {
 		chaos
 		madness
 	}
+	character = {
+		species = human
+		character_class = rogue
+		culture = norse
+		religion = asatru
+		gender = male
+	}
 }
 
 odin = {
@@ -24,6 +31,13 @@ odin = {
 		war
 		rune
 	}
+	character = {
+		species = human
+		character_class = mage
+		culture = norse
+		religion = asatru
+		gender = male
+	}
 }
 
 thor = {
@@ -37,5 +51,12 @@ thor = {
 		weather
 		strength
 		air
+	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = norse
+		religion = asatru
+		gender = male
 	}
 }

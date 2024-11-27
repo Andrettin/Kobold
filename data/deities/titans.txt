@@ -33,4 +33,11 @@ helios = {
 		fire
 		weather
 	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = olympian
+		religion = hellenism
+		gender = male
+	}
 }
