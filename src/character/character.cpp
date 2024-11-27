@@ -465,7 +465,7 @@ bool character::initialize_dates_from_parents()
 
 	QDate latest_parent_birth_date;
 
-	for (character_base *parent : this->get_children()) {
+	for (const character *parent : parents) {
 		if (!parent->get_birth_date().isValid()) {
 			continue;
 		}
