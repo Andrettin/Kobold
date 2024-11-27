@@ -42,7 +42,6 @@ namespace kobold {
 
 const std::set<std::string> character::database_dependencies = {
 	character_class::class_identifier,
-	deity::class_identifier, //so that they can refer to deity characters
 	feat_template::class_identifier,
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
 	province::class_identifier

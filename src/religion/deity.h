@@ -29,6 +29,8 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
+	static deity *add(const std::string &identifier, const kobold::data_module *data_module);
+
 	explicit deity(const std::string &identifier) : named_data_entry(identifier)
 	{
 	}
@@ -69,7 +71,7 @@ signals:
 private:
 	const kobold::pantheon *pantheon = nullptr;
 	std::vector<const religion *> religions;
-	const kobold::character *character = nullptr;
+	kobold::character *character = nullptr;
 	int divine_rank = 0;
 	std::vector<const divine_domain *> domains;
 };

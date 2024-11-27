@@ -19,6 +19,18 @@ const std::set<std::string> deity::database_dependencies = {
 	province::class_identifier
 };
 
+deity *deity::add(const std::string &identifier, const kobold::data_module *data_module)
+{
+	deity *deity = data_type::add(identifier, data_module);
+
+	//add a character with the same identifier as the deity for it
+	kobold::character *character = character::add(identifier, data_module);
+	character->set_deity(deity);
+	deity->character = character;
+
+	return deity;
+}
+
 void deity::process_gsml_property(const gsml_property &property)
 {
 	const std::string &key = property.get_key();
@@ -51,12 +63,7 @@ void deity::process_gsml_scope(const gsml_data &scope)
 			this->domains.push_back(divine_domain::get(value));
 		}
 	} else if (tag == "character") {
-		//add a character with the same identifier as the deity for it
-		kobold::character *character = character::add(this->get_identifier(), this->get_module());
-		character->set_deity(this);
-		this->character = character;
-
-		database::process_gsml_data(character, scope);
+		database::process_gsml_data(this->character, scope);
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
