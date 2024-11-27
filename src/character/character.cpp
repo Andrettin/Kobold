@@ -48,6 +48,49 @@ const std::set<std::string> character::database_dependencies = {
 	province::class_identifier
 };
 
+
+void character::initialize_all()
+{
+	data_type::initialize_all();
+
+	std::vector<character *> dateless_characters = character::get_all();
+	std::erase_if(dateless_characters, [](const character *character) {
+		return character->has_vital_dates();
+	});
+
+	bool changed = true;
+	while (changed) {
+		while (changed) {
+			changed = false;
+
+			for (character *character : dateless_characters) {
+				const bool success = character->initialize_dates_from_children();
+				if (success) {
+					character->initialize_dates();
+					changed = true;
+				}
+			}
+
+			std::erase_if(dateless_characters, [](const character *character) {
+				return character->has_vital_dates();
+			});
+		}
+
+		changed = false;
+		for (character *character : dateless_characters) {
+			const bool success = character->initialize_dates_from_parents();
+			if (success) {
+				character->initialize_dates();
+				changed = true;
+			}
+		}
+
+		std::erase_if(dateless_characters, [](const character *character) {
+			return character->has_vital_dates();
+		});
+	}
+}
+
 const character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
@@ -320,33 +363,7 @@ void character::initialize_dates()
 					birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
 					this->set_birth_date(birth_date);
 					date_changed = true;
-				} else if (!this->get_children().empty()) {
-					QDate earliest_child_birth_date;
-
-					for (character_base *child : this->get_children()) {
-						if (!child->is_initialized()) {
-							child->initialize();
-						}
-
-						if (!child->get_birth_date().isValid()) {
-							continue;
-						}
-
-						if (!earliest_child_birth_date.isValid() || child->get_birth_date() < earliest_child_birth_date) {
-							earliest_child_birth_date = child->get_birth_date();
-						}
-					}
-
-					if (earliest_child_birth_date.isValid()) {
-						QDate birth_date = earliest_child_birth_date;
-						birth_date = birth_date.addYears(-adulthood_age);
-						birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
-						this->set_birth_date(birth_date);
-						date_changed = true;
-					}
-				}
-				
-				if (!this->get_birth_date().isValid() && this->get_death_date().isValid()) {
+				} else if (this->get_death_date().isValid()) {
 					QDate birth_date = this->get_death_date();
 					birth_date = birth_date.addYears(-venerable_age);
 					birth_date = birth_date.addYears(-random::get()->roll_dice(maximum_age_modifier));
@@ -368,6 +385,107 @@ void character::initialize_dates()
 	}
 
 	character_base::initialize_dates();
+}
+
+bool character::initialize_dates_from_children()
+{
+	assert_throw(!this->has_vital_dates());
+
+	if (this->get_children().empty()) {
+		return false;
+	}
+
+	const int adulthood_age = this->get_species()->get_adulthood_age();
+	if (adulthood_age == 0) {
+		return false;
+	}
+
+	const character_class *character_class = this->get_character_class(character_class_type::base_class);
+	if (character_class == nullptr) {
+		return false;
+	}
+
+	const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
+
+	QDate earliest_child_birth_date;
+
+	for (character_base *child_base : this->get_children()) {
+		character *child = static_cast<character *>(child_base);
+		if (!child->has_vital_dates()) {
+			child->initialize_dates_from_children();
+		}
+
+		if (!child->get_birth_date().isValid()) {
+			continue;
+		}
+
+		if (!earliest_child_birth_date.isValid() || child->get_birth_date() < earliest_child_birth_date) {
+			earliest_child_birth_date = child->get_birth_date();
+		}
+	}
+
+	if (!earliest_child_birth_date.isValid()) {
+		return false;
+	}
+
+	QDate birth_date = earliest_child_birth_date;
+	birth_date = birth_date.addYears(-adulthood_age);
+	birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
+	this->set_birth_date(birth_date);
+
+	return true;
+}
+
+bool character::initialize_dates_from_parents()
+{
+	assert_throw(!this->has_vital_dates());
+
+	std::vector<const character *> parents;
+	if (this->get_father() != nullptr) {
+		parents.push_back(this->get_father());
+	}
+	if (this->get_mother() != nullptr) {
+		parents.push_back(this->get_mother());
+	}
+
+	if (parents.empty()) {
+		return false;
+	}
+
+	const int adulthood_age = this->get_species()->get_adulthood_age();
+	if (adulthood_age == 0) {
+		return false;
+	}
+
+	const character_class *character_class = this->get_character_class(character_class_type::base_class);
+	if (character_class == nullptr) {
+		return false;
+	}
+
+	const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
+
+	QDate latest_parent_birth_date;
+
+	for (character_base *parent : this->get_children()) {
+		if (!parent->get_birth_date().isValid()) {
+			continue;
+		}
+
+		if (!latest_parent_birth_date.isValid() || parent->get_birth_date() > latest_parent_birth_date) {
+			latest_parent_birth_date = parent->get_birth_date();
+		}
+	}
+
+	if (!latest_parent_birth_date.isValid()) {
+		return false;
+	}
+
+	QDate birth_date = latest_parent_birth_date;
+	birth_date = birth_date.addYears(adulthood_age);
+	birth_date = birth_date.addYears(random::get()->roll_dice(starting_age_modifier));
+	this->set_birth_date(birth_date);
+
+	return true;
 }
 
 void character::generate_patron_deity()

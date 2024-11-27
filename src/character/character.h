@@ -78,6 +78,8 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
+	static void initialize_all();
+
 	static const character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats);
 	static const character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
@@ -105,6 +107,8 @@ public:
 	}
 
 	virtual void initialize_dates() override;
+	bool initialize_dates_from_children();
+	bool initialize_dates_from_parents();
 
 	const dynasty *get_dynasty() const
 	{
