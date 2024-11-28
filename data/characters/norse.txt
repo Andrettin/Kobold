@@ -1,3 +1,20 @@
+gudrod_the_magnificent = { #Source: Snorri Sturlson, "Heimskringla", 1844, vol. 1, pp. 259-260, 262.
+	name = "Gudrod"
+	epithet = "the Magnificent" #also known as "the Hunter"
+	dynasty = yngling
+	species = human
+	character_class = warrior
+	culture = norse
+	religion = asatru
+	home_site = kristiansand #Vestfold
+	gender = male
+	death_date = 824 #died murdered by a man under the orders of his wife Aasa; Halfdan the Black was one year old when Gudrod died, which would place his death in 824
+	
+	#his father ruled over Vestfold
+	#married to Alfhild, and after her death married Aasa (daughter of Harald Redbeard)
+	#described as proud
+}
+
 halfdan_the_black = { #Source: Snorri Sturlson, "Heimskringla", 1844, vol. 1, pp. 260-262.
 	name = "Halfdan"
 	epithet = "the Black"
@@ -8,6 +25,7 @@ halfdan_the_black = { #Source: Snorri Sturlson, "Heimskringla", 1844, vol. 1, pp
 	religion = asatru
 	home_site = kristiansand #Agder
 	gender = male
+	father = gudrod_the_magnificent
 	birth_date = 823 #began his reign when he was 18 years old, so he would have been born in 823
 	start_date = 841 #reign began
 	death_date = 863 #reign ended
