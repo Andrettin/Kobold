@@ -9,7 +9,7 @@ Q_MOC_INCLUDE("religion/religious_group.h")
 namespace kobold {
 
 class deity;
-class divine_domain;
+class divine_domain_base;
 class office;
 class religious_group;
 
@@ -44,7 +44,7 @@ public:
 		return this->color;
 	}
 
-	const std::vector<const divine_domain *> &get_domains() const
+	const std::vector<const divine_domain_base *> &get_domains() const
 	{
 		return this->domains;
 	}
@@ -68,7 +68,7 @@ signals:
 private:
 	religious_group *group = nullptr;
 	QColor color;
-	std::vector<const divine_domain *> domains;
+	std::vector<const divine_domain_base *> domains;
 	std::vector<const deity *> deities;
 };
 

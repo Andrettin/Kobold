@@ -3,6 +3,7 @@
 #include "religion/religion.h"
 
 #include "religion/divine_domain.h"
+#include "religion/divine_subdomain.h"
 #include "religion/religious_group.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
@@ -18,7 +19,11 @@ void religion::process_gsml_scope(const gsml_data &scope)
 
 	if (tag == "domains") {
 		for (const std::string &value : values) {
-			this->domains.push_back(divine_domain::get(value));
+			const divine_domain_base *domain = divine_domain::try_get(value);
+			if (domain == nullptr) {
+				divine_subdomain::get(value);
+			}
+			this->domains.push_back(domain);
 		}
 	} else {
 		religion_base::process_gsml_scope(scope);

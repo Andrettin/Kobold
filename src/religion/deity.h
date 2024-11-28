@@ -9,7 +9,7 @@ Q_MOC_INCLUDE("religion/pantheon.h")
 namespace kobold {
 
 class character;
-class divine_domain;
+class divine_domain_base;
 class pantheon;
 class religion;
 
@@ -60,7 +60,7 @@ public:
 		return this->divine_rank;
 	}
 
-	const std::vector<const divine_domain *> &get_domains() const
+	const std::vector<const divine_domain_base *> &get_domains() const
 	{
 		return this->domains;
 	}
@@ -73,7 +73,7 @@ private:
 	std::vector<const religion *> religions;
 	kobold::character *character = nullptr;
 	int divine_rank = 0;
-	std::vector<const divine_domain *> domains;
+	std::vector<const divine_domain_base *> domains;
 };
 
 }

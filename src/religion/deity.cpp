@@ -8,6 +8,7 @@
 #include "database/defines.h"
 #include "map/province.h"
 #include "religion/divine_domain.h"
+#include "religion/divine_subdomain.h"
 #include "religion/religion.h"
 #include "util/string_util.h"
 
@@ -60,7 +61,11 @@ void deity::process_gsml_scope(const gsml_data &scope)
 		}
 	} else if (tag == "domains") {
 		for (const std::string &value : values) {
-			this->domains.push_back(divine_domain::get(value));
+			const divine_domain_base *domain = divine_domain::try_get(value);
+			if (domain == nullptr) {
+				divine_subdomain::get(value);
+			}
+			this->domains.push_back(domain);
 		}
 	} else if (tag == "character") {
 		database::process_gsml_data(this->character, scope);
