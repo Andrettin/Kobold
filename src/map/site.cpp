@@ -131,9 +131,11 @@ const std::string &site::get_cultural_name(const culture *culture) const
 			return find_iterator->second;
 		}
 
-		const auto group_find_iterator = this->cultural_group_names.find(culture->get_group());
-		if (group_find_iterator != this->cultural_group_names.end()) {
-			return group_find_iterator->second;
+		if (culture->get_group() != nullptr) {
+			const auto group_find_iterator = this->cultural_group_names.find(culture->get_group());
+			if (group_find_iterator != this->cultural_group_names.end()) {
+				return group_find_iterator->second;
+			}
 		}
 	}
 
