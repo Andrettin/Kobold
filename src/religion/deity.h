@@ -1,5 +1,7 @@
 #pragma once
 
+#include "country/culture_container.h"
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 
@@ -9,6 +11,7 @@ Q_MOC_INCLUDE("religion/pantheon.h")
 namespace kobold {
 
 class character;
+class cultural_group;
 class divine_domain_base;
 class pantheon;
 class religion;
@@ -39,6 +42,13 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void initialize() override;
 	virtual void check() const override;
+
+	const std::string &get_cultural_name(const culture *culture) const;
+
+	Q_INVOKABLE QString get_cultural_name_qstring(const kobold::culture *culture) const
+	{
+		return QString::fromStdString(this->get_cultural_name(culture));
+	}
 
 	const kobold::pantheon *get_pantheon() const
 	{
@@ -74,6 +84,8 @@ private:
 	kobold::character *character = nullptr;
 	int divine_rank = 0;
 	std::vector<const divine_domain_base *> domains;
+	culture_map<std::string> cultural_names;
+	data_entry_map<cultural_group, std::string> cultural_group_names;
 };
 
 }

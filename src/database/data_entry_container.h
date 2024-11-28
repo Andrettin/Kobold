@@ -21,6 +21,7 @@ class country_attribute;
 class country_feat;
 class country_milestone;
 class country_skill;
+class cultural_group;
 class damage_reduction_type;
 class feat;
 class item_class;

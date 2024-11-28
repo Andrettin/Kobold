@@ -76,6 +76,9 @@ poseidon = {
 		ocean
 		travel
 	}
+	cultural_group_names = {
+		latin = "Neptune"
+	}
 	character = {
 		species = human
 		character_class = warrior

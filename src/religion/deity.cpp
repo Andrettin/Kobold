@@ -5,6 +5,8 @@
 #include "character/character.h"
 #include "character/character_class.h"
 #include "character/feat_template.h"
+#include "country/cultural_group.h"
+#include "country/culture.h"
 #include "database/defines.h"
 #include "map/province.h"
 #include "religion/divine_domain.h"
@@ -67,6 +69,16 @@ void deity::process_gsml_scope(const gsml_data &scope)
 			}
 			this->domains.push_back(domain);
 		}
+	} else if (tag == "cultural_names") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const culture *culture = culture::get(property.get_key());
+			this->cultural_names[culture] = property.get_value();
+		});
+	} else if (tag == "cultural_group_names") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const cultural_group *cultural_group = cultural_group::get(property.get_key());
+			this->cultural_group_names[cultural_group] = property.get_value();
+		});
 	} else if (tag == "character") {
 		database::process_gsml_data(this->character, scope);
 	} else {
@@ -96,6 +108,23 @@ void deity::check() const
 	if (static_cast<int>(this->get_domains().size()) < deity::base_deity_domains) {
 		throw std::runtime_error(std::format("Deity \"{}\" has less domains than the base number of deity domains ({}).", this->get_identifier(), deity::base_deity_domains));
 	}
+}
+
+const std::string &deity::get_cultural_name(const culture *culture) const
+{
+	if (culture != nullptr) {
+		const auto find_iterator = this->cultural_names.find(culture);
+		if (find_iterator != this->cultural_names.end()) {
+			return find_iterator->second;
+		}
+
+		const auto group_find_iterator = this->cultural_group_names.find(culture->get_group());
+		if (group_find_iterator != this->cultural_group_names.end()) {
+			return group_find_iterator->second;
+		}
+	}
+
+	return this->get_name();
 }
 
 }

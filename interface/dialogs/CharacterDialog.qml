@@ -14,7 +14,7 @@ ModifierDialog {
 		+ (character.deity ? ("\nDivine Rank: " + character.deity.divine_rank) : "")
 		+ "\nExperience: " + number_string(character.game_data.experience)
 		+ "\nAge: " + number_string(character.game_data.age)
-		+ (character.deity ? ("\nPantheon: " + character.deity.pantheon.name) : (character.patron_deity ? ("\nPatron Deity: " + character.patron_deity.name) : ("\nReligion: " + character.religion.name)))
+		+ (character.deity ? ("\nPantheon: " + character.deity.pantheon.name) : (character.patron_deity ? ("\nPatron Deity: " + patron_deity_name) : ("\nReligion: " + character.religion.name)))
 		+ "\n\nAttributes: " + values_to_string(character.game_data.attribute_values)
 		+ "\nHit Points: " + number_string(character.game_data.hit_points)
 		+ "\nBase Attack Bonus: " + signed_number_string(character.game_data.base_attack_bonus)
@@ -24,6 +24,8 @@ ModifierDialog {
 	) : ""
 	
 	property var character: null
+	readonly property string cultural_patron_deity_name: character.patron_deity ? character.patron_deity.get_cultural_name_qstring(character.culture) : ""
+	readonly property string patron_deity_name: character.patron_deity ? (cultural_patron_deity_name + (cultural_patron_deity_name !== character.patron_deity.name ? (" (" + character.patron_deity.name + ")") : "")) : ""
 	
 	onClosed: {
 		character = null
