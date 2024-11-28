@@ -56,10 +56,34 @@ helios = {
 		weather
 	}
 	character = {
-		species = human
+		species = human #Titan
 		character_class = warrior
-		culture = olympian
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+		father = hyperion
+	}
+}
+
+hyperion = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 256.
+	name = "Hyperion" #the name means "he who travels above", apparently meaning the sun
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		sun
+		fire
+		travel
+	}
+	character = {
+		species = human #Titan
+		character_class = warrior
+		culture = olympian #Titan
 		religion = hellenism
 		gender = male
 	}
+	
+	#married to Theia
 }
