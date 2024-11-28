@@ -1,0 +1,17 @@
+halfdan_the_black = { #Source: Snorri Sturlson, "Heimskringla", 1844, vol. 1, pp. 260-262.
+	name = "Halfdan"
+	epithet = "the Black"
+	dynasty = yngling
+	species = human
+	character_class = warrior
+	culture = norse
+	religion = asatru
+	home_site = kristiansand #Agder
+	gender = male
+	birth_date = 823 #began his reign when he was 18 years old, so he would have been born in 823
+	start_date = 841 #reign began
+	death_date = 863 #reign ended
+	
+	#his father ruled over Vestfold
+	#became king of Agder in 841
+}
