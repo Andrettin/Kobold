@@ -31,6 +31,10 @@ odin = {
 		war
 		rune
 	}
+	cultural_group_names = {
+		anglo_saxon = "Woden"
+		west_germanic = "Wodan" #Old High German name for the deity, as seen in the second Merseburg charm; Source: Susan D. Fuller, "Pagan Charms in Tenth-Century Saxony? The Function of the Merseburg Charms", 1909, p. 162.
+	}
 	character = {
 		species = human
 		character_class = mage
@@ -51,6 +55,10 @@ thor = {
 		lightning
 		storm
 		strength
+	}
+	cultural_group_names = {
+		anglo_saxon = "Thunor" #Anglo-Saxon name for the deity; Source: Frank Stenton, "Anglo-Saxon England", 1971, pp. 98-99.
+		west_germanic = "Thunor" #Anglo-Saxon name for the deity, used here for lack of a better one
 	}
 	character = {
 		species = human
