@@ -48,9 +48,9 @@ thor = {
 		asatru
 	}
 	domains = {
-		weather
+		lightning
+		storm
 		strength
-		air
 	}
 	character = {
 		species = human

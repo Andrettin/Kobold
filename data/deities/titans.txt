@@ -30,7 +30,7 @@ cronus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 
 	}
 	domains = {
 		community #Saturn taught people agriculture and civilization
-		earth
+		plant
 		destruction #Cronus devoured his own children
 		#depicted as a personification of time occasionally, due to a confusion with the Greek word "chronos" ("time")
 	}
