@@ -1,0 +1,49 @@
+cloud = {
+	name = "Cloud"
+	domain = air
+}
+
+lightning = {
+	name = "Lightning"
+	domain = air
+}
+
+moon = {
+	name = "Moon"
+	domain = darkness
+}
+
+night = {
+	name = "Night"
+	domain = darkness
+}
+
+memory = {
+	name = "Memory"
+	domain = knowledge
+}
+
+tactics = {
+	name = "Tactics"
+	domain = war
+}
+
+ice = {
+	name = "Ice"
+	domain = water
+}
+
+ocean = {
+	name = "Ocean"
+	domain = water
+}
+
+river = {
+	name = "River"
+	domain = water
+}
+
+storm = {
+	name = "Storm"
+	domain = weather
+}

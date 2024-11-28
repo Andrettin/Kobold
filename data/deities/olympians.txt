@@ -73,8 +73,8 @@ poseidon = {
 	}
 	domains = {
 		water
+		ocean
 		travel
-		protection
 	}
 	character = {
 		species = human
@@ -94,9 +94,9 @@ zeus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 28
 		hellenism
 	}
 	domains = {
-		air
+		lightning
+		cloud
 		glory
-		protection
 	}
 	character = {
 		species = human #Olympian
