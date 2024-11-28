@@ -40,6 +40,8 @@ cronus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 
 		culture = olympian #Titan
 		religion = hellenism
 		gender = male
+		father = uranus
+		mother = gaia
 	}
 }
 
@@ -83,6 +85,8 @@ hyperion = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p.
 		culture = olympian #Titan
 		religion = hellenism
 		gender = male
+		father = uranus
+		mother = gaia
 	}
 	
 	#married to Theia

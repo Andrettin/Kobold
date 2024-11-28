@@ -1,0 +1,41 @@
+gaia = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 200-201.
+	name = "Gaia"
+	pantheon = protogenoi
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		earth
+		creation
+		protection
+	}
+	character = {
+		species = human #Protogenoi
+		character_class = warrior
+		culture = olympian #Protogenoi
+		religion = hellenism
+		gender = female
+	}
+}
+
+uranus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 479.
+	name = "Uranus"
+	pantheon = protogenoi
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		air
+		law
+		creation
+	}
+	character = {
+		species = human #Protogenoi
+		character_class = warrior
+		culture = olympian #Protogenoi
+		religion = hellenism
+		gender = male
+	}
+}
