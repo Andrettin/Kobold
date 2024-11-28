@@ -29,6 +29,7 @@
 #include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
 #include "util/assert_util.h"
+#include "util/date_util.h"
 #include "util/gender.h"
 #include "util/log_util.h"
 #include "util/random.h"
@@ -63,6 +64,10 @@ void character::initialize_all()
 			changed = false;
 
 			for (character *character : dateless_characters) {
+				if (character->has_vital_dates()) {
+					continue;
+				}
+
 				const bool success = character->initialize_dates_from_children();
 				if (success) {
 					character->initialize_dates();
@@ -411,7 +416,9 @@ bool character::initialize_dates_from_children()
 	for (character_base *child_base : this->get_children()) {
 		character *child = static_cast<character *>(child_base);
 		if (!child->has_vital_dates()) {
-			child->initialize_dates_from_children();
+			if (child->initialize_dates_from_children()) {
+				child->initialize_dates();
+			}
 		}
 
 		if (!child->get_birth_date().isValid()) {
@@ -431,6 +438,7 @@ bool character::initialize_dates_from_children()
 	birth_date = birth_date.addYears(-adulthood_age);
 	birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
 	this->set_birth_date(birth_date);
+	log_trace(std::format("Set birth date for character \"{}\": {}.", this->get_identifier(), date::to_string(birth_date)));
 
 	return true;
 }
@@ -483,6 +491,7 @@ bool character::initialize_dates_from_parents()
 	birth_date = birth_date.addYears(adulthood_age);
 	birth_date = birth_date.addYears(random::get()->roll_dice(starting_age_modifier));
 	this->set_birth_date(birth_date);
+	log_trace(std::format("Set birth date for character \"{}\": {}.", this->get_identifier(), date::to_string(birth_date)));
 
 	return true;
 }
