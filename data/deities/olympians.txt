@@ -1,4 +1,4 @@
-aphrodite = {
+aphrodite = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 60-62.
 	name = "Aphrodite"
 	pantheon = olympian
 	divine_rank = intermediate_deity
@@ -11,11 +11,12 @@ aphrodite = {
 		chaos
 	}
 	character = {
-		species = human
+		species = human #Olympian
 		character_class = aristocrat
 		culture = olympian
 		religion = hellenism
 		gender = female
+		father = zeus #according to Homer; according to Hesiod she was born out of Uranus instead
 	}
 }
 
@@ -59,6 +60,7 @@ athena = {
 		culture = olympian
 		religion = hellenism
 		gender = female
+		father = zeus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
 	}
 }
 
@@ -80,6 +82,7 @@ poseidon = {
 		culture = olympian
 		religion = hellenism
 		gender = male
+		father = cronus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
 	}
 }
 
@@ -101,5 +104,6 @@ zeus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 28
 		culture = olympian
 		religion = hellenism
 		gender = male
+		father = cronus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
 	}
 }

@@ -21,6 +21,28 @@ atlas = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 9
 	#condemned by Zeus to hold up the sky
 }
 
+cronus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 139-140, 435, 479.
+	name = "Cronus"
+	pantheon = titan
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		community #Saturn taught people agriculture and civilization
+		earth
+		destruction #Cronus devoured his own children
+		#depicted as a personification of time occasionally, due to a confusion with the Greek word "chronos" ("time")
+	}
+	character = {
+		species = human #Titan
+		character_class = warrior #correct?
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+	}
+}
+
 helios = {
 	name = "Helios"
 	pantheon = titan
