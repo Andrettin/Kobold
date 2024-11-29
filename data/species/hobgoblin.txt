@@ -4,6 +4,16 @@ hobgoblin = {
 	creature_type = humanoid
 	sapient = true
 	level_adjustment = 1
+	adulthood_age = 15
+	middle_age = 30
+	old_age = 45
+	venerable_age = 60
+	maximum_age_modifier = 2d10
+	starting_age_modifiers = {
+		intuitive = 1d4
+		self_taught = 1d6
+		trained = 2d6
+	}
 	modifier = {
 		dexterity = 2
 		constitution = 2
