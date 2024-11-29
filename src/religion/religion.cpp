@@ -21,7 +21,7 @@ void religion::process_gsml_scope(const gsml_data &scope)
 		for (const std::string &value : values) {
 			const divine_domain_base *domain = divine_domain::try_get(value);
 			if (domain == nullptr) {
-				divine_subdomain::get(value);
+				domain = divine_subdomain::get(value);
 			}
 			this->domains.push_back(domain);
 		}
