@@ -8,6 +8,11 @@ lightning = {
 	domain = air
 }
 
+wind = {
+	name = "Wind"
+	domain = air
+}
+
 moon = {
 	name = "Moon"
 	domain = darkness
