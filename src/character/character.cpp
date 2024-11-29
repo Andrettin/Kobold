@@ -335,7 +335,7 @@ void character::initialize_dates()
 	const dice &maximum_age_modifier = this->get_species()->get_maximum_age_modifier();
 
 	if (adulthood_age != 0 && venerable_age != 0 && !maximum_age_modifier.is_null()) {
-		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
+		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class->get_starting_age_category());
 
 		bool date_changed = true;
 		while (date_changed) {

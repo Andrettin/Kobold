@@ -12,6 +12,7 @@ add_subdirectory(archimedes)
 
 include_directories(
 	archimedes/src
+	archimedes/src/third_party/magic_enum/include
 	archimedes/src/third_party/maskedmousearea
 	src
 	src/third_party
@@ -353,6 +354,7 @@ set(character_HDRS
 	src/character/level_bonus_table.h
 	src/character/saving_throw_type.h
 	src/character/skill.h
+	src/character/starting_age_category.h
 )
 source_group(character FILES ${character_HDRS})
 

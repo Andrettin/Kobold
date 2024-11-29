@@ -14,6 +14,7 @@ class icon;
 class level_bonus_table;
 class saving_throw_type;
 enum class character_class_type;
+enum class starting_age_category;
 
 template <typename scope_type>
 class effect_list;
@@ -25,6 +26,7 @@ class character_class final : public named_data_entry, public data_type<characte
 	Q_PROPERTY(kobold::character_class_type type MEMBER type READ get_type NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(archimedes::dice hit_dice MEMBER hit_dice READ get_hit_dice NOTIFY changed)
+	Q_PROPERTY(kobold::starting_age_category starting_age_category MEMBER starting_age_category READ get_starting_age_category NOTIFY changed)
 	Q_PROPERTY(const kobold::level_bonus_table* base_attack_bonus_table MEMBER base_attack_bonus_table READ get_base_attack_bonus_table NOTIFY changed)
 	Q_PROPERTY(int base_skill_points_per_level MEMBER base_skill_points_per_level READ get_base_skill_points_per_level NOTIFY changed)
 
@@ -54,6 +56,11 @@ public:
 	const dice &get_hit_dice() const
 	{
 		return this->hit_dice;
+	}
+
+	kobold::starting_age_category get_starting_age_category() const
+	{
+		return this->starting_age_category;
 	}
 
 	const level_bonus_table *get_base_attack_bonus_table() const
@@ -140,6 +147,7 @@ private:
 	character_class_type type{};
 	const kobold::icon *icon = nullptr;
 	dice hit_dice;
+	kobold::starting_age_category starting_age_category{};
 	const level_bonus_table *base_attack_bonus_table = nullptr;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;

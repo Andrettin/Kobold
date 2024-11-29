@@ -8,6 +8,7 @@
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
+#include "character/starting_age_category.h"
 #include "script/effect/effect_list.h"
 
 namespace kobold {
@@ -100,6 +101,10 @@ void character_class::check() const
 
 	if (this->get_base_skill_points_per_level() == 0) {
 		throw std::runtime_error(std::format("Character class \"{}\" has zero base skill points per level.", this->get_identifier()));
+	}
+
+	if (this->get_type() == character_class_type::base_class && this->get_starting_age_category() == starting_age_category::none) {
+		throw std::runtime_error(std::format("Base character class \"{}\" has no starting age category.", this->get_identifier()));
 	}
 }
 

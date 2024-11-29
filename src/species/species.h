@@ -18,6 +18,7 @@ class item_slot;
 class level_bonus_table;
 class saving_throw_type;
 class taxon;
+enum class starting_age_category;
 enum class taxonomic_rank;
 
 template <typename scope_type>
@@ -124,7 +125,7 @@ public:
 		return this->maximum_age_modifier;
 	}
 
-	const dice &get_starting_age_modifier(const character_class *character_class) const;
+	const dice &get_starting_age_modifier(const starting_age_category category) const;
 
 	int get_min_attribute_value(const character_attribute *attribute) const
 	{
@@ -203,7 +204,7 @@ private:
 	int old_age = 0;
 	int venerable_age = 0;
 	dice maximum_age_modifier;
-	data_entry_map<character_class, dice> starting_age_modifiers;
+	std::map<starting_age_category, dice> starting_age_modifiers;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;

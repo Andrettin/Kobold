@@ -7,6 +7,7 @@
 #include "character/dynasty.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
+#include "character/starting_age_category.h"
 #include "country/consulate.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
@@ -149,6 +150,7 @@ int main(int argc, char **argv)
 		enum_converter<moisture_type>();
 		enum_converter<site_type>();
 		enum_converter<temperature_type>();
+		database::get()->register_enum<starting_age_category>();
 
 		QCoro::Qml::registerTypes();
 

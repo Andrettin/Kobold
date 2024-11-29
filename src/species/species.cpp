@@ -8,6 +8,7 @@
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
+#include "character/starting_age_category.h"
 #include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
@@ -48,7 +49,7 @@ void species::process_gsml_scope(const gsml_data &scope)
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
 
-			this->starting_age_modifiers[character_class::get(key)] = dice(value);
+			this->starting_age_modifiers[magic_enum::enum_cast<starting_age_category>(key).value()] = dice(value);
 		});
 	} else if (tag == "min_attribute_values") {
 		scope.for_each_property([&](const gsml_property &property) {
@@ -97,7 +98,7 @@ void species::check() const
 				continue;
 			}
 
-			if (!this->starting_age_modifiers.contains(character_class)) {
+			if (!this->starting_age_modifiers.contains(character_class->get_starting_age_category())) {
 				//throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for base character class \"{}\".", this->get_identifier()));
 			}
 		}
@@ -115,15 +116,15 @@ taxonomic_rank species::get_rank() const
 	return taxonomic_rank::species;
 }
 
-const dice &species::get_starting_age_modifier(const character_class *character_class) const
+const dice &species::get_starting_age_modifier(const starting_age_category category) const
 {
-	const auto find_iterator = this->starting_age_modifiers.find(character_class);
+	const auto find_iterator = this->starting_age_modifiers.find(category);
 
 	if (find_iterator != this->starting_age_modifiers.end()) {
 		return find_iterator->second;
 	}
 
-	throw std::runtime_error(std::format("Species \"{}\" has no starting age modifier for the character class \"{}\".", this->get_identifier(), character_class->get_identifier()));
+	throw std::runtime_error(std::format("Species \"{}\" has no starting age modifier for the starting age category \"{}\".", this->get_identifier(), magic_enum::enum_name(category)));
 }
 
 int species::get_item_slot_count(const item_slot *slot) const

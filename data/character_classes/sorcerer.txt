@@ -3,6 +3,7 @@ sorcerer = {
 	type = base_class
 	icon = artillerist
 	hit_dice = 1d4
+	starting_age_category = intuitive
 	base_attack_bonus_table = low_base_attack_bonus
 	saving_throw_bonus_tables = {
 		fortitude = low_saving_throw_bonus

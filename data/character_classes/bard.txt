@@ -3,6 +3,7 @@ bard = {
 	type = base_class
 	icon = artillerist
 	hit_dice = 1d6
+	starting_age_category = self_taught
 	base_attack_bonus_table = medium_base_attack_bonus
 	saving_throw_bonus_tables = {
 		fortitude = low_saving_throw_bonus
