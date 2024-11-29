@@ -404,12 +404,10 @@ bool character::initialize_dates_from_children()
 		return false;
 	}
 
-	const character_class *character_class = this->get_character_class(character_class_type::base_class);
-	if (character_class == nullptr) {
+	const int middle_age = this->get_species()->get_middle_age();
+	if (middle_age == 0) {
 		return false;
 	}
-
-	const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
 
 	QDate earliest_child_birth_date;
 
@@ -435,8 +433,7 @@ bool character::initialize_dates_from_children()
 	}
 
 	QDate birth_date = earliest_child_birth_date;
-	birth_date = birth_date.addYears(-adulthood_age);
-	birth_date = birth_date.addYears(-random::get()->roll_dice(starting_age_modifier));
+	birth_date = birth_date.addYears(-random::get()->generate_in_range(adulthood_age, middle_age));
 	this->set_birth_date(birth_date);
 	log_trace(std::format("Set birth date for character \"{}\": {}.", this->get_identifier(), date::to_string(birth_date)));
 
@@ -464,12 +461,10 @@ bool character::initialize_dates_from_parents()
 		return false;
 	}
 
-	const character_class *character_class = this->get_character_class(character_class_type::base_class);
-	if (character_class == nullptr) {
+	const int middle_age = this->get_species()->get_middle_age();
+	if (middle_age == 0) {
 		return false;
 	}
-
-	const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class);
 
 	QDate latest_parent_birth_date;
 
@@ -488,8 +483,7 @@ bool character::initialize_dates_from_parents()
 	}
 
 	QDate birth_date = latest_parent_birth_date;
-	birth_date = birth_date.addYears(adulthood_age);
-	birth_date = birth_date.addYears(random::get()->roll_dice(starting_age_modifier));
+	birth_date = birth_date.addYears(random::get()->generate_in_range(adulthood_age, middle_age));
 	this->set_birth_date(birth_date);
 	log_trace(std::format("Set birth date for character \"{}\": {}.", this->get_identifier(), date::to_string(birth_date)));
 
