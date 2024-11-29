@@ -14,8 +14,15 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::divine_domain*";
 	static constexpr const char database_folder[] = "divine_domains";
 
+	static constexpr int min_count = 2;
+
 	explicit divine_domain(const std::string &identifier) : divine_domain_base(identifier)
 	{
+	}
+
+	virtual const divine_domain *get_domain() const override
+	{
+		return this;
 	}
 
 signals:

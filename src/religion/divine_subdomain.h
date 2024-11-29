@@ -5,8 +5,6 @@
 
 namespace kobold {
 
-class divine_domain;
-
 class divine_subdomain final : public divine_domain_base, public data_type<divine_subdomain>
 {
 	Q_OBJECT
@@ -22,7 +20,7 @@ public:
 	{
 	}
 
-	const divine_domain *get_domain() const
+	virtual const divine_domain *get_domain() const override
 	{
 		return this->domain;
 	}

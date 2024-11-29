@@ -46,11 +46,22 @@ void religion::check() const
 		throw std::runtime_error(std::format("Religion \"{}\" has no religious group.", this->get_identifier()));
 	}
 
-	if (this->get_domains().empty() && this->get_deities().empty()) {
-		throw std::runtime_error(std::format("Religion \"{}\" has neither domains nor deities.", this->get_identifier()));
-	}
-
 	assert_throw(this->get_color().isValid());
+
+	if (this->get_deities().empty()) {
+		if (this->get_domains().empty()) {
+			throw std::runtime_error(std::format("Religion \"{}\" has neither domains nor deities.", this->get_identifier()));
+		}
+
+		data_entry_set<divine_domain> main_domains;
+		for (const divine_domain_base *domain : this->get_domains()) {
+			main_domains.insert(domain->get_domain());
+		}
+
+		if (static_cast<int>(main_domains.size()) < divine_domain::min_count) {
+			throw std::runtime_error(std::format("Religion \"{}\" has less main domains than the minimum necessary ({}).", this->get_identifier(), divine_domain::min_count));
+		}
+	}
 }
 
 const std::string &religion::get_title_name(const government_type *government_type, const country_tier tier) const

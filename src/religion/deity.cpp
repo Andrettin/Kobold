@@ -108,6 +108,15 @@ void deity::check() const
 	if (static_cast<int>(this->get_domains().size()) < deity::base_deity_domains) {
 		throw std::runtime_error(std::format("Deity \"{}\" has less domains than the base number of deity domains ({}).", this->get_identifier(), deity::base_deity_domains));
 	}
+
+	data_entry_set<divine_domain> main_domains;
+	for (const divine_domain_base *domain : this->get_domains()) {
+		main_domains.insert(domain->get_domain());
+	}
+
+	if (static_cast<int>(main_domains.size()) < divine_domain::min_count) {
+		throw std::runtime_error(std::format("Deity \"{}\" has less main domains than the minimum necessary ({}).", this->get_identifier(), divine_domain::min_count));
+	}
 }
 
 const std::string &deity::get_cultural_name(const culture *culture) const

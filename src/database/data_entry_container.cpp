@@ -19,6 +19,7 @@
 #include "item/item_slot.h"
 #include "item/item_type.h"
 #include "map/settlement_attribute.h"
+#include "religion/divine_domain.h"
 
 namespace kobold {
 
@@ -37,6 +38,7 @@ template struct data_entry_compare<country_milestone>;
 template struct data_entry_compare<country_skill>;
 template struct data_entry_compare<cultural_group>;
 template struct data_entry_compare<damage_reduction_type>;
+template struct data_entry_compare<divine_domain>;
 template struct data_entry_compare<feat>;
 template struct data_entry_compare<item_class>;
 template struct data_entry_compare<item_slot>;
