@@ -17,6 +17,8 @@
 #include "species/taxon.h"
 #include "species/taxonomic_rank.h"
 
+#include <magic_enum/magic_enum_utility.hpp>
+
 namespace kobold {
 
 species::species(const std::string &identifier)
@@ -93,15 +95,15 @@ void species::check() const
 	}
 
 	if (this->is_sapient()) {
-		for (const character_class *character_class : character_class::get_all()) {
-			if (character_class->get_type() != character_class_type::base_class) {
-				continue;
+		magic_enum::enum_for_each<starting_age_category>([this](const starting_age_category category) {
+			if (category == starting_age_category::none) {
+				return;
 			}
 
-			if (!this->starting_age_modifiers.contains(character_class->get_starting_age_category())) {
-				//throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for base character class \"{}\".", this->get_identifier()));
+			if (this->get_starting_age_modifier(category).is_null()) {
+				throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for starting age category \"{}\".", this->get_identifier(), magic_enum::enum_name(category)));
 			}
-		}
+		});
 	}
 
 	if (this->get_hit_dice_count() > 0 && this->get_class_skills().empty()) {
@@ -124,7 +126,12 @@ const dice &species::get_starting_age_modifier(const starting_age_category categ
 		return find_iterator->second;
 	}
 
-	throw std::runtime_error(std::format("Species \"{}\" has no starting age modifier for the starting age category \"{}\".", this->get_identifier(), magic_enum::enum_name(category)));
+	if (this->get_creature_type() != nullptr) {
+		return this->get_creature_type()->get_starting_age_modifier(category);
+	}
+
+	static constexpr dice dice;
+	return dice;
 }
 
 int species::get_item_slot_count(const item_slot *slot) const

@@ -4,6 +4,7 @@
 
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
+#include "character/starting_age_category.h"
 #include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
@@ -29,6 +30,13 @@ void creature_type::process_gsml_scope(const gsml_data &scope)
 			const std::string &value = property.get_value();
 
 			this->saving_throw_bonus_tables[saving_throw_type::get(key)] = level_bonus_table::get(value);
+		});
+	} else if (tag == "starting_age_modifiers") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			this->starting_age_modifiers[magic_enum::enum_cast<starting_age_category>(key).value()] = dice(value);
 		});
 	} else if (tag == "item_slots") {
 		scope.for_each_property([&](const gsml_property &property) {
@@ -65,6 +73,18 @@ void creature_type::check() const
 	if (this->get_saving_throw_bonus_tables().empty()) {
 		throw std::runtime_error(std::format("Creature type \"{}\" has no saving throw bonus tables.", this->get_identifier()));
 	}
+}
+
+const dice &creature_type::get_starting_age_modifier(const starting_age_category category) const
+{
+	const auto find_iterator = this->starting_age_modifiers.find(category);
+
+	if (find_iterator != this->starting_age_modifiers.end()) {
+		return find_iterator->second;
+	}
+
+	static constexpr dice dice;
+	return dice;
 }
 
 }
