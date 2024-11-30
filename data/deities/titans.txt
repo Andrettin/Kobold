@@ -16,6 +16,7 @@ atlas = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 9
 		culture = olympian #Titan
 		religion = hellenism
 		gender = male
+		father = iapetus
 	}
 	
 	#condemned by Zeus to hold up the sky
@@ -90,4 +91,49 @@ hyperion = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p.
 	}
 	
 	#married to Theia
+}
+
+iapetus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 259.
+	name = "Iapetus"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		war
+		earth
+		community
+	}
+	character = {
+		species = human #Titan
+		character_class = warrior #correct?
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+		father = uranus
+		mother = gaia
+	}
+}
+
+prometheus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 419-421.
+	name = "Prometheus"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		fire #gave fire to mankind
+		community
+		artifice
+	}
+	character = {
+		species = human #Titan
+		character_class = warrior #correct?
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+		father = iapetus
+	}
 }
