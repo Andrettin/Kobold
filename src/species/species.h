@@ -2,7 +2,7 @@
 
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
-#include "species/taxon_base.h"
+#include "species/species_base.h"
 #include "util/dice.h"
 
 Q_MOC_INCLUDE("species/creature_size.h")
@@ -17,9 +17,7 @@ class feat;
 class item_slot;
 class level_bonus_table;
 class saving_throw_type;
-class taxon;
 enum class starting_age_category;
-enum class taxonomic_rank;
 
 template <typename scope_type>
 class effect_list;
@@ -27,11 +25,11 @@ class effect_list;
 template <typename scope_type>
 class modifier;
 
-class species final : public taxon_base, public data_type<species>
+class species final : public species_base, public data_type<species>
 {
 	Q_OBJECT
 
-	Q_PROPERTY(const kobold::creature_type* creature_type MEMBER creature_type READ get_creature_type NOTIFY changed)
+	Q_PROPERTY(kobold::creature_type* creature_type MEMBER creature_type NOTIFY changed)
 	Q_PROPERTY(const kobold::creature_size* creature_size MEMBER creature_size READ get_creature_size NOTIFY changed)
 	Q_PROPERTY(bool sapient MEMBER sapient READ is_sapient NOTIFY changed)
 	Q_PROPERTY(int hit_dice_count MEMBER hit_dice_count READ get_hit_dice_count NOTIFY changed)
@@ -53,13 +51,6 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	virtual taxonomic_rank get_rank() const override;
-
-	virtual const std::string &get_common_name() const override
-	{
-		return this->get_name();
-	}
-
 	const kobold::creature_type *get_creature_type() const
 	{
 		return this->creature_type;
@@ -74,6 +65,8 @@ public:
 	{
 		return this->sapient;
 	}
+
+	virtual std::vector<species_base *> get_supertaxons() const override;
 
 	int get_hit_dice_count() const
 	{
@@ -149,6 +142,8 @@ public:
 		return this->effects.get();
 	}
 
+	const name_generator *get_specimen_name_generator(const gender gender) const;
+
 	const data_entry_map<character_class, int> &get_character_class_weights() const
 	{
 		return this->character_class_weights;
@@ -192,7 +187,7 @@ public:
 	}
 
 private:
-	const kobold::creature_type *creature_type = nullptr;
+	kobold::creature_type *creature_type = nullptr;
 	const kobold::creature_size *creature_size = nullptr;
 	bool sapient = false;
 	int hit_dice_count = 0;

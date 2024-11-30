@@ -248,9 +248,7 @@ set(species_SRCS
 	src/species/creature_size.cpp
 	src/species/creature_type.cpp
 	src/species/species.cpp
-	src/species/taxon_base.cpp
-	src/species/taxon.cpp
-	src/species/taxonomic_rank.cpp
+	src/species/species_base.cpp
 )
 source_group(species FILES ${species_SRCS})
 set_source_files_properties(${species_SRCS} PROPERTIES UNITY_GROUP "species")
@@ -744,9 +742,7 @@ set(species_HDRS
 	src/species/creature_size.h
 	src/species/creature_type.h
 	src/species/species.h
-	src/species/taxon.h
-	src/species/taxon_base.h
-	src/species/taxonomic_rank.h
+	src/species/species_base.h
 )
 source_group(species FILES ${species_HDRS})
 

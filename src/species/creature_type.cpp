@@ -12,7 +12,7 @@
 namespace kobold {
 
 creature_type::creature_type(const std::string &identifier)
-	: named_data_entry(identifier)
+	: species_base(identifier)
 {
 }
 

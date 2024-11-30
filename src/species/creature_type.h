@@ -2,7 +2,7 @@
 
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
-#include "database/named_data_entry.h"
+#include "species/species_base.h"
 #include "util/dice.h"
 
 Q_MOC_INCLUDE("character/level_bonus_table.h")
@@ -20,7 +20,7 @@ class effect_list;
 template <typename scope_type>
 class modifier;
 
-class creature_type final : public named_data_entry, public data_type<creature_type>
+class creature_type final : public species_base, public data_type<creature_type>
 {
 	Q_OBJECT
 

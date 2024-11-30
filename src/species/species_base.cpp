@@ -1,26 +1,25 @@
 #include "kobold.h"
 
-#include "species/taxon_base.h"
+#include "species/species_base.h"
 
 #include "database/gsml_data.h"
 #include "language/fallback_name_generator.h"
 #include "language/gendered_name_generator.h"
 #include "language/name_generator.h"
-#include "species/taxon.h"
 #include "util/gender.h"
 #include "util/vector_util.h"
 
 namespace kobold {
 
-taxon_base::taxon_base(const std::string &identifier) : named_data_entry(identifier)
+species_base::species_base(const std::string &identifier) : named_data_entry(identifier)
 {
 }
 
-taxon_base::~taxon_base()
+species_base::~species_base()
 {
 }
 
-void taxon_base::process_gsml_scope(const gsml_data &scope)
+void species_base::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
@@ -46,14 +45,14 @@ void taxon_base::process_gsml_scope(const gsml_data &scope)
 	}
 }
 
-void taxon_base::initialize()
+void species_base::initialize()
 {
-	if (this->get_supertaxon() != nullptr) {
-		if (!this->get_supertaxon()->is_initialized()) {
-			this->get_supertaxon()->initialize();
+	for (species_base *supertaxon : this->get_supertaxons()) {
+		if (!supertaxon->is_initialized()) {
+			supertaxon->initialize();
 		}
 
-		this->get_supertaxon()->add_specimen_names_from(this);
+		supertaxon->add_specimen_names_from(this);
 	}
 
 	if (this->specimen_name_generator != nullptr) {
@@ -64,41 +63,7 @@ void taxon_base::initialize()
 	named_data_entry::initialize();
 }
 
-const taxon *taxon_base::get_supertaxon_of_rank(const taxonomic_rank rank) const
-{
-	if (this->get_supertaxon() == nullptr) {
-		return nullptr;
-	}
-
-	if (this->get_supertaxon()->get_rank() > rank) {
-		return nullptr;
-	}
-
-	if (this->get_supertaxon()->get_rank() == rank) {
-		return this->get_supertaxon();
-	}
-
-	return this->get_supertaxon()->get_supertaxon_of_rank(rank);
-}
-
-bool taxon_base::is_subtaxon_of(const taxon *other_taxon) const
-{
-	if (this->get_supertaxon() == nullptr) {
-		return false;
-	}
-
-	if (other_taxon->get_rank() <= this->get_rank()) {
-		return false;
-	}
-
-	if (other_taxon == this->get_supertaxon()) {
-		return true;
-	}
-
-	return this->get_supertaxon()->is_subtaxon_of(other_taxon);
-}
-
-const name_generator *taxon_base::get_specimen_name_generator(const gender gender) const
+const name_generator *species_base::get_specimen_name_generator(const gender gender) const
 {
 	const name_generator *name_generator = nullptr;
 
@@ -110,14 +75,10 @@ const name_generator *taxon_base::get_specimen_name_generator(const gender gende
 		return name_generator;
 	}
 
-	if (this->get_supertaxon() != nullptr) {
-		return this->get_supertaxon()->get_specimen_name_generator(gender);
-	}
-
-	return name_generator;
+	return nullptr;
 }
 
-void taxon_base::add_specimen_name(const gender gender, const name_variant &name)
+void species_base::add_specimen_name(const gender gender, const name_variant &name)
 {
 	if (this->specimen_name_generator == nullptr) {
 		this->specimen_name_generator = std::make_unique<gendered_name_generator>();
@@ -130,12 +91,12 @@ void taxon_base::add_specimen_name(const gender gender, const name_variant &name
 		this->specimen_name_generator->add_name(gender::female, name);
 	}
 
-	if (this->get_supertaxon() != nullptr) {
-		this->get_supertaxon()->add_specimen_name(gender, name);
+	for (species_base *supertaxon : this->get_supertaxons()) {
+		supertaxon->add_specimen_name(gender, name);
 	}
 }
 
-void taxon_base::add_specimen_names_from(const taxon_base *other)
+void species_base::add_specimen_names_from(const species_base *other)
 {
 	if (other->specimen_name_generator != nullptr) {
 		if (this->specimen_name_generator == nullptr) {
@@ -145,8 +106,8 @@ void taxon_base::add_specimen_names_from(const taxon_base *other)
 		this->specimen_name_generator->add_names_from(other->specimen_name_generator);
 	}
 
-	if (this->get_supertaxon() != nullptr) {
-		this->get_supertaxon()->add_specimen_names_from(other);
+	for (species_base *supertaxon : this->get_supertaxons()) {
+		supertaxon->add_specimen_names_from(other);
 	}
 }
 

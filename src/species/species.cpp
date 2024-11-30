@@ -10,19 +10,18 @@
 #include "character/skill.h"
 #include "character/starting_age_category.h"
 #include "item/item_slot.h"
+#include "language/fallback_name_generator.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "species/creature_size.h"
 #include "species/creature_type.h"
-#include "species/taxon.h"
-#include "species/taxonomic_rank.h"
 
 #include <magic_enum/magic_enum_utility.hpp>
 
 namespace kobold {
 
 species::species(const std::string &identifier)
-	: taxon_base(identifier)
+	: species_base(identifier)
 {
 }
 
@@ -76,16 +75,12 @@ void species::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(effect_list, scope);
 		this->effects = std::move(effect_list);
 	} else {
-		taxon_base::process_gsml_scope(scope);
+		species_base::process_gsml_scope(scope);
 	}
 }
 
 void species::check() const
 {
-	if (this->get_supertaxon() == nullptr) {
-		//throw std::runtime_error("Species \"" + this->get_identifier() + "\" has no supertaxon.");
-	}
-
 	if (this->get_creature_type() == nullptr) {
 		throw std::runtime_error(std::format("Species \"{}\" has no creature type.", this->get_identifier()));
 	}
@@ -113,9 +108,9 @@ void species::check() const
 	}
 }
 
-taxonomic_rank species::get_rank() const
+std::vector<species_base *> species::get_supertaxons() const
 {
-	return taxonomic_rank::species;
+	return { this->creature_type };
 }
 
 const dice &species::get_starting_age_modifier(const starting_age_category category) const
@@ -143,6 +138,21 @@ int species::get_item_slot_count(const item_slot *slot) const
 	}
 
 	return this->get_creature_type()->get_item_slot_count(slot);
+}
+
+const name_generator *species::get_specimen_name_generator(const gender gender) const
+{
+	const name_generator *name_generator = species_base::get_specimen_name_generator(gender);
+	if (name_generator != nullptr) {
+		return name_generator;
+	}
+
+	name_generator = this->get_creature_type()->get_specimen_name_generator(gender);
+	if (name_generator != nullptr) {
+		return name_generator;
+	}
+
+	return fallback_name_generator::get()->get_specimen_name_generator(gender);
 }
 
 }
