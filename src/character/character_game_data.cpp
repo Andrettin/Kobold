@@ -97,11 +97,12 @@ void character_game_data::apply_species_and_class(const int level)
 
 		bool valid_result = false;
 		while (!valid_result) {
-			const int result = random::get()->roll_dice(attribute_dice) + this->get_attribute_value(attribute);
+			const int base_result = random::get()->roll_dice(attribute_dice);
+			const int result = result + this->get_attribute_value(attribute);
 
 			valid_result = result >= min_result;
 			if (valid_result) {
-				this->change_attribute_value(attribute, result);
+				this->change_attribute_value(attribute, base_result);
 			}
 		}
 	}
