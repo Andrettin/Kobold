@@ -1,3 +1,24 @@
+jord = { #Source: Kevin Crossley-Holland, "The Norse Myths", 1980, pp. 241-242.
+	name = "Jord" #the name means "Earth"; also known as Fjorgyn
+	pantheon = aesir
+	divine_rank = lesser_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		earth
+		cave
+		protection
+	}
+	character = {
+		species = human
+		character_class = warrior #correct?
+		culture = norse
+		religion = asatru
+		gender = female
+	}
+}
+
 loki = {
 	name = "Loki"
 	pantheon = aesir
@@ -44,7 +65,7 @@ odin = {
 	}
 }
 
-thor = { #son of Odin and Jord (Fjorgyn) and Sif's husband; known as the Thunder God and the Charioteer; Source: Kevin Crossley-Holland, "The Norse Myths", 1980, p. 251; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 129; Source: Frank Stenton, "Anglo-Saxon England", 1971, pp. 98-99.
+thor = { #Sif's husband; known as the Thunder God and the Charioteer; Source: Kevin Crossley-Holland, "The Norse Myths", 1980, p. 251; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 129; Source: Frank Stenton, "Anglo-Saxon England", 1971, pp. 98-99.
 	name = "Thor"
 	pantheon = aesir
 	divine_rank = greater_deity
@@ -67,5 +88,6 @@ thor = { #son of Odin and Jord (Fjorgyn) and Sif's husband; known as the Thunder
 		religion = asatru
 		gender = male
 		father = odin
+		mother = jord
 	}
 }

@@ -794,8 +794,8 @@ void character_game_data::choose_feat(const feat_type *type)
 
 	const feat *chosen_feat = vector::get_random(potential_feats);
 
-	if (vector::contains(target_feats, chosen_feat)) {
-		vector::remove_one(target_feats, chosen_feat);
+	if (vector::contains(this->target_feats, chosen_feat)) {
+		vector::remove_one(this->target_feats, chosen_feat);
 	}
 
 	this->change_feat_count(chosen_feat, 1);
