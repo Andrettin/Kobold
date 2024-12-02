@@ -25,6 +25,7 @@ ranger = {
 		listen
 		move_silently
 		profession_miner
+		profession_sailor
 		ride
 		search
 		spot

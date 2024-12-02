@@ -46,6 +46,7 @@ bard = {
 		perform_string_instruments
 		perform_wind_instruments
 		profession_miner
+		profession_sailor
 		sense_motive
 		sleight_of_hand
 		spellcraft

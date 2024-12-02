@@ -34,6 +34,7 @@ monk = {
 		perform_string_instruments
 		perform_wind_instruments
 		profession_miner
+		profession_sailor
 		sense_motive
 		spot
 		swim

@@ -17,6 +17,7 @@ sorcerer = {
 		craft_trapmaking
 		knowledge_arcana
 		profession_miner
+		profession_sailor
 		spellcraft
 	}
 	base_skill_points_per_level = 2

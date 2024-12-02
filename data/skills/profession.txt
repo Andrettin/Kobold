@@ -3,3 +3,9 @@ profession_miner = {
 	attribute = wisdom
 	icon = cog
 }
+
+profession_sailor = {
+	name = "Profession: Sailor"
+	attribute = wisdom
+	icon = cog
+}

@@ -20,6 +20,7 @@ paladin = {
 		knowledge_nobility_and_royalty
 		knowledge_religion
 		profession_miner
+		profession_sailor
 		ride
 		sense_motive
 	}

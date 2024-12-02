@@ -52,6 +52,7 @@ expert = {
 		perform_string_instruments
 		perform_wind_instruments
 		profession_miner
+		profession_sailor
 		ride
 		search
 		sense_motive
