@@ -216,6 +216,14 @@ void character::initialize()
 		if (!this->get_surname().empty()) {
 			this->culture->add_surname(this->get_gender(), this->get_surname());
 		}
+	} else if (this->get_species() != nullptr && !this->get_species()->is_sapient()) {
+		if (!this->get_species()->is_initialized()) {
+			this->species->initialize();
+		}
+
+		if (this->has_name_variant()) {
+			this->species->add_personal_name(this->get_gender(), this->get_name_variant());
+		}
 	}
 
 	if (this->home_site != nullptr) {
