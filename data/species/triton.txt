@@ -1,0 +1,28 @@
+triton = {
+	name = "Triton"
+	creature_type = outsider
+	creature_size = medium
+	sapient = true
+	hit_dice_count = 3
+	level_adjustment = 2
+	class_skills = {
+		craft_alchemy
+		craft_trapmaking
+		diplomacy
+		hide
+		listen
+		move_silently
+		ride
+		search
+		sense_motive
+		spot
+		survival
+		swim
+	}
+	modifier = {
+		strength = 2
+		constitution = 2
+		intelligence = 2
+		wisdom = 2
+	}
+}
