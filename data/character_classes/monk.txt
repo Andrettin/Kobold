@@ -24,7 +24,15 @@ monk = {
 		knowledge_religion
 		listen
 		move_silently
-		#perform
+		perform_act
+		perform_comedy
+		perform_dance
+		perform_keyboard_instruments
+		perform_oratory
+		perform_percussion_instruments
+		perform_sing
+		perform_string_instruments
+		perform_wind_instruments
 		profession_miner
 		sense_motive
 		spot

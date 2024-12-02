@@ -29,7 +29,15 @@ aristocrat = {
 		knowledge_religion
 		knowledge_the_planes
 		listen
-		#perform
+		perform_act
+		perform_comedy
+		perform_dance
+		perform_keyboard_instruments
+		perform_oratory
+		perform_percussion_instruments
+		perform_sing
+		perform_string_instruments
+		perform_wind_instruments
 		ride
 		sense_motive
 		spot

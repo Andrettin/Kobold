@@ -30,7 +30,15 @@ rogue = {
 		listen
 		move_silently
 		open_lock
-		#perform
+		perform_act
+		perform_comedy
+		perform_dance
+		perform_keyboard_instruments
+		perform_oratory
+		perform_percussion_instruments
+		perform_sing
+		perform_string_instruments
+		perform_wind_instruments
 		profession_miner
 		search
 		sense_motive

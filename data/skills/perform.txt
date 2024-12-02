@@ -1,0 +1,53 @@
+perform_act = {
+	name = "Perform: Act"
+	attribute = charisma
+	icon = music
+}
+
+perform_comedy = {
+	name = "Perform: Comedy"
+	attribute = charisma
+	icon = music
+}
+
+perform_dance = {
+	name = "Perform: Dance"
+	attribute = charisma
+	icon = music
+}
+
+perform_keyboard_instruments = {
+	name = "Perform: Keyboard Instruments"
+	attribute = charisma
+	icon = music
+}
+
+perform_oratory = {
+	name = "Perform: Oratory"
+	attribute = charisma
+	icon = music
+}
+
+perform_percussion_instruments = {
+	name = "Perform: Percussion Instruments"
+	attribute = charisma
+	icon = music
+}
+
+perform_sing = {
+	name = "Perform: Sing"
+	attribute = charisma
+	icon = music
+}
+
+perform_string_instruments = {
+	name = "Perform: String Instruments"
+	attribute = charisma
+	icon = music
+}
+
+perform_wind_instruments = {
+	name = "Perform: Wind Instruments"
+	attribute = charisma
+	icon = music
+}
