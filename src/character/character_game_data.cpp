@@ -98,7 +98,7 @@ void character_game_data::apply_species_and_class(const int level)
 		bool valid_result = false;
 		while (!valid_result) {
 			const int base_result = random::get()->roll_dice(attribute_dice);
-			const int result = result + this->get_attribute_value(attribute);
+			const int result = base_result + this->get_attribute_value(attribute);
 
 			valid_result = result >= min_result;
 			if (valid_result) {
@@ -509,6 +509,7 @@ void character_game_data::change_attribute_value(const character_attribute *attr
 		assert_throw(this->get_country() != nullptr);
 		this->get_country()->get_game_data()->apply_office_holder(this->get_office(), this->character, 1);
 	}
+
 	if (game::get()->is_running()) {
 		emit attribute_values_changed();
 	}
