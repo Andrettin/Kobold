@@ -123,6 +123,8 @@ void species_base::add_personal_name(const gender gender, const name_variant &na
 
 	if (this->get_supertaxon() != nullptr) {
 		this->get_supertaxon()->add_personal_name(gender, name);
+	} else {
+		fallback_name_generator::get()->add_personal_name(gender, name);
 	}
 }
 

@@ -349,7 +349,6 @@ const name_generator *culture_base::get_personal_name_generator(const gender gen
 	if (this->personal_name_generator != nullptr) {
 		name_generator = this->personal_name_generator->get_name_generator(gender);
 	}
-
 	if (name_generator != nullptr) {
 		const size_t name_count = name_generator->get_name_count();
 		if (name_count >= name_generator::minimum_name_count) {
@@ -379,6 +378,8 @@ void culture_base::add_personal_name(const gender gender, const name_variant &na
 
 	if (this->group != nullptr) {
 		this->group->add_personal_name(gender, name);
+	} else {
+		fallback_name_generator::get()->add_personal_name(gender, name);
 	}
 }
 
@@ -419,6 +420,8 @@ void culture_base::add_surname(const gender gender, const name_variant &surname)
 
 	if (this->group != nullptr) {
 		this->group->add_surname(gender, surname);
+	} else {
+		fallback_name_generator::get()->add_surname(gender, surname);
 	}
 }
 
