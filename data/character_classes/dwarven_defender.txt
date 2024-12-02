@@ -1,0 +1,38 @@
+dwarven_defender = {
+	name = "Dwarven Defender"
+	type = prestige_class
+	icon = pikemen
+	hit_dice = 1d12
+	base_attack_bonus_table = high_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = high_saving_throw_bonus
+	}
+	class_skills = {
+		craft_alchemy
+		craft_trapmaking
+		listen
+		sense_motive
+		spot
+	}
+	base_skill_points_per_level = 2
+	level_effects = {
+		1 = {
+			gain_feat = armor_class_bonus
+		}
+		4 = {
+			gain_feat = armor_class_bonus
+		}
+		6 = {
+			gain_feat = damage_reduction
+		}
+		7 = {
+			gain_feat = armor_class_bonus
+		}
+		10 = {
+			gain_feat = armor_class_bonus
+			gain_feat = damage_reduction
+		}
+	}
+}

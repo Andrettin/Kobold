@@ -1,0 +1,17 @@
+armor_class_bonus = {
+	name = "Armor Class Bonus"
+	icon = heater_shield
+	unlimited = true
+	modifier = {
+		armor_class = 1
+	}
+}
+
+damage_reduction = {
+	name = "Damage Reduction"
+	icon = heater_shield
+	unlimited = true
+	modifier = {
+		damage_reduction = 3
+	}
+}
