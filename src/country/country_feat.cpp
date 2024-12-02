@@ -85,7 +85,7 @@ void country_feat::initialize()
 void country_feat::check() const
 {
 	if (this->get_types().empty()) {
-		throw std::runtime_error(std::format("Country eat \"{}\" has no types.", this->get_identifier()));
+		throw std::runtime_error(std::format("Country feat \"{}\" has no types.", this->get_identifier()));
 	}
 
 	if (this->get_icon() == nullptr) {
