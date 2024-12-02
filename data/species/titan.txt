@@ -1,0 +1,45 @@
+titan = {
+	name = "Titan"
+	creature_type = outsider
+	creature_size = huge
+	sapient = true
+	hit_dice_count = 20
+	class_skills = {
+		balance
+		bluff
+		climb
+		concentration
+		craft_alchemy
+		craft_trapmaking
+		diplomacy
+		disguise
+		heal
+		intimidate
+		jump
+		knowledge_arcana
+		knowledge_architecture_and_engineering
+		knowledge_dungeoneering
+		knowledge_geography
+		knowledge_history
+		knowledge_nature
+		knowledge_nobility_and_royalty
+		knowledge_religion
+		knowledge_the_planes
+		listen
+		perform_oratory
+		sense_motive
+		search
+		spellcraft
+		spot
+		survival
+		swim
+	}
+	modifier = {
+		strength = 32
+		dexterity = 2
+		constitution = 28
+		intelligence = 10
+		wisdom = 18
+		charisma = 14
+	}
+}

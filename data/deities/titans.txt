@@ -11,7 +11,7 @@ atlas = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 9
 		protection
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior #correct?
 		culture = olympian #Titan
 		religion = hellenism
@@ -36,7 +36,7 @@ cronus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 
 		#depicted as a personification of time occasionally, due to a confusion with the Greek word "chronos" ("time")
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior #correct?
 		culture = olympian #Titan
 		religion = hellenism
@@ -59,7 +59,7 @@ helios = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 
 		weather
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior
 		culture = olympian #Titan
 		religion = hellenism
@@ -81,7 +81,7 @@ hyperion = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p.
 		travel
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior
 		culture = olympian #Titan
 		religion = hellenism
@@ -106,7 +106,7 @@ iapetus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 
 		community
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior #correct?
 		culture = olympian #Titan
 		religion = hellenism
@@ -129,7 +129,7 @@ prometheus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, 
 		artifice
 	}
 	character = {
-		species = human #Titan
+		species = titan
 		character_class = warrior #correct?
 		culture = olympian #Titan
 		religion = hellenism
