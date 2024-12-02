@@ -101,10 +101,10 @@ public:
 
 	const dice &get_starting_age_modifier(const starting_age_category category) const;
 
-	const name_generator *get_specimen_name_generator(const gender gender) const;
+	const name_generator *get_personal_name_generator(const gender gender) const;
 
-	void add_specimen_name(const gender gender, const name_variant &name);
-	void add_specimen_names_from(const species_base *other);
+	void add_personal_name(const gender gender, const name_variant &name);
+	void add_personal_names_from(const species_base *other);
 
 signals:
 	void changed();
@@ -116,7 +116,7 @@ private:
 	int venerable_age = 0;
 	dice maximum_age_modifier;
 	std::map<starting_age_category, dice> starting_age_modifiers;
-	std::unique_ptr<gendered_name_generator> specimen_name_generator; //specimen names, mapped to the gender they pertain to (use gender::none for names which should be available for both genders)
+	std::unique_ptr<gendered_name_generator> personal_name_generator; //personal names, mapped to the gender they pertain to (use gender::none for names which should be available for both genders)
 };
 
 }
