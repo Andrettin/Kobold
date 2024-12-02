@@ -3,7 +3,6 @@
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "species/species_base.h"
-#include "util/dice.h"
 
 Q_MOC_INCLUDE("species/creature_size.h")
 Q_MOC_INCLUDE("species/creature_type.h")
@@ -17,7 +16,6 @@ class feat;
 class item_slot;
 class level_bonus_table;
 class saving_throw_type;
-enum class starting_age_category;
 
 template <typename scope_type>
 class effect_list;
@@ -34,11 +32,6 @@ class species final : public species_base, public data_type<species>
 	Q_PROPERTY(bool sapient MEMBER sapient READ is_sapient NOTIFY changed)
 	Q_PROPERTY(int hit_dice_count MEMBER hit_dice_count READ get_hit_dice_count NOTIFY changed)
 	Q_PROPERTY(int level_adjustment MEMBER level_adjustment READ get_level_adjustment NOTIFY changed)
-	Q_PROPERTY(int adulthood_age MEMBER adulthood_age READ get_adulthood_age NOTIFY changed)
-	Q_PROPERTY(int middle_age MEMBER middle_age READ get_middle_age NOTIFY changed)
-	Q_PROPERTY(int old_age MEMBER old_age READ get_old_age NOTIFY changed)
-	Q_PROPERTY(int venerable_age MEMBER venerable_age READ get_venerable_age NOTIFY changed)
-	Q_PROPERTY(archimedes::dice maximum_age_modifier MEMBER maximum_age_modifier READ get_maximum_age_modifier NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "species";
@@ -66,7 +59,7 @@ public:
 		return this->sapient;
 	}
 
-	virtual std::vector<species_base *> get_supertaxons() const override;
+	virtual species_base * get_supertaxon() const override;
 
 	int get_hit_dice_count() const
 	{
@@ -93,33 +86,6 @@ public:
 		return this->class_skills.contains(skill);
 	}
 
-	int get_adulthood_age() const
-	{
-		return this->adulthood_age;
-	}
-
-	int get_middle_age() const
-	{
-		return this->middle_age;
-	}
-
-	int get_old_age() const
-	{
-		return this->old_age;
-	}
-
-	int get_venerable_age() const
-	{
-		return this->venerable_age;
-	}
-
-	const dice &get_maximum_age_modifier() const
-	{
-		return this->maximum_age_modifier;
-	}
-
-	const dice &get_starting_age_modifier(const starting_age_category category) const;
-
 	int get_min_attribute_value(const character_attribute *attribute) const
 	{
 		const auto find_iterator = this->min_attribute_values.find(attribute);
@@ -141,8 +107,6 @@ public:
 	{
 		return this->effects.get();
 	}
-
-	const name_generator *get_specimen_name_generator(const gender gender) const;
 
 	const data_entry_map<character_class, int> &get_character_class_weights() const
 	{
@@ -194,12 +158,6 @@ private:
 	int level_adjustment = 0;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;
-	int adulthood_age = 0;
-	int middle_age = 0;
-	int old_age = 0;
-	int venerable_age = 0;
-	dice maximum_age_modifier;
-	std::map<starting_age_category, dice> starting_age_modifiers;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::unique_ptr<const kobold::modifier<const character>> modifier;
 	std::unique_ptr<const effect_list<const character>> effects;

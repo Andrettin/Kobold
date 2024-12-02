@@ -10,7 +10,6 @@
 #include "character/skill.h"
 #include "character/starting_age_category.h"
 #include "item/item_slot.h"
-#include "language/fallback_name_generator.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "species/creature_size.h"
@@ -45,13 +44,6 @@ void species::process_gsml_scope(const gsml_data &scope)
 		for (const std::string &value : values) {
 			this->class_skills.insert(skill::get(value));
 		}
-	} else if (tag == "starting_age_modifiers") {
-		scope.for_each_property([&](const gsml_property &property) {
-			const std::string &key = property.get_key();
-			const std::string &value = property.get_value();
-
-			this->starting_age_modifiers[magic_enum::enum_cast<starting_age_category>(key).value()] = dice(value);
-		});
 	} else if (tag == "min_attribute_values") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
@@ -108,25 +100,9 @@ void species::check() const
 	}
 }
 
-std::vector<species_base *> species::get_supertaxons() const
+species_base * species::get_supertaxon() const
 {
-	return { this->creature_type };
-}
-
-const dice &species::get_starting_age_modifier(const starting_age_category category) const
-{
-	const auto find_iterator = this->starting_age_modifiers.find(category);
-
-	if (find_iterator != this->starting_age_modifiers.end()) {
-		return find_iterator->second;
-	}
-
-	if (this->get_creature_type() != nullptr) {
-		return this->get_creature_type()->get_starting_age_modifier(category);
-	}
-
-	static constexpr dice dice;
-	return dice;
+	return this->creature_type;
 }
 
 int species::get_item_slot_count(const item_slot *slot) const
@@ -138,21 +114,6 @@ int species::get_item_slot_count(const item_slot *slot) const
 	}
 
 	return this->get_creature_type()->get_item_slot_count(slot);
-}
-
-const name_generator *species::get_specimen_name_generator(const gender gender) const
-{
-	const name_generator *name_generator = species_base::get_specimen_name_generator(gender);
-	if (name_generator != nullptr) {
-		return name_generator;
-	}
-
-	name_generator = this->get_creature_type()->get_specimen_name_generator(gender);
-	if (name_generator != nullptr) {
-		return name_generator;
-	}
-
-	return fallback_name_generator::get()->get_specimen_name_generator(gender);
 }
 
 }
