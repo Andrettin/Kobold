@@ -42,6 +42,28 @@ apollo = {
 	}
 }
 
+artemis = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 287-288.
+	name = "Artemis"
+	pantheon = olympian
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		moon
+		animal
+		plant
+	}
+	character = {
+		species = human
+		character_class = ranger
+		culture = olympian
+		religion = hellenism
+		gender = female
+		father = zeus
+	}
+}
+
 athena = {
 	name = "Athena"
 	pantheon = olympian
