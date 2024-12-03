@@ -13,6 +13,16 @@ wind = {
 	domain = air
 }
 
+family = {
+	name = "Family"
+	domain = community
+}
+
+home = {
+	name = "Home"
+	domain = community
+}
+
 moon = {
 	name = "Moon"
 	domain = darkness
@@ -23,9 +33,39 @@ night = {
 	domain = darkness
 }
 
+cave = {
+	name = "Cave"
+	domain = earth
+}
+
+metal = {
+	name = "Metal"
+	domain = earth
+}
+
 memory = {
 	name = "Memory"
 	domain = knowledge
+}
+
+curse = {
+	name = "Curse"
+	domain = luck
+}
+
+fate = {
+	name = "Fate"
+	domain = luck
+}
+
+growth = {
+	name = "Growth"
+	domain = plant
+}
+
+trade = {
+	name = "Trade"
+	domain = travel
 }
 
 tactics = {

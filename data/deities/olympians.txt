@@ -64,6 +64,34 @@ athena = {
 	}
 }
 
+hera = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 232-234, 426.
+	name = "Hera"
+	pantheon = olympian #one of the twelve main Olympian deities
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		family #goddess of marriage and childbirth
+		home
+		repose
+	}
+	cultural_group_names = {
+		latin = "Juno"
+	}
+	character = {
+		species = human
+		character_class = aristocrat
+		culture = olympian
+		religion = hellenism
+		gender = female
+		father = cronus
+		mother = rhea
+	}
+	
+	#wife of Zeus
+}
+
 poseidon = {
 	name = "Poseidon"
 	pantheon = olympian

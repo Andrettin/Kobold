@@ -137,3 +137,29 @@ prometheus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, 
 		father = iapetus
 	}
 }
+
+rhea = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 429.
+	name = "Rhea"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		growth #identified with Ops, the Roman goddess of plenty
+		plant
+		earth
+	}
+	cultural_group_names = {
+		latin = "Ops"
+	}
+	character = {
+		species = titan
+		character_class = aristocrat
+		culture = olympian #Titan
+		religion = hellenism
+		gender = female
+		father = uranus
+		mother = gaia
+	}
+}
