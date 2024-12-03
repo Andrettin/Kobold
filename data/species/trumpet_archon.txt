@@ -1,0 +1,38 @@
+trumpet_archon = {
+	name = "Trumpet Archon"
+	creature_type = outsider #Archon
+	creature_size = medium
+	sapient = true
+	hit_dice_count = 12
+	level_adjustment = 8
+	class_skills = {
+		concentration
+		diplomacy
+		escape_artist
+		handle_animal
+		knowledge_arcana
+		knowledge_architecture_and_engineering
+		knowledge_dungeoneering
+		knowledge_geography
+		knowledge_history
+		knowledge_nature
+		knowledge_nobility_and_royalty
+		knowledge_religion
+		knowledge_the_planes
+		listen
+		move_silently
+		perform_wind_instruments
+		ride
+		sense_motive
+		spot
+		use_rope
+	}
+	modifier = {
+		strength = 10
+		dexterity = 6
+		constitution = 12
+		intelligence = 6
+		wisdom = 6
+		charisma = 6
+	}
+}
