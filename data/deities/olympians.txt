@@ -114,6 +114,32 @@ hera = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 23
 	#wife of Zeus
 }
 
+hermes = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 243-246.
+	name = "Hermes"
+	pantheon = olympian
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		travel #herald and messenger of the gods
+		knowledge
+		trade #god of merchants and traders
+	}
+	cultural_group_names = {
+		latin = "Mercury"
+	}
+	character = {
+		species = trumpet_archon
+		character_class = bard
+		culture = olympian
+		religion = hellenism
+		gender = male
+		father = zeus
+		mother = maia #Pleiad
+	}
+}
+
 poseidon = {
 	name = "Poseidon"
 	pantheon = olympian

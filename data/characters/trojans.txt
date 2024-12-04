@@ -1,13 +1,3 @@
-pleione = {
-	name = "Pleione"
-	species = human
-	character_class = aristocrat
-	culture = lydian #Trojan
-	religion = hellenism
-	home_site = troy
-	gender = female
-}
-
 scamander = {
 	name = "Scamander"
 	species = human
@@ -26,18 +16,6 @@ idaea = {
 	religion = hellenism
 	home_site = troy
 	gender = female
-}
-
-electra = {
-	name = "Electra"
-	species = human
-	character_class = aristocrat
-	culture = lydian #Trojan
-	religion = hellenism
-	home_site = troy
-	gender = female
-	father = atlas #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 508.
-	mother = pleione #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 508.
 }
 
 teucer = {
