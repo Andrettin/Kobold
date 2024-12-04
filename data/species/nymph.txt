@@ -1,0 +1,30 @@
+nymph = {
+	name = "Nymph"
+	creature_type = fey
+	creature_size = medium
+	sapient = true
+	hit_dice_count = 6
+	level_adjustment = 7
+	class_skills = {
+		concentration
+		diplomacy
+		escape_artist
+		handle_animal
+		heal
+		hide
+		listen
+		move_silently
+		ride
+		sense_motive
+		spot
+		swim
+		use_rope
+	}
+	modifier = {
+		dexterity = 6
+		constitution = 2
+		intelligence = 6
+		wisdom = 6
+		charisma = 8
+	}
+}
