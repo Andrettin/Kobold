@@ -116,6 +116,29 @@ iapetus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 
 	}
 }
 
+oceanus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 338.
+	name = "Oceanus"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		ocean #god of the ocean (river which completely surrounded the earth)
+		water
+		travel
+	}
+	character = {
+		species = titan
+		character_class = warrior
+		culture = olympian #Titan
+		religion = hellenism
+		gender = male
+		father = uranus
+		mother = gaia
+	}
+}
+
 prometheus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 419-421.
 	name = "Prometheus"
 	pantheon = titan
@@ -156,6 +179,29 @@ rhea = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 42
 	character = {
 		species = titan
 		character_class = aristocrat
+		culture = olympian #Titan
+		religion = hellenism
+		gender = female
+		father = uranus
+		mother = gaia
+	}
+}
+
+tethys = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 464.
+	name = "Tethys"
+	pantheon = titan
+	divine_rank = intermediate_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		ocean
+		river
+		family
+	}
+	character = {
+		species = titan
+		character_class = warrior
 		culture = olympian #Titan
 		religion = hellenism
 		gender = female
