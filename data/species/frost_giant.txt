@@ -1,0 +1,22 @@
+frost_giant = {
+	name = "Frost Giant"
+	creature_type = giant
+	creature_size = large
+	sapient = true
+	hit_dice_count = 14
+	level_adjustment = 4
+	class_skills = {
+		climb
+		craft_alchemy
+		craft_trapmaking
+		intimidate
+		jump
+		spot
+	}
+	modifier = {
+		strength = 18
+		dexterity = -2
+		constitution = 10
+		wisdom = 4
+	}
+}
