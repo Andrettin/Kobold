@@ -11,7 +11,7 @@ pharaonic = {
 }
 
 protogenoi = {
-	name = "Protogenoi"
+	name = "Protogenoi" #primordial deities
 }
 
 titan = {
