@@ -464,15 +464,8 @@ bool character::initialize_dates_from_parents()
 		return false;
 	}
 
-	const int adulthood_age = this->get_species()->get_adulthood_age();
-	if (adulthood_age == 0) {
-		return false;
-	}
-
-	const int middle_age = this->get_species()->get_middle_age();
-	if (middle_age == 0) {
-		return false;
-	}
+	int adulthood_age = 0;
+	int middle_age = 0;
 
 	QDate latest_parent_birth_date;
 
@@ -481,8 +474,20 @@ bool character::initialize_dates_from_parents()
 			continue;
 		}
 
+		const int parent_adulthood_age = parent->get_species()->get_adulthood_age();
+		if (parent_adulthood_age == 0) {
+			continue;
+		}
+
+		const int parent_middle_age = parent->get_species()->get_middle_age();
+		if (parent_middle_age == 0) {
+			continue;
+		}
+
 		if (!latest_parent_birth_date.isValid() || parent->get_birth_date() > latest_parent_birth_date) {
 			latest_parent_birth_date = parent->get_birth_date();
+			adulthood_age = parent_adulthood_age;
+			middle_age = parent_middle_age;
 		}
 	}
 
