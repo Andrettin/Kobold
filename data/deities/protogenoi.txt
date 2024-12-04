@@ -11,7 +11,7 @@ gaia = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 20
 		protection
 	}
 	character = {
-		species = human #Protogenoi
+		species = elder_earth_elemental #Protogenoi
 		character_class = warrior
 		culture = olympian #Protogenoi
 		religion = hellenism
@@ -32,7 +32,7 @@ uranus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 4
 		creation
 	}
 	character = {
-		species = human #Protogenoi
+		species = elder_air_elemental #Protogenoi
 		character_class = warrior
 		culture = olympian #Protogenoi
 		religion = hellenism

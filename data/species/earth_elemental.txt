@@ -1,0 +1,21 @@
+elder_earth_elemental = {
+	name = "Elder Earth Elemental"
+	creature_type = elemental
+	creature_size = huge
+	sapient = true
+	hit_dice_count = 24
+	saving_throw_bonus_tables = {
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		listen
+		spot
+	}
+	modifier = {
+		strength = 22
+		dexterity = -2
+		constitution = 10
+	}
+}
