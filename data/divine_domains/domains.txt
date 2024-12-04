@@ -126,6 +126,10 @@ trickery = {
 	name = "Trickery"
 }
 
+void = {
+	name = "Void"
+}
+
 war = {
 	name = "War"
 }

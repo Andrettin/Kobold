@@ -13,6 +13,16 @@ wind = {
 	domain = air
 }
 
+love = {
+	name = "Love"
+	domain = charm
+}
+
+lust = {
+	name = "Lust"
+	domain = charm
+}
+
 family = {
 	name = "Family"
 	domain = community
@@ -31,6 +41,11 @@ moon = {
 night = {
 	name = "Night"
 	domain = darkness
+}
+
+plague = {
+	name = "Plague"
+	domain = death
 }
 
 cave = {
@@ -58,14 +73,54 @@ fate = {
 	domain = luck
 }
 
+nightmare = {
+	name = "Nightmare"
+	domain = madness
+}
+
 growth = {
 	name = "Growth"
 	domain = plant
 }
 
+day = {
+	name = "Day"
+	domain = sun
+}
+
+light = {
+	name = "Light"
+	domain = sun
+}
+
 trade = {
 	name = "Trade"
 	domain = travel
+}
+
+greed = {
+	name = "Greed"
+	domain = trickery
+}
+
+thievery = {
+	name = "Thievery"
+	domain = trickery
+}
+
+star = {
+	name = "Star"
+	domain = void
+}
+
+blood = {
+	name = "Blood"
+	domain = war
+}
+
+duel = {
+	name = "Duel"
+	domain = war
 }
 
 tactics = {
@@ -86,6 +141,11 @@ ocean = {
 river = {
 	name = "River"
 	domain = water
+}
+
+season = {
+	name = "Season"
+	domain = weather
 }
 
 storm = {

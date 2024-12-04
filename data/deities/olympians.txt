@@ -6,9 +6,9 @@ aphrodite = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p
 		hellenism
 	}
 	domains = {
-		charm
+		love
+		lust
 		repose
-		chaos
 	}
 	character = {
 		species = human #Olympian
