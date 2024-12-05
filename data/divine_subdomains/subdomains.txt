@@ -58,6 +58,11 @@ metal = {
 	domain = earth
 }
 
+honor = {
+	name = "Honor"
+	domain = glory
+}
+
 memory = {
 	name = "Memory"
 	domain = knowledge

@@ -1,3 +1,61 @@
+balder = { #Source: Kevin Crossley-Holland, "The Norse Myths", 1980, p. 240; Source: Frank Stenton, "Anglo-Saxon England", 1971, p. 75; Source: Carolyne Larrington, "The Norse Myths: A Guide to the Gods and Heroes", 2017, p. 40.
+	name = "Balder"
+	pantheon = aesir
+	divine_rank = intermediate_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		light
+		knowledge
+		glory
+	}
+	cultural_group_names = {
+		anglo_saxon = "Baeldaeg" #"Bældæg"; Anglo-Saxon name for the deity
+	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = norse
+		religion = asatru
+		gender = male
+		father = odin
+		mother = frigg
+	}
+	
+	#due to Loki's mischief, he was killed by Hod
+	#Balder returns after Ragnarok
+}
+
+frigg = { #Source: Kevin Crossley-Holland, "The Norse Myths", 1980, p. 242; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 129; Source: Carolyne Larrington, "The Norse Myths: A Guide to the Gods and Heroes", 2017, p. 51.
+	name = "Frigg"
+	pantheon = aesir
+	divine_rank = intermediate_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		fate #goddess of fate, love and marriage
+		love
+		family
+	}
+	cultural_group_names = {
+		anglo_saxon = "Frig" #"Frig" is the Anglo-Saxon name for the goddess according to Stenton, while Larrington gives "Fricg" instead; Source: Frank Stenton, "Anglo-Saxon England", 1971, p. 98.
+		west_germanic = "Friia" #as given in the second Merseburg charm (which is in Old High German); in the charm Volla is described as being her sister; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 129; Source: Susan D. Fuller, "Pagan Charms in Tenth-Century Saxony? The Function of the Merseburg Charms", 1909, p. 162.
+	}
+	character = {
+		species = human
+		character_class = aristocrat
+		culture = norse
+		religion = asatru
+		gender = female
+	}
+	
+	#first among the goddesses
+	#Odin's wife
+	#her hall is Fensalir
+}
+
 jord = { #Source: Kevin Crossley-Holland, "The Norse Myths", 1980, pp. 241-242.
 	name = "Jord" #the name means "Earth"; also known as Fjorgyn
 	pantheon = aesir
@@ -89,6 +147,32 @@ thor = { #Sif's husband; known as the Thunder God and the Charioteer; Source: Ke
 		gender = male
 		father = odin
 		mother = jord
+	}
+}
+
+tyr = { #Source: Kevin Crossley-Holland, "The Norse Myths", 1980, pp. 34-36, 251; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, pp. 115, 133; Source: Carolyne Larrington, "The Norse Myths: A Guide to the Gods and Heroes", 2017, pp. 48-49.
+	name = "Tyr" #"Týr"; Old Norse name of the god; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 115.
+	pantheon = aesir
+	divine_rank = greater_deity
+	religions = {
+		asatru
+	}
+	domains = {
+		war #god of war, law and justice
+		law
+		honor
+	}
+	cultural_group_names = {
+		anglo_saxon = "Tiw" #"Tīw"; Old English name of the god; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 115.
+		west_germanic = "Ziu" #Old High German name of the god; Source: Peter Buchholz, "Perspectives for Historical Research in Germanic Religion", 1968, p. 115.
+	}
+	character = {
+		species = human
+		character_class = warrior
+		culture = norse
+		religion = asatru
+		gender = male
+		father = odin
 	}
 }
 
