@@ -1,3 +1,24 @@
+chaos = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 122.
+	name = "Chaos"
+	pantheon = protogenoi
+	divine_rank = greater_deity
+	religions = {
+		hellenism
+	}
+	domains = {
+		chaos
+		void
+		creation
+	}
+	character = {
+		species = elder_air_elemental #Protogenoi
+		character_class = aristocrat
+		culture = olympian #Protogenoi
+		religion = hellenism
+		gender = female #correct?
+	}
+}
+
 gaia = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 200-201.
 	name = "Gaia"
 	pantheon = protogenoi
@@ -16,6 +37,7 @@ gaia = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 20
 		culture = olympian #Protogenoi
 		religion = hellenism
 		gender = female
+		mother = chaos #in Greek mythology, she was the first deity born after Chaos, but here we make her Chaos' daughter, as that fits better with our cosmology
 	}
 }
 
