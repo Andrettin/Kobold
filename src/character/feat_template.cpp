@@ -10,6 +10,8 @@
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
+#include <magic_enum/magic_enum.hpp>
+
 namespace kobold {
 
 const std::set<std::string> feat_template::database_dependencies = {
@@ -28,7 +30,7 @@ feat_template::~feat_template()
 void feat_template::process_gsml_property(const gsml_property &property)
 {
 	if (property.get_key() == "template_type") {
-		this->template_type = enum_converter<feat_template_type>::to_enum(property.get_value());
+		this->template_type = magic_enum::enum_cast<feat_template_type>(property.get_value()).value();
 
 		switch (this->get_template_type()) {
 			case feat_template_type::skill:

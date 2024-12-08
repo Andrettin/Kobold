@@ -30,7 +30,6 @@ set(character_SRCS
 	src/character/dynasty.cpp
 	src/character/feat.cpp
 	src/character/feat_template.cpp
-	src/character/feat_template_type.cpp
 	src/character/feat_type.cpp
 	src/character/level_bonus_table.cpp
 	src/character/saving_throw_type.cpp
