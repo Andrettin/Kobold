@@ -5,6 +5,7 @@ namespace kobold {
 enum class feat_template_type {
 	none,
 	skill,
+	weapon_type,
 	country_skill
 };
 

@@ -36,9 +36,9 @@ public:
 		return this->template_type;
 	}
 
-	std::string process_string_for_skill(const std::string &str, const named_data_entry *skill) const;
-	gsml_property process_property_for_skill(const gsml_property &property, const named_data_entry *skill) const;
-	gsml_data process_scope_for_skill(const gsml_data &scope, const named_data_entry *skill) const;
+	std::string process_string_for_object(const std::string &str, const named_data_entry *object) const;
+	gsml_property process_property_for_object(const gsml_property &property, const named_data_entry *object) const;
+	gsml_data process_scope_for_object(const gsml_data &scope, const named_data_entry *object) const;
 
 signals:
 	void changed();
