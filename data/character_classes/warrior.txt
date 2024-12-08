@@ -39,6 +39,37 @@ warrior = {
 			gain_feat_of_type = skill_proficiency
 			gain_feat_of_type = skill_proficiency
 			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = warrior
+		}
+		2 = {
+			gain_feat_of_type = warrior
+		}
+		4 = {
+			gain_feat_of_type = warrior
+		}
+		6 = {
+			gain_feat_of_type = warrior
+		}
+		8 = {
+			gain_feat_of_type = warrior
+		}
+		10 = {
+			gain_feat_of_type = warrior
+		}
+		12 = {
+			gain_feat_of_type = warrior
+		}
+		14 = {
+			gain_feat_of_type = warrior
+		}
+		16 = {
+			gain_feat_of_type = warrior
+		}
+		18 = {
+			gain_feat_of_type = warrior
+		}
+		20 = {
+			gain_feat_of_type = warrior
 		}
 	}
 }
