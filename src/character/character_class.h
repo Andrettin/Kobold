@@ -17,6 +17,9 @@ enum class character_class_type;
 enum class starting_age_category;
 
 template <typename scope_type>
+class and_condition;
+
+template <typename scope_type>
 class effect_list;
 
 class character_class final : public named_data_entry, public data_type<character_class>
@@ -109,6 +112,11 @@ public:
 		throw std::runtime_error(std::format("Invalid rank for class \"{}\": \"{}\".", this->get_identifier(), rank));
 	}
 
+	const and_condition<character> *get_conditions() const
+	{
+		return this->conditions.get();
+	}
+
 	const effect_list<const character> *get_level_effects(const int level) const
 	{
 		const auto find_iterator = this->level_effects.find(level);
@@ -154,6 +162,7 @@ private:
 	int base_skill_points_per_level = 0;
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<std::string, int> rank_levels; //names for particular levels
+	std::unique_ptr<and_condition<character>> conditions;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> level_effects;
 	data_entry_map<feat, int> feat_weights;
 };

@@ -9,6 +9,7 @@
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "character/starting_age_category.h"
+#include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 
 namespace kobold {
@@ -56,6 +57,10 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 
 			this->rank_levels[key] = std::stoi(value);
 		});
+	} else if (tag == "conditions") {
+		auto conditions = std::make_unique<and_condition<character>>();
+		database::process_gsml_data(conditions, scope);
+		this->conditions = std::move(conditions);
 	} else if (tag == "level_effects") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();
@@ -105,6 +110,18 @@ void character_class::check() const
 
 	if (this->get_type() == character_class_type::base_class && this->get_starting_age_category() == starting_age_category::none) {
 		throw std::runtime_error(std::format("Base character class \"{}\" has no starting age category.", this->get_identifier()));
+	}
+
+	if (this->get_conditions() != nullptr) {
+		this->get_conditions()->check_validity();
+
+		if (this->get_type() == character_class_type::base_class || this->get_type() == character_class_type::racial_class) {
+			throw std::runtime_error(std::format("Base or racial character class \"{}\" has conditions.", this->get_identifier()));
+		}
+	} else {
+		if (this->get_type() == character_class_type::prestige_class || this->get_type() == character_class_type::epic_prestige_class) {
+			throw std::runtime_error(std::format("Prestige character class \"{}\" has no conditions.", this->get_identifier()));
+		}
 	}
 }
 

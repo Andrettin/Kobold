@@ -88,6 +88,10 @@ void feat::check() const
 		throw std::runtime_error(std::format("Feat \"{}\" has no icon.", this->get_identifier()));
 	}
 
+	if (this->get_conditions() != nullptr) {
+		this->get_conditions()->check_validity();
+	}
+
 	if (this->get_weight_factor() != nullptr) {
 		this->get_weight_factor()->check();
 	}
