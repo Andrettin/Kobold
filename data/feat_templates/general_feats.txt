@@ -8,3 +8,22 @@ skill_focus_[skill] = {
 		[skill] = 3
 	}
 }
+
+weapon_focus_[item_type] = {
+	template_type = weapon_type
+	name = "Weapon Focus: [item_type_name]"
+	types = {
+		general
+		warrior
+	}
+	conditions = {
+		#proficiency with the weapon type
+		base_attack_bonus >= 1
+	}
+	modifier = {
+		weapon_attack_bonus = {
+			weapon_type = [item_type]
+			value = 1
+		}
+	}
+}
