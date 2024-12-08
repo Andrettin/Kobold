@@ -1,0 +1,5 @@
+light_crossbow = {
+	name = "Light Crossbow"
+	item_class = crossbow
+	icon = bow
+}

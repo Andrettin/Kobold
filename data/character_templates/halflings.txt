@@ -1,0 +1,9 @@
+halfling_warrior = {
+	name = "Halfling Warrior"
+	species = halfling
+	character_class = warrior
+	level = 1
+	feats = {
+		weapon_focus_longsword
+	}
+}

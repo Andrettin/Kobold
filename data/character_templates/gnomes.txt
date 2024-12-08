@@ -1,0 +1,9 @@
+gnome_warrior = {
+	name = "Gnome Warrior"
+	species = gnome
+	character_class = warrior
+	level = 1
+	feats = {
+		weapon_focus_light_crossbow
+	}
+}

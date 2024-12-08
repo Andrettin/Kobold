@@ -1,0 +1,5 @@
+dwarven_waraxe = {
+	name = "Dwarven Waraxe"
+	item_class = axe
+	icon = saber
+}

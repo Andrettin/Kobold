@@ -1,0 +1,9 @@
+elf_warrior = {
+	name = "Elf Warrior"
+	species = elf
+	character_class = warrior
+	level = 1
+	feats = {
+		weapon_focus_longbow
+	}
+}

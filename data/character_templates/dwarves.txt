@@ -1,0 +1,9 @@
+dwarf_warrior = {
+	name = "Dwarf Warrior"
+	species = dwarf
+	character_class = warrior
+	level = 1
+	feats = {
+		weapon_focus_dwarven_waraxe
+	}
+}
