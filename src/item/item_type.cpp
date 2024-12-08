@@ -45,4 +45,9 @@ const item_slot *item_type::get_slot() const
 	return this->get_item_class()->get_slot();
 }
 
+bool item_type::is_weapon() const
+{
+	return this->get_item_class()->is_weapon();
+}
+
 }

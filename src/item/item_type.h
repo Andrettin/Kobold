@@ -11,6 +11,7 @@ namespace kobold {
 class character;
 class icon;
 class item_class;
+class item_slot;
 
 template <typename scope_type>
 class modifier;
@@ -27,6 +28,22 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::item_type*";
 	static constexpr const char database_folder[] = "item_types";
 
+	static std::vector<const item_type *> get_weapon_types()
+	{
+		std::vector<const item_type *> weapon_types;
+
+		for (const item_type *item_type : item_type::get_all()) {
+			if (!item_type->is_weapon()) {
+				continue;
+			}
+
+			
+			weapon_types.push_back(item_type);
+		}
+
+		return weapon_types;
+	}
+
 	explicit item_type(const std::string &identifier);
 	~item_type();
 
@@ -39,6 +56,7 @@ public:
 	}
 
 	const item_slot *get_slot() const;
+	bool is_weapon() const;
 
 	const kobold::icon *get_icon() const
 	{

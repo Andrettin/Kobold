@@ -28,6 +28,8 @@ public:
 		return this->slot;
 	}
 
+	bool is_weapon() const;
+
 signals:
 	void changed();
 
