@@ -25,6 +25,7 @@
 #include "script/condition/can_have_feat_condition.h"
 #include "script/condition/capital_condition.h"
 #include "script/condition/cavalry_condition.h"
+#include "script/condition/character_attribute_condition.h"
 #include "script/condition/character_class_condition.h"
 #include "script/condition/class_skill_condition.h"
 #include "script/condition/coastal_condition.h"
@@ -120,6 +121,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<is_ruler_spouse_condition>(value, condition_operator);
 		} else if (key == "species") {
 			return std::make_unique<species_condition>(value, condition_operator);
+		} else if (character_attribute::try_get(key) != nullptr) {
+			return std::make_unique<character_attribute_condition>(character_attribute::get(key), value, condition_operator);
 		} else if (skill::try_get(key) != nullptr) {
 			return std::make_unique<skill_condition>(skill::get(key), value, condition_operator);
 		}

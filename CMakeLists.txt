@@ -570,6 +570,7 @@ set(script_condition_HDRS
 	src/script/condition/can_have_feat_condition.h
 	src/script/condition/capital_condition.h
 	src/script/condition/cavalry_condition.h
+	src/script/condition/character_attribute_condition.h
 	src/script/condition/character_class_condition.h
 	src/script/condition/class_skill_condition.h
 	src/script/condition/coastal_condition.h
