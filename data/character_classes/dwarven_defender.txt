@@ -6,6 +6,8 @@ dwarven_defender = {
 	conditions = {
 		species = dwarf
 		base_attack_bonus >= 7
+		feat = dodge
+		#feat = endurance
 		feat = toughness
 	}
 	base_attack_bonus_table = high_base_attack_bonus

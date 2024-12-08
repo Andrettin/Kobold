@@ -94,6 +94,21 @@ diligent = {
 	}
 }
 
+dodge = {
+	name = "Dodge"
+	icon = heater_shield
+	types = {
+		general
+		warrior
+	}
+	conditions = {
+		dexterity >= 13
+	}
+	modifier = {
+		armor_class = 1
+	}
+}
+
 great_fortitude = {
 	name = "Great Fortitude"
 	icon = labor
@@ -102,6 +117,18 @@ great_fortitude = {
 	}
 	modifier = {
 		fortitude = 2
+	}
+}
+
+improved_initiative = {
+	name = "Improved Initiative"
+	icon = saber
+	types = {
+		general
+		warrior
+	}
+	modifier = {
+		initiative = 4
 	}
 }
 

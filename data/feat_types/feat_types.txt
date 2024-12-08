@@ -41,3 +41,7 @@ attribute = {
 skill_proficiency = {
 	name = "Skill Proficiency"
 }
+
+warrior = {
+	name = "Warrior"
+}
