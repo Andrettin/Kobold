@@ -667,7 +667,7 @@ void game::apply_history(const kobold::scenario *scenario)
 			}
 		}
 	} catch (...) {
-		std::throw_with_nested(std::runtime_error("Failed to apply history for scenario \"" + scenario->get_identifier() + "\"."));
+		std::throw_with_nested(std::runtime_error(std::format("Failed to apply history for scenario \"{}\".", scenario->get_identifier())));
 	}
 }
 

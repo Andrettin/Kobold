@@ -148,64 +148,68 @@ void character_game_data::apply_species_and_class(const int level)
 
 void character_game_data::apply_history(const QDate &start_date)
 {
-	const character_history *character_history = this->character->get_history();
+	try {
+		const character_history *character_history = this->character->get_history();
 
-	this->set_target_feats(character_history->get_feats());
+		this->set_target_feats(character_history->get_feats());
 
-	const int level = std::max(character_history->get_level(), 1);
-	this->apply_species_and_class(level);
+		const int level = std::max(character_history->get_level(), 1);
+		this->apply_species_and_class(level);
 
-	if (this->character->is_alive_on_start_date(start_date)) {
-		const kobold::character *spouse = character_history->get_spouse();
-		if (spouse != nullptr && spouse->is_alive_on_start_date(start_date)) {
-			this->set_spouse(spouse);
-		}
+		if (this->character->is_alive_on_start_date(start_date)) {
+			const kobold::character *spouse = character_history->get_spouse();
+			if (spouse != nullptr && spouse->is_alive_on_start_date(start_date)) {
+				this->set_spouse(spouse);
+			}
 
-		const kobold::country *country = character_history->get_country();
-		if (country == nullptr) {
-			if (this->get_spouse() != nullptr) {
-				const kobold::character_history *spouse_history = this->get_spouse()->get_history();
+			const kobold::country *country = character_history->get_country();
+			if (country == nullptr) {
+				if (this->get_spouse() != nullptr) {
+					const kobold::character_history *spouse_history = this->get_spouse()->get_history();
 
-				bool is_spouse_higher_ranking = false;
-				if (spouse_history->get_office() != nullptr) {
-					if (character_history->get_office() == nullptr) {
-						is_spouse_higher_ranking = true;
-					} else if (spouse_history->get_office() == defines::get()->get_ruler_office() && character_history->get_office() != defines::get()->get_ruler_office()) {
-						is_spouse_higher_ranking = true;
+					bool is_spouse_higher_ranking = false;
+					if (spouse_history->get_office() != nullptr) {
+						if (character_history->get_office() == nullptr) {
+							is_spouse_higher_ranking = true;
+						} else if (spouse_history->get_office() == defines::get()->get_ruler_office() && character_history->get_office() != defines::get()->get_ruler_office()) {
+							is_spouse_higher_ranking = true;
+						}
+					} else {
+						if (character_history->get_office() == nullptr && spouse_history->get_level() > character_history->get_level()) {
+							is_spouse_higher_ranking = true;
+						}
 					}
-				} else {
-					if (character_history->get_office() == nullptr && spouse_history->get_level() > character_history->get_level()) {
-						is_spouse_higher_ranking = true;
+
+					if (is_spouse_higher_ranking) {
+						if (spouse_history->get_country() != nullptr) {
+							country = spouse_history->get_country();
+						} else if (this->get_spouse()->get_home_settlement() != nullptr && this->get_spouse()->get_home_settlement()->get_map_data()->is_on_map()) {
+							country = this->get_spouse()->get_home_settlement()->get_game_data()->get_owner();
+						}
 					}
 				}
+			}
 
-				if (is_spouse_higher_ranking) {
-					if (spouse_history->get_country() != nullptr) {
-						country = spouse_history->get_country();
-					} else if (this->get_spouse()->get_home_settlement() != nullptr && this->get_spouse()->get_home_settlement()->get_map_data()->is_on_map()) {
-						country = this->get_spouse()->get_home_settlement()->get_game_data()->get_owner();
-					}
+			if (country == nullptr) {
+				if (this->character->get_home_settlement() != nullptr && this->character->get_home_settlement()->get_map_data()->is_on_map()) {
+					country = this->character->get_home_settlement()->get_game_data()->get_owner();
 				}
 			}
-		}
 
-		if (country == nullptr) {
-			if (this->character->get_home_settlement() != nullptr && this->character->get_home_settlement()->get_map_data()->is_on_map()) {
-				country = this->character->get_home_settlement()->get_game_data()->get_owner();
+			if (country != nullptr) {
+				this->set_country(country);
+
+				if (character_history->get_office() != nullptr && country == character_history->get_country()) {
+					assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);
+
+					this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
+				}
 			}
+		} else if (this->character->get_death_date().isValid() && this->character->get_death_date() <= start_date) {
+			this->set_dead(true);
 		}
-
-		if (country != nullptr) {
-			this->set_country(country);
-
-			if (character_history->get_office() != nullptr && country == character_history->get_country()) {
-				assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);
-
-				this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
-			}
-		}
-	} else if (this->character->get_death_date().isValid() && this->character->get_death_date() <= start_date) {
-		this->set_dead(true);
+	} catch (...) {
+		std::throw_with_nested(std::runtime_error(std::format("Failed to apply history for character \"{}\".", this->character->get_identifier())));
 	}
 }
 
@@ -797,21 +801,25 @@ void character_game_data::on_feat_gained(const feat *feat, const int multiplier)
 
 void character_game_data::choose_feat(const feat_type *type)
 {
-	std::vector<const feat *> potential_feats = this->get_potential_feats_from_list(vector::intersected(this->target_feats, type->get_feats()), type);
+	try {
+		std::vector<const feat *> potential_feats = this->get_potential_feats_from_list(vector::intersected(this->target_feats, type->get_feats()), type);
 
-	if (potential_feats.empty()) {
-		potential_feats = this->get_potential_feats_from_list(type->get_feats(), type);
+		if (potential_feats.empty()) {
+			potential_feats = this->get_potential_feats_from_list(type->get_feats(), type);
+		}
+
+		assert_throw(!potential_feats.empty());
+
+		const feat *chosen_feat = vector::get_random(potential_feats);
+
+		if (vector::contains(this->target_feats, chosen_feat)) {
+			vector::remove_one(this->target_feats, chosen_feat);
+		}
+
+		this->change_feat_count(chosen_feat, 1);
+	} catch (...) {
+		std::throw_with_nested(std::runtime_error(std::format("Failed to choose feat of type \"{}\" for character \"{}\".", type->get_identifier(), this->character->get_identifier())));
 	}
-
-	assert_throw(!potential_feats.empty());
-
-	const feat *chosen_feat = vector::get_random(potential_feats);
-
-	if (vector::contains(this->target_feats, chosen_feat)) {
-		vector::remove_one(this->target_feats, chosen_feat);
-	}
-
-	this->change_feat_count(chosen_feat, 1);
 }
 
 std::vector<const feat *> character_game_data::get_potential_feats_from_list(const std::vector<const feat *> &feats, const feat_type *type) const
