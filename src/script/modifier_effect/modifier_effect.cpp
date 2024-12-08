@@ -36,6 +36,7 @@
 #include "script/modifier_effect/free_warship_promotion_modifier_effect.h"
 #include "script/modifier_effect/hit_points_modifier_effect.h"
 #include "script/modifier_effect/infantry_cost_modifier_effect.h"
+#include "script/modifier_effect/initiative_modifier_effect.h"
 #include "script/modifier_effect/law_cost_modifier_effect.h"
 #include "script/modifier_effect/military_unit_category_stat_modifier_effect.h"
 #include "script/modifier_effect/military_unit_domain_stat_modifier_effect.h"
@@ -74,6 +75,8 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<base_attack_bonus_modifier_effect>(value);
 		} else if (key == "hit_points") {
 			return std::make_unique<hit_points_modifier_effect>(value);
+		} else if (key == "initiative") {
+			return std::make_unique<initiative_modifier_effect>(value);
 		} else if (character_attribute::try_get(key) != nullptr) {
 			return std::make_unique<character_attribute_modifier_effect>(character_attribute::get(key), value);
 		} else if (saving_throw_type::try_get(key) != nullptr) {

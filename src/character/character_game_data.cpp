@@ -569,6 +569,19 @@ void character_game_data::change_armor_class(const int change)
 	}
 }
 
+void character_game_data::change_initiative_bonus(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->initiative_bonus += change;
+
+	if (game::get()->is_running()) {
+		emit initiative_bonus_changed();
+	}
+}
+
 QVariantList character_game_data::get_saving_throw_bonuses_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_saving_throw_bonuses());
