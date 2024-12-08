@@ -11,7 +11,7 @@ chaos = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 12
 		creation
 	}
 	character = {
-		species = elder_air_elemental #Protogenoi
+		species = elder_air_elemental #Protogenoi; should be a void elemental or similar instead
 		character_class = aristocrat
 		culture = olympian #Protogenoi
 		religion = hellenism

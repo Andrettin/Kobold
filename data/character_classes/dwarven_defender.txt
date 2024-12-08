@@ -4,6 +4,8 @@ dwarven_defender = {
 	icon = pikemen
 	hit_dice = 1d12
 	conditions = {
+		species = dwarf
+		base_attack_bonus >= 7
 		feat = toughness
 	}
 	base_attack_bonus_table = high_base_attack_bonus

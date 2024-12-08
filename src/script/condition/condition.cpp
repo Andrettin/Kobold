@@ -20,6 +20,7 @@
 #include "script/condition/any_settlement_condition.h"
 #include "script/condition/artillery_condition.h"
 #include "script/condition/attacking_commander_condition.h"
+#include "script/condition/base_attack_bonus_condition.h"
 #include "script/condition/can_gain_building_class_condition.h"
 #include "script/condition/can_have_feat_condition.h"
 #include "script/condition/capital_condition.h"
@@ -84,6 +85,7 @@
 #include "script/condition/source_character_condition.h"
 #include "script/condition/source_site_condition.h"
 #include "script/condition/source_site_scope_condition.h"
+#include "script/condition/species_condition.h"
 #include "script/condition/subject_type_condition.h"
 #include "script/condition/terrain_condition.h"
 #include "script/condition/tradition_condition.h"
@@ -104,6 +106,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 	if constexpr (std::is_same_v<scope_type, character>) {
 		if (key == "age") {
 			return std::make_unique<age_condition>(value, condition_operator);
+		} else if (key == "base_attack_bonus") {
+			return std::make_unique<base_attack_bonus_condition>(value, condition_operator);
 		} else if (key == "character_class") {
 			return std::make_unique<character_class_condition>(value, condition_operator);
 		} else if (key == "class_skill") {
@@ -114,6 +118,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<is_ruler_condition>(value, condition_operator);
 		} else if (key == "is_ruler_spouse") {
 			return std::make_unique<is_ruler_spouse_condition>(value, condition_operator);
+		} else if (key == "species") {
+			return std::make_unique<species_condition>(value, condition_operator);
 		} else if (skill::try_get(key) != nullptr) {
 			return std::make_unique<skill_condition>(skill::get(key), value, condition_operator);
 		}

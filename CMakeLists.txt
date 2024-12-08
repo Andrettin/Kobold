@@ -565,6 +565,7 @@ set(script_condition_HDRS
 	src/script/condition/any_settlement_condition.h
 	src/script/condition/artillery_condition.h
 	src/script/condition/attacking_commander_condition.h
+	src/script/condition/base_attack_bonus_condition.h
 	src/script/condition/can_gain_building_class_condition.h
 	src/script/condition/can_have_feat_condition.h
 	src/script/condition/capital_condition.h
@@ -629,6 +630,7 @@ set(script_condition_HDRS
 	src/script/condition/source_character_condition.h
 	src/script/condition/source_site_condition.h
 	src/script/condition/source_site_scope_condition.h
+	src/script/condition/species_condition.h
 	src/script/condition/subject_type_condition.h
 	src/script/condition/terrain_condition.h
 	src/script/condition/tradition_condition.h
