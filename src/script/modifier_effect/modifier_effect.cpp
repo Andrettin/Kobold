@@ -53,6 +53,7 @@
 #include "script/modifier_effect/unit_upgrade_cost_modifier_effect.h"
 #include "script/modifier_effect/unrest_modifier_effect.h"
 #include "script/modifier_effect/warship_cost_modifier_effect.h"
+#include "script/modifier_effect/weapon_attack_bonus_modifier_effect.h"
 #include "script/modifier_effect/wonder_cost_efficiency_modifier_effect.h"
 
 namespace kobold {
@@ -270,7 +271,11 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	const std::string &tag = scope.get_tag();
 	std::unique_ptr<modifier_effect> modifier_effect;
 
-	if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const character>) {
+		if (tag == "weapon_attack_bonus") {
+			modifier_effect = std::make_unique<weapon_attack_bonus_modifier_effect>();
+		}
+	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		if (tag == "ai_building_desire") {
 			modifier_effect = std::make_unique<ai_building_desire_modifier_effect>();
 		} else if (tag == "commodity_bonus_per_improvement") {
@@ -293,7 +298,7 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 	}
 
 	if (modifier_effect == nullptr) {
-		throw std::runtime_error("Invalid scope modifier effect: \"" + tag + "\".");
+		throw std::runtime_error(std::format("Invalid scope modifier effect: \"{}\".", tag));
 	}
 
 	database::process_gsml_data(modifier_effect, scope);

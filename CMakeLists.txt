@@ -737,6 +737,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/unit_upgrade_cost_modifier_effect.h
 	src/script/modifier_effect/unrest_modifier_effect.h
 	src/script/modifier_effect/warship_cost_modifier_effect.h
+	src/script/modifier_effect/weapon_attack_bonus_modifier_effect.h
 	src/script/modifier_effect/wonder_cost_efficiency_modifier_effect.h
 )
 source_group(script\\modifier_effect FILES ${script_modifier_effect_HDRS})

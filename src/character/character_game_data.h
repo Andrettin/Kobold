@@ -29,6 +29,7 @@ class feat;
 class feat_type;
 class item;
 class item_slot;
+class item_type;
 class military_unit;
 class military_unit_type;
 class office;
@@ -60,6 +61,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
 	Q_PROPERTY(int base_attack_bonus READ get_base_attack_bonus NOTIFY base_attack_bonus_changed)
 	Q_PROPERTY(int attack_bonus READ get_attack_bonus NOTIFY attack_bonus_changed)
+	Q_PROPERTY(QVariantList weapon_type_attack_bonuses READ get_weapon_type_attack_bonuses_qvariant_list NOTIFY weapon_type_attack_bonuses_changed)
 	Q_PROPERTY(int armor_class READ get_armor_class NOTIFY armor_class_changed)
 	Q_PROPERTY(int initiative_bonus READ get_initiative_bonus NOTIFY initiative_bonus_changed)
 	Q_PROPERTY(QVariantList saving_throw_bonuses READ get_saving_throw_bonuses_qvariant_list NOTIFY saving_throw_bonuses_changed)
@@ -247,6 +249,25 @@ public:
 	}
 
 	void change_attack_bonus(const int change);
+
+	const data_entry_map<item_type, int> &get_weapon_type_attack_bonuses() const
+	{
+		return this->weapon_type_attack_bonuses;
+	}
+
+	QVariantList get_weapon_type_attack_bonuses_qvariant_list() const;
+
+	int get_weapon_type_attack_bonus(const item_type *type) const
+	{
+		const auto find_iterator = this->weapon_type_attack_bonuses.find(type);
+		if (find_iterator != this->weapon_type_attack_bonuses.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
+	void change_weapon_type_attack_bonus(const item_type *type, const int change);
 
 	int get_armor_class() const
 	{
@@ -489,6 +510,7 @@ signals:
 	void hit_points_changed();
 	void base_attack_bonus_changed();
 	void attack_bonus_changed();
+	void weapon_type_attack_bonuses_changed();
 	void armor_class_changed();
 	void initiative_bonus_changed();
 	void saving_throw_bonuses_changed();
@@ -516,6 +538,7 @@ private:
 	int hit_points = 0;
 	int base_attack_bonus = 0;
 	int attack_bonus = 0;
+	data_entry_map<item_type, int> weapon_type_attack_bonuses;
 	int armor_class = 0;
 	int initiative_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;

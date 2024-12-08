@@ -560,6 +560,30 @@ void character_game_data::change_attack_bonus(const int change)
 	}
 }
 
+QVariantList character_game_data::get_weapon_type_attack_bonuses_qvariant_list() const
+{
+	return archimedes::map::to_qvariant_list(this->get_weapon_type_attack_bonuses());
+}
+
+void character_game_data::change_weapon_type_attack_bonus(const item_type *type, const int change)
+{
+	assert(type != nullptr);
+	assert(type->is_weapon());
+
+	if (change == 0) {
+		return;
+	}
+
+	const int new_value = (this->weapon_type_attack_bonuses[type] += change);
+	if (new_value == 0) {
+		this->weapon_type_attack_bonuses.erase(type);
+	}
+
+	if (game::get()->is_running()) {
+		emit weapon_type_attack_bonuses_changed();
+	}
+}
+
 void character_game_data::change_armor_class(const int change)
 {
 	if (change == 0) {
