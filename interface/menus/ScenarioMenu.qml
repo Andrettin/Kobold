@@ -170,10 +170,10 @@ MenuBase {
 				+ "\nLevel: " + selected_country.game_data.level
 				+ "\nExperience: " + number_string(selected_country.game_data.experience)
 				+ "\nGovernment Type: " + selected_country.game_data.government_type.name
-				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, "\n\t")) : "")
+				+ (selected_country.game_data.attribute_values.length > 0 ? ("\nAttributes:\n\t" + values_to_string(selected_country.game_data.attribute_values, 0, "\n\t")) : "")
 				+ "\nUnrest: " + Math.max(selected_country.game_data.unrest, 0)
 				+ "\nConsumption: " + Math.max(selected_country.game_data.consumption, 0)
-				+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, "\n\t", true)) : "")
+				+ (selected_country.game_data.skill_bonuses.length > 0 ? ("\nSkills:\n\t" + values_to_string(selected_country.game_data.skill_bonuses, 0, "\n\t", true)) : "")
 				+ (selected_country.game_data.feats.length > 0 ? "\nFeats:\n\t" + string_list_to_string(object_counts_to_name_list(selected_country.game_data.feats), "\n\t") : "")
 			) : ""
 			
