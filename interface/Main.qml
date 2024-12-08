@@ -266,12 +266,12 @@ Window {
 		return str
 	}
 	
-	function values_to_string(values, separator = ", ", signed = false) {
+	function values_to_string(values, base_value = 0, separator = ", ", signed = false) {
 		var str = ""
 		
 		for (var i = 0; i < values.length; i++) {
 			var value_type = values[i].key
-			var value = values[i].value
+			var value = values[i].value + base_value
 			
 			if (i > 0) {
 				str += separator
@@ -283,8 +283,8 @@ Window {
 		return str
 	}
 	
-	function bonuses_to_string(bonuses, separator = ", ") {
-		return values_to_string(bonuses, separator, true)
+	function bonuses_to_string(bonuses, base_value = 0, separator = ", ") {
+		return values_to_string(bonuses, base_value, separator, true)
 	}
 	
 	function get_plural_form(str) {

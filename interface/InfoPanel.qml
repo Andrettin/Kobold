@@ -315,7 +315,7 @@ Rectangle {
 		anchors.left: parent.left
 		anchors.leftMargin: 16 * scale_factor
 		text: selected_site_game_data ? format_text(
-			values_to_string(selected_site_game_data.settlement_attribute_values, "\n", true)
+			values_to_string(selected_site_game_data.settlement_attribute_values, 0, "\n", true)
 			+ (selected_site_game_data.commodity_outputs.length > 0 ? ("\n" + commodity_outputs_to_string(selected_site_game_data.commodity_outputs)) : "")
 		) : ""
 		visible: selected_site !== null && selected_site.settlement && selected_site.game_data.settlement_type !== null && !selected_garrison && viewing_settlement_info
