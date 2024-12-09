@@ -16,5 +16,6 @@ ogre = {
 		constitution = 4
 		intelligence = -4
 		charisma = -4
+		armor_class = 5 #natural armor
 	}
 }

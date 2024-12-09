@@ -1,0 +1,22 @@
+centaur = {
+	name = "Centaur"
+	creature_type = monstrous_humanoid
+	creature_size = large
+	sapient = true
+	hit_dice_count = 4
+	level_adjustment = 2
+	class_skills = {
+		listen
+		move_silently
+		spot
+		survival
+	}
+	modifier = {
+		strength = 8
+		dexterity = 4
+		constitution = 4
+		intelligence = -2
+		wisdom = 2
+		armor_class = 3 #natural armor
+	}
+}
