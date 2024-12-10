@@ -33,6 +33,7 @@ class office;
 class pathway;
 class portrait;
 class terrain_type;
+enum class character_class_type;
 enum class diplomacy_state;
 enum class event_trigger;
 
@@ -248,6 +249,16 @@ public:
 		return this->war_minister_portrait;
 	}
 
+	int get_min_character_class_type_level(const character_class_type type) const
+	{
+		const auto find_iterator = this->min_character_class_type_levels.find(type);
+		if (find_iterator != this->min_character_class_type_levels.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	int get_experience_for_level(const int level) const
 	{
 		const auto find_iterator = this->experience_per_level.find(level);
@@ -403,6 +414,7 @@ private:
 	const office *ruler_office = nullptr;
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
+	std::map<character_class_type, int> min_character_class_type_levels;
 	std::map<int, int> experience_per_level;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
 	std::map<std::string, int> divine_ranks_by_name;

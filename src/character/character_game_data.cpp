@@ -490,12 +490,9 @@ bool character_game_data::level_up()
 		character_class_type::base_class
 	};
 
-	static constexpr int min_prestige_class_level = 10;
-	static constexpr int min_epic_prestige_class_level = 20;
-
-	if (this->get_level() >= min_prestige_class_level && this->get_character_class(character_class_type::prestige_class) == nullptr) {
+	if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::prestige_class) && this->get_character_class(character_class_type::prestige_class) == nullptr) {
 		this->choose_character_class(character_class_type::prestige_class);
-	} else if (this->get_level() >= min_epic_prestige_class_level && this->get_character_class(character_class_type::epic_prestige_class) == nullptr) {
+	} else if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::epic_prestige_class) && this->get_character_class(character_class_type::epic_prestige_class) == nullptr) {
 		this->choose_character_class(character_class_type::epic_prestige_class);
 	}
 
@@ -503,6 +500,10 @@ bool character_game_data::level_up()
 		const character_class *character_class = this->get_character_class(character_class_type);
 
 		if (character_class == nullptr) {
+			continue;
+		}
+
+		if (this->get_level() < defines::get()->get_min_character_class_type_level(character_class_type)) {
 			continue;
 		}
 

@@ -35,6 +35,11 @@ ruler_office = ruler
 interior_minister_portrait = metternich
 war_minister_portrait = otto_von_bismarck
 
+min_character_class_type_levels = {
+	prestige_class = 10
+	epic_prestige_class = 20
+}
+
 experience_per_level = {
 	1 = 0
 	2 = 2000

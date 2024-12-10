@@ -135,7 +135,6 @@ int main(int argc, char **argv)
 		QQmlApplicationEngine engine;
 
 		enum_converter<affix_type>();
-		enum_converter<character_class_type>();
 		enum_converter<country_tier>();
 		enum_converter<country_type>();
 		enum_converter<cultural_group_rank>();
@@ -150,6 +149,7 @@ int main(int argc, char **argv)
 		enum_converter<moisture_type>();
 		enum_converter<site_type>();
 		enum_converter<temperature_type>();
+		database::get()->register_enum<character_class_type>();
 		database::get()->register_enum<starting_age_category>();
 
 		QCoro::Qml::registerTypes();

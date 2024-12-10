@@ -2,6 +2,7 @@
 
 #include "database/defines.h"
 
+#include "character/character_class_type.h"
 #include "country/diplomacy_state.h"
 #include "database/database.h"
 #include "database/preferences.h"
@@ -19,6 +20,8 @@
 #include "util/assert_util.h"
 #include "util/log_util.h"
 #include "util/path_util.h"
+
+#include <magic_enum/magic_enum.hpp>
 
 namespace kobold {
 
@@ -58,6 +61,13 @@ void defines::process_gsml_scope(const gsml_data &scope)
 			const int bonus = std::stoi(property.get_value());
 
 			this->river_settlement_commodity_bonuses[commodity] = bonus;
+		});
+	} else if (tag == "min_character_class_type_levels") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const character_class_type type = magic_enum::enum_cast<character_class_type>(property.get_key()).value();
+			const int level = std::stoi(property.get_value());
+
+			this->min_character_class_type_levels[type] = level;
 		});
 	} else if (tag == "experience_per_level") {
 		scope.for_each_property([&](const gsml_property &property) {

@@ -46,7 +46,7 @@ void character_template::process_gsml_scope(const gsml_data &scope)
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
 
-			this->character_classes[enum_converter<character_class_type>::to_enum(key)] = character_class::get(value);
+			this->character_classes[magic_enum::enum_cast<character_class_type>(key).value()] = character_class::get(value);
 		});
 	} else if (tag == "feats") {
 		for (const std::string &value : values) {
