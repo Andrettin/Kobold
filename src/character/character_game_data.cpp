@@ -358,6 +358,32 @@ void character_game_data::set_character_class(const character_class_type type, c
 	}
 }
 
+void character_game_data::choose_character_class(const character_class_type type)
+{
+	try {
+		assert_throw(this->get_character_class(type) == nullptr);
+
+		std::vector<const character_class *> potential_classes;
+
+		for (const character_class *character_class : character_class::get_all_of_type(type)) {
+			if (character_class->get_conditions() != nullptr && !character_class->get_conditions()->check(this->character, read_only_context(this->character))) {
+				continue;
+			}
+
+			potential_classes.push_back(character_class);
+		}
+
+		if (potential_classes.empty()) {
+			return;
+		}
+
+		const character_class *chosen_class = vector::get_random(potential_classes);
+		this->set_character_class(type, chosen_class);
+	} catch (...) {
+		std::throw_with_nested(std::runtime_error(std::format("Failed to choose character class of type \"{}\" for character \"{}\".", magic_enum::enum_name(type), this->character->get_identifier())));
+	}
+}
+
 void character_game_data::change_level(const int change)
 {
 	if (change == 0) {
@@ -461,8 +487,17 @@ bool character_game_data::level_up()
 		character_class_type::base_class
 	};
 
+	static constexpr int min_prestige_class_level = 10;
+	static constexpr int min_epic_prestige_class_level = 20;
+
+	if (this->get_level() >= min_prestige_class_level && this->get_character_class(character_class_type::prestige_class) == nullptr) {
+		this->choose_character_class(character_class_type::prestige_class);
+	} else if (this->get_level() >= min_epic_prestige_class_level && this->get_character_class(character_class_type::epic_prestige_class) == nullptr) {
+		this->choose_character_class(character_class_type::epic_prestige_class);
+	}
+
 	for (const character_class_type character_class_type : character_class_types) {
-		const character_class *character_class = this->character->get_character_class(character_class_type);
+		const character_class *character_class = this->get_character_class(character_class_type);
 
 		if (character_class == nullptr) {
 			continue;

@@ -41,10 +41,26 @@ public:
 
 	static const std::set<std::string> database_dependencies;
 
+	static const std::vector<const character_class *> &get_all_of_type(const kobold::character_class_type type)
+	{
+		const auto find_iterator = character_class::character_classes_by_type.find(type);
+		if (find_iterator != character_class::character_classes_by_type.end()) {
+			return find_iterator->second;
+		}
+
+		static const std::vector<const character_class *> empty_vector;
+		return empty_vector;
+	}
+
+private:
+	static inline std::map<character_class_type, std::vector<const character_class *>> character_classes_by_type;
+
+public:
 	explicit character_class(const std::string &identifier);
 	~character_class();
 
 	virtual void process_gsml_scope(const gsml_data &scope) override;
+	virtual void initialize() override;
 	virtual void check() const override;
 
 	character_class_type get_type() const

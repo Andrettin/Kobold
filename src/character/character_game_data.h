@@ -146,6 +146,7 @@ public:
 	}
 
 	void set_character_class(const character_class_type type, const character_class *character_class);
+	void choose_character_class(const character_class_type type);
 
 	int get_level() const
 	{

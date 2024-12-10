@@ -83,6 +83,13 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 	}
 }
 
+void character_class::initialize()
+{
+	character_class::character_classes_by_type[this->get_type()].push_back(this);
+
+	named_data_entry::initialize();
+}
+
 void character_class::check() const
 {
 	if (this->get_type() == character_class_type::none) {
