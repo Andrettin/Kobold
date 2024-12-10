@@ -433,24 +433,45 @@ void character_game_data::on_class_level_gained(const character_class *character
 	}
 }
 
+int character_game_data::get_character_class_level_limit(const character_class *character_class) const
+{
+	int limit = character_class->get_max_level();
+
+	switch (character_class->get_type()) {
+		case character_class_type::epic_prestige_class:
+			limit = std::min(limit, this->get_character_class_type_level(character_class_type::prestige_class));
+			[[fallthrough]];
+		case character_class_type::prestige_class:
+			limit = std::min(limit, this->get_character_class_type_level(character_class_type::base_class));
+			break;
+		default:
+			break;
+	}
+
+	return limit;
+}
+
 bool character_game_data::level_up()
 {
-	const character_class *epic_prestige_class = this->character->get_character_class(character_class_type::epic_prestige_class);
-	if (epic_prestige_class != nullptr && epic_prestige_class->get_max_level() > this->get_character_class_level(epic_prestige_class)) {
-		this->change_character_class_level(epic_prestige_class, 1);
-		return true;
-	}
-	
-	const character_class *prestige_class = this->character->get_character_class(character_class_type::prestige_class);
-	if (prestige_class != nullptr && prestige_class->get_max_level() > this->get_character_class_level(prestige_class)) {
-		this->change_character_class_level(prestige_class, 1);
-		return true;
-	}
-	
-	const character_class *base_class = this->character->get_character_class(character_class_type::base_class);
-	if (base_class != nullptr && base_class->get_max_level() > this->get_character_class_level(base_class)) {
-		this->change_character_class_level(base_class, 1);
-		return true;
+	//character class types, by order of priority for leveling up
+	const std::array character_class_types {
+		character_class_type::racial_class,
+		character_class_type::epic_prestige_class,
+		character_class_type::prestige_class,
+		character_class_type::base_class
+	};
+
+	for (const character_class_type character_class_type : character_class_types) {
+		const character_class *character_class = this->character->get_character_class(character_class_type);
+
+		if (character_class == nullptr) {
+			continue;
+		}
+
+		if (this->get_character_class_level_limit(character_class) > this->get_character_class_level(character_class)) {
+			this->change_character_class_level(character_class, 1);
+			return true;
+		}
 	}
 
 	return false;

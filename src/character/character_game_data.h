@@ -166,7 +166,18 @@ public:
 
 	void change_character_class_level(const character_class *character_class, const int change);
 	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
+	int get_character_class_level_limit(const character_class *character_class) const;
 	bool level_up();
+
+	int get_character_class_type_level(const character_class_type character_class_type) const
+	{
+		const character_class *character_class = this->get_character_class(character_class_type);
+		if (character_class == nullptr) {
+			return 0;
+		}
+
+		return this->get_character_class_level(character_class);
+	}
 
 	bool has_level_in_classes() const
 	{
