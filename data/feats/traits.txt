@@ -75,6 +75,22 @@ farsighted = {
 	weight_factor = 3
 }
 
+focused = {
+	name = "Focused"
+	icon = research
+	description = "You can keep your attention on a task despite many distractions; however, events in the background pass you by."
+	types = {
+		trait
+		general
+	}
+	modifier = {
+		concentration = 1
+		spot = -1
+		listen = -1
+	}
+	weight_factor = 3
+}
+
 hard_of_hearing = {
 	name = "Hard of Hearing"
 	icon = skull
