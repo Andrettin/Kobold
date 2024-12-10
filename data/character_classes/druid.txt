@@ -12,15 +12,13 @@ druid = {
 	}
 	class_skills = {
 		concentration
-		craft_alchemy
-		craft_trapmaking
+		craft
 		diplomacy
 		handle_animal
 		heal
 		knowledge_nature
 		listen
-		profession_miner
-		profession_sailor
+		profession
 		ride
 		spellcraft
 		spot

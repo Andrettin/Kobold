@@ -1,11 +1,9 @@
 craft_alchemy = {
 	name = "Craft: Alchemy"
-	attribute = intelligence
-	icon = cog
+	category = craft
 }
 
 craft_trapmaking = {
 	name = "Craft: Trapmaking"
-	attribute = intelligence
-	icon = cog
+	category = craft
 }

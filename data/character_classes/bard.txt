@@ -16,8 +16,7 @@ bard = {
 		bluff
 		climb
 		concentration
-		craft_alchemy
-		craft_trapmaking
+		craft
 		decipher_script
 		diplomacy
 		disguise
@@ -25,28 +24,11 @@ bard = {
 		gather_information
 		hide
 		jump
-		knowledge_arcana
-		knowledge_architecture_and_engineering
-		knowledge_dungeoneering
-		knowledge_geography
-		knowledge_history
-		knowledge_nature
-		knowledge_nobility_and_royalty
-		knowledge_religion
-		knowledge_the_planes
+		knowledge
 		listen
 		move_silently
-		perform_act
-		perform_comedy
-		perform_dance
-		perform_keyboard_instruments
-		perform_oratory
-		perform_percussion_instruments
-		perform_sing
-		perform_string_instruments
-		perform_wind_instruments
-		profession_miner
-		profession_sailor
+		perform
+		profession
 		sense_motive
 		sleight_of_hand
 		spellcraft

@@ -1,0 +1,5 @@
+perform = {
+	name = "Perform"
+	attribute = charisma
+	icon = music
+}

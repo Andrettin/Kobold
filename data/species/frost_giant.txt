@@ -7,8 +7,7 @@ frost_giant = {
 	level_adjustment = 4
 	class_skills = {
 		climb
-		craft_alchemy
-		craft_trapmaking
+		craft
 		intimidate
 		jump
 		spot

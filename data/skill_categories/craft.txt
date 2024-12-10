@@ -1,0 +1,5 @@
+craft = {
+	name = "Craft"
+	attribute = intelligence
+	icon = cog
+}

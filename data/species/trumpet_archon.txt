@@ -10,15 +10,7 @@ trumpet_archon = {
 		diplomacy
 		escape_artist
 		handle_animal
-		knowledge_arcana
-		knowledge_architecture_and_engineering
-		knowledge_dungeoneering
-		knowledge_geography
-		knowledge_history
-		knowledge_nature
-		knowledge_nobility_and_royalty
-		knowledge_religion
-		knowledge_the_planes
+		knowledge
 		listen
 		move_silently
 		perform_wind_instruments

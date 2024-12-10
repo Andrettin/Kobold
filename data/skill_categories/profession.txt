@@ -1,0 +1,5 @@
+profession = {
+	name = "Profession"
+	attribute = wisdom
+	icon = cog
+}

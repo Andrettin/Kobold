@@ -8,6 +8,7 @@
 #include "character/level_bonus_table.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
+#include "character/skill_category.h"
 #include "character/starting_age_category.h"
 #include "item/item_slot.h"
 #include "script/effect/effect_list.h"
@@ -42,7 +43,15 @@ void species::process_gsml_scope(const gsml_data &scope)
 		});
 	} else if (tag == "class_skills") {
 		for (const std::string &value : values) {
-			this->class_skills.insert(skill::get(value));
+			const skill *skill = skill::try_get(value);
+			if (skill != nullptr) {
+				this->class_skills.insert(skill);
+			} else {
+				const skill_category *skill_category = skill_category::get(value);
+				for (const kobold::skill *category_skill : skill_category->get_skills()) {
+					this->class_skills.insert(category_skill);
+				}
+			}
 		}
 	} else if (tag == "min_attribute_values") {
 		scope.for_each_property([&](const gsml_property &property) {

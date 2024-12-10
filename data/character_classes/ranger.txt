@@ -13,8 +13,7 @@ ranger = {
 	class_skills = {
 		climb
 		concentration
-		craft_alchemy
-		craft_trapmaking
+		craft
 		handle_animal
 		heal
 		hide
@@ -24,8 +23,7 @@ ranger = {
 		knowledge_nature
 		listen
 		move_silently
-		profession_miner
-		profession_sailor
+		profession
 		ride
 		search
 		spot

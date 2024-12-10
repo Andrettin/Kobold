@@ -12,15 +12,13 @@ paladin = {
 	}
 	class_skills = {
 		concentration
-		craft_alchemy
-		craft_trapmaking
+		craft
 		diplomacy
 		handle_animal
 		heal
 		knowledge_nobility_and_royalty
 		knowledge_religion
-		profession_miner
-		profession_sailor
+		profession
 		ride
 		sense_motive
 	}

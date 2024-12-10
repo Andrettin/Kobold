@@ -12,8 +12,7 @@ warrior = {
 	}
 	class_skills = {
 		climb
-		craft_alchemy
-		craft_trapmaking
+		craft
 		handle_animal
 		intimidate
 		jump

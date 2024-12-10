@@ -17,8 +17,7 @@ dwarven_defender = {
 		will = high_saving_throw_bonus
 	}
 	class_skills = {
-		craft_alchemy
-		craft_trapmaking
+		craft
 		listen
 		sense_motive
 		spot

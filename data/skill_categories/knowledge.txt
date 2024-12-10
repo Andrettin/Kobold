@@ -1,0 +1,5 @@
+knowledge = {
+	name = "Knowledge"
+	attribute = intelligence
+	icon = university
+}

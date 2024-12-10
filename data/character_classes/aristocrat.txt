@@ -19,25 +19,9 @@ aristocrat = {
 		gather_information
 		handle_animal
 		intimidate
-		knowledge_arcana
-		knowledge_architecture_and_engineering
-		knowledge_dungeoneering
-		knowledge_geography
-		knowledge_history
-		knowledge_nature
-		knowledge_nobility_and_royalty
-		knowledge_religion
-		knowledge_the_planes
+		knowledge
 		listen
-		perform_act
-		perform_comedy
-		perform_dance
-		perform_keyboard_instruments
-		perform_oratory
-		perform_percussion_instruments
-		perform_sing
-		perform_string_instruments
-		perform_wind_instruments
+		perform
 		ride
 		sense_motive
 		spot

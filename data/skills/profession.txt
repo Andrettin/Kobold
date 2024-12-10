@@ -1,11 +1,9 @@
 profession_miner = {
 	name = "Profession: Miner"
-	attribute = wisdom
-	icon = cog
+	category = profession
 }
 
 profession_sailor = {
 	name = "Profession: Sailor"
-	attribute = wisdom
-	icon = cog
+	category = profession
 }

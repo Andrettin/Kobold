@@ -6,8 +6,7 @@ triton = {
 	hit_dice_count = 3
 	level_adjustment = 2
 	class_skills = {
-		craft_alchemy
-		craft_trapmaking
+		craft
 		diplomacy
 		hide
 		listen
