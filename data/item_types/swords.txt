@@ -1,5 +1,35 @@
+short_sword = {
+	name = "Short Sword"
+	item_class = light_blade
+	icon = saber
+}
+
+rapier = {
+	name = "Rapier"
+	item_class = light_blade
+	icon = saber
+}
+
 longsword = {
 	name = "Longsword"
+	item_class = heavy_blade
+	icon = saber
+}
+
+falchion = {
+	name = "Falchion"
+	item_class = heavy_blade
+	icon = saber
+}
+
+scimitar = {
+	name = "Scimitar"
+	item_class = heavy_blade
+	icon = saber
+}
+
+greatsword = {
+	name = "Greatsword"
 	item_class = heavy_blade
 	icon = saber
 }

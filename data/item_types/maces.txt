@@ -1,0 +1,23 @@
+club = {
+	name = "Club"
+	item_class = mace
+	icon = saber
+}
+
+light_mace = {
+	name = "Light Mace"
+	item_class = mace
+	icon = saber
+}
+
+heavy_mace = {
+	name = "Heavy Mace"
+	item_class = mace
+	icon = saber
+}
+
+greatclub = {
+	name = "Greatclub"
+	item_class = mace
+	icon = saber
+}

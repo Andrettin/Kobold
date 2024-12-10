@@ -1,3 +1,21 @@
+handaxe = {
+	name = "Handaxe"
+	item_class = axe
+	icon = saber
+}
+
+battleaxe = {
+	name = "Battleaxe"
+	item_class = axe
+	icon = saber
+}
+
+greataxe = {
+	name = "Greataxe"
+	item_class = axe
+	icon = saber
+}
+
 dwarven_waraxe = {
 	name = "Dwarven Waraxe"
 	item_class = axe

@@ -3,3 +3,27 @@ light_crossbow = {
 	item_class = crossbow
 	icon = bow
 }
+
+heavy_crossbow = {
+	name = "Heavy Crossbow"
+	item_class = crossbow
+	icon = bow
+}
+
+hand_crossbow = {
+	name = "Hand Crossbow"
+	item_class = crossbow
+	icon = bow
+}
+
+repeating_light_crossbow = {
+	name = "Repeating Light Crossbow"
+	item_class = crossbow
+	icon = bow
+}
+
+repeating_heavy_crossbow = {
+	name = "Repeating Heavy Crossbow"
+	item_class = crossbow
+	icon = bow
+}
