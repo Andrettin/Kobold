@@ -1,0 +1,46 @@
+assassin = {
+	name = "Assassin"
+	type = prestige_class
+	icon = artillerist
+	max_level = 10
+	hit_dice = 1d6
+	conditions = {
+		disguise >= 4
+		hide >= 8
+		move_silently >= 8
+	}
+	base_attack_bonus_table = medium_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		balance
+		bluff
+		climb
+		craft
+		decipher_script
+		diplomacy
+		disable_device
+		disguise
+		escape_artist
+		forgery
+		gather_information
+		hide
+		intimidate
+		jump
+		listen
+		move_silently
+		open_lock
+		search
+		sense_motive
+		sleight_of_hand
+		spot
+		swim
+		tumble
+		use_magic_device
+		use_rope
+	}
+	base_skill_points_per_level = 4
+}
