@@ -134,14 +134,10 @@ void character_game_data::apply_species_and_class(const int level)
 		}
 	}
 
-	if (this->character->get_character_class(character_class_type::base_class) != nullptr) {
-		const int remaining_level = std::max(level - this->get_level(), 1);
-		this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), remaining_level);
-
-		if (this->character->get_level() == 0) {
-			while (!this->target_feats.empty()) {
-				this->change_character_class_level(this->character->get_character_class(character_class_type::base_class), 1);
-			}
+	while (level > this->get_level() || !this->has_level_in_classes() || !this->target_feats.empty()) {
+		const bool changed = this->level_up();
+		if (!changed) {
+			break;
 		}
 	}
 }
@@ -437,6 +433,29 @@ void character_game_data::on_class_level_gained(const character_class *character
 	}
 }
 
+bool character_game_data::level_up()
+{
+	const character_class *epic_prestige_class = this->character->get_character_class(character_class_type::epic_prestige_class);
+	if (epic_prestige_class != nullptr && epic_prestige_class->get_max_level() > this->get_character_class_level(epic_prestige_class)) {
+		this->change_character_class_level(epic_prestige_class, 1);
+		return true;
+	}
+	
+	const character_class *prestige_class = this->character->get_character_class(character_class_type::prestige_class);
+	if (prestige_class != nullptr && prestige_class->get_max_level() > this->get_character_class_level(prestige_class)) {
+		this->change_character_class_level(prestige_class, 1);
+		return true;
+	}
+	
+	const character_class *base_class = this->character->get_character_class(character_class_type::base_class);
+	if (base_class != nullptr && base_class->get_max_level() > this->get_character_class_level(base_class)) {
+		this->change_character_class_level(base_class, 1);
+		return true;
+	}
+
+	return false;
+}
+
 void character_game_data::apply_hit_dice(const dice &hit_dice)
 {
 	assert_throw(hit_dice.get_count() == 1);
@@ -482,7 +501,10 @@ void character_game_data::change_experience(const int change)
 	}
 
 	while (this->get_experience() >= defines::get()->get_experience_for_level(this->get_level() + 1)) {
-		this->change_level(1);
+		const bool changed = this->level_up();
+		if (!changed) {
+			break;
+		}
 	}
 }
 

@@ -2,6 +2,7 @@ cleric = {
 	name = "Cleric"
 	type = base_class
 	icon = artillerist
+	max_level = 20
 	hit_dice = 1d8
 	starting_age_category = trained
 	base_attack_bonus_table = medium_base_attack_bonus

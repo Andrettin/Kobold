@@ -2,6 +2,7 @@ mage = {
 	name = "Mage"
 	type = base_class
 	icon = artillerist
+	max_level = 20
 	hit_dice = 1d4
 	starting_age_category = trained
 	base_attack_bonus_table = low_base_attack_bonus

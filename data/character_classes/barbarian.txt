@@ -2,6 +2,7 @@ barbarian = {
 	name = "Barbarian"
 	type = base_class
 	icon = pikemen
+	max_level = 20
 	hit_dice = 1d12
 	starting_age_category = intuitive
 	base_attack_bonus_table = high_base_attack_bonus

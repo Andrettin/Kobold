@@ -2,6 +2,7 @@ warrior = {
 	name = "Warrior"
 	type = base_class
 	icon = pikemen
+	max_level = 20
 	hit_dice = 1d10
 	starting_age_category = self_taught
 	base_attack_bonus_table = high_base_attack_bonus

@@ -28,6 +28,7 @@ class character_class final : public named_data_entry, public data_type<characte
 
 	Q_PROPERTY(kobold::character_class_type type MEMBER type READ get_type NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
+	Q_PROPERTY(int max_level MEMBER max_level READ get_max_level NOTIFY changed)
 	Q_PROPERTY(archimedes::dice hit_dice MEMBER hit_dice READ get_hit_dice NOTIFY changed)
 	Q_PROPERTY(kobold::starting_age_category starting_age_category MEMBER starting_age_category READ get_starting_age_category NOTIFY changed)
 	Q_PROPERTY(const kobold::level_bonus_table* base_attack_bonus_table MEMBER base_attack_bonus_table READ get_base_attack_bonus_table NOTIFY changed)
@@ -54,6 +55,11 @@ public:
 	const kobold::icon *get_icon() const
 	{
 		return this->icon;
+	}
+
+	int get_max_level() const
+	{
+		return this->max_level;
 	}
 
 	const dice &get_hit_dice() const
@@ -154,6 +160,7 @@ signals:
 private:
 	character_class_type type{};
 	const kobold::icon *icon = nullptr;
+	int max_level = 0;
 	dice hit_dice;
 	kobold::starting_age_category starting_age_category{};
 	const level_bonus_table *base_attack_bonus_table = nullptr;

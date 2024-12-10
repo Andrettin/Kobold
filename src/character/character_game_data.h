@@ -166,6 +166,18 @@ public:
 
 	void change_character_class_level(const character_class *character_class, const int change);
 	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
+	bool level_up();
+
+	bool has_level_in_classes() const
+	{
+		for (const auto &[character_class_type, character_class] : this->character_classes) {
+			if (this->get_character_class_level(character_class) == 0) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	int get_hit_dice_count() const
 	{

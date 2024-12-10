@@ -93,6 +93,10 @@ void character_class::check() const
 		throw std::runtime_error(std::format("Character class \"{}\" has no icon.", this->get_identifier()));
 	}
 
+	if (this->get_max_level() == 0) {
+		throw std::runtime_error(std::format("Character class \"{}\" has no max level.", this->get_identifier()));
+	}
+
 	if (this->get_hit_dice().is_null()) {
 		throw std::runtime_error(std::format("Character class \"{}\" has null hit dice.", this->get_identifier()));
 	}

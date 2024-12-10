@@ -2,6 +2,7 @@ dwarven_defender = {
 	name = "Dwarven Defender"
 	type = prestige_class
 	icon = pikemen
+	max_level = 10
 	hit_dice = 1d12
 	conditions = {
 		species = dwarf
