@@ -7,6 +7,15 @@ skill_focus_[skill] = {
 	modifier = {
 		[skill] = 3
 	}
+	weight_factor = {
+		base_value = 1
+		modifier = {
+			factor = 0
+			not = {
+				class_skill = [skill]
+			}
+		}
+	}
 }
 
 weapon_focus_[item_type] = {

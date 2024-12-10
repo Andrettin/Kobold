@@ -11,4 +11,13 @@ epic_skill_focus_[skill] = {
 	modifier = {
 		[skill] = 10
 	}
+	weight_factor = {
+		base_value = 1
+		modifier = {
+			factor = 0
+			not = {
+				class_skill = [skill]
+			}
+		}
+	}
 }
