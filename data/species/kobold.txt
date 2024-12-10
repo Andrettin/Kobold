@@ -20,5 +20,6 @@ kobold = {
 		craft_trapmaking = 2
 		profession_miner = 2
 		search = 2
+		armor_class = 1 #natural armor
 	}
 }

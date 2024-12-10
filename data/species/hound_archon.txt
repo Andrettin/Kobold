@@ -20,5 +20,6 @@ hound_archon = {
 		constitution = 2
 		wisdom = 2
 		charisma = 2
+		armor_class = 9 #natural armor
 	}
 }

@@ -17,5 +17,6 @@ frost_giant = {
 		dexterity = -2
 		constitution = 10
 		wisdom = 4
+		armor_class = 9 #natural armor
 	}
 }

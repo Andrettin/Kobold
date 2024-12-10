@@ -17,5 +17,6 @@ lizardfolk = {
 		balance = 4
 		jump = 4
 		swim = 4
+		armor_class = 5 #natural armor
 	}
 }

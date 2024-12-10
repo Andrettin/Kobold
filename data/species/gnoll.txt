@@ -19,5 +19,6 @@ gnoll = {
 		constitution = 2
 		intelligence = -2
 		charisma = -2
+		armor_class = 1 #natural armor
 	}
 }

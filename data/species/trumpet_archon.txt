@@ -26,5 +26,6 @@ trumpet_archon = {
 		intelligence = 6
 		wisdom = 6
 		charisma = 6
+		armor_class = 14 #natural armor
 	}
 }

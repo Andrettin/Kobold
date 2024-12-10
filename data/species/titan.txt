@@ -32,5 +32,6 @@ titan = {
 		intelligence = 10
 		wisdom = 18
 		charisma = 14
+		armor_class = 19 #natural armor
 	}
 }

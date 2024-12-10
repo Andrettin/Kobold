@@ -17,5 +17,6 @@ elder_earth_elemental = {
 		strength = 22
 		dexterity = -2
 		constitution = 10
+		armor_class = 15 #natural armor
 	}
 }

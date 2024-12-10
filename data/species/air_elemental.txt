@@ -17,5 +17,6 @@ elder_air_elemental = {
 		strength = 12
 		dexterity = 22
 		constitution = 8
+		armor_class = 8 #natural armor
 	}
 }
