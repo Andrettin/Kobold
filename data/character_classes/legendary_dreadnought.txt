@@ -1,0 +1,29 @@
+legendary_dreadnought = {
+	name = "Legendary Dreadnought"
+	type = epic_prestige_class
+	icon = pikemen
+	max_level = 10
+	hit_dice = 1d12
+	conditions = {
+		base_attack_bonus >= 23
+		intimidate >= 15
+		#feat = combat_reflexes
+		#feat = great_cleave
+		#feat = improved_bull_rush
+		#feat = improved_critical
+	}
+	base_attack_bonus_table = high_base_attack_bonus #as Warrior
+	saving_throw_bonus_tables = { #as Warrior
+		fortitude = high_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		climb
+		craft
+		intimidate
+		jump
+		swim
+	}
+	base_skill_points_per_level = 2
+}

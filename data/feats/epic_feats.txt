@@ -129,3 +129,19 @@ great_wisdom = {
 		wisdom = 1
 	}
 }
+
+superior_initiative = {
+	name = "Superior Initiative"
+	icon = saber
+	types = {
+		epic
+		general
+		warrior
+	}
+	conditions = {
+		feat = improved_initiative
+	}
+	modifier = {
+		initiative = 4
+	}
+}

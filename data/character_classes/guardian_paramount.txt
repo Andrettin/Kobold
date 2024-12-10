@@ -1,0 +1,34 @@
+guardian_paramount = {
+	name = "Guardian Paramount"
+	type = epic_prestige_class
+	icon = pikemen
+	max_level = 10
+	hit_dice = 1d10
+	conditions = {
+		base_attack_bonus >= 15
+		spot >= 13
+		feat = alertness
+		feat = lightning_reflexes
+		#feat = blinding_speed
+		feat = superior_initiative
+		#feat = uncanny_dodge
+		#feat = evasion
+	}
+	base_attack_bonus_table = medium_base_attack_bonus #as Rogue
+	saving_throw_bonus_tables = { #as Rogue
+		fortitude = low_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		bluff
+		climb
+		diplomacy
+		intimidate
+		jump
+		listen
+		profession
+		spot
+	}
+	base_skill_points_per_level = 4
+}
