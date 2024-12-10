@@ -3,7 +3,22 @@ craft_alchemy = {
 	category = craft
 }
 
+craft_armorsmithing = {
+	name = "Craft: Armorsmithing"
+	category = craft
+}
+
+craft_bowmaking = {
+	name = "Craft: Bowmaking"
+	category = craft
+}
+
 craft_trapmaking = {
 	name = "Craft: Trapmaking"
+	category = craft
+}
+
+craft_weaponsmithing = {
+	name = "Craft: Weaponsmithing"
 	category = craft
 }
