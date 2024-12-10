@@ -1,0 +1,44 @@
+duelist = {
+	name = "Duelist"
+	type = prestige_class
+	icon = pikemen
+	max_level = 10
+	hit_dice = 1d10
+	conditions = {
+		base_attack_bonus >= 6
+		or = {
+			perform_act >= 3
+			perform_dance >= 3
+		}
+		tumble >= 5
+		feat = dodge
+		#feat = mobility
+		#feat = weapon_finesse
+	}
+	base_attack_bonus_table = high_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		balance
+		bluff
+		escape_artist
+		jump
+		listen
+		perform
+		sense_motive
+		spot
+		tumble
+	}
+	base_skill_points_per_level = 4
+	level_effects = {
+		2 = {
+			gain_feat = improved_reaction
+		}
+		8 = {
+			gain_feat = improved_reaction
+		}
+	}
+}

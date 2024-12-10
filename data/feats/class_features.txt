@@ -15,3 +15,12 @@ damage_reduction = {
 		damage_reduction = 3
 	}
 }
+
+improved_reaction = {
+	name = "Improved Reaction"
+	icon = research
+	unlimited = true
+	modifier = {
+		initiative = 2
+	}
+}
