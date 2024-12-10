@@ -1,0 +1,41 @@
+shadowdancer = {
+	name = "Shadowdancer"
+	type = prestige_class
+	icon = artillerist
+	max_level = 10
+	hit_dice = 1d8
+	conditions = {
+		move_silently >= 8
+		hide >= 10
+		perform_dance >= 5
+		#feat = combat_reflexes
+		feat = dodge
+		#feat = mobility
+	}
+	base_attack_bonus_table = medium_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = high_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		balance
+		bluff
+		decipher_script
+		diplomacy
+		disguise
+		escape_artist
+		hide
+		jump
+		listen
+		move_silently
+		perform
+		profession
+		search
+		sleight_of_hand
+		spot
+		tumble
+		use_rope
+	}
+	base_skill_points_per_level = 6
+}
