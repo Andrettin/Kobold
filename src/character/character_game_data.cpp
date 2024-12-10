@@ -370,7 +370,10 @@ void character_game_data::choose_character_class(const character_class_type type
 				continue;
 			}
 
-			potential_classes.push_back(character_class);
+			const int weight = std::max(this->character->get_species()->get_character_class_weight(character_class), 1);
+			for (int i = 0; i < weight; ++i) {
+				potential_classes.push_back(character_class);
+			}
 		}
 
 		if (potential_classes.empty()) {
