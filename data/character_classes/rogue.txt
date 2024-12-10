@@ -64,5 +64,35 @@ rogue = {
 			gain_feat_of_type = skill_proficiency
 			gain_feat_of_type = skill_proficiency
 		}
+		2 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		4 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		6 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		8 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		10 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		12 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		14 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		16 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		18 = {
+			gain_feat_of_type = skill_proficiency
+		}
+		20 = {
+			gain_feat_of_type = skill_proficiency
+		}
 	}
 }
