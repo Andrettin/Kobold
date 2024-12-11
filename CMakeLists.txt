@@ -665,6 +665,7 @@ set(script_effect_HDRS
 	src/script/effect/hidden_effect.h
 	src/script/effect/if_effect.h
 	src/script/effect/location_effect.h
+	src/script/effect/office_holder_effect.h
 	src/script/effect/opinion_modifiers_effect.h
 	src/script/effect/random_effect.h
 	src/script/effect/random_known_country_effect.h

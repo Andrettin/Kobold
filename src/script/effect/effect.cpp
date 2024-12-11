@@ -6,6 +6,7 @@
 #include "character/character_game_data.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
+#include "country/office.h"
 #include "database/database.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
@@ -32,6 +33,7 @@
 #include "script/effect/hidden_effect.h"
 #include "script/effect/if_effect.h"
 #include "script/effect/location_effect.h"
+#include "script/effect/office_holder_effect.h"
 #include "script/effect/opinion_modifiers_effect.h"
 #include "script/effect/random_effect.h"
 #include "script/effect/random_known_country_effect.h"
@@ -147,6 +149,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 			effect = std::make_unique<random_settlement_effect>(effect_operator);
 		} else if (commodity::try_get(effect_identifier) != nullptr) {
 			effect = std::make_unique<commodity_effect>(commodity::get(effect_identifier), effect_operator);
+		} else if (office::try_get(effect_identifier) != nullptr) {
+			effect = std::make_unique<office_holder_effect>(office::get(effect_identifier), effect_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (effect_identifier == "location") {
@@ -195,7 +199,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 	}
 
 	if (effect == nullptr) {
-		throw std::runtime_error("Invalid scope effect: \"" + effect_identifier + "\".");
+		throw std::runtime_error(std::format("Invalid scope effect: \"{}\".", effect_identifier));
 	}
 
 	database::process_gsml_data(effect, scope);
