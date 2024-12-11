@@ -15,6 +15,7 @@
 #include "country/country_game_data.h"
 #include "country/office.h"
 #include "database/defines.h"
+#include "engine_interface.h"
 #include "game/character_event.h"
 #include "game/event_trigger.h"
 #include "game/game.h"
@@ -358,7 +359,7 @@ void character_game_data::set_character_class(const character_class_type type, c
 	}
 }
 
-void character_game_data::choose_character_class(const character_class_type type)
+bool character_game_data::choose_character_class(const character_class_type type)
 {
 	try {
 		assert_throw(this->get_character_class(type) == nullptr);
@@ -370,21 +371,46 @@ void character_game_data::choose_character_class(const character_class_type type
 				continue;
 			}
 
-			const int weight = std::max(this->character->get_species()->get_character_class_weight(character_class), 1);
-			for (int i = 0; i < weight; ++i) {
+			if (this->character == game::get()->get_player_character()) {
 				potential_classes.push_back(character_class);
+			} else {
+				const int weight = std::max(this->character->get_species()->get_character_class_weight(character_class), 1);
+				for (int i = 0; i < weight; ++i) {
+					potential_classes.push_back(character_class);
+				}
 			}
 		}
 
 		if (potential_classes.empty()) {
-			return;
+			return true;
 		}
 
-		const character_class *chosen_class = vector::get_random(potential_classes);
-		this->set_character_class(type, chosen_class);
+		if (this->character == game::get()->get_player_character()) {
+			emit engine_interface::get()->character_class_choosable(this->character, container::to_qvariant_list(potential_classes));
+			return false;
+		} else {
+			const character_class *chosen_class = vector::get_random(potential_classes);
+			this->set_character_class(type, chosen_class);
+			return true;
+		}
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error(std::format("Failed to choose character class of type \"{}\" for character \"{}\".", magic_enum::enum_name(type), this->character->get_identifier())));
 	}
+}
+
+void character_game_data::on_character_class_chosen(const kobold::character_class *character_class)
+{
+	const character_class_type type = character_class->get_type();
+	assert_throw(this->get_character_class(type) == nullptr);
+
+	this->set_character_class(type, character_class);
+
+	const bool changed = this->gain_character_class_level();
+	if (!changed) {
+		return;
+	}
+
+	this->check_level_experience();
 }
 
 void character_game_data::change_level(const int change)
@@ -482,19 +508,30 @@ int character_game_data::get_character_class_level_limit(const character_class *
 
 bool character_game_data::level_up()
 {
+	if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::prestige_class) && this->get_character_class(character_class_type::prestige_class) == nullptr) {
+		const bool completed = this->choose_character_class(character_class_type::prestige_class);
+		if (!completed) {
+			return false;
+		}
+	} else if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::epic_prestige_class) && this->get_character_class(character_class_type::epic_prestige_class) == nullptr) {
+		const bool completed = this->choose_character_class(character_class_type::epic_prestige_class);
+		if (!completed) {
+			return false;
+		}
+	}
+
+	return this->gain_character_class_level();
+}
+
+bool character_game_data::gain_character_class_level()
+{
 	//character class types, by order of priority for leveling up
-	const std::array character_class_types {
+	static constexpr std::array character_class_types {
 		character_class_type::racial_class,
 		character_class_type::epic_prestige_class,
 		character_class_type::prestige_class,
 		character_class_type::base_class
 	};
-
-	if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::prestige_class) && this->get_character_class(character_class_type::prestige_class) == nullptr) {
-		this->choose_character_class(character_class_type::prestige_class);
-	} else if (this->get_level() >= defines::get()->get_min_character_class_type_level(character_class_type::epic_prestige_class) && this->get_character_class(character_class_type::epic_prestige_class) == nullptr) {
-		this->choose_character_class(character_class_type::epic_prestige_class);
-	}
 
 	for (const character_class_type character_class_type : character_class_types) {
 		const character_class *character_class = this->get_character_class(character_class_type);
@@ -514,6 +551,16 @@ bool character_game_data::level_up()
 	}
 
 	return false;
+}
+
+void character_game_data::check_level_experience()
+{
+	while (this->get_experience() >= defines::get()->get_experience_for_level(this->get_level() + 1)) {
+		const bool changed = this->level_up();
+		if (!changed) {
+			break;
+		}
+	}
 }
 
 void character_game_data::apply_hit_dice(const dice &hit_dice)
@@ -560,12 +607,7 @@ void character_game_data::change_experience(const int change)
 		emit experience_changed();
 	}
 
-	while (this->get_experience() >= defines::get()->get_experience_for_level(this->get_level() + 1)) {
-		const bool changed = this->level_up();
-		if (!changed) {
-			break;
-		}
-	}
+	this->check_level_experience();
 }
 
 QVariantList character_game_data::get_attribute_values_qvariant_list() const

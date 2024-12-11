@@ -146,7 +146,8 @@ public:
 	}
 
 	void set_character_class(const character_class_type type, const character_class *character_class);
-	void choose_character_class(const character_class_type type);
+	bool choose_character_class(const character_class_type type);
+	Q_INVOKABLE void on_character_class_chosen(const kobold::character_class *character_class);
 
 	int get_level() const
 	{
@@ -169,6 +170,8 @@ public:
 	void on_class_level_gained(const character_class *character_class, const int affected_class_level, const int multiplier);
 	int get_character_class_level_limit(const character_class *character_class) const;
 	bool level_up();
+	bool gain_character_class_level();
+	void check_level_experience();
 
 	int get_character_class_type_level(const character_class_type character_class_type) const
 	{

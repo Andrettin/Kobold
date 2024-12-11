@@ -155,6 +155,10 @@ Item {
 		anchors.left: parent.left
 	}
 	
+	CharacterClassChoiceDialog {
+		id: character_class_choice_dialog
+	}
+	
 	TraditionChoiceDialog {
 		id: tradition_choice_dialog
 	}
@@ -232,6 +236,12 @@ Item {
 			})
 			
 			event_dialog.open()
+		}
+		
+		function onCharacter_class_choosable(character, potential_classes) {
+			character_class_choice_dialog.character = character
+			character_class_choice_dialog.potential_classes = potential_classes
+			character_class_choice_dialog.open()
 		}
 	}
 	

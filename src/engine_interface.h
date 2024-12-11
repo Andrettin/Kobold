@@ -13,6 +13,7 @@ Q_MOC_INCLUDE("map/world.h")
 
 namespace kobold {
 
+class character;
 class consulate;
 class country_tier_data;
 class defines;
@@ -131,7 +132,7 @@ signals:
 	void next_tradition_choosable(const QVariantList &potential_traditions);
 	void next_belief_choosable(const QVariantList &potential_beliefs);
 	void next_leader_choosable(const QVariantList &potential_leaders);
-	void character_class_choosable(const QVariantList &potential_classes);
+	void character_class_choosable(const character *character, const QVariantList &potential_classes);
 	void selected_military_units_changed();
 
 private:
