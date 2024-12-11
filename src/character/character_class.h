@@ -149,6 +149,8 @@ public:
 		return nullptr;
 	}
 
+	Q_INVOKABLE QString get_tooltip(const kobold::character *character) const;
+
 	const data_entry_map<feat, int> &get_feat_weights() const
 	{
 		return this->feat_weights;

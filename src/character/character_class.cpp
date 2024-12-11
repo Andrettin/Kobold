@@ -145,4 +145,15 @@ void character_class::check() const
 	}
 }
 
+QString character_class::get_tooltip(const kobold::character *character) const
+{
+	std::string str = std::format("Hit Dice: {}", this->get_hit_dice().to_string());
+
+	for (const auto &[level, level_effects] : this->level_effects) {
+		str += std::format("\nLevel {}:\n{}", level, level_effects->get_effects_string(character, read_only_context(character), 1, {}, true));
+	}
+
+	return QString::fromStdString(str);
+}
+
 }

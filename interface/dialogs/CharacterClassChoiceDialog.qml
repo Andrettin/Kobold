@@ -39,6 +39,7 @@ DialogBase {
 				id: character_class_button
 				text: format_text(character_class.name)
 				width: character_class_choice_dialog.width - 16 * scale_factor
+				tooltip: format_text(small_text(character_class.get_tooltip(character)))
 				
 				readonly property var character_class: model.modelData
 				
