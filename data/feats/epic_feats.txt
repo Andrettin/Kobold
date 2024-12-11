@@ -1,3 +1,17 @@
+armor_skin = {
+	name = "Armor Skin"
+	icon = heater_shield
+	unlimited = true
+	types = {
+		epic
+		general
+		warrior
+	}
+	modifier = {
+		armor_class = 1
+	}
+}
+
 epic_fortitude = {
 	name = "Epic Fortitude"
 	icon = labor
@@ -7,6 +21,20 @@ epic_fortitude = {
 	}
 	modifier = {
 		fortitude = 4
+	}
+}
+
+epic_prowess = {
+	name = "Epic Prowess"
+	icon = labor
+	unlimited = true
+	types = {
+		epic
+		general
+		warrior
+	}
+	modifier = {
+		attack_bonus = 1
 	}
 }
 
@@ -25,9 +53,11 @@ epic_reflexes = {
 epic_toughness = {
 	name = "Epic Toughness"
 	icon = labor
+	unlimited = true
 	types = {
 		epic
 		general
+		warrior
 	}
 	modifier = {
 		hit_points = 30
