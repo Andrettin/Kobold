@@ -959,6 +959,10 @@ void character_game_data::choose_feat(const feat_type *type)
 		assert_throw(!potential_feats.empty());
 
 		if (this->character == game::get()->get_player_character()) {
+			std::sort(potential_feats.begin(), potential_feats.end(), [](const kobold::feat *lhs, const kobold::feat *rhs) {
+				return lhs->get_identifier() < rhs->get_identifier();
+			});
+
 			emit engine_interface::get()->feat_choosable(this->character, type, container::to_qvariant_list(potential_feats));
 		} else {
 			const feat *chosen_feat = vector::get_random(potential_feats);
