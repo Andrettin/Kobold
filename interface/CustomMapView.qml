@@ -159,6 +159,10 @@ Item {
 		id: character_class_choice_dialog
 	}
 	
+	FeatChoiceDialog {
+		id: feat_choice_dialog
+	}
+	
 	TraditionChoiceDialog {
 		id: tradition_choice_dialog
 	}
@@ -242,6 +246,13 @@ Item {
 			character_class_choice_dialog.character = character
 			character_class_choice_dialog.potential_classes = potential_classes
 			character_class_choice_dialog.open()
+		}
+		
+		function onFeat_choosable(character, type, potential_feats) {
+			feat_choice_dialog.character = character
+			feat_choice_dialog.feat_type = type
+			feat_choice_dialog.potential_feats = potential_feats
+			feat_choice_dialog.open()
 		}
 	}
 	

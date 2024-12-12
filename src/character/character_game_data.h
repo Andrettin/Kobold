@@ -146,7 +146,10 @@ public:
 	}
 
 	void set_character_class(const character_class_type type, const character_class *character_class);
+
+	[[nodiscard]]
 	bool choose_character_class(const character_class_type type);
+
 	Q_INVOKABLE void on_character_class_chosen(const kobold::character_class *character_class);
 
 	int get_level() const
@@ -381,6 +384,8 @@ public:
 	void change_feat_count(const feat *feat, const int change);
 	void on_feat_gained(const feat *feat, const int multiplier);
 	void choose_feat(const feat_type *type);
+	Q_INVOKABLE void on_feat_chosen(const kobold::feat *feat);
+
 	std::vector<const feat *> get_potential_feats_from_list(const std::vector<const feat *> &feats, const feat_type *type) const;
 
 	const scripted_character_modifier_map<int> &get_scripted_modifiers() const

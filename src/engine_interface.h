@@ -18,6 +18,7 @@ class consulate;
 class country_tier_data;
 class defines;
 class event_instance;
+class feat_type;
 class game;
 class map;
 class map_template;
@@ -133,6 +134,7 @@ signals:
 	void next_belief_choosable(const QVariantList &potential_beliefs);
 	void next_leader_choosable(const QVariantList &potential_leaders);
 	void character_class_choosable(const character *character, const QVariantList &potential_classes);
+	void feat_choosable(const character *character, const feat_type *type, const QVariantList &potential_feats);
 	void selected_military_units_changed();
 
 private:

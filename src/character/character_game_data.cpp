@@ -958,16 +958,24 @@ void character_game_data::choose_feat(const feat_type *type)
 
 		assert_throw(!potential_feats.empty());
 
-		const feat *chosen_feat = vector::get_random(potential_feats);
-
-		if (vector::contains(this->target_feats, chosen_feat)) {
-			vector::remove_one(this->target_feats, chosen_feat);
+		if (this->character == game::get()->get_player_character()) {
+			emit engine_interface::get()->feat_choosable(this->character, type, container::to_qvariant_list(potential_feats));
+		} else {
+			const feat *chosen_feat = vector::get_random(potential_feats);
+			this->on_feat_chosen(chosen_feat);
 		}
-
-		this->change_feat_count(chosen_feat, 1);
 	} catch (...) {
 		std::throw_with_nested(std::runtime_error(std::format("Failed to choose feat of type \"{}\" for character \"{}\".", type->get_identifier(), this->character->get_identifier())));
 	}
+}
+
+void character_game_data::on_feat_chosen(const feat *feat)
+{
+	if (vector::contains(this->target_feats, feat)) {
+		vector::remove_one(this->target_feats, feat);
+	}
+
+	this->change_feat_count(feat, 1);
 }
 
 std::vector<const feat *> character_game_data::get_potential_feats_from_list(const std::vector<const feat *> &feats, const feat_type *type) const
@@ -982,24 +990,28 @@ std::vector<const feat *> character_game_data::get_potential_feats_from_list(con
 			continue;
 		}
 
-		if (type->prioritizes_unacquired_feats()) {
-			if (!found_unacquired_feat && !this->has_feat(feat)) {
-				potential_feats.clear();
-				found_unacquired_feat = true;
-			} else if (found_unacquired_feat && this->has_feat(feat)) {
-				continue;
-			}
-		}
-
-		int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
-		if (character_class != nullptr) {
-			weight *= std::max(character_class->get_feat_weight(feat), 1);
-		} else {
-			weight *= std::max(this->character->get_species()->get_feat_weight(feat), 1);
-		}
-
-		for (int i = 0; i < weight; ++i) {
+		if (this->character == game::get()->get_player_character()) {
 			potential_feats.push_back(feat);
+		} else {
+			if (type->prioritizes_unacquired_feats()) {
+				if (!found_unacquired_feat && !this->has_feat(feat)) {
+					potential_feats.clear();
+					found_unacquired_feat = true;
+				} else if (found_unacquired_feat && this->has_feat(feat)) {
+					continue;
+				}
+			}
+
+			int weight = feat->get_weight_factor() != nullptr ? feat->get_weight_factor()->calculate(this->character).to_int() : 1;
+			if (character_class != nullptr) {
+				weight *= std::max(character_class->get_feat_weight(feat), 1);
+			} else {
+				weight *= std::max(this->character->get_species()->get_feat_weight(feat), 1);
+			}
+
+			for (int i = 0; i < weight; ++i) {
+				potential_feats.push_back(feat);
+			}
 		}
 	}
 

@@ -32,7 +32,6 @@ class feat final : public named_data_entry, public data_type<feat>
 	Q_PROPERTY(bool unlimited MEMBER unlimited READ is_unlimited NOTIFY changed)
 	Q_PROPERTY(kobold::feat* upgraded_feat MEMBER upgraded_feat NOTIFY changed)
 	Q_PROPERTY(std::string description MEMBER description NOTIFY changed)
-	Q_PROPERTY(QString modifier_string READ get_modifier_string CONSTANT)
 
 public:
 	static constexpr const char class_identifier[] = "feat";
@@ -94,7 +93,7 @@ public:
 		return this->effects.get();
 	}
 
-	QString get_modifier_string() const;
+	Q_INVOKABLE QString get_modifier_string(const kobold::character *character) const;
 
 	const factor<character> *get_weight_factor() const
 	{

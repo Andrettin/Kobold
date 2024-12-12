@@ -102,13 +102,23 @@ bool feat::has_type(const feat_type *type) const
 	return vector::contains(this->get_types(), type);
 }
 
-QString feat::get_modifier_string() const
+QString feat::get_modifier_string(const kobold::character *character) const
 {
-	if (this->get_modifier() == nullptr) {
-		return QString();
+	std::string str;
+
+	if (this->get_modifier() != nullptr) {
+		str += this->get_modifier()->get_string(nullptr);
 	}
 
-	return QString::fromStdString(this->get_modifier()->get_string(nullptr));
+	if (this->get_effects() != nullptr) {
+		if (!str.empty()) {
+			str += "\n";
+		}
+
+		str += this->get_effects()->get_effects_string(character, read_only_context(character));
+	}
+
+	return QString::fromStdString(str);
 }
 
 }
