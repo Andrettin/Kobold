@@ -1,7 +1,7 @@
 assassin = {
 	name = "Assassin"
 	type = prestige_class
-	icon = artillerist
+	icon = longswordsmen
 	max_level = 10
 	hit_dice = 1d6
 	conditions = {

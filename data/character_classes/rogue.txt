@@ -1,7 +1,7 @@
 rogue = {
 	name = "Rogue"
 	type = base_class
-	icon = artillerist
+	icon = longswordsmen
 	max_level = 20
 	hit_dice = 1d6
 	starting_age_category = intuitive

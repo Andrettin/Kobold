@@ -1,7 +1,7 @@
 legendary_dreadnought = {
 	name = "Legendary Dreadnought"
 	type = epic_prestige_class
-	icon = pikemen
+	icon = longswordsmen
 	max_level = 10
 	hit_dice = 1d12
 	conditions = {

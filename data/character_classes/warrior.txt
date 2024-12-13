@@ -1,7 +1,7 @@
 warrior = {
 	name = "Warrior"
 	type = base_class
-	icon = pikemen
+	icon = longswordsmen
 	max_level = 20
 	hit_dice = 1d10
 	starting_age_category = self_taught

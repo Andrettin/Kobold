@@ -1,7 +1,7 @@
 guardian_paramount = {
 	name = "Guardian Paramount"
 	type = epic_prestige_class
-	icon = pikemen
+	icon = longswordsmen
 	max_level = 10
 	hit_dice = 1d10
 	conditions = {

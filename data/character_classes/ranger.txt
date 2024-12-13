@@ -1,7 +1,7 @@
 ranger = {
 	name = "Ranger"
 	type = base_class
-	icon = crossbowmen
+	icon = archers
 	max_level = 20
 	hit_dice = 1d8
 	starting_age_category = self_taught
