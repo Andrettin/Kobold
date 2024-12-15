@@ -25,8 +25,8 @@ ModifierDialog {
 	) : ""
 	
 	property var character: null
-	readonly property string cultural_patron_deity_name: character.patron_deity ? character.patron_deity.get_cultural_name_qstring(character.culture) : ""
-	readonly property string patron_deity_name: character.patron_deity ? (cultural_patron_deity_name + (cultural_patron_deity_name !== character.patron_deity.name ? (" (" + character.patron_deity.name + ")") : "")) : ""
+	readonly property string cultural_patron_deity_name: character && character.patron_deity ? character.patron_deity.get_cultural_name_qstring(character.culture) : ""
+	readonly property string patron_deity_name: character && character.patron_deity ? (cultural_patron_deity_name + (cultural_patron_deity_name !== character.patron_deity.name ? (" (" + character.patron_deity.name + ")") : "")) : ""
 	
 	onClosed: {
 		character = null
