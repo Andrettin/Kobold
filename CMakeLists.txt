@@ -261,12 +261,6 @@ set(spell_SRCS
 source_group(spell FILES ${spell_SRCS})
 set_source_files_properties(${spell_SRCS} PROPERTIES UNITY_GROUP "spell")
 
-set(time_SRCS
-	src/time/era.cpp
-)
-source_group(time FILES ${time_SRCS})
-set_source_files_properties(${time_SRCS} PROPERTIES UNITY_GROUP "time")
-
 set(ui_SRCS
 	src/ui/icon.cpp
 	src/ui/icon_base.cpp
@@ -326,7 +320,6 @@ set(kobold_SRCS
 	${script_modifier_effect_SRCS}
 	${species_SRCS}
 	${spell_SRCS}
-	${time_SRCS}
 	${ui_SRCS}
 	${unit_SRCS}
 	${xbrz_SRCS}
@@ -762,11 +755,6 @@ set(spell_HDRS
 )
 source_group(spell FILES ${spell_HDRS})
 
-set(time_HDRS
-	src/time/era.h
-)
-source_group(time FILES ${time_HDRS})
-
 set(ui_HDRS
 	src/ui/icon.h
 	src/ui/icon_base.h
@@ -827,7 +815,6 @@ set(kobold_HDRS
 	${script_modifier_effect_HDRS}
 	${species_HDRS}
 	${spell_HDRS}
-	${time_HDRS}
 	${ui_HDRS}
 	${unit_HDRS}
 	${xbrz_HDRS}

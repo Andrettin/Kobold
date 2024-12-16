@@ -13,6 +13,7 @@ Q_MOC_INCLUDE("map/site.h")
 Q_MOC_INCLUDE("religion/religion.h")
 
 namespace archimedes {
+	class era;
 	enum class gender;
 }
 
@@ -23,7 +24,6 @@ class country_game_data;
 class country_history;
 class country_turn_data;
 class culture;
-class era;
 class government_group;
 class government_type;
 class office;
