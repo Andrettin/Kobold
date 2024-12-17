@@ -36,7 +36,7 @@ private:
 	static constexpr int min_forest_forestation = 900;
 
 public:
-	explicit map_generator(const QSize &size, const kobold::era *era)
+	explicit map_generator(const QSize &size, const archimedes::era *era)
 		: size(size), era(era)
 	{
 	}
@@ -114,7 +114,7 @@ private:
 
 private:
 	QSize size = QSize(0, 0);
-	const kobold::era *era = nullptr;
+	const archimedes::era *era = nullptr;
 	int province_count = 0;
 	std::vector<QPoint> province_seeds;
 	std::vector<std::vector<QPoint>> province_tiles;

@@ -194,7 +194,7 @@ gsml_data game::to_gsml_data() const
 	return data;
 }
 
-QCoro::Task<void> game::create_random_map_coro(const QSize map_size, kobold::era *era)
+QCoro::Task<void> game::create_random_map_coro(const QSize map_size, archimedes::era *era)
 {
 	try {
 		this->clear();
@@ -202,6 +202,17 @@ QCoro::Task<void> game::create_random_map_coro(const QSize map_size, kobold::era
 
 		map_generator map_generator(map_size, era);
 		map_generator.generate();
+
+		for (character *character : character::get_all()) {
+			character_game_data *character_game_data = character->get_game_data();
+			character->reset_history();
+			const character_history *character_history = character->get_history();
+
+			character_game_data->set_target_feats(character_history->get_feats());
+
+			const int level = std::max(character_history->get_level(), 1);
+			character_game_data->apply_species_and_class(level);
+		}
 
 		this->date = game::normalize_date(era->get_start_date());
 

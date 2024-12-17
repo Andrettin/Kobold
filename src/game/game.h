@@ -78,12 +78,12 @@ public:
 		return this->scenario;
 	}
 
-	Q_INVOKABLE QCoro::QmlTask create_random_map(const QSize &map_size, kobold::era *era)
+	Q_INVOKABLE QCoro::QmlTask create_random_map(const QSize &map_size, archimedes::era *era)
 	{
 		return this->create_random_map_coro(map_size, era);
 	}
 
-	QCoro::Task<void> create_random_map_coro(const QSize map_size, kobold::era *era);
+	QCoro::Task<void> create_random_map_coro(const QSize map_size, archimedes::era *era);
 
 	Q_INVOKABLE QCoro::QmlTask setup_scenario(kobold::scenario *scenario)
 	{

@@ -302,7 +302,7 @@ MenuBase {
 			}
 		}
 		
-		kobold.game.create_random_map(selected_map_size, selected_era).then(() {
+		kobold.game.create_random_map(selected_map_size, selected_era).then(() => {
 			diplomatic_map.selected_country = kobold.game.great_powers[random(kobold.game.great_powers.length)]
 			diplomatic_map.center_on_selected_country_capital()
 		})
