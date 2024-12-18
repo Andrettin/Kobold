@@ -69,6 +69,11 @@ public:
 		return this->get_width() * this->get_height();
 	}
 
+	int get_tile_count() const
+	{
+		return this->get_width() * this->get_height();
+	}
+
 	void generate();
 
 private:
@@ -76,6 +81,9 @@ private:
 
 	void generate_terrain();
 	void generate_elevation();
+	void generate_pseudofractal_elevation(const int additional_initial_block_count);
+	void generate_pseudofractal_tile_rect_elevation(const int step, const QRect &tile_rect);
+	void set_pseudofractal_elevation_midpoints(const int x, const int y, const int value);
 	void generate_moisture();
 	void generate_forestation();
 	std::vector<QPoint> generate_tile_value_seeds(std::vector<int> &tile_values, const int seed_divisor);

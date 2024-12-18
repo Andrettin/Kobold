@@ -95,7 +95,6 @@ void map_generator::generate()
 
 	const int tile_count = this->get_width() * this->get_height();
 	this->tile_provinces.resize(tile_count, -1);
-	this->tile_elevations.resize(tile_count, -1);
 	this->tile_moistures.resize(tile_count, -1);
 	this->tile_forestations.resize(tile_count, -1);
 
@@ -233,8 +232,118 @@ void map_generator::generate_terrain()
 
 void map_generator::generate_elevation()
 {
-	const std::vector<QPoint> elevation_seeds = this->generate_tile_value_seeds(this->tile_elevations, 2048);
-	this->expand_tile_value_seeds(elevation_seeds, this->tile_elevations, 50);
+	this->generate_pseudofractal_elevation(1);
+}
+
+void map_generator::generate_pseudofractal_elevation(const int additional_initial_block_count)
+{
+	const int initial_block_count_x = 5 + additional_initial_block_count;
+	const int initial_block_count_y = 5 + additional_initial_block_count;
+
+	const int modified_initial_block_count_x = initial_block_count_x + (this->is_x_wrap_enabled() ? 0 : 1);
+	const int modified_initial_block_count_y = initial_block_count_y + (this->is_y_wrap_enabled() ? 0 : 1);
+
+	const int max_x = this->get_width() - (this->is_x_wrap_enabled() ? 0 : 1);
+	const int max_y = this->get_height() - (this->is_y_wrap_enabled() ? 0 : 1);
+
+	const int step = this->get_width() + this->get_height();
+	const int edge_avoidance_modifier = (100 - this->get_map_template()->get_land_percent()) * step / 100 + step / 3;
+
+	this->tile_elevations.resize(this->get_tile_count(), 0);
+
+	for (int block_x = 0; block_x < modified_initial_block_count_x; ++block_x) {
+		for (int block_y = 0; block_y < modified_initial_block_count_y; ++block_y) {
+			const int tile_x = (block_x * max_x / initial_block_count_x);
+			const int tile_y = (block_y * max_y / initial_block_count_y);
+			const QPoint tile_pos(tile_x, tile_y);
+			const int tile_index = point::to_index(tile_pos, this->get_width());
+
+			this->tile_elevations[tile_index] = random::get()->generate(2 * step) - (2 * step) / 2;
+
+			if (this->is_tile_near_edge(tile_pos)) {
+				this->tile_elevations[tile_index] -= edge_avoidance_modifier;
+			}
+
+			const int tile_colatitude = this->get_tile_colatitude(tile_pos);
+			if (tile_colatitude <= (this->get_ice_base_level() / 2) && this->get_map_template()->get_pole_flattening() > 0) {
+				this->tile_elevations[tile_index] -= random::get()->generate(edge_avoidance_modifier * this->get_map_template()->get_pole_flattening() / 100);
+			}
+		}
+	}
+
+	for (int block_x = 0; block_x < initial_block_count_x; ++block_x) {
+		for (int block_y = 0; block_y < initial_block_count_y; ++block_y) {
+			const QPoint top_left(block_x * max_x / initial_block_count_x, block_y * max_y / initial_block_count_y);
+			const QPoint bottom_right((block_x + 1) * max_x / initial_block_count_x, (block_y + 1) * max_y / initial_block_count_y);
+			const QRect tile_rect(top_left, bottom_right - QPoint(1, 1));
+			this->generate_pseudofractal_tile_rect_elevation(step, tile_rect);
+		}
+	}
+
+	//randomize a bit
+	for (int &tile_elevation : this->tile_elevations) {
+		tile_elevation = 8 * tile_elevation + random::get()->generate(4) - 2;
+	}
+
+	map_generator::adjust_values(this->tile_elevations, map_generator::max_elevation);
+}
+
+void map_generator::generate_pseudofractal_tile_rect_elevation(const int step, const QRect &tile_rect)
+{
+	std::array<std::array<int, 2>, 2> value_array{};
+
+	const int top = tile_rect.top();
+	const int left = tile_rect.left();
+	const int bottom_end = tile_rect.bottom() + 1;
+	const int right_end = tile_rect.right() + 1;
+
+	int wrap_x = right_end;
+	int wrap_y = bottom_end;
+
+	if (tile_rect.width() <= 0 || tile_rect.height() <= 0) {
+		return;
+	}
+
+	if (tile_rect.width() == 1 && tile_rect.height() == 1) {
+		return;
+	}
+
+	if (right_end == this->get_width()) {
+		wrap_x = 0;
+	}
+
+	if (bottom_end == this->get_height()) {
+		wrap_y = 0;
+	}
+
+	value_array[0][0] = this->tile_elevations[point::to_index(tile_rect.topLeft(), this->get_width())];
+	value_array[0][1] = this->tile_elevations[point::to_index(left, wrap_y, this->get_width())];
+	value_array[1][0] = this->tile_elevations[point::to_index(wrap_x, top, this->get_width())];
+	value_array[1][1] = this->tile_elevations[point::to_index(wrap_x, wrap_y, this->get_width())];
+
+	this->set_pseudofractal_elevation_midpoints((left + right_end) / 2, top, (value_array[0][0] + value_array[1][0]) / 2 + random::get()->generate(step) - step / 2);
+	this->set_pseudofractal_elevation_midpoints((left + right_end) / 2, wrap_y, (value_array[0][1] + value_array[1][1]) / 2 + random::get()->generate(step) - step / 2);
+	this->set_pseudofractal_elevation_midpoints(left, (top + bottom_end) / 2, (value_array[0][0] + value_array[0][1]) / 2 + random::get()->generate(step) - step / 2);
+	this->set_pseudofractal_elevation_midpoints(wrap_x, (top + bottom_end) / 2, (value_array[1][0] + value_array[1][1]) / 2 + random::get()->generate(step) - step / 2);
+
+	this->set_pseudofractal_elevation_midpoints((left + right_end) / 2, (top + bottom_end) / 2, ((value_array[0][0] + value_array[0][1] + value_array[1][0] + value_array[1][1]) / 4 + random::get()->generate(step) - step / 2));
+
+	this->generate_pseudofractal_tile_rect_elevation(2 * step / 3, QRect(QPoint(left, top), QPoint((right_end + left) / 2, (bottom_end + top) / 2) - QPoint(1, 1)));
+	this->generate_pseudofractal_tile_rect_elevation(2 * step / 3, QRect(QPoint(left, (bottom_end + top) / 2), QPoint((right_end + left) / 2, bottom_end) - QPoint(1, 1)));
+	this->generate_pseudofractal_tile_rect_elevation(2 * step / 3, QRect(QPoint((right_end + left) / 2, top), QPoint(right_end, (bottom_end + top) / 2) - QPoint(1, 1)));
+	this->generate_pseudofractal_tile_rect_elevation(2 * step / 3, QRect(QPoint((right_end + left) / 2, (bottom_end + top) / 2), QPoint(right_end, bottom_end) - QPoint(1, 1)));
+}
+
+void map_generator::set_pseudofractal_elevation_midpoints(const int x, const int y, const int value)
+{
+	const QPoint tile_pos(x, y);
+	const int tile_index = point::to_index(x, y, this->get_width());
+
+	if (this->get_tile_colatitude(tile_pos) <= this->get_ice_base_level() / 2) {
+		this->tile_elevations[tile_index] = value * (100 - this->get_map_template()->get_pole_flattening()) / 100;
+	} else if (!this->is_tile_near_edge(tile_pos) && this->tile_elevations[tile_index] == 0) {
+		this->tile_elevations[tile_index] = value;
+	}
 }
 
 void map_generator::generate_moisture()

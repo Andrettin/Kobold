@@ -21,4 +21,5 @@ earth_random = {
 	land_percent = 30
 	average_temperature = 60
 	separate_poles = true
+	pole_flattening = 100
 }
