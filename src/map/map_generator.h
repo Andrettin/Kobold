@@ -144,7 +144,7 @@ private:
 
 	bool is_x_wrap_enabled() const
 	{
-		return true;
+		return false;
 	}
 
 	bool is_y_wrap_enabled() const

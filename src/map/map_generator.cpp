@@ -134,6 +134,19 @@ void map_generator::initialize_temperature_levels()
 void map_generator::generate_terrain()
 {
 	this->generate_elevation();
+
+	//ensure edge provinces are water
+	const QRect map_rect(QPoint(0, 0), this->get_size());
+	rect::for_each_edge_point(map_rect, [&](const QPoint &tile_pos) {
+		const int tile_index = point::to_index(tile_pos, this->get_width());
+		const int province_index = this->tile_provinces[tile_index];
+		const QPoint &province_seed = this->province_seeds.at(province_index);
+		const int province_seed_index = point::to_index(province_seed, this->get_width());
+		this->tile_elevations[tile_index] = 0;
+		this->tile_elevations[province_seed_index] = 0;
+		this->sea_zones.insert(province_index);
+	});
+
 	this->generate_moisture();
 	this->generate_forestation();
 
