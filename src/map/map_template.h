@@ -39,6 +39,7 @@ class map_template final : public named_data_entry, public data_type<map_templat
 	Q_PROPERTY(std::filesystem::path route_image_filepath MEMBER route_image_filepath WRITE set_route_image_filepath)
 	Q_PROPERTY(std::filesystem::path province_image_filepath MEMBER province_image_filepath WRITE set_province_image_filepath)
 	Q_PROPERTY(int land_percent MEMBER land_percent READ get_land_percent NOTIFY changed)
+	Q_PROPERTY(int steepness MEMBER steepness READ get_steepness NOTIFY changed)
 	Q_PROPERTY(int average_temperature MEMBER average_temperature READ get_average_temperature NOTIFY changed)
 	Q_PROPERTY(bool separate_poles MEMBER separate_poles READ are_poles_separate NOTIFY changed)
 	Q_PROPERTY(int pole_flattening MEMBER pole_flattening READ get_pole_flattening NOTIFY changed)
@@ -169,6 +170,11 @@ public:
 		return this->land_percent;
 	}
 
+	int get_steepness() const
+	{
+		return this->steepness;
+	}
+
 	int get_average_temperature() const
 	{
 		return this->average_temperature;
@@ -206,6 +212,7 @@ private:
 	std::filesystem::path route_image_filepath;
 	std::filesystem::path province_image_filepath;
 	int land_percent = 30;
+	int steepness = 30;
 	int average_temperature = 50;
 	bool separate_poles = false; //whether the poles are ensured to be separate continents
 	int pole_flattening = 0;

@@ -162,7 +162,7 @@ void map_generator::generate_terrain()
 			if (province_is_water && !is_water) {
 				elevation = 0;
 			} else if (!province_is_water && is_water) {
-				elevation = map_generator::min_land_elevation;
+				elevation = this->get_min_land_elevation();
 			}
 
 			const elevation_type elevation_type = this->get_tile_elevation_type(tile_pos);
@@ -1031,11 +1031,11 @@ elevation_type map_generator::get_tile_elevation_type(const QPoint &tile_pos) co
 {
 	const int elevation = this->tile_elevations[point::to_index(tile_pos, this->get_width())];
 
-	if (elevation >= map_generator::min_mountain_elevation) {
+	if (elevation >= this->get_min_mountain_elevation()) {
 		return elevation_type::mountains;
-	} else if (elevation >= map_generator::min_hill_elevation) {
+	} else if (elevation >= this->get_min_hill_elevation()) {
 		return elevation_type::hills;
-	} else if (elevation >= map_generator::min_land_elevation) {
+	} else if (elevation >= this->get_min_land_elevation()) {
 		return elevation_type::flatlands;
 	} else {
 		return elevation_type::water;
@@ -1052,7 +1052,7 @@ int map_generator::get_tile_temperature(const QPoint &tile_pos) const
 	//temperature is a function of latitude and elevation
 	const int tile_index = point::to_index(tile_pos, this->get_width());
 	const int colatitude = this->get_tile_colatitude(tile_pos);
-	const int land_elevation = std::max(0, this->tile_elevations[tile_index] - map_generator::min_land_elevation);
+	const int land_elevation = std::max(0, this->tile_elevations[tile_index] - this->get_min_land_elevation());
 	return std::max(0, colatitude - land_elevation / 2);
 }
 
@@ -1095,6 +1095,23 @@ forestation_type map_generator::get_tile_forestation_type(const QPoint &tile_pos
 	} else {
 		return forestation_type::none;
 	}
+}
+
+int map_generator::get_min_land_elevation() const
+{
+	return map_generator::max_elevation * (100 - this->get_map_template()->get_land_percent()) / 100;
+}
+
+int map_generator::get_min_hill_elevation() const
+{
+	const int min_land_elevation = this->get_min_land_elevation();
+	return ((map_generator::max_elevation - min_land_elevation) * (100 - this->get_map_template()->get_steepness())) / 100 + min_land_elevation;
+}
+
+int map_generator::get_min_mountain_elevation() const
+{
+	const int min_hill_elevation = this->get_min_hill_elevation();
+	return (map_generator::max_elevation + min_hill_elevation) / 2;
 }
 
 int map_generator::get_cold_level() const

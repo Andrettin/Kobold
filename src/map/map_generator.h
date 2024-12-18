@@ -25,10 +25,6 @@ private:
 
 	static constexpr int max_tile_value = 1000;
 
-	static constexpr int min_land_elevation = 500;
-	static constexpr int min_hill_elevation = 800;
-	static constexpr int min_mountain_elevation = 900;
-
 	static constexpr int min_temperate_temperature = 100;
 	static constexpr int min_tropical_temperature = 750;
 
@@ -134,6 +130,10 @@ private:
 		const int abs_latitude = std::abs(this->get_tile_latitude(tile_pos));
 		return map_generator::max_colatitude - abs_latitude;
 	}
+
+	int get_min_land_elevation() const;
+	int get_min_hill_elevation() const;
+	int get_min_mountain_elevation() const;
 
 	int get_cold_level() const;
 

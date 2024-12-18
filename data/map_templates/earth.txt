@@ -19,6 +19,7 @@ earth_random = {
 	size = { 256 128 }
 	world = earth
 	land_percent = 30
+	steepness = 30
 	average_temperature = 60
 	separate_poles = true
 	pole_flattening = 100
