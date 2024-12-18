@@ -33,6 +33,54 @@
 
 namespace kobold {
 
+void map_generator::adjust_values(std::vector<int> &values, const int target_max_value)
+{
+	int min_value = 0;
+	int max_value = 0;
+
+	bool first = true;
+	for (const int value : values) {
+		if (first) {
+			min_value = value;
+			max_value = value;
+			first = false;
+		} else {
+			if (value < min_value) {
+				min_value = value;
+			}
+
+			if (value > max_value) {
+				max_value = value;
+			}
+		}
+	}
+
+	const int value_range_size = max_value - min_value + 1;
+	assert_throw(value_range_size > 0);
+
+	std::vector<int> value_counts;
+	try {
+		value_counts.resize(value_range_size, 0);
+	} catch (...) {
+		std::throw_with_nested(std::runtime_error(std::format("Failed to resize value counts vector to size {} when adjusting values for the map generator.", value_range_size)));
+	}
+
+	for (int &value : values) {
+		value -= min_value;
+		++value_counts[value];
+	}
+
+	int count = 0;
+	for (int i = 0; i < value_range_size; ++i) {
+		count += value_counts[i];
+		value_counts[i] = count * target_max_value / static_cast<int>(values.size());
+	}
+
+	for (int &value : values) {
+		value = value_counts[value];
+	}
+}
+
 const QSize &map_generator::get_size() const
 {
 	return this->get_map_template()->get_size();

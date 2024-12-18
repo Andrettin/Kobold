@@ -39,6 +39,8 @@ private:
 	static constexpr int min_forest_forestation = 900;
 
 public:
+	static void adjust_values(std::vector<int> &values, const int target_max_value);
+
 	explicit map_generator(const kobold::map_template *map_template, const archimedes::era *era)
 		: map_template(map_template), era(era)
 	{
