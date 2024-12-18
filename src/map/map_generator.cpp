@@ -99,6 +99,8 @@ void map_generator::generate()
 	this->tile_moistures.resize(tile_count, -1);
 	this->tile_forestations.resize(tile_count, -1);
 
+	this->initialize_temperature_levels();
+
 	this->generate_provinces();
 	this->generate_terrain();
 	this->generate_countries();
@@ -129,20 +131,17 @@ void map_generator::generate()
 	}
 }
 
+void map_generator::initialize_temperature_levels()
+{
+	const int sqrt_size = this->get_sqrt_size();
+
+	const int separate_poles_factor = this->get_map_template()->are_poles_separate() ? 1 : 2;
+
+	this->ice_base_level = (std::max(0, 100 * this->get_cold_level() / 3 - separate_poles_factor * map_generator::max_colatitude) + separate_poles_factor * map_generator::max_colatitude * sqrt_size) / (100 * sqrt_size);
+}
+
 void map_generator::generate_terrain()
 {
-	//ensure edge provinces are water
-	const QRect map_rect(QPoint(0, 0), this->get_size());
-	rect::for_each_edge_point(map_rect, [&](const QPoint &tile_pos) {
-		const int tile_index = point::to_index(tile_pos, this->get_width());
-		const int province_index = this->tile_provinces[tile_index];
-		const QPoint &province_seed = this->province_seeds.at(province_index);
-		const int province_seed_index = point::to_index(province_seed, this->get_width());
-		this->tile_elevations[tile_index] = 0;
-		this->tile_elevations[province_seed_index] = 0;
-		this->sea_zones.insert(province_index);
-	});
-
 	this->generate_elevation();
 	this->generate_moisture();
 	this->generate_forestation();
@@ -987,6 +986,17 @@ forestation_type map_generator::get_tile_forestation_type(const QPoint &tile_pos
 	} else {
 		return forestation_type::none;
 	}
+}
+
+int map_generator::get_cold_level() const
+{
+	return std::max(0, map_generator::max_colatitude * (60 * 7 - this->get_map_template()->get_average_temperature() * 6) / 700);
+}
+
+int map_generator::get_sqrt_size() const
+{
+	int sqrt_size = number::sqrt(this->get_area() / 1000);
+	return std::max(1, sqrt_size);
 }
 
 }

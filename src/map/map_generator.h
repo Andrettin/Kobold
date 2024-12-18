@@ -71,6 +71,8 @@ public:
 	void generate();
 
 private:
+	void initialize_temperature_levels();
+
 	void generate_terrain();
 	void generate_elevation();
 	void generate_moisture();
@@ -124,10 +126,20 @@ private:
 		return map_generator::max_colatitude - abs_latitude;
 	}
 
+	int get_cold_level() const;
+
+	int get_ice_base_level() const
+	{
+		return this->ice_base_level;
+	}
+
+	int get_sqrt_size() const;
+
 private:
 	const kobold::map_template *map_template = nullptr;
 	QSize size = QSize(0, 0);
 	const archimedes::era *era = nullptr;
+	int ice_base_level = 0;
 	int province_count = 0;
 	std::vector<QPoint> province_seeds;
 	std::vector<std::vector<QPoint>> province_tiles;
