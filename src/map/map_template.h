@@ -38,6 +38,10 @@ class map_template final : public named_data_entry, public data_type<map_templat
 	Q_PROPERTY(std::filesystem::path border_river_image_filepath MEMBER border_river_image_filepath WRITE set_border_river_image_filepath)
 	Q_PROPERTY(std::filesystem::path route_image_filepath MEMBER route_image_filepath WRITE set_route_image_filepath)
 	Q_PROPERTY(std::filesystem::path province_image_filepath MEMBER province_image_filepath WRITE set_province_image_filepath)
+	Q_PROPERTY(int land_percent MEMBER land_percent READ get_land_percent NOTIFY changed)
+	Q_PROPERTY(int average_temperature MEMBER average_temperature READ get_average_temperature NOTIFY changed)
+	Q_PROPERTY(bool separate_poles MEMBER separate_poles READ are_poles_separate NOTIFY changed)
+	Q_PROPERTY(int pole_flattening MEMBER pole_flattening READ get_pole_flattening NOTIFY changed)
 
 public:
 	using province_geodata_map_type = province_map<std::vector<std::unique_ptr<QGeoShape>>>;
@@ -160,12 +164,35 @@ public:
 	void set_province_image_filepath(const std::filesystem::path &filepath);
 	Q_INVOKABLE void write_province_image();
 
+	int get_land_percent() const
+	{
+		return this->land_percent;
+	}
+
+	int get_average_temperature() const
+	{
+		return this->average_temperature;
+	}
+
+	bool are_poles_separate() const
+	{
+		return this->separate_poles;
+	}
+
+	int get_pole_flattening() const
+	{
+		return this->pole_flattening;
+	}
+
 	void apply() const;
 	void apply_terrain() const;
 	void apply_rivers() const;
 	void apply_border_rivers() const;
 	void apply_routes() const;
 	void apply_provinces() const;
+
+signals:
+	void changed();
 
 private:
 	QSize size = QSize(0, 0);
@@ -178,6 +205,10 @@ private:
 	std::filesystem::path border_river_image_filepath;
 	std::filesystem::path route_image_filepath;
 	std::filesystem::path province_image_filepath;
+	int land_percent = 30;
+	int average_temperature = 50;
+	bool separate_poles = false; //whether the poles are ensured to be separate continents
+	int pole_flattening = 0;
 	point_map<const site *> sites_by_position;
 };
 
