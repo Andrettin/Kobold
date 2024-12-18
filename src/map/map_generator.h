@@ -20,6 +20,8 @@ enum class temperature_type;
 class map_generator final
 {
 private:
+	static constexpr int max_colatitude = 1000;
+
 	static constexpr int max_tile_value = 1000;
 
 	static constexpr int min_land_elevation = 500;
@@ -103,7 +105,7 @@ private:
 		}
 
 		latitude *= -1;
-		latitude *= map_generator::max_tile_value;
+		latitude *= map_generator::max_colatitude;
 		latitude /= half_height - 1;
 
 		return latitude;
@@ -112,7 +114,7 @@ private:
 	int get_tile_colatitude(const QPoint &tile_pos) const
 	{
 		const int abs_latitude = std::abs(this->get_tile_latitude(tile_pos));
-		return map_generator::max_tile_value - abs_latitude;
+		return map_generator::max_colatitude - abs_latitude;
 	}
 
 private:
