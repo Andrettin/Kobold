@@ -61,6 +61,11 @@ public:
 		return this->get_size().height();
 	}
 
+	int get_area() const
+	{
+		return this->get_width() * this->get_height();
+	}
+
 	void generate();
 
 private:
