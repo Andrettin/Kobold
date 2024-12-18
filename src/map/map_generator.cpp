@@ -3,6 +3,7 @@
 #include "map/map_generator.h"
 
 #include "country/country.h"
+#include "country/country_container.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
 #include "database/defines.h"
@@ -14,6 +15,7 @@
 #include "map/moisture_type.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
+#include "map/province_history.h"
 #include "map/region.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
@@ -88,11 +90,6 @@ const QSize &map_generator::get_size() const
 
 void map_generator::generate()
 {
-	map *map = map::get();
-	map->clear();
-	map->set_size(this->get_size());
-	map->create_tiles();
-
 	const int tile_count = this->get_width() * this->get_height();
 	this->tile_provinces.resize(tile_count, -1);
 	this->tile_moistures.resize(tile_count, -1);
@@ -103,6 +100,8 @@ void map_generator::generate()
 	this->generate_provinces();
 	this->generate_terrain();
 	this->generate_countries();
+
+	map *map = map::get();
 
 	//assign provinces
 	for (size_t i = 0; i < this->tile_provinces.size(); ++i) {
@@ -121,13 +120,6 @@ void map_generator::generate()
 	}
 
 	this->generate_sites();
-
-	map->initialize();
-
-	for (const auto &[province, country] : this->province_owners) {
-		province_game_data *province_game_data = province->get_game_data();
-		province_game_data->set_owner(country);
-	}
 }
 
 void map_generator::initialize_temperature_levels()
@@ -667,15 +659,19 @@ void map_generator::generate_countries()
 	std::vector<const country *> potential_powers;
 	std::vector<const country *> potential_minor_nations;
 
-	for (const country *country : country::get_all()) {
-		if (country->get_core_provinces().empty()) {
+	country_map<std::vector<const province *>> provinces_by_country;
+
+	for (const province *province : province::get_all()) {
+		const province_history *province_history = province->get_history();
+		const country *owner = province_history->get_owner();
+		if (owner == nullptr) {
 			continue;
 		}
 
-		if (!vector::contains(country->get_eras(), this->era)) {
-			continue;
-		}
+		provinces_by_country[owner].push_back(province);
+	}
 
+	for (const auto &[country, country_provinces] : provinces_by_country) {
 		if (country->is_great_power()) {
 			potential_powers.push_back(country);
 		} else {
@@ -686,21 +682,12 @@ void map_generator::generate_countries()
 	vector::shuffle(potential_powers);
 	vector::shuffle(potential_minor_nations);
 
-	const int map_area = this->get_width() * this->get_height();
-	const int max_powers = map_area / 1024;
-	int power_count = 0;
-
 	for (const country *country : potential_powers) {
 		if (static_cast<int>(this->generated_provinces.size()) >= this->province_count) {
 			break;
 		}
 
-		if (this->generate_country(country)) {
-			++power_count;
-			if (power_count == max_powers) {
-				break;
-			}
-		}
+		this->generate_country(country, provinces_by_country.find(country)->second);
 	}
 
 	for (const country *country : potential_minor_nations) {
@@ -708,7 +695,7 @@ void map_generator::generate_countries()
 			break;
 		}
 
-		this->generate_country(country);
+		this->generate_country(country, provinces_by_country.find(country)->second);
 	}
 
 	if (static_cast<int>(this->generated_provinces.size()) != this->province_count) {
@@ -723,34 +710,20 @@ bool map_generator::generate_ocean(const region *ocean)
 		potential_provinces.push_back(province);
 	}
 
-	const std::vector<const province *> provinces = this->generate_province_group(potential_provinces, 0, nullptr);
+	const std::vector<const province *> provinces = this->generate_province_group(potential_provinces, nullptr);
 
 	return !provinces.empty();
 }
 
-bool map_generator::generate_country(const country *country)
+bool map_generator::generate_country(const country *country, const std::vector<const province *> &country_provinces)
 {
-	if (this->generated_provinces.contains(country->get_core_provinces().at(0))) {
-		return false;
-	}
+	const province *default_capital_province = country->get_default_capital()->get_province();
+	const std::vector<const province *> generated_provinces = this->generate_province_group(country_provinces, default_capital_province->get_history()->get_owner() == country ? default_capital_province : nullptr);
 
-	static constexpr int max_country_provinces = 8;
-
-	std::vector<const province *> potential_provinces;
-	for (const province *province : country->get_core_provinces()) {
-		potential_provinces.push_back(province);
-	}
-
-	const std::vector<const province *> provinces = this->generate_province_group(potential_provinces, max_country_provinces, country->get_core_provinces().at(0));
-
-	for (const province *province : provinces) {
-		this->province_owners[province] = country;
-	}
-
-	return !provinces.empty();
+	return !generated_provinces.empty();
 }
 
-std::vector<const province *> map_generator::generate_province_group(const std::vector<const province *> &potential_provinces, const int max_provinces, const province *capital_province)
+std::vector<const province *> map_generator::generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province)
 {
 	std::vector<const province *> provinces;
 	std::vector<int> group_province_indexes;
@@ -771,10 +744,6 @@ std::vector<const province *> map_generator::generate_province_group(const std::
 		}
 
 		provinces.push_back(province);
-
-		if (max_provinces > 0 && static_cast<int>(group_province_indexes.size()) == max_provinces) {
-			break;
-		}
 
 		if (static_cast<int>(this->generated_provinces.size()) == this->province_count) {
 			break;

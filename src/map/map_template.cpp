@@ -6,6 +6,7 @@
 #include "economy/resource.h"
 #include "map/direction.h"
 #include "map/map.h"
+#include "map/map_generator.h"
 #include "map/map_projection.h"
 #include "map/province.h"
 #include "map/route.h"
@@ -636,11 +637,16 @@ void map_template::apply() const
 	map->set_size(this->get_size());
 	map->create_tiles();
 
-	this->apply_terrain();
-	this->apply_rivers();
-	this->apply_border_rivers();
-	this->apply_routes();
-	this->apply_provinces();
+	if (this->is_randomly_generated()) {
+		map_generator map_generator(this);
+		map_generator.generate();
+	} else {
+		this->apply_terrain();
+		this->apply_rivers();
+		this->apply_border_rivers();
+		this->apply_routes();
+		this->apply_provinces();
+	}
 }
 
 void map_template::apply_terrain() const

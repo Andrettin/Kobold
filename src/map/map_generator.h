@@ -3,10 +3,6 @@
 #include "map/province_container.h"
 #include "map/terrain_type_container.h"
 
-namespace archimedes {
-	class era;
-}
-
 namespace kobold {
 
 class country;
@@ -38,8 +34,8 @@ private:
 public:
 	static void adjust_values(std::vector<int> &values, const int target_max_value);
 
-	explicit map_generator(const kobold::map_template *map_template, const archimedes::era *era)
-		: map_template(map_template), era(era)
+	explicit map_generator(const kobold::map_template *map_template)
+		: map_template(map_template)
 	{
 	}
 
@@ -91,8 +87,8 @@ private:
 
 	void generate_countries();
 	bool generate_ocean(const region *ocean);
-	bool generate_country(const country *country);
-	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const int max_provinces, const province *capital_province);
+	bool generate_country(const country *country, const std::vector<const province *> &country_provinces);
+	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
 	int generate_province(const province *province, std::vector<int> &group_province_indexes);
 	bool can_assign_province_to_province_index(const province *province, const int province_index) const;
 
@@ -159,7 +155,6 @@ private:
 private:
 	const kobold::map_template *map_template = nullptr;
 	QSize size = QSize(0, 0);
-	const archimedes::era *era = nullptr;
 	int ice_base_level = 0;
 	int province_count = 0;
 	std::vector<QPoint> province_seeds;
@@ -175,7 +170,6 @@ private:
 	std::map<int, std::set<int>> province_border_provinces;
 	province_set generated_provinces;
 	std::map<int, const province *> provinces_by_index;
-	province_map<const country *> province_owners;
 };
 
 }

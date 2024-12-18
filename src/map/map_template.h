@@ -165,6 +165,11 @@ public:
 	void set_province_image_filepath(const std::filesystem::path &filepath);
 	Q_INVOKABLE void write_province_image();
 
+	bool is_randomly_generated() const
+	{
+		return this->get_map_projection() == nullptr;
+	}
+
 	int get_land_percent() const
 	{
 		return this->land_percent;

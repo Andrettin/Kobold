@@ -194,35 +194,6 @@ gsml_data game::to_gsml_data() const
 	return data;
 }
 
-QCoro::Task<void> game::create_random_map_coro(const map_template *map_template, const era *era)
-{
-	try {
-		this->clear();
-		this->rules = preferences::get()->get_game_rules()->duplicate();
-
-		map_generator map_generator(map_template, era);
-		map_generator.generate();
-
-		for (character *character : character::get_all()) {
-			character_game_data *character_game_data = character->get_game_data();
-			character->reset_history();
-			const character_history *character_history = character->get_history();
-
-			character_game_data->set_target_feats(character_history->get_feats());
-
-			const int level = std::max(character_history->get_level(), 1);
-			character_game_data->apply_species_and_class(level);
-		}
-
-		this->date = game::normalize_date(era->get_start_date());
-
-		co_await this->on_setup_finished();
-	} catch (...) {
-		exception::report(std::current_exception());
-		QApplication::exit(EXIT_FAILURE);
-	}
-}
-
 QCoro::Task<void> game::setup_scenario_coro(kobold::scenario *scenario)
 {
 	try {
@@ -232,7 +203,11 @@ QCoro::Task<void> game::setup_scenario_coro(kobold::scenario *scenario)
 		this->rules = preferences::get()->get_game_rules()->duplicate();
 		this->scenario = scenario;
 
-		if (old_scenario == nullptr || old_scenario->get_map_template() != scenario->get_map_template()) {
+		this->date = game::normalize_date(scenario->get_start_date());
+
+		database::get()->load_history(scenario->get_start_date(), scenario->get_timeline(), this->get_rules());
+
+		if (old_scenario == nullptr || old_scenario->get_map_template() != scenario->get_map_template() || scenario->get_map_template()->is_randomly_generated()) {
 			scenario->get_map_template()->apply();
 			map::get()->initialize();
 
@@ -241,6 +216,7 @@ QCoro::Task<void> game::setup_scenario_coro(kobold::scenario *scenario)
 		}
 
 		this->apply_history(scenario);
+
 		co_await this->on_setup_finished();
 	} catch (...) {
 		exception::report(std::current_exception());
@@ -344,10 +320,6 @@ void game::reset_game_data()
 void game::apply_history(const kobold::scenario *scenario)
 {
 	try {
-		this->date = game::normalize_date(scenario->get_start_date());
-
-		database::get()->load_history(scenario->get_start_date(), scenario->get_timeline(), this->get_rules());
-
 		for (const province *province : map::get()->get_provinces()) {
 			try {
 				const province_history *province_history = province->get_history();

@@ -8,20 +8,6 @@ MenuBase {
 	//background: kobold.defines.default_menu_background_file
 	
 	TextButton {
-		id: play_random_map_button
-		anchors.horizontalCenter: play_scenario_button.horizontalCenter
-		anchors.bottom: play_scenario_button.top
-		anchors.bottomMargin: 8 * scale_factor
-		text: qsTr("Play Random Map")
-		width: 128 * scale_factor
-		height: 24 * scale_factor
-		
-		onClicked: {
-			menu_stack.push("RandomMapMenu.qml")
-		}
-	}
-	
-	TextButton {
 		id: play_scenario_button
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
