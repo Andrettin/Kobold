@@ -62,9 +62,9 @@ bool map_template::is_site_in_province(const site *site, const province *provinc
 
 void map_template::initialize()
 {
-	const QRect map_rect(QPoint(0, 0), this->get_size());
-
 	if (!this->get_province_image_filepath().empty()) {
+		const QRect map_rect(QPoint(0, 0), this->get_size());
+
 		const QImage province_image = QImage(path::to_qstring(this->get_province_image_filepath()));
 
 		const province_geodata_map_type province_geodata_map = this->get_world()->parse_provinces_geojson_folder();
@@ -192,8 +192,6 @@ void map_template::initialize()
 
 			this->sites_by_position[tile_pos] = site;
 		}
-	} else {
-		log::log_error(std::format("Map template \"{}\" has no province image filepath.", this->get_identifier()));
 	}
 
 	named_data_entry::initialize();
@@ -201,8 +199,9 @@ void map_template::initialize()
 
 void map_template::check() const
 {
-	assert_throw(this->map_projection != nullptr);
-	this->map_projection->validate_area(this->get_georectangle(), this->get_size());
+	if (this->map_projection != nullptr) {
+		this->map_projection->validate_area(this->get_georectangle(), this->get_size());
+	}
 }
 
 QPoint map_template::get_geocoordinate_pos(const geocoordinate &geocoordinate) const
