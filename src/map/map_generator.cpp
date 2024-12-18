@@ -993,6 +993,27 @@ int map_generator::get_cold_level() const
 	return std::max(0, map_generator::max_colatitude * (60 * 7 - this->get_map_template()->get_average_temperature() * 6) / 700);
 }
 
+bool map_generator::is_tile_near_edge(const QPoint &tile_pos) const
+{
+	static constexpr int distance = 2;
+
+	if (!this->is_x_wrap_enabled()) {
+		const int tile_x = tile_pos.x();
+		if (tile_x < distance || tile_x >= (this->get_width() - distance)) {
+			return true;
+		}
+	}
+
+	if (!this->is_y_wrap_enabled()) {
+		const int tile_y = tile_pos.y();
+		if (tile_y < distance || tile_y >= (this->get_height() - distance)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 int map_generator::get_sqrt_size() const
 {
 	int sqrt_size = number::sqrt(this->get_area() / 1000);

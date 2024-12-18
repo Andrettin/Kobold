@@ -133,7 +133,19 @@ private:
 		return this->ice_base_level;
 	}
 
+	bool is_tile_near_edge(const QPoint &tile_pos) const;
+
 	int get_sqrt_size() const;
+
+	bool is_x_wrap_enabled() const
+	{
+		return true;
+	}
+
+	bool is_y_wrap_enabled() const
+	{
+		return false;
+	}
 
 private:
 	const kobold::map_template *map_template = nullptr;
