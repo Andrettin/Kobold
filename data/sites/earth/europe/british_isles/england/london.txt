@@ -17,6 +17,7 @@ london = {
 		
 		704 = {
 			buildings += cathedral #London possessed a bishopric as of 704; Source: Frank Stenton, "Anglo-Saxon England", 1971, pp. 142, 179.
+			settlement_type = city
 		}
 		
 		1360 = {
