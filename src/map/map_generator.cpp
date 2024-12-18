@@ -860,7 +860,10 @@ void map_generator::generate_sites()
 				}
 			}
 
-			assert_throw(!potential_positions.empty());
+			if (potential_positions.empty()) {
+				log::log_error(std::format("Could not find position to generate site \"{}\" on.", site->get_identifier()));
+				continue;
+			}
 
 			const QPoint &site_pos = vector::get_random(potential_positions);
 			map->set_tile_site(site_pos, site);
