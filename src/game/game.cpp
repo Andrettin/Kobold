@@ -194,13 +194,13 @@ gsml_data game::to_gsml_data() const
 	return data;
 }
 
-QCoro::Task<void> game::create_random_map_coro(const QSize map_size, archimedes::era *era)
+QCoro::Task<void> game::create_random_map_coro(const map_template *map_template, const era *era)
 {
 	try {
 		this->clear();
 		this->rules = preferences::get()->get_game_rules()->duplicate();
 
-		map_generator map_generator(map_size, era);
+		map_generator map_generator(map_template, era);
 		map_generator.generate();
 
 		for (character *character : character::get_all()) {

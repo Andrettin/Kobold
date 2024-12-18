@@ -10,6 +10,7 @@
 #include "map/elevation_type.h"
 #include "map/forestation_type.h"
 #include "map/map.h"
+#include "map/map_template.h"
 #include "map/moisture_type.h"
 #include "map/province.h"
 #include "map/province_game_data.h"
@@ -31,6 +32,11 @@
 #include "util/vector_random_util.h"
 
 namespace kobold {
+
+const QSize &map_generator::get_size() const
+{
+	return this->get_map_template()->get_size();
+}
 
 void map_generator::generate()
 {

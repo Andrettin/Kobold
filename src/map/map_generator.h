@@ -10,6 +10,7 @@ namespace archimedes {
 namespace kobold {
 
 class country;
+class map_template;
 class region;
 enum class elevation_type;
 enum class forestation_type;
@@ -36,15 +37,17 @@ private:
 	static constexpr int min_forest_forestation = 900;
 
 public:
-	explicit map_generator(const QSize &size, const archimedes::era *era)
-		: size(size), era(era)
+	explicit map_generator(const kobold::map_template *map_template, const archimedes::era *era)
+		: map_template(map_template), era(era)
 	{
 	}
 
-	const QSize &get_size() const
+	const kobold::map_template *get_map_template() const
 	{
-		return this->size;
+		return this->map_template;
 	}
+
+	const QSize &get_size() const;
 
 	int get_width() const
 	{
@@ -113,6 +116,7 @@ private:
 	}
 
 private:
+	const kobold::map_template *map_template = nullptr;
 	QSize size = QSize(0, 0);
 	const archimedes::era *era = nullptr;
 	int province_count = 0;
