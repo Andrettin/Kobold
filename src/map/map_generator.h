@@ -21,6 +21,7 @@ class map_generator final
 {
 private:
 	static constexpr int max_colatitude = 1000;
+	static constexpr int max_elevation = 1000;
 
 	static constexpr int max_tile_value = 1000;
 
