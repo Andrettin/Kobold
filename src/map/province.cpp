@@ -142,6 +142,11 @@ void province::remove_region(region *region)
 	region->remove_province(this);
 }
 
+std::vector<const region *> province::get_shared_regions_with(const province *other_province) const
+{
+	return vector::intersected<region *, std::vector<const region *>>(this->get_regions(), other_province->get_regions());
+}
+
 bool province::has_core_country_of_culture(const culture *culture) const
 {
 	for (const country *country : this->get_core_countries()) {

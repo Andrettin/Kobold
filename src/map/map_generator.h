@@ -105,6 +105,7 @@ private:
 	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
 	int generate_province(const province *province, std::vector<int> &group_zone_indexes);
 	bool can_assign_province_to_zone_index(const province *province, const int zone_index) const;
+	static int get_province_distance_multiplier_to(const province *province, const kobold::province *other_province);
 
 	void generate_sites();
 

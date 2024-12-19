@@ -804,7 +804,8 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 
 				const map_generator::zone &other_zone = this->zones.at(other_zone_index);
 				const QPoint &other_zone_seed = other_zone.seed;
-				distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed));
+				const int distance_multiplier = map_generator::get_province_distance_multiplier_to(province, other_province);
+				distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed) * distance_multiplier);
 			}
 
 			if (distance > best_distance) {
@@ -953,6 +954,20 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 	}
 
 	return true;
+}
+
+int map_generator::get_province_distance_multiplier_to(const province *province, const kobold::province *other_province)
+{
+	int multiplier = 1;
+
+	const std::vector<const region *> shared_regions = province->get_shared_regions_with(other_province);
+	for (const region *region : shared_regions) {
+		if (region->is_ocean()) {
+			multiplier = std::max(multiplier, 2);
+		}
+	}
+
+	return multiplier;
 }
 
 void map_generator::generate_sites()

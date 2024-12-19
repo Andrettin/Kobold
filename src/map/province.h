@@ -156,6 +156,7 @@ public:
 
 	Q_INVOKABLE void add_region(region *region);
 	Q_INVOKABLE void remove_region(region *region);
+	std::vector<const region *> get_shared_regions_with(const province *other_province) const;
 
 	const std::vector<const country *> &get_core_countries() const
 	{
