@@ -27,6 +27,7 @@ private:
 		std::vector<QPoint> tiles;
 		terrain_type_map<std::vector<QPoint>> tiles_by_terrain;
 		terrain_type_map<std::vector<QPoint>> near_water_tiles_by_terrain;
+		std::set<int> border_zones;
 	};
 
 	static constexpr int max_colatitude = 1000;
@@ -177,7 +178,6 @@ private:
 	std::vector<int> tile_elevations;
 	std::vector<int> tile_moistures;
 	std::vector<int> tile_forestations;
-	std::map<int, std::set<int>> zone_border_zones;
 	province_set generated_provinces;
 	std::map<int, const province *> provinces_by_zone_index;
 };

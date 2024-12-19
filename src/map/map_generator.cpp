@@ -201,9 +201,10 @@ void map_generator::generate_terrain()
 
 	for (size_t i = 0; i < sea_zones.size(); ++i) {
 		const int zone_index = sea_zones.at(i);
+		const zone &zone = this->zones.at(zone_index);
 
-		for (const int border_zone_index : this->zone_border_zones[zone_index]) {
-			const zone &border_zone = this->zones.at(border_zone_index);
+		for (const int border_zone_index : zone.border_zones) {
+			const map_generator::zone &border_zone = this->zones.at(border_zone_index);
 			const QPoint &border_zone_seed = border_zone.seed;
 
 			if (!this->is_tile_water(border_zone_seed)) {
@@ -523,8 +524,9 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 				const int adjacent_zone_index = this->tile_zones[adjacent_tile_index];
 				if (adjacent_zone_index != -1) {
 					//the adjacent tile must not have a zone assigned yet
-					this->zone_border_zones[zone_index].insert(adjacent_zone_index);
-					this->zone_border_zones[adjacent_zone_index].insert(zone_index);
+					zone.border_zones.insert(adjacent_zone_index);
+					map_generator::zone &adjacent_zone = this->zones[adjacent_zone_index];
+					adjacent_zone.border_zones.insert(zone_index);
 					return;
 				}
 
@@ -826,7 +828,9 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 		std::set<int> checked_zone_indexes;
 
 		for (const int country_zone_index : group_zone_indexes) {
-			for (const int border_zone_index : this->zone_border_zones[country_zone_index]) {
+			const zone &country_zone = this->zones.at(country_zone_index);
+
+			for (const int border_zone_index : country_zone.border_zones) {
 				if (checked_zone_indexes.contains(border_zone_index)) {
 					if (!zone_index_border_counts.contains(border_zone_index)) {
 						//already checked for suitability and deemed unsuitable
@@ -900,7 +904,7 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 	if (province->is_bay()) {
 		//bays can only appear adjacent to land provinces
 		bool has_adjacent_land = false;
-		for (const int border_zone_index : this->zone_border_zones.find(zone_index)->second) {
+		for (const int border_zone_index : zone.border_zones) {
 			const map_generator::zone &border_zone = this->zones.at(border_zone_index);
 			const QPoint &border_zone_seed = border_zone.seed;
 
