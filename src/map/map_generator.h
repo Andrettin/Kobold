@@ -20,9 +20,13 @@ private:
 	{
 		explicit zone(const QPoint &seed) : seed(seed)
 		{
+			this->tiles.push_back(seed);
 		}
 
 		QPoint seed;
+		std::vector<QPoint> tiles;
+		terrain_type_map<std::vector<QPoint>> tiles_by_terrain;
+		terrain_type_map<std::vector<QPoint>> near_water_tiles_by_terrain;
 	};
 
 	static constexpr int max_colatitude = 1000;
@@ -167,9 +171,6 @@ private:
 	int ice_base_level = 0;
 	int zone_count = 0;
 	std::vector<zone> zones;
-	std::vector<std::vector<QPoint>> zone_tiles;
-	std::vector<terrain_type_map<std::vector<QPoint>>> zone_tiles_by_terrain;
-	std::vector<terrain_type_map<std::vector<QPoint>>> zone_near_water_tiles_by_terrain;
 	std::set<int> sea_zones;
 	std::set<int> lakes;
 	std::vector<int> tile_zones;

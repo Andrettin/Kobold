@@ -183,16 +183,13 @@ void map_generator::generate_terrain()
 	}
 
 	//build the zone tiles by terrain map
-	for (size_t i = 0; i < this->zone_tiles.size(); ++i) {
-		this->zone_tiles_by_terrain.emplace_back();
-		this->zone_near_water_tiles_by_terrain.emplace_back();
-
-		for (const QPoint &tile_pos : this->zone_tiles.at(i)) {
+	for (zone &zone : this->zones) {
+		for (const QPoint &tile_pos : zone.tiles) {
 			const terrain_type *terrain = map->get_tile(tile_pos)->get_terrain();
-			this->zone_tiles_by_terrain[i][terrain].push_back(tile_pos);
+			zone.tiles_by_terrain[terrain].push_back(tile_pos);
 
 			if (map->is_tile_near_water(tile_pos)) {
-				this->zone_near_water_tiles_by_terrain[i][terrain].push_back(tile_pos);
+				zone.near_water_tiles_by_terrain[terrain].push_back(tile_pos);
 			}
 		}
 	}
@@ -494,9 +491,7 @@ std::vector<QPoint> map_generator::generate_zone_seeds(const size_t seed_count)
 		const int tile_index = point::to_index(seed_pos, this->get_width());
 		this->tile_zones[tile_index] = static_cast<int>(i);
 
-		zone zone(seed_pos);
-		this->zone_tiles.push_back({ seed_pos });
-		this->zones.push_back(std::move(zone));
+		this->zones.push_back(zone(seed_pos));
 	}
 
 	return zone_seeds;
@@ -515,6 +510,7 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 		for (const QPoint &seed_pos : seeds) {
 			const int tile_index = point::to_index(seed_pos, map_size);
 			const int zone_index = this->tile_zones[tile_index];
+			zone &zone = this->zones[zone_index];
 
 			std::vector<QPoint> adjacent_positions;
 
@@ -546,7 +542,7 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 
 			QPoint adjacent_pos = vector::get_random(adjacent_positions);
 			this->tile_zones[point::to_index(adjacent_pos, map_size)] = zone_index;
-			this->zone_tiles[zone_index].push_back(adjacent_pos);
+			zone.tiles.push_back(adjacent_pos);
 
 			new_seeds.push_back(std::move(adjacent_pos));
 		}
@@ -609,8 +605,9 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 			assert_throw(best_zone_index != -1);
 
 			//set the zone to the same as the most-neighbored one
+			zone &best_zone = this->zones[best_zone_index];
 			this->tile_zones[tile_index] = best_zone_index;
-			this->zone_tiles[best_zone_index].push_back(tile_pos);
+			best_zone.tiles.push_back(tile_pos);
 
 			remaining_positions.erase(remaining_positions.begin() + i);
 		}
@@ -920,12 +917,12 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 
 	if (!province->get_sites().empty()) {
 		terrain_type_map<int> available_terrain_counts;
-		for (const auto &[terrain, tiles] : this->zone_tiles_by_terrain[zone_index]) {
+		for (const auto &[terrain, tiles] : zone.tiles_by_terrain) {
 			available_terrain_counts[terrain] = static_cast<int>(tiles.size());
 		}
 
 		terrain_type_map<int> available_near_water_terrain_counts;
-		for (const auto &[terrain, tiles] : this->zone_near_water_tiles_by_terrain[zone_index]) {
+		for (const auto &[terrain, tiles] : zone.near_water_tiles_by_terrain) {
 			available_near_water_terrain_counts[terrain] = static_cast<int>(tiles.size());
 		}
 
@@ -990,7 +987,7 @@ void map_generator::generate_sites()
 			const resource *resource = site->get_map_data()->get_resource();
 			const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
 
-			const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? this->zone_near_water_tiles_by_terrain[zone_index] : this->zone_tiles_by_terrain[zone_index];
+			const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain;
 
 			std::vector<QPoint> potential_positions;
 
