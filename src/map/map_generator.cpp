@@ -985,7 +985,7 @@ int map_generator::get_province_distance_multiplier_to(const province *province,
 
 	const std::vector<const region *> shared_regions = province->get_shared_regions_with(other_province);
 	for (const region *region : shared_regions) {
-		if (region->is_ocean()) {
+		if (region->is_continent() || region->is_ocean()) {
 			multiplier = std::max(multiplier, 2);
 		}
 	}

@@ -1,5 +1,6 @@
 north_america = {
 	name = "North America"
+	continent = true
 	superregions = {
 		america
 	}

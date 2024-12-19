@@ -12,6 +12,7 @@ class region final : public named_data_entry, public data_type<region>
 {
 	Q_OBJECT
 
+	Q_PROPERTY(bool continent MEMBER continent READ is_continent)
 	Q_PROPERTY(bool ocean MEMBER ocean READ is_ocean)
 	Q_PROPERTY(std::vector<kobold::region *> superregions READ get_superregions)
 
@@ -25,6 +26,11 @@ public:
 	~region();
 
 	virtual void initialize() override;
+
+	bool is_continent() const
+	{
+		return this->continent;
+	}
 
 	bool is_ocean() const
 	{
@@ -63,6 +69,7 @@ public:
 	bool is_part_of(const region *other_region) const;
 
 private:
+	bool continent = false;
 	bool ocean = false;
 	std::vector<province *> provinces; //provinces located in the region
 	std::vector<region *> subregions; //subregions of this region
