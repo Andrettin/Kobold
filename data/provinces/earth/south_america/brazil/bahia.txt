@@ -2,6 +2,7 @@ bahia = {
 	name = "Bahia"
 	color = { 1 160 176 }
 	provincial_capital = salvador
+	coastal = true
 	regions = {
 		brazil
 	}

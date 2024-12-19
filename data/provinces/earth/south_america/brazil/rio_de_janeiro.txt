@@ -3,6 +3,9 @@ rio_de_janeiro = {
 	color = { 31 205 137 }
 	provincial_capital = rio_de_janeiro
 	coastal = true
+	terrain_types = {
+		savannah
+	}
 	regions = {
 		brazil
 	}

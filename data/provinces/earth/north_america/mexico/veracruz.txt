@@ -2,6 +2,7 @@ veracruz = {
 	name = "Veracruz"
 	color = { 177 187 154 }
 	provincial_capital = veracruz
+	coastal = true
 	regions = {
 		mexico
 	}

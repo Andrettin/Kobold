@@ -2,6 +2,7 @@ kent = {
 	name = "Kent"
 	color = { 98 89 147 }
 	provincial_capital = canterbury
+	coastal = true
 	regions = {
 		england
 	}
