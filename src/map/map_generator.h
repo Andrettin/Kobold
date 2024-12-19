@@ -100,7 +100,7 @@ private:
 	void expand_zone_seeds(const std::vector<QPoint> &base_seeds);
 
 	void generate_countries();
-	void generate_oceans();
+	bool generate_ocean(const region *ocean);
 	bool generate_country(const country *country, const std::vector<const province *> &country_provinces);
 	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
 	int generate_province(const province *province, std::vector<int> &group_zone_indexes);
