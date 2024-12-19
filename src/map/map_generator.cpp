@@ -618,29 +618,7 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 
 void map_generator::generate_countries()
 {
-	std::vector<const region *> potential_oceans;
-
-	for (const region *region : region::get_all()) {
-		if (!region->is_ocean()) {
-			continue;
-		}
-
-		if (region->get_provinces().empty()) {
-			continue;
-		}
-
-		potential_oceans.push_back(region);
-	}
-
-	vector::shuffle(potential_oceans);
-
-	for (const region *ocean : potential_oceans) {
-		if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
-			break;
-		}
-
-		this->generate_ocean(ocean);
-	}
+	this->generate_oceans();
 
 	std::vector<const province *> potential_seas;
 	std::vector<const province *> potential_lakes;
@@ -721,16 +699,61 @@ void map_generator::generate_countries()
 	}
 }
 
-bool map_generator::generate_ocean(const region *ocean)
+void map_generator::generate_oceans()
 {
-	std::vector<const province *> potential_provinces;
-	for (const province *province : ocean->get_provinces()) {
-		potential_provinces.push_back(province);
+	std::vector<const region *> remaining_oceans;
+	std::map<const region *, std::vector<const province *>> remaining_ocean_provinces;
+
+	for (const region *region : region::get_all()) {
+		if (!region->is_ocean()) {
+			continue;
+		}
+
+		std::vector<const province *> provinces;
+
+		for (const province *province : region->get_provinces()) {
+			if (province->is_hidden()) {
+				continue;
+			}
+
+			provinces.push_back(province);
+		}
+
+		if (provinces.empty()) {
+			continue;
+		}
+
+		remaining_oceans.push_back(region);
+		remaining_ocean_provinces[region] = std::move(provinces);
 	}
 
-	const std::vector<const province *> provinces = this->generate_province_group(potential_provinces, nullptr);
+	while (!remaining_oceans.empty()) {
+		if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
+			break;
+		}
 
-	return !provinces.empty();
+		vector::shuffle(remaining_oceans);
+
+		for (const region *ocean : remaining_oceans) {
+			if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
+				break;
+			}
+
+			//generate one sea zone for each ocean
+			std::vector<int> group_province_indexes;
+			this->generate_province(vector::take_random(remaining_ocean_provinces[ocean]), group_province_indexes);
+		}
+
+		for (size_t i = 0; i < remaining_oceans.size();) {
+			const region *ocean = remaining_oceans[i];
+			if (remaining_ocean_provinces[ocean].empty()) {
+				remaining_ocean_provinces.erase(ocean);
+				remaining_oceans.erase(remaining_oceans.begin() + i);
+			} else {
+				++i;
+			}
+		}
+	}
 }
 
 bool map_generator::generate_country(const country *country, const std::vector<const province *> &country_provinces)
