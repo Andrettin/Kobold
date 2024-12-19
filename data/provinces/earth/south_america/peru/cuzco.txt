@@ -4,6 +4,7 @@ cuzco = {
 	provincial_capital = cuzco
 	terrain_types = {
 		barren_hills
+		mountains
 	}
 	regions = {
 		peru

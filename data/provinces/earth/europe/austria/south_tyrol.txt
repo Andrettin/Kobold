@@ -2,6 +2,9 @@ south_tyrol = {
 	name = "South Tyrol"
 	color = { 126 94 49 }
 	provincial_capital = trent
+	terrain_types = {
+		mountains
+	}
 	regions = {
 		austria
 	}

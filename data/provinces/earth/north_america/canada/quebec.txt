@@ -2,6 +2,7 @@ quebec = {
 	name = "Quebec"
 	color = { 176 192 192 }
 	provincial_capital = quebec
+	coastal = true
 	regions = {
 		canada
 	}
