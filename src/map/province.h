@@ -33,6 +33,7 @@ class province final : public named_data_entry, public data_type<province>
 	Q_PROPERTY(bool lake MEMBER lake READ is_lake NOTIFY changed)
 	Q_PROPERTY(bool water_zone READ is_water_zone NOTIFY changed)
 	Q_PROPERTY(kobold::site* provincial_capital MEMBER provincial_capital NOTIFY changed)
+	Q_PROPERTY(bool coastal MEMBER coastal READ is_coastal NOTIFY changed)
 	Q_PROPERTY(bool hidden MEMBER hidden READ is_hidden NOTIFY changed)
 	Q_PROPERTY(std::vector<kobold::region *> regions READ get_regions NOTIFY changed)
 	Q_PROPERTY(kobold::province_map_data* map_data READ get_map_data NOTIFY changed)
@@ -148,6 +149,11 @@ public:
 		return this->provincial_capital;
 	}
 
+	bool is_coastal() const
+	{
+		return this->coastal;
+	}
+
 	bool is_hidden() const
 	{
 		return this->hidden;
@@ -206,6 +212,7 @@ private:
 	bool bay = false;
 	bool lake = false;
 	site *provincial_capital = nullptr;
+	bool coastal = false;
 	bool hidden = false;
 	std::vector<const kobold::terrain_type *> terrain_types;
 	std::map<const culture *, std::string> cultural_names;

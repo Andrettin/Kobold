@@ -2,6 +2,7 @@ naples = {
 	name = "Naples"
 	color = { 176 32 64 }
 	provincial_capital = naples
+	coastal = true
 	cultural_names = {
 		greek = "Neapolis"
 		roman = "Neapolis" #Source: "Ancient Warfare VII.6", 2013, p. 7.

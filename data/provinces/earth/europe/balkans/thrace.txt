@@ -2,6 +2,7 @@ thrace = {
 	name = "Thrace"
 	color = { 240 160 32 }
 	provincial_capital = constantinople
+	coastal = true
 	regions = {
 		europe
 		turkey

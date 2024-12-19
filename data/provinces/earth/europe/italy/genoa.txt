@@ -2,6 +2,7 @@ genoa = {
 	name = "Genoa"
 	color = { 144 64 97 }
 	provincial_capital = genoa
+	coastal = true
 	cultural_names = {
 		roman = "Genua" #Source: William R. Shepherd, "Historical Atlas", 1911, pp. 34-35.
 	}

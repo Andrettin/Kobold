@@ -27,6 +27,7 @@ private:
 		std::vector<QPoint> tiles;
 		terrain_type_map<std::vector<QPoint>> tiles_by_terrain;
 		terrain_type_map<std::vector<QPoint>> near_water_tiles_by_terrain;
+		terrain_type_map<std::vector<QPoint>> coastal_tiles_by_terrain;
 		std::set<int> border_zones;
 	};
 

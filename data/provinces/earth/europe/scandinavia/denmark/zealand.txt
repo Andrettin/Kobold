@@ -2,6 +2,7 @@ zealand = {
 	name = "Zealand"
 	color = { 128 192 224 }
 	provincial_capital = copenhagen
+	coastal = true
 	regions = {
 		denmark
 	}

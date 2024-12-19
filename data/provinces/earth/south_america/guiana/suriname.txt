@@ -2,6 +2,7 @@ suriname = {
 	name = "Suriname"
 	color = { 143 235 35 }
 	provincial_capital = paramaribo
+	coastal = true
 	regions = {
 		south_america
 	}

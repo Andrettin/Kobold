@@ -2,6 +2,7 @@ puerto_rico = {
 	name = "Puerto Rico"
 	color = { 180 106 222 }
 	provincial_capital = san_juan
+	coastal = true
 	regions = {
 		caribbean
 	}

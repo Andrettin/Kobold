@@ -190,6 +190,10 @@ void map_generator::generate_terrain()
 
 			if (map->is_tile_near_water(tile_pos)) {
 				zone.near_water_tiles_by_terrain[terrain].push_back(tile_pos);
+
+				if (map->is_tile_coastal(tile_pos)) {
+					zone.coastal_tiles_by_terrain[terrain].push_back(tile_pos);
+				}
 			}
 		}
 	}
@@ -922,6 +926,10 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 		}
 	}
 
+	if (province->is_coastal() && zone.coastal_tiles_by_terrain.empty()) {
+		return false;
+	}
+
 	for (const terrain_type *terrain_type : province->get_terrain_types()) {
 		if (!zone.tiles_by_terrain.contains(terrain_type)) {
 			return false;
@@ -939,6 +947,11 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 			available_near_water_terrain_counts[terrain] = static_cast<int>(tiles.size());
 		}
 
+		terrain_type_map<int> available_coastal_terrain_counts;
+		for (const auto &[terrain, tiles] : zone.coastal_tiles_by_terrain) {
+			available_coastal_terrain_counts[terrain] = static_cast<int>(tiles.size());
+		}
+
 		for (const site *site : province->get_sites()) {
 			const resource *resource = site->get_map_data()->get_resource();
 			if (resource == nullptr) {
@@ -949,7 +962,7 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 
 			bool has_terrain = false;
 			for (const terrain_type *terrain : site_terrains) {
-				int &terrain_count = resource->is_near_water() ? available_near_water_terrain_counts[terrain] : available_terrain_counts[terrain];
+				int &terrain_count = resource->is_coastal() ? available_coastal_terrain_counts[terrain] : (resource->is_near_water() ? available_near_water_terrain_counts[terrain] : available_terrain_counts[terrain]);
 				if (terrain_count > 0) {
 					has_terrain = true;
 					--terrain_count;
@@ -1030,7 +1043,7 @@ void map_generator::generate_site(const site *site, const zone &zone)
 	if (resource != nullptr) {
 		const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
 
-		const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain;
+		const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_coastal() ? zone.coastal_tiles_by_terrain : (resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain);
 
 		for (const terrain_type *terrain : site_terrains) {
 			const auto find_iterator = zone_tiles_by_terrain.find(terrain);
