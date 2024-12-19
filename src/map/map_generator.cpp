@@ -978,21 +978,24 @@ void map_generator::generate_sites()
 		assert_throw(province != nullptr);
 
 		const zone &zone = this->zones[zone_index];
-		const QPoint &zone_seed = zone.seed;
 
 		//place capital settlement
 		if (province->get_provincial_capital() != nullptr) {
-			map->set_tile_site(zone_seed, province->get_provincial_capital());
+			this->generate_site(province->get_provincial_capital(), zone);
+
+			assert_throw(province->get_provincial_capital()->get_map_data()->is_on_map());
+
+			const QPoint &tile_pos = province->get_provincial_capital()->get_map_data()->get_tile_pos();
 
 			//change non-flatlands or forested terrain to unforested flatlands for settlements
-			const terrain_type *tile_terrain = map->get_tile(zone_seed)->get_terrain();
+			const terrain_type *tile_terrain = map->get_tile(tile_pos)->get_terrain();
 			if (tile_terrain->get_elevation_type() != elevation_type::flatlands || tile_terrain->get_forestation_type() != forestation_type::none) {
-				const temperature_type temperature_type = this->get_tile_temperature_type(zone_seed);
-				const moisture_type moisture_type = this->get_tile_moisture_type(zone_seed);
+				const temperature_type temperature_type = this->get_tile_temperature_type(tile_pos);
+				const moisture_type moisture_type = this->get_tile_moisture_type(tile_pos);
 
 				const terrain_type *terrain = terrain_type::get_by_biome(elevation_type::flatlands, temperature_type, moisture_type, forestation_type::none);
 
-				map->set_tile_terrain(zone_seed, terrain);
+				map->set_tile_terrain(tile_pos, terrain);
 			}
 		}
 
@@ -1001,37 +1004,55 @@ void map_generator::generate_sites()
 				continue;
 			}
 
-			const resource *resource = site->get_map_data()->get_resource();
-			const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
+			this->generate_site(site, zone);
+		}
+	}
+}
 
-			const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain;
+void map_generator::generate_site(const site *site, const zone &zone)
+{
+	map *map = map::get();
 
-			std::vector<QPoint> potential_positions;
+	std::vector<QPoint> potential_positions;
 
-			for (const terrain_type *terrain : site_terrains) {
-				const auto find_iterator = zone_tiles_by_terrain.find(terrain);
-				if (find_iterator == zone_tiles_by_terrain.end()) {
-					continue;
-				}
+	const resource *resource = site->get_map_data()->get_resource();
 
-				for (const QPoint &tile_pos : find_iterator->second) {
-					if (map->get_tile(tile_pos)->get_site() != nullptr) {
-						continue;
-					}
+	if (resource != nullptr) {
+		const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
 
-					potential_positions.push_back(tile_pos);
-				}
-			}
+		const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain;
 
-			if (potential_positions.empty()) {
-				log::log_error(std::format("Could not find position to generate site \"{}\" on.", site->get_identifier()));
+		for (const terrain_type *terrain : site_terrains) {
+			const auto find_iterator = zone_tiles_by_terrain.find(terrain);
+			if (find_iterator == zone_tiles_by_terrain.end()) {
 				continue;
 			}
 
-			const QPoint &site_pos = vector::get_random(potential_positions);
-			map->set_tile_site(site_pos, site);
+			for (const QPoint &tile_pos : find_iterator->second) {
+				if (map->get_tile(tile_pos)->get_site() != nullptr) {
+					continue;
+				}
+
+				potential_positions.push_back(tile_pos);
+			}
+		}
+	} else {
+		for (const QPoint &tile_pos : zone.tiles) {
+			if (map->get_tile(tile_pos)->get_site() != nullptr) {
+				continue;
+			}
+
+			potential_positions.push_back(tile_pos);
 		}
 	}
+
+	if (potential_positions.empty()) {
+		log::log_error(std::format("Could not find position to generate site \"{}\" on.", site->get_identifier()));
+		return;
+	}
+
+	const QPoint &site_pos = vector::get_random(potential_positions);
+	map->set_tile_site(site_pos, site);
 }
 
 elevation_type map_generator::get_tile_elevation_type(const QPoint &tile_pos) const

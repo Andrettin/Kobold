@@ -108,6 +108,7 @@ private:
 	static int get_province_distance_multiplier_to(const province *province, const kobold::province *other_province);
 
 	void generate_sites();
+	void generate_site(const site *site, const zone &zone);
 
 	elevation_type get_tile_elevation_type(const QPoint &tile_pos) const;
 	bool is_tile_water(const QPoint &tile_pos) const;
