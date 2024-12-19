@@ -91,26 +91,26 @@ const QSize &map_generator::get_size() const
 void map_generator::generate()
 {
 	const int tile_count = this->get_width() * this->get_height();
-	this->tile_provinces.resize(tile_count, -1);
+	this->tile_zones.resize(tile_count, -1);
 	this->tile_moistures.resize(tile_count, -1);
 	this->tile_forestations.resize(tile_count, -1);
 
 	this->initialize_temperature_levels();
 
-	this->generate_provinces();
+	this->generate_zones();
 	this->generate_terrain();
 	this->generate_countries();
 
 	map *map = map::get();
 
 	//assign provinces
-	for (size_t i = 0; i < this->tile_provinces.size(); ++i) {
-		const int province_index = this->tile_provinces[i];
-		assert_throw(province_index >= 0);
+	for (size_t i = 0; i < this->tile_zones.size(); ++i) {
+		const int zone_index = this->tile_zones[i];
+		assert_throw(zone_index >= 0);
 
-		const auto find_iterator = this->provinces_by_index.find(province_index);
+		const auto find_iterator = this->provinces_by_zone_index.find(zone_index);
 
-		if (find_iterator == this->provinces_by_index.end()) {
+		if (find_iterator == this->provinces_by_zone_index.end()) {
 			continue;
 		}
 
@@ -135,16 +135,16 @@ void map_generator::generate_terrain()
 {
 	this->generate_elevation();
 
-	//ensure edge provinces are water
+	//ensure edge zones are water
 	const QRect map_rect(QPoint(0, 0), this->get_size());
 	rect::for_each_edge_point(map_rect, [&](const QPoint &tile_pos) {
 		const int tile_index = point::to_index(tile_pos, this->get_width());
-		const int province_index = this->tile_provinces[tile_index];
-		const QPoint &province_seed = this->province_seeds.at(province_index);
-		const int province_seed_index = point::to_index(province_seed, this->get_width());
+		const int zone_index = this->tile_zones[tile_index];
+		const QPoint &zone_seed = this->zone_seeds.at(zone_index);
+		const int zone_seed_index = point::to_index(zone_seed, this->get_width());
 		this->tile_elevations[tile_index] = 0;
-		this->tile_elevations[province_seed_index] = 0;
-		this->sea_zones.insert(province_index);
+		this->tile_elevations[zone_seed_index] = 0;
+		this->sea_zones.insert(zone_index);
 	});
 
 	this->generate_moisture();
@@ -161,12 +161,12 @@ void map_generator::generate_terrain()
 			int &elevation = this->tile_elevations[tile_index];
 			const bool is_water = this->is_tile_water(tile_pos);
 
-			const int province_index = this->tile_provinces[tile_index];
-			const bool province_is_water = this->is_tile_water(this->province_seeds[province_index]);
+			const int zone_index = this->tile_zones[tile_index];
+			const bool zone_is_water = this->is_tile_water(this->zone_seeds[zone_index]);
 
-			if (province_is_water && !is_water) {
+			if (zone_is_water && !is_water) {
 				elevation = 0;
-			} else if (!province_is_water && is_water) {
+			} else if (!zone_is_water && is_water) {
 				elevation = this->get_min_land_elevation();
 			}
 
@@ -181,17 +181,17 @@ void map_generator::generate_terrain()
 		}
 	}
 
-	//build the province tiles by terrain map
-	for (size_t i = 0; i < this->province_tiles.size(); ++i) {
-		this->province_tiles_by_terrain.emplace_back();
-		this->province_near_water_tiles_by_terrain.emplace_back();
+	//build the zone tiles by terrain map
+	for (size_t i = 0; i < this->zone_tiles.size(); ++i) {
+		this->zone_tiles_by_terrain.emplace_back();
+		this->zone_near_water_tiles_by_terrain.emplace_back();
 
-		for (const QPoint &tile_pos : this->province_tiles.at(i)) {
+		for (const QPoint &tile_pos : this->zone_tiles.at(i)) {
 			const terrain_type *terrain = map->get_tile(tile_pos)->get_terrain();
-			this->province_tiles_by_terrain[i][terrain].push_back(tile_pos);
+			this->zone_tiles_by_terrain[i][terrain].push_back(tile_pos);
 
 			if (map->is_tile_near_water(tile_pos)) {
-				this->province_near_water_tiles_by_terrain[i][terrain].push_back(tile_pos);
+				this->zone_near_water_tiles_by_terrain[i][terrain].push_back(tile_pos);
 			}
 		}
 	}
@@ -202,28 +202,28 @@ void map_generator::generate_terrain()
 	std::vector<int> sea_zones = container::to_vector(this->sea_zones);
 
 	for (size_t i = 0; i < sea_zones.size(); ++i) {
-		const int province_index = sea_zones.at(i);
+		const int zone_index = sea_zones.at(i);
 
-		for (const int border_province_index : this->province_border_provinces[province_index]) {
-			const QPoint &province_seed = this->province_seeds.at(border_province_index);
+		for (const int border_zone_index : this->zone_border_zones[zone_index]) {
+			const QPoint &zone_seed = this->zone_seeds.at(border_zone_index);
 
-			if (!this->is_tile_water(province_seed)) {
+			if (!this->is_tile_water(zone_seed)) {
 				continue;
 			}
 
-			if (this->sea_zones.contains(border_province_index)) {
+			if (this->sea_zones.contains(border_zone_index)) {
 				continue;
 			}
 
-			sea_zones.push_back(border_province_index);
-			this->sea_zones.insert(border_province_index);
+			sea_zones.push_back(border_zone_index);
+			this->sea_zones.insert(border_zone_index);
 		}
 	}
 
-	for (int i = 0; i < this->province_count; ++i) {
-		const QPoint &province_seed = this->province_seeds.at(i);
+	for (int i = 0; i < this->zone_count; ++i) {
+		const QPoint &zone_seed = this->zone_seeds.at(i);
 
-		if (!this->is_tile_water(province_seed)) {
+		if (!this->is_tile_water(zone_seed)) {
 			continue;
 		}
 
@@ -434,22 +434,22 @@ void map_generator::expand_tile_value_seeds(const std::vector<QPoint> &base_seed
 	}
 }
 
-void map_generator::generate_provinces()
+void map_generator::generate_zones()
 {
 	const int map_area = this->get_width() * this->get_height();
 
-	this->province_count = map_area / 64;
+	this->zone_count = map_area / 64;
 
-	this->province_seeds = this->generate_province_seeds(static_cast<size_t>(this->province_count));
-	this->expand_province_seeds(this->province_seeds);
+	this->zone_seeds = this->generate_zone_seeds(static_cast<size_t>(this->zone_count));
+	this->expand_zone_seeds(this->zone_seeds);
 }
 
-std::vector<QPoint> map_generator::generate_province_seeds(const size_t seed_count)
+std::vector<QPoint> map_generator::generate_zone_seeds(const size_t seed_count)
 {
-	static constexpr int min_province_seed_distance = 6;
+	static constexpr int min_zone_seed_distance = 6;
 
 	std::vector<QPoint> potential_positions;
-	potential_positions.reserve(this->tile_provinces.size());
+	potential_positions.reserve(this->tile_zones.size());
 
 	for (int x = 0; x < this->get_width(); ++x) {
 		for (int y = 0; y < this->get_height(); ++y) {
@@ -457,46 +457,46 @@ std::vector<QPoint> map_generator::generate_province_seeds(const size_t seed_cou
 		}
 	}
 
-	std::vector<QPoint> province_seeds;
-	province_seeds.reserve(seed_count);
+	std::vector<QPoint> zone_seeds;
+	zone_seeds.reserve(seed_count);
 
 	for (size_t i = 0; i < seed_count; ++i) {
 		while (!potential_positions.empty()) {
 			QPoint random_pos = vector::take_random(potential_positions);
 
 			bool valid_location = true;
-			for (const QPoint &seed : province_seeds) {
-				//when generating province seeds, make them have a certain distance between each other
+			for (const QPoint &seed : zone_seeds) {
+				//when generating zone seeds, make them have a certain distance between each other
 				const int distance = point::distance_to(random_pos, seed);
 
-				if (distance < min_province_seed_distance) {
+				if (distance < min_zone_seed_distance) {
 					valid_location = false;
 					break;
 				}
 			}
 
 			if (valid_location) {
-				province_seeds.push_back(std::move(random_pos));
+				zone_seeds.push_back(std::move(random_pos));
 				break;
 			}
 		}
 	}
 
-	if (province_seeds.size() != seed_count) {
-		throw std::runtime_error("Could only generate " + std::to_string(province_seeds.size()) + " province seeds out of the required " + std::to_string(seed_count) + ".");
+	if (zone_seeds.size() != seed_count) {
+		throw std::runtime_error("Could only generate " + std::to_string(zone_seeds.size()) + " zone seeds out of the required " + std::to_string(seed_count) + ".");
 	}
 
-	for (size_t i = 0; i < province_seeds.size(); ++i) {
-		const QPoint seed_pos = province_seeds.at(i);
+	for (size_t i = 0; i < zone_seeds.size(); ++i) {
+		const QPoint seed_pos = zone_seeds.at(i);
 		const int tile_index = point::to_index(seed_pos, this->get_width());
-		this->tile_provinces[tile_index] = static_cast<int>(i);
-		this->province_tiles.push_back({ seed_pos });
+		this->tile_zones[tile_index] = static_cast<int>(i);
+		this->zone_tiles.push_back({ seed_pos });
 	}
 
-	return province_seeds;
+	return zone_seeds;
 }
 
-void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
+void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 {
 	const map *map = map::get();
 	const QSize &map_size = this->get_size();
@@ -508,7 +508,7 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 
 		for (const QPoint &seed_pos : seeds) {
 			const int tile_index = point::to_index(seed_pos, map_size);
-			const int province_index = this->tile_provinces[tile_index];
+			const int zone_index = this->tile_zones[tile_index];
 
 			std::vector<QPoint> adjacent_positions;
 
@@ -518,11 +518,11 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 				}
 
 				const int adjacent_tile_index = point::to_index(adjacent_pos, map_size);
-				const int adjacent_province_index = this->tile_provinces[adjacent_tile_index];
-				if (adjacent_province_index != -1) {
-					//the adjacent tile must not have a province assigned yet
-					this->province_border_provinces[province_index].insert(adjacent_province_index);
-					this->province_border_provinces[adjacent_province_index].insert(province_index);
+				const int adjacent_zone_index = this->tile_zones[adjacent_tile_index];
+				if (adjacent_zone_index != -1) {
+					//the adjacent tile must not have a zone assigned yet
+					this->zone_border_zones[zone_index].insert(adjacent_zone_index);
+					this->zone_border_zones[adjacent_zone_index].insert(zone_index);
 					return;
 				}
 
@@ -539,8 +539,8 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 			}
 
 			QPoint adjacent_pos = vector::get_random(adjacent_positions);
-			this->tile_provinces[point::to_index(adjacent_pos, map_size)] = province_index;
-			this->province_tiles[province_index].push_back(adjacent_pos);
+			this->tile_zones[point::to_index(adjacent_pos, map_size)] = zone_index;
+			this->zone_tiles[zone_index].push_back(adjacent_pos);
 
 			new_seeds.push_back(std::move(adjacent_pos));
 		}
@@ -549,7 +549,7 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 		vector::shuffle(seeds);
 	}
 
-	//set tiles without provinces (e.g. water tiles which are enclaves in land provinces) to the most-neighbored province
+	//set tiles without zones (e.g. water tiles which are enclaves in land zones) to the most-neighbored zone
 	std::vector<QPoint> remaining_positions;
 
 	for (int x = 0; x < this->get_width(); ++x) {
@@ -557,7 +557,7 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 			QPoint tile_pos(x, y);
 			const int tile_index = point::to_index(tile_pos, this->get_width());
 
-			if (this->tile_provinces[tile_index] != -1) {
+			if (this->tile_zones[tile_index] != -1) {
 				continue;
 			}
 
@@ -570,7 +570,7 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 			const QPoint &tile_pos = remaining_positions.at(i);
 			const int tile_index = point::to_index(tile_pos, this->get_width());
 
-			std::map<int, int> province_neighbor_counts;
+			std::map<int, int> zone_neighbor_counts;
 
 			point::for_each_cardinally_adjacent(tile_pos, [&](QPoint &&adjacent_pos) {
 				if (!map->contains(adjacent_pos)) {
@@ -578,33 +578,33 @@ void map_generator::expand_province_seeds(const std::vector<QPoint> &base_seeds)
 				}
 
 				const int adjacent_tile_index = point::to_index(adjacent_pos, map_size);
-				const int adjacent_province_index = this->tile_provinces[adjacent_tile_index];
+				const int adjacent_zone_index = this->tile_zones[adjacent_tile_index];
 
-				if (adjacent_province_index != -1) {
-					province_neighbor_counts[adjacent_province_index]++;
+				if (adjacent_zone_index != -1) {
+					zone_neighbor_counts[adjacent_zone_index]++;
 				}
 			});
 
-			if (province_neighbor_counts.empty()) {
-				//no adjacent province available (i.e. the tile is surrounded by others which also have no province), try again in the next loop
+			if (zone_neighbor_counts.empty()) {
+				//no adjacent zone available (i.e. the tile is surrounded by others which also have no zone), try again in the next loop
 				++i;
 				continue;
 			}
 
-			int best_province_index = -1;
-			int best_province_neighbor_count = 0;
-			for (const auto &[province_index, count] : province_neighbor_counts) {
-				if (count > best_province_neighbor_count) {
-					best_province_index = province_index;
-					best_province_neighbor_count = count;
+			int best_zone_index = -1;
+			int best_zone_neighbor_count = 0;
+			for (const auto &[zone_index, count] : zone_neighbor_counts) {
+				if (count > best_zone_neighbor_count) {
+					best_zone_index = zone_index;
+					best_zone_neighbor_count = count;
 				}
 			}
 
-			assert_throw(best_province_index != -1);
+			assert_throw(best_zone_index != -1);
 
-			//set the province to the same as the most-neighbored one
-			this->tile_provinces[tile_index] = best_province_index;
-			this->province_tiles[best_province_index].push_back(tile_pos);
+			//set the zone to the same as the most-neighbored one
+			this->tile_zones[tile_index] = best_zone_index;
+			this->zone_tiles[best_zone_index].push_back(tile_pos);
 
 			remaining_positions.erase(remaining_positions.begin() + i);
 		}
@@ -630,7 +630,7 @@ void map_generator::generate_countries()
 	vector::shuffle(potential_oceans);
 
 	for (const region *ocean : potential_oceans) {
-		if (static_cast<int>(this->generated_provinces.size()) >= this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
 			break;
 		}
 
@@ -652,7 +652,7 @@ void map_generator::generate_countries()
 	vector::shuffle(potential_lakes);
 
 	for (const province *province : potential_seas) {
-		if (static_cast<int>(this->generated_provinces.size()) == this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) == this->zone_count) {
 			break;
 		}
 
@@ -661,12 +661,12 @@ void map_generator::generate_countries()
 	}
 
 	for (const province *province : potential_lakes) {
-		if (static_cast<int>(this->generated_provinces.size()) == this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) == this->zone_count) {
 			break;
 		}
 
-		std::vector<int> group_province_indexes;
-		this->generate_province(province, group_province_indexes);
+		std::vector<int> group_zone_indexes;
+		this->generate_province(province, group_zone_indexes);
 	}
 
 	std::vector<const country *> potential_powers;
@@ -696,7 +696,7 @@ void map_generator::generate_countries()
 	vector::shuffle(potential_minor_nations);
 
 	for (const country *country : potential_powers) {
-		if (static_cast<int>(this->generated_provinces.size()) >= this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
 			break;
 		}
 
@@ -704,15 +704,15 @@ void map_generator::generate_countries()
 	}
 
 	for (const country *country : potential_minor_nations) {
-		if (static_cast<int>(this->generated_provinces.size()) >= this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
 			break;
 		}
 
 		this->generate_country(country, provinces_by_country.find(country)->second);
 	}
 
-	if (static_cast<int>(this->generated_provinces.size()) != this->province_count) {
-		log::log_error(std::to_string(this->generated_provinces.size()) + " provinces were generated, but " + std::to_string(this->province_count) + " were needed.");
+	if (static_cast<int>(this->generated_provinces.size()) != this->zone_count) {
+		log::log_error(std::to_string(this->generated_provinces.size()) + " provinces were generated, but " + std::to_string(this->zone_count) + " were needed.");
 	}
 }
 
@@ -739,11 +739,11 @@ bool map_generator::generate_country(const country *country, const std::vector<c
 std::vector<const province *> map_generator::generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province)
 {
 	std::vector<const province *> provinces;
-	std::vector<int> group_province_indexes;
+	std::vector<int> group_zone_indexes;
 
 	if (capital_province != nullptr) {
-		const int province_index = this->generate_province(capital_province, group_province_indexes);
-		if (province_index == -1) {
+		const int zone_index = this->generate_province(capital_province, group_zone_indexes);
+		if (zone_index == -1) {
 			return {};
 		}
 
@@ -751,14 +751,14 @@ std::vector<const province *> map_generator::generate_province_group(const std::
 	}
 
 	for (const province *province : vector::shuffled(potential_provinces)) {
-		const int province_index = this->generate_province(province, group_province_indexes);
-		if (province_index == -1) {
+		const int zone_index = this->generate_province(province, group_zone_indexes);
+		if (zone_index == -1) {
 			continue;
 		}
 
 		provinces.push_back(province);
 
-		if (static_cast<int>(this->generated_provinces.size()) == this->province_count) {
+		if (static_cast<int>(this->generated_provinces.size()) == this->zone_count) {
 			break;
 		}
 	}
@@ -766,138 +766,138 @@ std::vector<const province *> map_generator::generate_province_group(const std::
 	return provinces;
 }
 
-int map_generator::generate_province(const province *province, std::vector<int> &group_province_indexes)
+int map_generator::generate_province(const province *province, std::vector<int> &group_zone_indexes)
 {
 	if (this->generated_provinces.contains(province)) {
 		return -1;
 	}
 
-	int province_index = -1;
-	const size_t group_generated_province_count = group_province_indexes.size();
+	int zone_index = -1;
+	const size_t group_generated_province_count = group_zone_indexes.size();
 
 	if (group_generated_province_count == 0) {
 		//first province
-		std::vector<int> best_province_indexes;
+		std::vector<int> best_zone_indexes;
 		int best_distance = 0;
 
-		//get the provinces which are as far away from other powers as possible
-		for (int i = 0; i < this->province_count; ++i) {
-			if (!this->can_assign_province_to_province_index(province, i)) {
+		//get the zones which are as far away from other powers as possible
+		for (int i = 0; i < this->zone_count; ++i) {
+			if (!this->can_assign_province_to_zone_index(province, i)) {
 				continue;
 			}
 
-			const QPoint &province_seed = this->province_seeds.at(i);
+			const QPoint &zone_seed = this->zone_seeds.at(i);
 
 			int distance = std::numeric_limits<int>::max();
 
 			if (!province->is_water_zone()) {
 				//generate land provinces as distant from other already-generated land provinces as possible
-				for (const auto &[other_province_index, other_province] : this->provinces_by_index) {
+				for (const auto &[other_zone_index, other_province] : this->provinces_by_zone_index) {
 					if (other_province->is_water_zone()) {
 						continue;
 					}
 
-					const QPoint &other_province_seed = this->province_seeds.at(other_province_index);
-					distance = std::min(distance, point::distance_to(province_seed, other_province_seed));
+					const QPoint &other_zone_seed = this->zone_seeds.at(other_zone_index);
+					distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed));
 				}
 			}
 
 			if (distance > best_distance) {
-				best_province_indexes.clear();
+				best_zone_indexes.clear();
 				best_distance = distance;
 			}
 
 			if (distance == best_distance) {
-				best_province_indexes.push_back(i);
+				best_zone_indexes.push_back(i);
 			}
 		}
 
-		if (!best_province_indexes.empty()) {
-			province_index = vector::get_random(best_province_indexes);
+		if (!best_zone_indexes.empty()) {
+			zone_index = vector::get_random(best_zone_indexes);
 		}
 	} else {
-		//pick a province bordering one of the country's existing provinces
-		std::map<int, int> province_index_border_counts;
-		std::set<int> checked_province_indexes;
+		//pick a zone bordering one of the country's existing provinces
+		std::map<int, int> zone_index_border_counts;
+		std::set<int> checked_zone_indexes;
 
-		for (const int country_province_index : group_province_indexes) {
-			for (const int border_province_index : this->province_border_provinces[country_province_index]) {
-				if (checked_province_indexes.contains(border_province_index)) {
-					if (!province_index_border_counts.contains(border_province_index)) {
+		for (const int country_zone_index : group_zone_indexes) {
+			for (const int border_zone_index : this->zone_border_zones[country_zone_index]) {
+				if (checked_zone_indexes.contains(border_zone_index)) {
+					if (!zone_index_border_counts.contains(border_zone_index)) {
 						//already checked for suitability and deemed unsuitable
 						continue;
 					}
 				} else {
-					checked_province_indexes.insert(border_province_index);
+					checked_zone_indexes.insert(border_zone_index);
 					//make the suitability check if it hasn't been done yet
-					if (!this->can_assign_province_to_province_index(province, border_province_index)) {
+					if (!this->can_assign_province_to_zone_index(province, border_zone_index)) {
 						continue;
 					}
 				}
 
-				++province_index_border_counts[border_province_index];
+				++zone_index_border_counts[border_zone_index];
 			}
 		}
 
-		std::vector<int> best_province_indexes;
+		std::vector<int> best_zone_indexes;
 		int best_border_count = 0;
-		for (const auto &[border_province_index, border_count] : province_index_border_counts) {
+		for (const auto &[border_zone_index, border_count] : zone_index_border_counts) {
 			if (border_count > best_border_count) {
-				best_province_indexes.clear();
+				best_zone_indexes.clear();
 				best_border_count = border_count;
 			}
 
 			if (border_count == best_border_count) {
-				best_province_indexes.push_back(border_province_index);
+				best_zone_indexes.push_back(border_zone_index);
 			}
 		}
 
-		if (!best_province_indexes.empty()) {
-			province_index = vector::get_random(best_province_indexes);
+		if (!best_zone_indexes.empty()) {
+			zone_index = vector::get_random(best_zone_indexes);
 		}
 	}
 
-	if (province_index == -1) {
-		return province_index;
+	if (zone_index == -1) {
+		return zone_index;
 	}
 
-	this->provinces_by_index[province_index] = province;
-	group_province_indexes.push_back(province_index);
+	this->provinces_by_zone_index[zone_index] = province;
+	group_zone_indexes.push_back(zone_index);
 
 	this->generated_provinces.insert(province);
 
-	return province_index;
+	return zone_index;
 }
 
-bool map_generator::can_assign_province_to_province_index(const province *province, const int province_index) const
+bool map_generator::can_assign_province_to_zone_index(const province *province, const int zone_index) const
 {
-	if (this->provinces_by_index.contains(province_index)) {
+	if (this->provinces_by_zone_index.contains(zone_index)) {
 		//already generated
 		return false;
 	}
 
-	const QPoint &province_seed = this->province_seeds.at(province_index);
+	const QPoint &zone_seed = this->zone_seeds.at(zone_index);
 
-	if (this->is_tile_water(province_seed) != province->is_water_zone()) {
+	if (this->is_tile_water(zone_seed) != province->is_water_zone()) {
 		//can only generate water zones on water, and land provinces on land
 		return false;
 	}
 
-	if ((province->is_sea() || province->is_bay()) && !this->sea_zones.contains(province_index)) {
+	if ((province->is_sea() || province->is_bay()) && !this->sea_zones.contains(zone_index)) {
 		return false;
 	}
 
-	if (province->is_lake() && !this->lakes.contains(province_index)) {
+	if (province->is_lake() && !this->lakes.contains(zone_index)) {
 		return false;
 	}
 
 	if (province->is_bay()) {
 		//bays can only appear adjacent to land provinces
 		bool has_adjacent_land = false;
-		for (const int border_province_index : this->province_border_provinces.find(province_index)->second) {
-			const QPoint &border_province_seed = this->province_seeds.at(border_province_index);
+		for (const int border_zone_index : this->zone_border_zones.find(zone_index)->second) {
+			const QPoint &border_zone_seed = this->zone_seeds.at(border_zone_index);
 
-			if (!this->is_tile_water(border_province_seed)) {
+			if (!this->is_tile_water(border_zone_seed)) {
 				has_adjacent_land = true;
 				break;
 			}
@@ -910,12 +910,12 @@ bool map_generator::can_assign_province_to_province_index(const province *provin
 
 	if (!province->get_sites().empty()) {
 		terrain_type_map<int> available_terrain_counts;
-		for (const auto &[terrain, tiles] : this->province_tiles_by_terrain[province_index]) {
+		for (const auto &[terrain, tiles] : this->zone_tiles_by_terrain[zone_index]) {
 			available_terrain_counts[terrain] = static_cast<int>(tiles.size());
 		}
 
 		terrain_type_map<int> available_near_water_terrain_counts;
-		for (const auto &[terrain, tiles] : this->province_near_water_tiles_by_terrain[province_index]) {
+		for (const auto &[terrain, tiles] : this->zone_near_water_tiles_by_terrain[zone_index]) {
 			available_near_water_terrain_counts[terrain] = static_cast<int>(tiles.size());
 		}
 
@@ -950,24 +950,24 @@ void map_generator::generate_sites()
 {
 	map *map = map::get();
 
-	for (const auto &[province_index, province] : this->provinces_by_index) {
+	for (const auto &[zone_index, province] : this->provinces_by_zone_index) {
 		assert_throw(province != nullptr);
 
-		const QPoint &province_seed = this->province_seeds[province_index];
+		const QPoint &zone_seed = this->zone_seeds[zone_index];
 
 		//place capital settlement
 		if (province->get_provincial_capital() != nullptr) {
-			map->set_tile_site(province_seed, province->get_provincial_capital());
+			map->set_tile_site(zone_seed, province->get_provincial_capital());
 
 			//change non-flatlands or forested terrain to unforested flatlands for settlements
-			const terrain_type *tile_terrain = map->get_tile(province_seed)->get_terrain();
+			const terrain_type *tile_terrain = map->get_tile(zone_seed)->get_terrain();
 			if (tile_terrain->get_elevation_type() != elevation_type::flatlands || tile_terrain->get_forestation_type() != forestation_type::none) {
-				const temperature_type temperature_type = this->get_tile_temperature_type(province_seed);
-				const moisture_type moisture_type = this->get_tile_moisture_type(province_seed);
+				const temperature_type temperature_type = this->get_tile_temperature_type(zone_seed);
+				const moisture_type moisture_type = this->get_tile_moisture_type(zone_seed);
 
 				const terrain_type *terrain = terrain_type::get_by_biome(elevation_type::flatlands, temperature_type, moisture_type, forestation_type::none);
 
-				map->set_tile_terrain(province_seed, terrain);
+				map->set_tile_terrain(zone_seed, terrain);
 			}
 		}
 
@@ -979,13 +979,13 @@ void map_generator::generate_sites()
 			const resource *resource = site->get_map_data()->get_resource();
 			const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
 
-			const terrain_type_map<std::vector<QPoint>> &province_tiles_by_terrain = resource->is_near_water() ? this->province_near_water_tiles_by_terrain[province_index] : this->province_tiles_by_terrain[province_index];
+			const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_near_water() ? this->zone_near_water_tiles_by_terrain[zone_index] : this->zone_tiles_by_terrain[zone_index];
 
 			std::vector<QPoint> potential_positions;
 
 			for (const terrain_type *terrain : site_terrains) {
-				const auto find_iterator = province_tiles_by_terrain.find(terrain);
-				if (find_iterator == province_tiles_by_terrain.end()) {
+				const auto find_iterator = zone_tiles_by_terrain.find(terrain);
+				if (find_iterator == zone_tiles_by_terrain.end()) {
 					continue;
 				}
 

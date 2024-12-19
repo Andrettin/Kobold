@@ -81,16 +81,16 @@ private:
 	std::vector<QPoint> generate_tile_value_seeds(std::vector<int> &tile_values, const int seed_divisor);
 	void expand_tile_value_seeds(const std::vector<QPoint> &base_seeds, std::vector<int> &tile_values, const int max_decrease);
 
-	void generate_provinces();
-	std::vector<QPoint> generate_province_seeds(const size_t seed_count);
-	void expand_province_seeds(const std::vector<QPoint> &base_seeds);
+	void generate_zones();
+	std::vector<QPoint> generate_zone_seeds(const size_t seed_count);
+	void expand_zone_seeds(const std::vector<QPoint> &base_seeds);
 
 	void generate_countries();
 	bool generate_ocean(const region *ocean);
 	bool generate_country(const country *country, const std::vector<const province *> &country_provinces);
 	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
-	int generate_province(const province *province, std::vector<int> &group_province_indexes);
-	bool can_assign_province_to_province_index(const province *province, const int province_index) const;
+	int generate_province(const province *province, std::vector<int> &group_zone_indexes);
+	bool can_assign_province_to_zone_index(const province *province, const int zone_index) const;
 
 	void generate_sites();
 
@@ -156,20 +156,20 @@ private:
 	const kobold::map_template *map_template = nullptr;
 	QSize size = QSize(0, 0);
 	int ice_base_level = 0;
-	int province_count = 0;
-	std::vector<QPoint> province_seeds;
-	std::vector<std::vector<QPoint>> province_tiles;
-	std::vector<terrain_type_map<std::vector<QPoint>>> province_tiles_by_terrain;
-	std::vector<terrain_type_map<std::vector<QPoint>>> province_near_water_tiles_by_terrain;
+	int zone_count = 0;
+	std::vector<QPoint> zone_seeds;
+	std::vector<std::vector<QPoint>> zone_tiles;
+	std::vector<terrain_type_map<std::vector<QPoint>>> zone_tiles_by_terrain;
+	std::vector<terrain_type_map<std::vector<QPoint>>> zone_near_water_tiles_by_terrain;
 	std::set<int> sea_zones;
 	std::set<int> lakes;
-	std::vector<int> tile_provinces;
+	std::vector<int> tile_zones;
 	std::vector<int> tile_elevations;
 	std::vector<int> tile_moistures;
 	std::vector<int> tile_forestations;
-	std::map<int, std::set<int>> province_border_provinces;
+	std::map<int, std::set<int>> zone_border_zones;
 	province_set generated_provinces;
-	std::map<int, const province *> provinces_by_index;
+	std::map<int, const province *> provinces_by_zone_index;
 };
 
 }
