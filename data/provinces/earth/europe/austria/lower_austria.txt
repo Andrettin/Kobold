@@ -2,6 +2,9 @@ lower_austria = {
 	name = "Lower Austria"
 	color = { 49 97 65 }
 	provincial_capital = vienna
+	terrain_types = {
+		barren_hills
+	}
 	regions = {
 		austria
 		imperial_austria_1806

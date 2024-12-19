@@ -2,6 +2,9 @@ cuzco = {
 	name = "Cuzco"
 	color = { 231 106 125 }
 	provincial_capital = cuzco
+	terrain_types = {
+		barren_hills
+	}
 	regions = {
 		peru
 	}

@@ -2,6 +2,9 @@ warsaw = {
 	name = "Warsaw"
 	color = { 65 97 160 }
 	provincial_capital = warsaw
+	terrain_types = {
+		plains
+	}
 	regions = {
 		poland
 		poland_lithuania

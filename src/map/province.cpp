@@ -11,6 +11,7 @@
 #include "map/region.h"
 #include "map/site.h"
 #include "map/terrain_feature.h"
+#include "map/terrain_type.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
 #include "util/vector_util.h"
@@ -30,8 +31,13 @@ province::~province()
 void province::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "cultural_names") {
+	if (tag == "terrain_types") {
+		for (const std::string &value : values) {
+			this->terrain_types.push_back(terrain_type::get(value));
+		}
+	} else if (tag == "cultural_names") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const culture *culture = culture::get(property.get_key());
 			this->cultural_names[culture] = property.get_value();

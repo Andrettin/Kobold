@@ -21,6 +21,7 @@ class province_map_data;
 class region;
 class site;
 class terrain_feature;
+class terrain_type;
 
 class province final : public named_data_entry, public data_type<province>
 {
@@ -152,6 +153,11 @@ public:
 		return this->hidden;
 	}
 
+	const std::vector<const kobold::terrain_type *> &get_terrain_types() const
+	{
+		return this->terrain_types;
+	}
+
 	virtual std::string get_scope_name() const override;
 	const std::string &get_cultural_name(const culture *culture) const;
 
@@ -201,6 +207,7 @@ private:
 	bool lake = false;
 	site *provincial_capital = nullptr;
 	bool hidden = false;
+	std::vector<const kobold::terrain_type *> terrain_types;
 	std::map<const culture *, std::string> cultural_names;
 	std::map<const cultural_group *, std::string> cultural_group_names;
 	std::vector<region *> regions; //regions where this province is located

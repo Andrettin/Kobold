@@ -922,6 +922,12 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 		}
 	}
 
+	for (const terrain_type *terrain_type : province->get_terrain_types()) {
+		if (!zone.tiles_by_terrain.contains(terrain_type)) {
+			return false;
+		}
+	}
+
 	if (!province->get_sites().empty()) {
 		terrain_type_map<int> available_terrain_counts;
 		for (const auto &[terrain, tiles] : zone.tiles_by_terrain) {
