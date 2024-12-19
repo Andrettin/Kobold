@@ -140,7 +140,7 @@ void map_generator::generate_terrain()
 	rect::for_each_edge_point(map_rect, [&](const QPoint &tile_pos) {
 		const int tile_index = point::to_index(tile_pos, this->get_width());
 		const int zone_index = this->tile_zones[tile_index];
-		const QPoint &zone_seed = this->zone_seeds.at(zone_index);
+		const QPoint &zone_seed = this->zones.at(zone_index).seed;
 		const int zone_seed_index = point::to_index(zone_seed, this->get_width());
 		this->tile_elevations[tile_index] = 0;
 		this->tile_elevations[zone_seed_index] = 0;
@@ -162,7 +162,8 @@ void map_generator::generate_terrain()
 			const bool is_water = this->is_tile_water(tile_pos);
 
 			const int zone_index = this->tile_zones[tile_index];
-			const bool zone_is_water = this->is_tile_water(this->zone_seeds[zone_index]);
+			const zone &zone = this->zones[zone_index];
+			const bool zone_is_water = this->is_tile_water(zone.seed);
 
 			if (zone_is_water && !is_water) {
 				elevation = 0;
@@ -205,9 +206,10 @@ void map_generator::generate_terrain()
 		const int zone_index = sea_zones.at(i);
 
 		for (const int border_zone_index : this->zone_border_zones[zone_index]) {
-			const QPoint &zone_seed = this->zone_seeds.at(border_zone_index);
+			const zone &border_zone = this->zones.at(border_zone_index);
+			const QPoint &border_zone_seed = border_zone.seed;
 
-			if (!this->is_tile_water(zone_seed)) {
+			if (!this->is_tile_water(border_zone_seed)) {
 				continue;
 			}
 
@@ -221,7 +223,8 @@ void map_generator::generate_terrain()
 	}
 
 	for (int i = 0; i < this->zone_count; ++i) {
-		const QPoint &zone_seed = this->zone_seeds.at(i);
+		const zone &zone = this->zones.at(i);
+		const QPoint &zone_seed = zone.seed;
 
 		if (!this->is_tile_water(zone_seed)) {
 			continue;
@@ -440,8 +443,8 @@ void map_generator::generate_zones()
 
 	this->zone_count = map_area / 64;
 
-	this->zone_seeds = this->generate_zone_seeds(static_cast<size_t>(this->zone_count));
-	this->expand_zone_seeds(this->zone_seeds);
+	std::vector<QPoint> zone_seeds = this->generate_zone_seeds(static_cast<size_t>(this->zone_count));
+	this->expand_zone_seeds(zone_seeds);
 }
 
 std::vector<QPoint> map_generator::generate_zone_seeds(const size_t seed_count)
@@ -490,7 +493,10 @@ std::vector<QPoint> map_generator::generate_zone_seeds(const size_t seed_count)
 		const QPoint seed_pos = zone_seeds.at(i);
 		const int tile_index = point::to_index(seed_pos, this->get_width());
 		this->tile_zones[tile_index] = static_cast<int>(i);
+
+		zone zone(seed_pos);
 		this->zone_tiles.push_back({ seed_pos });
+		this->zones.push_back(std::move(zone));
 	}
 
 	return zone_seeds;
@@ -535,7 +541,7 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 
 			if (adjacent_positions.size() > 1) {
 				//push the seed back again for another try, since it may be able to generate further in the future
-				new_seeds.push_back(std::move(seed_pos));
+				new_seeds.push_back(seed_pos);
 			}
 
 			QPoint adjacent_pos = vector::get_random(adjacent_positions);
@@ -786,7 +792,8 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 				continue;
 			}
 
-			const QPoint &zone_seed = this->zone_seeds.at(i);
+			const zone &zone = this->zones.at(i);
+			const QPoint &zone_seed = zone.seed;
 
 			int distance = std::numeric_limits<int>::max();
 
@@ -797,7 +804,8 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 						continue;
 					}
 
-					const QPoint &other_zone_seed = this->zone_seeds.at(other_zone_index);
+					const map_generator::zone &other_zone = this->zones.at(other_zone_index);
+					const QPoint &other_zone_seed = other_zone.seed;
 					distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed));
 				}
 			}
@@ -876,7 +884,8 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 		return false;
 	}
 
-	const QPoint &zone_seed = this->zone_seeds.at(zone_index);
+	const zone &zone = this->zones.at(zone_index);
+	const QPoint &zone_seed = zone.seed;
 
 	if (this->is_tile_water(zone_seed) != province->is_water_zone()) {
 		//can only generate water zones on water, and land provinces on land
@@ -895,7 +904,8 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 		//bays can only appear adjacent to land provinces
 		bool has_adjacent_land = false;
 		for (const int border_zone_index : this->zone_border_zones.find(zone_index)->second) {
-			const QPoint &border_zone_seed = this->zone_seeds.at(border_zone_index);
+			const map_generator::zone &border_zone = this->zones.at(border_zone_index);
+			const QPoint &border_zone_seed = border_zone.seed;
 
 			if (!this->is_tile_water(border_zone_seed)) {
 				has_adjacent_land = true;
@@ -953,7 +963,8 @@ void map_generator::generate_sites()
 	for (const auto &[zone_index, province] : this->provinces_by_zone_index) {
 		assert_throw(province != nullptr);
 
-		const QPoint &zone_seed = this->zone_seeds[zone_index];
+		const zone &zone = this->zones[zone_index];
+		const QPoint &zone_seed = zone.seed;
 
 		//place capital settlement
 		if (province->get_provincial_capital() != nullptr) {

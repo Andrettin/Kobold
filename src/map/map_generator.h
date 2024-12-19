@@ -16,6 +16,15 @@ enum class temperature_type;
 class map_generator final
 {
 private:
+	struct zone final
+	{
+		explicit zone(const QPoint &seed) : seed(seed)
+		{
+		}
+
+		QPoint seed;
+	};
+
 	static constexpr int max_colatitude = 1000;
 	static constexpr int max_elevation = 1000;
 
@@ -157,7 +166,7 @@ private:
 	QSize size = QSize(0, 0);
 	int ice_base_level = 0;
 	int zone_count = 0;
-	std::vector<QPoint> zone_seeds;
+	std::vector<zone> zones;
 	std::vector<std::vector<QPoint>> zone_tiles;
 	std::vector<terrain_type_map<std::vector<QPoint>>> zone_tiles_by_terrain;
 	std::vector<terrain_type_map<std::vector<QPoint>>> zone_near_water_tiles_by_terrain;
