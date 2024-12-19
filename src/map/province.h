@@ -32,6 +32,7 @@ class province final : public named_data_entry, public data_type<province>
 	Q_PROPERTY(bool lake MEMBER lake READ is_lake NOTIFY changed)
 	Q_PROPERTY(bool water_zone READ is_water_zone NOTIFY changed)
 	Q_PROPERTY(kobold::site* provincial_capital MEMBER provincial_capital NOTIFY changed)
+	Q_PROPERTY(bool hidden MEMBER hidden READ is_hidden NOTIFY changed)
 	Q_PROPERTY(std::vector<kobold::region *> regions READ get_regions NOTIFY changed)
 	Q_PROPERTY(kobold::province_map_data* map_data READ get_map_data NOTIFY changed)
 	Q_PROPERTY(kobold::province_game_data* game_data READ get_game_data NOTIFY changed)
@@ -146,6 +147,11 @@ public:
 		return this->provincial_capital;
 	}
 
+	bool is_hidden() const
+	{
+		return this->hidden;
+	}
+
 	virtual std::string get_scope_name() const override;
 	const std::string &get_cultural_name(const culture *culture) const;
 
@@ -194,6 +200,7 @@ private:
 	bool bay = false;
 	bool lake = false;
 	site *provincial_capital = nullptr;
+	bool hidden = false;
 	std::map<const culture *, std::string> cultural_names;
 	std::map<const cultural_group *, std::string> cultural_group_names;
 	std::vector<region *> regions; //regions where this province is located
