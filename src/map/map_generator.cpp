@@ -773,6 +773,10 @@ std::vector<const province *> map_generator::generate_province_group(const std::
 
 int map_generator::generate_province(const province *province, std::vector<int> &group_zone_indexes)
 {
+	if (province->is_hidden()) {
+		return -1;
+	}
+
 	if (this->generated_provinces.contains(province)) {
 		return -1;
 	}
