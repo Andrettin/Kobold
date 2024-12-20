@@ -100,7 +100,7 @@ void map_generator::generate()
 
 	this->generate_zones();
 	this->generate_terrain();
-	this->consolidate_water_zones();
+	//this->consolidate_water_zones(); //taking too long
 	this->generate_countries();
 
 	map *map = map::get();
