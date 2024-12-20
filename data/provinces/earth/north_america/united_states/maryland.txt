@@ -2,6 +2,7 @@ maryland = {
 	name = "Maryland"
 	color = { 240 128 0 }
 	provincial_capital = baltimore
+	coastal = true
 	regions = {
 		united_states
 	}
