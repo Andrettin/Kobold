@@ -100,6 +100,7 @@ void map_generator::generate()
 
 	this->generate_zones();
 	this->generate_terrain();
+	this->consolidate_water_zones();
 	this->generate_countries();
 
 	map *map = map::get();
@@ -226,7 +227,7 @@ void map_generator::generate_terrain()
 		}
 	}
 
-	for (int i = 0; i < this->zone_count; ++i) {
+	for (size_t i = 0; i < this->zones.size(); ++i) {
 		const zone &zone = this->zones.at(i);
 		const QPoint &zone_seed = zone.seed;
 
@@ -234,11 +235,11 @@ void map_generator::generate_terrain()
 			continue;
 		}
 
-		if (this->sea_zones.contains(i)) {
+		if (this->sea_zones.contains(static_cast<int>(i))) {
 			continue;
 		}
 
-		this->lakes.insert(i);
+		this->lakes.insert(static_cast<int>(i));
 	}
 }
 
@@ -641,6 +642,121 @@ void map_generator::expand_zone_seeds(const std::vector<QPoint> &base_seeds)
 	}
 }
 
+void map_generator::consolidate_water_zones()
+{
+	std::set<int> remaining_sea_zones = this->sea_zones;
+	std::vector<int> sea_zones_to_remove;
+
+	std::vector<std::vector<int>> distance_cache;
+	distance_cache.resize(this->zones.size(), std::vector<int>(this->zones.size(), -1));
+
+	const size_t removal_count = this->sea_zones.size() * 95 / 100;
+
+	while (sea_zones_to_remove.size() < removal_count) {
+		const int zone_index = this->choose_sea_zone_for_removal(remaining_sea_zones, sea_zones_to_remove, distance_cache);
+
+		if (zone_index == -1) {
+			break;
+		}
+
+		sea_zones_to_remove.push_back(zone_index);
+		remaining_sea_zones.erase(zone_index);
+	}
+
+	for (const int zone_index : sea_zones_to_remove) {
+		this->remove_zone(zone_index);
+	}
+
+	std::vector<QPoint> remaining_sea_zone_tiles;
+	for (const int zone_index : this->sea_zones) {
+		const std::vector<QPoint> &zone_tiles = this->zones[zone_index].tiles;
+		vector::merge(remaining_sea_zone_tiles, zone_tiles);
+	}
+
+	this->expand_zone_seeds(remaining_sea_zone_tiles);
+}
+
+int map_generator::choose_sea_zone_for_removal(const std::set<int> &remaining_sea_zones, const std::vector<int> &sea_zones_to_remove, std::vector<std::vector<int>> &distance_cache) const
+{
+	std::vector<int> best_zone_indexes;
+	int best_distance = 0;
+
+	//get the zones which are as far away from other powers as possible
+	for (const int zone_index : remaining_sea_zones) {
+		const zone &zone = this->zones.at(zone_index);
+		const QPoint &zone_seed = zone.seed;
+
+		int distance = std::numeric_limits<int>::max();
+
+		//generate land provinces as distant from other already-generated land provinces as possible (and similarly for water provinces and other water provinces)
+		for (const int other_zone_index : sea_zones_to_remove) {
+			std::pair<int, int> zone_index_pair;
+			if (zone_index < other_zone_index) {
+				zone_index_pair = std::make_pair(zone_index, other_zone_index);
+			} else {
+				zone_index_pair = std::make_pair(other_zone_index, zone_index);
+			}
+
+			int distance_between_zones = distance_cache[zone_index_pair.first][zone_index_pair.second];
+
+			if (distance_between_zones == -1) {
+				const map_generator::zone &other_zone = this->zones.at(other_zone_index);
+				const QPoint &other_zone_seed = other_zone.seed;
+				distance_between_zones = point::distance_to(zone_seed, other_zone_seed);
+				distance_cache[zone_index_pair.first][zone_index_pair.second] = distance_between_zones;
+			}
+
+			distance = std::min(distance, distance_between_zones);
+		}
+
+		if (distance > best_distance) {
+			best_zone_indexes.clear();
+			best_distance = distance;
+		}
+
+		if (distance == best_distance) {
+			best_zone_indexes.push_back(zone_index);
+		}
+	}
+
+	if (!best_zone_indexes.empty()) {
+		return vector::get_random(best_zone_indexes);
+	}
+
+	return -1;
+}
+
+void map_generator::remove_zone(const int zone_index)
+{
+	zone &zone = this->zones.at(zone_index);
+	zone.removed = true;
+
+	for (const QPoint &tile_pos : zone.tiles) {
+		this->tile_zones[point::to_index(tile_pos, this->get_width())] = -1;
+	}
+
+	zone.tiles.clear();
+	zone.tiles_by_terrain.clear();
+	zone.near_water_tiles_by_terrain.clear();
+	zone.coastal_tiles_by_terrain.clear();
+
+	for (const int border_zone_index : zone.border_zones) {
+		this->zones[border_zone_index].border_zones.erase(zone_index);
+	}
+
+	zone.border_zones.clear();
+
+	if (this->sea_zones.contains(zone_index)) {
+		this->sea_zones.erase(zone_index);
+	}
+
+	if (this->lakes.contains(zone_index)) {
+		this->lakes.erase(zone_index);
+	}
+
+	--this->zone_count;
+}
+
 void map_generator::generate_countries()
 {
 	std::vector<const region *> potential_oceans;
@@ -815,12 +931,17 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 		int best_distance = 0;
 
 		//get the zones which are as far away from other powers as possible
-		for (int i = 0; i < this->zone_count; ++i) {
-			if (!this->can_assign_province_to_zone_index(province, i)) {
+		for (size_t i = 0; i < this->zones.size(); ++i) {
+			const zone &zone = this->zones.at(i);
+
+			if (zone.removed) {
 				continue;
 			}
 
-			const zone &zone = this->zones.at(i);
+			if (!this->can_assign_province_to_zone_index(province, static_cast<int>(i))) {
+				continue;
+			}
+
 			const QPoint &zone_seed = zone.seed;
 
 			int distance = std::numeric_limits<int>::max();
@@ -843,7 +964,7 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 			}
 
 			if (distance == best_distance) {
-				best_zone_indexes.push_back(i);
+				best_zone_indexes.push_back(static_cast<int>(i));
 			}
 		}
 

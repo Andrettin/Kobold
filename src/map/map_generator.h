@@ -29,6 +29,7 @@ private:
 		terrain_type_map<std::vector<QPoint>> near_water_tiles_by_terrain;
 		terrain_type_map<std::vector<QPoint>> coastal_tiles_by_terrain;
 		std::set<int> border_zones;
+		bool removed = false;
 	};
 
 	static constexpr int max_colatitude = 1000;
@@ -99,6 +100,9 @@ private:
 	void generate_zones();
 	std::vector<QPoint> generate_zone_seeds(const size_t seed_count);
 	void expand_zone_seeds(const std::vector<QPoint> &base_seeds);
+	void consolidate_water_zones();
+	int choose_sea_zone_for_removal(const std::set<int> &remaining_sea_zones, const std::vector<int> &sea_zones_to_remove, std::vector<std::vector<int>> &distance_cache) const;
+	void remove_zone(const int zone_index);
 
 	void generate_countries();
 	bool generate_ocean(const region *ocean);
