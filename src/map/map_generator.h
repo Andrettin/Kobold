@@ -36,9 +36,6 @@ private:
 
 	static constexpr int max_tile_value = 1000;
 
-	static constexpr int min_temperate_temperature = 100;
-	static constexpr int min_tropical_temperature = 750;
-
 	static constexpr int min_semi_arid_moisture = 100;
 	static constexpr int min_dry_moisture = 300;
 	static constexpr int min_moist_moisture = 600;
@@ -87,10 +84,13 @@ private:
 	void initialize_temperature_levels();
 
 	void generate_terrain();
+
 	void generate_elevation();
 	void generate_pseudofractal_elevation(const int additional_initial_block_count);
 	void generate_pseudofractal_tile_rect_elevation(const int step, const QRect &tile_rect);
 	void set_pseudofractal_elevation_midpoints(const int x, const int y, const int value);
+
+	void generate_temperature();
 	void generate_moisture();
 	void generate_forestation();
 	std::vector<QPoint> generate_tile_value_seeds(std::vector<int> &tile_values, const int seed_divisor);
@@ -148,7 +148,8 @@ private:
 	int get_min_hill_elevation() const;
 	int get_min_mountain_elevation() const;
 
-	int get_cold_level() const;
+	int get_tropical_level() const;
+	int get_temperate_level() const;
 
 	int get_ice_base_level() const
 	{
@@ -179,6 +180,7 @@ private:
 	std::set<int> lakes;
 	std::vector<int> tile_zones;
 	std::vector<int> tile_elevations;
+	std::vector<int> tile_temperatures;
 	std::vector<int> tile_moistures;
 	std::vector<int> tile_forestations;
 	province_set generated_provinces;

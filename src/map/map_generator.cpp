@@ -92,6 +92,7 @@ void map_generator::generate()
 {
 	const int tile_count = this->get_width() * this->get_height();
 	this->tile_zones.resize(tile_count, -1);
+	this->tile_temperatures.resize(tile_count, -1);
 	this->tile_moistures.resize(tile_count, -1);
 	this->tile_forestations.resize(tile_count, -1);
 
@@ -128,7 +129,7 @@ void map_generator::initialize_temperature_levels()
 
 	const int separate_poles_factor = this->get_map_template()->are_poles_separate() ? 1 : 2;
 
-	this->ice_base_level = (std::max(0, 100 * this->get_cold_level() / 3 - separate_poles_factor * map_generator::max_colatitude) + separate_poles_factor * map_generator::max_colatitude * sqrt_size) / (100 * sqrt_size);
+	this->ice_base_level = (std::max(0, 100 * this->get_temperate_level() / 3 - separate_poles_factor * map_generator::max_colatitude) + separate_poles_factor * map_generator::max_colatitude * sqrt_size) / (100 * sqrt_size);
 }
 
 void map_generator::generate_terrain()
@@ -147,6 +148,7 @@ void map_generator::generate_terrain()
 		this->sea_zones.insert(zone_index);
 	});
 
+	this->generate_temperature();
 	this->generate_moisture();
 	this->generate_forestation();
 
@@ -356,6 +358,25 @@ void map_generator::set_pseudofractal_elevation_midpoints(const int x, const int
 	}
 }
 
+void map_generator::generate_temperature()
+{
+	const int min_land_elevation = this->get_min_land_elevation();
+
+	for (int x = 0; x < this->get_width(); ++x) {
+		for (int y = 0; y < this->get_height(); ++y) {
+			const QPoint tile_pos(x, y);
+			const int tile_index = point::to_index(tile_pos, this->get_width());
+			const int colatitude = this->get_tile_colatitude(tile_pos);
+			const int elevation_factor = -300 * std::max(0, this->tile_elevations[tile_index] - min_land_elevation) / (map_generator::max_elevation - min_land_elevation);
+			const int temperature_factor = 150 * (this->get_map_template()->get_average_temperature() / 100 - colatitude / map_generator::max_colatitude) * 2 * 50 / 100;
+
+			this->tile_temperatures[tile_index] = colatitude * (1000 + temperature_factor) / 1000 * (1000 + elevation_factor) / 1000;
+		}
+	}
+
+	this->adjust_values(this->tile_temperatures, map_generator::max_colatitude);
+}
+
 void map_generator::generate_moisture()
 {
 	const std::vector<QPoint> seeds = this->generate_tile_value_seeds(this->tile_moistures, 256);
@@ -370,7 +391,7 @@ void map_generator::generate_forestation()
 
 std::vector<QPoint> map_generator::generate_tile_value_seeds(std::vector<int> &tile_values, const int seed_divisor)
 {
-	const int map_area = this->get_width() * this->get_height();
+	const int map_area = this->get_area();
 	const int seed_count = map_area / seed_divisor;
 
 	std::vector<QPoint> potential_positions;
@@ -441,7 +462,7 @@ void map_generator::expand_tile_value_seeds(const std::vector<QPoint> &base_seed
 
 void map_generator::generate_zones()
 {
-	const int map_area = this->get_width() * this->get_height();
+	const int map_area = this->get_area();
 
 	this->zone_count = map_area / 64;
 
@@ -1100,20 +1121,16 @@ bool map_generator::is_tile_water(const QPoint &tile_pos) const
 
 int map_generator::get_tile_temperature(const QPoint &tile_pos) const
 {
-	//temperature is a function of latitude and elevation
-	const int tile_index = point::to_index(tile_pos, this->get_width());
-	const int colatitude = this->get_tile_colatitude(tile_pos);
-	const int land_elevation = std::max(0, this->tile_elevations[tile_index] - this->get_min_land_elevation());
-	return std::max(0, colatitude - land_elevation / 2);
+	return this->tile_temperatures[point::to_index(tile_pos, this->get_width())];
 }
 
 temperature_type map_generator::get_tile_temperature_type(const QPoint &tile_pos) const
 {
 	const int temperature = this->get_tile_temperature(tile_pos);
 
-	if (temperature >= map_generator::min_tropical_temperature) {
+	if (temperature >= this->get_tropical_level()) {
 		return temperature_type::tropical;
-	} else if (temperature >= map_generator::min_temperate_temperature) {
+	} else if (temperature >= this->get_temperate_level()) {
 		return temperature_type::temperate;
 	} else {
 		return temperature_type::cold;
@@ -1165,7 +1182,12 @@ int map_generator::get_min_mountain_elevation() const
 	return (map_generator::max_elevation + min_hill_elevation) / 2;
 }
 
-int map_generator::get_cold_level() const
+int map_generator::get_tropical_level() const
+{
+	return std::min(map_generator::max_colatitude * 9 / 10, map_generator::max_colatitude * (143 * 7 - this->get_map_template()->get_average_temperature() * 10) / 700);
+}
+
+int map_generator::get_temperate_level() const
 {
 	return std::max(0, map_generator::max_colatitude * (60 * 7 - this->get_map_template()->get_average_temperature() * 6) / 700);
 }
