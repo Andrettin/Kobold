@@ -16,7 +16,7 @@ earth = {
 
 earth_random = {
 	name = "Earth"
-	size = { 512 256 }
+	size = { 512 384 }
 	world = earth
 	land_percent = 30
 	steepness = 30
