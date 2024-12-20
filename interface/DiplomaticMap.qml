@@ -119,7 +119,7 @@ Flickable {
 			y: Math.floor(text_rect.y * kobold.map.diplomatic_map_tile_pixel_size * scale_factor)
 			width: Math.floor(text_rect_width)
 			height: Math.floor(text_rect_height)
-			visible: contentWidth <= width && (diplomatic_map.mode === DiplomaticMap.Mode.Political || diplomatic_map.mode === DiplomaticMap.Mode.Diplomatic)
+			visible: contentWidth <= width && (diplomatic_map.mode === DiplomaticMap.Mode.Political || diplomatic_map.mode === DiplomaticMap.Mode.Treaty)
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
