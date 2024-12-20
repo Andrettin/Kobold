@@ -2,6 +2,10 @@ ontario = {
 	name = "Ontario"
 	color = { 176 0 192 }
 	provincial_capital = ottawa
+	coastal = true
+	terrain_types = {
+		tundra
+	}
 	regions = {
 		canada
 	}
