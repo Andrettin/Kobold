@@ -90,7 +90,7 @@ const QSize &map_generator::get_size() const
 
 void map_generator::generate()
 {
-	const int tile_count = this->get_width() * this->get_height();
+	const int tile_count = this->get_tile_count();
 	this->tile_zones.resize(tile_count, -1);
 	this->tile_temperatures.resize(tile_count, -1);
 	this->tile_moistures.resize(tile_count, -1);

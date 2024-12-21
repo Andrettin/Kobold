@@ -176,7 +176,6 @@ private:
 
 private:
 	const kobold::map_template *map_template = nullptr;
-	QSize size = QSize(0, 0);
 	int ice_base_level = 0;
 	int zone_count = 0;
 	std::vector<zone> zones;
