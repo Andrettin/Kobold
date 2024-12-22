@@ -14,6 +14,8 @@ using data_entry_set = std::set<const T *, data_entry_compare<T>>;
 template <typename T, typename U>
 using data_entry_map = std::map<const T *, U, data_entry_compare<T>>;
 
+class alignment;
+class alignment_axis;
 class character_attribute;
 class character_class;
 class commodity_unit;
@@ -33,6 +35,8 @@ class saving_throw_type;
 class settlement_attribute;
 class skill;
 
+extern template struct data_entry_compare<alignment>;
+extern template struct data_entry_compare<alignment_axis>;
 extern template struct data_entry_compare<character_attribute>;
 extern template struct data_entry_compare<character_class>;
 extern template struct data_entry_compare<commodity_unit>;

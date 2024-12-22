@@ -20,6 +20,8 @@ include_directories(
 )
 
 set(character_SRCS
+	src/character/alignment.cpp
+	src/character/alignment_axis.cpp
 	src/character/character.cpp
 	src/character/character_class.cpp
 	src/character/character_container.cpp
@@ -328,6 +330,8 @@ set(kobold_SRCS
 )
 
 set(character_HDRS
+	src/character/alignment.h
+	src/character/alignment_axis.h
 	src/character/character.h
 	src/character/character_attribute.h
 	src/character/character_class.h

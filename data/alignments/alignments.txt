@@ -1,0 +1,19 @@
+chaotic = {
+	name = "Chaotic"
+	axis = chaotic_lawful
+}
+
+lawful = {
+	name = "Lawful"
+	axis = chaotic_lawful
+}
+
+good = {
+	name = "Good"
+	axis = good_evil
+}
+
+evil = {
+	name = "Evil"
+	axis = good_evil
+}

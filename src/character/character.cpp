@@ -2,6 +2,8 @@
 
 #include "character/character.h"
 
+#include "character/alignment.h"
+#include "character/alignment_axis.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
@@ -32,6 +34,7 @@
 #include "util/date_util.h"
 #include "util/gender.h"
 #include "util/log_util.h"
+#include "util/map_util.h"
 #include "util/random.h"
 #include "util/string_util.h"
 #include "util/vector_random_util.h"
@@ -43,11 +46,11 @@ namespace kobold {
 
 const std::set<std::string> character::database_dependencies = {
 	character_class::class_identifier,
+	alignment::class_identifier,
 	feat_template::class_identifier,
 	//characters must be initialized after provinces, as their initialization results in settlements being assigned to their provinces, which is necessary for getting the provinces for home sites
 	province::class_identifier
 };
-
 
 void character::initialize_all()
 {
@@ -107,6 +110,7 @@ const character *character::generate(const kobold::species *species, const std::
 	generated_character->religion = religion;
 	generated_character->generate_patron_deity();
 	generated_character->phenotype = culture->get_default_phenotype();
+	generated_character->generate_alignments();
 	generated_character->home_settlement = home_settlement;
 	generated_character->set_start_date(game::get()->get_date());
 
@@ -159,11 +163,27 @@ void character::process_gsml_scope(const gsml_data &scope)
 	const std::vector<std::string> &values = scope.get_values();
 
 	if (tag == "character_classes") {
-		scope.for_each_property([&](const gsml_property &property) {
+		scope.for_each_property([this](const gsml_property &property) {
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
 
 			this->character_classes[magic_enum::enum_cast<character_class_type>(key).value()] = character_class::get(value);
+		});
+	} else if (tag == "alignments") {
+		for (const std::string &value : values) {
+			const alignment *alignment = alignment::get(value);
+			this->alignments[alignment->get_axis()] = alignment;
+		}
+
+		scope.for_each_property([this](const gsml_property &property) {
+			const std::string &key = property.get_key();
+			const std::string &value = property.get_value();
+
+			const alignment_axis *axis = alignment_axis::get(key);
+			const alignment *alignment = alignment::get(value);
+			assert_throw(alignment == nullptr || alignment->get_axis() == axis);
+
+			this->alignments[axis] = alignment;
 		});
 	} else if (tag == "feats") {
 		for (const std::string &value : values) {
@@ -247,6 +267,10 @@ void character::initialize()
 		assert_throw(this->get_character_class(character_class_type::base_class) != nullptr);
 		this->level = this->get_character_class(character_class_type::base_class)->get_rank_level(this->rank);
 		this->rank.clear();
+	}
+
+	if (this->alignments.size() != alignment_axis::get_all().size()) {
+		this->generate_alignments();
 	}
 
 	for (size_t i = 0; i < this->get_feats().size(); ++i) {
@@ -530,6 +554,34 @@ void character::generate_patron_deity()
 
 	assert_throw(!potential_deities.empty());
 	this->patron_deity = vector::get_random(potential_deities);
+}
+
+QVariantList character::get_alignments_qvariant_list() const
+{
+	std::vector<const alignment *> alignments = archimedes::map::get_values(this->alignments);
+	std::erase(alignments, nullptr);
+
+	return container::to_qvariant_list(alignments);
+}
+
+bool character::has_alignment(const alignment *alignment) const
+{
+	const auto find_iterator = this->alignments.find(alignment->get_axis());
+	return find_iterator != this->alignments.end() && find_iterator->second == alignment;
+}
+
+void character::generate_alignments()
+{
+	for (const alignment_axis *axis : alignment_axis::get_all()) {
+		if (this->alignments.contains(axis)) {
+			continue;
+		}
+
+		std::vector<const alignment *> alignments = axis->get_alignments();
+		alignments.push_back(nullptr);
+
+		this->alignments[axis] = vector::get_random(alignments);
+	}
 }
 
 }

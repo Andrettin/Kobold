@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character/character_base.h"
+#include "database/data_entry_container.h"
 #include "database/data_type.h"
 #include "util/fractional_int.h"
 #include "util/qunique_ptr.h"
@@ -23,6 +24,8 @@ namespace archimedes {
 
 namespace kobold {
 
+class alignment;
+class alignment_axis;
 class character_class;
 class character_game_data;
 class character_history;
@@ -65,6 +68,7 @@ class character final : public character_base, public data_type<character>
 	Q_PROPERTY(const kobold::phenotype* phenotype MEMBER phenotype NOTIFY changed)
 	Q_PROPERTY(const kobold::deity* deity READ get_deity NOTIFY changed)
 	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait NOTIFY changed)
+	Q_PROPERTY(QVariantList alignments READ get_alignments_qvariant_list NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_settlement MEMBER home_settlement NOTIFY changed)
 	Q_PROPERTY(const kobold::site* home_site MEMBER home_site NOTIFY changed)
 	Q_PROPERTY(kobold::character* father READ get_father WRITE set_father NOTIFY changed)
@@ -199,6 +203,10 @@ public:
 		return this->portrait;
 	}
 
+	QVariantList get_alignments_qvariant_list() const;
+	bool has_alignment(const alignment *alignment) const;
+	void generate_alignments();
+
 	const site *get_home_settlement() const
 	{
 		return this->home_settlement;
@@ -258,6 +266,7 @@ private:
 	const kobold::phenotype *phenotype = nullptr;
 	const kobold::deity *deity = nullptr; //the deity which the character is (if it is a deity)
 	const kobold::portrait *portrait = nullptr;
+	data_entry_map<alignment_axis, const alignment *> alignments;
 	const site *home_settlement = nullptr;
 	const site *home_site = nullptr;
 	std::vector<const feat *> feats;

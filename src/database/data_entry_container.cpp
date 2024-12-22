@@ -2,6 +2,8 @@
 
 #include "database/data_entry_container.h"
 
+#include "character/alignment.h"
+#include "character/alignment_axis.h"
 #include "character/character_attribute.h"
 #include "character/character_class.h"
 #include "character/damage_reduction_type.h"
@@ -29,6 +31,8 @@ bool data_entry_compare<T>::operator()(const T *lhs, const T *rhs) const
 	return lhs->get_identifier() < rhs->get_identifier();
 }
 
+template struct data_entry_compare<alignment>;
+template struct data_entry_compare<alignment_axis>;
 template struct data_entry_compare<character_attribute>;
 template struct data_entry_compare<character_class>;
 template struct data_entry_compare<commodity_unit>;
