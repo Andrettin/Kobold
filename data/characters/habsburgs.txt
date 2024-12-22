@@ -96,6 +96,7 @@ maria_theresia_of_austria = { #Empress Maria Theresia of the Holy Roman Empire; 
 	birth_date = 1717 #Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 249.
 	start_date = 1740
 	death_date = 1780 #Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 249.
+	alignments = { lawful }
 	
 	#became queen of Bohemia and Hungary on 1740; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 249.
 	#became empress of the HRE in 1745; Source: Eva Demmerle, "Das Haus Habsburg", 2011, p. 249.
@@ -136,6 +137,7 @@ franz_i_of_austria = { #Franz von Habsburg, Emperor Franz II of the Holy Roman E
 	mother = maria_luisa_de_bourbon #Maria Luisa, daughter of king Charles III of Spain
 	birth_date = 1768.2.12
 	death_date = 1835.3.2
+	alignments = { lawful }
 	
 	history = {
 		1791.12.12 = { #marriage date unknown, but their daughter Marie Louise was born on 1791.12.12
