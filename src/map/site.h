@@ -118,6 +118,11 @@ public:
 		this->province = province;
 	}
 
+	const std::vector<const kobold::terrain_type *> &get_terrain_types() const
+	{
+		return this->terrain_types;
+	}
+
 	virtual std::string get_scope_name() const override;
 	const std::string &get_cultural_name(const culture *culture) const;
 
@@ -132,6 +137,7 @@ private:
 	kobold::terrain_type *terrain_type = nullptr;
 	kobold::resource *resource = nullptr;
 	kobold::province *province = nullptr;
+	std::vector<const kobold::terrain_type *> terrain_types;
 	std::map<const culture *, std::string> cultural_names;
 	std::map<const cultural_group *, std::string> cultural_group_names;
 	qunique_ptr<site_history> history;

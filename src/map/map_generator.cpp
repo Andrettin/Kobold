@@ -1100,7 +1100,7 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 				continue;
 			}
 
-			const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
+			const std::vector<const terrain_type *> &site_terrains = site->get_terrain_types();
 
 			bool has_terrain = false;
 			for (const terrain_type *terrain : site_terrains) {
@@ -1181,11 +1181,10 @@ void map_generator::generate_site(const site *site, const zone &zone)
 	std::vector<QPoint> potential_positions;
 
 	const resource *resource = site->get_map_data()->get_resource();
+	const std::vector<const terrain_type *> &site_terrains = site->get_terrain_types();
 
-	if (resource != nullptr) {
-		const std::vector<const terrain_type *> &site_terrains = resource->get_terrain_types();
-
-		const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = resource->is_coastal() ? zone.coastal_tiles_by_terrain : (resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain);
+	if (!site_terrains.empty()) {
+		const terrain_type_map<std::vector<QPoint>> &zone_tiles_by_terrain = (resource && resource->is_coastal()) ? zone.coastal_tiles_by_terrain : (resource && resource->is_near_water() ? zone.near_water_tiles_by_terrain : zone.tiles_by_terrain);
 
 		for (const terrain_type *terrain : site_terrains) {
 			const auto find_iterator = zone_tiles_by_terrain.find(terrain);

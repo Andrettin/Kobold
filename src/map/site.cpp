@@ -4,12 +4,14 @@
 
 #include "country/cultural_group.h"
 #include "country/culture.h"
+#include "economy/resource.h"
 #include "map/province.h"
 #include "map/province_history.h"
 #include "map/site_game_data.h"
 #include "map/site_history.h"
 #include "map/site_map_data.h"
 #include "map/site_type.h"
+#include "map/terrain_type.h"
 #include "map/tile.h"
 #include "map/world.h"
 #include "util/assert_util.h"
@@ -30,8 +32,13 @@ site::~site()
 void site::process_gsml_scope(const gsml_data &scope)
 {
 	const std::string &tag = scope.get_tag();
+	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "cultural_names") {
+	if (tag == "terrain_types") {
+		for (const std::string &value : values) {
+			this->terrain_types.push_back(terrain_type::get(value));
+		}
+	} else if (tag == "cultural_names") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const culture *culture = culture::get(property.get_key());
 			this->cultural_names[culture] = property.get_value();
@@ -53,6 +60,10 @@ void site::initialize()
 
 	if (this->get_province() != nullptr) {
 		this->province->add_site(this);
+	}
+
+	if (this->terrain_types.empty() && this->get_resource() != nullptr) {
+		this->terrain_types = this->get_resource()->get_terrain_types();
 	}
 
 	named_data_entry::initialize();
