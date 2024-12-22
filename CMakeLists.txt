@@ -31,6 +31,7 @@ set(character_SRCS
 	src/character/feat_template.cpp
 	src/character/feat_type.cpp
 	src/character/level_bonus_table.cpp
+	src/character/personality.cpp
 	src/character/saving_throw_type.cpp
 	src/character/skill.cpp
 	src/character/skill_category.cpp
@@ -342,6 +343,7 @@ set(character_HDRS
 	src/character/feat_template_type.h
 	src/character/feat_type.h
 	src/character/level_bonus_table.h
+	src/character/personality.h
 	src/character/saving_throw_type.h
 	src/character/skill.h
 	src/character/skill_category.h
