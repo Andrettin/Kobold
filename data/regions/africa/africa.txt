@@ -1,4 +1,5 @@
 africa = {
+	world = earth
 	continent = true
 	
 	history = {

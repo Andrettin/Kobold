@@ -1,3 +1,4 @@
 europe = {
+	world = earth
 	continent = true
 }

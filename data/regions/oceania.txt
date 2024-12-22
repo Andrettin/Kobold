@@ -1,4 +1,5 @@
 oceania = {
 	name = "Oceania"
+	world = earth
 	continent = true
 }

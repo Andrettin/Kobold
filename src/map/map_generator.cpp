@@ -762,6 +762,10 @@ void map_generator::generate_countries()
 	std::vector<const region *> potential_oceans;
 
 	for (const region *region : region::get_all()) {
+		if (region->get_world() != nullptr && region->get_world() != this->get_map_template()->get_world()) {
+			continue;
+		}
+
 		if (!region->is_ocean()) {
 			continue;
 		}
@@ -785,12 +789,31 @@ void map_generator::generate_countries()
 
 	std::vector<const province *> potential_seas;
 	std::vector<const province *> potential_lakes;
+	std::vector<const country *> potential_powers;
+	std::vector<const country *> potential_minor_nations;
+	country_map<std::vector<const province *>> provinces_by_country;
 
 	for (const province *province : province::get_all()) {
+		if (province->is_hidden()) {
+			continue;
+		}
+
+		if (province->get_world() != nullptr && province->get_world() != this->get_map_template()->get_world()) {
+			continue;
+		}
+
 		if (province->is_sea() || province->is_bay()) {
 			potential_seas.push_back(province);
 		} else if (province->is_lake()) {
 			potential_lakes.push_back(province);
+		} else {
+			const province_history *province_history = province->get_history();
+			const country *owner = province_history->get_owner();
+			if (owner == nullptr) {
+				continue;
+			}
+
+			provinces_by_country[owner].push_back(province);
 		}
 	}
 
@@ -813,21 +836,6 @@ void map_generator::generate_countries()
 
 		std::vector<int> group_zone_indexes;
 		this->generate_province(province, group_zone_indexes);
-	}
-
-	std::vector<const country *> potential_powers;
-	std::vector<const country *> potential_minor_nations;
-
-	country_map<std::vector<const province *>> provinces_by_country;
-
-	for (const province *province : province::get_all()) {
-		const province_history *province_history = province->get_history();
-		const country *owner = province_history->get_owner();
-		if (owner == nullptr) {
-			continue;
-		}
-
-		provinces_by_country[owner].push_back(province);
 	}
 
 	for (const auto &[country, country_provinces] : provinces_by_country) {

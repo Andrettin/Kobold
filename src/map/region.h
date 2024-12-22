@@ -12,6 +12,7 @@ class region final : public named_data_entry, public data_type<region>
 {
 	Q_OBJECT
 
+	Q_PROPERTY(const kobold::world* world MEMBER world READ get_world NOTIFY changed)
 	Q_PROPERTY(bool continent MEMBER continent READ is_continent)
 	Q_PROPERTY(bool ocean MEMBER ocean READ is_ocean)
 	Q_PROPERTY(std::vector<kobold::region *> superregions READ get_superregions)
@@ -26,6 +27,11 @@ public:
 	~region();
 
 	virtual void initialize() override;
+
+	const kobold::world *get_world() const
+	{
+		return this->world;
+	}
 
 	bool is_continent() const
 	{
@@ -69,6 +75,7 @@ public:
 	bool is_part_of(const region *other_region) const;
 
 private:
+	const kobold::world *world = nullptr;
 	bool continent = false;
 	bool ocean = false;
 	std::vector<province *> provinces; //provinces located in the region

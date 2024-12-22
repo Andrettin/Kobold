@@ -22,11 +22,13 @@ class region;
 class site;
 class terrain_feature;
 class terrain_type;
+class world;
 
 class province final : public named_data_entry, public data_type<province>
 {
 	Q_OBJECT
 
+	Q_PROPERTY(const kobold::world* world MEMBER world READ get_world NOTIFY changed)
 	Q_PROPERTY(QColor color READ get_color WRITE set_color NOTIFY changed)
 	Q_PROPERTY(bool sea MEMBER sea READ is_sea NOTIFY changed)
 	Q_PROPERTY(bool bay MEMBER bay READ is_bay NOTIFY changed)
@@ -44,6 +46,8 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::province*";
 	static constexpr const char database_folder[] = "provinces";
 	static constexpr bool history_enabled = true;
+
+	static const std::set<std::string> database_dependencies;
 
 	static province *get_by_color(const QColor &color)
 	{
@@ -103,6 +107,16 @@ public:
 	province_game_data *get_game_data() const
 	{
 		return this->game_data.get();
+	}
+
+	const kobold::world *get_world() const
+	{
+		return this->world;
+	}
+
+	void set_world(const kobold::world *world)
+	{
+		this->world = world;
 	}
 
 	const QColor &get_color() const
@@ -207,6 +221,7 @@ signals:
 	void changed();
 
 private:
+	const kobold::world *world = nullptr;
 	QColor color;
 	bool sea = false;
 	bool bay = false;

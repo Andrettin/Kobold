@@ -18,6 +18,10 @@
 
 namespace kobold {
 
+const std::set<std::string> province::database_dependencies = {
+	region::class_identifier
+};
+
 province::province(const std::string &identifier) : named_data_entry(identifier)
 {
 	this->reset_map_data();
@@ -65,6 +69,15 @@ void province::initialize()
 		assert_throw(this->get_provincial_capital()->get_province() == nullptr || this->get_provincial_capital()->get_province() == this);
 
 		this->provincial_capital->set_province(this);
+	}
+
+	if (this->get_world() == nullptr) {
+		for (const region *region : this->get_regions()) {
+			if (region->get_world() != nullptr) {
+				this->world = region->get_world();
+				break;
+			}
+		}
 	}
 
 	named_data_entry::initialize();

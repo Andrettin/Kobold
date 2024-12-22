@@ -2,6 +2,9 @@ falkland_islands = {
 	name = "Falkland Islands"
 	color = { 137 35 47 }
 	provincial_capital = stanley
+	regions = {
+		south_america
+	}
 	
 	history = {
 		owner = mapuche
