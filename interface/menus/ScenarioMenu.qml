@@ -1,5 +1,7 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Material
+import scenario_model 1.0
 import ".."
 import "../dialogs"
 
@@ -14,7 +16,7 @@ MenuBase {
 	readonly property var selected_country: diplomatic_map.selected_country
 	readonly property var selected_country_game_data: selected_country ? selected_country.game_data : null
 	property int setup_count: 0
-	readonly property var scenarios: kobold.preferences.major_scenarios_only ? kobold.get_major_scenarios() : kobold.get_scenarios()
+	readonly property var scenarios: kobold.get_top_level_scenarios()
 	
 	Rectangle {
 		id: diplomatic_map_background
@@ -230,73 +232,44 @@ MenuBase {
 		border.width: 1
 	}
 	
-	ListView {
+	TreeView {
 		id: scenario_list
 		anchors.left: parent.left
 		anchors.leftMargin: 16 * scale_factor
 		anchors.top: title_item.bottom
 		anchors.topMargin: 32 * scale_factor
-		anchors.bottom: major_scenarios_only_checkbox.top
+		anchors.bottom: start_game_button.top
 		anchors.bottomMargin: 16 * scale_factor
 		width: 256 * scale_factor
 		height: 128 * scale_factor
 		boundsBehavior: Flickable.StopAtBounds
 		clip: true
-		model: scenarios
-		delegate: Rectangle {
-			width: 256 * scale_factor
-			height: 16 * scale_factor
-			color: (selected_scenario == model.modelData) ? "olive" : "black"
-			border.color: "white"
-			border.width: 1
-			enabled: !loading_scenario
+		model: ScenarioModel {}
+		delegate: TreeViewDelegate {
+			implicitWidth: scenario_list.width
+			font.family: berenika_font.name
+			font.pixelSize: 10 * scale_factor
+			current: selected_scenario == model.scenario
+			selected: selected_scenario == model.scenario
+			Material.theme: Material.Dark
+			Material.accent: "olive"
 			
-			SmallText {
-				text: model.modelData.name + ", " + year_string(model.modelData.start_year)
-				anchors.horizontalCenter: parent.horizontalCenter
-				anchors.verticalCenter: parent.verticalCenter
-			}
-			
-			MouseArea {
-				anchors.fill: parent
-				
-				onClicked: {
-					if (selected_scenario === model.modelData) {
-						return
-					}
-					
-					loading_scenario = true
-					selected_scenario = model.modelData
-					kobold.game.setup_scenario(selected_scenario).then(() => {
-						update_selected_country_data(diplomatic_map.selected_country)
-						loading_scenario = false
-					})
+			onClicked: {
+				if (selected_scenario === model.scenario || loading_scenario) {
+					return
 				}
+				
+				loading_scenario = true
+				selected_scenario = model.scenario
+				kobold.game.setup_scenario(selected_scenario).then(() => {
+					update_selected_country_data(diplomatic_map.selected_country)
+					loading_scenario = false
+				})
 			}
 		}
-		
+
 		onModelChanged: {
 			adjust_scenario_list_position(scenarios.indexOf(selected_scenario))
-		}
-	}
-	
-	CustomCheckBox {
-		id: major_scenarios_only_checkbox
-		anchors.left: start_game_button.left
-		anchors.bottom: start_game_button.top
-		anchors.bottomMargin: 16 * scale_factor
-		text: colored_text(qsTr("Major Scenarios Only"), "white")
-		checked: kobold.preferences.major_scenarios_only
-		checkable: true
-		onCheckedChanged: {
-			if (kobold.preferences.major_scenarios_only !== checked) {
-				kobold.preferences.major_scenarios_only = checked
-				kobold.preferences.save()
-				
-				if (kobold.preferences.major_scenarios_only && !selected_scenario.major) {
-					select_random_scenario()
-				}
-			}
 		}
 	}
 	
@@ -401,9 +374,16 @@ MenuBase {
 	}
 	
 	function adjust_scenario_list_position(scenario_index) {
-		var scenario_rect_bottom = (scenario_index + 1) * 16 * scale_factor - 1
-		if (scenario_rect_bottom > scenario_list.contentY) {
+		if (scenario_index === -1) {
+			return
+		}
+		
+		var scenario_rect_top = scenario_index * 20 * scale_factor
+		var scenario_rect_bottom = scenario_rect_top + 1 * 20 * scale_factor - 1
+		if (scenario_rect_top >= (scenario_list.contentY + scenario_list.height)) {
 			scenario_list.contentY = scenario_rect_bottom - scenario_list.height
+		} else if (scenario_rect_top < scenario_list.contentY) {
+			scenario_list.contentY = scenario_rect_top
 		}
 	}
 	
