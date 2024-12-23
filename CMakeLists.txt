@@ -854,15 +854,15 @@ add_definitions(-DBOOST_DATE_TIME_NO_LIB)
 #Qt6 modules
 #different modules have different licenses, make sure all modules used here are compatible with the GPL 3.0 license
 set(CMAKE_AUTOMOC ON)
-find_package(Qt6 6.5 COMPONENTS Core REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Gui REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Multimedia REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Location REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Qml REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Quick REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
-find_package(Qt6 6.5 COMPONENTS Charts REQUIRED) #licensed under the GPL 3.0
-find_package(Qt6 6.5 COMPONENTS ShaderTools REQUIRED)
+find_package(Qt6 6.8 COMPONENTS Core REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Gui REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Widgets REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Multimedia REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Location REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Qml REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Quick REQUIRED) #licensed under the GPL 2.0, as well as the LGPL 3.0
+find_package(Qt6 6.8 COMPONENTS Charts REQUIRED) #licensed under the GPL 3.0
+find_package(Qt6 6.8 COMPONENTS ShaderTools REQUIRED)
 
 if(WITH_GEOJSON)
 	add_definitions(-DUSE_GEOJSON)
