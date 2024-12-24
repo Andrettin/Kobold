@@ -1,5 +1,5 @@
-charlemagne = {
-	name = "Charlemagne"
+early_middle_ages = {
+	name = "Early Middle Ages" #Charlemagne
 	start_date = 769
 	map_template = earth
 	hidden = true
