@@ -1,5 +1,5 @@
-tribal_village = {
-	name = "Tribal Village"
+lair = {
+	name = "Lair"
 	slot = main
 	ruin = true
 	image_filepath = "tiles/settlements/town.png"

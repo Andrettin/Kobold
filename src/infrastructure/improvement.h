@@ -25,7 +25,7 @@ class improvement final : public named_data_entry, public data_type<improvement>
 	Q_OBJECT
 
 	Q_PROPERTY(kobold::improvement_slot slot MEMBER slot READ get_slot NOTIFY changed)
-	Q_PROPERTY(bool ruins MEMBER ruins READ is_ruins NOTIFY changed)
+	Q_PROPERTY(bool ruin MEMBER ruin READ is_ruin NOTIFY changed)
 	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(std::filesystem::path image_filepath MEMBER image_filepath WRITE set_image_filepath)
 	Q_PROPERTY(int variation_count MEMBER variation_count READ get_variation_count)
@@ -60,9 +60,9 @@ public:
 		return this->resources;
 	}
 
-	bool is_ruins() const
+	bool is_ruin() const
 	{
-		return this->ruins;
+		return this->ruin;
 	}
 
 	const kobold::icon *get_icon() const
@@ -131,7 +131,7 @@ private:
 	improvement_slot slot{};
 	int level = 0;
 	std::vector<resource *> resources; //the resource for which this improvement can be built
-	bool ruins = false; //if true, this improvement can be explored by troops, yielding some bonus (or malus)
+	bool ruin = false; //if true, this improvement can be explored, yielding some bonus (or malus)
 	const kobold::icon *icon = nullptr;
 	std::filesystem::path image_filepath;
 	std::map<const terrain_type *, std::filesystem::path> terrain_image_filepaths;

@@ -10,7 +10,7 @@ enum class event_trigger {
 	quarterly_pulse,
 	yearly_pulse,
 	ruler_death,
-	ruins_explored
+	ruin_explored
 };
 
 }

@@ -6,7 +6,7 @@ pompeii = {
 	
 	history = {
 		79 = {
-			#improvements += ruins
+			#improvements += ruin
 		}
 	}
 }

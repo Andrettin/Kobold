@@ -994,7 +994,7 @@ void site_game_data::change_local_luxury_consumption(const commodity *commodity,
 bool site_game_data::can_be_visited() const
 {
 	const improvement *improvement = this->get_improvement(improvement_slot::main);
-	return improvement != nullptr && improvement->is_ruins();
+	return improvement != nullptr && improvement->is_ruin();
 }
 
 QVariantList site_game_data::get_visiting_armies_qvariant_list() const

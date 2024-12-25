@@ -16,7 +16,7 @@ const std::map<std::string, kobold::event_trigger> enum_converter<kobold::event_
 	{ "quarterly_pulse", kobold::event_trigger::quarterly_pulse },
 	{ "yearly_pulse", kobold::event_trigger::yearly_pulse },
 	{ "ruler_death", kobold::event_trigger::ruler_death },
-	{ "ruins_explored", kobold::event_trigger::ruins_explored }
+	{ "ruin_explored", kobold::event_trigger::ruin_explored }
 };
 
 template <>
