@@ -157,6 +157,7 @@ public:
 		return nullptr;
 	}
 
+	std::string get_level_effects_string(const int level, const kobold::character *character) const;
 	Q_INVOKABLE QString get_tooltip(const kobold::character *character) const;
 
 	const data_entry_map<feat, int> &get_feat_weights() const

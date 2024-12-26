@@ -111,7 +111,7 @@ public:
 					effects_string += "\n" + victory_effects_string;
 				}
 
-				engine_interface::get()->add_notification("Victory!", war_minister_portrait, std::format("You have a won a combat!\n\n{}", effects_string));
+				engine_interface::get()->add_notification("Victory!", war_minister_portrait, std::format("You have won a combat!\n\n{}", effects_string));
 			} else {
 				std::string effects_string;
 				if (this->defeat_effects != nullptr) {

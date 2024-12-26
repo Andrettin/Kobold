@@ -554,6 +554,8 @@ bool character_game_data::gain_character_class_level()
 		character_class_type::base_class
 	};
 
+	const character_class *chosen_character_class = nullptr;
+
 	for (const character_class_type character_class_type : character_class_types) {
 		const character_class *character_class = this->get_character_class(character_class_type);
 
@@ -566,12 +568,30 @@ bool character_game_data::gain_character_class_level()
 		}
 
 		if (this->get_character_class_level_limit(character_class) > this->get_character_class_level(character_class)) {
-			this->change_character_class_level(character_class, 1);
-			return true;
+			chosen_character_class = character_class;
+			break;
 		}
 	}
 
-	return false;
+	if (chosen_character_class != nullptr) {
+		this->change_character_class_level(chosen_character_class, 1);
+
+		if (this->character == game::get()->get_player_character()) {
+			const kobold::portrait *interior_minister_portrait = defines::get()->get_interior_minister_portrait();
+			std::string level_effects_string = chosen_character_class->get_level_effects_string(this->get_character_class_level(chosen_character_class), this->character);
+
+			const effect_list<const kobold::character> *hit_dice_count_effects = defines::get()->get_character_hit_dice_count_effects(this->get_hit_dice_count());
+			if (hit_dice_count_effects != nullptr) {
+				level_effects_string += "\n" + hit_dice_count_effects->get_effects_string(this->character, read_only_context(this->character));
+			}
+
+			engine_interface::get()->add_notification("Level Up", interior_minister_portrait, std::format("You have gained a level!\n\n{}", level_effects_string));
+		}
+		return true;
+	} else {
+
+		return false;
+	}
 }
 
 void character_game_data::check_level_experience()

@@ -150,6 +150,34 @@ void character_class::check() const
 	}
 }
 
+std::string character_class::get_level_effects_string(const int level, const kobold::character *character) const
+{
+	std::string str = std::format("Hit Points: +{}", this->get_hit_dice().to_string());
+
+	const int base_attack_bonus = this->get_base_attack_bonus_table()->get_bonus_per_level(level);
+	if (base_attack_bonus != 0) {
+		str += std::format("\nBase Attack Bonus: +{}", base_attack_bonus);
+	}
+
+	for (const auto &[saving_throw_type, saving_throw_bonus_table] : this->get_saving_throw_bonus_tables()) {
+		const int saving_throw_bonus = saving_throw_bonus_table->get_bonus_per_level(level);
+		if (saving_throw_bonus != 0) {
+			str += std::format("\n{}: +{}", saving_throw_type->get_name(), saving_throw_bonus);
+		}
+	}
+
+	if (level == 1 && this->get_modifier() != nullptr) {
+		str += "\n" + this->get_modifier()->get_string(character);
+	}
+
+	const effect_list<const kobold::character> *level_effects = this->get_level_effects(level);
+	if (level_effects != nullptr) {
+		str += "\n" + level_effects->get_effects_string(character, read_only_context(character));
+	}
+
+	return str;
+}
+
 QString character_class::get_tooltip(const kobold::character *character) const
 {
 	std::string str = std::format("Hit Dice: {}", this->get_hit_dice().to_string());
