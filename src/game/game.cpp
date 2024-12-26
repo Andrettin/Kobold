@@ -1338,6 +1338,36 @@ void game::clear_delayed_effects()
 	this->site_delayed_effects.clear();
 }
 
+game::combat_result game::do_combat(const std::vector<const character *> &attackers, const std::vector<const character *> &defenders)
+{
+	const challenge_rating attacker_challenge_rating = challenge_rating::get_group_challenge_rating(attackers);
+	const challenge_rating defender_challenge_rating = challenge_rating::get_group_challenge_rating(defenders);
+
+	const dice d20(1, 20);
+
+	const int attacker_roll = random::get()->roll_dice(d20) + attacker_challenge_rating.get_value();
+	const int defender_roll = random::get()->roll_dice(d20) + defender_challenge_rating.get_value();
+
+	combat_result result;
+	result.attacker_victory = attacker_roll > defender_roll;
+
+	if (result.attacker_victory) {
+		result.experience_award = defines::get()->get_experience_award_for_challenge_rating(defender_challenge_rating) / static_cast<int64_t>(attackers.size());
+
+		for (const character *attacker : attackers) {
+			attacker->get_game_data()->change_experience(result.experience_award);
+		}
+	} else {
+		result.experience_award = defines::get()->get_experience_award_for_challenge_rating(attacker_challenge_rating) / static_cast<int64_t>(defenders.size());
+
+		for (const character *defender : defenders) {
+			defender->get_game_data()->change_experience(result.experience_award);
+		}
+	}
+
+	return result;
+}
+
 bool game::do_battle(army *attacking_army, army *defending_army)
 {
 	//this function returns true if the attackers won, or false otherwise

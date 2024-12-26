@@ -2,10 +2,44 @@
 
 #include "character/challenge_rating.h"
 
+#include "character/character.h"
+#include "character/character_game_data.h"
+#include "database/defines.h"
 #include "util/assert_util.h"
 #include "util/string_util.h"
 
 namespace kobold {
+
+challenge_rating challenge_rating::get_group_challenge_rating(const std::vector<const character *> &characters)
+{
+	assert_throw(!characters.empty());
+
+	if (characters.size() == 1) {
+		return characters.at(0)->get_game_data()->get_challenge_rating();
+	}
+
+	int64_t group_experience_award = 0;
+
+	for (const character *character : characters) {
+		group_experience_award += defines::get()->get_experience_award_for_challenge_rating(character->get_game_data()->get_challenge_rating());
+	}
+
+	challenge_rating challenge_rating = characters.at(0)->get_game_data()->get_challenge_rating();
+	kobold::challenge_rating previous_challenge_rating = challenge_rating;
+	while (defines::get()->get_experience_award_for_challenge_rating(challenge_rating) < group_experience_award) {
+		previous_challenge_rating = challenge_rating;
+		challenge_rating.change(1);
+	}
+
+	const int64_t prev_diff = std::abs(group_experience_award - defines::get()->get_experience_award_for_challenge_rating(previous_challenge_rating));
+	const int64_t diff = std::abs(group_experience_award - defines::get()->get_experience_award_for_challenge_rating(challenge_rating));
+
+	if (prev_diff < diff) {
+		return previous_challenge_rating;
+	} else {
+		return challenge_rating;
+	}
+}
 
 challenge_rating::challenge_rating(const std::string &str)
 {

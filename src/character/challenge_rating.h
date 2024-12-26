@@ -5,6 +5,8 @@ namespace kobold {
 class challenge_rating final
 {
 public:
+	static challenge_rating get_group_challenge_rating(const std::vector<const character *> &characters);
+
 	challenge_rating()
 	{
 	}

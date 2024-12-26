@@ -19,6 +19,7 @@
 #include "script/effect/capital_effect.h"
 #include "script/effect/change_opinion_effect.h"
 #include "script/effect/clear_flag_effect.h"
+#include "script/effect/combat_effect.h"
 #include "script/effect/commodity_effect.h"
 #include "script/effect/commodity_percent_effect.h"
 #include "script/effect/country_effect.h"
@@ -118,7 +119,7 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 		return std::make_unique<tooltip_effect<scope_type>>(value, effect_operator);
 	}
 
-	throw std::runtime_error("Invalid property effect: \"" + key + "\".");
+	throw std::runtime_error(std::format("Invalid property effect: \"{}\".", key));
 }
 
 template <typename scope_type>
@@ -128,7 +129,11 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 	const gsml_operator effect_operator = scope.get_operator();
 	std::unique_ptr<effect> effect;
 
-	if constexpr (std::is_same_v<scope_type, const country>) {
+	if constexpr (std::is_same_v<scope_type, const character>) {
+		if (effect_identifier == "combat") {
+			effect = std::make_unique<combat_effect>(effect_operator);
+		}
+	} else if constexpr (std::is_same_v<scope_type, const country>) {
 		if (effect_identifier == "any_known_country") {
 			effect = std::make_unique<any_known_country_effect>(effect_operator);
 		} else if (effect_identifier == "any_neighbor_country") {

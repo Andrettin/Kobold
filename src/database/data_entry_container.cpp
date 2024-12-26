@@ -6,6 +6,7 @@
 #include "character/alignment_axis.h"
 #include "character/character_attribute.h"
 #include "character/character_class.h"
+#include "character/character_template.h"
 #include "character/damage_reduction_type.h"
 #include "character/feat.h"
 #include "character/saving_throw_type.h"
@@ -35,6 +36,7 @@ template struct data_entry_compare<alignment>;
 template struct data_entry_compare<alignment_axis>;
 template struct data_entry_compare<character_attribute>;
 template struct data_entry_compare<character_class>;
+template struct data_entry_compare<character_template>;
 template struct data_entry_compare<commodity_unit>;
 template struct data_entry_compare<country_attribute>;
 template struct data_entry_compare<country_feat>;
