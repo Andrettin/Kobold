@@ -5,9 +5,11 @@ henry_the_navigator = {
 		or = {
 			culture = portuguese
 			culture = turkish
+			character_class = commoner
 		}
 		or = {
 			character_class = aristocrat
+			character_class = commoner
 			character_class = expert
 		}
 	}

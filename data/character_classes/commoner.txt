@@ -1,0 +1,36 @@
+commoner = {
+	name = "Commoner"
+	type = base_class
+	icon = slaves_light
+	max_level = 20
+	hit_dice = 1d4
+	starting_age_category = intuitive
+	base_attack_bonus_table = low_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = low_saving_throw_bonus
+	}
+	class_skills = {
+		climb
+		craft
+		handle_animal
+		jump
+		listen
+		profession
+		ride
+		spot
+		swim
+		use_rope
+	}
+	base_skill_points_per_level = 2
+	modifier = {
+		challenge_rating = -1
+	}
+	level_effects = {
+		1 = {
+			gain_feat_of_type = skill_proficiency
+			gain_feat_of_type = skill_proficiency
+		}
+	}
+}

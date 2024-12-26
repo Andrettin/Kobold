@@ -95,5 +95,5 @@ lelio_de_luca = { #Source: Josef Dullinger, "Die Handelskompagnien Oesterreichs 
 	gender = male
 	start_date = 1664
 	
-	was one of the two directors of Austria's oriental company, which was founded in 1664
+	#was one of the two directors of Austria's oriental company, which was founded in 1664
 }
