@@ -84,8 +84,8 @@ public:
 
 	static void initialize_all();
 
-	static const character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats);
-	static const character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
+	static character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats);
+	static character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
 	explicit character(const std::string &identifier);
 	~character();

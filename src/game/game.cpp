@@ -1297,6 +1297,11 @@ void game::add_generated_character(qunique_ptr<character> &&character)
 	this->generated_characters.push_back(std::move(character));
 }
 
+void game::remove_generated_character(character *character)
+{
+	vector::remove(this->generated_characters, character);
+}
+
 void game::process_delayed_effects()
 {
 	this->process_delayed_effects(this->character_delayed_effects);

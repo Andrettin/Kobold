@@ -98,7 +98,7 @@ void character::initialize_all()
 	}
 }
 
-const character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
+character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
@@ -109,7 +109,9 @@ const character *character::generate(const kobold::species *species, const std::
 	generated_character->culture = const_cast<kobold::culture *>(culture);
 	generated_character->religion = religion;
 	generated_character->generate_patron_deity();
-	generated_character->phenotype = culture->get_default_phenotype();
+	if (culture != nullptr) {
+		generated_character->phenotype = culture->get_default_phenotype();
+	}
 	generated_character->generate_alignments();
 	generated_character->home_settlement = home_settlement;
 	generated_character->set_start_date(game::get()->get_date());
@@ -129,7 +131,7 @@ const character *character::generate(const kobold::species *species, const std::
 	return game::get()->get_generated_characters().back().get();
 }
 
-const character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
+character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
 {
 	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats());
 }

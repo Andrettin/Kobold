@@ -238,6 +238,7 @@ public:
 	}
 
 	void add_generated_character(qunique_ptr<character> &&character);
+	void remove_generated_character(character *character);
 
 	void process_delayed_effects();
 
