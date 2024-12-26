@@ -478,6 +478,13 @@ void character_game_data::on_class_level_gained(const character_class *character
 		this->change_saving_throw_bonus(saving_throw_type, saving_throw_bonus_table->get_bonus_per_level(affected_class_level) * multiplier);
 	}
 
+	if (affected_class_level == 1) {
+		const modifier<const kobold::character> *modifier = character_class->get_modifier();
+		if (modifier != nullptr) {
+			this->apply_modifier(modifier, multiplier);
+		}
+	}
+
 	const dice &hit_dice = character_class->get_hit_dice();
 	this->apply_hit_dice(hit_dice);
 

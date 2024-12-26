@@ -12,6 +12,7 @@
 #include "character/starting_age_category.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
+#include "script/modifier.h"
 
 namespace kobold {
 
@@ -70,6 +71,10 @@ void character_class::process_gsml_scope(const gsml_data &scope)
 		auto conditions = std::make_unique<and_condition<character>>();
 		database::process_gsml_data(conditions, scope);
 		this->conditions = std::move(conditions);
+	} else if (tag == "modifier") {
+		auto modifier = std::make_unique<kobold::modifier<const character>>();
+		database::process_gsml_data(modifier, scope);
+		this->modifier = std::move(modifier);
 	} else if (tag == "level_effects") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();
@@ -148,6 +153,10 @@ void character_class::check() const
 QString character_class::get_tooltip(const kobold::character *character) const
 {
 	std::string str = std::format("Hit Dice: {}", this->get_hit_dice().to_string());
+
+	if (this->get_modifier() != nullptr) {
+		str += "\n" + this->get_modifier()->get_string(character);
+	}
 
 	for (const auto &[level, level_effects] : this->level_effects) {
 		str += std::format("\nLevel {}:\n{}", level, level_effects->get_effects_string(character, read_only_context(character), 1, {}, true));

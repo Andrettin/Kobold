@@ -22,6 +22,9 @@ class and_condition;
 template <typename scope_type>
 class effect_list;
 
+template <typename scope_type>
+class modifier;
+
 class character_class final : public named_data_entry, public data_type<character_class>
 {
 	Q_OBJECT
@@ -139,6 +142,11 @@ public:
 		return this->conditions.get();
 	}
 
+	const kobold::modifier<const character> *get_modifier() const
+	{
+		return this->modifier.get();
+	}
+
 	const effect_list<const character> *get_level_effects(const int level) const
 	{
 		const auto find_iterator = this->level_effects.find(level);
@@ -188,6 +196,7 @@ private:
 	data_entry_map<character_attribute, int> min_attribute_values;
 	std::map<std::string, int> rank_levels; //names for particular levels
 	std::unique_ptr<and_condition<character>> conditions;
+	std::unique_ptr<kobold::modifier<const character>> modifier;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> level_effects;
 	data_entry_map<feat, int> feat_weights;
 };

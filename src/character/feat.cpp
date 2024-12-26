@@ -107,7 +107,7 @@ QString feat::get_modifier_string(const kobold::character *character) const
 	std::string str;
 
 	if (this->get_modifier() != nullptr) {
-		str += this->get_modifier()->get_string(nullptr);
+		str += this->get_modifier()->get_string(character);
 	}
 
 	if (this->get_effects() != nullptr) {
