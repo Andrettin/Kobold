@@ -15,7 +15,7 @@ public:
 	explicit experience_effect(const std::string &value, const gsml_operator effect_operator)
 		: effect<scope_type>(effect_operator)
 	{
-		this->quantity = std::stoi(value);
+		this->quantity = std::stoll(value);
 	}
 
 	virtual const std::string &get_class_identifier() const override
@@ -41,21 +41,21 @@ public:
 
 	virtual std::string get_assignment_string() const override
 	{
-		return std::format("Set Experience to {}", std::to_string(this->quantity));
+		return std::format("Set Experience to {}", this->quantity);
 	}
 
 	virtual std::string get_addition_string() const override
 	{
-		return std::format("Gain {} Experience", std::to_string(this->quantity));
+		return std::format("Gain {} Experience", this->quantity);
 	}
 
 	virtual std::string get_subtraction_string() const override
 	{
-		return std::format("Lose {} Experience", std::to_string(this->quantity));
+		return std::format("Lose {} Experience", this->quantity);
 	}
 
 private:
-	int quantity = 0;
+	int64_t quantity = 0;
 };
 
 }

@@ -259,7 +259,7 @@ public:
 		return 0;
 	}
 
-	int get_experience_for_level(const int level) const
+	int64_t get_experience_for_level(const int level) const
 	{
 		const auto find_iterator = this->experience_per_level.find(level);
 		if (find_iterator != this->experience_per_level.end()) {
@@ -270,7 +270,7 @@ public:
 			throw std::runtime_error(std::format("No experience total is given for level {}.", level));
 		}
 
-		const int previous_level_experience = this->get_experience_for_level(level - 1);
+		const int64_t previous_level_experience = this->get_experience_for_level(level - 1);
 		return (previous_level_experience - this->get_experience_for_level(level - 2)) * 2 + previous_level_experience;
 	}
 
@@ -415,7 +415,7 @@ private:
 	portrait *interior_minister_portrait = nullptr;
 	portrait *war_minister_portrait = nullptr;
 	std::map<character_class_type, int> min_character_class_type_levels;
-	std::map<int, int> experience_per_level;
+	std::map<int, int64_t> experience_per_level;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
 	std::map<std::string, int> divine_ranks_by_name;
 	std::map<int, std::unique_ptr<const effect_list<const country>>> country_level_effects;

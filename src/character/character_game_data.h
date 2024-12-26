@@ -57,7 +57,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(bool dead READ is_dead NOTIFY dead_changed)
 	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
-	Q_PROPERTY(int experience READ get_experience NOTIFY experience_changed)
+	Q_PROPERTY(qint64 experience READ get_experience NOTIFY experience_changed)
 	Q_PROPERTY(QString challenge_rating READ get_challenge_rating_qstring NOTIFY challenge_rating_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
@@ -201,17 +201,17 @@ public:
 		return true;
 	}
 
-	int get_experience() const
+	int64_t get_experience() const
 	{
 		return this->experience;
 	}
 
-	void set_experience(const int experience)
+	void set_experience(const int64_t experience)
 	{
 		this->change_experience(experience - this->get_experience());
 	}
 
-	void change_experience(const int change);
+	void change_experience(const int64_t change);
 
 	int get_hit_dice_count() const
 	{
@@ -589,7 +589,7 @@ private:
 	bool dead = false;
 	std::map<character_class_type, const character_class *> character_classes;
 	int level = 0;
-	int experience = 0;
+	int64_t experience = 0;
 	data_entry_map<character_class, int> character_class_levels;
 	int hit_dice_count = 0;
 	kobold::challenge_rating challenge_rating;

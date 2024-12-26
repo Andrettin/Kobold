@@ -438,7 +438,7 @@ void character_game_data::change_level(const int change)
 	}
 
 	if (change > 0) {
-		const int level_experience = defines::get()->get_experience_for_level(this->get_level());
+		const int64_t level_experience = defines::get()->get_experience_for_level(this->get_level());
 		if (this->get_experience() < level_experience) {
 			this->set_experience(level_experience);
 		}
@@ -584,7 +584,7 @@ void character_game_data::check_level_experience()
 	}
 }
 
-void character_game_data::change_experience(const int change)
+void character_game_data::change_experience(const int64_t change)
 {
 	if (change == 0) {
 		return;
