@@ -643,7 +643,6 @@ source_group(script\\condition FILES ${script_condition_HDRS})
 
 set(script_effect_HDRS
 	src/script/effect/add_building_class_effect.h
-	src/script/effect/add_improvement_effect.h
 	src/script/effect/any_known_country_effect.h
 	src/script/effect/any_neighbor_country_effect.h
 	src/script/effect/battle_effect.h
@@ -665,6 +664,7 @@ set(script_effect_HDRS
 	src/script/effect/gain_spell_scroll_effect.h
 	src/script/effect/hidden_effect.h
 	src/script/effect/if_effect.h
+	src/script/effect/improvements_effect.h
 	src/script/effect/location_effect.h
 	src/script/effect/office_holder_effect.h
 	src/script/effect/opinion_modifiers_effect.h

@@ -13,7 +13,6 @@
 #include "map/site.h"
 #include "map/site_game_data.h"
 #include "script/effect/add_building_class_effect.h"
-#include "script/effect/add_improvement_effect.h"
 #include "script/effect/any_known_country_effect.h"
 #include "script/effect/any_neighbor_country_effect.h"
 #include "script/effect/battle_effect.h"
@@ -32,6 +31,7 @@
 #include "script/effect/gain_spell_scroll_effect.h"
 #include "script/effect/hidden_effect.h"
 #include "script/effect/if_effect.h"
+#include "script/effect/improvements_effect.h"
 #include "script/effect/location_effect.h"
 #include "script/effect/office_holder_effect.h"
 #include "script/effect/opinion_modifiers_effect.h"
@@ -80,8 +80,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	} else if constexpr (std::is_same_v<scope_type, const site>) {
 		if (key == "add_building_class") {
 			return std::make_unique<add_building_class_effect>(value, effect_operator);
-		} else if (key == "add_improvement") {
-			return std::make_unique<add_improvement_effect>(value, effect_operator);
+		} else if (key == "improvements") {
+			return std::make_unique<improvements_effect>(value, effect_operator);
 		}
 	}
 
