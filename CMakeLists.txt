@@ -627,6 +627,7 @@ set(script_condition_HDRS
 	src/script/condition/scripted_condition_condition.h
 	src/script/condition/scripted_modifier_condition.h
 	src/script/condition/settlement_type_condition.h
+	src/script/condition/site_condition.h
 	src/script/condition/site_count_condition.h
 	src/script/condition/skill_condition.h
 	src/script/condition/source_character_condition.h
