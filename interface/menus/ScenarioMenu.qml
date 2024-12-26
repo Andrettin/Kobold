@@ -364,8 +364,10 @@ MenuBase {
 		kobold.game.setup_scenario(selected_scenario).then(() => {
 			if (selected_scenario.default_countries.length > 0) {
 				diplomatic_map.selected_country = selected_scenario.default_countries[random(selected_scenario.default_countries.length)]
-			} else {
+			} else if (kobold.game.great_powers.length > 0) {
 				diplomatic_map.selected_country = kobold.game.great_powers[random(kobold.game.great_powers.length)]
+			} else {
+				diplomatic_map.selected_country = kobold.game.countries[random(kobold.game.countries.length)]
 			}
 			diplomatic_map.center_on_selected_country_capital()
 			loading_scenario = false
