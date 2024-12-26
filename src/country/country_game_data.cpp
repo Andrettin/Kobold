@@ -341,6 +341,10 @@ void country_game_data::do_events()
 		province->get_game_data()->do_events();
 	}
 
+	for (const character *character : this->get_characters()) {
+		character->get_game_data()->do_events();
+	}
+
 	if (this->is_under_anarchy()) {
 		return;
 	}

@@ -84,6 +84,8 @@ public:
 	void apply_history(const QDate &start_date);
 	void on_setup_finished();
 
+	void do_events();
+
 	std::string get_titled_name() const;
 
 	QString get_titled_name_qstring() const

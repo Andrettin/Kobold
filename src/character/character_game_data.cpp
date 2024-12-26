@@ -215,6 +215,18 @@ void character_game_data::on_setup_finished()
 	this->check_portrait();
 }
 
+void character_game_data::do_events()
+{
+	const bool is_last_turn_of_year = game::get()->get_year() != game::get()->get_next_date().year();
+
+	if (is_last_turn_of_year) {
+		character_event::check_events_for_scope(this->character, event_trigger::yearly_pulse);
+	}
+
+	character_event::check_events_for_scope(this->character, event_trigger::quarterly_pulse);
+	character_event::check_events_for_scope(this->character, event_trigger::per_turn_pulse);
+}
+
 std::string character_game_data::get_titled_name() const
 {
 	if (this->get_office() == nullptr) {
