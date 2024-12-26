@@ -14,6 +14,7 @@ elder_air_elemental = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 11
 		strength = 12
 		dexterity = 22
 		constitution = 8

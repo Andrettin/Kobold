@@ -26,6 +26,7 @@ titan = {
 		swim
 	}
 	modifier = {
+		challenge_rating = 21
 		strength = 32
 		dexterity = 2
 		constitution = 28

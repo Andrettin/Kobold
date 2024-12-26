@@ -49,6 +49,9 @@ expert = {
 		use_rope
 	}
 	base_skill_points_per_level = 6
+	modifier = {
+		challenge_rating = -1
+	}
 	level_effects = {
 		1 = {
 			gain_feat_of_type = skill_proficiency

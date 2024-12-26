@@ -11,6 +11,7 @@ lizardfolk = {
 		swim
 	}
 	modifier = {
+		challenge_rating = 1
 		strength = 2
 		constitution = 2
 		intelligence = -2

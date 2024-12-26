@@ -14,6 +14,7 @@ kobold = {
 		trained = 2d6
 	}
 	modifier = {
+		challenge_rating = -2
 		strength = -4
 		dexterity = 2
 		constitution = -2

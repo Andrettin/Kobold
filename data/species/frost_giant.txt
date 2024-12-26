@@ -13,6 +13,7 @@ frost_giant = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 9
 		strength = 18
 		dexterity = -2
 		constitution = 10

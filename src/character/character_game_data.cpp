@@ -472,6 +472,8 @@ void character_game_data::on_class_level_gained(const character_class *character
 
 	this->change_level(multiplier);
 
+	this->challenge_rating.change(multiplier);
+
 	this->change_base_attack_bonus(character_class->get_base_attack_bonus_table()->get_bonus_per_level(affected_class_level) * multiplier);
 
 	for (const auto &[saving_throw_type, saving_throw_bonus_table] : character_class->get_saving_throw_bonus_tables()) {
@@ -570,6 +572,21 @@ void character_game_data::check_level_experience()
 	}
 }
 
+void character_game_data::change_experience(const int change)
+{
+	if (change == 0) {
+		return;
+	}
+
+	this->experience += change;
+
+	if (game::get()->is_running()) {
+		emit experience_changed();
+	}
+
+	this->check_level_experience();
+}
+
 void character_game_data::apply_hit_dice(const dice &hit_dice)
 {
 	assert_throw(hit_dice.get_count() == 1);
@@ -600,21 +617,6 @@ void character_game_data::apply_hit_dice(const dice &hit_dice)
 		context ctx(this->character);
 		effects->do_effects(this->character, ctx);
 	}
-}
-
-void character_game_data::change_experience(const int change)
-{
-	if (change == 0) {
-		return;
-	}
-
-	this->experience += change;
-
-	if (game::get()->is_running()) {
-		emit experience_changed();
-	}
-
-	this->check_level_experience();
 }
 
 QVariantList character_game_data::get_attribute_values_qvariant_list() const

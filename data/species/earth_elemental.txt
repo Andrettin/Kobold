@@ -14,6 +14,7 @@ elder_earth_elemental = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 11
 		strength = 22
 		dexterity = -2
 		constitution = 10

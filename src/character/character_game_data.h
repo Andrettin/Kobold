@@ -1,5 +1,6 @@
 #pragma once
 
+#include "character/challenge_rating.h"
 #include "character/character_container.h"
 #include "database/data_entry_container.h"
 #include "script/scripted_modifier_container.h"
@@ -57,6 +58,7 @@ class character_game_data final : public QObject
 	Q_PROPERTY(const kobold::character_class* character_class READ get_character_class NOTIFY character_classes_changed)
 	Q_PROPERTY(int level READ get_level NOTIFY level_changed)
 	Q_PROPERTY(int experience READ get_experience NOTIFY experience_changed)
+	Q_PROPERTY(QString challenge_rating READ get_challenge_rating_qstring NOTIFY challenge_rating_changed)
 	Q_PROPERTY(QVariantList attribute_values READ get_attribute_values_qvariant_list NOTIFY attribute_values_changed)
 	Q_PROPERTY(int hit_points READ get_hit_points NOTIFY hit_points_changed)
 	Q_PROPERTY(int base_attack_bonus READ get_base_attack_bonus NOTIFY base_attack_bonus_changed)
@@ -197,6 +199,18 @@ public:
 		return true;
 	}
 
+	int get_experience() const
+	{
+		return this->experience;
+	}
+
+	void set_experience(const int experience)
+	{
+		this->change_experience(experience - this->get_experience());
+	}
+
+	void change_experience(const int change);
+
 	int get_hit_dice_count() const
 	{
 		return this->hit_dice_count;
@@ -213,17 +227,26 @@ public:
 
 	void apply_hit_dice(const dice &hit_dice);
 
-	int get_experience() const
+	const kobold::challenge_rating &get_challenge_rating() const
 	{
-		return this->experience;
+		return this->challenge_rating;
 	}
 
-	void set_experience(const int experience)
+	QString get_challenge_rating_qstring() const
 	{
-		this->change_experience(experience - this->get_experience());
+		return QString::fromStdString(this->get_challenge_rating().to_string());
 	}
 
-	void change_experience(const int change);
+	void change_challenge_rating(const int change)
+	{
+		if (change == 0) {
+			return;
+		}
+
+		this->challenge_rating.change(change);
+
+		emit challenge_rating_changed();
+	}
 
 	const data_entry_map<character_attribute, int> &get_attribute_values() const
 	{
@@ -538,6 +561,7 @@ signals:
 	void character_classes_changed();
 	void level_changed();
 	void experience_changed();
+	void challenge_rating_changed();
 	void attribute_values_changed();
 	void hit_points_changed();
 	void base_attack_bonus_changed();
@@ -566,6 +590,7 @@ private:
 	int experience = 0;
 	data_entry_map<character_class, int> character_class_levels;
 	int hit_dice_count = 0;
+	kobold::challenge_rating challenge_rating;
 	data_entry_map<character_attribute, int> attribute_values;
 	int hit_points = 0;
 	int base_attack_bonus = 0;

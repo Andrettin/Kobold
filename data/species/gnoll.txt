@@ -15,6 +15,7 @@ gnoll = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 1
 		strength = 4
 		constitution = 2
 		intelligence = -2

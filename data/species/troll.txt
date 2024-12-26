@@ -10,6 +10,7 @@ troll = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 5
 		strength = 12
 		dexterity = 4
 		constitution = 12

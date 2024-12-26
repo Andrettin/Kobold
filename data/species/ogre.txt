@@ -11,6 +11,7 @@ ogre = {
 		spot
 	}
 	modifier = {
+		challenge_rating = 3
 		strength = 10
 		dexterity = -2
 		constitution = 4

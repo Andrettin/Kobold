@@ -16,6 +16,7 @@ hound_archon = {
 		survival
 	}
 	modifier = {
+		challenge_rating = 4
 		strength = 4
 		constitution = 2
 		wisdom = 2

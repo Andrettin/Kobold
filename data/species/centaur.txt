@@ -12,6 +12,7 @@ centaur = {
 		survival
 	}
 	modifier = {
+		challenge_rating = 3
 		strength = 8
 		dexterity = 4
 		constitution = 4

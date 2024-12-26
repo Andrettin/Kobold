@@ -21,6 +21,7 @@ nymph = {
 		use_rope
 	}
 	modifier = {
+		challenge_rating = 7
 		dexterity = 6
 		constitution = 2
 		intelligence = 6

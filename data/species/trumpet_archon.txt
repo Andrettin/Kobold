@@ -20,6 +20,7 @@ trumpet_archon = {
 		use_rope
 	}
 	modifier = {
+		challenge_rating = 14
 		strength = 10
 		dexterity = 6
 		constitution = 12

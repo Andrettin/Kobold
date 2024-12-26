@@ -22,6 +22,7 @@ include_directories(
 set(character_SRCS
 	src/character/alignment.cpp
 	src/character/alignment_axis.cpp
+	src/character/challenge_rating.cpp
 	src/character/character.cpp
 	src/character/character_class.cpp
 	src/character/character_container.cpp
@@ -333,6 +334,7 @@ set(kobold_SRCS
 set(character_HDRS
 	src/character/alignment.h
 	src/character/alignment_axis.h
+	src/character/challenge_rating.h
 	src/character/character.h
 	src/character/character_attribute.h
 	src/character/character_class.h
@@ -699,6 +701,7 @@ set(script_modifier_effect_HDRS
 	src/script/modifier_effect/capital_commodity_bonus_modifier_effect.h
 	src/script/modifier_effect/capital_commodity_output_modifier_effect.h
 	src/script/modifier_effect/cavalry_cost_modifier_effect.h
+	src/script/modifier_effect/challenge_rating_modifier_effect.h
 	src/script/modifier_effect/character_attribute_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_for_tile_threshold_modifier_effect.h
 	src/script/modifier_effect/commodity_bonus_modifier_effect.h

@@ -12,6 +12,7 @@
 #include "script/modifier_effect/capital_commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/capital_commodity_output_modifier_effect.h"
 #include "script/modifier_effect/cavalry_cost_modifier_effect.h"
+#include "script/modifier_effect/challenge_rating_modifier_effect.h"
 #include "script/modifier_effect/character_attribute_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_modifier_effect.h"
 #include "script/modifier_effect/commodity_bonus_for_tile_threshold_modifier_effect.h"
@@ -74,6 +75,8 @@ std::unique_ptr<modifier_effect<scope_type>> modifier_effect<scope_type>::from_g
 			return std::make_unique<attack_bonus_modifier_effect>(value);
 		} else if (key == "base_attack_bonus") {
 			return std::make_unique<base_attack_bonus_modifier_effect>(value);
+		} else if (key == "challenge_rating") {
+			return std::make_unique<challenge_rating_modifier_effect>(value);
 		} else if (key == "hit_points") {
 			return std::make_unique<hit_points_modifier_effect>(value);
 		} else if (key == "initiative") {

@@ -13,6 +13,7 @@ ModifierDialog {
 		+ "\nLevel: " + character.game_data.level
 		+ (character.deity ? ("\nDivine Rank: " + character.deity.divine_rank) : "")
 		+ "\nExperience: " + number_string(character.game_data.experience)
+		+ "\nChallenge Rating: " + character.game_data.challenge_rating
 		+ "\nAge: " + number_string(character.game_data.age)
 		+ (character.deity ? ("\nPantheon: " + character.deity.pantheon.name) : (character.patron_deity ? ("\nPatron Deity: " + patron_deity_name) : ("\nReligion: " + character.religion.name)))
 		+ "\nAlignment: " + (character.alignments.length == 0 ? "Neutral" : string_list_to_string(object_list_to_name_list(character.alignments), " "))
