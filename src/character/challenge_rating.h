@@ -18,6 +18,21 @@ public:
 		this->value += change;
 	}
 
+	int get_value() const
+	{
+		return this->value;
+	}
+
+	constexpr bool operator ==(const challenge_rating &other) const
+	{
+		return this->value == other.value;
+	}
+
+	constexpr bool operator <(const challenge_rating &other) const
+	{
+		return this->value < other.value;
+	}
+
 private:
 	int value = 0;
 };

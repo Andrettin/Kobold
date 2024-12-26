@@ -76,6 +76,13 @@ void defines::process_gsml_scope(const gsml_data &scope)
 
 			this->experience_per_level[level] = experience;
 		});
+	} else if (tag == "experience_award_per_challenge_rating") {
+		scope.for_each_property([&](const gsml_property &property) {
+			const challenge_rating challenge_rating(property.get_key());
+			const int64_t experience = std::stoll(property.get_value());
+
+			this->experience_award_per_challenge_rating[challenge_rating] = experience;
+		});
 	} else if (tag == "character_hit_dice_count_effects") {
 		scope.for_each_child([&](const gsml_data &child_scope) {
 			const std::string &child_tag = child_scope.get_tag();

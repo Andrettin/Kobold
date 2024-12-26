@@ -1,5 +1,6 @@
 #pragma once
 
+#include "character/challenge_rating.h"
 #include "database/defines_base.h"
 #include "economy/commodity_container.h"
 #include "map/terrain_adjacency.h"
@@ -274,6 +275,23 @@ public:
 		return (previous_level_experience - this->get_experience_for_level(level - 2)) * 2 + previous_level_experience;
 	}
 
+	int64_t get_experience_award_for_challenge_rating(const challenge_rating &challenge_rating) const
+	{
+		const auto find_iterator = this->experience_award_per_challenge_rating.find(challenge_rating);
+		if (find_iterator != this->experience_award_per_challenge_rating.end()) {
+			return find_iterator->second;
+		}
+
+		if (challenge_rating.get_value() <= 0) {
+			throw std::runtime_error(std::format("No experience award is given for challenge rating {}.", challenge_rating.to_string()));
+		}
+
+		kobold::challenge_rating previous_challenge_rating = challenge_rating;
+		previous_challenge_rating.change(-2);
+
+		return this->get_experience_award_for_challenge_rating(previous_challenge_rating) * 2;
+	}
+
 	const effect_list<const character> *get_character_hit_dice_count_effects(const int level) const
 	{
 		const auto find_iterator = this->character_hit_dice_count_effects.find(level);
@@ -416,6 +434,7 @@ private:
 	portrait *war_minister_portrait = nullptr;
 	std::map<character_class_type, int> min_character_class_type_levels;
 	std::map<int, int64_t> experience_per_level;
+	std::map<challenge_rating, int64_t> experience_award_per_challenge_rating;
 	std::map<int, std::unique_ptr<const effect_list<const character>>> character_hit_dice_count_effects;
 	std::map<std::string, int> divine_ranks_by_name;
 	std::map<int, std::unique_ptr<const effect_list<const country>>> country_level_effects;
