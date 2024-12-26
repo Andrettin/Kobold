@@ -25,6 +25,10 @@ public:
 	{
 		Q_UNUSED(ctx);
 
+		if (this->character_class == nullptr) {
+			return scope->get_game_data()->get_character_class() == nullptr;
+		}
+
 		return scope->get_game_data()->get_character_class(this->character_class->get_type()) == this->character_class;
 	}
 

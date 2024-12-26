@@ -12,6 +12,7 @@
 #include "character/dynasty.h"
 #include "character/feat.h"
 #include "character/feat_template.h"
+#include "character/starting_age_category.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -118,8 +119,12 @@ character *character::generate(const kobold::species *species, const std::map<ch
 
 	const archimedes::gender gender = random::get()->generate(2) == 0 ? gender::male : gender::female;
 	generated_character->set_gender(gender);
-	generated_character->set_name(culture->get_personal_name_generator(gender)->generate_name());
-	generated_character->set_surname(culture->get_surname_generator(gender)->generate_name());
+	if (culture != nullptr) {
+		generated_character->set_name(culture->get_personal_name_generator(gender)->generate_name());
+		generated_character->set_surname(culture->get_surname_generator(gender)->generate_name());
+	} else {
+		generated_character->set_name(species->get_personal_name_generator(gender)->generate_name());
+	}
 
 	generated_character->initialize_dates();
 	generated_character->check();
@@ -310,16 +315,18 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has no species.", this->get_identifier()));
 	}
 
-	if (this->get_character_class(character_class_type::base_class) == nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has no base character class.", this->get_identifier()));
+	if (this->get_character_class(character_class_type::base_class) == nullptr && species->get_hit_dice_count() == 0) {
+		throw std::runtime_error(std::format("Character \"{}\" has no base character class, and its species has a hit dice count of zero.", this->get_identifier()));
 	}
 
-	if (this->get_culture() == nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has no culture.", this->get_identifier()));
-	}
+	if (this->get_species()->is_sapient()) {
+		if (this->get_culture() == nullptr) {
+			throw std::runtime_error(std::format("Sapient character \"{}\" has no culture.", this->get_identifier()));
+		}
 
-	if (this->get_religion() == nullptr) {
-		throw std::runtime_error(std::format("Character \"{}\" has no religion.", this->get_identifier()));
+		if (this->get_religion() == nullptr) {
+			throw std::runtime_error(std::format("Sapient character \"{}\" has no religion.", this->get_identifier()));
+		}
 	}
 
 	if (this->get_patron_deity() != nullptr && !vector::contains(this->get_religion()->get_deities(), this->get_patron_deity())) {
@@ -330,10 +337,12 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has both a patron deity and a religion which provide divine domains.", this->get_identifier()));
 	}
 
-	assert_throw(this->get_phenotype() != nullptr);
+	if (this->get_culture() != nullptr) {
+		assert_throw(this->get_phenotype() != nullptr);
+	}
 
-	if (this->get_home_settlement() == nullptr && !this->is_deity()) {
-		throw std::runtime_error(std::format("Non-deity character \"{}\" has no home settlement.", this->get_identifier()));
+	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity()) {
+		throw std::runtime_error(std::format("Sapient, non-deity character \"{}\" has no home settlement.", this->get_identifier()));
 	} else if (this->get_home_settlement() != nullptr && !this->get_home_settlement()->is_settlement()) {
 		throw std::runtime_error(std::format("Character \"{}\" has \"{}\" set as their home settlement, but it is not a settlement site.", this->get_identifier(), this->get_home_settlement()->get_identifier()));
 	}
@@ -362,14 +371,13 @@ void character::initialize_dates()
 	const character_class *character_class = this->get_character_class(character_class_type::base_class);
 
 	assert_throw(this->get_species() != nullptr);
-	assert_throw(character_class != nullptr);
 
 	const int adulthood_age = this->get_species()->get_adulthood_age();
 	const int venerable_age = this->get_species()->get_venerable_age();
 	const dice &maximum_age_modifier = this->get_species()->get_maximum_age_modifier();
 
 	if (adulthood_age != 0 && venerable_age != 0 && !maximum_age_modifier.is_null()) {
-		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class->get_starting_age_category());
+		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class ? character_class->get_starting_age_category() : starting_age_category::intuitive);
 
 		bool date_changed = true;
 		while (date_changed) {

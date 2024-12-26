@@ -47,6 +47,7 @@ otto_von_bismarck = {
 			character_class = paladin
 			character_class = ranger
 			character_class = warrior
+			character_class = none #placeholder
 		}
 	}
 }
