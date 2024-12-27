@@ -114,7 +114,7 @@ void defines::process_gsml_scope(const gsml_data &scope)
 		});
 	} else if (tag == "event_trigger_none_random_weights") {
 		scope.for_each_property([&](const gsml_property &property) {
-			const event_trigger trigger = enum_converter<event_trigger>::to_enum(property.get_key());
+			const event_trigger trigger = magic_enum::enum_cast<event_trigger>(property.get_key()).value();
 			const int weight = std::stoi(property.get_value());
 
 			this->event_trigger_none_random_weights[trigger] = weight;

@@ -141,7 +141,6 @@ int main(int argc, char **argv)
 		enum_converter<cultural_group_rank>();
 		enum_converter<diplomacy_state>();
 		enum_converter<elevation_type>();
-		enum_converter<event_trigger>();
 		enum_converter<forestation_type>();
 		enum_converter<gender>();
 		enum_converter<improvement_slot>();
@@ -151,6 +150,7 @@ int main(int argc, char **argv)
 		enum_converter<site_type>();
 		enum_converter<temperature_type>();
 		database::get()->register_enum<character_class_type>();
+		database::get()->register_enum<event_trigger>();
 		database::get()->register_enum<starting_age_category>();
 
 		QCoro::Qml::registerTypes();
