@@ -587,6 +587,7 @@ bool character_game_data::gain_character_class_level()
 
 			engine_interface::get()->add_notification("Level Up", interior_minister_portrait, std::format("You have gained a level!\n\n{}", level_effects_string));
 		}
+
 		return true;
 	} else {
 

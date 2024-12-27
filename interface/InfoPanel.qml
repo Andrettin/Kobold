@@ -149,7 +149,7 @@ Rectangle {
 					selected_site.map_data.resource ? selected_site.map_data.resource.name : ""
 				)
 			)
-		) : (selected_civilian_unit && selected_civilian_unit.character ? selected_civilian_unit.character.full_name : (kobold.game.player_character ? kobold.game.player_character.game_data.character_class.name : ""))
+		) : (selected_civilian_unit && selected_civilian_unit.character ? selected_civilian_unit.character.full_name : (!selected_civilian_unit && kobold.game.player_character ? kobold.game.player_character.game_data.character_class.name : ""))
 	}
 	
 	ScriptedModifierRow {
