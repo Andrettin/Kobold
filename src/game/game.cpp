@@ -414,6 +414,10 @@ void game::apply_history(const kobold::scenario *scenario)
 				country_game_data->set_consulate(other_country, consulate);
 				other_country->get_game_data()->set_consulate(country, consulate);
 			}
+
+			for (const flag *flag : country_history->get_flags()) {
+				country_game_data->set_flag(flag);
+			}
 		}
 
 		for (const country *country : this->get_countries()) {
@@ -778,6 +782,10 @@ void game::apply_sites()
 			if (site_history->is_resource_discovered()) {
 				assert_throw(site->get_type() == site_type::resource || site->is_settlement());
 				map::get()->set_tile_resource_discovered(site_game_data->get_tile_pos(), true);
+			}
+
+			for (const flag *flag : site_history->get_flags()) {
+				site_game_data->set_flag(flag);
 			}
 		} catch (...) {
 			std::throw_with_nested(std::runtime_error(std::format("Failed to apply history for site \"{}\".", site->get_identifier())));

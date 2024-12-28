@@ -1,7 +1,5 @@
 #pragma once
 
-#include "country/country.h"
-#include "country/country_game_data.h"
 #include "script/effect/effect.h"
 #include "script/flag.h"
 #include "util/string_util.h"
@@ -10,11 +8,12 @@ namespace kobold {
 
 class flag;
 
-class set_flag_effect final : public effect<const country>
+template <typename scope_type>
+class set_flag_effect final : public effect<scope_type>
 {
 public:
 	explicit set_flag_effect(const kobold::flag *flag, const gsml_operator effect_operator)
-		: effect(effect_operator), flag(flag)
+		: effect<scope_type>(effect_operator), flag(flag)
 	{
 	}
 
@@ -34,7 +33,7 @@ public:
 		return class_identifier;
 	}
 
-	virtual void do_assignment_effect(const country *scope) const override
+	virtual void do_assignment_effect(scope_type *scope) const override
 	{
 		scope->get_game_data()->set_flag(this->flag);
 	}

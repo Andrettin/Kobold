@@ -10,6 +10,7 @@ Q_MOC_INCLUDE("religion/religion.h")
 namespace kobold {
 
 class building_type;
+class flag;
 class improvement;
 class settlement_type;
 class site;
@@ -25,6 +26,7 @@ class site_history final : public data_entry_history
 	Q_PROPERTY(kobold::settlement_type* settlement_type MEMBER settlement_type)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture)
 	Q_PROPERTY(kobold::religion* religion MEMBER religion)
+	Q_PROPERTY(std::vector<const kobold::flag *> flags READ get_flags)
 
 public:
 	explicit site_history(const kobold::site *site) : site(site)
@@ -104,6 +106,21 @@ public:
 		return this->religion;
 	}
 
+	const std::vector<const flag *> &get_flags() const
+	{
+		return this->flags;
+	}
+
+	Q_INVOKABLE void add_flag(const flag *flag)
+	{
+		this->flags.push_back(flag);
+	}
+
+	Q_INVOKABLE void remove_flag(const flag *flag)
+	{
+		std::erase(this->flags, flag);
+	}
+
 private:
 	const kobold::site *site = nullptr;
 	bool resource_discovered = false;
@@ -114,6 +131,7 @@ private:
 	std::map<improvement_slot, const improvement *> improvements;
 	building_slot_type_map<const building_type *> buildings;
 	building_slot_type_map<const wonder *> wonders;
+	std::vector<const flag *> flags;
 };
 
 }

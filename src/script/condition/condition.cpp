@@ -138,8 +138,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<discovered_region_condition>(value, condition_operator);
 		} else if (key == "government_type") {
 			return std::make_unique<government_type_condition>(value, condition_operator);
-		} else if (key == "has_flag") {
-			return std::make_unique<has_flag_condition>(value, condition_operator);
 		} else if (key == "independent") {
 			return std::make_unique<independent_condition>(value, condition_operator);
 		} else if (key == "is_military_unit_category_available") {
@@ -226,6 +224,12 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<has_terrain_condition<scope_type>>(value, condition_operator);
 		} else if (key == "produces_commodity") {
 			return std::make_unique<produces_commodity_condition<scope_type>>(value, condition_operator);
+		}
+	}
+
+	if constexpr (std::is_same_v<scope_type, country> || std::is_same_v<scope_type, site>) {
+		if (key == "has_flag") {
+			return std::make_unique<has_flag_condition<scope_type>>(value, condition_operator);
 		}
 	}
 

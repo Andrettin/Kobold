@@ -14,6 +14,7 @@ namespace kobold {
 class character;
 class consulate;
 class country;
+class flag;
 class government_type;
 class religion;
 class subject_type;
@@ -30,6 +31,7 @@ class country_history final : public data_entry_history
 	Q_PROPERTY(const kobold::government_type* government_type MEMBER government_type READ get_government_type)
 	Q_PROPERTY(std::vector<const kobold::tradition *> traditions READ get_traditions)
 	Q_PROPERTY(int wealth MEMBER wealth READ get_wealth)
+	Q_PROPERTY(std::vector<const kobold::flag *> flags READ get_flags)
 
 public:
 	explicit country_history(const kobold::country *country);
@@ -93,6 +95,21 @@ public:
 		return this->consulates;
 	}
 
+	const std::vector<const flag *> &get_flags() const
+	{
+		return this->flags;
+	}
+
+	Q_INVOKABLE void add_flag(const flag *flag)
+	{
+		this->flags.push_back(flag);
+	}
+
+	Q_INVOKABLE void remove_flag(const flag *flag)
+	{
+		std::erase(this->flags, flag);
+	}
+
 private:
 	const kobold::country *country = nullptr;
 	country_tier tier{};
@@ -104,6 +121,7 @@ private:
 	commodity_map<int> commodities;
 	country_map<diplomacy_state> diplomacy_states;
 	country_map<const consulate *> consulates;
+	std::vector<const flag *> flags;
 };
 
 }

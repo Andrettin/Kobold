@@ -1,7 +1,5 @@
 #pragma once
 
-#include "country/country.h"
-#include "country/country_game_data.h"
 #include "script/condition/condition.h"
 #include "script/flag.h"
 #include "util/string_util.h"
@@ -10,16 +8,17 @@ namespace kobold {
 
 class flag;
 
-class has_flag_condition final : public condition<country>
+template <typename scope_type>
+class has_flag_condition final : public condition<scope_type>
 {
 public:
 	explicit has_flag_condition(const kobold::flag *flag)
-		: condition(gsml_operator::assignment), flag(flag)
+		: condition<scope_type>(gsml_operator::assignment), flag(flag)
 	{
 	}
 
 	explicit has_flag_condition(const std::string &value, const gsml_operator condition_operator)
-		: condition(condition_operator), flag(flag::get_or_add(value, database::get()->get_current_module()))
+		: condition<scope_type>(condition_operator), flag(flag::get_or_add(value, database::get()->get_current_module()))
 	{
 	}
 
@@ -29,7 +28,7 @@ public:
 		return class_identifier;
 	}
 
-	virtual bool check_assignment(const country *scope, const read_only_context &ctx) const override
+	virtual bool check_assignment(const scope_type *scope, const read_only_context &ctx) const override
 	{
 		Q_UNUSED(ctx);
 

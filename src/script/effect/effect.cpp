@@ -64,14 +64,10 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	if constexpr (std::is_same_v<scope_type, const country>) {
 		static const std::string percent_suffix = "_percent";
 
-		if (key == "clear_flag") {
-			return std::make_unique<clear_flag_effect>(value, effect_operator);
-		} else if (key == "create_military_unit") {
+		if (key == "create_military_unit") {
 			return std::make_unique<create_military_unit_effect>(value, effect_operator);
 		} else if (key == "gain_spell_scroll") {
 			return std::make_unique<gain_spell_scroll_effect>(value, effect_operator);
-		} else if (key == "set_flag") {
-			return std::make_unique<set_flag_effect>(value, effect_operator);
 		} else if (key.ends_with(percent_suffix) && commodity::try_get(key.substr(0, key.size() - percent_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - percent_suffix.size()));
 			return std::make_unique<commodity_percent_effect>(commodity, value, effect_operator);
@@ -106,6 +102,10 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 	if constexpr (std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const site>) {
 		if (key == "capital") {
 			return std::make_unique<capital_effect<scope_type>>(value, effect_operator);
+		} else if (key == "clear_flag") {
+			return std::make_unique<clear_flag_effect<scope_type>>(value, effect_operator);
+		} else if (key == "set_flag") {
+			return std::make_unique<set_flag_effect<scope_type>>(value, effect_operator);
 		}
 	}
 

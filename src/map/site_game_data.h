@@ -17,6 +17,7 @@ class building_class;
 class building_type;
 class country;
 class culture;
+class flag;
 class improvement;
 class phenotype;
 class province;
@@ -331,6 +332,21 @@ public:
 
 	bool can_be_visited() const;
 
+	bool has_flag(const flag *flag) const
+	{
+		return this->flags.contains(flag);
+	}
+
+	void set_flag(const flag *flag)
+	{
+		this->flags.insert(flag);
+	}
+
+	void clear_flag(const flag *flag)
+	{
+		this->flags.erase(flag);
+	}
+
 signals:
 	void owner_changed();
 	void culture_changed();
@@ -359,6 +375,7 @@ private:
 	commodity_map<centesimal_int> local_luxury_consumption;
 	centesimal_int output_modifier;
 	commodity_map<centesimal_int> commodity_output_modifiers;
+	std::set<const flag *> flags;
 };
 
 }
