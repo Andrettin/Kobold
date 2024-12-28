@@ -41,17 +41,17 @@ public:
 
 	virtual std::string get_assignment_string() const override
 	{
-		return std::format("Set Experience to {}", this->quantity);
+		return std::format("Set Experience to {}", number::to_formatted_string(this->quantity));
 	}
 
 	virtual std::string get_addition_string() const override
 	{
-		return std::format("Gain {} Experience", this->quantity);
+		return std::format("Gain {} Experience", number::to_formatted_string(this->quantity));
 	}
 
 	virtual std::string get_subtraction_string() const override
 	{
-		return std::format("Lose {} Experience", this->quantity);
+		return std::format("Lose {} Experience", number::to_formatted_string(this->quantity));
 	}
 
 private:
