@@ -210,7 +210,7 @@ void country_game_data::do_income_phase()
 
 void country_game_data::collect_taxes()
 {
-	const int result = this->do_skill_check(defines::get()->get_country_tax_skill()) / 3;
+	const int result = this->do_skill_roll(defines::get()->get_country_tax_skill()) / 3;
 
 	const commodity *wealth_commodity = defines::get()->get_wealth_commodity();
 	const commodity_unit *wealth_commodity_unit = defines::get()->get_country_income_commodity_unit();
@@ -698,7 +698,7 @@ int country_game_data::get_skill_modifier(const country_skill *skill) const
 	return this->get_skill_bonus(skill) + this->get_attribute_modifier(skill->get_attribute()) - std::max(this->get_unrest(), 0);
 }
 
-int country_game_data::do_skill_check(const country_skill *skill) const
+int country_game_data::do_skill_roll(const country_skill *skill) const
 {
 	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_modifier(skill);
 }

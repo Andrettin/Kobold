@@ -15,7 +15,6 @@
 #include "script/effect/effect_list.h"
 #include "ui/portrait.h"
 #include "util/number_util.h"
-#include "util/qunique_ptr.h"
 #include "util/string_conversion_util.h"
 #include "util/vector_util.h"
 

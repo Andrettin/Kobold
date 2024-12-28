@@ -48,6 +48,7 @@
 #include "script/effect/scripted_effect_effect.h"
 #include "script/effect/scripted_modifiers_effect.h"
 #include "script/effect/set_flag_effect.h"
+#include "script/effect/skill_check_effect.h"
 #include "script/effect/source_site_effect.h"
 #include "script/effect/tooltip_effect.h"
 #include "util/assert_util.h"
@@ -164,6 +165,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
 		if (effect_identifier == "delayed") {
 			effect = std::make_unique<delayed_effect<scope_type>>(effect_operator);
+		} else if (effect_identifier == "skill_check") {
+			effect = std::make_unique<skill_check_effect<scope_type>>(effect_operator);
 		} else if (commodity::try_get(effect_identifier) != nullptr) {
 			effect = std::make_unique<commodity_effect<scope_type>>(commodity::get(effect_identifier), effect_operator);
 		}

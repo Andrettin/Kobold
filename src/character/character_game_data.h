@@ -384,6 +384,8 @@ public:
 	}
 
 	void change_skill_per_level_bonus(const skill *skill, const int change);
+	int get_skill_modifier(const skill *skill) const;
+	int do_skill_roll(const skill *skill) const;
 
 	const data_entry_map<damage_reduction_type, int> &get_damage_reductions() const
 	{

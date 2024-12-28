@@ -11,6 +11,7 @@
 #include "character/feat.h"
 #include "character/feat_type.h"
 #include "character/level_bonus_table.h"
+#include "character/skill.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -848,6 +849,16 @@ void character_game_data::change_skill_per_level_bonus(const skill *skill, const
 	}
 
 	this->change_skill_bonus(skill, change * this->get_level());
+}
+
+int character_game_data::get_skill_modifier(const skill *skill) const
+{
+	return this->get_skill_bonus(skill) + this->get_attribute_modifier(skill->get_attribute());
+}
+
+int character_game_data::do_skill_roll(const skill *skill) const
+{
+	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_modifier(skill);
 }
 
 QVariantList character_game_data::get_damage_reductions_qvariant_list() const
