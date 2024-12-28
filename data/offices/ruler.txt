@@ -1,6 +1,7 @@
 ruler = {
 	name = "Ruler"
 	character_attribute = charisma
+	civilian_unit_class = ruler
 	country_attributes = {
 		economy
 		loyalty

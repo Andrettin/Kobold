@@ -1,0 +1,5 @@
+ruler = {
+	name = "Ruler"
+	unit_class = ruler
+	icon = rifle_infantry_light
+}
