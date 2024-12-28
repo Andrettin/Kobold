@@ -23,6 +23,7 @@ namespace kobold {
 class character;
 class character_attribute;
 class character_class;
+class civilian_unit;
 class civilian_unit_type;
 class country;
 class damage_reduction_type;
