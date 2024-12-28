@@ -72,8 +72,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 			return std::make_unique<gain_spell_scroll_effect>(value, effect_operator);
 		} else if (key == "set_flag") {
 			return std::make_unique<set_flag_effect>(value, effect_operator);
-		} else if (commodity::try_get(key) != nullptr) {
-			return std::make_unique<commodity_effect>(commodity::get(key), value, effect_operator);
 		} else if (key.ends_with(percent_suffix) && commodity::try_get(key.substr(0, key.size() - percent_suffix.size())) != nullptr) {
 			const commodity *commodity = commodity::get(key.substr(0, key.size() - percent_suffix.size()));
 			return std::make_unique<commodity_percent_effect>(commodity, value, effect_operator);
@@ -93,6 +91,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 			return std::make_unique<gain_feat_effect<scope_type>>(value, effect_operator);
 		} else if (key == "gain_feat_of_type") {
 			return std::make_unique<gain_feat_of_type_effect<scope_type>>(value, effect_operator);
+		} else if (commodity::try_get(key) != nullptr) {
+			return std::make_unique<commodity_effect<scope_type>>(commodity::get(key), value, effect_operator);
 		}
 	}
 
@@ -152,8 +152,6 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 			effect = std::make_unique<random_neighbor_country_effect>(effect_operator);
 		} else if (effect_identifier == "random_settlement") {
 			effect = std::make_unique<random_settlement_effect>(effect_operator);
-		} else if (commodity::try_get(effect_identifier) != nullptr) {
-			effect = std::make_unique<commodity_effect>(commodity::get(effect_identifier), effect_operator);
 		} else if (office::try_get(effect_identifier) != nullptr) {
 			effect = std::make_unique<office_holder_effect>(office::get(effect_identifier), effect_operator);
 		}
@@ -166,6 +164,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country>) {
 		if (effect_identifier == "delayed") {
 			effect = std::make_unique<delayed_effect<scope_type>>(effect_operator);
+		} else if (commodity::try_get(effect_identifier) != nullptr) {
+			effect = std::make_unique<commodity_effect<scope_type>>(commodity::get(effect_identifier), effect_operator);
 		}
 	}
 

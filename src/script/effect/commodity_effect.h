@@ -12,11 +12,12 @@
 
 namespace kobold {
 
-class commodity_effect final : public effect<const country>
+template <typename scope_type>
+class commodity_effect final : public effect<scope_type>
 {
 public:
 	explicit commodity_effect(const kobold::commodity *commodity, const gsml_operator effect_operator)
-		: effect<const country>(effect_operator), commodity(commodity)
+		: effect<scope_type>(effect_operator), commodity(commodity)
 	{
 	}
 
@@ -46,7 +47,7 @@ public:
 		} else if (key == "roll_again_threshold") {
 			this->roll_again_threshold = std::stoi(value);
 		} else {
-			effect<const country>::process_gsml_property(property);
+			effect<scope_type>::process_gsml_property(property);
 		}
 	}
 
@@ -55,33 +56,51 @@ public:
 		assert_throw(this->commodity != nullptr);
 	}
 
-	virtual void do_assignment_effect(const country *scope) const override
+	virtual void do_assignment_effect(scope_type *scope) const override
 	{
-		scope->get_game_data()->set_stored_commodity(this->commodity, this->calculate_quantity());
+		const country *country = effect<scope_type>::get_scope_country(scope);
+
+		if (country == nullptr) {
+			return;
+		}
+
+		country->get_game_data()->set_stored_commodity(this->commodity, this->calculate_quantity());
 	}
 
-	virtual void do_addition_effect(const country *scope) const override
+	virtual void do_addition_effect(scope_type *scope) const override
 	{
+		const country *country = effect<scope_type>::get_scope_country(scope);
+
+		if (country == nullptr) {
+			return;
+		}
+
 		int change = this->calculate_quantity();
 
-		const int storage = scope->get_game_data()->get_stored_commodity(this->commodity);
+		const int storage = country->get_game_data()->get_stored_commodity(this->commodity);
 		if (change < 0 && std::abs(change) > storage) {
 			change = -storage;
 		}
 
-		scope->get_game_data()->change_stored_commodity(this->commodity, change);
+		country->get_game_data()->change_stored_commodity(this->commodity, change);
 	}
 
-	virtual void do_subtraction_effect(const country *scope) const override
+	virtual void do_subtraction_effect(scope_type *scope) const override
 	{
+		const country *country = effect<scope_type>::get_scope_country(scope);
+
+		if (country == nullptr) {
+			return;
+		}
+
 		int change = -this->calculate_quantity();
 
-		const int storage = scope->get_game_data()->get_stored_commodity(this->commodity);
+		const int storage = country->get_game_data()->get_stored_commodity(this->commodity);
 		if (change < 0 && std::abs(change) > storage) {
 			change = -storage;
 		}
 
-		scope->get_game_data()->change_stored_commodity(this->commodity, change);
+		country->get_game_data()->change_stored_commodity(this->commodity, change);
 	}
 
 	int calculate_quantity() const
