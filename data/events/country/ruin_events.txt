@@ -13,6 +13,9 @@ ruin_explored = {
 		effects = {
 			wealth += 500
 			prestige += 1
+			source_site = {
+				improvements -= ruin
+			}
 		}
 	}
 }
@@ -31,6 +34,9 @@ expedition_to_tribal_village = {
 		name = "To a lasting friendship!"
 		effects = {
 			wealth += 100
+			source_site = {
+				improvements -= tribal_village
+			}
 		}
 	}
 }
