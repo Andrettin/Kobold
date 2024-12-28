@@ -23,6 +23,7 @@ namespace kobold {
 class character;
 class character_attribute;
 class character_class;
+class civilian_unit_type;
 class country;
 class damage_reduction_type;
 class enchantment;
@@ -554,6 +555,20 @@ public:
 		this->target_feats = feats;
 	}
 
+	const kobold::civilian_unit *get_civilian_unit() const
+	{
+		return this->civilian_unit;
+	}
+
+	void set_civilian_unit(kobold::civilian_unit *civilian_unit);
+
+	bool is_deployed() const
+	{
+		return this->get_civilian_unit() != nullptr;
+	}
+
+	void deploy(const civilian_unit_type *civilian_unit_type, const site *deployment_site);
+
 signals:
 	void titled_name_changed();
 	void portrait_changed();
@@ -615,6 +630,7 @@ private:
 	std::map<military_unit_stat, centesimal_int> commanded_military_unit_stat_modifiers;
 	military_unit_type_map<std::map<military_unit_stat, centesimal_int>> commanded_military_unit_type_stat_modifiers;
 	std::vector<const feat *> target_feats;
+	kobold::civilian_unit *civilian_unit = nullptr;
 };
 
 }

@@ -2,6 +2,8 @@
 
 #include "unit/civilian_unit.h"
 
+#include "character/character.h"
+#include "character/character_game_data.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -42,6 +44,13 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 
 	connect(this->get_owner()->get_game_data(), &country_game_data::provinces_changed, this, &civilian_unit::prospectable_tiles_changed);
 	connect(this->get_owner()->get_game_data(), &country_game_data::prospected_tiles_changed, this, &civilian_unit::prospectable_tiles_changed);
+}
+
+civilian_unit::civilian_unit(const civilian_unit_type *type, const kobold::character *character)
+	: civilian_unit(type, character->get_game_data()->get_country(), character->get_culture(), character->get_religion(), character->get_phenotype(), character->get_home_settlement())
+{
+	this->character = character;
+	this->get_character()->get_game_data()->set_civilian_unit(this);
 }
 
 void civilian_unit::do_turn()
@@ -462,6 +471,7 @@ void civilian_unit::disband()
 	assert_throw(tile != nullptr);
 
 	map::get()->set_tile_civilian_unit(this->get_tile_pos(), nullptr);
+	this->get_character()->get_game_data()->set_civilian_unit(nullptr);
 
 	this->get_owner()->get_game_data()->remove_civilian_unit(this);
 }

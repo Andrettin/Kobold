@@ -24,6 +24,7 @@ class civilian_unit final : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(const kobold::civilian_unit_type* type READ get_type NOTIFY type_changed)
+	Q_PROPERTY(const kobold::character* character READ get_character CONSTANT)
 	Q_PROPERTY(const kobold::icon* icon READ get_icon NOTIFY icon_changed)
 	Q_PROPERTY(const kobold::country* owner READ get_owner CONSTANT)
 	Q_PROPERTY(QPoint tile_pos READ get_tile_pos NOTIFY tile_pos_changed)
@@ -38,6 +39,7 @@ public:
 	static constexpr int prospection_turns = 1;
 
 	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
+	explicit civilian_unit(const civilian_unit_type *type, const kobold::character *character);
 
 	void do_turn();
 	void do_ai_turn();
@@ -55,6 +57,11 @@ public:
 
 		this->type = type;
 		emit type_changed();
+	}
+
+	const kobold::character *get_character() const
+	{
+		return this->character;
 	}
 
 	const icon *get_icon() const;
@@ -163,6 +170,7 @@ signals:
 
 private:
 	const civilian_unit_type *type = nullptr;
+	const kobold::character *character = nullptr;
 	const country *owner = nullptr;
 	const kobold::culture *culture = nullptr;
 	const kobold::religion *religion = nullptr;

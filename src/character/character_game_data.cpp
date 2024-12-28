@@ -13,6 +13,7 @@
 #include "character/level_bonus_table.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
+#include "country/culture.h"
 #include "country/office.h"
 #include "database/defines.h"
 #include "engine_interface.h"
@@ -26,6 +27,7 @@
 #include "map/site.h"
 #include "map/site_game_data.h"
 #include "map/site_map_data.h"
+#include "map/tile.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"
 #include "script/factor.h"
@@ -36,6 +38,7 @@
 #include "species/species.h"
 #include "spell/spell.h"
 #include "ui/portrait.h"
+#include "unit/civilian_unit.h"
 #include "unit/military_unit.h"
 #include "unit/military_unit_category.h"
 #include "util/assert_util.h"
@@ -193,13 +196,24 @@ void character_game_data::apply_history(const QDate &start_date)
 				}
 			}
 
-			if (country != nullptr) {
+			if (country != nullptr && country->get_game_data()->is_alive() && !country->get_game_data()->is_under_anarchy()) {
 				this->set_country(country);
 
-				if (character_history->get_office() != nullptr && country == character_history->get_country()) {
-					assert_throw(this->get_country()->get_game_data()->get_office_holder(character_history->get_office()) == nullptr);
+				const kobold::office *office = character_history->get_office();
+				if (office != nullptr && country == character_history->get_country()) {
+					assert_throw(this->get_country()->get_game_data()->get_office_holder(office) == nullptr);
 
-					this->get_country()->get_game_data()->set_office_holder(character_history->get_office(), this->character);
+					this->get_country()->get_game_data()->set_office_holder(office, this->character);
+
+					const site *deployment_site = character_history->get_deployment_site();
+					if (deployment_site != nullptr && deployment_site->get_map_data()->is_on_map()) {
+						assert_throw(office->get_civilian_unit_class() != nullptr);
+
+						const civilian_unit_type *civilian_unit_type = this->character->get_culture()->get_civilian_class_unit_type(office->get_civilian_unit_class());
+						assert_throw(civilian_unit_type != nullptr);
+
+						this->deploy(civilian_unit_type, deployment_site);
+					}
 				}
 			}
 		} else if (this->character->get_death_date().isValid() && this->character->get_death_date() <= start_date) {
@@ -287,6 +301,10 @@ void character_game_data::set_country(const kobold::country *country)
 {
 	if (country == this->get_country()) {
 		return;
+	}
+
+	if (this->get_civilian_unit() != nullptr) {
+		this->civilian_unit->disband();
 	}
 
 	if (this->get_country() != nullptr) {
@@ -1332,6 +1350,36 @@ void character_game_data::set_commanded_military_unit_type_stat_modifier(const m
 	} else {
 		this->commanded_military_unit_type_stat_modifiers[type][stat] = value;
 	}
+}
+
+void character_game_data::set_civilian_unit(kobold::civilian_unit *civilian_unit)
+{
+	if (civilian_unit == this->get_civilian_unit()) {
+		return;
+	}
+
+	if (civilian_unit != nullptr) {
+		assert_throw(this->get_civilian_unit() == nullptr);
+	} else {
+		assert_throw(this->get_civilian_unit() != nullptr);
+	}
+
+	this->civilian_unit = civilian_unit;
+}
+
+void character_game_data::deploy(const civilian_unit_type *civilian_unit_type, const site *deployment_site)
+{
+	assert_throw(civilian_unit_type != nullptr);
+	assert_throw(deployment_site != nullptr);
+	assert_throw(this->get_country() != nullptr);
+	assert_throw(this->get_country()->get_game_data()->is_alive());
+	assert_throw(!this->get_country()->get_game_data()->is_under_anarchy());
+	assert_throw(deployment_site->get_map_data()->get_tile()->get_civilian_unit() == nullptr);
+
+	auto civilian_unit = make_qunique<kobold::civilian_unit>(civilian_unit_type, this->character);
+	civilian_unit->set_tile_pos(deployment_site->get_map_data()->get_tile_pos());
+
+	this->get_country()->get_game_data()->add_civilian_unit(std::move(civilian_unit));
 }
 
 }
