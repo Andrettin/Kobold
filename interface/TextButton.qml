@@ -30,6 +30,8 @@ ButtonBase {
 		color: allowed ? "white" : "gray"
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
+		width: button.width
+		elide: Text.ElideRight
 	}
 	
 	onReleased: {

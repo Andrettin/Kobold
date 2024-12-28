@@ -23,6 +23,7 @@ Text {
 		wrapMode: parent.wrapMode
 		horizontalAlignment: parent.horizontalAlignment
 		verticalAlignment: parent.verticalAlignment
+		elide: parent.elide
 		z: -1 //draw below parent
 	}
 }
