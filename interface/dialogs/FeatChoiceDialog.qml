@@ -61,6 +61,7 @@ DialogBase {
 					onClicked: {
 						character.game_data.on_feat_chosen(feat)
 						feat_choice_dialog.close()
+						feat_choice_dialog.destroy()
 					}
 				}
 			}

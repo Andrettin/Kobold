@@ -29,6 +29,7 @@ Item {
 	
 	readonly property var event_dialog_component: Qt.createComponent("dialogs/EventDialog.qml")
 	readonly property var notification_dialog_component: Qt.createComponent("dialogs/NotificationDialog.qml")
+	readonly property var feat_choice_dialog_component: Qt.createComponent("dialogs/FeatChoiceDialog.qml")
 	property var dialogs: []
 	
 	Rectangle {
@@ -159,10 +160,6 @@ Item {
 		id: character_class_choice_dialog
 	}
 	
-	FeatChoiceDialog {
-		id: feat_choice_dialog
-	}
-	
 	TraditionChoiceDialog {
 		id: tradition_choice_dialog
 	}
@@ -249,9 +246,17 @@ Item {
 		}
 		
 		function onFeat_choosable(character, type, potential_feats) {
-			feat_choice_dialog.character = character
-			feat_choice_dialog.feat_type = type
-			feat_choice_dialog.potential_feats = potential_feats
+			if (feat_choice_dialog_component.status == Component.Error) {
+				console.error(feat_choice_dialog_component.errorString())
+				return
+			}
+			
+			var feat_choice_dialog = feat_choice_dialog_component.createObject(map_view, {
+				character: character,
+				feat_type: type,
+				potential_feats: potential_feats
+			})
+			
 			feat_choice_dialog.open()
 		}
 	}
