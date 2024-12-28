@@ -29,6 +29,7 @@ class civilian_unit_type final : public named_data_entry, public data_type<civil
 	Q_PROPERTY(bool prospector MEMBER prospector READ is_prospector NOTIFY changed)
 	Q_PROPERTY(bool developer MEMBER developer READ is_developer NOTIFY changed)
 	Q_PROPERTY(bool spy MEMBER spy READ is_spy NOTIFY changed)
+	Q_PROPERTY(bool adventurer MEMBER adventurer READ is_adventurer NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "civilian_unit_type";
@@ -84,6 +85,11 @@ public:
 		return this->spy;
 	}
 
+	bool is_adventurer() const
+	{
+		return this->adventurer;
+	}
+
 	const resource_set &get_improvable_resources() const
 	{
 		return this->improvable_resources;
@@ -116,6 +122,7 @@ private:
 	bool prospector = false;
 	bool developer = false;
 	bool spy = false;
+	bool adventurer = false;
 	resource_set improvable_resources;
 	pathway_set buildable_pathways;
 };
