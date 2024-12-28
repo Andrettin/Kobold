@@ -219,23 +219,16 @@ void engine_interface::move_selected_military_units_to(const QPoint &tile_pos)
 	army::target_variant target = std::monostate();
 
 	if (tile->get_province() != nullptr) {
-		if (tile->get_province() == this->get_selected_military_units().front()->get_province()) {
-			const site *site = tile->get_site();
-			if (site != nullptr && site->get_game_data()->can_be_visited()) {
-				target = site;
+		bool can_move = true;
+		for (military_unit *military_unit : this->get_selected_military_units()) {
+			if (!military_unit->can_move_to(tile->get_province())) {
+				can_move = false;
+				break;
 			}
-		} else {
-			bool can_move = true;
-			for (military_unit *military_unit : this->get_selected_military_units()) {
-				if (!military_unit->can_move_to(tile->get_province())) {
-					can_move = false;
-					break;
-				}
-			}
+		}
 
-			if (can_move) {
-				target = tile->get_province();
-			}
+		if (can_move) {
+			target = tile->get_province();
 		}
 	}
 

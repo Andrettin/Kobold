@@ -495,7 +495,7 @@ bool civilian_unit::can_visit_tile(const QPoint &tile_pos) const
 
 	const site_game_data *site_game_data = site->get_game_data();
 
-	if (site_game_data->get_main_improvement() == nullptr || !site_game_data->get_main_improvement()->is_ruin()) {
+	if (!site_game_data->can_be_visited()) {
 		return false;
 	}
 

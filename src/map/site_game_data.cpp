@@ -997,9 +997,4 @@ bool site_game_data::can_be_visited() const
 	return improvement != nullptr && improvement->is_ruin();
 }
 
-QVariantList site_game_data::get_visiting_armies_qvariant_list() const
-{
-	return container::to_qvariant_list(this->get_visiting_armies());
-}
-
 }

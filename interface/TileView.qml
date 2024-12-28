@@ -10,7 +10,7 @@ Item {
 	readonly property bool civilian_unit_interactable: civilian_unit !== null && civilian_unit.owner === kobold.game.player_country
 	readonly property point tile_pos: Qt.point(column, row)
 	readonly property bool is_center_tile: province !== null && province.game_data.center_tile_pos === tile_pos
-	readonly property var entering_army: (site !== null && site.game_data.visiting_armies.length > 0) ? site.game_data.visiting_armies[0] : ((province !== null && is_center_tile && province.game_data.entering_armies.length > 0) ? province.game_data.entering_armies[0] : null)
+	readonly property var entering_army: (province !== null && is_center_tile && province.game_data.entering_armies.length > 0) ? province.game_data.entering_armies[0] : null
 	readonly property bool show_failed_prospection: selected_civilian_unit !== null && selected_civilian_unit.type.prospector && prospected && resource === null
 	property string saved_status_text: ""
 	

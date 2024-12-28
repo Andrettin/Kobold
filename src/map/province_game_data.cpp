@@ -78,35 +78,6 @@ void province_game_data::do_events()
 
 void province_game_data::do_ai_turn()
 {
-	//visit ruin (if any) with military units of this province's owner
-	if (this->get_owner() != nullptr && this->has_country_military_unit(this->get_owner())) {
-		for (const site *site : this->get_sites()) {
-			site_game_data *site_game_data = site->get_game_data();
-			if (!site_game_data->can_be_visited()) {
-				continue;
-			}
-
-			std::vector<military_unit *> military_units = this->get_military_units();
-
-			std::erase_if(military_units, [this](const military_unit *military_unit) {
-				if (military_unit->get_country() != this->get_owner()) {
-					return true;
-				}
-
-				if (military_unit->is_moving()) {
-					return true;
-				}
-
-				return false;
-			});
-
-			if (!military_units.empty()) {
-				auto army = make_qunique<kobold::army>(military_units, site);
-				this->get_owner()->get_game_data()->add_army(std::move(army));
-			}
-			break;
-		}
-	}
 }
 
 bool province_game_data::is_on_map() const

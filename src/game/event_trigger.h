@@ -8,7 +8,6 @@ enum class event_trigger {
 	quarterly_pulse,
 	yearly_pulse,
 	ruler_death,
-	ruin_explored,
 	site_visited
 };
 

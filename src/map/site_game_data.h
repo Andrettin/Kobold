@@ -45,7 +45,6 @@ class site_game_data final : public QObject
 	Q_PROPERTY(QVariantList building_slots READ get_building_slots_qvariant_list CONSTANT)
 	Q_PROPERTY(QVariantList scripted_modifiers READ get_scripted_modifiers_qvariant_list NOTIFY scripted_modifiers_changed)
 	Q_PROPERTY(QVariantList commodity_outputs READ get_commodity_outputs_qvariant_list NOTIFY commodity_outputs_changed)
-	Q_PROPERTY(QVariantList visiting_armies READ get_visiting_armies_qvariant_list NOTIFY visiting_armies_changed)
 
 public:
 	explicit site_game_data(const kobold::site *site);
@@ -332,25 +331,6 @@ public:
 
 	bool can_be_visited() const;
 
-	const std::vector<army *> &get_visiting_armies() const
-	{
-		return this->visiting_armies;
-	}
-
-	QVariantList get_visiting_armies_qvariant_list() const;
-
-	void add_visiting_army(army *army)
-	{
-		this->visiting_armies.push_back(army);
-		emit visiting_armies_changed();
-	}
-
-	void remove_visiting_army(army *army)
-	{
-		std::erase(this->visiting_armies, army);
-		emit visiting_armies_changed();
-	}
-
 signals:
 	void owner_changed();
 	void culture_changed();
@@ -360,7 +340,6 @@ signals:
 	void settlement_attribute_values_changed();
 	void scripted_modifiers_changed();
 	void commodity_outputs_changed();
-	void visiting_armies_changed();
 
 private:
 	const kobold::site *site = nullptr;
@@ -380,7 +359,6 @@ private:
 	commodity_map<centesimal_int> local_luxury_consumption;
 	centesimal_int output_modifier;
 	commodity_map<centesimal_int> commodity_output_modifiers;
-	std::vector<army *> visiting_armies; //armies visiting this site
 };
 
 }
