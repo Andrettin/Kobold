@@ -60,7 +60,11 @@ Popup {
 	}
 	
 	onOpened: {
-		dialog.receive_focus()
+		dialog.z = 1000 + -(parent.dialogs ? parent.dialogs.length : 0)
+		
+		if (!parent.dialogs || parent.dialogs.length === 0) {
+			dialog.receive_focus()
+		}
 		
 		if (parent.dialogs) {
 			parent.dialogs.push(this)
@@ -100,7 +104,6 @@ Popup {
 	
 	function receive_focus() {
 		pane.forceActiveFocus()
-		dialog.z = 1 + (parent.dialogs ? parent.dialogs.length : 0)
 	}
 	
 	function calculate_max_button_width(button_container) {
