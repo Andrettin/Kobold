@@ -519,7 +519,10 @@ void civilian_unit::disband()
 	assert_throw(tile != nullptr);
 
 	map::get()->set_tile_civilian_unit(this->get_tile_pos(), nullptr);
-	this->get_character()->get_game_data()->set_civilian_unit(nullptr);
+
+	if (this->get_character() != nullptr) {
+		this->get_character()->get_game_data()->set_civilian_unit(nullptr);
+	}
 
 	this->get_owner()->get_game_data()->remove_civilian_unit(this);
 }
