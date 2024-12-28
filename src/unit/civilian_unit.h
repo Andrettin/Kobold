@@ -37,6 +37,7 @@ public:
 	static constexpr int improvement_construction_turns = 2;
 	static constexpr int exploration_turns = 1;
 	static constexpr int prospection_turns = 1;
+	static constexpr int visitation_turns = 1;
 
 	explicit civilian_unit(const civilian_unit_type *type, const country *owner, const kobold::culture *culture, const kobold::religion *religion, const kobold::phenotype *phenotype, const site *home_settlement);
 	explicit civilian_unit(const civilian_unit_type *type, const kobold::character *character);
@@ -147,6 +148,15 @@ public:
 	terrain_type_map<std::vector<QPoint>> get_prospectable_tiles() const;
 	QVariantList get_prospectable_tiles_qvariant_list() const;
 
+	bool can_visit_tile(const QPoint &tile_pos) const;
+
+	Q_INVOKABLE bool can_visit_tile() const
+	{
+		return this->can_visit_tile(this->get_tile_pos());
+	}
+
+	Q_INVOKABLE void visit_tile();
+
 	void set_task_completion_turns(const int turns)
 	{
 		if (turns == this->task_completion_turns) {
@@ -181,6 +191,7 @@ private:
 	const improvement *improvement_under_construction = nullptr;
 	bool exploring = false;
 	bool prospecting = false;
+	bool visiting = false;
 	int task_completion_turns = 0; //the remaining turns for the current task to be complete
 };
 

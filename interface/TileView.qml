@@ -209,6 +209,15 @@ Item {
 						selected_garrison = false
 						return
 					}
+					
+					if (selected_civilian_unit.can_visit_tile()) {
+						selected_civilian_unit.visit_tile()
+						selected_civilian_unit = null
+						selected_site = null
+						selected_province = null
+						selected_garrison = false
+						return
+					}
 				} else if (civilian_unit === null && selected_civilian_unit.can_move_to(tile_pos)) {
 					selected_civilian_unit.move_to(tile_pos)
 					selected_civilian_unit = null

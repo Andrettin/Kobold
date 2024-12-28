@@ -131,7 +131,7 @@ private:
 	improvement_slot slot{};
 	int level = 0;
 	std::vector<resource *> resources; //the resource for which this improvement can be built
-	bool ruin = false; //if true, this improvement can be explored, yielding some bonus (or malus)
+	bool ruin = false; //if true, this improvement can be visited by an adventurer
 	const kobold::icon *icon = nullptr;
 	std::filesystem::path image_filepath;
 	std::map<const terrain_type *, std::filesystem::path> terrain_image_filepaths;

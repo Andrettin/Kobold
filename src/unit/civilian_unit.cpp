@@ -8,6 +8,8 @@
 #include "country/country_game_data.h"
 #include "country/culture.h"
 #include "economy/resource.h"
+#include "game/character_event.h"
+#include "game/event_trigger.h"
 #include "infrastructure/improvement.h"
 #include "map/map.h"
 #include "map/province.h"
@@ -18,6 +20,7 @@
 #include "map/terrain_type.h"
 #include "map/tile.h"
 #include "religion/religion.h"
+#include "script/context.h"
 #include "unit/civilian_unit_type.h"
 #include "ui/icon.h"
 #include "util/assert_util.h"
@@ -81,6 +84,17 @@ void civilian_unit::do_turn()
 			if (this->prospecting) {
 				this->get_owner()->get_game_data()->prospect_tile(this->get_tile_pos());
 				this->prospecting = false;
+			}
+			
+			if (this->visiting) {
+				assert_throw(this->get_character() != nullptr);
+				const site *tile_site = this->get_tile()->get_site();
+				assert_throw(tile_site != nullptr);
+
+				context ctx(this->get_character());
+				ctx.source_scope = tile_site;
+				character_event::check_events_for_scope(this->get_character(), event_trigger::site_visited, ctx);
+				this->visiting = false;
 			}
 			
 			if (this->improvement_under_construction != nullptr) {
@@ -196,6 +210,11 @@ void civilian_unit::move_to(const QPoint &tile_pos)
 		return;
 	}
 
+	if (this->get_type()->is_adventurer() && this->can_visit_tile(tile_pos)) {
+		this->visit_tile();
+		return;
+	}
+
 	if (this->can_build_on_tile()) {
 		this->build_on_tile();
 	}
@@ -291,6 +310,7 @@ void civilian_unit::cancel_work()
 	this->improvement_under_construction = nullptr;
 	this->exploring = false;
 	this->prospecting = false;
+	this->visiting = false;
 }
 
 const improvement *civilian_unit::get_buildable_resource_improvement_for_tile(const QPoint &tile_pos) const
@@ -458,6 +478,34 @@ terrain_type_map<std::vector<QPoint>> civilian_unit::get_prospectable_tiles() co
 QVariantList civilian_unit::get_prospectable_tiles_qvariant_list() const
 {
 	return archimedes::map::to_qvariant_list(this->get_prospectable_tiles());
+}
+
+bool civilian_unit::can_visit_tile(const QPoint &tile_pos) const
+{
+	if (!this->get_type()->is_adventurer()) {
+		return false;
+	}
+
+	const tile *tile = map::get()->get_tile(tile_pos);
+	const site *site = tile->get_site();
+
+	if (site == nullptr) {
+		return false;
+	}
+
+	const site_game_data *site_game_data = site->get_game_data();
+
+	if (site_game_data->get_main_improvement() == nullptr || !site_game_data->get_main_improvement()->is_ruin()) {
+		return false;
+	}
+
+	return true;
+}
+
+void civilian_unit::visit_tile()
+{
+	this->visiting = true;
+	this->set_task_completion_turns(civilian_unit::visitation_turns);
 }
 
 void civilian_unit::disband()
