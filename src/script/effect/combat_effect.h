@@ -63,10 +63,10 @@ public:
 			for (const std::string &value : values) {
 				this->enemy_characters.push_back(character::get(value));
 			}
-		} else if (tag == "victory") {
+		} else if (tag == "on_victory") {
 			this->victory_effects = std::make_unique<effect_list<const character>>();
 			database::process_gsml_data(this->victory_effects, scope);
-		} else if (tag == "defeat") {
+		} else if (tag == "on_defeat") {
 			this->defeat_effects = std::make_unique<effect_list<const character>>();
 			database::process_gsml_data(this->defeat_effects, scope);
 		} else {
