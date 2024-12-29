@@ -84,7 +84,7 @@ public:
 
 		for (const auto &[character_template, quantity] : this->enemies) {
 			for (int i = 0; i < quantity; ++i) {
-				character *enemy_character = character::generate(character_template, nullptr, nullptr, nullptr);
+				character *enemy_character = character::generate(character_template, nullptr, nullptr, nullptr, true);
 				enemy_characters.push_back(enemy_character);
 				generated_characters.push_back(enemy_character);
 			}

@@ -84,8 +84,8 @@ public:
 
 	static void initialize_all();
 
-	static character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats);
-	static character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
+	static character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary = false);
+	static character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary = false);
 
 	explicit character(const std::string &identifier);
 	~character();
@@ -273,6 +273,7 @@ private:
 	std::unique_ptr<const and_condition<country>> conditions;
 	qunique_ptr<character_history> history;
 	qunique_ptr<character_game_data> game_data;
+	bool temporary = false;
 };
 
 }

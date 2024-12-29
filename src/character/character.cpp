@@ -99,10 +99,12 @@ void character::initialize_all()
 	}
 }
 
-character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats)
+character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
+
+	generated_character->temporary = temporary;
 
 	generated_character->species = const_cast<kobold::species *>(species);
 	generated_character->character_classes = character_classes;
@@ -136,9 +138,9 @@ character *character::generate(const kobold::species *species, const std::map<ch
 	return game::get()->get_generated_characters().back().get();
 }
 
-character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
+character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary)
 {
-	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats());
+	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats(), temporary);
 }
 
 character::character(const std::string &identifier)
@@ -320,11 +322,11 @@ void character::check() const
 	}
 
 	if (this->get_species()->is_sapient()) {
-		if (this->get_culture() == nullptr) {
+		if (this->get_culture() == nullptr && !this->temporary) {
 			throw std::runtime_error(std::format("Sapient character \"{}\" has no culture.", this->get_identifier()));
 		}
 
-		if (this->get_religion() == nullptr) {
+		if (this->get_religion() == nullptr && !this->temporary) {
 			throw std::runtime_error(std::format("Sapient character \"{}\" has no religion.", this->get_identifier()));
 		}
 	}
@@ -341,7 +343,7 @@ void character::check() const
 		assert_throw(this->get_phenotype() != nullptr);
 	}
 
-	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity()) {
+	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity() && !this->temporary) {
 		throw std::runtime_error(std::format("Sapient, non-deity character \"{}\" has no home settlement.", this->get_identifier()));
 	} else if (this->get_home_settlement() != nullptr && !this->get_home_settlement()->is_settlement()) {
 		throw std::runtime_error(std::format("Character \"{}\" has \"{}\" set as their home settlement, but it is not a settlement site.", this->get_identifier(), this->get_home_settlement()->get_identifier()));

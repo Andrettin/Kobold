@@ -102,7 +102,7 @@ public:
 		scope_type *opposed_roller = this->opposed_roller;
 		if constexpr (std::is_same_v<scope_type, const character>) {
 			if (this->opposed_character_template != nullptr) {
-				generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr);
+				generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr, true);
 				opposed_roller = generated_roller;
 			}
 		}
@@ -143,7 +143,7 @@ public:
 			scope_type *opposed_roller = this->opposed_roller;
 			if constexpr (std::is_same_v<scope_type, const character>) {
 				if (this->opposed_character_template != nullptr) {
-					generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr);
+					generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr, true);
 					opposed_roller = generated_roller;
 				}
 			}
