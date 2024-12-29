@@ -660,6 +660,7 @@ set(script_effect_HDRS
 	src/script/effect/effect.h
 	src/script/effect/effect_list.h
 	src/script/effect/event_effect.h
+	src/script/effect/event_trigger_effect.h
 	src/script/effect/experience_effect.h
 	src/script/effect/gain_feat_effect.h
 	src/script/effect/gain_feat_of_type_effect.h

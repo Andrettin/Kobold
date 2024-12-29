@@ -26,6 +26,7 @@
 #include "script/effect/create_military_unit_effect.h"
 #include "script/effect/delayed_effect.h"
 #include "script/effect/event_effect.h"
+#include "script/effect/event_trigger_effect.h"
 #include "script/effect/experience_effect.h"
 #include "script/effect/gain_feat_effect.h"
 #include "script/effect/gain_feat_of_type_effect.h"
@@ -112,6 +113,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_property(const
 
 	if (key == "event") {
 		return std::make_unique<event_effect<scope_type>>(value, effect_operator);
+	} else if (key == "event_trigger") {
+		return std::make_unique<event_trigger_effect<scope_type>>(value, effect_operator);
 	} else if (key == "save_scope_as") {
 		return std::make_unique<save_scope_as_effect<scope_type>>(value, effect_operator);
 	} else if (key == "scripted_effect") {

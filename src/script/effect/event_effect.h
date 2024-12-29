@@ -37,7 +37,7 @@ public:
 	virtual void check() const override
 	{
 		if (this->event == nullptr) {
-			throw std::runtime_error("\"" + this->get_class_identifier() + "\" effect has no event set for it.");
+			throw std::runtime_error(std::format("\"{}\" effect has no event set for it.", this->get_class_identifier()));
 		}
 	}
 
@@ -57,7 +57,7 @@ public:
 		Q_UNUSED(indent);
 		Q_UNUSED(prefix);
 
-		return "Trigger the " + this->event->get_name() + " event";
+		return std::format("Trigger the {} event", this->event->get_name());
 	}
 
 private:
