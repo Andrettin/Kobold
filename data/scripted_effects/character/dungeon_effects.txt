@@ -1,0 +1,7 @@
+explore_dungeon = {
+	tooltip = {
+		text = "Explore further"
+		
+		event_trigger = area_visited
+	}
+}
