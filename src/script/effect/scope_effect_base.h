@@ -108,6 +108,8 @@ public:
 			}
 
 			str += effects_str;
+		} else {
+			return std::string();
 		}
 
 		return str;
