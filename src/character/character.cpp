@@ -209,6 +209,10 @@ void character::process_gsml_scope(const gsml_data &scope)
 
 void character::initialize()
 {
+	if (this->get_gender() == gender::none && this->get_species() != nullptr && !this->get_species()->is_sapient()) {
+		this->set_gender(static_cast<archimedes::gender>(random::get()->generate_in_range(static_cast<int>(gender::none) + 1, static_cast<int>(gender::count) - 1)));
+	}
+
 	if (this->get_deity() != nullptr) {
 		if (this->get_name().empty()) {
 			this->set_name(this->get_deity()->get_name());
