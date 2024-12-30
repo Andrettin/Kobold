@@ -16,6 +16,8 @@ public:
 	static constexpr const char property_class_identifier[] = "kobold::character_event*";
 	static constexpr const char database_folder[] = "events/character";
 
+	static const std::set<std::string> database_dependencies;
+
 	static void clear()
 	{
 		data_type::clear();

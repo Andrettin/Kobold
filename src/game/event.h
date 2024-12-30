@@ -31,6 +31,8 @@ public:
 	static constexpr int default_random_weight = 100;
 	static constexpr const char option_default_name[] = "OK";
 
+	static const std::set<std::string> database_dependencies;
+
 	explicit event(const std::string &identifier);
 
 	virtual void process_gsml_property(const gsml_property &property) override;
