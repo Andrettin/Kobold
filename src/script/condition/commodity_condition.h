@@ -7,11 +7,12 @@
 
 namespace kobold {
 
-class commodity_condition final : public numerical_condition<country, read_only_context>
+template <typename scope_type>
+class commodity_condition final : public numerical_condition<scope_type, read_only_context>
 {
 public:
 	explicit commodity_condition(const kobold::commodity *commodity, const std::string &value, const gsml_operator condition_operator)
-		: numerical_condition<country, read_only_context>(value, condition_operator), commodity(commodity)
+		: numerical_condition<scope_type, read_only_context>(commodity->string_to_value(value), condition_operator), commodity(commodity)
 	{
 	}
 
@@ -21,9 +22,21 @@ public:
 		return class_identifier;
 	}
 
-	virtual int get_scope_value(const country *scope) const override
+	virtual int get_scope_value(const scope_type *scope) const override
 	{
-		return scope->get_game_data()->get_stored_commodity(this->commodity);
+		if constexpr (std::is_same_v<scope_type, character>) {
+			if (!scope->get_game_data()->is_ruler()) {
+				return 0;
+			}
+		}
+
+		const country *country = condition<scope_type>::get_scope_country(scope);
+
+		if (country == nullptr) {
+			return 0;
+		}
+
+		return country->get_game_data()->get_stored_commodity(this->commodity);
 	}
 
 	virtual std::string get_value_name() const override

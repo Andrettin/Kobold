@@ -58,6 +58,12 @@ public:
 
 	virtual void do_assignment_effect(scope_type *scope) const override
 	{
+		if constexpr (std::is_same_v<scope_type, const character>) {
+			if (!scope->get_game_data()->is_ruler()) {
+				return;
+			}
+		}
+
 		const country *country = effect<scope_type>::get_scope_country(scope);
 
 		if (country == nullptr) {
@@ -69,6 +75,12 @@ public:
 
 	virtual void do_addition_effect(scope_type *scope) const override
 	{
+		if constexpr (std::is_same_v<scope_type, const character>) {
+			if (!scope->get_game_data()->is_ruler()) {
+				return;
+			}
+		}
+
 		const country *country = effect<scope_type>::get_scope_country(scope);
 
 		if (country == nullptr) {
@@ -87,6 +99,12 @@ public:
 
 	virtual void do_subtraction_effect(scope_type *scope) const override
 	{
+		if constexpr (std::is_same_v<scope_type, const character>) {
+			if (!scope->get_game_data()->is_ruler()) {
+				return;
+			}
+		}
+
 		const country *country = effect<scope_type>::get_scope_country(scope);
 
 		if (country == nullptr) {

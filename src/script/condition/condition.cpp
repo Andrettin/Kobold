@@ -154,8 +154,6 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<site_count_condition>(value, condition_operator);
 		} else if (key == "subject_type") {
 			return std::make_unique<subject_type_condition>(value, condition_operator);
-		} else if (commodity::try_get(key) != nullptr && string::is_number(value)) {
-			return std::make_unique<commodity_condition>(commodity::get(key), value, condition_operator);
 		}
 	} else if constexpr (std::is_same_v<scope_type, military_unit>) {
 		if (key == "artillery") {
@@ -208,6 +206,8 @@ std::unique_ptr<const condition_base<scope_type, read_only_context>> condition<s
 			return std::make_unique<level_condition<scope_type>>(value, condition_operator);
 		} else if (key == "war") {
 			return std::make_unique<war_condition<scope_type>>(value, condition_operator);
+		} else if (commodity::try_get(key) != nullptr && string::is_number(value, true)) {
+			return std::make_unique<commodity_condition<scope_type>>(commodity::get(key), value, condition_operator);
 		}
 	}
 	
