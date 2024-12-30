@@ -1,0 +1,26 @@
+wolf = {
+	name = "Wolf"
+	creature_type = animal
+	creature_size = medium
+	hit_dice_count = 2
+	class_skills = {
+		hide
+		listen
+		move_silently
+		spot
+		survival
+	}
+	modifier = {
+		challenge_rating = 1
+		strength = 2
+		dexterity = 4
+		constitution = 4
+		intelligence = -8
+		wisdom = 2
+		charisma = -4
+		armor_class = 2 #natural armor
+	}
+	effects = {
+		#gain_feat = track
+	}
+}

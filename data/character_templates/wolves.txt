@@ -1,0 +1,7 @@
+wolf = {
+	name = "Wolf"
+	species = wolf
+	feats = {
+		#weapon_focus_bite
+	}
+}
