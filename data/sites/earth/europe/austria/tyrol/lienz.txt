@@ -8,7 +8,7 @@ lienz = {
 	
 	history = {
 		610 = {
-			#improvements += ruin #Aguntum
+			improvements += ruin #Aguntum
 		}
 	}
 }
