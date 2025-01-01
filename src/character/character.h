@@ -29,6 +29,7 @@ class alignment_axis;
 class character_class;
 class character_game_data;
 class character_history;
+class character_reference;
 class character_template;
 class civilian_unit_class;
 class civilian_unit_type;
@@ -86,6 +87,7 @@ public:
 
 	static character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary = false);
 	static character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary = false);
+	static std::shared_ptr<character_reference> generate_temporary(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
 	explicit character(const std::string &identifier);
 	~character();
@@ -248,6 +250,11 @@ public:
 	const and_condition<country> *get_conditions() const
 	{
 		return this->conditions.get();
+	}
+
+	bool is_temporary() const
+	{
+		return this->temporary;
 	}
 
 signals:

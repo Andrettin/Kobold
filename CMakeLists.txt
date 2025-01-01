@@ -28,6 +28,7 @@ set(character_SRCS
 	src/character/character_container.cpp
 	src/character/character_game_data.cpp
 	src/character/character_history.cpp
+	src/character/character_reference.cpp
 	src/character/character_template.cpp
 	src/character/dynasty.cpp
 	src/character/feat.cpp
@@ -340,6 +341,7 @@ set(character_HDRS
 	src/character/character_container.h
 	src/character/character_game_data.h
 	src/character/character_history.h
+	src/character/character_reference.h
 	src/character/character_template.h
 	src/character/damage_reduction_type.h
 	src/character/dynasty.h

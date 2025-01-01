@@ -2,6 +2,7 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
+#include "character/character_reference.h"
 #include "character/character_template.h"
 #include "database/data_entry_container.h"
 #include "database/database.h"
@@ -80,12 +81,12 @@ public:
 		allied_characters.push_back(scope);
 
 		std::vector<const character *> enemy_characters;
-		std::vector<character *> generated_characters;
+		std::vector<std::shared_ptr<character_reference>> generated_characters;
 
 		for (const auto &[character_template, quantity] : this->enemies) {
 			for (int i = 0; i < quantity; ++i) {
-				character *enemy_character = character::generate(character_template, nullptr, nullptr, nullptr, true);
-				enemy_characters.push_back(enemy_character);
+				std::shared_ptr<character_reference> enemy_character = character::generate_temporary(character_template, nullptr, nullptr, nullptr);
+				enemy_characters.push_back(enemy_character->get_character());
 				generated_characters.push_back(enemy_character);
 			}
 		}
@@ -95,10 +96,6 @@ public:
 		const game::combat_result result = this->attacker ? game::get()->do_combat(allied_characters, enemy_characters) : game::get()->do_combat(enemy_characters, allied_characters);
 
 		const bool success = this->attacker ? result.attacker_victory : !result.attacker_victory;
-
-		for (character *character : generated_characters) {
-			game::get()->remove_generated_character(character);
-		}
 
 		if (scope == game::get()->get_player_character()) {
 			const portrait *war_minister_portrait = defines::get()->get_war_minister_portrait();

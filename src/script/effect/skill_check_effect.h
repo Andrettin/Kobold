@@ -2,6 +2,7 @@
 
 #include "character/character.h"
 #include "character/character_game_data.h"
+#include "character/character_reference.h"
 #include "character/character_template.h"
 #include "character/skill.h"
 #include "country/country_skill.h"
@@ -98,12 +99,12 @@ public:
 
 		int difficulty_class = this->difficulty_class;
 
-		std::remove_const_t<scope_type> *generated_roller = nullptr;
+		std::shared_ptr<character_reference> generated_roller;
 		scope_type *opposed_roller = this->opposed_roller;
 		if constexpr (std::is_same_v<scope_type, const character>) {
 			if (this->opposed_character_template != nullptr) {
-				generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr, true);
-				opposed_roller = generated_roller;
+				generated_roller = character::generate_temporary(this->opposed_character_template, nullptr, nullptr, nullptr);
+				opposed_roller = generated_roller->get_character();
 			}
 		}
 
@@ -111,13 +112,6 @@ public:
 			assert_throw(difficulty_class == 0);
 			const int opposed_roll_result = opposed_roller->get_game_data()->do_skill_roll(this->opposed_skill) + this->opposed_roll_modifier;
 			difficulty_class = opposed_roll_result + 1;
-		}
-
-		if constexpr (std::is_same_v<scope_type, const character>) {
-			if (this->opposed_character_template != nullptr) {
-				assert_throw(generated_roller != nullptr);
-				game::get()->remove_generated_character(generated_roller);
-			}
 		}
 
 		const bool success = roll_result >= difficulty_class;
@@ -139,12 +133,12 @@ public:
 		str += "\n" + std::string(indent + 1, '\t');
 
 		if (this->opposed_roller != nullptr || this->opposed_character_template != nullptr) {
-			std::remove_const_t<scope_type> *generated_roller = nullptr;
+			std::shared_ptr<character_reference> generated_roller;
 			scope_type *opposed_roller = this->opposed_roller;
 			if constexpr (std::is_same_v<scope_type, const character>) {
 				if (this->opposed_character_template != nullptr) {
-					generated_roller = character::generate(this->opposed_character_template, nullptr, nullptr, nullptr, true);
-					opposed_roller = generated_roller;
+					generated_roller = character::generate_temporary(this->opposed_character_template, nullptr, nullptr, nullptr);
+					opposed_roller = generated_roller->get_character();
 				}
 			}
 
@@ -158,13 +152,6 @@ public:
 				}
 
 				str += "\n" + std::string(indent + 1, '\t') + std::format("Opposed Skill: {} ({})", this->opposed_skill->get_name(), number::to_signed_string(opposed_roller->get_game_data()->get_skill_modifier(this->opposed_skill) + this->opposed_roll_modifier));
-			}
-
-			if constexpr (std::is_same_v<scope_type, const character>) {
-				if (this->opposed_character_template != nullptr) {
-					assert_throw(generated_roller != nullptr);
-					game::get()->remove_generated_character(generated_roller);
-				}
 			}
 		} else {
 			str += std::format("Difficulty Class: {}", this->difficulty_class);

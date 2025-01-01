@@ -11,6 +11,7 @@ namespace kobold {
 class army;
 class building_type;
 class character;
+class character_reference;
 class country;
 class military_unit;
 class province;
@@ -126,6 +127,7 @@ struct context_base
 	std::map<std::string, const building_type *> saved_buildings;
 	army_ptr attacking_army = nullptr;
 	army_ptr defending_army = nullptr;
+	std::vector<std::shared_ptr<character_reference>> character_references;
 };
 
 extern template struct context_base<false>;

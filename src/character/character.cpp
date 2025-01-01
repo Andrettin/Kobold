@@ -8,6 +8,7 @@
 #include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_history.h"
+#include "character/character_reference.h"
 #include "character/character_template.h"
 #include "character/dynasty.h"
 #include "character/feat.h"
@@ -141,6 +142,12 @@ character *character::generate(const kobold::species *species, const std::map<ch
 character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary)
 {
 	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats(), temporary);
+}
+
+std::shared_ptr<character_reference> character::generate_temporary(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
+{
+	kobold::character *character = character::generate(character_template, culture, religion, home_settlement, true);
+	return std::make_shared<character_reference>(character);
 }
 
 character::character(const std::string &identifier)
