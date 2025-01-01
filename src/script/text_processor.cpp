@@ -2,6 +2,7 @@
 
 #include "script/text_processor.h"
 
+#include "character/character.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -11,7 +12,9 @@
 #include "map/province_game_data.h"
 #include "map/site.h"
 #include "map/site_game_data.h"
+#include "species/species.h"
 #include "util/assert_util.h"
+#include "util/gender.h"
 #include "util/queue_util.h"
 #include "util/string_util.h"
 
@@ -38,6 +41,9 @@ std::string text_processor::process_tokens(std::queue<std::string> &&tokens, con
 		str = this->process_scope_variant_tokens(this->context.root_scope, tokens);
 	} else if (front_subtoken == "source") {
 		str = this->process_scope_variant_tokens(this->context.source_scope, tokens);
+	} else if (front_subtoken == "saved_character_scope") {
+		const std::string scope_name = queue::take(subtokens);
+		str = this->process_character_tokens(this->context.get_saved_scope<const character>(scope_name), tokens);
 	} else if (front_subtoken == "saved_site_scope") {
 		const std::string scope_name = queue::take(subtokens);
 		str = this->process_site_tokens(this->context.get_saved_scope<const site>(scope_name), tokens);
@@ -71,6 +77,34 @@ std::string text_processor::process_scope_variant_tokens(const read_only_context
 	}
 
 	return std::string();
+}
+
+std::string text_processor::process_character_tokens(const character *character, std::queue<std::string> &tokens) const
+{
+	if (character == nullptr) {
+		throw std::runtime_error("No character provided when processing character tokens.");
+	}
+
+	if (tokens.empty()) {
+		throw std::runtime_error("No tokens provided when processing character tokens.");
+	}
+
+	const std::string token = queue::take(tokens);
+	std::queue<std::string> subtokens = text_processor::get_subtokens(token);
+
+	const std::string front_subtoken = queue::take(subtokens);
+
+	if (front_subtoken == "full_name") {
+		return character->get_full_name();
+	} else if (front_subtoken == "personal_pronoun") {
+		return get_gender_personal_pronoun(character->get_gender());
+	} else if (front_subtoken == "possessive_pronoun") {
+		return get_gender_possessive_pronoun(character->get_gender());
+	} else if (front_subtoken == "oblique_pronoun") {
+		return get_gender_oblique_pronoun(character->get_gender());
+	} else {
+		return this->process_named_data_entry_token(character, front_subtoken);
+	}
 }
 
 std::string text_processor::process_country_tokens(const country *country, std::queue<std::string> &tokens) const
@@ -181,6 +215,24 @@ std::string text_processor::process_site_tokens(const site *site, std::queue<std
 	} else {
 		return this->process_named_data_entry_token(site, front_subtoken);
 	}
+}
+
+std::string text_processor::process_species_tokens(const species *species, std::queue<std::string> &tokens) const
+{
+	if (species == nullptr) {
+		throw std::runtime_error("No species provided when processing species tokens.");
+	}
+
+	if (tokens.empty()) {
+		throw std::runtime_error("No tokens provided when processing species tokens.");
+	}
+
+	const std::string token = queue::take(tokens);
+	std::queue<std::string> subtokens = text_processor::get_subtokens(token);
+
+	const std::string front_subtoken = queue::take(subtokens);
+
+	return this->process_named_data_entry_token(species, front_subtoken);
 }
 
 }
