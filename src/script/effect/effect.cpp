@@ -24,6 +24,7 @@
 #include "script/effect/commodity_effect.h"
 #include "script/effect/commodity_percent_effect.h"
 #include "script/effect/country_effect.h"
+#include "script/effect/create_character_effect.h"
 #include "script/effect/create_military_unit_effect.h"
 #include "script/effect/delayed_effect.h"
 #include "script/effect/else_effect.h"
@@ -185,6 +186,8 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 
 	if (effect_identifier == "character") {
 		effect = std::make_unique<character_scope_effect<scope_type>>(effect_operator);
+	} else if (effect_identifier == "create_character") {
+		effect = std::make_unique<create_character_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "country") {
 		effect = std::make_unique<country_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "hidden") {
