@@ -32,6 +32,7 @@ set(character_SRCS
 	src/character/character_template.cpp
 	src/character/dynasty.cpp
 	src/character/feat.cpp
+	src/character/feat_model.cpp
 	src/character/feat_template.cpp
 	src/character/feat_type.cpp
 	src/character/level_bonus_table.cpp
@@ -346,6 +347,7 @@ set(character_HDRS
 	src/character/damage_reduction_type.h
 	src/character/dynasty.h
 	src/character/feat.h
+	src/character/feat_model.h
 	src/character/feat_template.h
 	src/character/feat_template_type.h
 	src/character/feat_type.h

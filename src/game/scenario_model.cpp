@@ -65,7 +65,7 @@ QModelIndex scenario_model::parent(const QModelIndex &index) const
 {
 	const kobold::scenario *scenario = reinterpret_cast<const kobold::scenario *>(index.constInternalPointer());
 
-	const std::vector<const kobold::scenario *> * parent_siblings = nullptr;
+	const std::vector<const kobold::scenario *> *parent_siblings = nullptr;
 
 	const kobold::scenario *parent_scenario = scenario->get_parent_scenario();
 	if (parent_scenario == nullptr) {

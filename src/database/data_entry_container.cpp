@@ -9,6 +9,7 @@
 #include "character/character_template.h"
 #include "character/damage_reduction_type.h"
 #include "character/feat.h"
+#include "character/feat_type.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "country/country_attribute.h"
@@ -46,6 +47,7 @@ template struct data_entry_compare<cultural_group>;
 template struct data_entry_compare<damage_reduction_type>;
 template struct data_entry_compare<divine_domain>;
 template struct data_entry_compare<feat>;
+template struct data_entry_compare<feat_type>;
 template struct data_entry_compare<item_class>;
 template struct data_entry_compare<item_slot>;
 template struct data_entry_compare<item_type>;

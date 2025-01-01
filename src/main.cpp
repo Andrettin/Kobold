@@ -6,6 +6,7 @@
 #include "character/character_game_data.h"
 #include "character/dynasty.h"
 #include "character/feat.h"
+#include "character/feat_model.h"
 #include "character/feat_type.h"
 #include "character/starting_age_category.h"
 #include "country/consulate.h"
@@ -205,6 +206,7 @@ int main(int argc, char **argv)
 		qmlRegisterAnonymousType<world>("", 1);
 		qmlRegisterAnonymousType<const world>("", 1);
 
+		qmlRegisterType<feat_model>("feat_model", 1, 0, "FeatModel");
 		qmlRegisterType<map_country_model>("map_country_model", 1, 0, "MapCountryModel");
 		qmlRegisterType<map_grid_model>("map_grid_model", 1, 0, "MapGridModel");
 		qmlRegisterType<map_province_model>("map_province_model", 1, 0, "MapProvinceModel");

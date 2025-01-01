@@ -6,8 +6,6 @@
 
 namespace kobold {
 
-class terrain_type;
-
 class scenario_model : public QAbstractItemModel
 {
 	Q_OBJECT

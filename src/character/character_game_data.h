@@ -407,6 +407,17 @@ public:
 	Q_INVOKABLE QVariantList get_feats_of_type(const QString &feat_type_str) const;
 	int get_feat_count_for_type(const feat_type *feat_type) const;
 
+	int get_feat_count(const feat *feat) const
+	{
+		const auto find_iterator = this->feat_counts.find(feat);
+
+		if (find_iterator != this->feat_counts.end()) {
+			return find_iterator->second;
+		}
+
+		return 0;
+	}
+
 	bool can_have_feat(const feat *feat) const;
 	bool can_gain_feat(const feat *feat, const feat_type *choice_type) const;
 	bool has_feat(const feat *feat) const;
