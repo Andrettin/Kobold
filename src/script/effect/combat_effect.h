@@ -1,6 +1,8 @@
 #pragma once
 
 #include "character/character.h"
+#include "character/character_class.h"
+#include "character/character_class_type.h"
 #include "character/character_game_data.h"
 #include "character/character_reference.h"
 #include "character/character_template.h"
@@ -14,6 +16,8 @@
 #include "script/context.h"
 #include "script/effect/effect.h"
 #include "script/effect/effect_list.h"
+#include "script/target_variant.h"
+#include "species/species.h"
 #include "ui/portrait.h"
 #include "util/number_util.h"
 #include "util/string_conversion_util.h"
@@ -62,7 +66,7 @@ public:
 			});
 		} else if (tag == "enemy_characters") {
 			for (const std::string &value : values) {
-				this->enemy_characters.push_back(character::get(value));
+				this->enemy_characters.push_back(string_to_target_variant<const character>(value));
 			}
 		} else if (tag == "on_victory") {
 			this->victory_effects = std::make_unique<effect_list<const character>>();
@@ -91,7 +95,9 @@ public:
 			}
 		}
 
-		vector::merge(enemy_characters, this->enemy_characters);
+		for (const target_variant<const character> &enemy_character : this->enemy_characters) {
+			enemy_characters.push_back(this->get_enemy_character(enemy_character, ctx));
+		}
 
 		const game::combat_result result = this->attacker ? game::get()->do_combat(allied_characters, enemy_characters) : game::get()->do_combat(enemy_characters, allied_characters);
 
@@ -138,6 +144,20 @@ public:
 			str += "\n" + std::string(indent + 1, '\t') + std::to_string(quantity) + "x" + character_template->get_name();
 		}
 
+		for (const target_variant<const character> &enemy_character : this->enemy_characters) {
+			const character *character = this->get_enemy_character(enemy_character, ctx);
+			std::string character_class_string;
+			const character_class *character_class = character->get_game_data()->get_character_class();
+			if (character_class != nullptr) {
+				character_class_string += " ";
+				if (character_class->get_type() != character_class_type::racial_class) {
+					character_class_string += character_class->get_name() + " ";
+				}
+				character_class_string += character->get_game_data()->get_level();
+			}
+			str += "\n" + std::string(indent + 1, '\t') + std::format("{} ({}{})", character->get_full_name(), character->get_species()->get_name(), character_class_string);
+		}
+
 		if (this->victory_effects != nullptr) {
 			const std::string effects_string = this->victory_effects->get_effects_string(scope, ctx, indent + 1, prefix);
 			if (!effects_string.empty()) {
@@ -155,10 +175,24 @@ public:
 		return str;
 	}
 
+	const character *get_enemy_character(const target_variant<const character> &target_variant, const read_only_context &ctx) const
+	{
+		if (std::holds_alternative<const character *>(target_variant)) {
+			return std::get<const character *>(target_variant);
+		} else if (std::holds_alternative<std::string>(target_variant)) {
+			const std::string name = std::get<std::string>(target_variant);
+			const character *character = ctx.get_saved_scope<const kobold::character>(name);
+			return character;
+		}
+
+		assert_throw(false);
+		return nullptr;
+	}
+
 private:
 	bool attacker = true;
 	data_entry_map<character_template, int> enemies;
-	std::vector<const character *> enemy_characters;
+	std::vector<target_variant<const character>> enemy_characters;
 	std::unique_ptr<effect_list<const character>> victory_effects;
 	std::unique_ptr<effect_list<const character>> defeat_effects;
 };
