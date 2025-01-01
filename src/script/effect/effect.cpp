@@ -18,6 +18,7 @@
 #include "script/effect/battle_effect.h"
 #include "script/effect/capital_effect.h"
 #include "script/effect/change_opinion_effect.h"
+#include "script/effect/character_scope_effect.h"
 #include "script/effect/clear_flag_effect.h"
 #include "script/effect/combat_effect.h"
 #include "script/effect/commodity_effect.h"
@@ -182,7 +183,9 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 		}
 	}
 
-	if (effect_identifier == "country") {
+	if (effect_identifier == "character") {
+		effect = std::make_unique<character_scope_effect<scope_type>>(effect_operator);
+	} else if (effect_identifier == "country") {
 		effect = std::make_unique<country_effect<scope_type>>(effect_operator);
 	} else if (effect_identifier == "hidden") {
 		effect = std::make_unique<hidden_effect<scope_type>>(effect_operator);
