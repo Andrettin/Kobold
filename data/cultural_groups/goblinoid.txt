@@ -1,4 +1,0 @@
-goblinoid = {
-	name = "Goblinoid"
-	rank = group
-}
