@@ -156,9 +156,9 @@ poseidon = {
 		latin = "Neptune"
 	}
 	character = {
-		species = trumpet_archon
+		species = triton
 		character_class = warrior
-		culture = celestial
+		culture = aquan
 		religion = hellenism
 		gender = male
 		father = cronus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
