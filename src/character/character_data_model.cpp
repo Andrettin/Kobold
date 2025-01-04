@@ -186,6 +186,7 @@ void character_data_model::set_character(const kobold::character *character)
 
 	this->character = character;
 
+	this->top_rows.clear();
 	this->skills.clear();
 	this->skills_by_category.clear();
 	this->feat_types.clear();
