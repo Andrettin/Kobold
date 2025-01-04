@@ -110,11 +110,15 @@ character *character::generate(const kobold::species *species, const std::map<ch
 	generated_character->species = const_cast<kobold::species *>(species);
 	generated_character->character_classes = character_classes;
 	generated_character->level = level;
-	generated_character->culture = const_cast<kobold::culture *>(culture);
+	if (culture != nullptr) {
+		generated_character->culture = const_cast<kobold::culture *>(culture);
+	} else if (!species->get_cultures().empty()) {
+		generated_character->culture = const_cast<kobold::culture *>(vector::get_random(species->get_cultures()));
+	}
 	generated_character->religion = religion;
 	generated_character->generate_patron_deity();
-	if (culture != nullptr) {
-		generated_character->phenotype = culture->get_default_phenotype();
+	if (generated_character->get_culture() != nullptr) {
+		generated_character->phenotype = generated_character->get_culture()->get_default_phenotype();
 	}
 	generated_character->generate_alignments();
 	generated_character->home_settlement = home_settlement;
@@ -122,9 +126,9 @@ character *character::generate(const kobold::species *species, const std::map<ch
 
 	const archimedes::gender gender = random::get()->generate(2) == 0 ? gender::male : gender::female;
 	generated_character->set_gender(gender);
-	if (culture != nullptr) {
-		generated_character->set_name(culture->get_personal_name_generator(gender)->generate_name());
-		generated_character->set_surname(culture->get_surname_generator(gender)->generate_name());
+	if (generated_character->get_culture() != nullptr) {
+		generated_character->set_name(generated_character->get_culture()->get_personal_name_generator(gender)->generate_name());
+		generated_character->set_surname(generated_character->get_culture()->get_surname_generator(gender)->generate_name());
 	} else {
 		generated_character->set_name(species->get_personal_name_generator(gender)->generate_name());
 	}
@@ -333,17 +337,17 @@ void character::check() const
 	}
 
 	if (this->get_species()->is_sapient()) {
-		if (this->get_culture() == nullptr && !this->temporary) {
+		if (this->get_culture() == nullptr) {
 			throw std::runtime_error(std::format("Sapient character \"{}\" has no culture.", this->get_identifier()));
 		}
 
-		if (this->get_religion() == nullptr && !this->temporary) {
+		if (!vector::contains(this->get_culture()->get_species(), this->get_species())) {
+			throw std::runtime_error(std::format("Sapient character \"{}\" has a culture (\"{}\") which does not include its species (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_species()->get_identifier()));
+		}
+
+		if (this->get_religion() == nullptr && !this->is_temporary()) {
 			throw std::runtime_error(std::format("Sapient character \"{}\" has no religion.", this->get_identifier()));
 		}
-	}
-
-	if (this->get_culture() != nullptr && !vector::contains(this->get_culture()->get_species(), this->get_species())) {
-		throw std::runtime_error(std::format("Sapient character \"{}\" has a culture (\"{}\") which does not include its species (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_species()->get_identifier()));
 	}
 
 	if (this->get_patron_deity() != nullptr && !vector::contains(this->get_religion()->get_deities(), this->get_patron_deity())) {
@@ -354,7 +358,7 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has both a patron deity and a religion which provide divine domains.", this->get_identifier()));
 	}
 
-	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity() && !this->temporary) {
+	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity() && !this->is_temporary()) {
 		throw std::runtime_error(std::format("Sapient, non-deity character \"{}\" has no home settlement.", this->get_identifier()));
 	} else if (this->get_home_settlement() != nullptr && !this->get_home_settlement()->is_settlement()) {
 		throw std::runtime_error(std::format("Character \"{}\" has \"{}\" set as their home settlement, but it is not a settlement site.", this->get_identifier(), this->get_home_settlement()->get_identifier()));
