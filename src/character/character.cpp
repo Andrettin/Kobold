@@ -342,6 +342,10 @@ void character::check() const
 		}
 	}
 
+	if (this->get_culture() != nullptr && !vector::contains(this->get_culture()->get_species(), this->get_species())) {
+		throw std::runtime_error(std::format("Sapient character \"{}\" has a culture (\"{}\") which does not include its species (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_species()->get_identifier()));
+	}
+
 	if (this->get_patron_deity() != nullptr && !vector::contains(this->get_religion()->get_deities(), this->get_patron_deity())) {
 		throw std::runtime_error(std::format("Character \"{}\" has a patron deity which does not belong to their religion.", this->get_identifier()));
 	}
