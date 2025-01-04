@@ -212,3 +212,18 @@ suspicious = {
 	}
 	weight_factor = 3
 }
+
+big_ears = {
+	name = "Big Ears"
+	icon = music
+	description = "Your massive ears are your pride and joy, and other goblins claim you can hear a flea scream as it falls off a goblin dog."
+	types = {
+		trait
+	}
+	conditions = {
+		species = goblin
+	}
+	modifier = {
+		listen = 2
+	}
+}
