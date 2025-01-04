@@ -37,7 +37,6 @@ DialogBase {
 			+ "\nBase Attack Bonus: " + signed_number_string(character.game_data.base_attack_bonus)
 			+ "\nAttack Bonus: " + signed_number_string(character.game_data.attack_bonus) + (character.game_data.weapon_type_attack_bonuses.length > 0 ? (" (" + bonuses_to_string(character.game_data.weapon_type_attack_bonuses, character.game_data.attack_bonus) + ")") : "")
 			+ "\n\nSaving Throws: " + bonuses_to_string(character.game_data.saving_throw_bonuses)
-			+ (character.game_data.skill_bonuses.length > 0 ? ("\n\nSkills: " + bonuses_to_string(character.game_data.skill_bonuses)) : "")
 		) : "")
 		wrapMode: Text.WordWrap
 	}
@@ -59,7 +58,7 @@ DialogBase {
 		anchors.right: parent.right
 		anchors.rightMargin: 1 * scale_factor
 		anchors.top: feat_tree_view_top_divisor.bottom
-		height: Math.min(128 * scale_factor, contentHeight)
+		height: Math.min(192 * scale_factor, contentHeight)
 		boundsBehavior: Flickable.StopAtBounds
 		clip: true
 		model: FeatModel {
@@ -89,7 +88,7 @@ DialogBase {
 	TextButton {
 		id: ok_button
 		anchors.top: feat_tree_view_bottom_divisor.bottom
-		anchors.topMargin: 16 * scale_factor + (128 * scale_factor - feat_tree_view.height)
+		anchors.topMargin: 16 * scale_factor + (192 * scale_factor - feat_tree_view.height)
 		anchors.horizontalCenter: parent.horizontalCenter
 		text: "OK"
 		onClicked: {

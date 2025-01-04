@@ -1,5 +1,9 @@
 #pragma once
 
+namespace archimedes {
+	class named_data_entry;
+}
+
 namespace kobold {
 
 template <typename T>
@@ -36,6 +40,7 @@ class office;
 class saving_throw_type;
 class settlement_attribute;
 class skill;
+class skill_category;
 
 extern template struct data_entry_compare<alignment>;
 extern template struct data_entry_compare<alignment_axis>;
@@ -54,8 +59,10 @@ extern template struct data_entry_compare<feat_type>;
 extern template struct data_entry_compare<item_class>;
 extern template struct data_entry_compare<item_slot>;
 extern template struct data_entry_compare<item_type>;
+extern template struct data_entry_compare<named_data_entry>;
 extern template struct data_entry_compare<saving_throw_type>;
 extern template struct data_entry_compare<settlement_attribute>;
 extern template struct data_entry_compare<skill>;
+extern template struct data_entry_compare<skill_category>;
 
 }

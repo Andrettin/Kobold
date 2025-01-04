@@ -12,6 +12,7 @@
 #include "character/feat_type.h"
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
+#include "character/skill_category.h"
 #include "country/country_attribute.h"
 #include "country/country_feat.h"
 #include "country/country_milestone.h"
@@ -51,9 +52,11 @@ template struct data_entry_compare<feat_type>;
 template struct data_entry_compare<item_class>;
 template struct data_entry_compare<item_slot>;
 template struct data_entry_compare<item_type>;
+template struct data_entry_compare<named_data_entry>;
 template struct data_entry_compare<office>;
 template struct data_entry_compare<saving_throw_type>;
 template struct data_entry_compare<settlement_attribute>;
 template struct data_entry_compare<skill>;
+template struct data_entry_compare<skill_category>;
 
 }
