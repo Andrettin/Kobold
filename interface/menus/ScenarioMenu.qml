@@ -11,7 +11,8 @@ MenuBase {
 	//background: kobold.defines.default_menu_background_file
 	
 	property var loading_scenario: false
-	property var initial_scenario_loaded: false
+	property var map_template_loaded: false
+	property var previous_selected_scenario: null
 	property var selected_scenario: null
 	readonly property var selected_country: diplomatic_map.selected_country
 	readonly property var selected_country_game_data: selected_country ? selected_country.game_data : null
@@ -39,7 +40,7 @@ MenuBase {
 		anchors.bottom: country_text_area.top
 		anchors.bottomMargin: 16 * scale_factor
 		width: 512 * scale_factor
-		visible: initial_scenario_loaded
+		visible: map_template_loaded
 		enabled: !loading_scenario
 	}
 	
@@ -48,7 +49,7 @@ MenuBase {
 		anchors.horizontalCenter: diplomatic_map_background.horizontalCenter
 		anchors.verticalCenter: diplomatic_map_background.verticalCenter
 		text: "Loading..."
-		visible: loading_scenario && !initial_scenario_loaded
+		visible: loading_scenario && !map_template_loaded
 	}
 	
 	IconButton {
@@ -260,10 +261,18 @@ MenuBase {
 				}
 				
 				loading_scenario = true
+				previous_selected_scenario = selected_scenario
 				selected_scenario = model.scenario
+				if (previous_selected_scenario === null || previous_selected_scenario.map_template !== selected_scenario.map_template) {
+					map_template_loaded = false
+				}
 				kobold.game.setup_scenario(selected_scenario).then(() => {
+					if (previous_selected_scenario === null || previous_selected_scenario.map_template !== selected_scenario.map_template) {
+						select_random_country()
+					}
 					update_selected_country_data(diplomatic_map.selected_country)
 					loading_scenario = false
+					map_template_loaded = true
 				})
 			}
 		}
@@ -355,6 +364,7 @@ MenuBase {
 	
 	function select_random_scenario() {
 		loading_scenario = true
+		previous_selected_scenario = selected_scenario
 		//get a random scenario
 		var scenario_index = random(scenarios.length)
 		selected_scenario = scenarios[scenario_index]
@@ -362,17 +372,21 @@ MenuBase {
 		adjust_scenario_list_position(scenario_index)
 		
 		kobold.game.setup_scenario(selected_scenario).then(() => {
-			if (selected_scenario.default_countries.length > 0) {
-				diplomatic_map.selected_country = selected_scenario.default_countries[random(selected_scenario.default_countries.length)]
-			} else if (kobold.game.great_powers.length > 0) {
-				diplomatic_map.selected_country = kobold.game.great_powers[random(kobold.game.great_powers.length)]
-			} else {
-				diplomatic_map.selected_country = kobold.game.countries[random(kobold.game.countries.length)]
-			}
-			diplomatic_map.center_on_selected_country_capital()
+			select_random_country()
 			loading_scenario = false
-			initial_scenario_loaded = true
+			map_template_loaded = true
 		})
+	}
+	
+	function select_random_country() {
+		if (selected_scenario.default_countries.length > 0) {
+			diplomatic_map.selected_country = selected_scenario.default_countries[random(selected_scenario.default_countries.length)]
+		} else if (kobold.game.great_powers.length > 0) {
+			diplomatic_map.selected_country = kobold.game.great_powers[random(kobold.game.great_powers.length)]
+		} else {
+			diplomatic_map.selected_country = kobold.game.countries[random(kobold.game.countries.length)]
+		}
+		diplomatic_map.center_on_selected_country_capital()
 	}
 	
 	function adjust_scenario_list_position(scenario_index) {
