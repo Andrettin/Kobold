@@ -29,7 +29,7 @@ DialogBase {
 		anchors.right: parent.right
 		anchors.rightMargin: 1 * scale_factor
 		anchors.top: character_data_tree_view_top_divisor.bottom
-		height: Math.min(192 * scale_factor, contentHeight)
+		height: Math.min(256 * scale_factor, contentHeight)
 		boundsBehavior: Flickable.StopAtBounds
 		clip: true
 		model: CharacterDataModel {
@@ -59,7 +59,7 @@ DialogBase {
 	TextButton {
 		id: ok_button
 		anchors.top: character_data_tree_view_bottom_divisor.bottom
-		anchors.topMargin: 16 * scale_factor + (192 * scale_factor - character_data_tree_view.height)
+		anchors.topMargin: 16 * scale_factor + (256 * scale_factor - character_data_tree_view.height)
 		anchors.horizontalCenter: parent.horizontalCenter
 		text: "OK"
 		onClicked: {
