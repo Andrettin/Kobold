@@ -104,6 +104,8 @@ experience_award_per_challenge_rating = {
 
 character_hit_dice_count_effects = {
 	1 = {
+		gain_feat_of_type = trait
+		gain_feat_of_type = trait
 		gain_feat_of_type = general
 	}
 	3 = {

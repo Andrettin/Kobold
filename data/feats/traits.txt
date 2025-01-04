@@ -4,7 +4,6 @@ abrasive = {
 	description = "You are difficult and demanding in conversation, which tends to oppress those around you."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		intimidate = 1
@@ -20,7 +19,6 @@ detached = {
 	description = "You maintain a distance from events that keeps you grounded but limits your reaction speed."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		will = 1
@@ -35,7 +33,6 @@ dishonest = {
 	description = "You are naturally deceitful and insincere with others. You have a talent for lying, but have difficulty convincing others when you do speak truthfully."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		bluff = 1
@@ -50,7 +47,6 @@ easygoing = {
 	description = "You are naturally friendly. Others feel comfortable around you, but this trait also makes it more difficult for you to be pushy or suspicious."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		gather_information = 1
@@ -66,7 +62,6 @@ farsighted = {
 	description = "You have difficulty focusing on nearby objects, but your distance vision is more keen than normal."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		spot = 1
@@ -81,7 +76,6 @@ focused = {
 	description = "You can keep your attention on a task despite many distractions; however, events in the background pass you by."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		concentration = 1
@@ -97,7 +91,6 @@ hard_of_hearing = {
 	description = "You have a slight hearing impairment, and to compensate, you have become more in tune with your other senses."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		spot = 1
@@ -112,7 +105,6 @@ hardy = {
 	description = "You are made of tougher stuff than the average person, but you're not quite as quick to react to dangerous effects."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		fortitude = 1
@@ -127,7 +119,6 @@ honest = {
 	description = "You are naturally straightforward and sincere. This quality helps you persuade people to your viewpoint, but you have difficulty telling lies and seeing deception in others."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		diplomacy = 1
@@ -143,7 +134,6 @@ nearsighted = {
 	description = "You have difficulty focusing on distant objects, but your eye for detail is more keen than normal."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		search = 1
@@ -158,7 +148,6 @@ passionate = {
 	description = "You are made of tougher stuff than the average person, but you are highly suggestible."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		fortitude = 1
@@ -173,7 +162,6 @@ plucky = {
 	description = "You have a strength of will not reflected in your limited physical gifts."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		will = 1
@@ -188,7 +176,6 @@ polite = {
 	description = "You are courteous and well spoken."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		diplomacy = 1
@@ -203,7 +190,6 @@ saddleborn = {
 	description = "You are a natural in the saddle, but you have little patience for handling animals when not riding them."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		ride = 1
@@ -218,7 +204,6 @@ suspicious = {
 	description = "You are naturally suspicious of everyone and everything. While this trait makes you hard to fool, it makes others slightly less likely to agree with you or find you threatening."
 	types = {
 		trait
-		general
 	}
 	modifier = {
 		sense_motive = 1

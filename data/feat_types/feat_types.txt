@@ -23,13 +23,6 @@ flaw = {
 
 trait = {
 	name = "Trait"
-	max_feats = 2
-	gain_conditions = {
-		hit_dice == 1
-	}
-	effects = {
-		gain_feat_of_type = general
-	}
 }
 
 attribute = {
