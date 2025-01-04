@@ -3,6 +3,7 @@
 #include "character/character_data_model.h"
 
 #include "character/character.h"
+#include "character/character_attribute.h"
 #include "character/character_game_data.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
@@ -124,6 +125,16 @@ void character_data_model::set_character(const kobold::character *character)
 	this->top_rows.clear();
 
 	if (character != nullptr) {
+		const character_game_data *character_game_data = this->get_character()->get_game_data();
+
+		this->create_attribute_rows();
+
+		auto hit_points_row = std::make_unique<character_data_row>("Hit Points:", std::to_string(character_game_data->get_hit_points()));
+		this->top_rows.push_back(std::move(hit_points_row));
+
+		auto armor_class_row = std::make_unique<character_data_row>("Armor Class:", std::to_string(character_game_data->get_armor_class()));
+		this->top_rows.push_back(std::move(armor_class_row));
+
 		this->create_attack_bonus_rows();
 		this->create_saving_throw_rows();
 		this->create_skill_rows();
@@ -134,13 +145,26 @@ void character_data_model::set_character(const kobold::character *character)
 	emit character_changed();
 }
 
+void character_data_model::create_attribute_rows()
+{
+	auto top_row = std::make_unique<character_data_row>("Attributes");
+
+	const character_game_data *character_game_data = this->get_character()->get_game_data();
+	for (const auto &[attribute, value] : character_game_data->get_attribute_values()) {
+		auto row = std::make_unique<character_data_row>(attribute->get_name(), std::to_string(value), top_row.get());
+		top_row->child_rows.push_back(std::move(row));
+	}
+
+	this->top_rows.push_back(std::move(top_row));
+}
+
 void character_data_model::create_attack_bonus_rows()
 {
 	const character_game_data *character_game_data = this->get_character()->get_game_data();
 
-	auto attack_bonus_row = std::make_unique<character_data_row>("Attack Bonus", number::to_signed_string(character_game_data->get_attack_bonus()));
+	auto attack_bonus_row = std::make_unique<character_data_row>("Attack Bonus:", number::to_signed_string(character_game_data->get_attack_bonus()));
 
-	auto base_attack_bonus_row = std::make_unique<character_data_row>("Base", number::to_signed_string(character_game_data->get_base_attack_bonus()), attack_bonus_row.get());
+	auto base_attack_bonus_row = std::make_unique<character_data_row>("Base Attack Bonus:", number::to_signed_string(character_game_data->get_base_attack_bonus()), attack_bonus_row.get());
 	attack_bonus_row->child_rows.push_back(std::move(base_attack_bonus_row));
 
 	for (const auto &[weapon_type, bonus] : character_game_data->get_weapon_type_attack_bonuses()) {

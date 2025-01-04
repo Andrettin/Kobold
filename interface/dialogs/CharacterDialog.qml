@@ -32,8 +32,6 @@ DialogBase {
 			+ "\nAge: " + number_string(character.game_data.age)
 			+ (character.deity ? ("\nPantheon: " + character.deity.pantheon.name) : (character.patron_deity ? ("\nPatron Deity: " + patron_deity_name) : ("\nReligion: " + character.religion.name)))
 			+ "\nAlignment: " + (character.alignments.length == 0 ? "Neutral" : string_list_to_string(object_list_to_name_list(character.alignments), " "))
-			+ "\n\nAttributes: " + values_to_string(character.game_data.attribute_values)
-			+ "\nHit Points: " + number_string(character.game_data.hit_points)
 		) : "")
 		wrapMode: Text.WordWrap
 	}
