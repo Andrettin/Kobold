@@ -1,0 +1,7 @@
+sylvan = {
+	name = "Sylvan"
+	species = {
+		centaur
+		nymph
+	}
+}
