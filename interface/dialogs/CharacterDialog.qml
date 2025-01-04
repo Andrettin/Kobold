@@ -12,12 +12,20 @@ DialogBase {
 	
 	property var character: null
 	
+	CharacterPortraitButton {
+		id: character_portrait
+		anchors.top: title_item.bottom
+		anchors.topMargin: 16 * scale_factor
+		anchors.horizontalCenter: parent.horizontalCenter
+		character: character_dialog.character
+	}
+	
 	Rectangle {
 		id: character_data_tree_view_top_divisor
 		color: "gray"
 		anchors.left: parent.left
 		anchors.right: parent.right
-		anchors.top: title_item.bottom
+		anchors.top: character_portrait.bottom
 		anchors.topMargin: 16 * scale_factor
 		height: 1 * scale_factor
 	}
