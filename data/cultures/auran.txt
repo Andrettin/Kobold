@@ -1,0 +1,6 @@
+auran = {
+	name = "Auran"
+	species = {
+		elder_air_elemental
+	}
+}

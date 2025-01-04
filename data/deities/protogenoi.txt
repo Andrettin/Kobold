@@ -13,7 +13,7 @@ chaos = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 12
 	character = {
 		species = elder_air_elemental #Protogenoi; should be a void elemental or similar instead
 		character_class = aristocrat
-		culture = olympian #Protogenoi
+		culture = auran #Protogenoi
 		religion = hellenism
 		gender = female #correct?
 	}
@@ -34,7 +34,7 @@ gaia = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 20
 	character = {
 		species = elder_earth_elemental #Protogenoi
 		character_class = warrior
-		culture = olympian #Protogenoi
+		culture = terran
 		religion = hellenism
 		gender = female
 		mother = chaos #in Greek mythology, she was the first deity born after Chaos, but here we make her Chaos' daughter, as that fits better with our cosmology
@@ -56,7 +56,7 @@ uranus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 4
 	character = {
 		species = elder_air_elemental #Protogenoi
 		character_class = warrior
-		culture = olympian #Protogenoi
+		culture = auran
 		religion = hellenism
 		gender = male
 	}

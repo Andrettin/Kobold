@@ -1,0 +1,6 @@
+terran = {
+	name = "Terran"
+	species = {
+		elder_earth_elemental
+	}
+}
