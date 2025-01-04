@@ -26,10 +26,18 @@ class character_data_model : public QAbstractItemModel
 	Q_PROPERTY(const kobold::character* character READ get_character WRITE set_character NOTIFY character_changed)
 
 public:
-	const intptr_t attack_bonus_row {};
-	const intptr_t saving_throws_row {};
-	const intptr_t skills_row {};
-	const intptr_t feats_row {};
+	struct character_data_row final
+	{
+		explicit character_data_row(const std::string &name, const std::string &value = "", const character_data_row *parent_row = nullptr)
+			: name(name), value(value), parent_row(parent_row)
+		{
+		}
+
+		std::string name;
+		std::string value;
+		const character_data_row *parent_row = nullptr;
+		std::vector<std::unique_ptr<character_data_row>> child_rows;
+	};
 
 	character_data_model();
 
@@ -46,21 +54,17 @@ public:
 
 	void set_character(const kobold::character *character);
 
-	const std::vector<const skill *> &get_category_skills(const skill_category *skill_category) const;
-	const std::vector<const feat *> &get_feats_of_type(const feat_type *feat_type) const;
+	void create_attack_bonus_rows();
+	void create_saving_throw_rows();
+	void create_skill_rows();
+	void create_feat_rows();
 
 signals:
 	void character_changed();
 
 private:
 	const kobold::character *character = nullptr;
-	std::vector<const intptr_t *> top_rows;
-	std::vector<const item_type *> attack_bonus_weapon_types;
-	std::vector<const saving_throw_type *> saving_throws;
-	std::vector<const named_data_entry *> skills; //top-level skills or skill categories
-	data_entry_map<skill_category, std::vector<const skill *>> skills_by_category;
-	std::vector<const feat_type *> feat_types;
-	data_entry_map<feat_type, std::vector<const feat *>> feats_by_type;
+	std::vector<std::unique_ptr<const character_data_row>> top_rows;
 };
 
 }
