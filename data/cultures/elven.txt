@@ -2,5 +2,6 @@ elven = {
 	name = "Elven"
 	species = {
 		elf
+		half_elf
 	}
 }
