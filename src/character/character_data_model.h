@@ -14,6 +14,7 @@ namespace kobold {
 
 class feat;
 class feat_type;
+class saving_throw_type;
 class skill;
 class skill_category;
 
@@ -24,6 +25,7 @@ class character_data_model : public QAbstractItemModel
 	Q_PROPERTY(const kobold::character* character READ get_character WRITE set_character NOTIFY character_changed)
 
 public:
+	const intptr_t saving_throws_row {};
 	const intptr_t skills_row {};
 	const intptr_t feats_row {};
 
@@ -51,6 +53,7 @@ signals:
 private:
 	const kobold::character *character = nullptr;
 	std::vector<const intptr_t *> top_rows;
+	std::vector<const saving_throw_type *> saving_throws;
 	std::vector<const named_data_entry *> skills; //top-level skills or skill categories
 	data_entry_map<skill_category, std::vector<const skill *>> skills_by_category;
 	std::vector<const feat_type *> feat_types;

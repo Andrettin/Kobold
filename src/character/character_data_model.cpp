@@ -6,10 +6,12 @@
 #include "character/character_game_data.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
+#include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "character/skill_category.h"
 #include "util/assert_util.h"
 #include "util/exception_util.h"
+#include "util/map_util.h"
 #include "util/vector_util.h"
 
 namespace kobold {
@@ -28,7 +30,9 @@ int character_data_model::rowCount(const QModelIndex &parent) const
 		return static_cast<int>(this->top_rows.size());
 	}
 
-	if (parent.constInternalPointer() == &this->skills_row) {
+	if (parent.constInternalPointer() == &this->saving_throws_row) {
+		return static_cast<int>(this->saving_throws.size());
+	} else if (parent.constInternalPointer() == &this->skills_row) {
 		return static_cast<int>(this->skills.size());
 	} else if (parent.constInternalPointer() == &this->feats_row) {
 		return static_cast<int>(this->feat_types.size());
@@ -65,7 +69,9 @@ QVariant character_data_model::data(const QModelIndex &index, const int role) co
 		switch (role) {
 			case Qt::DisplayRole:
 			{
-				if (index.constInternalPointer() == &this->skills_row) {
+				if (index.constInternalPointer() == &this->saving_throws_row) {
+					return "Saving Throws";
+				} else if (index.constInternalPointer() == &this->skills_row) {
 					return "Skills";
 				} else if (index.constInternalPointer() == &this->feats_row) {
 					return "Feats";
@@ -73,6 +79,13 @@ QVariant character_data_model::data(const QModelIndex &index, const int role) co
 
 				const named_data_entry *entry = reinterpret_cast<const named_data_entry *>(index.constInternalPointer());
 				if (entry != nullptr) {
+					const saving_throw_type *saving_throw_type = dynamic_cast<const kobold::saving_throw_type *>(entry);
+					if (saving_throw_type != nullptr) {
+						const int saving_throw_bonus = this->get_character()->get_game_data()->get_saving_throw_bonus(saving_throw_type);
+						assert_throw(saving_throw_bonus != 0);
+						return QString::fromStdString(std::format("{} {}", saving_throw_type->get_name(), number::to_signed_string(saving_throw_bonus)));
+					}
+
 					const skill *skill = dynamic_cast<const kobold::skill *>(entry);
 					if (skill != nullptr) {
 						const int skill_bonus = this->get_character()->get_game_data()->get_skill_bonus(skill);
@@ -115,7 +128,9 @@ QModelIndex character_data_model::index(const int row, const int column, const Q
 		return this->createIndex(row, column, this->top_rows.at(row));
 	}
 
-	if (parent.constInternalPointer() == &this->skills_row) {
+	if (parent.constInternalPointer() == &this->saving_throws_row) {
+		return this->createIndex(row, column, this->saving_throws.at(row));
+	} else if (parent.constInternalPointer() == &this->skills_row) {
 		return this->createIndex(row, column, this->skills.at(row));
 	} else if (parent.constInternalPointer() == &this->feats_row) {
 		return this->createIndex(row, column, this->feat_types.at(row));
@@ -147,6 +162,11 @@ QModelIndex character_data_model::parent(const QModelIndex &index) const
 
 	const named_data_entry *entry = reinterpret_cast<const named_data_entry *>(index.constInternalPointer());
 	if (entry != nullptr) {
+		const saving_throw_type *saving_throw_type = dynamic_cast<const kobold::saving_throw_type *>(entry);
+		if (saving_throw_type != nullptr) {
+			return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->saving_throws_row).value()), 0, &this->saving_throws_row);
+		}
+
 		const skill_category *skill_category = dynamic_cast<const kobold::skill_category *>(entry);
 		const skill *skill = dynamic_cast<const kobold::skill *>(entry);
 		if (skill_category != nullptr || (skill != nullptr && skill->get_category() == nullptr)) {
@@ -187,14 +207,18 @@ void character_data_model::set_character(const kobold::character *character)
 	this->character = character;
 
 	this->top_rows.clear();
+	this->saving_throws.clear();
 	this->skills.clear();
 	this->skills_by_category.clear();
 	this->feat_types.clear();
 	this->feats_by_type.clear();
 
 	if (character != nullptr) {
+		this->top_rows.push_back(&this->saving_throws_row);
 		this->top_rows.push_back(&this->skills_row);
 		this->top_rows.push_back(&this->feats_row);
+
+		this->saving_throws = archimedes::map::get_keys(character->get_game_data()->get_saving_throw_bonuses());
 
 		for (const auto &[skill, bonus] : character->get_game_data()->get_skill_bonuses()) {
 			if (skill->get_category() != nullptr) {

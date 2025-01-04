@@ -36,7 +36,6 @@ DialogBase {
 			+ "\nHit Points: " + number_string(character.game_data.hit_points)
 			+ "\nBase Attack Bonus: " + signed_number_string(character.game_data.base_attack_bonus)
 			+ "\nAttack Bonus: " + signed_number_string(character.game_data.attack_bonus) + (character.game_data.weapon_type_attack_bonuses.length > 0 ? (" (" + bonuses_to_string(character.game_data.weapon_type_attack_bonuses, character.game_data.attack_bonus) + ")") : "")
-			+ "\n\nSaving Throws: " + bonuses_to_string(character.game_data.saving_throw_bonuses)
 		) : "")
 		wrapMode: Text.WordWrap
 	}
