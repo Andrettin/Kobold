@@ -1,0 +1,26 @@
+minotaur = {
+	name = "Minotaur"
+	creature_type = monstrous_humanoid
+	creature_size = large
+	sapient = true
+	hit_dice_count = 6
+	level_adjustment = 2
+	class_skills = {
+		intimidate
+		jump
+		listen
+		search
+		spot
+	}
+	modifier = {
+		challenge_rating = 4
+		strength = 8
+		constitution = 4
+		intelligence = -4
+		charisma = -2
+		search = 4
+		spot = 4
+		listen = 4
+		armor_class = 5 #natural armor
+	}
+}
