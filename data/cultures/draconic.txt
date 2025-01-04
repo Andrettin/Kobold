@@ -1,11 +1,13 @@
-kobold = {
-	name = "Kobold"
+draconic = {
+	name = "Draconic"
 	species = {
 		kobold
+		lizardfolk
 	}
 	
 	personal_names = {
 		male = {
+			#Kobold names
 			"Hodeke" #Source: Jacob Grimm, "Deutsche Mythologie", pp. 392, 1049, 1080.
 			"Hoidike" #Source: Jacob Grimm, "Deutsche Mythologie", p. 392.
 			"Pumphut" #Source: Jacob Grimm, "Deutsche Mythologie", p. 1049.
