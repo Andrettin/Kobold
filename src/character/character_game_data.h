@@ -80,6 +80,8 @@ class character_game_data final : public QObject
 	Q_PROPERTY(QVariantList items READ get_items_qvariant_list NOTIFY items_changed)
 
 public:
+	static constexpr int base_armor_class = 10;
+
 	explicit character_game_data(const kobold::character *character);
 
 	void apply_species_and_class(const int level);
@@ -627,7 +629,7 @@ private:
 	int base_attack_bonus = 0;
 	int attack_bonus = 0;
 	data_entry_map<item_type, int> weapon_type_attack_bonuses;
-	int armor_class = 0;
+	int armor_class = character_game_data::base_armor_class;
 	int initiative_bonus = 0;
 	data_entry_map<saving_throw_type, int> saving_throw_bonuses;
 	data_entry_map<skill, int> skill_bonuses;
