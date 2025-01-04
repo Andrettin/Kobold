@@ -128,7 +128,10 @@ character *character::generate(const kobold::species *species, const std::map<ch
 	generated_character->set_gender(gender);
 	if (generated_character->get_culture() != nullptr) {
 		generated_character->set_name(generated_character->get_culture()->get_personal_name_generator(gender)->generate_name());
-		generated_character->set_surname(generated_character->get_culture()->get_surname_generator(gender)->generate_name());
+		const archimedes::name_generator *surname_generator = generated_character->get_culture()->get_surname_generator(gender);
+		if (surname_generator != nullptr) {
+			generated_character->set_surname(surname_generator->generate_name());
+		}
 	} else {
 		generated_character->set_name(species->get_personal_name_generator(gender)->generate_name());
 	}
