@@ -1,6 +1,6 @@
 #include "kobold.h"
 
-#include "character/feat_model.h"
+#include "character/character_data_model.h"
 
 #include "character/character.h"
 #include "character/character_game_data.h"
@@ -14,25 +14,23 @@
 
 namespace kobold {
 
-feat_model::feat_model()
+character_data_model::character_data_model()
 {
 }
 
-int feat_model::rowCount(const QModelIndex &parent) const
+int character_data_model::rowCount(const QModelIndex &parent) const
 {
 	if (this->get_character() == nullptr) {
 		return 0;
 	}
 
 	if (!parent.isValid()) {
-		return 2;
+		return static_cast<int>(this->top_rows.size());
 	}
 
-	if (parent.constInternalPointer() == &this->skills) {
+	if (parent.constInternalPointer() == &this->skills_row) {
 		return static_cast<int>(this->skills.size());
-	}
-
-	if (parent.constInternalPointer() == &this->feat_types) {
+	} else if (parent.constInternalPointer() == &this->feats_row) {
 		return static_cast<int>(this->feat_types.size());
 	}
 
@@ -50,14 +48,14 @@ int feat_model::rowCount(const QModelIndex &parent) const
 	return 0;
 }
 
-int feat_model::columnCount(const QModelIndex &parent) const
+int character_data_model::columnCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
 
 	return 1;
 }
 
-QVariant feat_model::data(const QModelIndex &index, const int role) const
+QVariant character_data_model::data(const QModelIndex &index, const int role) const
 {
 	if (!index.isValid()) {
 		return QVariant();
@@ -67,11 +65,9 @@ QVariant feat_model::data(const QModelIndex &index, const int role) const
 		switch (role) {
 			case Qt::DisplayRole:
 			{
-				if (index.constInternalPointer() == &this->skills) {
+				if (index.constInternalPointer() == &this->skills_row) {
 					return "Skills";
-				}
-
-				if (index.constInternalPointer() == &this->feat_types) {
+				} else if (index.constInternalPointer() == &this->feats_row) {
 					return "Feats";
 				}
 
@@ -109,27 +105,19 @@ QVariant feat_model::data(const QModelIndex &index, const int role) const
 	return QVariant();
 }
 
-QModelIndex feat_model::index(const int row, const int column, const QModelIndex &parent) const
+QModelIndex character_data_model::index(const int row, const int column, const QModelIndex &parent) const
 {
 	if (!this->hasIndex(row, column, parent)) {
 		return QModelIndex();
 	}
 
 	if (!parent.isValid()) {
-		if (row == 0) {
-			return this->createIndex(row, column, &this->skills);
-		} else if (row == 1) {
-			return this->createIndex(row, column, &this->feat_types);
-		} else {
-			assert_throw(false);
-		}
+		return this->createIndex(row, column, this->top_rows.at(row));
 	}
 
-	if (parent.constInternalPointer() == &this->skills) {
+	if (parent.constInternalPointer() == &this->skills_row) {
 		return this->createIndex(row, column, this->skills.at(row));
-	}
-
-	if (parent.constInternalPointer() == &this->feat_types) {
+	} else if (parent.constInternalPointer() == &this->feats_row) {
 		return this->createIndex(row, column, this->feat_types.at(row));
 	}
 
@@ -147,13 +135,13 @@ QModelIndex feat_model::index(const int row, const int column, const QModelIndex
 	return QModelIndex();
 }
 
-QModelIndex feat_model::parent(const QModelIndex &index) const
+QModelIndex character_data_model::parent(const QModelIndex &index) const
 {
 	if (!index.isValid()) {
 		return QModelIndex();
 	}
 
-	if (index.constInternalPointer() == &this->skills || index.constInternalPointer() == &this->feat_types) {
+	if (vector::contains(this->top_rows, index.constInternalPointer())) {
 		return QModelIndex();
 	}
 
@@ -162,7 +150,7 @@ QModelIndex feat_model::parent(const QModelIndex &index) const
 		const skill_category *skill_category = dynamic_cast<const kobold::skill_category *>(entry);
 		const skill *skill = dynamic_cast<const kobold::skill *>(entry);
 		if (skill_category != nullptr || (skill != nullptr && skill->get_category() == nullptr)) {
-			return this->createIndex(0, 0, &this->skills);
+			return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->skills_row).value()), 0, &this->skills_row);
 		}
 
 		if (skill != nullptr) {
@@ -175,7 +163,7 @@ QModelIndex feat_model::parent(const QModelIndex &index) const
 
 		const feat_type *feat_type = dynamic_cast<const kobold::feat_type *>(entry);
 		if (feat_type != nullptr) {
-			return this->createIndex(1, 0, &this->feat_types);
+			return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->feats_row).value()), 0, &this->feats_row);
 		}
 
 		const feat *feat = dynamic_cast<const kobold::feat *>(entry);
@@ -192,7 +180,7 @@ QModelIndex feat_model::parent(const QModelIndex &index) const
 	return QModelIndex();
 }
 
-void feat_model::set_character(const kobold::character *character)
+void character_data_model::set_character(const kobold::character *character)
 {
 	this->beginResetModel();
 
@@ -204,6 +192,9 @@ void feat_model::set_character(const kobold::character *character)
 	this->feats_by_type.clear();
 
 	if (character != nullptr) {
+		this->top_rows.push_back(&this->skills_row);
+		this->top_rows.push_back(&this->feats_row);
+
 		for (const auto &[skill, bonus] : character->get_game_data()->get_skill_bonuses()) {
 			if (skill->get_category() != nullptr) {
 				if (!vector::contains(this->skills, skill->get_category())) {
@@ -230,7 +221,7 @@ void feat_model::set_character(const kobold::character *character)
 	emit character_changed();
 }
 
-const std::vector<const skill *> &feat_model::get_category_skills(const skill_category *skill_category) const
+const std::vector<const skill *> &character_data_model::get_category_skills(const skill_category *skill_category) const
 {
 	const auto find_iterator = this->skills_by_category.find(skill_category);
 	if (find_iterator != this->skills_by_category.end()) {
@@ -243,7 +234,7 @@ const std::vector<const skill *> &feat_model::get_category_skills(const skill_ca
 	return empty_vector;
 }
 
-const std::vector<const feat *> &feat_model::get_feats_of_type(const feat_type *feat_type) const
+const std::vector<const feat *> &character_data_model::get_feats_of_type(const feat_type *feat_type) const
 {
 	const auto find_iterator = this->feats_by_type.find(feat_type);
 	if (find_iterator != this->feats_by_type.end()) {

@@ -17,14 +17,17 @@ class feat_type;
 class skill;
 class skill_category;
 
-class feat_model : public QAbstractItemModel
+class character_data_model : public QAbstractItemModel
 {
 	Q_OBJECT
 
 	Q_PROPERTY(const kobold::character* character READ get_character WRITE set_character NOTIFY character_changed)
 
 public:
-	feat_model();
+	const intptr_t skills_row {};
+	const intptr_t feats_row {};
+
+	character_data_model();
 
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override final;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override final;
@@ -47,6 +50,7 @@ signals:
 
 private:
 	const kobold::character *character = nullptr;
+	std::vector<const intptr_t *> top_rows;
 	std::vector<const named_data_entry *> skills; //top-level skills or skill categories
 	data_entry_map<skill_category, std::vector<const skill *>> skills_by_category;
 	std::vector<const feat_type *> feat_types;

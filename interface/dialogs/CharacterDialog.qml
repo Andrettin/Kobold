@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import feat_model 1.0
+import character_data_model 1.0
 import ".."
 
 DialogBase {
@@ -42,7 +42,7 @@ DialogBase {
 	}
 	
 	Rectangle {
-		id: feat_tree_view_top_divisor
+		id: character_data_tree_view_top_divisor
 		color: "gray"
 		anchors.left: parent.left
 		anchors.right: parent.right
@@ -52,24 +52,24 @@ DialogBase {
 	}
 	
 	TreeView {
-		id: feat_tree_view
+		id: character_data_tree_view
 		anchors.left: parent.left
 		anchors.leftMargin: 1 * scale_factor
 		anchors.right: parent.right
 		anchors.rightMargin: 1 * scale_factor
-		anchors.top: feat_tree_view_top_divisor.bottom
+		anchors.top: character_data_tree_view_top_divisor.bottom
 		height: Math.min(192 * scale_factor, contentHeight)
 		boundsBehavior: Flickable.StopAtBounds
 		clip: true
-		model: FeatModel {
+		model: CharacterDataModel {
 			character: character_dialog.character
 			
 			onCharacterChanged: {
-				feat_tree_view.contentY = 0
+				character_data_tree_view.contentY = 0
 			}
 		}
 		delegate: TreeViewDelegate {
-			implicitWidth: feat_tree_view.width
+			implicitWidth: character_data_tree_view.width
 			font.family: berenika_font.name
 			font.pixelSize: 10 * scale_factor
 			Material.theme: Material.Dark
@@ -77,18 +77,18 @@ DialogBase {
 	}
 	
 	Rectangle {
-		id: feat_tree_view_bottom_divisor
+		id: character_data_tree_view_bottom_divisor
 		color: "gray"
 		anchors.left: parent.left
 		anchors.right: parent.right
-		anchors.top: feat_tree_view.bottom
+		anchors.top: character_data_tree_view.bottom
 		height: 1 * scale_factor
 	}
 	
 	TextButton {
 		id: ok_button
-		anchors.top: feat_tree_view_bottom_divisor.bottom
-		anchors.topMargin: 16 * scale_factor + (192 * scale_factor - feat_tree_view.height)
+		anchors.top: character_data_tree_view_bottom_divisor.bottom
+		anchors.topMargin: 16 * scale_factor + (192 * scale_factor - character_data_tree_view.height)
 		anchors.horizontalCenter: parent.horizontalCenter
 		text: "OK"
 		onClicked: {
