@@ -54,6 +54,10 @@ QVariant scenario_model::data(const QModelIndex &index, const int role) const
 
 QModelIndex scenario_model::index(const int row, const int column, const QModelIndex &parent) const
 {
+	if (!this->hasIndex(row, column, parent)) {
+		return QModelIndex();
+	}
+
 	if (parent.isValid()) {
 		return this->createIndex(row, column, reinterpret_cast<const kobold::scenario *>(parent.constInternalPointer())->get_child_scenarios().at(row));
 	} else {
@@ -63,6 +67,10 @@ QModelIndex scenario_model::index(const int row, const int column, const QModelI
 
 QModelIndex scenario_model::parent(const QModelIndex &index) const
 {
+	if (!index.isValid()) {
+		return QModelIndex();
+	}
+
 	const kobold::scenario *scenario = reinterpret_cast<const kobold::scenario *>(index.constInternalPointer());
 
 	const std::vector<const kobold::scenario *> *parent_siblings = nullptr;

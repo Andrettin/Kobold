@@ -21,7 +21,7 @@ int feat_model::rowCount(const QModelIndex &parent) const
 		return 1;
 	}
 
-	if (parent.constInternalPointer() == nullptr) {
+	if (parent.constInternalPointer() == this) {
 		return static_cast<int>(this->feat_types.size());
 	}
 
@@ -83,12 +83,15 @@ QVariant feat_model::data(const QModelIndex &index, const int role) const
 
 QModelIndex feat_model::index(const int row, const int column, const QModelIndex &parent) const
 {
-	if (!parent.isValid()) {
-		return this->createIndex(row, column, nullptr);
+	if (!this->hasIndex(row, column, parent)) {
+		return QModelIndex();
 	}
 
-	const QModelIndex grandparent_index = parent.parent();
-	const bool is_feat_type = !grandparent_index.isValid();
+	if (!parent.isValid()) {
+		return this->createIndex(row, column, this);
+	}
+
+	const bool is_feat_type = parent.constInternalPointer() == this;
 	if (is_feat_type) {
 		return this->createIndex(row, column, this->feat_types.at(row));
 	} else {
@@ -98,20 +101,24 @@ QModelIndex feat_model::index(const int row, const int column, const QModelIndex
 
 QModelIndex feat_model::parent(const QModelIndex &index) const
 {
+	if (!index.isValid()) {
+		return QModelIndex();
+	}
+
 	const named_data_entry *entry = reinterpret_cast<const named_data_entry *>(index.constInternalPointer());
 	if (entry != nullptr) {
 		const feat_type *feat_type = dynamic_cast<const kobold::feat_type *>(entry);
 		if (feat_type != nullptr) {
-			return this->createIndex(0, 0, nullptr);
+			return this->createIndex(0, 0, this);
 		}
-	}
 
-	const feat *feat = reinterpret_cast<const kobold::feat *>(index.constInternalPointer());
-	if (feat != nullptr) {
-		const kobold::feat_type *feat_type = feat->get_types().at(0);
-		for (size_t i = 0; i < this->feat_types.size(); ++i) {
-			if (this->feat_types.at(i) == feat_type) {
-				return this->createIndex(static_cast<int>(i), 0, feat_type);
+		const feat *feat = dynamic_cast<const kobold::feat *>(entry);
+		if (feat != nullptr) {
+			feat_type = feat->get_types().at(0);
+			for (size_t i = 0; i < this->feat_types.size(); ++i) {
+				if (this->feat_types.at(i) == feat_type) {
+					return this->createIndex(static_cast<int>(i), 0, feat_type);
+				}
 			}
 		}
 	}
