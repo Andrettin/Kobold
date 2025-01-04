@@ -105,6 +105,10 @@ const name_generator *species_base::get_personal_name_generator(const gender gen
 		return this->get_supertaxon()->get_personal_name_generator(gender);
 	}
 
+	if (name_generator != nullptr && name_generator->get_name_count() > 0) {
+		return name_generator;
+	}
+
 	return fallback_name_generator::get()->get_personal_name_generator(gender);
 }
 
