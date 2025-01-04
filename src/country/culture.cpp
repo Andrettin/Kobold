@@ -27,7 +27,9 @@ void culture::process_gsml_scope(const gsml_data &scope)
 
 	if (tag == "species") {
 		for (const std::string &value : values) {
-			this->species.push_back(species::get(value));
+			kobold::species *species = species::get(value);
+			species->add_culture(this);
+			this->species.push_back(species);
 		}
 	} else if (tag == "derived_cultures") {
 		for (const std::string &value : values) {

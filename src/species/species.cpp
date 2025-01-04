@@ -105,6 +105,10 @@ void species::check() const
 				throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for starting age category \"{}\".", this->get_identifier(), magic_enum::enum_name(category)));
 			}
 		});
+
+		if (this->get_cultures().empty()) {
+			throw std::runtime_error(std::format("Sapient species \"{}\" has no cultures set for it.", this->get_identifier()));
+		}
 	}
 
 	if (this->get_hit_dice_count() > 0 && this->get_class_skills().empty()) {
