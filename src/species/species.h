@@ -71,6 +71,11 @@ public:
 		return this->level_adjustment;
 	}
 
+	const std::vector<const phenotype *> &get_phenotypes() const
+	{
+		return this->phenotypes;
+	}
+
 	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_bonus_tables() const
 	{
 		return this->saving_throw_bonus_tables;
@@ -156,6 +161,7 @@ private:
 	bool sapient = false;
 	int hit_dice_count = 0;
 	int level_adjustment = 0;
+	std::vector<const phenotype *> phenotypes;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;
 	data_entry_map<character_attribute, int> min_attribute_values;

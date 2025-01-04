@@ -15,6 +15,7 @@
 #include "script/modifier.h"
 #include "species/creature_size.h"
 #include "species/creature_type.h"
+#include "species/phenotype.h"
 
 #include <magic_enum/magic_enum_utility.hpp>
 
@@ -34,7 +35,11 @@ void species::process_gsml_scope(const gsml_data &scope)
 	const std::string &tag = scope.get_tag();
 	const std::vector<std::string> &values = scope.get_values();
 
-	if (tag == "saving_throw_bonus_tables") {
+	if (tag == "phenotypes") {
+		for (const std::string &value : values) {
+			this->phenotypes.push_back(phenotype::get(value));
+		}
+	} else if (tag == "saving_throw_bonus_tables") {
 		scope.for_each_property([&](const gsml_property &property) {
 			const std::string &key = property.get_key();
 			const std::string &value = property.get_value();
