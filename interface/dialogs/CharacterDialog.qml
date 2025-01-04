@@ -11,37 +11,13 @@ DialogBase {
 	title: character ? character.game_data.titled_name : ""
 	
 	property var character: null
-	readonly property string cultural_patron_deity_name: character && character.patron_deity ? character.patron_deity.get_cultural_name_qstring(character.culture) : ""
-	readonly property string patron_deity_name: character && character.patron_deity ? (cultural_patron_deity_name + (cultural_patron_deity_name !== character.patron_deity.name ? (" (" + character.patron_deity.name + ")") : "")) : ""
-	
-	SmallText {
-		id: description_text
-		anchors.top: title_item.bottom
-		anchors.topMargin: 16 * scale_factor
-		anchors.left: parent.left
-		anchors.leftMargin: 8 * scale_factor
-		anchors.right: parent.right
-		anchors.rightMargin: 8 * scale_factor
-		text: format_text(character ? (
-			"Species: " + character.species.name
-			+ "\nClass: " + character.game_data.character_class.name
-			+ "\nLevel: " + character.game_data.level
-			+ (character.deity ? ("\nDivine Rank: " + character.deity.divine_rank) : "")
-			+ "\nExperience: " + number_string(character.game_data.experience)
-			+ "\nChallenge Rating: " + character.game_data.challenge_rating
-			+ "\nAge: " + number_string(character.game_data.age)
-			+ (character.deity ? ("\nPantheon: " + character.deity.pantheon.name) : (character.patron_deity ? ("\nPatron Deity: " + patron_deity_name) : ("\nReligion: " + character.religion.name)))
-			+ "\nAlignment: " + (character.alignments.length == 0 ? "Neutral" : string_list_to_string(object_list_to_name_list(character.alignments), " "))
-		) : "")
-		wrapMode: Text.WordWrap
-	}
 	
 	Rectangle {
 		id: character_data_tree_view_top_divisor
 		color: "gray"
 		anchors.left: parent.left
 		anchors.right: parent.right
-		anchors.top: description_text.bottom
+		anchors.top: title_item.bottom
 		anchors.topMargin: 16 * scale_factor
 		height: 1 * scale_factor
 	}

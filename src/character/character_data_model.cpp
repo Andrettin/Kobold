@@ -2,8 +2,10 @@
 
 #include "character/character_data_model.h"
 
+#include "character/alignment.h"
 #include "character/character.h"
 #include "character/character_attribute.h"
+#include "character/character_class.h"
 #include "character/character_game_data.h"
 #include "character/feat.h"
 #include "character/feat_type.h"
@@ -11,6 +13,10 @@
 #include "character/skill.h"
 #include "character/skill_category.h"
 #include "item/item_type.h"
+#include "religion/deity.h"
+#include "religion/pantheon.h"
+#include "religion/religion.h"
+#include "species/species.h"
 #include "util/assert_util.h"
 #include "util/exception_util.h"
 #include "util/map_util.h"
@@ -127,13 +133,44 @@ void character_data_model::set_character(const kobold::character *character)
 	if (character != nullptr) {
 		const character_game_data *character_game_data = this->get_character()->get_game_data();
 
+		this->top_rows.push_back(std::make_unique<character_data_row>("Species:", character->get_species()->get_name()));
+
+		if (character_game_data->get_character_class() != nullptr) {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Class:", character_game_data->get_character_class()->get_name()));
+		}
+
+		this->top_rows.push_back(std::make_unique<character_data_row>("Level:", std::to_string(character_game_data->get_level())));
+
+		if (character->is_deity()) {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Divine Rank:", std::to_string(character->get_deity()->get_divine_rank())));
+		}
+
+		this->top_rows.push_back(std::make_unique<character_data_row>("Experience:", number::to_formatted_string(character_game_data->get_experience())));
+
+		this->top_rows.push_back(std::make_unique<character_data_row>("Challenge Rating:", character_game_data->get_challenge_rating().to_string()));
+
+		this->top_rows.push_back(std::make_unique<character_data_row>("Age:", number::to_formatted_string(character_game_data->get_age())));
+
+		if (character->is_deity()) {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Pantheon:", character->get_deity()->get_pantheon()->get_name()));
+		} else if (character->get_patron_deity() != nullptr) {
+			std::string patron_deity_name = character->get_patron_deity()->get_cultural_name(character->get_culture());
+			
+			if (patron_deity_name != character->get_patron_deity()->get_name()) {
+				patron_deity_name += std::format(" ({})", character->get_patron_deity()->get_name());
+			}
+			
+			this->top_rows.push_back(std::make_unique<character_data_row>("Patron Deity:", patron_deity_name));
+		} else {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Religion:", character->get_religion()->get_name()));
+		}
+
+		this->create_alignment_row();
 		this->create_attribute_rows();
 
-		auto hit_points_row = std::make_unique<character_data_row>("Hit Points:", std::to_string(character_game_data->get_hit_points()));
-		this->top_rows.push_back(std::move(hit_points_row));
+		this->top_rows.push_back(std::make_unique<character_data_row>("Hit Points:", std::to_string(character_game_data->get_hit_points())));
 
-		auto armor_class_row = std::make_unique<character_data_row>("Armor Class:", std::to_string(character_game_data->get_armor_class()));
-		this->top_rows.push_back(std::move(armor_class_row));
+		this->top_rows.push_back(std::make_unique<character_data_row>("Armor Class:", std::to_string(character_game_data->get_armor_class())));
 
 		this->create_attack_bonus_rows();
 		this->create_saving_throw_rows();
@@ -143,6 +180,26 @@ void character_data_model::set_character(const kobold::character *character)
 
 	this->endResetModel();
 	emit character_changed();
+}
+
+void character_data_model::create_alignment_row()
+{
+	std::string alignments_string;
+
+	const std::vector<const alignment *> alignments = this->get_character()->get_alignments();
+	for (const alignment *alignment : alignments) {
+		if (!alignments_string.empty()) {
+			alignments_string += " ";
+		}
+
+		alignments_string += alignment->get_name();
+	}
+
+	if (alignments_string.empty()) {
+		alignments_string = "Neutral";
+	}
+
+	this->top_rows.push_back(std::make_unique<character_data_row>("Alignment:", alignments_string));
 }
 
 void character_data_model::create_attribute_rows()

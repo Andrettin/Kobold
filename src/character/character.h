@@ -205,6 +205,7 @@ public:
 		return this->portrait;
 	}
 
+	std::vector<const alignment *> get_alignments() const;
 	QVariantList get_alignments_qvariant_list() const;
 	bool has_alignment(const alignment *alignment) const;
 	void generate_alignments();

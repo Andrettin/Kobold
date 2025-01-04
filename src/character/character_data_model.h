@@ -54,6 +54,7 @@ public:
 
 	void set_character(const kobold::character *character);
 
+	void create_alignment_row();
 	void create_attribute_rows();
 	void create_attack_bonus_rows();
 	void create_saving_throw_rows();

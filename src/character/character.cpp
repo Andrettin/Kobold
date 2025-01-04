@@ -579,12 +579,16 @@ void character::generate_patron_deity()
 	this->patron_deity = vector::get_random(potential_deities);
 }
 
-QVariantList character::get_alignments_qvariant_list() const
+std::vector<const alignment *> character::get_alignments() const
 {
 	std::vector<const alignment *> alignments = archimedes::map::get_values(this->alignments);
 	std::erase(alignments, nullptr);
+	return alignments;
+}
 
-	return container::to_qvariant_list(alignments);
+QVariantList character::get_alignments_qvariant_list() const
+{
+	return container::to_qvariant_list(this->get_alignments());
 }
 
 bool character::has_alignment(const alignment *alignment) const
