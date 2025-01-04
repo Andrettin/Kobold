@@ -9,6 +9,7 @@
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "character/skill_category.h"
+#include "item/item_type.h"
 #include "util/assert_util.h"
 #include "util/exception_util.h"
 #include "util/map_util.h"
@@ -30,12 +31,18 @@ int character_data_model::rowCount(const QModelIndex &parent) const
 		return static_cast<int>(this->top_rows.size());
 	}
 
-	if (parent.constInternalPointer() == &this->saving_throws_row) {
+	if (parent.constInternalPointer() == &this->attack_bonus_row) {
+		return 1 + static_cast<int>(this->attack_bonus_weapon_types.size());
+	} else if (parent.constInternalPointer() == &this->saving_throws_row) {
 		return static_cast<int>(this->saving_throws.size());
 	} else if (parent.constInternalPointer() == &this->skills_row) {
 		return static_cast<int>(this->skills.size());
 	} else if (parent.constInternalPointer() == &this->feats_row) {
 		return static_cast<int>(this->feat_types.size());
+	}
+
+	if (parent.parent().constInternalPointer() == &this->attack_bonus_row) {
+		return 0;
 	}
 
 	const named_data_entry *parent_entry = reinterpret_cast<const named_data_entry *>(parent.constInternalPointer());
@@ -69,12 +76,23 @@ QVariant character_data_model::data(const QModelIndex &index, const int role) co
 		switch (role) {
 			case Qt::DisplayRole:
 			{
-				if (index.constInternalPointer() == &this->saving_throws_row) {
+				if (index.constInternalPointer() == &this->attack_bonus_row) {
+					return QString::fromStdString(std::format("Attack Bonus {}", number::to_signed_string(this->get_character()->get_game_data()->get_attack_bonus())));
+				} else if (index.constInternalPointer() == &this->saving_throws_row) {
 					return "Saving Throws";
 				} else if (index.constInternalPointer() == &this->skills_row) {
 					return "Skills";
 				} else if (index.constInternalPointer() == &this->feats_row) {
 					return "Feats";
+				}
+
+				if (index.parent().constInternalPointer() == &this->attack_bonus_row) {
+					if (index.row() == 0) {
+						return QString::fromStdString(std::format("Base {}", number::to_signed_string(this->get_character()->get_game_data()->get_base_attack_bonus())));
+					} else {
+						const item_type *weapon_type = this->attack_bonus_weapon_types.at(index.row() - 1);
+						return QString::fromStdString(std::format("{} {}", weapon_type->get_name(), number::to_signed_string(this->get_character()->get_game_data()->get_attack_bonus() + this->get_character()->get_game_data()->get_weapon_type_attack_bonus(weapon_type))));
+					}
 				}
 
 				const named_data_entry *entry = reinterpret_cast<const named_data_entry *>(index.constInternalPointer());
@@ -128,7 +146,13 @@ QModelIndex character_data_model::index(const int row, const int column, const Q
 		return this->createIndex(row, column, this->top_rows.at(row));
 	}
 
-	if (parent.constInternalPointer() == &this->saving_throws_row) {
+	if (parent.constInternalPointer() == &this->attack_bonus_row) {
+		if (row == 0) {
+			return this->createIndex(row, column, &this->attack_bonus_weapon_types);
+		} else {
+			return this->createIndex(row, column, &this->attack_bonus_weapon_types.at(row - 1));
+		}
+	} else if (parent.constInternalPointer() == &this->saving_throws_row) {
 		return this->createIndex(row, column, this->saving_throws.at(row));
 	} else if (parent.constInternalPointer() == &this->skills_row) {
 		return this->createIndex(row, column, this->skills.at(row));
@@ -158,6 +182,19 @@ QModelIndex character_data_model::parent(const QModelIndex &index) const
 
 	if (vector::contains(this->top_rows, index.constInternalPointer())) {
 		return QModelIndex();
+	}
+
+	if (index.constInternalPointer() == &this->attack_bonus_weapon_types) {
+		return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->attack_bonus_row).value()), 0, &this->attack_bonus_row);
+	}
+	for (size_t i = 0; i < this->attack_bonus_weapon_types.size(); ++i) {
+		if (index.constInternalPointer() == &this->attack_bonus_weapon_types.at(i)) {
+			return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->attack_bonus_row).value()), 0, &this->attack_bonus_row);
+		}
+	}
+
+	if (index.constInternalPointer() == &this->attack_bonus_weapon_types) {
+		return this->createIndex(static_cast<int>(vector::find_index(this->top_rows, &this->attack_bonus_row).value()), 0, &this->attack_bonus_row);
 	}
 
 	const named_data_entry *entry = reinterpret_cast<const named_data_entry *>(index.constInternalPointer());
@@ -214,10 +251,12 @@ void character_data_model::set_character(const kobold::character *character)
 	this->feats_by_type.clear();
 
 	if (character != nullptr) {
+		this->top_rows.push_back(&this->attack_bonus_row);
 		this->top_rows.push_back(&this->saving_throws_row);
 		this->top_rows.push_back(&this->skills_row);
 		this->top_rows.push_back(&this->feats_row);
 
+		this->attack_bonus_weapon_types = archimedes::map::get_keys(character->get_game_data()->get_weapon_type_attack_bonuses());
 		this->saving_throws = archimedes::map::get_keys(character->get_game_data()->get_saving_throw_bonuses());
 
 		for (const auto &[skill, bonus] : character->get_game_data()->get_skill_bonuses()) {
