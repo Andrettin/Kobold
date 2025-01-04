@@ -6,6 +6,7 @@ import ".."
 
 DialogBase {
 	id: character_dialog
+	width: 320 * scale_factor
 	height: ok_button.y + ok_button.height + 8 * scale_factor
 	title: character ? character.game_data.titled_name : ""
 	
