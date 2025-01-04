@@ -43,7 +43,6 @@ DialogBase {
 			implicitWidth: character_data_tree_view.width
 			font.family: berenika_font.name
 			font.pixelSize: 10 * scale_factor
-			Material.background: "transparent"
 			Material.theme: Material.Dark
 		}
 	}
