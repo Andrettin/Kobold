@@ -67,7 +67,6 @@ military_unit::military_unit(const military_unit_type *type, const kobold::count
 	assert_throw(this->get_country() != nullptr);
 	assert_throw(this->get_culture() != nullptr);
 	assert_throw(this->get_religion() != nullptr);
-	assert_throw(this->get_phenotype() != nullptr);
 	assert_throw(this->get_home_settlement() != nullptr);
 
 	connect(this, &military_unit::type_changed, this, &military_unit::icon_changed);
@@ -611,7 +610,6 @@ void military_unit::disband(const bool dead)
 		if (!dead) {
 			assert_throw(this->get_culture() != nullptr);
 			assert_throw(this->get_religion() != nullptr);
-			assert_throw(this->get_phenotype() != nullptr);
 			assert_throw(this->get_home_settlement() != nullptr);
 		}
 	}

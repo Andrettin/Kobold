@@ -59,7 +59,6 @@ class military_unit;
 class military_unit_type;
 class office;
 class opinion_modifier;
-class phenotype;
 class province;
 class region;
 class religion;

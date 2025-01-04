@@ -19,7 +19,6 @@ class country;
 class culture;
 class flag;
 class improvement;
-class phenotype;
 class province;
 class religion;
 class resource;

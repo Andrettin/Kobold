@@ -62,7 +62,6 @@
 #include "map/site_type.h"
 #include "map/terrain_type.h"
 #include "map/tile.h"
-#include "population/phenotype.h"
 #include "religion/religion.h"
 #include "script/condition/and_condition.h"
 #include "script/effect/effect_list.h"

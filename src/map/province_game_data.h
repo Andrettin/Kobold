@@ -25,7 +25,6 @@ class culture;
 class icon;
 class improvement;
 class military_unit;
-class phenotype;
 class province;
 class religion;
 class scripted_province_modifier;

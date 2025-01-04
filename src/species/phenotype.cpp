@@ -1,6 +1,6 @@
 #include "kobold.h"
 
-#include "population/phenotype.h"
+#include "species/phenotype.h"
 
 #include "util/assert_util.h"
 #include "util/log_util.h"

@@ -9,8 +9,6 @@
 #include "unit/military_unit_class_container.h"
 #include "util/qunique_ptr.h"
 
-Q_MOC_INCLUDE("population/phenotype.h")
-
 namespace archimedes {
 	class gendered_name_generator;
 	class name_generator;

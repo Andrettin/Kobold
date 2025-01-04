@@ -196,13 +196,6 @@ set(map_SRCS
 source_group(map FILES ${map_SRCS})
 set_source_files_properties(${map_SRCS} PROPERTIES UNITY_GROUP "map")
 
-set(population_SRCS
-	src/population/phenotype.cpp
-	src/population/phenotype_container.cpp
-)
-source_group(population FILES ${population_SRCS})
-set_source_files_properties(${population_SRCS} PROPERTIES UNITY_GROUP "population")
-
 set(religion_SRCS
 	src/religion/deity.cpp
 	src/religion/religion.cpp
@@ -251,6 +244,8 @@ set_source_files_properties(${script_modifier_effect_SRCS} PROPERTIES UNITY_GROU
 set(species_SRCS
 	src/species/creature_size.cpp
 	src/species/creature_type.cpp
+	src/species/phenotype.cpp
+	src/species/phenotype_container.cpp
 	src/species/species.cpp
 	src/species/species_base.cpp
 )
@@ -317,7 +312,6 @@ set(kobold_SRCS
 	${item_SRCS}
 	${language_SRCS}
 	${map_SRCS}
-	${population_SRCS}
 	${religion_SRCS}
 	${script_SRCS}
 	${script_condition_SRCS}
@@ -520,12 +514,6 @@ set(map_HDRS
 	src/map/world.h
 )
 source_group(map FILES ${map_HDRS})
-
-set(population_HDRS
-	src/population/phenotype.h
-	src/population/phenotype_container.h
-)
-source_group(population FILES ${population_HDRS})
 
 set(religion_HDRS
 	src/religion/deity.h
@@ -760,6 +748,8 @@ source_group(script\\modifier_effect FILES ${script_modifier_effect_HDRS})
 set(species_HDRS
 	src/species/creature_size.h
 	src/species/creature_type.h
+	src/species/phenotype.h
+	src/species/phenotype_container.h
 	src/species/species.h
 	src/species/species_base.h
 )
@@ -827,7 +817,6 @@ set(kobold_HDRS
 	${item_HDRS}
 	${language_HDRS}
 	${map_HDRS}
-	${population_HDRS}
 	${religion_HDRS}
 	${script_HDRS}
 	${script_condition_HDRS}

@@ -37,7 +37,6 @@ civilian_unit::civilian_unit(const civilian_unit_type *type, const country *owne
 	assert_throw(this->get_owner() != nullptr);
 	assert_throw(this->get_culture() != nullptr);
 	assert_throw(this->get_religion() != nullptr);
-	assert_throw(this->get_phenotype() != nullptr);
 	assert_throw(this->get_home_settlement() != nullptr);
 
 	connect(this, &civilian_unit::type_changed, this, &civilian_unit::icon_changed);

@@ -350,10 +350,6 @@ void character::check() const
 		throw std::runtime_error(std::format("Character \"{}\" has both a patron deity and a religion which provide divine domains.", this->get_identifier()));
 	}
 
-	if (this->get_culture() != nullptr) {
-		assert_throw(this->get_phenotype() != nullptr);
-	}
-
 	if (this->get_home_settlement() == nullptr && this->get_species()->is_sapient() && !this->is_deity() && !this->temporary) {
 		throw std::runtime_error(std::format("Sapient, non-deity character \"{}\" has no home settlement.", this->get_identifier()));
 	} else if (this->get_home_settlement() != nullptr && !this->get_home_settlement()->is_settlement()) {

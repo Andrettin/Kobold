@@ -559,7 +559,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			if (phenotype == nullptr) {
 				phenotype = culture->get_default_phenotype();
 			}
-			assert_throw(phenotype != nullptr);
 
 			const QPoint tile_pos = site->get_game_data()->get_tile_pos();
 
@@ -640,7 +639,6 @@ void game::apply_history(const kobold::scenario *scenario)
 			if (phenotype == nullptr) {
 				phenotype = culture->get_default_phenotype();
 			}
-			assert_throw(phenotype != nullptr);
 
 			for (int i = 0; i < historical_military_unit->get_quantity(); ++i) {
 				auto military_unit = make_qunique<kobold::military_unit>(type, country, culture, religion, phenotype, home_settlement);

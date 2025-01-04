@@ -56,10 +56,6 @@ void culture::check() const
 		throw std::runtime_error(std::format("Culture \"{}\" has no species set for it.", this->get_identifier()));
 	}
 
-	if (this->get_default_phenotype() == nullptr) {
-		throw std::runtime_error("Culture \"" + this->get_identifier() + "\" has no default phenotype.");
-	}
-
 	culture_base::check();
 }
 
