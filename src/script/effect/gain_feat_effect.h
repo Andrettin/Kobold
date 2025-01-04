@@ -31,6 +31,10 @@ public:
 
 	virtual void do_assignment_effect(scope_type *scope) const override
 	{
+		if (!scope->get_game_data()->can_gain_feat(this->feat, nullptr)) {
+			return;
+		}
+
 		scope->get_game_data()->change_feat_count(this->feat, 1);
 	}
 

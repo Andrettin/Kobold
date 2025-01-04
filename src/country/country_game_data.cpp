@@ -2337,13 +2337,11 @@ void country_game_data::change_feat_count(const country_feat *feat, const int ch
 
 	if (change > 0) {
 		if (this->has_feat(feat) && !feat->is_unlimited()) {
-			log::log_error(std::format("Tried to add non-unlimited feat \"{}\" to country \"{}\", but it already has the feat.", feat->get_identifier(), this->country->get_identifier()));
-			return;
+			throw std::runtime_error(std::format("Tried to add non-unlimited feat \"{}\" to country \"{}\", but it already has the feat.", feat->get_identifier(), this->country->get_identifier()));
 		}
 
 		if (!this->can_have_feat(feat)) {
-			log::log_error(std::format("Tried to add feat \"{}\" to country \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->country->get_identifier()));
-			return;
+			throw std::runtime_error(std::format("Tried to add feat \"{}\" to country \"{}\", for which the feat's conditions are not fulfilled.", feat->get_identifier(), this->country->get_identifier()));
 		}
 	}
 
