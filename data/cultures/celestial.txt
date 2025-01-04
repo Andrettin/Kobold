@@ -1,0 +1,7 @@
+celestial = {
+	name = "Celestial"
+	species = {
+		hound_archon
+		trumpet_archon
+	}
+}

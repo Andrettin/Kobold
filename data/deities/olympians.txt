@@ -11,9 +11,9 @@ aphrodite = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p
 		repose
 	}
 	character = {
-		species = human #Olympian
+		species = trumpet_archon #Olympian
 		character_class = aristocrat
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = female
 		father = zeus #according to Homer; according to Hesiod she was born out of Uranus instead
@@ -33,9 +33,9 @@ apollo = {
 		healing
 	}
 	character = {
-		species = human
+		species = trumpet_archon
 		character_class = ranger
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = male
 		father = zeus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 287-288.
@@ -55,9 +55,9 @@ artemis = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp.
 		plant
 	}
 	character = {
-		species = human
+		species = trumpet_archon
 		character_class = ranger
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = female
 		father = zeus
@@ -77,9 +77,9 @@ athena = {
 		war
 	}
 	character = {
-		species = human
+		species = trumpet_archon
 		character_class = warrior
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = female
 		father = zeus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
@@ -102,9 +102,9 @@ hera = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 23
 		latin = "Juno"
 	}
 	character = {
-		species = human
+		species = trumpet_archon
 		character_class = aristocrat
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = female
 		father = cronus
@@ -132,7 +132,7 @@ hermes = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 
 	character = {
 		species = trumpet_archon
 		character_class = bard
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = male
 		father = zeus
@@ -156,9 +156,9 @@ poseidon = {
 		latin = "Neptune"
 	}
 	character = {
-		species = human
+		species = trumpet_archon
 		character_class = warrior
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = male
 		father = cronus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
@@ -178,9 +178,9 @@ zeus = { #Source: Jenny March, "Dictionary of Classical Mythology", 2014, pp. 28
 		glory
 	}
 	character = {
-		species = human #Olympian
+		species = trumpet_archon #Olympian
 		character_class = warrior #correct?
-		culture = olympian
+		culture = celestial
 		religion = hellenism
 		gender = male
 		father = cronus #Source: Jenny March, "Dictionary of Classical Mythology", 2014, p. 504.
