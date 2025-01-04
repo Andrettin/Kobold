@@ -1,11 +1,16 @@
-cyclops = {
-	name = "Cyclops"
+giant = {
+	name = "Giant"
 	species = {
+		frost_giant
+		ogre
 		cyclops
+		troll
+		minotaur
 	}
-
+	
 	personal_names = {
 		male = {
+			#Cyclops names
 			"Arges" #the name means "Vivid"
 			"Brontes" #the name means "Thunderer"
 			"Polyphemus" #the name means "many-voiced"
