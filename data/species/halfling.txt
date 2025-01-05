@@ -3,6 +3,7 @@ halfling = {
 	creature_type = humanoid
 	creature_size = small
 	sapient = true
+	default_subspecies = lightfoot_halfling
 	adulthood_age = 20
 	middle_age = 50
 	old_age = 75

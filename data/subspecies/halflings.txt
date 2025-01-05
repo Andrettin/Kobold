@@ -1,0 +1,16 @@
+lightfoot_halfling = {
+	name = "Lightfoot Halfling"
+	species = halfling
+}
+
+tallfellow = {
+	name = "Tallfellow"
+	species = halfling
+	modifier = {
+		search = 2
+		spot = 2
+		climb = -2
+		jump = -2
+		move_silently = -2
+	}
+}

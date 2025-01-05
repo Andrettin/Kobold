@@ -3,6 +3,7 @@ dwarf = {
 	creature_type = humanoid
 	creature_size = medium
 	sapient = true
+	default_subspecies = hill_dwarf
 	adulthood_age = 40
 	middle_age = 125
 	old_age = 188

@@ -1,8 +1,0 @@
-wild_elf = {
-	name = "Wild Elf"
-	species = elf
-	modifier = {
-		constitution = 2
-		intelligence = -2
-	}
-}

@@ -1,7 +1,8 @@
 dwarven = {
 	name = "Dwarven"
 	species = {
-		dwarf
+		hill_dwarf
+		mountain_dwarf
 	}
 	
 	personal_names = {

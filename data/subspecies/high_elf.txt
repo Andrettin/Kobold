@@ -1,4 +1,0 @@
-high_elf = {
-	name = "High Elf"
-	species = elf
-}

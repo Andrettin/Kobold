@@ -1,0 +1,31 @@
+gray_elf = {
+	name = "Gray Elf"
+	species = elf
+	modifier = {
+		intelligence = 2
+		strength = -2
+	}
+}
+
+high_elf = {
+	name = "High Elf"
+	species = elf
+}
+
+wild_elf = {
+	name = "Wild Elf"
+	species = elf
+	modifier = {
+		constitution = 2
+		intelligence = -2
+	}
+}
+
+wood_elf = {
+	name = "Wood Elf"
+	species = elf
+	modifier = {
+		strength = 2
+		intelligence = -2
+	}
+}

@@ -1,8 +1,0 @@
-gray_elf = {
-	name = "Gray Elf"
-	species = elf
-	modifier = {
-		intelligence = 2
-		strength = -2
-	}
-}

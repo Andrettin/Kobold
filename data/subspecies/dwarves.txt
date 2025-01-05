@@ -1,0 +1,9 @@
+hill_dwarf = {
+	name = "Hill Dwarf"
+	species = dwarf
+}
+
+mountain_dwarf = {
+	name = "Mountain Dwarf"
+	species = dwarf
+}

@@ -1,0 +1,4 @@
+rock_gnome = {
+	name = "Rock Gnome"
+	species = gnome
+}
