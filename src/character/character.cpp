@@ -29,6 +29,7 @@
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "species/species.h"
+#include "species/subspecies.h"
 #include "time/calendar.h"
 #include "unit/civilian_unit_class.h"
 #include "unit/military_unit_category.h"
@@ -100,7 +101,7 @@ void character::initialize_all()
 	}
 }
 
-character *character::generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary)
+character *character::generate(const kobold::species *species, const kobold::subspecies *subspecies, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary)
 {
 	auto generated_character = make_qunique<character>(QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString());
 	generated_character->moveToThread(QApplication::instance()->thread());
@@ -108,6 +109,10 @@ character *character::generate(const kobold::species *species, const std::map<ch
 	generated_character->temporary = temporary;
 
 	generated_character->species = const_cast<kobold::species *>(species);
+	generated_character->subspecies = const_cast<kobold::subspecies *>(subspecies);
+	if (generated_character->subspecies == nullptr) {
+		generated_character->subspecies = const_cast<kobold::subspecies *>(species->get_default_subspecies());
+	}
 	generated_character->character_classes = character_classes;
 	generated_character->level = level;
 	if (culture != nullptr) {
@@ -133,7 +138,7 @@ character *character::generate(const kobold::species *species, const std::map<ch
 			generated_character->set_surname(surname_generator->generate_name());
 		}
 	} else {
-		generated_character->set_name(species->get_personal_name_generator(gender)->generate_name());
+		generated_character->set_name(generated_character->get_species_base()->get_personal_name_generator(gender)->generate_name());
 	}
 
 	generated_character->initialize_dates();
@@ -148,7 +153,7 @@ character *character::generate(const kobold::species *species, const std::map<ch
 
 character *character::generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary)
 {
-	return character::generate(character_template->get_species(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats(), temporary);
+	return character::generate(character_template->get_species(), character_template->get_subspecies(), character_template->get_character_classes(), character_template->get_level(), culture, religion, home_settlement, character_template->get_feats(), temporary);
 }
 
 std::shared_ptr<character_reference> character::generate_temporary(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement)
@@ -259,14 +264,18 @@ void character::initialize()
 		if (!this->get_surname().empty()) {
 			this->culture->add_surname(this->get_gender(), this->get_surname());
 		}
-	} else if (this->get_species() != nullptr && !this->get_species()->is_sapient()) {
-		if (!this->get_species()->is_initialized()) {
-			this->species->initialize();
+	} else if (this->get_species_base() != nullptr && !this->get_species()->is_sapient()) {
+		if (!this->get_species_base()->is_initialized()) {
+			this->get_species_base()->initialize();
 		}
 
 		if (this->has_name_variant()) {
-			this->species->add_personal_name(this->get_gender(), this->get_name_variant());
+			this->get_species_base()->add_personal_name(this->get_gender(), this->get_name_variant());
 		}
+	}
+
+	if (this->subspecies == nullptr && this->get_species() != nullptr) {
+		this->subspecies = const_cast<kobold::subspecies *>(this->get_species()->get_default_subspecies());
 	}
 
 	if (this->get_gender() == gender::none && this->get_species() != nullptr && !this->get_species()->is_sapient()) {
@@ -390,14 +399,14 @@ void character::initialize_dates()
 {
 	const character_class *character_class = this->get_character_class(character_class_type::base_class);
 
-	assert_throw(this->get_species() != nullptr);
+	assert_throw(this->get_species_base() != nullptr);
 
-	const int adulthood_age = this->get_species()->get_adulthood_age();
-	const int venerable_age = this->get_species()->get_venerable_age();
-	const dice &maximum_age_modifier = this->get_species()->get_maximum_age_modifier();
+	const int adulthood_age = this->get_species_base()->get_adulthood_age();
+	const int venerable_age = this->get_species_base()->get_venerable_age();
+	const dice &maximum_age_modifier = this->get_species_base()->get_maximum_age_modifier();
 
 	if (adulthood_age != 0 && venerable_age != 0 && !maximum_age_modifier.is_null()) {
-		const dice &starting_age_modifier = this->get_species()->get_starting_age_modifier(character_class ? character_class->get_starting_age_category() : starting_age_category::intuitive);
+		const dice &starting_age_modifier = this->get_species_base()->get_starting_age_modifier(character_class ? character_class->get_starting_age_category() : starting_age_category::intuitive);
 
 		bool date_changed = true;
 		while (date_changed) {
@@ -461,12 +470,12 @@ bool character::initialize_dates_from_children()
 		return false;
 	}
 
-	const int adulthood_age = this->get_species()->get_adulthood_age();
+	const int adulthood_age = this->get_species_base()->get_adulthood_age();
 	if (adulthood_age == 0) {
 		return false;
 	}
 
-	const int middle_age = this->get_species()->get_middle_age();
+	const int middle_age = this->get_species_base()->get_middle_age();
 	if (middle_age == 0) {
 		return false;
 	}
@@ -528,12 +537,12 @@ bool character::initialize_dates_from_parents()
 			continue;
 		}
 
-		const int parent_adulthood_age = parent->get_species()->get_adulthood_age();
+		const int parent_adulthood_age = parent->get_species_base()->get_adulthood_age();
 		if (parent_adulthood_age == 0) {
 			continue;
 		}
 
-		const int parent_middle_age = parent->get_species()->get_middle_age();
+		const int parent_middle_age = parent->get_species_base()->get_middle_age();
 		if (parent_middle_age == 0) {
 			continue;
 		}
@@ -555,6 +564,24 @@ bool character::initialize_dates_from_parents()
 	log_trace(std::format("Set birth date for character \"{}\": {}.", this->get_identifier(), date::to_string(birth_date)));
 
 	return true;
+}
+
+const species_base *character::get_species_base() const
+{
+	if (this->get_subspecies() != nullptr) {
+		return this->get_subspecies();
+	}
+
+	return this->get_species();
+}
+
+species_base *character::get_species_base()
+{
+	if (this->subspecies != nullptr) {
+		return this->subspecies;
+	}
+
+	return this->species;
 }
 
 void character::generate_patron_deity()

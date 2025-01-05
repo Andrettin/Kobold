@@ -16,12 +16,7 @@ class feat;
 class item_slot;
 class level_bonus_table;
 class saving_throw_type;
-
-template <typename scope_type>
-class effect_list;
-
-template <typename scope_type>
-class modifier;
+class subspecies;
 
 class species final : public species_base, public data_type<species>
 {
@@ -30,6 +25,7 @@ class species final : public species_base, public data_type<species>
 	Q_PROPERTY(kobold::creature_type* creature_type MEMBER creature_type NOTIFY changed)
 	Q_PROPERTY(const kobold::creature_size* creature_size MEMBER creature_size READ get_creature_size NOTIFY changed)
 	Q_PROPERTY(bool sapient MEMBER sapient READ is_sapient NOTIFY changed)
+	Q_PROPERTY(const kobold::subspecies* default_subspecies MEMBER default_subspecies READ get_default_subspecies NOTIFY changed)
 	Q_PROPERTY(int hit_dice_count MEMBER hit_dice_count READ get_hit_dice_count NOTIFY changed)
 	Q_PROPERTY(int level_adjustment MEMBER level_adjustment READ get_level_adjustment NOTIFY changed)
 
@@ -60,6 +56,11 @@ public:
 	}
 
 	virtual taxon_base *get_supertaxon() const override;
+
+	const subspecies *get_default_subspecies() const
+	{
+		return this->default_subspecies;
+	}
 
 	int get_hit_dice_count() const
 	{
@@ -113,16 +114,6 @@ public:
 
 	int get_item_slot_count(const item_slot *slot) const;
 
-	const kobold::modifier<const character> *get_modifier() const
-	{
-		return this->modifier.get();
-	}
-
-	const effect_list<const character> *get_effects() const
-	{
-		return this->effects.get();
-	}
-
 	const data_entry_map<character_class, int> &get_character_class_weights() const
 	{
 		return this->character_class_weights;
@@ -169,6 +160,7 @@ private:
 	kobold::creature_type *creature_type = nullptr;
 	const kobold::creature_size *creature_size = nullptr;
 	bool sapient = false;
+	const subspecies *default_subspecies = nullptr;;
 	int hit_dice_count = 0;
 	int level_adjustment = 0;
 	std::vector<const phenotype *> phenotypes;
@@ -176,8 +168,6 @@ private:
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;
 	data_entry_map<character_attribute, int> min_attribute_values;
-	std::unique_ptr<const kobold::modifier<const character>> modifier;
-	std::unique_ptr<const effect_list<const character>> effects;
 	data_entry_map<item_slot, int> item_slot_counts;
 	data_entry_map<character_class, int> character_class_weights;
 	data_entry_map<feat, int> feat_weights;

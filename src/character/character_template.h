@@ -5,10 +5,12 @@
 #include "database/named_data_entry.h"
 
 Q_MOC_INCLUDE("species/species.h")
+Q_MOC_INCLUDE("species/subspecies.h")
 
 namespace kobold {
 
 class species;
+class subspecies;
 enum class character_class_type;
 
 class character_template final : public named_data_entry, public data_type<character_template>
@@ -16,6 +18,7 @@ class character_template final : public named_data_entry, public data_type<chara
 	Q_OBJECT
 
 	Q_PROPERTY(kobold::species* species MEMBER species NOTIFY changed)
+	Q_PROPERTY(kobold::subspecies* subspecies MEMBER subspecies NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 
 public:
@@ -36,6 +39,11 @@ public:
 	const kobold::species *get_species() const
 	{
 		return this->species;
+	}
+
+	const kobold::subspecies *get_subspecies() const
+	{
+		return this->subspecies;
 	}
 
 	const std::map<character_class_type, character_class *> &get_character_classes() const
@@ -78,6 +86,7 @@ signals:
 
 private:
 	kobold::species *species = nullptr;
+	kobold::subspecies *subspecies = nullptr;
 	std::map<character_class_type, character_class *> character_classes;
 	int level = 0;
 	std::vector<const feat *> feats;

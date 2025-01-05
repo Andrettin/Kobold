@@ -15,6 +15,7 @@ Q_MOC_INCLUDE("religion/deity.h")
 Q_MOC_INCLUDE("religion/religion.h")
 Q_MOC_INCLUDE("species/phenotype.h")
 Q_MOC_INCLUDE("species/species.h")
+Q_MOC_INCLUDE("species/subspecies.h")
 Q_MOC_INCLUDE("ui/portrait.h")
 
 namespace archimedes {
@@ -43,6 +44,8 @@ class portrait;
 class religion;
 class site;
 class species;
+class species_base;
+class subspecies;
 enum class character_class_type;
 enum class military_unit_category;
 
@@ -61,6 +64,7 @@ class character final : public character_base, public data_type<character>
 
 	Q_PROPERTY(kobold::dynasty* dynasty MEMBER dynasty NOTIFY changed)
 	Q_PROPERTY(kobold::species* species MEMBER species NOTIFY changed)
+	Q_PROPERTY(kobold::subspecies* subspecies MEMBER subspecies NOTIFY changed)
 	Q_PROPERTY(int level MEMBER level READ get_level NOTIFY changed)
 	Q_PROPERTY(std::string rank MEMBER rank NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
@@ -85,7 +89,7 @@ public:
 
 	static void initialize_all();
 
-	static character *generate(const kobold::species *species, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary = false);
+	static character *generate(const kobold::species *species, const kobold::subspecies *subspecies, const std::map<character_class_type, character_class *> &character_classes, const int level, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const std::vector<const feat *> &feats, const bool temporary = false);
 	static character *generate(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement, const bool temporary = false);
 	static std::shared_ptr<character_reference> generate_temporary(const character_template *character_template, const kobold::culture *culture, const kobold::religion *religion, const site *home_settlement);
 
@@ -125,6 +129,14 @@ public:
 	{
 		return this->species;
 	}
+
+	const kobold::subspecies *get_subspecies() const
+	{
+		return this->subspecies;
+	}
+
+	const species_base *get_species_base() const;
+	species_base *get_species_base();
 
 	const std::map<character_class_type, character_class *> &get_character_classes() const
 	{
@@ -265,6 +277,7 @@ signals:
 private:
 	kobold::dynasty *dynasty = nullptr;
 	kobold::species *species = nullptr;
+	kobold::subspecies *subspecies = nullptr;
 	std::map<character_class_type, character_class *> character_classes;
 	int level = 0;
 	std::string rank;

@@ -2912,7 +2912,7 @@ void country_game_data::generate_ruler()
 
 	const character_class *base_class = vector::get_random(potential_base_classes);
 
-	const character *ruler = character::generate(species, { { base_class->get_type(), const_cast<character_class *>(base_class) } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital(), {});
+	const character *ruler = character::generate(species, nullptr, { { base_class->get_type(), const_cast<character_class *>(base_class) } }, 1, this->country->get_culture(), this->get_religion(), this->get_capital(), {});
 	this->set_office_holder(defines::get()->get_ruler_office(), ruler);
 }
 

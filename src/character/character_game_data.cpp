@@ -37,6 +37,7 @@
 #include "species/creature_size.h"
 #include "species/creature_type.h"
 #include "species/species.h"
+#include "species/subspecies.h"
 #include "spell/spell.h"
 #include "ui/portrait.h"
 #include "unit/civilian_unit.h"
@@ -65,7 +66,9 @@ character_game_data::character_game_data(const kobold::character *character)
 
 void character_game_data::apply_species_and_class(const int level)
 {
+	const species_base *species_base = this->character->get_species_base();
 	const species *species = this->character->get_species();
+	const subspecies *subspecies = this->character->get_subspecies();
 
 	if (species->get_level_adjustment() != 0) {
 		this->change_level(species->get_level_adjustment());
@@ -81,8 +84,11 @@ void character_game_data::apply_species_and_class(const int level)
 		creature_size->get_modifier()->apply(this->character, 1);
 	}
 
-	if (species->get_modifier() != nullptr) {
-		species->get_modifier()->apply(this->character, 1);
+	if (species_base->get_modifier() != nullptr) {
+		species_base->get_modifier()->apply(this->character, 1);
+	}
+	if (subspecies != nullptr && subspecies->get_additional_modifier() != nullptr) {
+		subspecies->get_additional_modifier()->apply(this->character, 1);
 	}
 
 	const character_class *base_class = this->character->get_character_class(character_class_type::base_class);
@@ -340,7 +346,7 @@ int character_game_data::get_age() const
 
 bool character_game_data::is_adult() const
 {
-	return this->get_age() >= this->character->get_species()->get_adulthood_age();
+	return this->get_age() >= this->character->get_species_base()->get_adulthood_age();
 }
 
 void character_game_data::set_dead(const bool dead)
@@ -658,9 +664,9 @@ void character_game_data::apply_hit_dice(const dice &hit_dice)
 			this->character->get_species()->get_creature_type()->get_effects()->do_effects(this->character, ctx);
 		}
 
-		if (this->character->get_species()->get_effects() != nullptr) {
+		if (this->character->get_species_base()->get_effects() != nullptr) {
 			context ctx(this->character);
-			this->character->get_species()->get_effects()->do_effects(this->character, ctx);
+			this->character->get_species_base()->get_effects()->do_effects(this->character, ctx);
 		}
 	}
 

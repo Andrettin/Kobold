@@ -72,14 +72,6 @@ void species::process_gsml_scope(const gsml_data &scope)
 
 			this->item_slot_counts[item_slot::get(key)] = std::stoi(value);
 		});
-	} else if (tag == "modifier") {
-		auto modifier = std::make_unique<kobold::modifier<const character>>();
-		database::process_gsml_data(modifier, scope);
-		this->modifier = std::move(modifier);
-	} else if (tag == "effects") {
-		auto effect_list = std::make_unique<kobold::effect_list<const character>>();
-		database::process_gsml_data(effect_list, scope);
-		this->effects = std::move(effect_list);
 	} else {
 		species_base::process_gsml_scope(scope);
 	}

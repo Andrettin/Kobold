@@ -17,7 +17,7 @@
 #include "script/effect/effect.h"
 #include "script/effect/effect_list.h"
 #include "script/target_variant.h"
-#include "species/species.h"
+#include "species/species_base.h"
 #include "ui/portrait.h"
 #include "util/number_util.h"
 #include "util/string_conversion_util.h"
@@ -155,7 +155,7 @@ public:
 				}
 				character_class_string += character->get_game_data()->get_level();
 			}
-			str += "\n" + std::string(indent + 1, '\t') + std::format("{} ({}{})", character->get_full_name(), character->get_species()->get_name(), character_class_string);
+			str += "\n" + std::string(indent + 1, '\t') + std::format("{} ({}{})", character->get_full_name(), character->get_species_base()->get_name(), character_class_string);
 		}
 
 		if (this->victory_effects != nullptr) {

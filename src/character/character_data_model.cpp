@@ -17,6 +17,7 @@
 #include "religion/pantheon.h"
 #include "religion/religion.h"
 #include "species/species.h"
+#include "species/subspecies.h"
 #include "util/assert_util.h"
 #include "util/exception_util.h"
 #include "util/map_util.h"
@@ -134,6 +135,10 @@ void character_data_model::set_character(const kobold::character *character)
 		const character_game_data *character_game_data = this->get_character()->get_game_data();
 
 		this->top_rows.push_back(std::make_unique<character_data_row>("Species:", character->get_species()->get_name()));
+
+		if (character->get_subspecies() != nullptr) {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Subspecies:", character->get_subspecies()->get_name()));
+		}
 
 		if (character_game_data->get_character_class() != nullptr) {
 			this->top_rows.push_back(std::make_unique<character_data_row>("Class:", character_game_data->get_character_class()->get_name()));
