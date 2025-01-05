@@ -6,6 +6,7 @@
 #include "infrastructure/building_class.h"
 #include "script/condition/and_condition.h"
 #include "species/species.h"
+#include "species/subspecies.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
 #include "util/random.h"
@@ -27,7 +28,10 @@ void culture::process_gsml_scope(const gsml_data &scope)
 
 	if (tag == "species") {
 		for (const std::string &value : values) {
-			kobold::species *species = species::get(value);
+			species_base *species = subspecies::try_get(value);
+			if (species == nullptr) {
+				species = species::get(value);
+			}
 			species->add_culture(this);
 			this->species.push_back(species);
 		}

@@ -43,6 +43,11 @@ taxon_base *subspecies::get_supertaxon() const
 	return this->species;
 }
 
+bool subspecies::is_sapient() const
+{
+	return this->get_species()->is_sapient();
+}
+
 const kobold::modifier<const character> *subspecies::get_modifier() const
 {
 	if (species_base::get_modifier() != nullptr) {

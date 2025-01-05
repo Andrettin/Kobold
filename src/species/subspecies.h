@@ -28,10 +28,17 @@ public:
 
 	virtual taxon_base *get_supertaxon() const override;
 
-	const kobold::species *get_species() const
+	virtual const kobold::species *get_species() const override
 	{
 		return this->species;
 	}
+
+	virtual const subspecies *get_subspecies() const override
+	{
+		return this;
+	}
+
+	virtual bool is_sapient() const override;
 
 	virtual const kobold::modifier<const character> *get_modifier() const override;
 

@@ -9,15 +9,12 @@
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "character/skill_category.h"
-#include "character/starting_age_category.h"
 #include "item/item_slot.h"
 #include "script/effect/effect_list.h"
 #include "script/modifier.h"
 #include "species/creature_size.h"
 #include "species/creature_type.h"
 #include "species/phenotype.h"
-
-#include <magic_enum/magic_enum_utility.hpp>
 
 namespace kobold {
 
@@ -87,27 +84,13 @@ void species::check() const
 		throw std::runtime_error(std::format("Species \"{}\" has no creature size.", this->get_identifier()));
 	}
 
-	if (this->is_sapient()) {
-		magic_enum::enum_for_each<starting_age_category>([this](const starting_age_category category) {
-			if (category == starting_age_category::none) {
-				return;
-			}
-
-			if (this->get_starting_age_modifier(category).is_null()) {
-				throw std::runtime_error(std::format("Sapient species \"{}\" has no starting age modifier for starting age category \"{}\".", this->get_identifier(), magic_enum::enum_name(category)));
-			}
-		});
-
-		if (this->get_cultures().empty()) {
-			throw std::runtime_error(std::format("Sapient species \"{}\" has no cultures set for it.", this->get_identifier()));
-		}
-	}
-
 	if (this->get_hit_dice_count() > 0 && this->get_class_skills().empty()) {
 		throw std::runtime_error(std::format("Species \"{}\" has a hit dice count, but no class skills.", this->get_identifier()));
 	} else if (this->get_hit_dice_count() == 0 && !this->get_class_skills().empty()) {
 		throw std::runtime_error(std::format("Species \"{}\" has no hit dice count, but has class skills.", this->get_identifier()));
 	}
+
+	species_base::check();
 }
 
 taxon_base *species::get_supertaxon() const

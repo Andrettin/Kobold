@@ -73,7 +73,6 @@ void taxon_base::initialize()
 	named_data_entry::initialize();
 }
 
-
 const dice &taxon_base::get_starting_age_modifier(const starting_age_category category) const
 {
 	const auto find_iterator = this->starting_age_modifiers.find(category);

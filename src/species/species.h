@@ -40,6 +40,11 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
+	virtual const species *get_species() const override
+	{
+		return this;
+	}
+
 	const kobold::creature_type *get_creature_type() const
 	{
 		return this->creature_type;
@@ -50,7 +55,7 @@ public:
 		return this->creature_size;
 	}
 
-	bool is_sapient() const
+	virtual bool is_sapient() const override
 	{
 		return this->sapient;
 	}
@@ -75,16 +80,6 @@ public:
 	const std::vector<const phenotype *> &get_phenotypes() const
 	{
 		return this->phenotypes;
-	}
-
-	const std::vector<const culture *> &get_cultures() const
-	{
-		return this->cultures;
-	}
-
-	void add_culture(const culture *culture)
-	{
-		this->cultures.push_back(culture);
 	}
 
 	const data_entry_map<saving_throw_type, const level_bonus_table *> &get_saving_throw_bonus_tables() const
@@ -164,7 +159,6 @@ private:
 	int hit_dice_count = 0;
 	int level_adjustment = 0;
 	std::vector<const phenotype *> phenotypes;
-	std::vector<const culture *> cultures;
 	data_entry_map<saving_throw_type, const level_bonus_table *> saving_throw_bonus_tables;
 	data_entry_set<skill> class_skills;
 	data_entry_map<character_attribute, int> min_attribute_values;

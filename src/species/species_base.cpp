@@ -2,7 +2,11 @@
 
 #include "species/species_base.h"
 
+#include "character/starting_age_category.h"
 #include "database/database.h"
+#include "species/species.h"
+
+#include <magic_enum/magic_enum_utility.hpp>
 
 namespace kobold {
 
@@ -29,6 +33,29 @@ void species_base::process_gsml_scope(const gsml_data &scope)
 	} else {
 		taxon_base::process_gsml_scope(scope);
 	}
+}
+
+void species_base::check() const
+{
+	if (this->is_sapient()) {
+		const bool is_subspecies = this->get_subspecies() != nullptr;
+
+		magic_enum::enum_for_each<starting_age_category>([&](const starting_age_category category) {
+			if (category == starting_age_category::none) {
+				return;
+			}
+
+			if (this->get_starting_age_modifier(category).is_null()) {
+				throw std::runtime_error(std::format("Sapient {}species \"{}\" has no starting age modifier for starting age category \"{}\".", is_subspecies ? "sub": "", this->get_identifier(), magic_enum::enum_name(category)));
+			}
+		});
+
+		if (this->get_cultures().empty() && (is_subspecies || this->get_species()->get_default_subspecies() == nullptr)) {
+			throw std::runtime_error(std::format("Sapient {}species \"{}\" has no cultures set for it.", is_subspecies ? "sub" : "", this->get_identifier()));
+		}
+	}
+
+	taxon_base::check();
 }
 
 }

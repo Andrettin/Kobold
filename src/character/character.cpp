@@ -117,8 +117,8 @@ character *character::generate(const kobold::species *species, const kobold::sub
 	generated_character->level = level;
 	if (culture != nullptr) {
 		generated_character->culture = const_cast<kobold::culture *>(culture);
-	} else if (!species->get_cultures().empty()) {
-		generated_character->culture = const_cast<kobold::culture *>(vector::get_random(species->get_cultures()));
+	} else if (!generated_character->get_species_base()->get_cultures().empty()) {
+		generated_character->culture = const_cast<kobold::culture *>(vector::get_random(generated_character->get_species_base()->get_cultures()));
 	}
 	generated_character->religion = religion;
 	generated_character->generate_patron_deity();
@@ -353,8 +353,8 @@ void character::check() const
 			throw std::runtime_error(std::format("Sapient character \"{}\" has no culture.", this->get_identifier()));
 		}
 
-		if (!vector::contains(this->get_culture()->get_species(), this->get_species())) {
-			throw std::runtime_error(std::format("Sapient character \"{}\" has a culture (\"{}\") which does not include its species (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_species()->get_identifier()));
+		if (!vector::contains(this->get_culture()->get_species(), this->get_species_base())) {
+			throw std::runtime_error(std::format("Sapient character \"{}\" has a culture (\"{}\") which does not include its {}species (\"{}\").", this->get_identifier(), this->get_culture()->get_identifier(), this->get_species_base() == this->get_subspecies() ? "sub" : "", this->get_species_base()->get_identifier()));
 		}
 
 		if (this->get_religion() == nullptr && !this->is_temporary()) {
