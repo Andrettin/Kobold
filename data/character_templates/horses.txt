@@ -1,0 +1,8 @@
+horse = { #Light Horse
+	name = "Horse"
+	species = horse
+	feats = {
+		#endurance
+		#run
+	}
+}
