@@ -2,7 +2,7 @@
 
 #include "database/data_entry_container.h"
 #include "database/data_type.h"
-#include "species/species_base.h"
+#include "species/taxon_base.h"
 #include "util/dice.h"
 
 Q_MOC_INCLUDE("character/level_bonus_table.h")
@@ -19,7 +19,7 @@ class effect_list;
 template <typename scope_type>
 class modifier;
 
-class creature_type final : public species_base, public data_type<creature_type>
+class creature_type final : public taxon_base, public data_type<creature_type>
 {
 	Q_OBJECT
 
@@ -37,7 +37,7 @@ public:
 	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
-	virtual species_base *get_supertaxon() const override
+	virtual taxon_base *get_supertaxon() const override
 	{
 		return nullptr;
 	}

@@ -59,7 +59,7 @@ public:
 		return this->sapient;
 	}
 
-	virtual species_base * get_supertaxon() const override;
+	virtual taxon_base *get_supertaxon() const override;
 
 	int get_hit_dice_count() const
 	{

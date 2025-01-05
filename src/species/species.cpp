@@ -118,7 +118,7 @@ void species::check() const
 	}
 }
 
-species_base * species::get_supertaxon() const
+taxon_base *species::get_supertaxon() const
 {
 	return this->creature_type;
 }

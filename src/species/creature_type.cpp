@@ -11,7 +11,7 @@
 namespace kobold {
 
 creature_type::creature_type(const std::string &identifier)
-	: species_base(identifier)
+	: taxon_base(identifier)
 {
 }
 
@@ -46,7 +46,7 @@ void creature_type::process_gsml_scope(const gsml_data &scope)
 		database::process_gsml_data(effect_list, scope);
 		this->effects = std::move(effect_list);
 	} else {
-		species_base::process_gsml_scope(scope);
+		taxon_base::process_gsml_scope(scope);
 	}
 }
 

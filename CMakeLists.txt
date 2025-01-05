@@ -248,6 +248,7 @@ set(species_SRCS
 	src/species/phenotype_container.cpp
 	src/species/species.cpp
 	src/species/species_base.cpp
+	src/species/taxon_base.cpp
 )
 source_group(species FILES ${species_SRCS})
 set_source_files_properties(${species_SRCS} PROPERTIES UNITY_GROUP "species")
@@ -752,6 +753,7 @@ set(species_HDRS
 	src/species/phenotype_container.h
 	src/species/species.h
 	src/species/species_base.h
+	src/species/taxon_base.h
 )
 source_group(species FILES ${species_HDRS})
 
