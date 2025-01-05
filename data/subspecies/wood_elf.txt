@@ -1,0 +1,8 @@
+wood_elf = {
+	name = "Wood Elf"
+	species = elf
+	modifier = {
+		strength = 2
+		intelligence = -2
+	}
+}

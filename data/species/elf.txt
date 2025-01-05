@@ -3,6 +3,7 @@ elf = {
 	creature_type = humanoid
 	creature_size = medium
 	sapient = true
+	default_subspecies = high_elf
 	adulthood_age = 110
 	middle_age = 175
 	old_age = 263
