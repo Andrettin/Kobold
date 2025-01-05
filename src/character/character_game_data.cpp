@@ -66,7 +66,6 @@ character_game_data::character_game_data(const kobold::character *character)
 
 void character_game_data::apply_species_and_class(const int level)
 {
-	const species_base *species_base = this->character->get_species_base();
 	const species *species = this->character->get_species();
 	const subspecies *subspecies = this->character->get_subspecies();
 
@@ -84,11 +83,11 @@ void character_game_data::apply_species_and_class(const int level)
 		creature_size->get_modifier()->apply(this->character, 1);
 	}
 
-	if (species_base->get_modifier() != nullptr) {
-		species_base->get_modifier()->apply(this->character, 1);
+	if (species->get_modifier() != nullptr) {
+		species->get_modifier()->apply(this->character, 1);
 	}
-	if (subspecies != nullptr && subspecies->get_additional_modifier() != nullptr) {
-		subspecies->get_additional_modifier()->apply(this->character, 1);
+	if (subspecies != nullptr && subspecies->get_modifier() != nullptr) {
+		subspecies->get_modifier()->apply(this->character, 1);
 	}
 
 	const character_class *base_class = this->character->get_character_class(character_class_type::base_class);

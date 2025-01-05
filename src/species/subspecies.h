@@ -23,7 +23,6 @@ public:
 	explicit subspecies(const std::string &identifier);
 	~subspecies();
 
-	virtual void process_gsml_scope(const gsml_data &scope) override;
 	virtual void check() const override;
 
 	virtual taxon_base *get_supertaxon() const override;
@@ -40,18 +39,10 @@ public:
 
 	virtual bool is_sapient() const override;
 
-	virtual const kobold::modifier<const character> *get_modifier() const override;
-
-	const kobold::modifier<const character> *get_additional_modifier() const
-	{
-		return this->additional_modifier.get();
-	}
-
 	virtual const effect_list<const character> *get_effects() const override;
 
 private:
 	kobold::species *species = nullptr;
-	std::unique_ptr<const kobold::modifier<const character>> additional_modifier;
 };
 
 }
