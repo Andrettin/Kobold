@@ -1,0 +1,8 @@
+giant_toad = {
+	name = "Giant Toad"
+	species = giant_toad
+	feats = {
+		lightning_reflexes
+		skill_focus_spot #Skill Focus: Perception
+	}
+}

@@ -1,0 +1,33 @@
+giant_toad = {
+	name = "Giant Toad"
+	creature_type = animal
+	creature_size = large
+	hit_dice_count = 3
+	class_skills = {
+		balance #Acrobatics
+		jump
+		tumble
+		listen #Perception
+		search
+		spot
+		hide #Stealth
+		move_silently
+		swim #Swim
+	}
+	modifier = {
+		challenge_rating = 2
+		strength = 8
+		dexterity = 2
+		constitution = 6
+		intelligence = -10
+		wisdom = -2
+		charisma = -4
+		armor_class = 4 #natural armor
+		balance = 4
+		jump = 8
+		tumble = 4
+		hide = 4
+		move_silently = 4
+		swim = 8
+	}
+}

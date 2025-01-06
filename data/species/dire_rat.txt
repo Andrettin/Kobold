@@ -1,0 +1,28 @@
+dire_rat = {
+	name = "Dire Rat"
+	creature_type = animal
+	creature_size = small
+	hit_dice_count = 1
+	class_skills = {
+		climb
+		hide
+		listen
+		move_silently
+		spot
+		swim
+	}
+	modifier = {
+		challenge_rating = 1/3
+		dexterity = 6
+		constitution = 2
+		intelligence = -10
+		wisdom = 2
+		charisma = -6
+		armor_class = 1 #natural armor
+		climb = 8
+		swim = 8
+	}
+	effects = {
+		#gain_feat = weapon_finesse
+	}
+}
