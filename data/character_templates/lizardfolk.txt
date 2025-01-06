@@ -1,0 +1,7 @@
+lizardfolk = {
+	name = "Lizardfolk"
+	species = lizardfolk
+	feats = {
+		#multiattack
+	}
+}
