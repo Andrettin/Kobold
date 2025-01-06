@@ -36,6 +36,7 @@ Popup {
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
+		propagateComposedEvents: false
 		//prevent events from propagating below
 	}
 	
