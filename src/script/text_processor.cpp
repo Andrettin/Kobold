@@ -3,6 +3,7 @@
 #include "script/text_processor.h"
 
 #include "character/character.h"
+#include "character/character_game_data.h"
 #include "country/country.h"
 #include "country/country_game_data.h"
 #include "country/culture.h"
@@ -66,7 +67,9 @@ std::string text_processor::process_tokens(std::queue<std::string> &&tokens, con
 
 std::string text_processor::process_scope_variant_tokens(const read_only_context::scope_variant_type &scope_variant, std::queue<std::string> &tokens) const
 {
-	if (std::holds_alternative<const country *>(scope_variant)) {
+	if (std::holds_alternative<const character *>(scope_variant)) {
+		return this->process_character_tokens(std::get<const character *>(scope_variant), tokens);
+	} else if (std::holds_alternative<const country *>(scope_variant)) {
 		return this->process_country_tokens(std::get<const country *>(scope_variant), tokens);
 	} else if (std::holds_alternative<const province *>(scope_variant)) {
 		return this->process_province_tokens(std::get<const province *>(scope_variant), tokens);
@@ -102,6 +105,16 @@ std::string text_processor::process_character_tokens(const character *character,
 		return get_gender_possessive_pronoun(character->get_gender());
 	} else if (front_subtoken == "oblique_pronoun") {
 		return get_gender_oblique_pronoun(character->get_gender());
+	} else if (front_subtoken == "party_species_name") {
+		const std::string &species_name = character->get_species()->get_name();
+
+		if (!character->get_game_data()->get_companions().empty()) {
+			return string::get_plural_form(species_name);
+		}
+
+		return species_name;
+	} else if (front_subtoken == "party_species_name_plural") {
+		return string::get_plural_form(character->get_species()->get_name());
 	} else {
 		return this->process_named_data_entry_token(character, front_subtoken);
 	}

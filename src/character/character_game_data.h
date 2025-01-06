@@ -457,6 +457,11 @@ public:
 
 	void set_spouse(const kobold::character *spouse);
 
+	const std::vector<const character *> &get_companions() const
+	{
+		return this->companions;
+	}
+
 	void apply_modifier(const modifier<const kobold::character> *modifier, const int multiplier);
 
 	const spell_set &get_spells() const
@@ -639,6 +644,7 @@ private:
 	scripted_character_modifier_map<int> scripted_modifiers;
 	const kobold::office *office = nullptr;
 	const kobold::character *spouse = nullptr;
+	std::vector<const kobold::character *> companions; //characters who go adventuring together with this one
 	spell_set spells;
 	spell_set item_spells;
 	std::vector<qunique_ptr<item>> items;
