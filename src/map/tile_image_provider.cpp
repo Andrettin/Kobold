@@ -7,6 +7,7 @@
 #include "infrastructure/improvement.h"
 #include "infrastructure/pathway.h"
 #include "infrastructure/settlement_type.h"
+#include "map/celestial_body_type.h"
 #include "map/terrain_type.h"
 #include "util/assert_util.h"
 #include "util/image_util.h"
@@ -45,6 +46,10 @@ QCoro::Task<void> tile_image_provider::load_image(const std::string id)
 		if (!terrain->get_subtiles().empty()) {
 			is_subtile_image = true;
 		}
+	} else if (tile_image_type == "celestial_body") {
+		const celestial_body_type *celestial_body_type = celestial_body_type::get(identifier);
+		filepath = celestial_body_type->get_image_filepath();
+		is_frame_image = true;
 	} else if (tile_image_type == "settlement") {
 		const settlement_type *settlement_type = settlement_type::get(identifier);
 		filepath = settlement_type->get_image_filepath();

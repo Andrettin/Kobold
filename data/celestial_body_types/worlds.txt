@@ -1,0 +1,4 @@
+terrestrial_world = {
+	name = "Terrestrial World"
+	image_filepath = "tiles/celestial_bodies/iron_barren_world.png"
+}
