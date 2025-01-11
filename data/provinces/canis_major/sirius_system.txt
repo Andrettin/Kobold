@@ -1,0 +1,5 @@
+sirius_system = {
+	name = "Sirius System"
+	primary_star = sirius
+	provincial_capital = kairet
+}
