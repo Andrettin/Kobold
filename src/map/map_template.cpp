@@ -208,6 +208,10 @@ void map_template::check() const
 	if (this->map_projection != nullptr) {
 		this->map_projection->validate_area(this->get_georectangle(), this->get_size());
 	}
+
+	if (this->get_world() == nullptr && !this->is_universe()) {
+		throw std::runtime_error(std::format("Map template \"{}\" has neither a world, nor is it a universe map template.", this->get_identifier()));
+	}
 }
 
 QPoint map_template::get_geocoordinate_pos(const geocoordinate &geocoordinate) const
@@ -255,6 +259,7 @@ void map_template::write_terrain_image()
 		} else {
 			const terrain_type *terrain_type = std::get<const kobold::terrain_type *>(terrain_variant);
 			color = terrain_type->get_color();
+			assert_throw(color.isValid());
 		}
 
 		if (!color.isValid()) {
@@ -909,6 +914,10 @@ void map_template::apply_sites() const
 
 void map_template::generate_additional_sites() const
 {
+	if (this->get_world() == nullptr) {
+		return;
+	}
+
 	//generate sites which belong to other worlds, but can be generated on this one
 	std::vector<const site *> potential_sites;
 	for (const site *site : site::get_all()) {

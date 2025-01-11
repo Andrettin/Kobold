@@ -85,6 +85,7 @@ private:
 	void initialize_temperature_levels();
 
 	void generate_terrain();
+	void generate_world_terrain();
 
 	void generate_elevation();
 	void generate_pseudofractal_elevation(const int additional_initial_block_count);
@@ -104,10 +105,12 @@ private:
 	int choose_sea_zone_for_removal(const std::set<int> &remaining_sea_zones, const std::vector<int> &sea_zones_to_remove, std::vector<std::vector<int>> &distance_cache) const;
 	void remove_zone(const int zone_index);
 
+	void generate_provinces();
 	void generate_countries();
 	void generate_countries_from_provinces(const std::vector<const province *> &provinces);
 	bool generate_ocean(const region *ocean);
 	bool generate_country(const country *country, const std::vector<const province *> &country_provinces);
+	void generate_star_systems();
 	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
 	int generate_province(const province *province, std::vector<int> &group_zone_indexes);
 	bool can_assign_province_to_zone_index(const province *province, const int zone_index) const;

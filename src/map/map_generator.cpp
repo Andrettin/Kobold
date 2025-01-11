@@ -24,6 +24,7 @@
 #include "map/temperature_type.h"
 #include "map/terrain_type.h"
 #include "map/tile.h"
+#include "map/world.h"
 #include "util/assert_util.h"
 #include "util/container_util.h"
 #include "util/log_util.h"
@@ -101,7 +102,7 @@ void map_generator::generate()
 	this->generate_zones();
 	this->generate_terrain();
 	//this->consolidate_water_zones(); //taking too long
-	this->generate_countries();
+	this->generate_provinces();
 
 	map *map = map::get();
 
@@ -135,6 +136,42 @@ void map_generator::initialize_temperature_levels()
 
 void map_generator::generate_terrain()
 {
+	map *map = map::get();
+
+	if (this->get_map_template()->is_universe()) {
+		assert_throw(defines::get()->get_default_space_terrain() != nullptr);
+
+		for (int x = 0; x < map->get_width(); ++x) {
+			for (int y = 0; y < map->get_height(); ++y) {
+				const QPoint tile_pos(x, y);
+				map->set_tile_terrain(tile_pos, defines::get()->get_default_space_terrain());
+			}
+		}
+	} else {
+		this->generate_world_terrain();
+	}
+
+	//build the zone tiles by terrain map
+	for (zone &zone : this->zones) {
+		for (const QPoint &tile_pos : zone.tiles) {
+			const terrain_type *terrain = map->get_tile(tile_pos)->get_terrain();
+			zone.tiles_by_terrain[terrain].push_back(tile_pos);
+
+			if (map->is_tile_near_water(tile_pos)) {
+				zone.near_water_tiles_by_terrain[terrain].push_back(tile_pos);
+
+				if (map->is_tile_coastal(tile_pos)) {
+					zone.coastal_tiles_by_terrain[terrain].push_back(tile_pos);
+				}
+			}
+		}
+	}
+}
+
+void map_generator::generate_world_terrain()
+{
+	assert_throw(this->get_map_template()->get_world() != nullptr);
+
 	this->generate_elevation();
 
 	//ensure edge zones are water
@@ -182,22 +219,6 @@ void map_generator::generate_terrain()
 			const terrain_type *terrain = terrain_type::get_by_biome(elevation_type, temperature_type, moisture_type, forestation_type);
 
 			map->set_tile_terrain(tile_pos, terrain);
-		}
-	}
-
-	//build the zone tiles by terrain map
-	for (zone &zone : this->zones) {
-		for (const QPoint &tile_pos : zone.tiles) {
-			const terrain_type *terrain = map->get_tile(tile_pos)->get_terrain();
-			zone.tiles_by_terrain[terrain].push_back(tile_pos);
-
-			if (map->is_tile_near_water(tile_pos)) {
-				zone.near_water_tiles_by_terrain[terrain].push_back(tile_pos);
-
-				if (map->is_tile_coastal(tile_pos)) {
-					zone.coastal_tiles_by_terrain[terrain].push_back(tile_pos);
-				}
-			}
 		}
 	}
 
@@ -757,8 +778,19 @@ void map_generator::remove_zone(const int zone_index)
 	--this->zone_count;
 }
 
+void map_generator::generate_provinces()
+{
+	if (this->get_map_template()->is_universe()) {
+		this->generate_star_systems();
+	} else {
+		this->generate_countries();
+	}
+}
+
 void map_generator::generate_countries()
 {
+	assert_throw(this->get_map_template()->get_world() != nullptr);
+
 	std::vector<const region *> potential_oceans;
 
 	for (const region *region : region::get_all()) {
@@ -914,6 +946,38 @@ bool map_generator::generate_country(const country *country, const std::vector<c
 	return !generated_provinces.empty();
 }
 
+void map_generator::generate_star_systems()
+{
+	std::vector<const province *> provinces;
+	for (const province *province : province::get_all()) {
+		if (province->is_hidden()) {
+			continue;
+		}
+
+		if (!province->is_star_system()) {
+			continue;
+		}
+
+		provinces.push_back(province);
+	}
+
+	std::sort(provinces.begin(), provinces.end(), [](const province *lhs, const province *rhs) {
+		return lhs->get_primary_star()->get_astrodistance() < rhs->get_primary_star()->get_astrodistance();
+	});
+
+	for (const province *province : provinces) {
+		if (static_cast<int>(this->generated_provinces.size()) == this->zone_count) {
+			break;
+		}
+
+		std::vector<int> group_province_indexes;
+		const int province_index = this->generate_province(province, group_province_indexes);
+		if (province_index == -1) {
+			break;
+		}
+	}
+}
+
 std::vector<const province *> map_generator::generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province)
 {
 	std::vector<const province *> provinces;
@@ -960,7 +1024,7 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 	if (group_generated_province_count == 0) {
 		//first province
 		std::vector<int> best_zone_indexes;
-		int best_distance = 0;
+		std::optional<int> best_distance;
 
 		//get the zones which are as far away from other powers as possible
 		for (size_t i = 0; i < this->zones.size(); ++i) {
@@ -978,24 +1042,44 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 
 			int distance = std::numeric_limits<int>::max();
 
-			//generate land provinces as distant from other already-generated land provinces as possible (and similarly for water provinces and other water provinces)
-			for (const auto &[other_zone_index, other_province] : this->provinces_by_zone_index) {
-				if (other_province->is_water_zone() != province->is_water_zone()) {
-					continue;
+			if (province->is_star_system()) {
+				distance = point::distance_to(zone_seed, QPoint(this->get_width() / 2 - 1, this->get_height() / 2 - 1));
+
+				if (!province->get_primary_star()->get_astrocoordinate().is_null()) {
+					const QPoint direction_pos = province->get_primary_star()->get_astrocoordinate().to_circle_edge_point();
+
+					const int64_t ideal_x_at_distance = direction_pos.x() * distance / geocoordinate::number_type::divisor;
+					const int64_t ideal_y_at_distance = direction_pos.y() * distance / geocoordinate::number_type::divisor;
+
+					const QPoint ideal_pos_at_distance(ideal_x_at_distance, ideal_y_at_distance);
+
+					distance += point::distance_to(zone_seed, ideal_pos_at_distance);
 				}
 
-				const map_generator::zone &other_zone = this->zones.at(other_zone_index);
-				const QPoint &other_zone_seed = other_zone.seed;
-				const int distance_multiplier = map_generator::get_province_distance_multiplier_to(province, other_province);
-				distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed) * distance_multiplier);
+				if (!best_distance.has_value() || distance < best_distance.value()) {
+					best_zone_indexes.clear();
+					best_distance = distance;
+				}
+			} else {
+				//generate land provinces as distant from other already-generated land provinces as possible (and similarly for water provinces and other water provinces)
+				for (const auto &[other_zone_index, other_province] : this->provinces_by_zone_index) {
+					if (other_province->is_water_zone() != province->is_water_zone()) {
+						continue;
+					}
+
+					const map_generator::zone &other_zone = this->zones.at(other_zone_index);
+					const QPoint &other_zone_seed = other_zone.seed;
+					const int distance_multiplier = map_generator::get_province_distance_multiplier_to(province, other_province);
+					distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed) * distance_multiplier);
+				}
+
+				if (!best_distance.has_value() || distance > best_distance.value()) {
+					best_zone_indexes.clear();
+					best_distance = distance;
+				}
 			}
 
-			if (distance > best_distance) {
-				best_zone_indexes.clear();
-				best_distance = distance;
-			}
-
-			if (distance == best_distance) {
+			if (distance == best_distance.value()) {
 				best_zone_indexes.push_back(static_cast<int>(i));
 			}
 		}
@@ -1066,86 +1150,88 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 		return false;
 	}
 
-	const zone &zone = this->zones.at(zone_index);
-	const QPoint &zone_seed = zone.seed;
+	if (this->get_map_template()->get_world() != nullptr) {
+		const zone &zone = this->zones.at(zone_index);
+		const QPoint &zone_seed = zone.seed;
 
-	if (this->is_tile_water(zone_seed) != province->is_water_zone()) {
-		//can only generate water zones on water, and land provinces on land
-		return false;
-	}
-
-	if ((province->is_sea() || province->is_bay()) && !this->sea_zones.contains(zone_index)) {
-		return false;
-	}
-
-	if (province->is_lake() && !this->lakes.contains(zone_index)) {
-		return false;
-	}
-
-	if (province->is_bay()) {
-		//bays can only appear adjacent to land provinces
-		bool has_adjacent_land = false;
-		for (const int border_zone_index : zone.border_zones) {
-			const map_generator::zone &border_zone = this->zones.at(border_zone_index);
-			const QPoint &border_zone_seed = border_zone.seed;
-
-			if (!this->is_tile_water(border_zone_seed)) {
-				has_adjacent_land = true;
-				break;
-			}
-		}
-
-		if (!has_adjacent_land) {
+		if (this->is_tile_water(zone_seed) != province->is_water_zone()) {
+			//can only generate water zones on water, and land provinces on land
 			return false;
 		}
-	}
 
-	if (province->is_coastal() && zone.coastal_tiles_by_terrain.empty()) {
-		return false;
-	}
-
-	for (const terrain_type *terrain_type : province->get_terrain_types()) {
-		if (!zone.tiles_by_terrain.contains(terrain_type)) {
+		if ((province->is_sea() || province->is_bay()) && !this->sea_zones.contains(zone_index)) {
 			return false;
 		}
-	}
 
-	if (!province->get_sites().empty()) {
-		terrain_type_map<int> available_terrain_counts;
-		for (const auto &[terrain, tiles] : zone.tiles_by_terrain) {
-			available_terrain_counts[terrain] = static_cast<int>(tiles.size());
+		if (province->is_lake() && !this->lakes.contains(zone_index)) {
+			return false;
 		}
 
-		terrain_type_map<int> available_near_water_terrain_counts;
-		for (const auto &[terrain, tiles] : zone.near_water_tiles_by_terrain) {
-			available_near_water_terrain_counts[terrain] = static_cast<int>(tiles.size());
-		}
+		if (province->is_bay()) {
+			//bays can only appear adjacent to land provinces
+			bool has_adjacent_land = false;
+			for (const int border_zone_index : zone.border_zones) {
+				const map_generator::zone &border_zone = this->zones.at(border_zone_index);
+				const QPoint &border_zone_seed = border_zone.seed;
 
-		terrain_type_map<int> available_coastal_terrain_counts;
-		for (const auto &[terrain, tiles] : zone.coastal_tiles_by_terrain) {
-			available_coastal_terrain_counts[terrain] = static_cast<int>(tiles.size());
-		}
-
-		for (const site *site : province->get_sites()) {
-			const resource *resource = site->get_map_data()->get_resource();
-			if (resource == nullptr) {
-				continue;
-			}
-
-			const std::vector<const terrain_type *> &site_terrains = site->get_terrain_types();
-
-			bool has_terrain = false;
-			for (const terrain_type *terrain : site_terrains) {
-				int &terrain_count = resource->is_coastal() ? available_coastal_terrain_counts[terrain] : (resource->is_near_water() ? available_near_water_terrain_counts[terrain] : available_terrain_counts[terrain]);
-				if (terrain_count > 0) {
-					has_terrain = true;
-					--terrain_count;
+				if (!this->is_tile_water(border_zone_seed)) {
+					has_adjacent_land = true;
 					break;
 				}
 			}
 
-			if (!has_terrain) {
+			if (!has_adjacent_land) {
 				return false;
+			}
+		}
+
+		if (province->is_coastal() && zone.coastal_tiles_by_terrain.empty()) {
+			return false;
+		}
+
+		for (const terrain_type *terrain_type : province->get_terrain_types()) {
+			if (!zone.tiles_by_terrain.contains(terrain_type)) {
+				return false;
+			}
+		}
+
+		if (!province->get_sites().empty()) {
+			terrain_type_map<int> available_terrain_counts;
+			for (const auto &[terrain, tiles] : zone.tiles_by_terrain) {
+				available_terrain_counts[terrain] = static_cast<int>(tiles.size());
+			}
+
+			terrain_type_map<int> available_near_water_terrain_counts;
+			for (const auto &[terrain, tiles] : zone.near_water_tiles_by_terrain) {
+				available_near_water_terrain_counts[terrain] = static_cast<int>(tiles.size());
+			}
+
+			terrain_type_map<int> available_coastal_terrain_counts;
+			for (const auto &[terrain, tiles] : zone.coastal_tiles_by_terrain) {
+				available_coastal_terrain_counts[terrain] = static_cast<int>(tiles.size());
+			}
+
+			for (const site *site : province->get_sites()) {
+				const resource *resource = site->get_map_data()->get_resource();
+				if (resource == nullptr) {
+					continue;
+				}
+
+				const std::vector<const terrain_type *> &site_terrains = site->get_terrain_types();
+
+				bool has_terrain = false;
+				for (const terrain_type *terrain : site_terrains) {
+					int &terrain_count = resource->is_coastal() ? available_coastal_terrain_counts[terrain] : (resource->is_near_water() ? available_near_water_terrain_counts[terrain] : available_terrain_counts[terrain]);
+					if (terrain_count > 0) {
+						has_terrain = true;
+						--terrain_count;
+						break;
+					}
+				}
+
+				if (!has_terrain) {
+					return false;
+				}
 			}
 		}
 	}
@@ -1176,6 +1262,11 @@ void map_generator::generate_sites()
 
 		const zone &zone = this->zones[zone_index];
 
+		//place primary star
+		if (province->is_star_system()) {
+			map->set_tile_site(zone.seed, province->get_primary_star());
+		}
+
 		//place capital settlement
 		if (province->get_provincial_capital() != nullptr) {
 			this->generate_site(province->get_provincial_capital(), zone);
@@ -1184,20 +1275,26 @@ void map_generator::generate_sites()
 
 			const QPoint &tile_pos = province->get_provincial_capital()->get_map_data()->get_tile_pos();
 
-			//change non-flatlands or forested terrain to unforested flatlands for settlements
-			const terrain_type *tile_terrain = map->get_tile(tile_pos)->get_terrain();
-			if (tile_terrain->get_elevation_type() != elevation_type::flatlands || tile_terrain->get_forestation_type() != forestation_type::none) {
-				const temperature_type temperature_type = this->get_tile_temperature_type(tile_pos);
-				const moisture_type moisture_type = this->get_tile_moisture_type(tile_pos);
+			if (!province->is_star_system()) {
+				//change non-flatlands or forested terrain to unforested flatlands for settlements
+				const terrain_type *tile_terrain = map->get_tile(tile_pos)->get_terrain();
+				if (tile_terrain->get_elevation_type() != elevation_type::flatlands || tile_terrain->get_forestation_type() != forestation_type::none) {
+					const temperature_type temperature_type = this->get_tile_temperature_type(tile_pos);
+					const moisture_type moisture_type = this->get_tile_moisture_type(tile_pos);
 
-				const terrain_type *terrain = terrain_type::get_by_biome(elevation_type::flatlands, temperature_type, moisture_type, forestation_type::none);
+					const terrain_type *terrain = terrain_type::get_by_biome(elevation_type::flatlands, temperature_type, moisture_type, forestation_type::none);
 
-				map->set_tile_terrain(tile_pos, terrain);
+					map->set_tile_terrain(tile_pos, terrain);
+				}
 			}
 		}
 
 		for (const site *site : province->get_sites()) {
-			if (site->get_type() != site_type::resource) {
+			if (site->get_type() != site_type::resource && site->get_type() != site_type::celestial_body) {
+				continue;
+			}
+
+			if (site->get_map_data()->is_on_map()) {
 				continue;
 			}
 

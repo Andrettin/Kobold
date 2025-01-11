@@ -26,7 +26,8 @@ class map_template final : public named_data_entry, public data_type<map_templat
 	Q_OBJECT
 
 	Q_PROPERTY(QSize size MEMBER size READ get_size)
-	Q_PROPERTY(kobold::world* world MEMBER world)
+	Q_PROPERTY(const kobold::world* world MEMBER world READ get_world NOTIFY changed)
+	Q_PROPERTY(bool universe MEMBER universe READ is_universe NOTIFY changed)
 	Q_PROPERTY(archimedes::map_projection* map_projection MEMBER map_projection)
 	Q_PROPERTY(archimedes::decimillesimal_int min_longitude READ get_min_longitude WRITE set_min_longitude)
 	Q_PROPERTY(archimedes::decimillesimal_int max_longitude READ get_max_longitude WRITE set_max_longitude)
@@ -71,6 +72,11 @@ public:
 	const kobold::world *get_world() const
 	{
 		return this->world;
+	}
+
+	bool is_universe() const
+	{
+		return this->universe;
 	}
 
 	const kobold::map_projection *get_map_projection() const
@@ -211,7 +217,8 @@ signals:
 
 private:
 	QSize size = QSize(0, 0);
-	kobold::world *world = nullptr;
+	const kobold::world *world = nullptr;
+	bool universe = false;
 	archimedes::map_projection *map_projection = nullptr;
 	archimedes::georectangle georectangle = archimedes::georectangle(geocoordinate(geocoordinate::min_longitude, geocoordinate::min_latitude), geocoordinate(geocoordinate::max_longitude, geocoordinate::max_latitude));
 	int geocoordinate_x_offset = 0;
