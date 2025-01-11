@@ -50,10 +50,11 @@ class defines final : public defines_base, public singleton<defines>
 	Q_PROPERTY(QSize scaled_tile_size READ get_scaled_tile_size NOTIFY scaled_tile_size_changed)
 	Q_PROPERTY(int default_months_per_turn MEMBER default_months_per_turn NOTIFY changed)
 	Q_PROPERTY(QDate default_start_date MEMBER default_start_date READ get_default_start_date)
-	Q_PROPERTY(kobold::terrain_type* default_base_terrain MEMBER default_base_terrain)
-	Q_PROPERTY(kobold::terrain_type* unexplored_terrain MEMBER unexplored_terrain)
-	Q_PROPERTY(kobold::terrain_type* default_province_terrain MEMBER default_province_terrain)
-	Q_PROPERTY(kobold::terrain_type* default_water_zone_terrain MEMBER default_water_zone_terrain)
+	Q_PROPERTY(const kobold::terrain_type* default_base_terrain MEMBER default_base_terrain READ get_default_base_terrain NOTIFY changed)
+	Q_PROPERTY(const kobold::terrain_type* unexplored_terrain MEMBER unexplored_terrain READ get_unexplored_terrain NOTIFY changed)
+	Q_PROPERTY(const kobold::terrain_type* default_province_terrain MEMBER default_province_terrain  READ get_default_province_terrain NOTIFY changed)
+	Q_PROPERTY(const kobold::terrain_type* default_water_zone_terrain MEMBER default_water_zone_terrain  READ get_default_water_zone_terrain NOTIFY changed)
+	Q_PROPERTY(const kobold::terrain_type* default_space_terrain MEMBER default_space_terrain READ get_default_space_terrain NOTIFY changed)
 	Q_PROPERTY(kobold::pathway* route_pathway MEMBER route_pathway NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* wealth_commodity MEMBER wealth_commodity NOTIFY changed)
 	Q_PROPERTY(const kobold::commodity* prestige_commodity MEMBER prestige_commodity NOTIFY changed)
@@ -168,6 +169,11 @@ public:
 	const terrain_type *get_default_water_zone_terrain() const
 	{
 		return this->default_water_zone_terrain;
+	}
+
+	const terrain_type *get_default_space_terrain() const
+	{
+		return this->default_space_terrain;
 	}
 
 	const pathway *get_route_pathway() const
@@ -412,10 +418,11 @@ private:
 	int default_months_per_turn = 3;
 	std::map<int, int> months_per_turn_from_year;
 	QDate default_start_date;
-	terrain_type *default_base_terrain = nullptr;
-	terrain_type *unexplored_terrain = nullptr;
-	terrain_type *default_province_terrain = nullptr;
-	terrain_type *default_water_zone_terrain = nullptr;
+	const terrain_type *default_base_terrain = nullptr;
+	const terrain_type *unexplored_terrain = nullptr;
+	const terrain_type *default_province_terrain = nullptr;
+	const terrain_type *default_water_zone_terrain = nullptr;
+	const terrain_type *default_space_terrain = nullptr;
 	pathway *route_pathway = nullptr;
 	commodity_map<int> settlement_commodity_bonuses;
 	commodity_map<int> river_settlement_commodity_bonuses;
