@@ -277,10 +277,6 @@ Item {
 			} else if (site !== null && site.celestial_body) {
 				text += site.celestial_body_type.name
 				
-				if (site.settlement && site.game_data.settlement_type !== null) {
-					text += ") (" + site.game_data.settlement_type.name
-				}
-				
 				if (resource !== null) {
 					text += ") ("
 					if (site.game_data.resource_improvement !== null) {
