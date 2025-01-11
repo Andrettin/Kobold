@@ -1335,6 +1335,16 @@ void map_generator::generate_site(const site *site, const zone &zone)
 				continue;
 			}
 
+			if (site->is_celestial_body()) {
+				if (map->is_tile_on_province_border(tile_pos)) {
+					continue;
+				}
+
+				if (map->is_tile_near_celestial_body(tile_pos)) {
+					continue;
+				}
+			}
+
 			potential_positions.push_back(tile_pos);
 		}
 	}

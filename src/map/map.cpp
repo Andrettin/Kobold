@@ -664,6 +664,28 @@ bool map::is_tile_coastal(const QPoint &tile_pos) const
 	return result;
 }
 
+bool map::is_tile_near_celestial_body(const QPoint &tile_pos) const
+{
+	bool result = false;
+
+	point::for_each_adjacent_until(tile_pos, [this, &result](const QPoint &adjacent_pos) {
+		if (!this->contains(adjacent_pos)) {
+			return false;
+		}
+
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
+
+		if (adjacent_tile->get_site() != nullptr && adjacent_tile->get_site()->is_celestial_body()) {
+			result = true;
+			return true;
+		}
+
+		return false;
+	});
+
+	return result;
+}
+
 bool map::is_tile_on_country_border(const QPoint &tile_pos) const
 {
 	const tile *tile = this->get_tile(tile_pos);
@@ -685,6 +707,32 @@ bool map::is_tile_on_country_border(const QPoint &tile_pos) const
 		const country *adjacent_country = adjacent_tile->get_owner();
 
 		if (tile_country != adjacent_country) {
+			result = true;
+			return true;
+		}
+
+		return false;
+	});
+
+	return result;
+}
+
+bool map::is_tile_on_province_border(const QPoint &tile_pos) const
+{
+	const tile *tile = this->get_tile(tile_pos);
+	const province *tile_province = tile->get_province();
+
+	bool result = false;
+
+	point::for_each_adjacent_until(tile_pos, [this, tile_province, &result](const QPoint &adjacent_pos) {
+		if (!this->contains(adjacent_pos)) {
+			return false;
+		}
+
+		const kobold::tile *adjacent_tile = this->get_tile(adjacent_pos);
+		const province *adjacent_province = adjacent_tile->get_province();
+
+		if (adjacent_province != tile_province) {
 			result = true;
 			return true;
 		}
