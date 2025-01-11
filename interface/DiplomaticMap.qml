@@ -51,6 +51,25 @@ Flickable {
 			readonly property var country: model.modelData
 			readonly property var selected: selected_country === country
 			
+			SmallText {
+				id: country_label
+				//text: country.game_data.titled_name
+				text: country.game_data.name
+				x: Math.floor(text_rect.x * kobold.map.diplomatic_map_tile_pixel_size * scale_factor) - country_image.x
+				y: Math.floor(text_rect.y * kobold.map.diplomatic_map_tile_pixel_size * scale_factor) - country_image.y
+				width: Math.floor(text_rect_width)
+				height: Math.floor(text_rect_height)
+				visible: contentWidth <= width && (diplomatic_map.mode === DiplomaticMap.Mode.Political || diplomatic_map.mode === DiplomaticMap.Mode.Treaty)
+				wrapMode: Text.WordWrap
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+				
+				readonly property var country: model.modelData
+				readonly property var text_rect: country.game_data.text_rect
+				readonly property int text_rect_width: text_rect.width * kobold.map.diplomatic_map_tile_pixel_size * scale_factor
+				readonly property int text_rect_height: text_rect.height * kobold.map.diplomatic_map_tile_pixel_size * scale_factor
+			}
+			
 			MaskedMouseArea {
 				id: country_mouse_area
 				anchors.fill: parent
@@ -105,29 +124,6 @@ Flickable {
 					return str
 				}
 			}
-		}
-	}
-	
-	Repeater {
-		model: kobold.game.countries
-		
-		SmallText {
-			id: country_label
-			//text: country.game_data.titled_name
-			text: country.game_data.name
-			x: Math.floor(text_rect.x * kobold.map.diplomatic_map_tile_pixel_size * scale_factor)
-			y: Math.floor(text_rect.y * kobold.map.diplomatic_map_tile_pixel_size * scale_factor)
-			width: Math.floor(text_rect_width)
-			height: Math.floor(text_rect_height)
-			visible: contentWidth <= width && (diplomatic_map.mode === DiplomaticMap.Mode.Political || diplomatic_map.mode === DiplomaticMap.Mode.Treaty)
-			wrapMode: Text.WordWrap
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
-			
-			readonly property var country: model.modelData
-			readonly property var text_rect: country.game_data.text_rect
-			readonly property int text_rect_width: text_rect.width * kobold.map.diplomatic_map_tile_pixel_size * scale_factor
-			readonly property int text_rect_height: text_rect.height * kobold.map.diplomatic_map_tile_pixel_size * scale_factor
 		}
 	}
 	
