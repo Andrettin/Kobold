@@ -12,6 +12,7 @@
 #include "character/saving_throw_type.h"
 #include "character/skill.h"
 #include "character/skill_category.h"
+#include "country/culture.h"
 #include "item/item_type.h"
 #include "religion/deity.h"
 #include "religion/pantheon.h"
@@ -155,6 +156,10 @@ void character_data_model::set_character(const kobold::character *character)
 		this->top_rows.push_back(std::make_unique<character_data_row>("Challenge Rating:", character_game_data->get_challenge_rating().to_string()));
 
 		this->top_rows.push_back(std::make_unique<character_data_row>("Age:", number::to_formatted_string(character_game_data->get_age())));
+
+		if (character->get_culture() != nullptr) {
+			this->top_rows.push_back(std::make_unique<character_data_row>("Culture:", character->get_culture()->get_name()));
+		}
 
 		if (character->is_deity()) {
 			this->top_rows.push_back(std::make_unique<character_data_row>("Pantheon:", character->get_deity()->get_pantheon()->get_name()));
