@@ -35,6 +35,7 @@ class province final : public named_data_entry, public data_type<province>
 	Q_PROPERTY(bool lake MEMBER lake READ is_lake NOTIFY changed)
 	Q_PROPERTY(bool water_zone READ is_water_zone NOTIFY changed)
 	Q_PROPERTY(kobold::site* provincial_capital MEMBER provincial_capital NOTIFY changed)
+	Q_PROPERTY(kobold::site* primary_star MEMBER primary_star NOTIFY changed)
 	Q_PROPERTY(bool coastal MEMBER coastal READ is_coastal NOTIFY changed)
 	Q_PROPERTY(bool hidden MEMBER hidden READ is_hidden NOTIFY changed)
 	Q_PROPERTY(std::vector<kobold::region *> regions READ get_regions NOTIFY changed)
@@ -163,6 +164,16 @@ public:
 		return this->provincial_capital;
 	}
 
+	const site *get_primary_star() const
+	{
+		return this->primary_star;
+	}
+
+	bool is_star_system() const
+	{
+		return this->get_primary_star() != nullptr;
+	}
+
 	bool is_coastal() const
 	{
 		return this->coastal;
@@ -232,6 +243,7 @@ private:
 	bool bay = false;
 	bool lake = false;
 	site *provincial_capital = nullptr;
+	site *primary_star = nullptr;
 	bool coastal = false;
 	bool hidden = false;
 	std::vector<const kobold::terrain_type *> terrain_types;

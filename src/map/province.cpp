@@ -81,6 +81,17 @@ void province::initialize()
 		}
 	}
 
+	if (this->get_primary_star() != nullptr) {
+		assert_throw(this->get_primary_star()->get_province() == nullptr || this->get_primary_star()->get_province() == this);
+
+		this->primary_star->set_province(this);
+
+		if (this->primary_star->is_initialized()) {
+			//site is already initialized, so it won't add itself to this province's site list
+			this->add_site(this->primary_star);
+		}
+	}
+
 	if (this->get_world() == nullptr) {
 		for (const region *region : this->get_regions()) {
 			if (region->get_world() != nullptr) {
@@ -98,11 +109,15 @@ void province::check() const
 	if (this->get_provincial_capital() == nullptr && !this->is_water_zone()) {
 		throw std::runtime_error(std::format("Province \"{}\" has no provincial capital.", this->get_identifier()));
 	} else if (this->get_provincial_capital() != nullptr && this->is_water_zone()) {
-		throw std::runtime_error("Water zone \"" + this->get_identifier() + "\" has a provincial capital.");
+		throw std::runtime_error(std::format("Water zone \"{}\" has a provincial capital.", this->get_identifier()));
 	}
 
 	if (this->get_provincial_capital() != nullptr && !this->get_provincial_capital()->is_settlement()) {
 		throw std::runtime_error(std::format("Province \"{}\" has a provincial capital (\"{}\") which is not a settlement.", this->get_identifier(), this->get_provincial_capital()->get_identifier()));
+	}
+
+	if (this->get_primary_star() != nullptr && !this->get_primary_star()->is_celestial_body()) {
+		throw std::runtime_error(std::format("Province \"{}\" has a primary star (\"{}\") which is not a celestial body.", this->get_identifier(), this->get_primary_star()->get_identifier()));
 	}
 
 	for (const auto &[border_province, border_river] : this->border_rivers) {
