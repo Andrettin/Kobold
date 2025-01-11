@@ -948,7 +948,8 @@ bool map_generator::generate_country(const country *country, const std::vector<c
 
 void map_generator::generate_star_systems()
 {
-	std::vector<const province *> provinces;
+	std::vector<const province *> star_systems;
+	std::vector<const province *> random_star_systems;
 	for (const province *province : province::get_all()) {
 		if (province->is_hidden()) {
 			continue;
@@ -958,14 +959,21 @@ void map_generator::generate_star_systems()
 			continue;
 		}
 
-		provinces.push_back(province);
+		if (province->get_primary_star()->get_astrodistance().has_value()) {
+			star_systems.push_back(province);
+		} else {
+			random_star_systems.push_back(province);
+		}
 	}
 
-	std::sort(provinces.begin(), provinces.end(), [](const province *lhs, const province *rhs) {
+	std::sort(star_systems.begin(), star_systems.end(), [](const province *lhs, const province *rhs) {
 		return lhs->get_primary_star()->get_astrodistance() < rhs->get_primary_star()->get_astrodistance();
 	});
 
-	for (const province *province : provinces) {
+	vector::shuffle(random_star_systems);
+	vector::merge(star_systems, std::move(random_star_systems));
+
+	for (const province *province : star_systems) {
 		if (static_cast<int>(this->generated_provinces.size()) == this->zone_count) {
 			break;
 		}
@@ -1044,7 +1052,7 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 
 			int distance = std::numeric_limits<int>::max();
 
-			if (province->is_star_system()) {
+			if (province->is_star_system() && province->get_primary_star()->get_astrodistance().has_value()) {
 				distance = point::distance_to(zone_seed, map_center_pos);
 
 				if (!province->get_primary_star()->get_astrocoordinate().is_null()) {
@@ -1059,8 +1067,13 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 				}
 			} else {
 				//generate land provinces as distant from other already-generated land provinces as possible (and similarly for water provinces and other water provinces)
+				//also generate randomly-placed star systems as far from other already-generated star systems as possible
 				for (const auto &[other_zone_index, other_province] : this->provinces_by_zone_index) {
 					if (other_province->is_water_zone() != province->is_water_zone()) {
+						continue;
+					}
+
+					if (other_province->is_star_system() != province->is_star_system()) {
 						continue;
 					}
 

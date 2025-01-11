@@ -37,7 +37,7 @@ class site final : public named_data_entry, public data_type<site>
 	Q_PROPERTY(archimedes::geocoordinate geocoordinate MEMBER geocoordinate READ get_geocoordinate)
 	Q_PROPERTY(QPoint pos_offset MEMBER pos_offset READ get_pos_offset)
 	Q_PROPERTY(archimedes::geocoordinate astrocoordinate MEMBER astrocoordinate READ get_astrocoordinate)
-	Q_PROPERTY(archimedes::centesimal_int astrodistance MEMBER astrodistance READ get_astrodistance)
+	Q_PROPERTY(std::optional<archimedes::centesimal_int> astrodistance MEMBER astrodistance READ get_astrodistance)
 	Q_PROPERTY(kobold::site_type type MEMBER type READ get_type)
 	Q_PROPERTY(bool settlement READ is_settlement NOTIFY changed)
 	Q_PROPERTY(bool celestial_body READ is_celestial_body NOTIFY changed)
@@ -104,7 +104,7 @@ public:
 		return this->astrocoordinate;
 	}
 
-	const centesimal_int &get_astrodistance() const
+	const std::optional<centesimal_int> &get_astrodistance() const
 	{
 		return this->astrodistance;
 	}
@@ -165,7 +165,7 @@ private:
 	archimedes::geocoordinate geocoordinate;
 	QPoint pos_offset = QPoint(0, 0);
 	archimedes::geocoordinate astrocoordinate; //the site's position as an astrocoordinate
-	centesimal_int astrodistance; //the site's distance from its map template's center (in light-years)
+	std::optional<centesimal_int> astrodistance; //the site's distance from its map template's center (in light-years)
 	site_type type;
 	const kobold::celestial_body_type *celestial_body_type = nullptr;
 	kobold::terrain_type *terrain_type = nullptr;
