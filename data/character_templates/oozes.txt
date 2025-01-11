@@ -1,0 +1,4 @@
+gelatinous_cube = {
+	name = "Gelatinous Cube"
+	species = gelatinous_cube
+}

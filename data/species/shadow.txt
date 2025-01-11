@@ -1,0 +1,47 @@
+shadow = {
+	name = "Shadow"
+	creature_type = undead
+	creature_size = medium
+	#sapient = true
+	hit_dice_count = 3
+	class_skills = {
+		hide
+		listen
+		search
+		spot
+	}
+	modifier = {
+		challenge_rating = 3
+		dexterity = 4
+		intelligence = -4
+		wisdom = 2
+		charisma = 2
+		listen = 2
+		spot = 2
+		search = 4
+	}
+}
+
+greater_shadow = {
+	name = "Greater Shadow"
+	creature_type = undead
+	creature_size = medium
+	#sapient = true
+	hit_dice_count = 9
+	class_skills = {
+		hide
+		listen
+		search
+		spot
+	}
+	modifier = {
+		challenge_rating = 8
+		dexterity = 4
+		intelligence = -4
+		wisdom = 2
+		charisma = 4
+		listen = 2
+		spot = 2
+		search = 4
+	}
+}

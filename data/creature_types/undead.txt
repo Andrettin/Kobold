@@ -1,0 +1,32 @@
+undead = {
+	name = "Undead"
+	hit_dice = 1d12
+	base_attack_bonus_table = low_base_attack_bonus
+	saving_throw_bonus_tables = {
+		fortitude = low_saving_throw_bonus
+		reflex = low_saving_throw_bonus
+		will = high_saving_throw_bonus
+	}
+	adulthood_age = 110 #as Elf
+	middle_age = 175
+	old_age = 263
+	venerable_age = 350
+	maximum_age_modifier = 4d100
+	starting_age_modifiers = {
+		intuitive = 4d6
+		self_taught = 6d6
+		trained = 10d6
+	}
+	item_slots = {
+		weapon = 1
+		shield = 1
+		armor = 1
+		helmet = 1
+		amulet = 1
+		belt = 1
+		cloak = 1
+		gloves = 1
+		ring = 2
+		boots = 1
+	}
+}

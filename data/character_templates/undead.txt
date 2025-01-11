@@ -1,0 +1,19 @@
+shadow = {
+	name = "Shadow"
+	species = shadow
+	feats = {
+		alertness
+		dodge
+	}
+}
+
+greater_shadow = {
+	name = "Greater Shadow"
+	species = greater_shadow
+	feats = {
+		alertness
+		dodge
+		#mobility
+		#spring_attack
+	}
+}

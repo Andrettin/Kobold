@@ -1,0 +1,24 @@
+dire_bat = {
+	name = "Dire Bat"
+	creature_type = animal
+	creature_size = large
+	hit_dice_count = 4
+	class_skills = {
+		hide
+		listen
+		move_silently
+		spot
+	}
+	modifier = {
+		challenge_rating = 2
+		strength = 6
+		dexterity = 12
+		constitution = 6
+		intelligence = -8
+		wisdom = 4
+		charisma = -4
+		armor_class = 5 #natural armor
+		listen = 4
+		spot = 4
+	}
+}

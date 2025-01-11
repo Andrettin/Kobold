@@ -1,0 +1,13 @@
+gelatinous_cube = {
+	name = "Gelatinous Cube"
+	creature_type = ooze
+	creature_size = large
+	hit_dice_count = 4
+	modifier = {
+		challenge_rating = 3
+		dexterity = -10
+		constitution = 16
+		wisdom = -10
+		charisma = -10
+	}
+}

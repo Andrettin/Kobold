@@ -1,0 +1,8 @@
+dire_bat = {
+	name = "Dire Bat"
+	species = dire_bat
+	feats = {
+		alertness
+		stealthy
+	}
+}
