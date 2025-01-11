@@ -1,0 +1,5 @@
+nervia_system = {
+	name = "Nervia System"
+	primary_star = nervia
+	provincial_capital = eburonia
+}

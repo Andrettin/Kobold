@@ -1,0 +1,5 @@
+titawin_system = {
+	name = "Titawin System"
+	primary_star = titawin
+	provincial_capital = majriti
+}
