@@ -84,9 +84,7 @@ void species::check() const
 		throw std::runtime_error(std::format("Species \"{}\" has no creature size.", this->get_identifier()));
 	}
 
-	if (this->get_hit_dice_count() > 0 && this->get_class_skills().empty()) {
-		throw std::runtime_error(std::format("Species \"{}\" has a hit dice count, but no class skills.", this->get_identifier()));
-	} else if (this->get_hit_dice_count() == 0 && !this->get_class_skills().empty()) {
+	if (this->get_hit_dice_count() == 0 && !this->get_class_skills().empty()) {
 		throw std::runtime_error(std::format("Species \"{}\" has no hit dice count, but has class skills.", this->get_identifier()));
 	}
 
