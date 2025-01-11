@@ -1087,6 +1087,14 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 					distance = std::min(distance, point::distance_to(zone_seed, other_zone_seed) * distance_multiplier);
 				}
 
+				if (province->is_star_system()) {
+					//for star systems, also try to place them at a distance from the edge of the map, if possible
+					distance = std::min(distance, point::distance_to(zone_seed, QPoint(zone_seed.x(), 0)));
+					distance = std::min(distance, point::distance_to(zone_seed, QPoint(0, zone_seed.y())));
+					distance = std::min(distance, point::distance_to(zone_seed, QPoint(zone_seed.x(), this->get_height() - 1)));
+					distance = std::min(distance, point::distance_to(zone_seed, QPoint(this->get_width() - 1, zone_seed.y())));
+				}
+
 				if (!best_distance.has_value() || distance > best_distance.value()) {
 					best_zone_indexes.clear();
 					best_distance = distance;
@@ -1256,6 +1264,10 @@ bool map_generator::can_assign_province_to_zone_index(const province *province, 
 int map_generator::get_province_distance_multiplier_to(const province *province, const kobold::province *other_province)
 {
 	int multiplier = 1;
+
+	if (province->is_star_system() || other_province->is_star_system()) {
+		return multiplier;
+	}
 
 	const std::vector<const region *> shared_regions = province->get_shared_regions_with(other_province);
 	for (const region *region : shared_regions) {
