@@ -1,0 +1,13 @@
+jotunheim = {
+	name = "Jotunheim"
+	type = great_power
+	color = { 170 148 214 }
+	culture = giant
+	default_religion = pagan
+	default_tier = empire
+	default_government_type = autocracy
+	default_capital = jotunheim
+	core_provinces = {
+		jotunheim_system
+	}
+}
