@@ -241,7 +241,7 @@ Item {
 				selected_civilian_unit = civilian_unit
 				selected_site = null
 				selected_province = null
-			} else if (site !== null && (site !== selected_site || selected_garrison) && (site.settlement || resource || improvement)) {
+			} else if (site !== null && (site !== selected_site || selected_garrison) && (site.settlement || site.celestial_body || resource || improvement)) {
 				selected_site = site
 				selected_province = province
 				selected_civilian_unit = null
@@ -274,7 +274,22 @@ Item {
 			
 			if (!explored) {
 				text += "Unexplored"
-			} else if (site !== null && site.settlement && site.game_data.settlement_type) {
+			} else if (site !== null && site.celestial_body) {
+				text += site.celestial_body_type.name
+				
+				if (site.settlement && site.game_data.settlement_type !== null) {
+					text += ") (" + site.game_data.settlement_type.name
+				}
+				
+				if (resource !== null) {
+					text += ") ("
+					if (site.game_data.resource_improvement !== null) {
+						text += site.game_data.resource_improvement.name
+					} else {
+						text += resource.name
+					}
+				}
+			} else if (site !== null && site.settlement && site.game_data.settlement_type !== null) {
 				text += site.game_data.settlement_type.name
 				
 				if (resource !== null) {
@@ -304,12 +319,12 @@ Item {
 			}
 			
 			if (explored) {
-				if (site !== null && (improvement !== null || resource !== null || site.settlement)) {
+				if (site !== null && (improvement !== null || resource !== null || site.settlement || site.celestial_body)) {
 					text += site.game_data.current_cultural_name
 				}
 				
 				if (province !== null) {
-					if (site !== null && (improvement !== null || resource !== null || site.settlement)) {
+					if (site !== null && (improvement !== null || resource !== null || site.settlement || site.celestial_body)) {
 						text += ", "
 					}
 					

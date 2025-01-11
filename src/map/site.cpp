@@ -60,8 +60,10 @@ void site::process_gsml_scope(const gsml_data &scope)
 
 void site::initialize()
 {
-	assert_throw(this->world != nullptr);
-	this->world->add_site(this);
+	assert_throw(this->world != nullptr || this->is_celestial_body());
+	if (this->world != nullptr) {
+		this->world->add_site(this);
+	}
 
 	if (this->get_province() != nullptr) {
 		this->province->add_site(this);
@@ -79,13 +81,15 @@ void site::check() const
 	if (this->get_type() == site_type::terrain) {
 		assert_throw(this->get_terrain_type() != nullptr);
 	} else {
-		if (this->get_type() != site_type::resource && this->get_type() != site_type::settlement) { //resource and settlement sites can also have a terrain type
+		if (this->get_type() != site_type::resource && this->get_type() != site_type::settlement) {
+			//resource and settlement sites can also have a terrain type
 			assert_throw(this->get_terrain_type() == nullptr);
 		}
 	}
 
 	switch (this->get_type()) {
 		case site_type::settlement:
+		case site_type::habitable_world:
 			if (this->get_resource() == nullptr) {
 				log::log_error(std::format("Settlement site \"{}\" has no resource.", this->get_identifier()));
 			}
@@ -106,6 +110,10 @@ void site::check() const
 		default:
 			assert_throw(this->get_resource() == nullptr);
 			break;
+	}
+
+	if (this->is_celestial_body() && this->get_celestial_body_type() == nullptr) {
+		throw std::runtime_error(std::format("Site \"{}\" is a celestial body, but has no celestial body type.", this->get_identifier()));
 	}
 }
 
@@ -131,7 +139,12 @@ void site::reset_game_data()
 
 bool site::is_settlement() const
 {
-	return this->get_type() == site_type::settlement;
+	return this->get_type() == site_type::settlement || this->get_type() == site_type::habitable_world;
+}
+
+bool site::is_celestial_body() const
+{
+	return this->get_type() == site_type::celestial_body || this->get_type() == site_type::habitable_world;
 }
 
 std::string site::get_scope_name() const

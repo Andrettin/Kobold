@@ -3,9 +3,11 @@
 #include "database/data_type.h"
 #include "database/named_data_entry.h"
 #include "util/geocoordinate.h"
+#include "util/fractional_int.h"
 #include "util/qunique_ptr.h"
 
 Q_MOC_INCLUDE("economy/resource.h")
+Q_MOC_INCLUDE("map/celestial_body_type.h")
 Q_MOC_INCLUDE("map/province.h")
 Q_MOC_INCLUDE("map/site_game_data.h")
 Q_MOC_INCLUDE("map/site_map_data.h")
@@ -14,6 +16,7 @@ Q_MOC_INCLUDE("map/world.h")
 
 namespace kobold {
 
+class celestial_body_type;
 class cultural_group;
 class culture;
 class province;
@@ -33,8 +36,12 @@ class site final : public named_data_entry, public data_type<site>
 	Q_PROPERTY(kobold::world* world MEMBER world)
 	Q_PROPERTY(archimedes::geocoordinate geocoordinate MEMBER geocoordinate READ get_geocoordinate)
 	Q_PROPERTY(QPoint pos_offset MEMBER pos_offset READ get_pos_offset)
+	Q_PROPERTY(archimedes::geocoordinate astrocoordinate MEMBER astrocoordinate READ get_astrocoordinate)
+	Q_PROPERTY(archimedes::centesimal_int astrodistance MEMBER astrodistance READ get_astrodistance)
 	Q_PROPERTY(kobold::site_type type MEMBER type READ get_type)
 	Q_PROPERTY(bool settlement READ is_settlement NOTIFY changed)
+	Q_PROPERTY(bool celestial_body READ is_celestial_body NOTIFY changed)
+	Q_PROPERTY(const kobold::celestial_body_type* celestial_body_type MEMBER celestial_body_type READ get_celestial_body_type)
 	Q_PROPERTY(kobold::terrain_type* terrain_type MEMBER terrain_type)
 	Q_PROPERTY(kobold::resource* resource MEMBER resource NOTIFY changed)
 	Q_PROPERTY(kobold::province* province MEMBER province NOTIFY changed)
@@ -92,12 +99,28 @@ public:
 		return this->pos_offset;
 	}
 
+	const geocoordinate &get_astrocoordinate() const
+	{
+		return this->astrocoordinate;
+	}
+
+	const centesimal_int &get_astrodistance() const
+	{
+		return this->astrodistance;
+	}
+
 	site_type get_type() const
 	{
 		return this->type;
 	}
 
 	bool is_settlement() const;
+	bool is_celestial_body() const;
+
+	const kobold::celestial_body_type *get_celestial_body_type() const
+	{
+		return this->celestial_body_type;
+	}
 
 	const kobold::terrain_type *get_terrain_type() const
 	{
@@ -141,7 +164,10 @@ private:
 	kobold::world *world = nullptr;
 	archimedes::geocoordinate geocoordinate;
 	QPoint pos_offset = QPoint(0, 0);
+	archimedes::geocoordinate astrocoordinate; //the site's position as an astrocoordinate
+	centesimal_int astrodistance; //the site's distance from its map template's center (in light-years)
 	site_type type;
+	const kobold::celestial_body_type *celestial_body_type = nullptr;
 	kobold::terrain_type *terrain_type = nullptr;
 	kobold::resource *resource = nullptr;
 	kobold::province *province = nullptr;

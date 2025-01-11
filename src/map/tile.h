@@ -78,10 +78,7 @@ public:
 		return this->site;
 	}
 
-	void set_site(const kobold::site *site)
-	{
-		this->site = site;
-	}
+	void set_site(const kobold::site *site);
 
 	const kobold::site *get_settlement() const;
 	const settlement_type *get_settlement_type() const;

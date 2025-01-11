@@ -890,7 +890,7 @@ void country_game_data::on_province_gained(const province *province, const int m
 
 void country_game_data::on_site_gained(const site *site, const int multiplier)
 {
-	if (site->get_type() == site_type::settlement || site->get_type() == site_type::resource) {
+	if (site->get_type() == site_type::resource || site->get_type() == site_type::celestial_body || site->is_settlement()) {
 		this->change_site_count(multiplier);
 	}
 
