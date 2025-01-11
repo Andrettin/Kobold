@@ -144,13 +144,13 @@ int main(int argc, char **argv)
 		enum_converter<elevation_type>();
 		enum_converter<forestation_type>();
 		enum_converter<gender>();
-		enum_converter<improvement_slot>();
 		enum_converter<log_level>();
 		enum_converter<military_unit_domain>();
 		enum_converter<moisture_type>();
 		enum_converter<temperature_type>();
 		database::get()->register_enum<character_class_type>();
 		database::get()->register_enum<event_trigger>();
+		database::get()->register_enum<improvement_slot>();
 		database::get()->register_enum<site_type>();
 		database::get()->register_enum<starting_age_category>();
 
