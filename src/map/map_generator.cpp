@@ -1026,6 +1026,8 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 		std::vector<int> best_zone_indexes;
 		std::optional<int> best_distance;
 
+		const QPoint map_center_pos(this->get_width() / 2 - 1, this->get_height() / 2 - 1);
+
 		//get the zones which are as far away from other powers as possible
 		for (size_t i = 0; i < this->zones.size(); ++i) {
 			const zone &zone = this->zones.at(i);
@@ -1043,15 +1045,10 @@ int map_generator::generate_province(const province *province, std::vector<int> 
 			int distance = std::numeric_limits<int>::max();
 
 			if (province->is_star_system()) {
-				distance = point::distance_to(zone_seed, QPoint(this->get_width() / 2 - 1, this->get_height() / 2 - 1));
+				distance = point::distance_to(zone_seed, map_center_pos);
 
 				if (!province->get_primary_star()->get_astrocoordinate().is_null()) {
-					const QPoint direction_pos = province->get_primary_star()->get_astrocoordinate().to_circle_edge_point();
-
-					const int64_t ideal_x_at_distance = direction_pos.x() * distance / geocoordinate::number_type::divisor;
-					const int64_t ideal_y_at_distance = direction_pos.y() * distance / geocoordinate::number_type::divisor;
-
-					const QPoint ideal_pos_at_distance(ideal_x_at_distance, ideal_y_at_distance);
+					const QPoint ideal_pos_at_distance = point::get_nearest_circle_edge_point(province->get_primary_star()->get_astrocoordinate().to_circle_point(), distance) + map_center_pos;
 
 					distance += point::distance_to(zone_seed, ideal_pos_at_distance);
 				}
