@@ -1,5 +1,6 @@
 #pragma once
 
+#include "character/challenge_rating.h"
 #include "character/character.h"
 #include "character/character_class.h"
 #include "character/character_class_type.h"
@@ -84,20 +85,8 @@ public:
 		std::vector<const character *> allied_characters;
 		allied_characters.push_back(scope);
 
-		std::vector<const character *> enemy_characters;
 		std::vector<std::shared_ptr<character_reference>> generated_characters;
-
-		for (const auto &[character_template, quantity] : this->enemies) {
-			for (int i = 0; i < quantity; ++i) {
-				std::shared_ptr<character_reference> enemy_character = character::generate_temporary(character_template, nullptr, nullptr, nullptr);
-				enemy_characters.push_back(enemy_character->get_character());
-				generated_characters.push_back(enemy_character);
-			}
-		}
-
-		for (const target_variant<const character> &enemy_character : this->enemy_characters) {
-			enemy_characters.push_back(this->get_enemy_character(enemy_character, ctx));
-		}
+		const std::vector<const character *> enemy_characters = this->get_enemy_characters(ctx, generated_characters);
 
 		const game::combat_result result = this->attacker ? game::get()->do_combat(allied_characters, enemy_characters) : game::get()->do_combat(enemy_characters, allied_characters);
 
@@ -138,7 +127,7 @@ public:
 
 	virtual std::string get_assignment_string(const character *scope, const read_only_context &ctx, const size_t indent, const std::string &prefix) const override
 	{
-		std::string str = "Combat against:";
+		std::string str = std::format("Combat against (CR {}):", this->get_challenge_rating(ctx).to_string());
 
 		for (const auto &[character_template, quantity] : this->enemies) {
 			str += "\n" + std::string(indent + 1, '\t') + std::to_string(quantity) + "x" + character_template->get_name();
@@ -173,6 +162,32 @@ public:
 		}
 
 		return str;
+	}
+
+	challenge_rating get_challenge_rating(const read_only_context &ctx) const
+	{
+		std::vector<std::shared_ptr<character_reference>> generated_characters;
+		const std::vector<const character *> enemy_characters = this->get_enemy_characters(ctx, generated_characters);
+		return challenge_rating::get_group_challenge_rating(enemy_characters);
+	}
+
+	std::vector<const character *> get_enemy_characters(const read_only_context &ctx, std::vector<std::shared_ptr<character_reference>> &generated_characters) const
+	{
+		std::vector<const character *> enemy_characters;
+
+		for (const auto &[character_template, quantity] : this->enemies) {
+			for (int i = 0; i < quantity; ++i) {
+				std::shared_ptr<character_reference> enemy_character = character::generate_temporary(character_template, nullptr, nullptr, nullptr);
+				enemy_characters.push_back(enemy_character->get_character());
+				generated_characters.push_back(enemy_character);
+			}
+		}
+
+		for (const target_variant<const character> &enemy_character : this->enemy_characters) {
+			enemy_characters.push_back(this->get_enemy_character(enemy_character, ctx));
+		}
+
+		return enemy_characters;
 	}
 
 	const character *get_enemy_character(const target_variant<const character> &target_variant, const read_only_context &ctx) const

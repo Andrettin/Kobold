@@ -10,6 +10,25 @@
 
 namespace kobold {
 
+challenge_rating challenge_rating::get_challenge_rating_for_experience_award(const int64_t experience_award, const challenge_rating &base_challenge_rating)
+{
+	challenge_rating challenge_rating = base_challenge_rating;
+	kobold::challenge_rating previous_challenge_rating = challenge_rating;
+	while (defines::get()->get_experience_award_for_challenge_rating(challenge_rating) < experience_award) {
+		previous_challenge_rating = challenge_rating;
+		challenge_rating.change(1);
+	}
+
+	const int64_t prev_diff = std::abs(experience_award - defines::get()->get_experience_award_for_challenge_rating(previous_challenge_rating));
+	const int64_t diff = std::abs(experience_award - defines::get()->get_experience_award_for_challenge_rating(challenge_rating));
+
+	if (prev_diff < diff) {
+		return previous_challenge_rating;
+	} else {
+		return challenge_rating;
+	}
+}
+
 challenge_rating challenge_rating::get_group_challenge_rating(const std::vector<const character *> &characters)
 {
 	assert_throw(!characters.empty());
@@ -24,21 +43,7 @@ challenge_rating challenge_rating::get_group_challenge_rating(const std::vector<
 		group_experience_award += defines::get()->get_experience_award_for_challenge_rating(character->get_game_data()->get_challenge_rating());
 	}
 
-	challenge_rating challenge_rating = characters.at(0)->get_game_data()->get_challenge_rating();
-	kobold::challenge_rating previous_challenge_rating = challenge_rating;
-	while (defines::get()->get_experience_award_for_challenge_rating(challenge_rating) < group_experience_award) {
-		previous_challenge_rating = challenge_rating;
-		challenge_rating.change(1);
-	}
-
-	const int64_t prev_diff = std::abs(group_experience_award - defines::get()->get_experience_award_for_challenge_rating(previous_challenge_rating));
-	const int64_t diff = std::abs(group_experience_award - defines::get()->get_experience_award_for_challenge_rating(challenge_rating));
-
-	if (prev_diff < diff) {
-		return previous_challenge_rating;
-	} else {
-		return challenge_rating;
-	}
+	return challenge_rating::get_challenge_rating_for_experience_award(group_experience_award, characters.at(0)->get_game_data()->get_challenge_rating());
 }
 
 challenge_rating::challenge_rating(const std::string &str)
