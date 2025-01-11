@@ -1,0 +1,5 @@
+ran_system = {
+	name = "Ran System"
+	primary_star = ran
+	provincial_capital = aegir
+}
