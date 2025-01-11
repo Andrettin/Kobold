@@ -827,6 +827,10 @@ void map_generator::generate_countries()
 			continue;
 		}
 
+		if (province->is_star_system()) {
+			continue;
+		}
+
 		if (province->get_world() != nullptr && province->get_world() != this->get_map_template()->get_world()) {
 			if (vector::contains(province->get_generation_worlds(), this->get_map_template()->get_world())) {
 				provinces_from_other_worlds.push_back(province);
