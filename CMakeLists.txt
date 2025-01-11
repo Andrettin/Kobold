@@ -132,7 +132,6 @@ set(infrastructure_SRCS
 	src/infrastructure/building_type_container.cpp
 	src/infrastructure/improvement.cpp
 	src/infrastructure/improvement_container.cpp
-	src/infrastructure/improvement_slot.cpp
 	src/infrastructure/pathway.cpp
 	src/infrastructure/pathway_container.cpp
 	src/infrastructure/settlement_building_slot.cpp
