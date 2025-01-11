@@ -17,6 +17,7 @@ namespace kobold {
 class cultural_group;
 class culture;
 class province;
+class region;
 class resource;
 class site_game_data;
 class site_history;
@@ -126,6 +127,13 @@ public:
 	virtual std::string get_scope_name() const override;
 	const std::string &get_cultural_name(const culture *culture) const;
 
+	const std::vector<const region *> &get_generation_regions() const
+	{
+		return this->generation_regions;
+	}
+
+	bool can_be_generated_on_world(const kobold::world *world) const;
+
 signals:
 	void changed();
 
@@ -140,6 +148,7 @@ private:
 	std::vector<const kobold::terrain_type *> terrain_types;
 	std::map<const culture *, std::string> cultural_names;
 	std::map<const cultural_group *, std::string> cultural_group_names;
+	std::vector<const region *> generation_regions; //regions other than its own province where this site can be generated; this is used if the map's world is not the site's own world
 	qunique_ptr<site_history> history;
 	qunique_ptr<site_map_data> map_data;
 	qunique_ptr<site_game_data> game_data;

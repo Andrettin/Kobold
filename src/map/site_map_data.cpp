@@ -17,6 +17,8 @@ site_map_data::site_map_data(const kobold::site *site) : site(site), resource(si
 
 void site_map_data::set_tile_pos(const QPoint &tile_pos)
 {
+	assert_throw(this->get_tile_pos() == QPoint(-1, -1));
+
 	if (tile_pos == this->get_tile_pos()) {
 		return;
 	}

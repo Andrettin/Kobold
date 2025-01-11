@@ -9,6 +9,8 @@
 #include "map/map_generator.h"
 #include "map/map_projection.h"
 #include "map/province.h"
+#include "map/province_map_data.h"
+#include "map/region.h"
 #include "map/route.h"
 #include "map/route_container.h"
 #include "map/route_game_data.h"
@@ -22,12 +24,15 @@
 #include "map/tile.h"
 #include "map/world.h"
 #include "util/assert_util.h"
+#include "util/container_util.h"
 #include "util/exception_util.h"
 #include "util/geoshape_util.h"
 #include "util/log_util.h"
 #include "util/path_util.h"
 #include "util/point_util.h"
 #include "util/rect_util.h"
+#include "util/set_util.h"
+#include "util/vector_random_util.h"
 #include "util/vector_util.h"
 
 namespace kobold {
@@ -646,7 +651,10 @@ void map_template::apply() const
 		this->apply_border_rivers();
 		this->apply_routes();
 		this->apply_provinces();
+		this->apply_sites();
 	}
+
+	this->generate_additional_sites();
 }
 
 void map_template::apply_terrain() const
@@ -887,10 +895,107 @@ void map_template::apply_provinces() const
 			map->set_tile_province(tile_pos, province);
 		}
 	}
+}
+
+void map_template::apply_sites() const
+{
+	map *map = map::get();
 
 	//apply tile sites
 	for (const auto &[tile_pos, site] : this->sites_by_position) {
 		map->set_tile_site(tile_pos, site);
+	}
+}
+
+void map_template::generate_additional_sites() const
+{
+	//generate sites which belong to other worlds, but can be generated on this one
+	std::vector<const site *> potential_sites;
+	for (const site *site : site::get_all()) {
+		if (site->get_map_data()->is_on_map()) {
+			continue;
+		}
+
+		if (site->get_world() == this->get_world()) {
+			continue;
+		}
+
+		if (!site->can_be_generated_on_world(this->get_world())) {
+			continue;
+		}
+
+		potential_sites.push_back(site);
+	}
+
+	vector::shuffle(potential_sites);
+
+	for (const site *site : potential_sites) {
+		this->generate_site(site);
+	}
+}
+
+void map_template::generate_site(const site *site) const
+{
+	std::set<const province *> province_set;
+
+	for (const region *region : site->get_generation_regions()) {
+		set::merge(province_set, region->get_provinces());
+	}
+
+	std::vector<const province *> potential_provinces = container::to_vector(province_set);
+	vector::shuffle(potential_provinces);
+
+	map *map = map::get();
+
+	for (const province *province : potential_provinces) {
+		const province_map_data *province_map_data = province->get_map_data();
+		if (!province_map_data->is_on_map()) {
+			continue;
+		}
+
+		const resource *resource = site->get_map_data()->get_resource();
+		const bool is_near_water = resource != nullptr && resource->is_near_water();
+		const bool is_coastal = resource != nullptr && resource->is_coastal();
+		const std::vector<const terrain_type *> &site_terrains = site->get_terrain_types();
+
+		const std::vector<QPoint> province_tiles = vector::shuffled(province_map_data->get_tiles());
+
+		if (!site_terrains.empty()) {
+			bool has_terrain = false;
+			for (const terrain_type *terrain : site_terrains) {
+				if (province_map_data->get_tile_terrain_counts().contains(terrain)) {
+					has_terrain = true;
+					break;
+				}
+			}
+			if (!has_terrain) {
+				continue;
+			}
+		}
+
+		for (const QPoint &tile_pos : province_tiles) {
+			const tile *tile = map->get_tile(tile_pos);
+			if (tile->get_site() != nullptr) {
+				continue;
+			}
+
+			if (!site_terrains.empty() && !vector::contains(site_terrains, tile->get_terrain())) {
+				continue;
+			}
+
+			if (is_coastal) {
+				if (!map->is_tile_coastal(tile_pos)) {
+					continue;
+				}
+			} else if (is_near_water) {
+				if (!map->is_tile_near_water(tile_pos)) {
+					continue;
+				}
+			}
+
+			map->set_tile_site(tile_pos, site);
+			return;
+		}
 	}
 }
 

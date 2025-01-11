@@ -202,6 +202,9 @@ public:
 	void apply_border_rivers() const;
 	void apply_routes() const;
 	void apply_provinces() const;
+	void apply_sites() const;
+	void generate_additional_sites() const;
+	void generate_site(const site *site) const;
 
 signals:
 	void changed();

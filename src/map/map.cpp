@@ -125,7 +125,9 @@ void map::initialize()
 				this->update_tile_terrain_tile(tile_pos);
 			}
 
-			tile_province->get_map_data()->add_tile(tile_pos);
+			if (tile->get_site() != nullptr) {
+				tile_province->get_map_data()->process_site_tile(tile_pos);
+			}
 
 			if (is_border_tile) {
 				tile->sort_border_directions();
@@ -528,9 +530,10 @@ void map::set_tile_province(const QPoint &tile_pos, const province *province)
 {
 	tile *tile = this->get_tile(tile_pos);
 	tile->set_province(province);
+	province->get_map_data()->add_tile(tile_pos);
 
 	if (tile->get_terrain()->is_water() != province->is_water_zone()) {
-		log::log_error("Tile " + point::to_string(tile_pos) + " has terrain type \"" + tile->get_terrain()->get_identifier() + "\", which has a water value that doesn't match the tile's \"" + province->get_identifier() + "\" province.");
+		log::log_error(std::format("Tile {} has terrain type \"{}\", which has a water value that doesn't match the tile's \"{}\" province.", point::to_string(tile_pos), tile->get_terrain()->get_identifier(), province->get_identifier()));
 	}
 }
 
@@ -539,8 +542,8 @@ void map::set_tile_site(const QPoint &tile_pos, const site *site)
 	tile *tile = this->get_tile(tile_pos);
 	tile->set_site(site);
 
-	if (site->get_province() != nullptr && site->get_province() != tile->get_province()) {
-		log::log_error("Site \"" + site->get_identifier() + "\" was not placed within its province.");
+	if (site->get_province() != nullptr && site->get_province() != tile->get_province() && site->get_province()->get_map_data()->is_on_map()) {
+		log::log_error(std::format("Site \"{}\" was not placed within its province.", site->get_identifier()));
 	}
 
 	switch (site->get_type()) {

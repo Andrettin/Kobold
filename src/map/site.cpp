@@ -7,6 +7,7 @@
 #include "economy/resource.h"
 #include "map/province.h"
 #include "map/province_history.h"
+#include "map/region.h"
 #include "map/site_game_data.h"
 #include "map/site_history.h"
 #include "map/site_map_data.h"
@@ -48,6 +49,10 @@ void site::process_gsml_scope(const gsml_data &scope)
 			const cultural_group *cultural_group = cultural_group::get(property.get_key());
 			this->cultural_group_names[cultural_group] = property.get_value();
 		});
+	} else if (tag == "generation_regions") {
+		for (const std::string &value : values) {
+			this->generation_regions.push_back(region::get(value));
+		}
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
@@ -151,6 +156,18 @@ const std::string &site::get_cultural_name(const culture *culture) const
 	}
 
 	return this->get_name();
+}
+
+bool site::can_be_generated_on_world(const kobold::world *world) const
+{
+	//whether the site can be generated on a given world other than its own
+	for (const region *region : this->get_generation_regions()) {
+		if (region->get_world() == world) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 }
