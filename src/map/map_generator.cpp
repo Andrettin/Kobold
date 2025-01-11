@@ -787,11 +787,8 @@ void map_generator::generate_countries()
 		this->generate_ocean(ocean);
 	}
 
-	std::vector<const province *> potential_seas;
-	std::vector<const province *> potential_lakes;
-	std::vector<const country *> potential_powers;
-	std::vector<const country *> potential_minor_nations;
-	country_map<std::vector<const province *>> provinces_by_country;
+	std::vector<const province *> provinces;
+	std::vector<const province *> provinces_from_other_worlds;
 
 	for (const province *province : province::get_all()) {
 		if (province->is_hidden()) {
@@ -799,9 +796,40 @@ void map_generator::generate_countries()
 		}
 
 		if (province->get_world() != nullptr && province->get_world() != this->get_map_template()->get_world()) {
+			if (vector::contains(province->get_generation_worlds(), this->get_map_template()->get_world())) {
+				provinces_from_other_worlds.push_back(province);
+			}
 			continue;
 		}
 
+		provinces.push_back(province);
+	}
+
+	this->generate_countries_from_provinces(provinces);
+	this->generate_countries_from_provinces(provinces_from_other_worlds);
+
+	if (static_cast<int>(this->generated_provinces.size()) != this->zone_count) {
+		log::log_error(std::format("{} provinces were generated, but {} were needed.", this->generated_provinces.size(), this->zone_count));
+	}
+}
+
+void map_generator::generate_countries_from_provinces(const std::vector<const province *> &provinces)
+{
+	if (provinces.empty()) {
+		return;
+	}
+
+	if (static_cast<int>(this->generated_provinces.size()) >= this->zone_count) {
+		return;
+	}
+
+	std::vector<const province *> potential_seas;
+	std::vector<const province *> potential_lakes;
+	std::vector<const country *> potential_powers;
+	std::vector<const country *> potential_minor_nations;
+	country_map<std::vector<const province *>> provinces_by_country;
+
+	for (const province *province : provinces) {
 		if (province->is_sea() || province->is_bay()) {
 			potential_seas.push_back(province);
 		} else if (province->is_lake()) {
@@ -863,10 +891,6 @@ void map_generator::generate_countries()
 		}
 
 		this->generate_country(country, provinces_by_country.find(country)->second);
-	}
-
-	if (static_cast<int>(this->generated_provinces.size()) != this->zone_count) {
-		log::log_error(std::to_string(this->generated_provinces.size()) + " provinces were generated, but " + std::to_string(this->zone_count) + " were needed.");
 	}
 }
 

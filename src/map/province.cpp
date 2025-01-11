@@ -12,6 +12,7 @@
 #include "map/site.h"
 #include "map/terrain_feature.h"
 #include "map/terrain_type.h"
+#include "map/world.h"
 #include "util/assert_util.h"
 #include "util/log_util.h"
 #include "util/vector_util.h"
@@ -58,6 +59,10 @@ void province::process_gsml_scope(const gsml_data &scope)
 			this->border_rivers[border_province] = border_river;
 			border_province->border_rivers[this] = border_river;
 		});
+	} else if (tag == "generation_worlds") {
+		for (const std::string &value : values) {
+			this->generation_worlds.push_back(world::get(value));
+		}
 	} else {
 		data_entry::process_gsml_scope(scope);
 	}
@@ -69,6 +74,11 @@ void province::initialize()
 		assert_throw(this->get_provincial_capital()->get_province() == nullptr || this->get_provincial_capital()->get_province() == this);
 
 		this->provincial_capital->set_province(this);
+
+		if (this->provincial_capital->is_initialized()) {
+			//site is already initialized, so it won't add itself to this province's site list
+			this->add_site(this->provincial_capital);
+		}
 	}
 
 	if (this->get_world() == nullptr) {

@@ -207,6 +207,11 @@ public:
 		return this->border_rivers;
 	}
 
+	const std::vector<const kobold::world *> &get_generation_worlds() const
+	{
+		return this->generation_worlds;
+	}
+
 	const std::vector<const site *> &get_sites() const
 	{
 		return this->sites;
@@ -235,6 +240,7 @@ private:
 	std::vector<region *> regions; //regions where this province is located
 	std::vector<const country *> core_countries;
 	province_map<const terrain_feature *> border_rivers;
+	std::vector<const kobold::world *> generation_worlds; //worlds other than its own where this province can be generated
 	std::vector<const site *> sites; //sites located in this province, used for map generation
 	qunique_ptr<province_history> history;
 	qunique_ptr<province_map_data> map_data;

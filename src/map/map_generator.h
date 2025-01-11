@@ -105,6 +105,7 @@ private:
 	void remove_zone(const int zone_index);
 
 	void generate_countries();
+	void generate_countries_from_provinces(const std::vector<const province *> &provinces);
 	bool generate_ocean(const region *ocean);
 	bool generate_country(const country *country, const std::vector<const province *> &country_provinces);
 	std::vector<const province *> generate_province_group(const std::vector<const province *> &potential_provinces, const province *capital_province);
