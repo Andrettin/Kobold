@@ -1,4 +1,4 @@
-terran = {
+terran_elemental = {
 	name = "Terran"
 	species = {
 		elder_earth_elemental

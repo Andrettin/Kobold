@@ -2,4 +2,8 @@ fafnir_system = {
 	name = "Fafnir System"
 	primary_star = fafnir
 	provincial_capital = orbitar
+	
+	history = {
+		culture = terran
+	}
 }
