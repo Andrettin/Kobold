@@ -1,0 +1,5 @@
+helvetios_system = {
+	name = "Helvetios System"
+	primary_star = helvetios
+	provincial_capital = dimidium
+}
