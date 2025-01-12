@@ -5,7 +5,7 @@ jotunheim = {
 	culture = giant
 	default_religion = pagan
 	default_tier = empire
-	default_government_type = autocracy
+	default_government_type = despotism
 	default_capital = jotunheim
 	core_provinces = {
 		jotunheim_system
