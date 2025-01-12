@@ -4,8 +4,8 @@ ran_system = {
 	provincial_capital = aegir
 	
 	history = {
-		owner = terran_federation
-		culture = terran
-		religion = atheist
+		owner = ran
+		culture = aquan
+		religion = asatru
 	}
 }
