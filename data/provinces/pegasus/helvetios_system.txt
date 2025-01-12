@@ -4,6 +4,8 @@ helvetios_system = {
 	provincial_capital = dimidium
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }

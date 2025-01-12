@@ -4,6 +4,8 @@ sirius_system = {
 	provincial_capital = kairet
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }

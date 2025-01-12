@@ -4,6 +4,8 @@ sol_system = {
 	provincial_capital = terra
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }

@@ -4,6 +4,8 @@ nervia_system = {
 	provincial_capital = eburonia
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }

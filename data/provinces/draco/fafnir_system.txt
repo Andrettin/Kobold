@@ -4,6 +4,8 @@ fafnir_system = {
 	provincial_capital = orbitar
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }

@@ -4,6 +4,8 @@ titawin_system = {
 	provincial_capital = majriti
 	
 	history = {
+		owner = terran_federation
 		culture = terran
+		religion = atheist
 	}
 }
