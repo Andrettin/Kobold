@@ -4,9 +4,11 @@ jotunheim = {
 	color = { 170 148 214 }
 	culture = giant
 	default_religion = pagan
-	default_tier = empire
+	default_tier = duchy
 	default_government_type = despotism
 	default_capital = jotunheim
+	min_tier = barony
+	max_tier = empire
 	core_provinces = {
 		jotunheim_system
 	}

@@ -4,9 +4,11 @@ alfheim = {
 	color = { 142 167 80 }
 	culture = elven
 	default_religion = pagan
-	default_tier = empire
+	default_tier = duchy
 	default_government_type = feudalism
 	default_capital = alfheim
+	min_tier = barony
+	max_tier = empire
 	core_provinces = {
 		alfheim_system
 	}
