@@ -89,8 +89,8 @@ void improvement::check() const
 		throw std::runtime_error(std::format("Improvement \"{}\" has resources, but is not a resource improvement.", this->get_identifier()));
 	}
 
-	if (this->is_ruin() && this->get_slot() != improvement_slot::main) {
-		throw std::runtime_error(std::format("Improvement \"{}\" is a ruin, but is not a main improvement.", this->get_identifier()));
+	if (this->is_visitable() && this->get_slot() != improvement_slot::main) {
+		throw std::runtime_error(std::format("Improvement \"{}\" is visitable, but is not a main improvement.", this->get_identifier()));
 	}
 
 	if ((this->get_slot() == improvement_slot::main || this->get_slot() == improvement_slot::resource) && this->get_image_filepath().empty()) {
@@ -110,7 +110,7 @@ void improvement::check() const
 		assert_throw(found);
 	}
 
-	if ((this->get_slot() == improvement_slot::resource) && this->icon == nullptr) {
+	if (this->get_slot() == improvement_slot::resource && this->icon == nullptr) {
 		throw std::runtime_error(std::format("Non-main improvement \"{}\" has no icon.", this->get_identifier()));
 	}
 }

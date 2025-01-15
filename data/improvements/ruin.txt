@@ -1,7 +1,7 @@
 ruin = {
 	name = "Ruin"
 	slot = main
-	ruin = true
+	visitable = true
 	image_filepath = "tiles/settlements/town.png"
 	terrain_types = {
 		plains
