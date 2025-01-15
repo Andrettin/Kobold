@@ -15,6 +15,7 @@ tres_minas = {
 		100 = {
 			improvements -= mine
 			improvements += ruin
+			flags += random_visitable_site
 		}
 	}
 }

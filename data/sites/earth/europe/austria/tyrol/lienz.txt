@@ -9,6 +9,7 @@ lienz = {
 	history = {
 		610 = {
 			improvements += ruin #Aguntum
+			flags += random_visitable_site
 		}
 	}
 }
