@@ -1,0 +1,11 @@
+trading_post = {
+	name = "Trading Post"
+	slot = main
+	visitable = true
+	image_filepath = "tiles/settlements/hamlet.png"
+	terrain_types = {
+		plains
+		savannah
+		tundra
+	}
+}

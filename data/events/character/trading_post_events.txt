@@ -1,0 +1,66 @@
+trading_post_visited = {
+	name = "Trading Post"
+	description = "You met with the merchants of the trading post at [saved_site_scope:visited_site.name], and convinced them to move to [saved_site_scope:trading_post_settlement.name] and set up business there."
+	trigger = site_visited
+	random = true
+	conditions = {
+		source_site = {
+			has_flag = random_visitable_site
+			improvement = trading_post
+		}
+	}
+	immediate_effects = {
+		source_site = {
+			save_scope_as = visited_site
+		}
+		
+		saved_site_scope = {
+			scope = visited_site
+			provincial_capital = {
+				save_scope_as = trading_post_settlement
+			}
+		}
+	}
+	option = {
+		effects = {
+			saved_site_scope = {
+				scope = trading_post_settlement
+				
+				random_list = {
+					1 = {
+						modifier = {
+							factor = 0
+							or = {
+								has_building_class = shop
+								has_building_class = market
+							}
+						}
+						
+						add_building_class = shop
+					}
+					1 = {
+						modifier = {
+							factor = 0
+							has_building_class = stables
+						}
+						
+						add_building_class = stables
+					}
+					1 = {
+						modifier = {
+							factor = 0
+							has_building_class = watchtower
+						}
+						
+						add_building_class = watchtower
+					}
+				}
+			}
+			
+			saved_site_scope = {
+				scope = visited_site
+				improvements -= trading_post
+			}
+		}
+	}
+}
