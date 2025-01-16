@@ -1,0 +1,4 @@
+stables = {
+	name = "stables"
+	slot_type = stables
+}

@@ -1,0 +1,19 @@
+stables = {
+	name = "Stables"
+	building_class = stables
+	portrait = trading_post
+	icon = horses
+	provincial = true
+	settlement_types = {
+		town
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 10gb
+	}
+	country_modifier = {
+		economy = 1
+		loyalty = 1
+	}
+}

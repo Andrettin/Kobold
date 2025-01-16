@@ -1,16 +1,40 @@
+shop = {
+	name = "Shop"
+	building_class = shop
+	portrait = trading_post
+	icon = wealth
+	provincial = true
+	settlement_types = {
+		village
+		town
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 8gb
+	}
+	country_modifier = {
+		economy = 1
+	}
+	settlement_modifier = {
+		productivity = 1
+	}
+}
+
 market = {
 	name = "Market"
 	building_class = market
 	portrait = trading_post
 	icon = wealth
 	provincial = true
+	required_building = shop
 	settlement_types = {
 		town
 		city
 		metropolis
 	}
 	commodity_costs = {
-		wealth = 28gb
+		wealth = 40gb
 	}
 	country_modifier = {
 		economy = 2
