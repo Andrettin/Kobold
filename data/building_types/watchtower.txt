@@ -1,0 +1,23 @@
+watchtower = {
+	name = "Watchtower"
+	building_class = watchtower
+	portrait = fort
+	icon = wall
+	provincial = true
+	settlement_types = {
+		village
+		town
+		city
+		metropolis
+	}
+	commodity_costs = {
+		wealth = 12gb
+	}
+	country_modifier = {
+		stability = 1
+		unrest = -1
+	}
+	settlement_modifier = {
+		#defense = 2
+	}
+}

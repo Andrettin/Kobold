@@ -1,0 +1,3 @@
+watchtower = {
+	name = "Watchtower"
+}

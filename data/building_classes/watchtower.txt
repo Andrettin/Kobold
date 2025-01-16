@@ -1,0 +1,4 @@
+watchtower = {
+	name = "Watchtower"
+	slot_type = watchtower
+}
