@@ -40,6 +40,7 @@
 #include "script/effect/location_effect.h"
 #include "script/effect/office_holder_effect.h"
 #include "script/effect/opinion_modifiers_effect.h"
+#include "script/effect/provincial_capital_scope_effect.h"
 #include "script/effect/random_effect.h"
 #include "script/effect/random_known_country_effect.h"
 #include "script/effect/random_list_effect.h"
@@ -181,6 +182,12 @@ std::unique_ptr<effect<scope_type>> effect<scope_type>::from_gsml_scope(const gs
 	if constexpr (std::is_same_v<scope_type, const character> || std::is_same_v<scope_type, const country> || std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
 		if (effect_identifier == "scripted_modifiers") {
 			effect = std::make_unique<scripted_modifiers_effect<scope_type>>(effect_operator);
+		}
+	}
+
+	if constexpr (std::is_same_v<scope_type, const province> || std::is_same_v<scope_type, const site>) {
+		if (effect_identifier == "provincial_capital") {
+			effect = std::make_unique<provincial_capital_scope_effect<scope_type>>(effect_operator);
 		}
 	}
 

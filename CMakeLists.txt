@@ -669,6 +669,7 @@ set(script_effect_HDRS
 	src/script/effect/location_effect.h
 	src/script/effect/office_holder_effect.h
 	src/script/effect/opinion_modifiers_effect.h
+	src/script/effect/provincial_capital_scope_effect.h
 	src/script/effect/random_effect.h
 	src/script/effect/random_known_country_effect.h
 	src/script/effect/random_list_effect.h
