@@ -18,5 +18,6 @@ brewery = {
 	country_modifier = {
 		loyalty = 1
 		stability = 1
+		trade = 1
 	}
 }

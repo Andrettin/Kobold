@@ -19,6 +19,7 @@ academy = {
 	country_modifier = {
 		economy = 1
 		loyalty = 1
+		scholarship = 2
 	}
 }
 
@@ -42,5 +43,6 @@ university = {
 		economy = 2
 		loyalty = 2
 		#fame = 1
+		scholarship = 3
 	}
 }
