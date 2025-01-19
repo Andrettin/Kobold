@@ -4,6 +4,8 @@ barracks = {
 	portrait = fort
 	icon = crossed_sabers
 	provincial = true
+	construction_skill = defense
+	construction_difficulty_class = 16
 	settlement_types = {
 		city
 		metropolis

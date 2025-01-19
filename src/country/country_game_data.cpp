@@ -652,7 +652,7 @@ void country_game_data::change_attribute_value(const country_attribute *attribut
 	}
 }
 
-int country_game_data::do_check(const country_attribute *attribute) const
+int country_game_data::do_attribute_roll(const country_attribute *attribute) const
 {
 	return random::get()->roll_dice(dice(1, 20)) + this->get_attribute_value(attribute) - std::max(this->get_unrest(), 0);
 }
@@ -700,6 +700,16 @@ int country_game_data::get_skill_modifier(const country_skill *skill) const
 int country_game_data::do_skill_roll(const country_skill *skill) const
 {
 	return random::get()->roll_dice(dice(1, 20)) + this->get_skill_modifier(skill);
+}
+
+int country_game_data::get_control_difficulty_class() const
+{
+	return 20 + this->get_control_modifier();
+}
+
+int country_game_data::get_control_modifier() const
+{
+	return this->get_site_count(); //FIXME: larger settlements should contribute more to the control modifier
 }
 
 QVariantList country_game_data::get_provinces_qvariant_list() const

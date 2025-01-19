@@ -4,6 +4,8 @@ monument = {
 	portrait = aristocratic_palace
 	icon = architecture
 	provincial = true
+	construction_skill = arts
+	construction_difficulty_class = 18
 	settlement_types = {
 		town
 		city

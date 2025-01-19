@@ -4,6 +4,8 @@ shrine = {
 	portrait = temple
 	icon = wooden_cross
 	provincial = true
+	construction_skill = folklore
+	construction_difficulty_class = 15
 	settlement_types = {
 		village
 		town
@@ -26,6 +28,8 @@ temple = {
 	icon = wooden_cross
 	provincial = true
 	required_building = shrine
+	construction_skill = folklore
+	construction_difficulty_class = 23
 	settlement_types = {
 		town
 		city
@@ -48,6 +52,8 @@ cathedral = {
 	icon = golden_cross_detailed
 	provincial = true
 	required_building = temple
+	construction_skill = folklore
+	construction_difficulty_class = 34
 	settlement_types = {
 		city
 		metropolis

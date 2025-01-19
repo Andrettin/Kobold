@@ -104,6 +104,14 @@ bool settlement_building_slot::can_maintain_building(const building_type *buildi
 
 bool settlement_building_slot::can_build_building(const building_type *building) const
 {
+	if (building->get_construction_skill() != nullptr) {
+		const int country_skill_value = 10 + this->get_country()->get_game_data()->get_skill_modifier(building->get_construction_skill());
+		const int difficulty_class = building->get_construction_difficulty_class() + this->get_country()->get_game_data()->get_control_modifier();
+		if (country_skill_value < difficulty_class) {
+			return false;
+		}
+	}
+
 	if (building->get_build_conditions() != nullptr) {
 		if (!building->get_build_conditions()->check(this->get_settlement(), read_only_context(this->get_settlement()))) {
 			return false;

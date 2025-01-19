@@ -4,6 +4,8 @@ academy = {
 	portrait = university
 	icon = university
 	provincial = true
+	construction_skill = scholarship
+	construction_difficulty_class = 27
 	settlement_types = {
 		city
 		metropolis
@@ -27,6 +29,8 @@ university = {
 	icon = university
 	provincial = true
 	required_building = academy
+	construction_skill = scholarship
+	construction_difficulty_class = 34
 	settlement_types = {
 		city
 		metropolis

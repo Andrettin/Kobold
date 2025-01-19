@@ -4,6 +4,8 @@ stables = {
 	portrait = trading_post
 	icon = horses
 	provincial = true
+	construction_skill = wilderness
+	construction_difficulty_class = 18
 	settlement_types = {
 		town
 		city

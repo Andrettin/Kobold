@@ -4,6 +4,8 @@ alchemists_shop = {
 	portrait = university
 	icon = research
 	provincial = true
+	construction_skill = industry
+	construction_difficulty_class = 16
 	settlement_types = {
 		town
 		city

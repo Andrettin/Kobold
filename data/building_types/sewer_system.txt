@@ -4,6 +4,8 @@ sewer_system = {
 	portrait = hospital
 	icon = architecture
 	provincial = true
+	construction_skill = engineering
+	construction_difficulty_class = 23
 	settlement_types = {
 		city
 		metropolis

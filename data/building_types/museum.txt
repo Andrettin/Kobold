@@ -4,6 +4,8 @@ museum = {
 	portrait = aristocratic_palace
 	icon = painting
 	provincial = true
+	construction_skill = exploration
+	construction_difficulty_class = 20
 	settlement_types = {
 		city
 		metropolis

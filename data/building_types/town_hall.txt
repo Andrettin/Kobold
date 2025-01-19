@@ -4,6 +4,8 @@ town_hall = {
 	portrait = town
 	icon = flag
 	provincial = true
+	construction_skill = statecraft
+	construction_difficulty_class = 16
 	settlement_types = {
 		town
 		city

@@ -4,6 +4,8 @@ watchtower = {
 	portrait = fort
 	icon = wall
 	provincial = true
+	construction_skill = defense
+	construction_difficulty_class = 18
 	settlement_types = {
 		village
 		town

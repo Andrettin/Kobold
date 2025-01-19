@@ -4,6 +4,8 @@ library = {
 	portrait = university
 	icon = book
 	provincial = true
+	construction_skill = scholarship
+	construction_difficulty_class = 16
 	settlement_types = {
 		city
 		metropolis

@@ -4,6 +4,8 @@ inn = {
 	portrait = trading_post
 	icon = settlement
 	provincial = true
+	construction_skill = trade
+	construction_difficulty_class = 15
 	settlement_types = {
 		town
 		city

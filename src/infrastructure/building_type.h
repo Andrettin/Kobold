@@ -16,6 +16,7 @@ namespace kobold {
 class building_class;
 class building_slot_type;
 class country;
+class country_skill;
 class cultural_group;
 class culture;
 class icon;
@@ -43,8 +44,8 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(kobold::building_class* building_class MEMBER building_class NOTIFY changed)
 	Q_PROPERTY(kobold::culture* culture MEMBER culture NOTIFY changed)
 	Q_PROPERTY(kobold::cultural_group* cultural_group MEMBER cultural_group NOTIFY changed)
-	Q_PROPERTY(kobold::portrait* portrait MEMBER portrait NOTIFY changed)
-	Q_PROPERTY(kobold::icon* icon MEMBER icon NOTIFY changed)
+	Q_PROPERTY(const kobold::portrait* portrait MEMBER portrait READ get_portrait NOTIFY changed)
+	Q_PROPERTY(const kobold::icon* icon MEMBER icon READ get_icon NOTIFY changed)
 	Q_PROPERTY(bool provincial MEMBER provincial READ is_provincial NOTIFY changed)
 	Q_PROPERTY(bool capitol MEMBER capitol READ is_capitol NOTIFY changed)
 	Q_PROPERTY(bool provincial_capitol MEMBER provincial_capitol READ is_provincial_capitol NOTIFY changed)
@@ -56,6 +57,8 @@ class building_type final : public named_data_entry, public data_type<building_t
 	Q_PROPERTY(bool wonder_only MEMBER wonder_only READ is_wonder_only NOTIFY changed)
 	Q_PROPERTY(int fort_level MEMBER fort_level READ get_fort_level NOTIFY changed)
 	Q_PROPERTY(kobold::building_type* required_building MEMBER required_building NOTIFY changed)
+	Q_PROPERTY(const kobold::country_skill* construction_skill MEMBER construction_skill READ get_construction_skill NOTIFY changed)
+	Q_PROPERTY(int construction_difficulty_class MEMBER construction_difficulty_class READ get_construction_difficulty_class NOTIFY changed)
 
 public:
 	static constexpr const char class_identifier[] = "building_type";
@@ -188,6 +191,16 @@ public:
 		return this->requiring_buildings;
 	}
 
+	const country_skill *get_construction_skill() const
+	{
+		return this->construction_skill;
+	}
+
+	int get_construction_difficulty_class() const
+	{
+		return this->construction_difficulty_class;
+	}
+
 	const commodity_map<int> &get_commodity_costs() const
 	{
 		return this->commodity_costs;
@@ -249,8 +262,8 @@ private:
 	building_class *building_class = nullptr;
 	kobold::culture *culture = nullptr;
 	kobold::cultural_group *cultural_group = nullptr;
-	kobold::portrait *portrait = nullptr;
-	kobold::icon *icon = nullptr;
+	const kobold::portrait *portrait = nullptr;
+	const kobold::icon *icon = nullptr;
 	bool provincial = false;
 	int level = 0;
 	std::vector<const settlement_type *> settlement_types;
@@ -265,6 +278,8 @@ private:
 	int fort_level = 0;
 	building_type *required_building = nullptr;
 	std::vector<const building_type *> requiring_buildings; //buildings which require this one
+	const country_skill *construction_skill = nullptr;
+	int construction_difficulty_class = 0;
 	commodity_map<int> commodity_costs;
 	std::unique_ptr<const factor<country>> cost_factor;
 	std::unique_ptr<const and_condition<country>> conditions;

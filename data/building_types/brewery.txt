@@ -4,6 +4,8 @@ brewery = {
 	portrait = factory
 	icon = wine
 	provincial = true
+	construction_skill = agriculture
+	construction_difficulty_class = 15
 	settlement_types = {
 		town
 		city

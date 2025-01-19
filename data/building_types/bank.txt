@@ -3,6 +3,8 @@ bank = {
 	building_class = bank
 	portrait = trading_post
 	icon = wealth
+	construction_skill = trade
+	construction_difficulty_class = 20
 	provincial = true
 	settlement_types = {
 		city

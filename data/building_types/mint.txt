@@ -4,6 +4,8 @@ mint = {
 	portrait = trading_post
 	icon = wealth
 	provincial = true
+	construction_skill = trade
+	construction_difficulty_class = 34
 	settlement_types = {
 		city
 		metropolis

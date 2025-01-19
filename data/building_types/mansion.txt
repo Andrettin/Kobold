@@ -4,6 +4,8 @@ mansion = {
 	portrait = aristocratic_palace
 	icon = painting
 	provincial = true
+	construction_skill = industry
+	construction_difficulty_class = 20
 	settlement_types = {
 		town
 		city
@@ -28,6 +30,8 @@ noble_villa = {
 	icon = painting
 	provincial = true
 	required_building = mansion
+	construction_skill = politics
+	construction_difficulty_class = 19
 	settlement_types = {
 		city
 		metropolis

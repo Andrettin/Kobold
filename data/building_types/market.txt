@@ -4,6 +4,8 @@ shop = {
 	portrait = trading_post
 	icon = wealth
 	provincial = true
+	construction_skill = trade
+	construction_difficulty_class = 15
 	settlement_types = {
 		village
 		town
@@ -28,6 +30,8 @@ market = {
 	icon = wealth
 	provincial = true
 	required_building = shop
+	construction_skill = trade
+	construction_difficulty_class = 19
 	settlement_types = {
 		town
 		city

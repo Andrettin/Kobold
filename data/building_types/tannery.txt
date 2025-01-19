@@ -4,6 +4,8 @@ tannery = {
 	portrait = factory
 	icon = leather
 	provincial = true
+	construction_skill = industry
+	construction_difficulty_class = 18
 	settlement_types = {
 		town
 		city

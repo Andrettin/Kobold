@@ -4,6 +4,8 @@ pier = {
 	portrait = dock
 	icon = anchor
 	provincial = true
+	construction_skill = boating
+	construction_difficulty_class = 18
 	settlement_types = {
 		camp
 		hamlet
@@ -32,6 +34,8 @@ waterfront = {
 	provincial = true
 	capital_only = true
 	required_building = pier
+	construction_skill = boating
+	construction_difficulty_class = 24
 	settlement_types = {
 		city
 		metropolis

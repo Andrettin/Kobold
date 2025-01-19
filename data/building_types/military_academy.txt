@@ -4,6 +4,8 @@ military_academy = {
 	portrait = fort
 	icon = wall
 	provincial = true
+	construction_skill = warfare
+	construction_difficulty_class = 30
 	settlement_types = {
 		city
 		metropolis

@@ -324,7 +324,7 @@ public:
 		emit unrest_changed();
 	}
 
-	int do_check(const country_attribute *attribute) const;
+	int do_attribute_roll(const country_attribute *attribute) const;
 
 	const data_entry_map<country_skill, int> &get_skill_bonuses() const
 	{
@@ -353,6 +353,9 @@ public:
 	void change_skill_per_level_bonus(const country_skill *skill, const int change);
 	int get_skill_modifier(const country_skill *skill) const;
 	int do_skill_roll(const country_skill *skill) const;
+
+	int get_control_difficulty_class() const;
+	int get_control_modifier() const;
 
 	const std::vector<const province *> &get_provinces() const
 	{

@@ -22,6 +22,7 @@
 #include "script/modifier_effect/commodity_bonus_modifier_effect.h"
 #include "util/assert_util.h"
 #include "util/container_util.h"
+#include "util/log_util.h"
 #include "util/vector_util.h"
 
 namespace kobold {
@@ -151,6 +152,14 @@ void building_type::check() const
 {
 	assert_throw(this->get_portrait() != nullptr);
 	assert_throw(this->get_icon() != nullptr);
+
+	if (this->get_construction_skill() == nullptr) {
+		log::log_error(std::format("Building type \"{}\" has no construction skill.", this->get_identifier()));
+	}
+
+	if (this->get_construction_difficulty_class() == 0) {
+		log::log_error(std::format("Building type \"{}\" has no construction difficulty class.", this->get_identifier()));
+	}
 
 	if (this->get_conditions() != nullptr) {
 		this->get_conditions()->check_validity();
